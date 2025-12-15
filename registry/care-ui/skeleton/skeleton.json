@@ -9,7 +9,8 @@
     {
       "name": "skeleton.tsx",
       "content": "/**\n * @name skeleton\n * @description Use to show a placeholder while content is loading.\n * @dependencies none\n * @type registry:ui\n */\nimport { cn } from \"@/lib/utils\"\n\nfunction Skeleton({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"skeleton\"\n      className={cn(\"bg-muted rounded-md animate-pulse\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Skeleton }\n",
-      "type": "registry:ui"
+      "type": "registry:ui",
+      "path": "components/careui/skeleton.tsx"
     }
   ]
 }
