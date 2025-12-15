@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { Copy, Check } from 'lucide-react'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useNavigation } from '@/contexts/navigation-context'
@@ -25,20 +27,27 @@ interface CliCommandProps {
 
 function CliCommand({ command, onCopy, isCopied }: CliCommandProps) {
   return (
-    <div className="rounded-lg border border-border bg-muted p-4">
-      <div className="flex items-center justify-between gap-4">
-        <code className="font-mono text-sm text-foreground flex-1">
-          {command}
-        </code>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-8 w-8 shrink-0"
-          onClick={onCopy}
-        >
-          {isCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-        </Button>
-      </div>
+    <div className="relative">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute right-2 top-2 h-8 w-8 z-10"
+        onClick={onCopy}
+      >
+        {isCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+      </Button>
+      <SyntaxHighlighter
+        language="bash"
+        style={oneDark}
+        customStyle={{
+          margin: 0,
+          borderRadius: '0.5rem',
+          fontSize: '0.875rem',
+          paddingRight: '3rem',
+        }}
+      >
+        {command}
+      </SyntaxHighlighter>
     </div>
   )
 }
@@ -92,9 +101,17 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                     <Copy className="h-4 w-4" />
                   )}
                 </Button>
-                <pre className="rounded-lg bg-muted p-4 overflow-x-auto">
-                  <code className="text-sm">{doc.preview?.code || '<Component />'}</code>
-                </pre>
+                <SyntaxHighlighter
+                  language="tsx"
+                  style={oneDark}
+                  customStyle={{
+                    margin: 0,
+                    borderRadius: '0.5rem',
+                    fontSize: '0.875rem',
+                  }}
+                >
+                  {doc.preview?.code || '<Component />'}
+                </SyntaxHighlighter>
               </div>
             </TabsContent>
           </Tabs>
@@ -161,13 +178,21 @@ export default function Example() {
                 <Copy className="h-4 w-4" />
               )}
             </Button>
-            <pre className="rounded-lg bg-muted p-4 overflow-x-auto">
-              <code className="text-sm">{`import { ${doc.name} } from "@/components/careui/${doc.id}";
+            <SyntaxHighlighter
+              language="tsx"
+              style={oneDark}
+              customStyle={{
+                margin: 0,
+                borderRadius: '0.5rem',
+                fontSize: '0.875rem',
+              }}
+            >
+              {`import { ${doc.name} } from "@/components/careui/${doc.id}";
 
 export default function Example() {
   return <${doc.name}>${doc.name}</${doc.name}>;
-}`}</code>
-            </pre>
+}`}
+            </SyntaxHighlighter>
           </div>
         </section>        {/* Examples */}
         {doc.examples && doc.examples.length > 0 && (
@@ -203,9 +228,17 @@ export default function Example() {
                             <Copy className="h-4 w-4" />
                           )}
                         </Button>
-                        <pre className="rounded-lg bg-muted p-4 overflow-x-auto">
-                          <code className="text-sm">{example.code}</code>
-                        </pre>
+                        <SyntaxHighlighter
+                          language="tsx"
+                          style={oneDark}
+                          customStyle={{
+                            margin: 0,
+                            borderRadius: '0.5rem',
+                            fontSize: '0.875rem',
+                          }}
+                        >
+                          {example.code}
+                        </SyntaxHighlighter>
                       </div>
                     </TabsContent>
                   </Tabs>
