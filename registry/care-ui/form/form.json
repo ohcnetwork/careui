@@ -1,5 +1,0 @@
-{
-  "name": "form.tsx",
-  "type": "registry:ui",
-  "content": "// Building forms with validation and accessibility.\n// This is a placeholder - replace with actual shadcn/ui component code\n\nexport function Form() {\n  return <div>Component: form</div>\n}"
-}

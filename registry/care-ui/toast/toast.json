@@ -1,5 +1,0 @@
-{
-  "name": "toast.tsx",
-  "type": "registry:ui",
-  "content": "// A succinct message that is displayed temporarily.\n// This is a placeholder - replace with actual shadcn/ui component code\n\nexport function Toast() {\n  return <div>Component: toast</div>\n}"
-}

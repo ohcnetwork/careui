@@ -16,18 +16,20 @@ import fs from 'fs/promises'
 import path from 'path'
 import { glob } from 'glob'
 
+interface ComponentFile {
+  path: string
+  content: string
+  type: 'registry:component' | 'registry:ui' | 'registry:hook' | 'registry:lib'
+  target: string
+}
+
 interface ComponentMeta {
   name: string
-  description: string
-  dependencies: string[]
-  type: 'registry:ui' | 'registry:block' | 'registry:example'
+  type: 'registry:ui' | 'registry:block' | 'registry:component'
+  description?: string
+  dependencies?: string[]
   registryDependencies?: string[]
-  files: {
-    name: string
-    content: string
-    type: 'registry:ui' | 'registry:block' | 'registry:example'
-    path: string
-  }[]
+  files: ComponentFile[]
 }
 
 interface RegistryConfig {
@@ -39,7 +41,7 @@ interface RegistryConfig {
 
 const CONFIG: RegistryConfig = {
   componentsDir: 'src/components/ui',
-  registryDir: 'registry/care-ui',
+  registryDir: 'public/registry/care-ui',
   excludeFiles: ['index.ts', 'types.ts'],
   // Map of common imports to their package names
   dependencyMap: {
@@ -164,15 +166,15 @@ async function processComponent(filePath: string): Promise<ComponentMeta> {
 
   return {
     name: metadata.name || componentName,
-    description: metadata.description || `${componentName.charAt(0).toUpperCase() + componentName.slice(1)} component`,
     type: metadata.type || 'registry:ui',
-    dependencies: allDeps,
-    registryDependencies: metadata.registryDependencies || [],
+    description: metadata.description || `${componentName.charAt(0).toUpperCase() + componentName.slice(1)} component`,
+    dependencies: allDeps.length > 0 ? allDeps : undefined,
+    registryDependencies: metadata.registryDependencies && metadata.registryDependencies.length > 0 ? metadata.registryDependencies : undefined,
     files: [{
-      name: fileName,
+      path: `registry/care-ui/${componentName}/${fileName}`,
       content,
-      type: metadata.type || 'registry:ui',
-      path: `components/careui/${fileName}`
+      type: 'registry:component',
+      target: `components/careui/${fileName}`
     }]
   }
 }

@@ -6,7 +6,7 @@
       "@radix-ui/react-tooltip"
     ],
     "files": [
-      "tooltip.tsx"
+      null
     ]
   },
   {
@@ -17,7 +17,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "toggle.tsx"
+      null
     ]
   },
   {
@@ -28,7 +28,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "toggle-group.tsx"
+      null
     ]
   },
   {
@@ -38,7 +38,7 @@
       "none"
     ],
     "files": [
-      "textarea.tsx"
+      null
     ]
   },
   {
@@ -49,7 +49,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "tabs.tsx"
+      null
     ]
   },
   {
@@ -59,7 +59,7 @@
       "none"
     ],
     "files": [
-      "table.tsx"
+      null
     ]
   },
   {
@@ -69,7 +69,7 @@
       "@radix-ui/react-switch"
     ],
     "files": [
-      "switch.tsx"
+      null
     ]
   },
   {
@@ -80,7 +80,7 @@
       "lucide-react"
     ],
     "files": [
-      "spinner.tsx"
+      null
     ]
   },
   {
@@ -92,7 +92,7 @@
       "lucide-react"
     ],
     "files": [
-      "sonner.tsx"
+      null
     ]
   },
   {
@@ -102,7 +102,7 @@
       "@radix-ui/react-slider"
     ],
     "files": [
-      "slider.tsx"
+      null
     ]
   },
   {
@@ -112,7 +112,7 @@
       "none"
     ],
     "files": [
-      "skeleton.tsx"
+      null
     ]
   },
   {
@@ -124,7 +124,7 @@
       "lucide-react"
     ],
     "files": [
-      "sidebar.tsx"
+      null
     ]
   },
   {
@@ -136,7 +136,7 @@
       "lucide-react"
     ],
     "files": [
-      "sheet.tsx"
+      null
     ]
   },
   {
@@ -146,7 +146,7 @@
       "@radix-ui/react-separator"
     ],
     "files": [
-      "separator.tsx"
+      null
     ]
   },
   {
@@ -157,7 +157,7 @@
       "lucide-react"
     ],
     "files": [
-      "select.tsx"
+      null
     ]
   },
   {
@@ -167,7 +167,7 @@
       "@radix-ui/react-scroll-area"
     ],
     "files": [
-      "scroll-area.tsx"
+      null
     ]
   },
   {
@@ -177,7 +177,7 @@
       "react-resizable-panels"
     ],
     "files": [
-      "resizable.tsx"
+      null
     ]
   },
   {
@@ -188,7 +188,7 @@
       "lucide-react"
     ],
     "files": [
-      "radio-group.tsx"
+      null
     ]
   },
   {
@@ -198,7 +198,7 @@
       "none"
     ],
     "files": [
-      "progress.tsx"
+      null
     ]
   },
   {
@@ -208,7 +208,7 @@
       "@radix-ui/react-popover"
     ],
     "files": [
-      "popover.tsx"
+      null
     ]
   },
   {
@@ -218,7 +218,7 @@
       "lucide-react"
     ],
     "files": [
-      "pagination.tsx"
+      null
     ]
   },
   {
@@ -230,7 +230,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "navigation-menu.tsx"
+      null
     ]
   },
   {
@@ -241,7 +241,7 @@
       "lucide-react"
     ],
     "files": [
-      "menubar.tsx"
+      null
     ]
   },
   {
@@ -252,7 +252,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "label.tsx"
+      null
     ]
   },
   {
@@ -262,7 +262,7 @@
       "none"
     ],
     "files": [
-      "kbd.tsx"
+      null
     ]
   },
   {
@@ -273,7 +273,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "item.tsx"
+      null
     ]
   },
   {
@@ -283,7 +283,7 @@
       "none"
     ],
     "files": [
-      "input.tsx"
+      null
     ]
   },
   {
@@ -294,7 +294,7 @@
       "lucide-react"
     ],
     "files": [
-      "input-otp.tsx"
+      null
     ]
   },
   {
@@ -305,7 +305,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "input-group.tsx"
+      null
     ]
   },
   {
@@ -315,7 +315,7 @@
       "@radix-ui/react-hover-card"
     ],
     "files": [
-      "hover-card.tsx"
+      null
     ]
   },
   {
@@ -326,7 +326,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "field.tsx"
+      null
     ]
   },
   {
@@ -337,7 +337,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "empty.tsx"
+      null
     ]
   },
   {
@@ -348,7 +348,7 @@
       "lucide-react"
     ],
     "files": [
-      "dropdown-menu.tsx"
+      null
     ]
   },
   {
@@ -359,7 +359,7 @@
       "lucide-react"
     ],
     "files": [
-      "drawer.tsx"
+      null
     ]
   },
   {
@@ -370,7 +370,7 @@
       "lucide-react"
     ],
     "files": [
-      "dialog.tsx"
+      null
     ]
   },
   {
@@ -381,7 +381,7 @@
       "lucide-react"
     ],
     "files": [
-      "context-menu.tsx"
+      null
     ]
   },
   {
@@ -392,7 +392,7 @@
       "lucide-react"
     ],
     "files": [
-      "command.tsx"
+      null
     ]
   },
   {
@@ -402,7 +402,7 @@
       "@radix-ui/react-collapsible"
     ],
     "files": [
-      "collapsible.tsx"
+      null
     ]
   },
   {
@@ -413,7 +413,7 @@
       "lucide-react"
     ],
     "files": [
-      "checkbox.tsx"
+      null
     ]
   },
   {
@@ -424,7 +424,7 @@
       "lucide-react"
     ],
     "files": [
-      "chart.tsx"
+      null
     ]
   },
   {
@@ -435,7 +435,7 @@
       "lucide-react"
     ],
     "files": [
-      "carousel.tsx"
+      null
     ]
   },
   {
@@ -445,7 +445,7 @@
       "none"
     ],
     "files": [
-      "card.tsx"
+      null
     ]
   },
   {
@@ -457,7 +457,7 @@
       "lucide-react"
     ],
     "files": [
-      "calendar.tsx"
+      null
     ]
   },
   {
@@ -468,7 +468,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "button.tsx"
+      null
     ]
   },
   {
@@ -478,7 +478,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "button-group.tsx"
+      null
     ]
   },
   {
@@ -489,7 +489,7 @@
       "lucide-react"
     ],
     "files": [
-      "breadcrumb.tsx"
+      null
     ]
   },
   {
@@ -501,7 +501,7 @@
       "lucide-react"
     ],
     "files": [
-      "badge.tsx"
+      null
     ]
   },
   {
@@ -511,7 +511,7 @@
       "@radix-ui/react-avatar"
     ],
     "files": [
-      "avatar.tsx"
+      null
     ]
   },
   {
@@ -521,7 +521,7 @@
       "@radix-ui/react-aspect-ratio"
     ],
     "files": [
-      "aspect-ratio.tsx"
+      null
     ]
   },
   {
@@ -531,7 +531,7 @@
       "class-variance-authority"
     ],
     "files": [
-      "alert.tsx"
+      null
     ]
   },
   {
@@ -541,7 +541,7 @@
       "radix-ui"
     ],
     "files": [
-      "alert-dialog.tsx"
+      null
     ]
   },
   {
@@ -552,7 +552,7 @@
       "lucide-react"
     ],
     "files": [
-      "accordion.tsx"
+      null
     ]
   }
 ]
