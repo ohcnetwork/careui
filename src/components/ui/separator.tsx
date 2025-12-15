@@ -1,3 +1,9 @@
+/**
+ * @name separator
+ * @description Visually or semantically separates content.
+ * @dependencies @radix-ui/react-separator
+ * @type registry:ui
+ */
 import * as React from "react"
 import { Separator as SeparatorPrimitive } from "radix-ui"
 

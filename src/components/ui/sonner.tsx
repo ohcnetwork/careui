@@ -1,3 +1,9 @@
+/**
+ * @name sonner
+ * @description An opinionated toast component for React.
+ * @dependencies sonner next-themes
+ * @type registry:ui
+ */
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"

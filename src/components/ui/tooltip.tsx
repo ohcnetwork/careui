@@ -1,3 +1,9 @@
+/**
+ * @name tooltip
+ * @description A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+ * @dependencies @radix-ui/react-tooltip
+ * @type registry:ui
+ */
 "use client"
 
 import * as React from "react"

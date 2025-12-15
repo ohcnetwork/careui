@@ -1,3 +1,9 @@
+/**
+ * @name input
+ * @description Displays a form input field or a component that looks like an input field.
+ * @dependencies none
+ * @type registry:ui
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

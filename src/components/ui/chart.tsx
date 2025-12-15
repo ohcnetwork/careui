@@ -1,3 +1,9 @@
+/**
+ * @name chart
+ * @description A collection of chart components built with Recharts.
+ * @dependencies recharts lucide-react
+ * @type registry:ui
+ */
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 

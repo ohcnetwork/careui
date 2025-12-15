@@ -9,7 +9,8 @@
     {
       "name": "aspect-ratio.tsx",
       "content": "/**\n * @name aspect-ratio\n * @description Displays content within a desired ratio.\n * @dependencies @radix-ui/react-aspect-ratio\n * @type registry:ui\n */\n\"use client\"\n\nimport { AspectRatio as AspectRatioPrimitive } from \"radix-ui\"\n\nfunction AspectRatio({\n  ...props\n}: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {\n  return <AspectRatioPrimitive.Root data-slot=\"aspect-ratio\" {...props} />\n}\n\nexport { AspectRatio }\n",
-      "type": "registry:ui"
+      "type": "registry:ui",
+      "path": "components/ui/aspect-ratio.tsx"
     }
   ]
 }
