@@ -1,0 +1,21 @@
+{
+  "name": "skeleton",
+  "type": "registry:ui",
+  "dependencies": [
+    "none"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "skeleton.tsx",
+      "content": "/**\n * @name skeleton\n * @description Use to show a placeholder while content is loading.\n * @dependencies none\n * @type registry:ui\n */\nimport { cn } from \"@/lib/utils\"\n\nfunction Skeleton({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"skeleton\"\n      className={cn(\"bg-muted rounded-md animate-pulse\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Skeleton }\n"
+    }
+  ],
+  "docs": {
+    "description": "Use to show a placeholder while content is loading. ",
+    "dependencies": [
+      "none"
+    ],
+    "usage": "import { Skeleton } from \"@/components/ui/skeleton\";\n\nexport default function Example() {\n  return <Skeleton>Skeleton</Skeleton>;\n}"
+  }
+}
