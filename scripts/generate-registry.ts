@@ -26,7 +26,6 @@ interface ComponentMeta {
     name: string
     content: string
     type: 'registry:ui' | 'registry:block' | 'registry:example'
-    path: string
   }[]
 }
 
@@ -171,8 +170,7 @@ async function processComponent(filePath: string): Promise<ComponentMeta> {
     files: [{
       name: fileName,
       content,
-      type: metadata.type || 'registry:ui',
-      path: `components/ui/${fileName}`
+      type: metadata.type || 'registry:ui'
     }]
   }
 }

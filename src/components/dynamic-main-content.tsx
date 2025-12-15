@@ -149,9 +149,9 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               size="sm"
               variant="ghost"
               className="absolute right-2 top-2 h-8 w-8 p-0 z-10"
-              onClick={() => copyToClipboard(`import { ${doc.name} } from "@/components/ui/${doc.id}";
+              onClick={() => copyToClipboard(`import { ${doc.name} } from "@/components/careui/${doc.id}";
 
-export default function Particle() {
+export default function Example() {
   return <${doc.name}>${doc.name}</${doc.name}>;
 }`, 'usage-code')}
             >
@@ -162,9 +162,9 @@ export default function Particle() {
               )}
             </Button>
             <pre className="rounded-lg bg-muted p-4 overflow-x-auto">
-              <code className="text-sm">{`import { ${doc.name} } from "@/components/ui/${doc.id}";
+              <code className="text-sm">{`import { ${doc.name} } from "@/components/careui/${doc.id}";
 
-export default function Particle() {
+export default function Example() {
   return <${doc.name}>${doc.name}</${doc.name}>;
 }`}</code>
             </pre>

@@ -2,7 +2,9 @@
   {
     "name": "tooltip",
     "type": "registry:ui",
-    "dependencies": [],
+    "dependencies": [
+      "@radix-ui/react-tooltip"
+    ],
     "files": [
       "tooltip.tsx"
     ]
@@ -85,6 +87,8 @@
     "name": "sonner",
     "type": "registry:ui",
     "dependencies": [
+      "sonner",
+      "next-themes",
       "lucide-react"
     ],
     "files": [
@@ -104,7 +108,9 @@
   {
     "name": "skeleton",
     "type": "registry:ui",
-    "dependencies": [],
+    "dependencies": [
+      "none"
+    ],
     "files": [
       "skeleton.tsx"
     ]
@@ -113,6 +119,7 @@
     "name": "sidebar",
     "type": "registry:ui",
     "dependencies": [
+      "@radix-ui/react-slot",
       "class-variance-authority",
       "lucide-react"
     ],
@@ -124,6 +131,8 @@
     "name": "sheet",
     "type": "registry:ui",
     "dependencies": [
+      "@radix-ui/react-dialog",
+      "class-variance-authority",
       "lucide-react"
     ],
     "files": [
@@ -133,7 +142,9 @@
   {
     "name": "separator",
     "type": "registry:ui",
-    "dependencies": [],
+    "dependencies": [
+      "@radix-ui/react-separator"
+    ],
     "files": [
       "separator.tsx"
     ]
@@ -268,7 +279,9 @@
   {
     "name": "input",
     "type": "registry:ui",
-    "dependencies": [],
+    "dependencies": [
+      "none"
+    ],
     "files": [
       "input.tsx"
     ]
@@ -407,7 +420,8 @@
     "name": "chart",
     "type": "registry:ui",
     "dependencies": [
-      "recharts"
+      "recharts",
+      "lucide-react"
     ],
     "files": [
       "chart.tsx"
@@ -450,6 +464,7 @@
     "name": "button",
     "type": "registry:ui",
     "dependencies": [
+      "@radix-ui/react-slot",
       "class-variance-authority"
     ],
     "files": [

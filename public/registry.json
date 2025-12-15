@@ -17,7 +17,7 @@
         {
           "name": "button.tsx",
           "type": "registry:ui",
-          "target": "components/ui/button.tsx",
+          "target": "components/careui/button.tsx",
           "path": "registry/care-ui/button/button.json"
         }
       ]
@@ -31,7 +31,7 @@
         {
           "name": "input.tsx",
           "type": "registry:ui",
-          "target": "components/ui/input.tsx",
+          "target": "components/careui/input.tsx",
           "path": "registry/care-ui/input/input.json"
         }
       ]
@@ -47,7 +47,7 @@
         {
           "name": "drawer.tsx",
           "type": "registry:ui",
-          "target": "components/ui/drawer.tsx",
+          "target": "components/careui/drawer.tsx",
           "path": "registry/care-ui/drawer/drawer.json"
         }
       ]
@@ -63,7 +63,7 @@
         {
           "name": "label.tsx",
           "type": "registry:ui",
-          "target": "components/ui/label.tsx",
+          "target": "components/careui/label.tsx",
           "path": "registry/care-ui/label/label.json"
         }
       ]
@@ -79,7 +79,7 @@
         {
           "name": "separator.tsx",
           "type": "registry:ui",
-          "target": "components/ui/separator.tsx",
+          "target": "components/careui/separator.tsx",
           "path": "registry/care-ui/separator/separator.json"
         }
       ]
@@ -95,7 +95,7 @@
         {
           "name": "tabs.tsx",
           "type": "registry:ui",
-          "target": "components/ui/tabs.tsx",
+          "target": "components/careui/tabs.tsx",
           "path": "registry/care-ui/tabs/tabs.json"
         }
       ]
@@ -111,7 +111,7 @@
         {
           "name": "tooltip.tsx",
           "type": "registry:ui",
-          "target": "components/ui/tooltip.tsx",
+          "target": "components/careui/tooltip.tsx",
           "path": "registry/care-ui/tooltip/tooltip.json"
         }
       ]
@@ -127,7 +127,7 @@
         {
           "name": "dropdown-menu.tsx",
           "type": "registry:ui",
-          "target": "components/ui/dropdown-menu.tsx",
+          "target": "components/careui/dropdown-menu.tsx",
           "path": "registry/care-ui/dropdown-menu/dropdown-menu.json"
         }
       ]
@@ -141,7 +141,7 @@
         {
           "name": "skeleton.tsx",
           "type": "registry:ui",
-          "target": "components/ui/skeleton.tsx",
+          "target": "components/careui/skeleton.tsx",
           "path": "registry/care-ui/skeleton/skeleton.json"
         }
       ]
@@ -157,7 +157,7 @@
         {
           "name": "breadcrumb.tsx",
           "type": "registry:ui",
-          "target": "components/ui/breadcrumb.tsx",
+          "target": "components/careui/breadcrumb.tsx",
           "path": "registry/care-ui/breadcrumb/breadcrumb.json"
         }
       ]
@@ -174,7 +174,7 @@
         {
           "name": "sidebar.tsx",
           "type": "registry:ui",
-          "target": "components/ui/sidebar.tsx",
+          "target": "components/careui/sidebar.tsx",
           "path": "registry/care-ui/sidebar/sidebar.json"
         }
       ]
@@ -190,7 +190,7 @@
         {
           "name": "sheet.tsx",
           "type": "registry:ui",
-          "target": "components/ui/sheet.tsx",
+          "target": "components/careui/sheet.tsx",
           "path": "registry/care-ui/sheet/sheet.json"
         }
       ]
@@ -206,7 +206,7 @@
         {
           "name": "checkbox.tsx",
           "type": "registry:ui",
-          "target": "components/ui/checkbox.tsx",
+          "target": "components/careui/checkbox.tsx",
           "path": "registry/care-ui/checkbox/checkbox.json"
         }
       ]
@@ -222,7 +222,7 @@
         {
           "name": "accordion.tsx",
           "type": "registry:ui",
-          "target": "components/ui/accordion.tsx",
+          "target": "components/careui/accordion.tsx",
           "path": "registry/care-ui/accordion/accordion.json"
         }
       ]
@@ -236,7 +236,7 @@
         {
           "name": "alert.tsx",
           "type": "registry:ui",
-          "target": "components/ui/alert.tsx",
+          "target": "components/careui/alert.tsx",
           "path": "registry/care-ui/alert/alert.json"
         }
       ]
@@ -252,7 +252,7 @@
         {
           "name": "alert-dialog.tsx",
           "type": "registry:ui",
-          "target": "components/ui/alert-dialog.tsx",
+          "target": "components/careui/alert-dialog.tsx",
           "path": "registry/care-ui/alert-dialog/alert-dialog.json"
         }
       ]
@@ -268,7 +268,7 @@
         {
           "name": "avatar.tsx",
           "type": "registry:ui",
-          "target": "components/ui/avatar.tsx",
+          "target": "components/careui/avatar.tsx",
           "path": "registry/care-ui/avatar/avatar.json"
         }
       ]
@@ -282,7 +282,7 @@
         {
           "name": "badge.tsx",
           "type": "registry:ui",
-          "target": "components/ui/badge.tsx",
+          "target": "components/careui/badge.tsx",
           "path": "registry/care-ui/badge/badge.json"
         }
       ]
@@ -298,7 +298,7 @@
         {
           "name": "calendar.tsx",
           "type": "registry:ui",
-          "target": "components/ui/calendar.tsx",
+          "target": "components/careui/calendar.tsx",
           "path": "registry/care-ui/calendar/calendar.json"
         }
       ]
@@ -312,7 +312,7 @@
         {
           "name": "card.tsx",
           "type": "registry:ui",
-          "target": "components/ui/card.tsx",
+          "target": "components/careui/card.tsx",
           "path": "registry/care-ui/card/card.json"
         }
       ]
@@ -328,7 +328,7 @@
         {
           "name": "command.tsx",
           "type": "registry:ui",
-          "target": "components/ui/command.tsx",
+          "target": "components/careui/command.tsx",
           "path": "registry/care-ui/command/command.json"
         }
       ]
@@ -344,7 +344,7 @@
         {
           "name": "dialog.tsx",
           "type": "registry:ui",
-          "target": "components/ui/dialog.tsx",
+          "target": "components/careui/dialog.tsx",
           "path": "registry/care-ui/dialog/dialog.json"
         }
       ]
@@ -362,7 +362,7 @@
         {
           "name": "form.tsx",
           "type": "registry:ui",
-          "target": "components/ui/form.tsx",
+          "target": "components/careui/form.tsx",
           "path": "registry/care-ui/form/form.json"
         }
       ]
@@ -378,7 +378,7 @@
         {
           "name": "hover-card.tsx",
           "type": "registry:ui",
-          "target": "components/ui/hover-card.tsx",
+          "target": "components/careui/hover-card.tsx",
           "path": "registry/care-ui/hover-card/hover-card.json"
         }
       ]
@@ -394,7 +394,7 @@
         {
           "name": "menubar.tsx",
           "type": "registry:ui",
-          "target": "components/ui/menubar.tsx",
+          "target": "components/careui/menubar.tsx",
           "path": "registry/care-ui/menubar/menubar.json"
         }
       ]
@@ -410,7 +410,7 @@
         {
           "name": "navigation-menu.tsx",
           "type": "registry:ui",
-          "target": "components/ui/navigation-menu.tsx",
+          "target": "components/careui/navigation-menu.tsx",
           "path": "registry/care-ui/navigation-menu/navigation-menu.json"
         }
       ]
@@ -426,7 +426,7 @@
         {
           "name": "popover.tsx",
           "type": "registry:ui",
-          "target": "components/ui/popover.tsx",
+          "target": "components/careui/popover.tsx",
           "path": "registry/care-ui/popover/popover.json"
         }
       ]
@@ -442,7 +442,7 @@
         {
           "name": "progress.tsx",
           "type": "registry:ui",
-          "target": "components/ui/progress.tsx",
+          "target": "components/careui/progress.tsx",
           "path": "registry/care-ui/progress/progress.json"
         }
       ]
@@ -458,7 +458,7 @@
         {
           "name": "radio-group.tsx",
           "type": "registry:ui",
-          "target": "components/ui/radio-group.tsx",
+          "target": "components/careui/radio-group.tsx",
           "path": "registry/care-ui/radio-group/radio-group.json"
         }
       ]
@@ -474,7 +474,7 @@
         {
           "name": "scroll-area.tsx",
           "type": "registry:ui",
-          "target": "components/ui/scroll-area.tsx",
+          "target": "components/careui/scroll-area.tsx",
           "path": "registry/care-ui/scroll-area/scroll-area.json"
         }
       ]
@@ -490,7 +490,7 @@
         {
           "name": "select.tsx",
           "type": "registry:ui",
-          "target": "components/ui/select.tsx",
+          "target": "components/careui/select.tsx",
           "path": "registry/care-ui/select/select.json"
         }
       ]
@@ -506,7 +506,7 @@
         {
           "name": "slider.tsx",
           "type": "registry:ui",
-          "target": "components/ui/slider.tsx",
+          "target": "components/careui/slider.tsx",
           "path": "registry/care-ui/slider/slider.json"
         }
       ]
@@ -522,7 +522,7 @@
         {
           "name": "switch.tsx",
           "type": "registry:ui",
-          "target": "components/ui/switch.tsx",
+          "target": "components/careui/switch.tsx",
           "path": "registry/care-ui/switch/switch.json"
         }
       ]
@@ -536,7 +536,7 @@
         {
           "name": "table.tsx",
           "type": "registry:ui",
-          "target": "components/ui/table.tsx",
+          "target": "components/careui/table.tsx",
           "path": "registry/care-ui/table/table.json"
         }
       ]
@@ -550,7 +550,7 @@
         {
           "name": "textarea.tsx",
           "type": "registry:ui",
-          "target": "components/ui/textarea.tsx",
+          "target": "components/careui/textarea.tsx",
           "path": "registry/care-ui/textarea/textarea.json"
         }
       ]
@@ -566,7 +566,7 @@
         {
           "name": "toast.tsx",
           "type": "registry:ui",
-          "target": "components/ui/toast.tsx",
+          "target": "components/careui/toast.tsx",
           "path": "registry/care-ui/toast/toast.json"
         }
       ]
@@ -582,7 +582,7 @@
         {
           "name": "toggle.tsx",
           "type": "registry:ui",
-          "target": "components/ui/toggle.tsx",
+          "target": "components/careui/toggle.tsx",
           "path": "registry/care-ui/toggle/toggle.json"
         }
       ]
@@ -598,7 +598,7 @@
         {
           "name": "toggle-group.tsx",
           "type": "registry:ui",
-          "target": "components/ui/toggle-group.tsx",
+          "target": "components/careui/toggle-group.tsx",
           "path": "registry/care-ui/toggle-group/toggle-group.json"
         }
       ]
