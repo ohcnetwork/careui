@@ -17,7 +17,7 @@ npx shadcn@latest init
 npx shadcn@latest add button input
 
 # Or install from Care UI registry
-npx shadcn@latest add button --registry=https://care-ui.com`
+npx shadcn@latest add button --registry https://careui.vercel.app`
         },
         {
           title: 'Configuration',

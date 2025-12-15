@@ -79,13 +79,13 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <div className="rounded-lg border border-border bg-muted p-4">
                 <div className="flex items-center justify-between gap-4">
                   <code className="font-mono text-sm text-foreground">
-                    pnpm dlx shadcn@latest add {doc.id} --registry=https://care-ui.com
+                    pnpm dlx shadcn@latest add {doc.id} --registry https://careui.vercel.app
                   </code>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => copyToClipboard(`pnpm dlx shadcn@latest add ${doc.id} --registry=https://care-ui.com`, 'cli')}
+                    onClick={() => copyToClipboard(`pnpm dlx shadcn@latest add ${doc.id} --registry https://careui.vercel.app`, 'cli')}
                   >
                     {isCopied('cli') ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   </Button>
@@ -96,13 +96,13 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <div className="rounded-lg border border-border bg-muted p-4">
                 <div className="flex items-center justify-between gap-4">
                   <code className="font-mono text-sm text-foreground">
-                    npx shadcn@latest add {doc.id} --registry=https://care-ui.com
+                    npx shadcn@latest add {doc.id} --registry https://careui.vercel.app
                   </code>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => copyToClipboard(`npx shadcn@latest add ${doc.id} --registry=https://care-ui.com`, 'cli')}
+                    onClick={() => copyToClipboard(`npx shadcn@latest add ${doc.id} --registry https://careui.vercel.app`, 'cli')}
                   >
                     {isCopied('cli') ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   </Button>
@@ -113,13 +113,13 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <div className="rounded-lg border border-border bg-muted p-4">
                 <div className="flex items-center justify-between gap-4">
                   <code className="font-mono text-sm text-foreground">
-                    yarn dlx shadcn@latest add {doc.id} --registry=https://care-ui.com
+                    yarn dlx shadcn@latest add {doc.id} --registry https://careui.vercel.app
                   </code>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => copyToClipboard(`yarn dlx shadcn@latest add ${doc.id} --registry=https://care-ui.com`, 'cli')}
+                    onClick={() => copyToClipboard(`yarn dlx shadcn@latest add ${doc.id} --registry https://careui.vercel.app`, 'cli')}
                   >
                     {isCopied('cli') ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   </Button>
@@ -130,13 +130,13 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <div className="rounded-lg border border-border bg-muted p-4">
                 <div className="flex items-center justify-between gap-4">
                   <code className="font-mono text-sm text-foreground">
-                    bunx shadcn@latest add {doc.id} --registry=https://care-ui.com
+                    bunx shadcn@latest add {doc.id} --registry https://careui.vercel.app
                   </code>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => copyToClipboard(`bunx shadcn@latest add ${doc.id} --registry=https://care-ui.com`, 'cli')}
+                    onClick={() => copyToClipboard(`bunx shadcn@latest add ${doc.id} --registry https://careui.vercel.app`, 'cli')}
                   >
                     {isCopied('cli') ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   </Button>
