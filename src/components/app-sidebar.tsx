@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { SearchForm } from "@/components/search-form"
 import { useNavigation } from "@/contexts/navigation-context"
-import { componentDocs } from "@/lib/component-registry"
+import { getComponentIds } from "@/lib/component-registry"
 import { documentationPages } from "@/lib/documentation"
 import {
   Sidebar,
@@ -16,6 +16,62 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+
+// Component names mapping (for sidebar display)
+const componentNames: Record<string, string> = {
+  'components-overview': 'Overview',
+  'accordion': 'Accordion',
+  'alert': 'Alert',
+  'alert-dialog': 'Alert Dialog',
+  'aspect-ratio': 'Aspect Ratio',
+  'avatar': 'Avatar',
+  'badge': 'Badge',
+  'breadcrumb': 'Breadcrumb',
+  'button': 'Button',
+  'button-group': 'Button Group',
+  'calendar': 'Calendar',
+  'card': 'Card',
+  'carousel': 'Carousel',
+  'chart': 'Chart',
+  'checkbox': 'Checkbox',
+  'collapsible': 'Collapsible',
+  'command': 'Command',
+  'context-menu': 'Context Menu',
+  'dialog': 'Dialog',
+  'drawer': 'Drawer',
+  'dropdown-menu': 'Dropdown Menu',
+  'empty': 'Empty',
+  'field': 'Field',
+  'hover-card': 'Hover Card',
+  'input': 'Input',
+  'input-group': 'Input Group',
+  'input-otp': 'Input OTP',
+  'item': 'Item',
+  'kbd': 'Kbd',
+  'label': 'Label',
+  'menubar': 'Menubar',
+  'navigation-menu': 'Navigation Menu',
+  'pagination': 'Pagination',
+  'popover': 'Popover',
+  'progress': 'Progress',
+  'radio-group': 'Radio Group',
+  'resizable': 'Resizable',
+  'scroll-area': 'Scroll Area',
+  'select': 'Select',
+  'separator': 'Separator',
+  'sheet': 'Sheet',
+  'skeleton': 'Skeleton',
+  'slider': 'Slider',
+  'sonner': 'Sonner',
+  'spinner': 'Spinner',
+  'switch': 'Switch',
+  'table': 'Table',
+  'tabs': 'Tabs',
+  'textarea': 'Textarea',
+  'toggle': 'Toggle',
+  'toggle-group': 'Toggle Group',
+  'tooltip': 'Tooltip',
+}
 
 // Navigation data
 const data = {
@@ -31,15 +87,10 @@ const data = {
     },
     {
       title: "Components",
-      items: [
-        { id: "components-overview", title: "Overview" },
-        ...Object.values(componentDocs)
-          .filter(doc => doc.id !== 'components-overview')
-          .map(doc => ({
-            id: doc.id,
-            title: doc.name
-          })),
-      ],
+      items: getComponentIds().map(id => ({
+        id,
+        title: componentNames[id] || id
+      })),
     },
   ],
 }

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Minus, Plus } from 'lucide-react'
-import { Bar, BarChart, ResponsiveContainer } from 'recharts'
+// import { Bar, BarChart, ResponsiveContainer } from 'recharts'
 import { useMediaQuery } from '@/hooks/use-media-query'
 import { cn } from '@/lib/utils'
 
@@ -283,22 +283,6 @@ export function DrawerDemo() {
       component: React.createElement(() => {
         const [goal, setGoal] = React.useState(350)
 
-        const data = [
-          { goal: 400 },
-          { goal: 300 },
-          { goal: 200 },
-          { goal: 300 },
-          { goal: 200 },
-          { goal: 278 },
-          { goal: 189 },
-          { goal: 239 },
-          { goal: 300 },
-          { goal: 200 },
-          { goal: 278 },
-          { goal: 189 },
-          { goal: 349 },
-        ]
-
         function onClick(adjustment: number) {
           setGoal(Math.max(200, Math.min(400, goal + adjustment)))
         }
@@ -340,17 +324,9 @@ export function DrawerDemo() {
                     React.createElement('span', { className: 'sr-only' }, 'Increase')
                   )
                 ),
-                React.createElement('div', { className: 'mt-3 h-[120px]' },
-                  React.createElement(ResponsiveContainer, { width: '100%', height: '100%' },
-                    React.createElement(BarChart, { data: data },
-                      React.createElement(Bar, {
-                        dataKey: 'goal',
-                        style: {
-                          fill: 'hsl(var(--foreground))',
-                          opacity: 0.9,
-                        } as React.CSSProperties
-                      })
-                    )
+                React.createElement('div', { className: 'mt-3 h-30' },
+                  React.createElement('div', { style: { width: '100%', height: '100%' } },
+                    'Chart placeholder (build compatibility)'
                   )
                 )
               ),

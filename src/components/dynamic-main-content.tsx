@@ -1,11 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Copy, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useNavigation } from '@/contexts/navigation-context'
-import { componentDocs } from '@/lib/component-registry'
+import { loadComponentDoc } from '@/lib/component-registry'
 import { documentationPages } from '@/lib/documentation'
 import { ComponentsOverview } from '@/components/components-overview'
 import { DocumentationDisplay, NotFoundDocumentation } from '@/components/documentation-display'
@@ -270,9 +270,35 @@ function NotFoundDisplay({ componentId }: { componentId: string }) {
 
 export function DynamicMainContent() {
   const { activeComponent } = useNavigation()
+  const [componentDoc, setComponentDoc] = useState<ComponentDoc | null>(null)
+  const [loading, setLoading] = useState(false)
 
   // Reset scroll position when activeComponent changes
   useScrollRestoration([activeComponent])
+
+  // Load component documentation dynamically
+  useEffect(() => {
+    const loadDoc = async () => {
+      // Skip loading for special cases
+      if (documentationPages[activeComponent] || activeComponent === 'components-overview') {
+        setComponentDoc(null)
+        return
+      }
+
+      setLoading(true)
+      try {
+        const doc = await loadComponentDoc(activeComponent)
+        setComponentDoc(doc)
+      } catch (error) {
+        console.error('Failed to load component doc:', error)
+        setComponentDoc(null)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadDoc()
+  }, [activeComponent])
 
   // Check if it's a documentation page
   const docPage = documentationPages[activeComponent]
@@ -285,8 +311,20 @@ export function DynamicMainContent() {
     return <ComponentsOverview />
   }
 
+  // Show loading state
+  if (loading) {
+    return (
+      <main className="flex-1 overflow-y-auto">
+        <div className="max-w-4xl mx-auto space-y-8 px-8 py-8">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-muted-foreground">Loading...</div>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
   // Handle component documentation
-  const componentDoc = componentDocs[activeComponent]
   if (componentDoc) {
     return <ComponentDocDisplay key={componentDoc.id} doc={componentDoc} />
   }
