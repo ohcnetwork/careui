@@ -2,9 +2,7 @@
   {
     "name": "tooltip",
     "type": "registry:ui",
-    "dependencies": [
-      "@radix-ui/react-tooltip"
-    ],
+    "dependencies": [],
     "files": [
       "tooltip.tsx"
     ]
@@ -63,16 +61,6 @@
     ]
   },
   {
-    "name": "syntax-highlighted-code",
-    "type": "registry:ui",
-    "dependencies": [
-      "lucide-react"
-    ],
-    "files": [
-      "syntax-highlighted-code.tsx"
-    ]
-  },
-  {
     "name": "switch",
     "type": "registry:ui",
     "dependencies": [
@@ -97,8 +85,6 @@
     "name": "sonner",
     "type": "registry:ui",
     "dependencies": [
-      "sonner",
-      "next-themes",
       "lucide-react"
     ],
     "files": [
@@ -118,9 +104,7 @@
   {
     "name": "skeleton",
     "type": "registry:ui",
-    "dependencies": [
-      "none"
-    ],
+    "dependencies": [],
     "files": [
       "skeleton.tsx"
     ]
@@ -129,7 +113,6 @@
     "name": "sidebar",
     "type": "registry:ui",
     "dependencies": [
-      "@radix-ui/react-slot",
       "class-variance-authority",
       "lucide-react"
     ],
@@ -141,8 +124,6 @@
     "name": "sheet",
     "type": "registry:ui",
     "dependencies": [
-      "@radix-ui/react-dialog",
-      "class-variance-authority",
       "lucide-react"
     ],
     "files": [
@@ -152,9 +133,7 @@
   {
     "name": "separator",
     "type": "registry:ui",
-    "dependencies": [
-      "@radix-ui/react-separator"
-    ],
+    "dependencies": [],
     "files": [
       "separator.tsx"
     ]
@@ -289,9 +268,7 @@
   {
     "name": "input",
     "type": "registry:ui",
-    "dependencies": [
-      "none"
-    ],
+    "dependencies": [],
     "files": [
       "input.tsx"
     ]
@@ -430,8 +407,7 @@
     "name": "chart",
     "type": "registry:ui",
     "dependencies": [
-      "recharts",
-      "lucide-react"
+      "recharts"
     ],
     "files": [
       "chart.tsx"
@@ -474,7 +450,6 @@
     "name": "button",
     "type": "registry:ui",
     "dependencies": [
-      "@radix-ui/react-slot",
       "class-variance-authority"
     ],
     "files": [

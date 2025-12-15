@@ -1,21 +1,13 @@
 {
   "name": "separator",
   "type": "registry:ui",
-  "dependencies": [
-    "@radix-ui/react-separator"
-  ],
+  "dependencies": [],
   "registryDependencies": [],
   "files": [
     {
       "name": "separator.tsx",
-      "content": "/**\n * @name separator\n * @description Visually or semantically separates content.\n * @dependencies @radix-ui/react-separator\n * @type registry:ui\n */\n\"use client\"\n\nimport * as React from \"react\"\nimport { Separator as SeparatorPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: React.ComponentProps<typeof SeparatorPrimitive.Root>) {\n  return (\n    <SeparatorPrimitive.Root\n      data-slot=\"separator\"\n      decorative={decorative}\n      orientation={orientation}\n      className={cn(\n        \"bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:self-stretch\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Separator }\n"
+      "content": "import * as React from \"react\"\nimport { Separator as SeparatorPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  decorative = true,\n  ...props\n}: React.ComponentProps<typeof SeparatorPrimitive.Root>) {\n  return (\n    <SeparatorPrimitive.Root\n      data-slot=\"separator\"\n      decorative={decorative}\n      orientation={orientation}\n      className={cn(\n        \"bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:self-stretch\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Separator }\n",
+      "type": "registry:ui"
     }
-  ],
-  "docs": {
-    "description": "Visually or semantically separates content. ",
-    "dependencies": [
-      "@radix-ui/react-separator"
-    ],
-    "usage": "import { Separator } from \"@/components/ui/separator\";\n\nexport default function Example() {\n  return <Separator>Separator</Separator>;\n}"
-  }
+  ]
 }

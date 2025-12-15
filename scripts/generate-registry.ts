@@ -25,12 +25,8 @@ interface ComponentMeta {
   files: {
     name: string
     content: string
+    type: 'registry:ui' | 'registry:block' | 'registry:example'
   }[]
-  docs?: {
-    description: string
-    dependencies: string[]
-    usage: string
-  }
 }
 
 interface RegistryConfig {
@@ -173,13 +169,9 @@ async function processComponent(filePath: string): Promise<ComponentMeta> {
     registryDependencies: metadata.registryDependencies || [],
     files: [{
       name: fileName,
-      content
-    }],
-    docs: {
-      description: metadata.description || `${componentName.charAt(0).toUpperCase() + componentName.slice(1)} component`,
-      dependencies: allDeps,
-      usage: generateUsageExample(componentName, content)
-    }
+      content,
+      type: metadata.type || 'registry:ui'
+    }]
   }
 }
 
