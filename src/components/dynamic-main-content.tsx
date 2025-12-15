@@ -12,13 +12,48 @@ import { DocumentationDisplay, NotFoundDocumentation } from '@/components/docume
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
 import { useScrollRestoration } from '@/hooks/use-scroll-restoration'
 import { type ComponentDoc } from '@/lib/types'
+
 interface ComponentDocDisplayProps {
   doc: ComponentDoc
+}
+
+interface CliCommandProps {
+  command: string
+  onCopy: () => void
+  isCopied: boolean
+}
+
+function CliCommand({ command, onCopy, isCopied }: CliCommandProps) {
+  return (
+    <div className="rounded-lg border border-border bg-muted p-4">
+      <div className="flex items-center justify-between gap-4">
+        <code className="font-mono text-sm text-foreground flex-1">
+          {command}
+        </code>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 shrink-0"
+          onClick={onCopy}
+        >
+          {isCopied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+        </Button>
+      </div>
+    </div>
+  )
 }
 
 function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
   const [activeTab, setActiveTab] = useState('preview')
   const { copyToClipboard, isCopied } = useCopyToClipboard()
+
+  const registryUrl = `https://careui.vercel.app/registry/care-ui/${doc.id}/${doc.id}.json`
+  const installCommands = {
+    pnpm: `pnpm dlx shadcn@latest add ${registryUrl}`,
+    npm: `npx shadcn@latest add ${registryUrl}`,
+    yarn: `yarn dlx shadcn@latest add ${registryUrl}`,
+    bun: `bunx shadcn@latest add ${registryUrl}`,
+  }
 
   return (
     <main className="flex-1 overflow-y-auto">
@@ -70,78 +105,38 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
           <h2 className="text-2xl font-bold text-foreground">Installation</h2>
           <Tabs defaultValue="pnpm" className="w-full">
             <TabsList>
-              <TabsTrigger value="bun">bun</TabsTrigger>
-              <TabsTrigger value="npm">npm</TabsTrigger>
               <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+              <TabsTrigger value="npm">npm</TabsTrigger>
               <TabsTrigger value="yarn">yarn</TabsTrigger>
+              <TabsTrigger value="bun">bun</TabsTrigger>
             </TabsList>
             <TabsContent value="pnpm" className="mt-4">
-              <div className="rounded-lg border border-border bg-muted p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <code className="font-mono text-sm text-foreground">
-                    pnpm dlx shadcn@latest add {doc.id} --registry https://careui.vercel.app
-                  </code>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => copyToClipboard(`pnpm dlx shadcn@latest add ${doc.id} --registry https://careui.vercel.app`, 'cli')}
-                  >
-                    {isCopied('cli') ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
+              <CliCommand
+                command={installCommands.pnpm}
+                onCopy={() => copyToClipboard(installCommands.pnpm, 'cli-pnpm')}
+                isCopied={isCopied('cli-pnpm')}
+              />
             </TabsContent>
             <TabsContent value="npm" className="mt-4">
-              <div className="rounded-lg border border-border bg-muted p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <code className="font-mono text-sm text-foreground">
-                    npx shadcn@latest add {doc.id} --registry https://careui.vercel.app
-                  </code>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => copyToClipboard(`npx shadcn@latest add ${doc.id} --registry https://careui.vercel.app`, 'cli')}
-                  >
-                    {isCopied('cli') ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
+              <CliCommand
+                command={installCommands.npm}
+                onCopy={() => copyToClipboard(installCommands.npm, 'cli-npm')}
+                isCopied={isCopied('cli-npm')}
+              />
             </TabsContent>
             <TabsContent value="yarn" className="mt-4">
-              <div className="rounded-lg border border-border bg-muted p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <code className="font-mono text-sm text-foreground">
-                    yarn dlx shadcn@latest add {doc.id} --registry https://careui.vercel.app
-                  </code>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => copyToClipboard(`yarn dlx shadcn@latest add ${doc.id} --registry https://careui.vercel.app`, 'cli')}
-                  >
-                    {isCopied('cli') ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
+              <CliCommand
+                command={installCommands.yarn}
+                onCopy={() => copyToClipboard(installCommands.yarn, 'cli-yarn')}
+                isCopied={isCopied('cli-yarn')}
+              />
             </TabsContent>
             <TabsContent value="bun" className="mt-4">
-              <div className="rounded-lg border border-border bg-muted p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <code className="font-mono text-sm text-foreground">
-                    bunx shadcn@latest add {doc.id} --registry https://careui.vercel.app
-                  </code>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => copyToClipboard(`bunx shadcn@latest add ${doc.id} --registry https://careui.vercel.app`, 'cli')}
-                  >
-                    {isCopied('cli') ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
+              <CliCommand
+                command={installCommands.bun}
+                onCopy={() => copyToClipboard(installCommands.bun, 'cli-bun')}
+                isCopied={isCopied('cli-bun')}
+              />
             </TabsContent>
           </Tabs>
         </section>
