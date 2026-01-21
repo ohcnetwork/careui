@@ -2,6 +2,9 @@
   {
     "name": "tooltip",
     "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-tooltip"
+    ],
     "files": [
       null
     ]
@@ -85,8 +88,7 @@
     "type": "registry:ui",
     "dependencies": [
       "sonner",
-      "next-themes",
-      "lucide-react"
+      "next-themes"
     ],
     "files": [
       null

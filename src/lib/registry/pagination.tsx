@@ -1,17 +1,26 @@
-import React from 'react'
-import { type ComponentDoc } from '@/lib/types'
-import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext, PaginationEllipsis } from '@/components/ui/pagination'
+import React from "react";
+import { type ComponentDoc } from "@/lib/types";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrevious,
+  PaginationLink,
+  PaginationNext,
+  PaginationEllipsis,
+} from "@/components/ui/pagination";
 
 export const paginationDoc: ComponentDoc = {
-
-    id: 'pagination',
-    name: 'Pagination',
-    description: 'Pagination with page navigation, built using the Button component.',
-    installation: {
-      cli: 'npx shadcn@latest add pagination',
-      manual: 'Install lucide-react dependency and copy the pagination component source code into your project.'
-    },
-    usage: `import {
+  id: "pagination",
+  name: "Pagination",
+  description:
+    "Pagination with page navigation, built using the Button component.",
+  installation: {
+    cli: "npx shadcn@latest add pagination",
+    manual:
+      "Install lucide-react dependency and copy the pagination component source code into your project.",
+  },
+  usage: `import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -45,8 +54,8 @@ export const paginationDoc: ComponentDoc = {
     </PaginationItem>
   </PaginationContent>
 </Pagination>`,
-    preview: {
-      code: `<Pagination>
+  preview: {
+    code: `<Pagination>
   <PaginationContent>
     <PaginationItem>
       <PaginationPrevious href="#" />
@@ -67,31 +76,49 @@ export const paginationDoc: ComponentDoc = {
     </PaginationItem>
   </PaginationContent>
 </Pagination>`,
-      component: React.createElement(Pagination, {},
-        React.createElement(PaginationContent, {},
-          React.createElement(PaginationItem, {},
-            React.createElement(PaginationPrevious, { href: '#' })
-          ),
-          React.createElement(PaginationItem, {},
-            React.createElement(PaginationLink, { href: '#' }, '1')
-          ),
-          React.createElement(PaginationItem, {},
-            React.createElement(PaginationLink, { href: '#', isActive: true }, '2')
-          ),
-          React.createElement(PaginationItem, {},
-            React.createElement(PaginationLink, { href: '#' }, '3')
-          ),
-          React.createElement(PaginationItem, {},
-            React.createElement(PaginationNext, { href: '#' })
+    component: React.createElement(
+      Pagination,
+      {},
+      React.createElement(
+        PaginationContent,
+        {},
+        React.createElement(
+          PaginationItem,
+          {},
+          React.createElement(PaginationPrevious, { href: "#" })
+        ),
+        React.createElement(
+          PaginationItem,
+          {},
+          React.createElement(PaginationLink, { href: "#" }, "1")
+        ),
+        React.createElement(
+          PaginationItem,
+          {},
+          React.createElement(
+            PaginationLink,
+            { href: "#", isActive: true },
+            "2"
           )
+        ),
+        React.createElement(
+          PaginationItem,
+          {},
+          React.createElement(PaginationLink, { href: "#" }, "3")
+        ),
+        React.createElement(
+          PaginationItem,
+          {},
+          React.createElement(PaginationNext, { href: "#" })
         )
       )
-    },
-    examples: [
-      {
-        name: 'With Ellipsis',
-        description: 'Pagination with ellipsis for large page sets.',
-        code: `<Pagination>
+    ),
+  },
+  examples: [
+    {
+      name: "With Ellipsis",
+      description: "Pagination with ellipsis for large page sets.",
+      code: `<Pagination>
   <PaginationContent>
     <PaginationItem>
       <PaginationPrevious href="#" />
@@ -118,36 +145,58 @@ export const paginationDoc: ComponentDoc = {
     </PaginationItem>
   </PaginationContent>
 </Pagination>`,
-        preview: React.createElement(Pagination, {},
-          React.createElement(PaginationContent, {},
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationPrevious, { href: '#' })
-            ),
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationLink, { href: '#' }, '1')
-            ),
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationEllipsis, {})
-            ),
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationLink, { href: '#', isActive: true }, '5')
-            ),
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationEllipsis, {})
-            ),
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationLink, { href: '#' }, '10')
-            ),
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationNext, { href: '#' })
+      preview: React.createElement(
+        Pagination,
+        {},
+        React.createElement(
+          PaginationContent,
+          {},
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(PaginationPrevious, { href: "#" })
+          ),
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(PaginationLink, { href: "#" }, "1")
+          ),
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(PaginationEllipsis, {})
+          ),
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(
+              PaginationLink,
+              { href: "#", isActive: true },
+              "5"
             )
+          ),
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(PaginationEllipsis, {})
+          ),
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(PaginationLink, { href: "#" }, "10")
+          ),
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(PaginationNext, { href: "#" })
           )
         )
-      },
-      {
-        name: 'Minimal',
-        description: 'Simple pagination with just previous/next buttons.',
-        code: `<Pagination>
+      ),
+    },
+    {
+      name: "Minimal",
+      description: "Simple pagination with just previous/next buttons.",
+      code: `<Pagination>
   <PaginationContent>
     <PaginationItem>
       <PaginationPrevious href="#" />
@@ -157,35 +206,43 @@ export const paginationDoc: ComponentDoc = {
     </PaginationItem>
   </PaginationContent>
 </Pagination>`,
-        preview: React.createElement(Pagination, {},
-          React.createElement(PaginationContent, {},
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationPrevious, { href: '#' })
-            ),
-            React.createElement(PaginationItem, {},
-              React.createElement(PaginationNext, { href: '#' })
-            )
+      preview: React.createElement(
+        Pagination,
+        {},
+        React.createElement(
+          PaginationContent,
+          {},
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(PaginationPrevious, { href: "#" })
+          ),
+          React.createElement(
+            PaginationItem,
+            {},
+            React.createElement(PaginationNext, { href: "#" })
           )
         )
-      }
-    ],
-    props: [
-      {
-        name: 'href',
-        type: 'string',
-        description: 'The URL that the pagination item should navigate to.',
-      },
-      {
-        name: 'isActive',
-        type: 'boolean',
-        description: 'Whether this page is the currently active page.',
-        default: 'false'
-      },
-      {
-        name: 'size',
-        type: '"default" | "sm" | "lg" | "icon"',
-        description: 'The size of the pagination buttons.',
-        default: '"default"'
-      }
-    ]
-}
+      ),
+    },
+  ],
+  props: [
+    {
+      name: "href",
+      type: "string",
+      description: "The URL that the pagination item should navigate to.",
+    },
+    {
+      name: "isActive",
+      type: "boolean",
+      description: "Whether this page is the currently active page.",
+      default: "false",
+    },
+    {
+      name: "size",
+      type: '"default" | "sm" | "lg" | "icon"',
+      description: "The size of the pagination buttons.",
+      default: '"default"',
+    },
+  ],
+};

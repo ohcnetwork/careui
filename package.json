@@ -11,6 +11,8 @@
     "registry:watch": "tsx --watch scripts/generate-registry.ts",
     "registry:add-jsdoc": "tsx scripts/add-jsdoc.ts",
     "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "preview": "vite preview",
     "prepublishOnly": "npm run build:registry"
   },
@@ -56,6 +58,8 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "prettier": "^3.8.0",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",

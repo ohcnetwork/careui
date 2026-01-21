@@ -1,7 +1,7 @@
-'use client'
+"use client";
 
-import { useNavigation } from "@/contexts/navigation-context"
-import { componentDocs } from "@/lib/component-registry"
+import { useNavigation } from "@/contexts/navigation-context";
+import { componentDocs } from "@/lib/component-registry";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,37 +9,37 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+} from "@/components/ui/breadcrumb";
 
 export function DynamicBreadcrumb() {
-  const { activeComponent, setActiveComponent } = useNavigation()
+  const { activeComponent, setActiveComponent } = useNavigation();
 
   // Get component info from registry
-  const componentDoc = componentDocs[activeComponent]
+  const componentDoc = componentDocs[activeComponent];
 
   // Determine the breadcrumb path based on the active component
   const getBreadcrumbPath = () => {
     if (componentDoc) {
       return {
         section: "Components",
-        page: componentDoc.name
-      }
+        page: componentDoc.name,
+      };
     }
 
     // Handle non-component navigation items
     switch (activeComponent) {
       case "installation":
-        return { section: "Getting Started", page: "Installation" }
+        return { section: "Getting Started", page: "Installation" };
       case "project-structure":
-        return { section: "Getting Started", page: "Project Structure" }
+        return { section: "Getting Started", page: "Project Structure" };
       case "components-overview":
-        return { section: "Components", page: "Overview" }
+        return { section: "Components", page: "Overview" };
       default:
-        return { section: "Components", page: "Overview" }
+        return { section: "Components", page: "Overview" };
     }
-  }
+  };
 
-  const { section, page } = getBreadcrumbPath()
+  const { section, page } = getBreadcrumbPath();
 
   return (
     <Breadcrumb>
@@ -48,7 +48,7 @@ export function DynamicBreadcrumb() {
           <BreadcrumbLink
             href="#"
             onClick={(e) => {
-              e.preventDefault()
+              e.preventDefault();
               // Could add navigation to home here if needed
             }}
           >
@@ -60,10 +60,10 @@ export function DynamicBreadcrumb() {
           <BreadcrumbLink
             href="#"
             onClick={(e) => {
-              e.preventDefault()
+              e.preventDefault();
               // Navigate to components overview if in Components section
               if (section === "Components") {
-                setActiveComponent("components-overview")
+                setActiveComponent("components-overview");
               }
             }}
           >
@@ -76,5 +76,5 @@ export function DynamicBreadcrumb() {
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
-  )
+  );
 }

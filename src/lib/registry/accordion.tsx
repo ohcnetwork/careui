@@ -1,14 +1,21 @@
-import React from 'react'
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
-import { type ComponentDoc } from '@/lib/types'
+import React from "react";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
+import { type ComponentDoc } from "@/lib/types";
 
 export const accordionDoc: ComponentDoc = {
-  id: 'accordion',
-  name: 'Accordion',
-  description: 'A vertically stacked set of interactive headings that each reveal a section of content.',
+  id: "accordion",
+  name: "Accordion",
+  description:
+    "A vertically stacked set of interactive headings that each reveal a section of content.",
   installation: {
-    cli: 'npx shadcn@latest add accordion',
-    manual: 'Copy and paste the accordion component source code into your project.'
+    cli: "npx shadcn@latest add accordion",
+    manual:
+      "Copy and paste the accordion component source code into your project.",
   },
   usage: `import {
   Accordion,
@@ -56,24 +63,42 @@ export function AccordionDemo() {
     </AccordionContent>
   </AccordionItem>
 </Accordion>`,
-    component: React.createElement(Accordion, {
-      type: 'single',
-      collapsible: true,
-      className: 'w-full',
-      defaultValue: 'item-1'
-    },
-      React.createElement(AccordionItem, { value: 'item-1' },
-        React.createElement(AccordionTrigger, {}, 'Product Information'),
-        React.createElement(AccordionContent, { className: 'flex flex-col gap-4 text-balance' },
-          React.createElement('p', {}, 'Our flagship product combines cutting-edge technology with sleek design. Built with premium materials, it offers unparalleled performance and reliability.')
+    component: React.createElement(
+      Accordion,
+      {
+        type: "single",
+        collapsible: true,
+        className: "w-full",
+        defaultValue: "item-1",
+      },
+      React.createElement(
+        AccordionItem,
+        { value: "item-1" },
+        React.createElement(AccordionTrigger, {}, "Product Information"),
+        React.createElement(
+          AccordionContent,
+          { className: "flex flex-col gap-4 text-balance" },
+          React.createElement(
+            "p",
+            {},
+            "Our flagship product combines cutting-edge technology with sleek design. Built with premium materials, it offers unparalleled performance and reliability."
+          )
         )
       ),
-      React.createElement(AccordionItem, { value: 'item-2' },
-        React.createElement(AccordionTrigger, {}, 'Shipping Details'),
-        React.createElement(AccordionContent, { className: 'flex flex-col gap-4 text-balance' },
-          React.createElement('p', {}, 'We offer worldwide shipping through trusted courier partners. Standard delivery takes 3-5 business days.')
+      React.createElement(
+        AccordionItem,
+        { value: "item-2" },
+        React.createElement(AccordionTrigger, {}, "Shipping Details"),
+        React.createElement(
+          AccordionContent,
+          { className: "flex flex-col gap-4 text-balance" },
+          React.createElement(
+            "p",
+            {},
+            "We offer worldwide shipping through trusted courier partners. Standard delivery takes 3-5 business days."
+          )
         )
       )
-    )
-  }
-}
+    ),
+  },
+};

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect } from "react";
 
 /**
  * Custom hook to restore scroll position to top when dependencies change
@@ -8,30 +8,30 @@ import { useEffect } from 'react'
 export function useScrollRestoration(deps: any[]) {
   useEffect(() => {
     // Scroll immediately
-    scrollToTop()
+    scrollToTop();
 
     // Also scroll after a short delay to handle async content loading
     const timer = setTimeout(() => {
-      scrollToTop()
-    }, 50)
+      scrollToTop();
+    }, 50);
 
-    return () => clearTimeout(timer)
-  }, deps)
+    return () => clearTimeout(timer);
+  }, deps);
 }
 
 function scrollToTop() {
   // Target the main content scroll container by ID
-  const mainContentScroll = document.getElementById('main-content-scroll')
+  const mainContentScroll = document.getElementById("main-content-scroll");
 
-  if (mainContentScroll && 'scrollTop' in mainContentScroll) {
-    mainContentScroll.scrollTop = 0
+  if (mainContentScroll && "scrollTop" in mainContentScroll) {
+    mainContentScroll.scrollTop = 0;
   }
 
   // Also scroll any inner main elements (ComponentDocDisplay and DocumentationDisplay)
-  const innerMainElements = document.querySelectorAll('main.overflow-y-auto')
-  innerMainElements.forEach(element => {
-    if (element && 'scrollTop' in element) {
-      (element as Element & { scrollTop: number }).scrollTop = 0
+  const innerMainElements = document.querySelectorAll("main.overflow-y-auto");
+  innerMainElements.forEach((element) => {
+    if (element && "scrollTop" in element) {
+      (element as Element & { scrollTop: number }).scrollTop = 0;
     }
-  })
+  });
 }

@@ -4,14 +4,14 @@
  * @dependencies @radix-ui/react-aspect-ratio
  * @type registry:ui
  */
-"use client"
+"use client";
 
-import { AspectRatio as AspectRatioPrimitive } from "radix-ui"
+import { AspectRatio as AspectRatioPrimitive } from "radix-ui";
 
 function AspectRatio({
   ...props
 }: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {
-  return <AspectRatioPrimitive.Root data-slot="aspect-ratio" {...props} />
+  return <AspectRatioPrimitive.Root data-slot="aspect-ratio" {...props} />;
 }
 
-export { AspectRatio }
+export { AspectRatio };

@@ -1,18 +1,17 @@
-import React from 'react'
-import { type ComponentDoc } from '@/lib/types'
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
-import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from 'lucide-react'
+import React from "react";
+import { type ComponentDoc } from "@/lib/types";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from "lucide-react";
 
 export const alertDoc: ComponentDoc = {
-
-    id: 'alert',
-    name: 'Alert',
-    description: 'Displays a callout for user attention.',
-    installation: {
-      cli: 'npx shadcn@latest add alert',
-      manual: 'Copy and paste the alert component source code into your project.'
-    },
-    usage: `import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from "lucide-react"
+  id: "alert",
+  name: "Alert",
+  description: "Displays a callout for user attention.",
+  installation: {
+    cli: "npx shadcn@latest add alert",
+    manual: "Copy and paste the alert component source code into your project.",
+  },
+  usage: `import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from "lucide-react"
 import {
   Alert,
   AlertDescription,
@@ -39,39 +38,55 @@ export function AlertDemo() {
     </div>
   )
 }`,
-    preview: {
-      code: `<Alert>
+  preview: {
+    code: `<Alert>
   <CheckCircle2Icon />
   <AlertTitle>Success! Your changes have been saved</AlertTitle>
   <AlertDescription>
     This is an alert with icon, title and description.
   </AlertDescription>
 </Alert>`,
-      component: React.createElement(Alert, {},
-        React.createElement(CheckCircle2Icon, { className: 'h-4 w-4' }),
-        React.createElement(AlertTitle, {}, 'Success! Your changes have been saved'),
-        React.createElement(AlertDescription, {}, 'This is an alert with icon, title and description.')
+    component: React.createElement(
+      Alert,
+      {},
+      React.createElement(CheckCircle2Icon, { className: "h-4 w-4" }),
+      React.createElement(
+        AlertTitle,
+        {},
+        "Success! Your changes have been saved"
+      ),
+      React.createElement(
+        AlertDescription,
+        {},
+        "This is an alert with icon, title and description."
       )
-    },
-    examples: [
-      {
-        name: 'Info Alert',
-        description: 'An informational alert with custom icon.',
-        code: `<Alert>
+    ),
+  },
+  examples: [
+    {
+      name: "Info Alert",
+      description: "An informational alert with custom icon.",
+      code: `<Alert>
   <PopcornIcon />
   <AlertTitle>
     This Alert has a title and an icon. No description.
   </AlertTitle>
 </Alert>`,
-        preview: React.createElement(Alert, {},
-          React.createElement(PopcornIcon, { className: 'h-4 w-4' }),
-          React.createElement(AlertTitle, {}, 'This Alert has a title and an icon. No description.')
+      preview: React.createElement(
+        Alert,
+        {},
+        React.createElement(PopcornIcon, { className: "h-4 w-4" }),
+        React.createElement(
+          AlertTitle,
+          {},
+          "This Alert has a title and an icon. No description."
         )
-      },
-      {
-        name: 'Destructive Alert',
-        description: 'A destructive alert with detailed error information.',
-        code: `<Alert variant="destructive">
+      ),
+    },
+    {
+      name: "Destructive Alert",
+      description: "A destructive alert with detailed error information.",
+      code: `<Alert variant="destructive">
   <AlertCircleIcon />
   <AlertTitle>Unable to process your payment.</AlertTitle>
   <AlertDescription>
@@ -83,18 +98,28 @@ export function AlertDemo() {
     </ul>
   </AlertDescription>
 </Alert>`,
-        preview: React.createElement(Alert, { variant: 'destructive' },
-          React.createElement(AlertCircleIcon, { className: 'h-4 w-4' }),
-          React.createElement(AlertTitle, {}, 'Unable to process your payment.'),
-          React.createElement(AlertDescription, {},
-            React.createElement('p', {}, 'Please verify your billing information and try again.'),
-            React.createElement('ul', { className: 'list-inside list-disc text-sm' },
-              React.createElement('li', {}, 'Check your card details'),
-              React.createElement('li', {}, 'Ensure sufficient funds'),
-              React.createElement('li', {}, 'Verify billing address')
-            )
+      preview: React.createElement(
+        Alert,
+        { variant: "destructive" },
+        React.createElement(AlertCircleIcon, { className: "h-4 w-4" }),
+        React.createElement(AlertTitle, {}, "Unable to process your payment."),
+        React.createElement(
+          AlertDescription,
+          {},
+          React.createElement(
+            "p",
+            {},
+            "Please verify your billing information and try again."
+          ),
+          React.createElement(
+            "ul",
+            { className: "list-inside list-disc text-sm" },
+            React.createElement("li", {}, "Check your card details"),
+            React.createElement("li", {}, "Ensure sufficient funds"),
+            React.createElement("li", {}, "Verify billing address")
           )
         )
-      }
-    ]
-}
+      ),
+    },
+  ],
+};

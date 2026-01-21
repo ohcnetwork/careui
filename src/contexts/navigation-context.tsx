@@ -1,77 +1,87 @@
-'use client'
+"use client";
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
-import { useScrollRestoration } from '@/hooks/use-scroll-restoration'
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
+import { useScrollRestoration } from "@/hooks/use-scroll-restoration";
 
 interface NavigationContextType {
-  activeComponent: string
-  setActiveComponent: (componentId: string) => void
+  activeComponent: string;
+  setActiveComponent: (componentId: string) => void;
 }
 
-const NavigationContext = createContext<NavigationContextType | undefined>(undefined)
+const NavigationContext = createContext<NavigationContextType | undefined>(
+  undefined
+);
 
 export function useNavigation() {
-  const context = useContext(NavigationContext)
+  const context = useContext(NavigationContext);
   if (!context) {
-    throw new Error('useNavigation must be used within a NavigationProvider')
+    throw new Error("useNavigation must be used within a NavigationProvider");
   }
-  return context
+  return context;
 }
 
 function getInitialComponent(): string {
   // Try to get from URL hash first
-  if (typeof window !== 'undefined') {
-    const hash = window.location.hash.slice(1) // Remove the #
+  if (typeof window !== "undefined") {
+    const hash = window.location.hash.slice(1); // Remove the #
     if (hash) {
-      return hash
+      return hash;
     }
 
     // Fallback to localStorage
-    const stored = localStorage.getItem('activeComponent')
+    const stored = localStorage.getItem("activeComponent");
     if (stored) {
-      return stored
+      return stored;
     }
   }
 
   // Default fallback
-  return 'get-started'
+  return "get-started";
 }
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
-  const [activeComponent, setActiveComponent] = useState(getInitialComponent)
+  const [activeComponent, setActiveComponent] = useState(getInitialComponent);
 
   // Reset scroll position when component changes
-  useScrollRestoration([activeComponent])
+  useScrollRestoration([activeComponent]);
 
   // Update URL hash and localStorage when component changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.location.hash = activeComponent
-      localStorage.setItem('activeComponent', activeComponent)
+    if (typeof window !== "undefined") {
+      window.location.hash = activeComponent;
+      localStorage.setItem("activeComponent", activeComponent);
     }
-  }, [activeComponent])
+  }, [activeComponent]);
 
   // Listen for hash changes (back/forward navigation)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const handleHashChange = () => {
-        const hash = window.location.hash.slice(1)
+        const hash = window.location.hash.slice(1);
         if (hash && hash !== activeComponent) {
-          setActiveComponent(hash)
+          setActiveComponent(hash);
         }
-      }
+      };
 
-      window.addEventListener('hashchange', handleHashChange)
-      return () => window.removeEventListener('hashchange', handleHashChange)
+      window.addEventListener("hashchange", handleHashChange);
+      return () => window.removeEventListener("hashchange", handleHashChange);
     }
-  }, [activeComponent])
+  }, [activeComponent]);
 
   return (
-    <NavigationContext.Provider value={{
-      activeComponent,
-      setActiveComponent
-    }}>
+    <NavigationContext.Provider
+      value={{
+        activeComponent,
+        setActiveComponent,
+      }}
+    >
       {children}
     </NavigationContext.Provider>
-  )
+  );
 }

@@ -10,18 +10,18 @@
  * - componentName -> alertDialog
  */
 
-import React from 'react'
+import React from "react";
 // Import your component here
 // import { ComponentName } from '@/components/ui/component-name'
-import { type ComponentDoc } from '@/lib/types'
+import { type ComponentDoc } from "@/lib/types";
 
 export const componentNameDoc: ComponentDoc = {
-  id: 'component-name',
-  name: 'Component Name',
-  description: 'Brief description of what this component does.',
+  id: "component-name",
+  name: "Component Name",
+  description: "Brief description of what this component does.",
   installation: {
-    cli: 'npx shadcn@latest add component-name',
-    manual: 'Copy and paste the component source code into your project.'
+    cli: "npx shadcn@latest add component-name",
+    manual: "Copy and paste the component source code into your project.",
   },
   usage: `import { ComponentName } from "@/components/ui/component-name"
 
@@ -33,46 +33,52 @@ export function ComponentNameDemo() {
     code: `<ComponentName>
   Content goes here
 </ComponentName>`,
-    component: React.createElement('div', { className: 'text-sm text-muted-foreground' },
-      'Component preview - replace with actual component'
-    )
+    component: React.createElement(
+      "div",
+      { className: "text-sm text-muted-foreground" },
+      "Component preview - replace with actual component"
+    ),
     // Uncomment when component is imported:
     // component: React.createElement(ComponentName, {}, 'Content')
   },
   // Optional: Additional examples showing variants/states
   examples: [
     {
-      name: 'Variants',
-      description: 'Different variants of the component.',
+      name: "Variants",
+      description: "Different variants of the component.",
       code: `<div className="flex gap-2">
   <ComponentName variant="default">Default</ComponentName>
   <ComponentName variant="secondary">Secondary</ComponentName>
 </div>`,
-      preview: React.createElement('div', { className: 'flex gap-2' },
-        React.createElement('div', { className: 'text-sm text-muted-foreground' },
-          'Variants preview - replace with actual components'
+      preview: React.createElement(
+        "div",
+        { className: "flex gap-2" },
+        React.createElement(
+          "div",
+          { className: "text-sm text-muted-foreground" },
+          "Variants preview - replace with actual components"
         )
-      )
-    }
+      ),
+    },
   ],
   props: [
     {
-      name: 'variant',
+      name: "variant",
       type: '"default" | "secondary"',
-      description: 'The visual style variant.',
-      default: '"default"'
+      description: "The visual style variant.",
+      default: '"default"',
     },
     {
-      name: 'size',
+      name: "size",
       type: '"sm" | "md" | "lg"',
-      description: 'The size of the component.',
-      default: '"md"'
+      description: "The size of the component.",
+      default: '"md"',
     },
     {
-      name: 'disabled',
-      type: 'boolean',
-      description: 'Whether the component is disabled.',
-      default: 'false'
-    }
-  ]
-}
+      name: "disabled",
+      type: "boolean",
+      description: "Whether the component is disabled.",
+      default: "false",
+    },
+  ],
+};

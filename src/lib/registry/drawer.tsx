@@ -1,25 +1,41 @@
-import React from 'react'
-import { type ComponentDoc } from '@/lib/types'
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from '@/components/ui/drawer'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Minus, Plus } from 'lucide-react'
+import React from "react";
+import { type ComponentDoc } from "@/lib/types";
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerClose,
+} from "@/components/ui/drawer";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Minus, Plus } from "lucide-react";
 // import { Bar, BarChart, ResponsiveContainer } from 'recharts'
-import { useMediaQuery } from '@/hooks/use-media-query'
-import { cn } from '@/lib/utils'
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
 
 export const drawerDoc: ComponentDoc = {
-
-    id: 'drawer',
-    name: 'Drawer',
-    description: 'A drawer component for React, built on top of Vaul.',
-    installation: {
-      cli: 'npx shadcn@latest add drawer',
-      manual: 'Install vaul dependency and copy the drawer component source code into your project.'
-    },
-    usage: `"use client"
+  id: "drawer",
+  name: "Drawer",
+  description: "A drawer component for React, built on top of Vaul.",
+  installation: {
+    cli: "npx shadcn@latest add drawer",
+    manual:
+      "Install vaul dependency and copy the drawer component source code into your project.",
+  },
+  usage: `"use client"
 
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
@@ -155,8 +171,8 @@ export function DrawerDemo() {
     </Drawer>
   )
 }`,
-    preview: {
-      code: `"use client"
+  preview: {
+    code: `"use client"
 
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
@@ -280,72 +296,124 @@ export function DrawerDemo() {
     </Drawer>
   )
 }`,
-      component: React.createElement(() => {
-        const [goal, setGoal] = React.useState(350)
+    component: React.createElement(() => {
+      const [goal, setGoal] = React.useState(350);
 
-        function onClick(adjustment: number) {
-          setGoal(Math.max(200, Math.min(400, goal + adjustment)))
-        }
+      function onClick(adjustment: number) {
+        setGoal(Math.max(200, Math.min(400, goal + adjustment)));
+      }
 
-        return React.createElement(Drawer, {},
-          React.createElement(DrawerTrigger, { asChild: true },
-            React.createElement(Button, { variant: 'outline' }, 'Open Drawer')
-          ),
-          React.createElement(DrawerContent, {},
-            React.createElement('div', { className: 'mx-auto w-full max-w-sm' },
-              React.createElement(DrawerHeader, {},
-                React.createElement(DrawerTitle, {}, 'Move Goal'),
-                React.createElement(DrawerDescription, {}, 'Set your daily activity goal.')
-              ),
-              React.createElement('div', { className: 'p-4 pb-0' },
-                React.createElement('div', { className: 'flex items-center justify-center space-x-2' },
-                  React.createElement(Button, {
-                    variant: 'outline',
-                    size: 'icon',
-                    className: 'h-8 w-8 shrink-0 rounded-full',
+      return React.createElement(
+        Drawer,
+        {},
+        React.createElement(
+          DrawerTrigger,
+          { asChild: true },
+          React.createElement(Button, { variant: "outline" }, "Open Drawer")
+        ),
+        React.createElement(
+          DrawerContent,
+          {},
+          React.createElement(
+            "div",
+            { className: "mx-auto w-full max-w-sm" },
+            React.createElement(
+              DrawerHeader,
+              {},
+              React.createElement(DrawerTitle, {}, "Move Goal"),
+              React.createElement(
+                DrawerDescription,
+                {},
+                "Set your daily activity goal."
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "p-4 pb-0" },
+              React.createElement(
+                "div",
+                { className: "flex items-center justify-center space-x-2" },
+                React.createElement(
+                  Button,
+                  {
+                    variant: "outline",
+                    size: "icon",
+                    className: "h-8 w-8 shrink-0 rounded-full",
                     onClick: () => onClick(-10),
-                    disabled: goal <= 200
+                    disabled: goal <= 200,
                   },
-                    React.createElement(Minus, {}),
-                    React.createElement('span', { className: 'sr-only' }, 'Decrease')
-                  ),
-                  React.createElement('div', { className: 'flex-1 text-center' },
-                    React.createElement('div', { className: 'text-7xl font-bold tracking-tighter' }, goal),
-                    React.createElement('div', { className: 'text-muted-foreground text-[0.70rem] uppercase' }, 'Calories/day')
-                  ),
-                  React.createElement(Button, {
-                    variant: 'outline',
-                    size: 'icon',
-                    className: 'h-8 w-8 shrink-0 rounded-full',
-                    onClick: () => onClick(10),
-                    disabled: goal >= 400
-                  },
-                    React.createElement(Plus, {}),
-                    React.createElement('span', { className: 'sr-only' }, 'Increase')
+                  React.createElement(Minus, {}),
+                  React.createElement(
+                    "span",
+                    { className: "sr-only" },
+                    "Decrease"
                   )
                 ),
-                React.createElement('div', { className: 'mt-3 h-30' },
-                  React.createElement('div', { style: { width: '100%', height: '100%' } },
-                    'Chart placeholder (build compatibility)'
+                React.createElement(
+                  "div",
+                  { className: "flex-1 text-center" },
+                  React.createElement(
+                    "div",
+                    { className: "text-7xl font-bold tracking-tighter" },
+                    goal
+                  ),
+                  React.createElement(
+                    "div",
+                    {
+                      className:
+                        "text-muted-foreground text-[0.70rem] uppercase",
+                    },
+                    "Calories/day"
+                  )
+                ),
+                React.createElement(
+                  Button,
+                  {
+                    variant: "outline",
+                    size: "icon",
+                    className: "h-8 w-8 shrink-0 rounded-full",
+                    onClick: () => onClick(10),
+                    disabled: goal >= 400,
+                  },
+                  React.createElement(Plus, {}),
+                  React.createElement(
+                    "span",
+                    { className: "sr-only" },
+                    "Increase"
                   )
                 )
               ),
-              React.createElement(DrawerFooter, {},
-                React.createElement(Button, {}, 'Submit'),
-                React.createElement(DrawerClose, { asChild: true },
-                  React.createElement(Button, { variant: 'outline' }, 'Cancel')
+              React.createElement(
+                "div",
+                { className: "mt-3 h-30" },
+                React.createElement(
+                  "div",
+                  { style: { width: "100%", height: "100%" } },
+                  "Chart placeholder (build compatibility)"
                 )
+              )
+            ),
+            React.createElement(
+              DrawerFooter,
+              {},
+              React.createElement(Button, {}, "Submit"),
+              React.createElement(
+                DrawerClose,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Cancel")
               )
             )
           )
         )
-      })
-    },
-    examples: [
-      {
-        name: 'Responsive Dialog',
-        description: 'A responsive component that shows a dialog on desktop and a drawer on mobile.',
-        code: `"use client"
+      );
+    }),
+  },
+  examples: [
+    {
+      name: "Responsive Dialog",
+      description:
+        "A responsive component that shows a dialog on desktop and a drawer on mobile.",
+      code: `"use client"
 
 import * as React from "react"
 
@@ -435,83 +503,129 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
     </form>
   )
 }`,
-        preview: React.createElement(() => {
-          const [open, setOpen] = React.useState(false)
-          const isDesktop = useMediaQuery("(min-width: 768px)")
+      preview: React.createElement(() => {
+        const [open, setOpen] = React.useState(false);
+        const isDesktop = useMediaQuery("(min-width: 768px)");
 
-          const ProfileFormComponent = ({ className }: { className?: string }) => (
-            React.createElement('form', { className: cn('grid items-start gap-6', className) },
-              React.createElement('div', { className: 'grid gap-3' },
-                React.createElement(Label, { htmlFor: 'email' }, 'Email'),
-                React.createElement(Input, { type: 'email', id: 'email', defaultValue: 'shadcn@example.com' })
-              ),
-              React.createElement('div', { className: 'grid gap-3' },
-                React.createElement(Label, { htmlFor: 'username' }, 'Username'),
-                React.createElement(Input, { id: 'username', defaultValue: '@shadcn' })
-              ),
-              React.createElement(Button, { type: 'submit' }, 'Save changes')
-            )
-          )
-
-          if (isDesktop) {
-            return React.createElement(Dialog, { open: open, onOpenChange: setOpen },
-              React.createElement(DialogTrigger, { asChild: true },
-                React.createElement(Button, { variant: 'outline' }, 'Edit Profile')
-              ),
-              React.createElement(DialogContent, { className: 'sm:max-w-[425px]' },
-                React.createElement(DialogHeader, {},
-                  React.createElement(DialogTitle, {}, 'Edit profile'),
-                  React.createElement(DialogDescription, {}, 'Make changes to your profile here. Click save when you\'re done.')
-                ),
-                React.createElement(ProfileFormComponent, {})
-              )
-            )
-          }
-
-          return React.createElement(Drawer, { open: open, onOpenChange: setOpen },
-            React.createElement(DrawerTrigger, { asChild: true },
-              React.createElement(Button, { variant: 'outline' }, 'Edit Profile')
+        const ProfileFormComponent = ({ className }: { className?: string }) =>
+          React.createElement(
+            "form",
+            { className: cn("grid items-start gap-6", className) },
+            React.createElement(
+              "div",
+              { className: "grid gap-3" },
+              React.createElement(Label, { htmlFor: "email" }, "Email"),
+              React.createElement(Input, {
+                type: "email",
+                id: "email",
+                defaultValue: "shadcn@example.com",
+              })
             ),
-            React.createElement(DrawerContent, {},
-              React.createElement('div', { className: 'mx-auto w-full max-w-sm' },
-                React.createElement(DrawerHeader, { className: 'text-left' },
-                  React.createElement(DrawerTitle, {}, 'Edit profile'),
-                  React.createElement(DrawerDescription, {}, 'Make changes to your profile here. Click save when you\'re done.')
-                ),
-                React.createElement(ProfileFormComponent, { className: 'px-4' }),
-                React.createElement(DrawerFooter, { className: 'pt-2' },
-                  React.createElement(DrawerClose, { asChild: true },
-                    React.createElement(Button, { variant: 'outline' }, 'Cancel')
-                  )
+            React.createElement(
+              "div",
+              { className: "grid gap-3" },
+              React.createElement(Label, { htmlFor: "username" }, "Username"),
+              React.createElement(Input, {
+                id: "username",
+                defaultValue: "@shadcn",
+              })
+            ),
+            React.createElement(Button, { type: "submit" }, "Save changes")
+          );
+
+        if (isDesktop) {
+          return React.createElement(
+            Dialog,
+            { open: open, onOpenChange: setOpen },
+            React.createElement(
+              DialogTrigger,
+              { asChild: true },
+              React.createElement(
+                Button,
+                { variant: "outline" },
+                "Edit Profile"
+              )
+            ),
+            React.createElement(
+              DialogContent,
+              { className: "sm:max-w-[425px]" },
+              React.createElement(
+                DialogHeader,
+                {},
+                React.createElement(DialogTitle, {}, "Edit profile"),
+                React.createElement(
+                  DialogDescription,
+                  {},
+                  "Make changes to your profile here. Click save when you're done."
+                )
+              ),
+              React.createElement(ProfileFormComponent, {})
+            )
+          );
+        }
+
+        return React.createElement(
+          Drawer,
+          { open: open, onOpenChange: setOpen },
+          React.createElement(
+            DrawerTrigger,
+            { asChild: true },
+            React.createElement(Button, { variant: "outline" }, "Edit Profile")
+          ),
+          React.createElement(
+            DrawerContent,
+            {},
+            React.createElement(
+              "div",
+              { className: "mx-auto w-full max-w-sm" },
+              React.createElement(
+                DrawerHeader,
+                { className: "text-left" },
+                React.createElement(DrawerTitle, {}, "Edit profile"),
+                React.createElement(
+                  DrawerDescription,
+                  {},
+                  "Make changes to your profile here. Click save when you're done."
+                )
+              ),
+              React.createElement(ProfileFormComponent, { className: "px-4" }),
+              React.createElement(
+                DrawerFooter,
+                { className: "pt-2" },
+                React.createElement(
+                  DrawerClose,
+                  { asChild: true },
+                  React.createElement(Button, { variant: "outline" }, "Cancel")
                 )
               )
             )
           )
-        })
-      }
-    ],
-    props: [
-      {
-        name: 'direction',
-        type: '"top" | "right" | "bottom" | "left"',
-        description: 'The direction from which the drawer slides.',
-        default: '"bottom"'
-      },
-      {
-        name: 'open',
-        type: 'boolean',
-        description: 'Whether the drawer is open.',
-      },
-      {
-        name: 'onOpenChange',
-        type: '(open: boolean) => void',
-        description: 'Callback function called when the open state changes.',
-      },
-      {
-        name: 'modal',
-        type: 'boolean',
-        description: 'Whether the drawer should be modal.',
-        default: 'true'
-      }
-    ]
-}
+        );
+      }),
+    },
+  ],
+  props: [
+    {
+      name: "direction",
+      type: '"top" | "right" | "bottom" | "left"',
+      description: "The direction from which the drawer slides.",
+      default: '"bottom"',
+    },
+    {
+      name: "open",
+      type: "boolean",
+      description: "Whether the drawer is open.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback function called when the open state changes.",
+    },
+    {
+      name: "modal",
+      type: "boolean",
+      description: "Whether the drawer should be modal.",
+      default: "true",
+    },
+  ],
+};

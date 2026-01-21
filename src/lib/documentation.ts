@@ -1,15 +1,17 @@
-import { type DocumentationPage } from '@/lib/types'
+import { type DocumentationPage } from "@/lib/types";
 
 export const documentationPages: Record<string, DocumentationPage> = {
-  'get-started': {
-    id: 'get-started',
-    title: 'Get Started',
-    description: 'Learn how to install and set up Care UI in your React project.',
+  "get-started": {
+    id: "get-started",
+    title: "Get Started",
+    description:
+      "Learn how to install and set up Care UI in your React project.",
     content: {
       sections: [
         {
-          title: 'Installation',
-          content: 'Care UI is built on top of Tailwind CSS and Radix UI primitives. You can install components individually using the CLI or copy the source code directly.',
+          title: "Installation",
+          content:
+            "Care UI is built on top of Tailwind CSS and Radix UI primitives. You can install components individually using the CLI or copy the source code directly.",
           code: `# Install via CLI (recommended)
 npx shadcn@latest init
 
@@ -17,11 +19,12 @@ npx shadcn@latest init
 npx shadcn@latest add button input
 
 # Or install from Care UI registry
-npx shadcn@latest add button --registry https://careui.vercel.app`
+npx shadcn@latest add button --registry https://careui.vercel.app`,
         },
         {
-          title: 'Configuration',
-          content: 'Make sure your project is configured with Tailwind CSS and the necessary dependencies.',
+          title: "Configuration",
+          content:
+            "Make sure your project is configured with Tailwind CSS and the necessary dependencies.",
           code: `// tailwind.config.js
 module.exports = {
   content: [
@@ -31,11 +34,11 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}`
+}`,
         },
         {
-          title: 'Usage',
-          content: 'Import components and use them in your React application.',
+          title: "Usage",
+          content: "Import components and use them in your React application.",
           code: `import { Button } from "@/components/careui/button"
 import { Input } from "@/components/careui/input"
 
@@ -46,33 +49,37 @@ export function MyForm() {
       <Button>Get started</Button>
     </div>
   )
-}`
+}`,
         },
         {
-          title: 'TypeScript Support',
-          content: 'All components are written in TypeScript and include full type definitions.',
+          title: "TypeScript Support",
+          content:
+            "All components are written in TypeScript and include full type definitions.",
           code: `// Components are fully typed
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "default" | "destructive" | "outline"
   size?: "default" | "sm" | "lg"
-}`
-        }
-      ]
-    }
+}`,
+        },
+      ],
+    },
   },
-  'accessibility': {
-    id: 'accessibility',
-    title: 'Accessibility',
-    description: 'Care UI components are designed with accessibility as a core principle. Learn about the accessibility features and best practices.',
+  accessibility: {
+    id: "accessibility",
+    title: "Accessibility",
+    description:
+      "Care UI components are designed with accessibility as a core principle. Learn about the accessibility features and best practices.",
     content: {
       sections: [
         {
-          title: 'Design Principles',
-          content: 'All Care UI components follow WCAG 2.1 guidelines and are built with accessibility in mind from the ground up.',
+          title: "Design Principles",
+          content:
+            "All Care UI components follow WCAG 2.1 guidelines and are built with accessibility in mind from the ground up.",
         },
         {
-          title: 'Keyboard Navigation',
-          content: 'All interactive components support full keyboard navigation with proper focus management.',
+          title: "Keyboard Navigation",
+          content:
+            "All interactive components support full keyboard navigation with proper focus management.",
           code: `// Example: Button component
 // - Tab: Focus the button
 // - Enter/Space: Activate the button
@@ -84,11 +91,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   }
 }}>
   Accessible Button
-</Button>`
+</Button>`,
         },
         {
-          title: 'ARIA Support',
-          content: 'Components include proper ARIA attributes for screen reader compatibility.',
+          title: "ARIA Support",
+          content:
+            "Components include proper ARIA attributes for screen reader compatibility.",
           code: `// Form components with proper labeling
 <div className="space-y-4">
   <div>
@@ -105,15 +113,17 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
       </div>
     )}
   </div>
-</div>`
+</div>`,
         },
         {
-          title: 'Screen Reader Support',
-          content: 'All components work seamlessly with popular screen readers like NVDA, JAWS, and VoiceOver.',
+          title: "Screen Reader Support",
+          content:
+            "All components work seamlessly with popular screen readers like NVDA, JAWS, and VoiceOver.",
         },
         {
-          title: 'Focus Management',
-          content: 'Proper focus indicators and focus trapping for modal components.',
+          title: "Focus Management",
+          content:
+            "Proper focus indicators and focus trapping for modal components.",
           code: `// Dialog components manage focus automatically
 <Dialog open={isOpen}>
   <DialogContent>
@@ -123,28 +133,32 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     </DialogDescription>
     {/* Focus is trapped within the dialog */}
   </DialogContent>
-</Dialog>`
+</Dialog>`,
         },
         {
-          title: 'Color Contrast',
-          content: 'All color combinations meet WCAG AA standards for color contrast ratios (minimum 4.5:1 for normal text).',
-        }
-      ]
-    }
+          title: "Color Contrast",
+          content:
+            "All color combinations meet WCAG AA standards for color contrast ratios (minimum 4.5:1 for normal text).",
+        },
+      ],
+    },
   },
-  'contributing': {
-    id: 'contributing',
-    title: 'Contributing',
-    description: 'Learn how to add or modify components in Care UI. Follow this guide to maintain consistency and quality.',
+  contributing: {
+    id: "contributing",
+    title: "Contributing",
+    description:
+      "Learn how to add or modify components in Care UI. Follow this guide to maintain consistency and quality.",
     content: {
       sections: [
         {
-          title: 'Adding a New Component',
-          content: 'Follow these steps to add a new component to Care UI. This ensures proper integration with the registry and documentation.',
+          title: "Adding a New Component",
+          content:
+            "Follow these steps to add a new component to Care UI. This ensures proper integration with the registry and documentation.",
         },
         {
-          title: 'Step 1: Create Component File',
-          content: 'Create your component in the ui directory with proper JSDoc metadata.',
+          title: "Step 1: Create Component File",
+          content:
+            "Create your component in the ui directory with proper JSDoc metadata.",
           code: `// src/components/ui/my-component.tsx
 /**
  * @name my-component
@@ -164,11 +178,12 @@ export function MyComponent({
       {...props}
     />
   )
-}`
+}`,
         },
         {
-          title: 'Step 2: Create Documentation',
-          content: 'Add documentation with examples and props in the registry directory.',
+          title: "Step 2: Create Documentation",
+          content:
+            "Add documentation with examples and props in the registry directory.",
           code: `// src/lib/registry/my-component.tsx
 import React from 'react'
 import { type ComponentDoc } from '@/lib/types'
@@ -197,11 +212,11 @@ export const myComponentDoc: ComponentDoc = {
       description: 'Additional CSS classes'
     }
   ]
-}`
+}`,
         },
         {
-          title: 'Step 3: Export from Registry',
-          content: 'Add your component to the registry index file.',
+          title: "Step 3: Export from Registry",
+          content: "Add your component to the registry index file.",
           code: `// src/lib/registry/index.ts
 export { myComponentDoc } from './my-component'
 
@@ -209,34 +224,38 @@ export { myComponentDoc } from './my-component'
 const componentLoaders = {
   // ... existing components
   'my-component': () => import('./my-component').then(m => m.myComponentDoc),
-}`
+}`,
         },
         {
-          title: 'Step 4: Generate Registry Files',
-          content: 'Run the generation script to create JSON files for the shadcn registry.',
+          title: "Step 4: Generate Registry Files",
+          content:
+            "Run the generation script to create JSON files for the shadcn registry.",
           code: `# Generate registry JSON files
 npx tsx scripts/generate-registry.ts
 
 # Copy to public directory
-cp -r registry/care-ui public/registry/`
+cp -r registry/care-ui public/registry/`,
         },
         {
-          title: 'Step 5: Test Locally',
-          content: 'Start the development server and verify your component appears correctly.',
+          title: "Step 5: Test Locally",
+          content:
+            "Start the development server and verify your component appears correctly.",
           code: `# Start dev server
 pnpm dev
 
 # Visit http://localhost:5173
 # Navigate to your component in the sidebar
-# Verify preview, code, examples, and props`
+# Verify preview, code, examples, and props`,
         },
         {
-          title: 'Modifying Existing Components',
-          content: 'When updating components, follow these steps to keep everything in sync.',
+          title: "Modifying Existing Components",
+          content:
+            "When updating components, follow these steps to keep everything in sync.",
         },
         {
-          title: 'Update Workflow',
-          content: 'Edit the component, update docs if needed, then regenerate the registry.',
+          title: "Update Workflow",
+          content:
+            "Edit the component, update docs if needed, then regenerate the registry.",
           code: `# 1. Edit component source
 # src/components/ui/button.tsx
 
@@ -253,25 +272,28 @@ pnpm dev
 # 5. Commit and deploy
 git add . && \\
 git commit -m "Update button component" && \\
-git push`
+git push`,
         },
         {
-          title: 'Quick Reference',
-          content: 'One-liner command for quick updates after modifying components.',
+          title: "Quick Reference",
+          content:
+            "One-liner command for quick updates after modifying components.",
           code: `# Complete update workflow
 npx tsx scripts/generate-registry.ts && \\
 cp -r registry/care-ui public/registry/ && \\
 git add . && \\
 git commit -m "Update components" && \\
-git push`
+git push`,
         },
         {
-          title: 'Files You\'ll Touch',
-          content: 'Always edit: Component source (src/components/ui/), Documentation (src/lib/registry/). Never manually edit: Generated JSON files in registry/ or public/registry/.',
+          title: "Files You'll Touch",
+          content:
+            "Always edit: Component source (src/components/ui/), Documentation (src/lib/registry/). Never manually edit: Generated JSON files in registry/ or public/registry/.",
         },
         {
-          title: 'Best Practices',
-          content: 'Follow these guidelines for maintaining component quality and consistency.',
+          title: "Best Practices",
+          content:
+            "Follow these guidelines for maintaining component quality and consistency.",
           code: `// ✅ DO: Use semantic HTML
 <button type="button" {...props}>Click me</button>
 
@@ -290,9 +312,9 @@ className={cn("base-classes", className)}
 <div style={{ color: 'red' }}>Bad</div>
 
 // ❌ DON'T: Forget to export from registry index
-// Always add to src/lib/registry/index.ts`
-        }
-      ]
-    }
-  }
-}
+// Always add to src/lib/registry/index.ts`,
+        },
+      ],
+    },
+  },
+};
