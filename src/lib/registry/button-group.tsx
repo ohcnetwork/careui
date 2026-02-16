@@ -3,7 +3,6 @@ import { type ComponentDoc } from "@/lib/types";
 import {
   ButtonGroup,
   ButtonGroupSeparator,
-  ButtonGroupText,
 } from "@/components/ui/button-group";
 import { Button } from "@/components/ui/button";
 import {
