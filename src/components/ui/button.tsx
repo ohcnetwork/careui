@@ -11,7 +11,7 @@ import { Slot } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 px-3 whitespace-nowrap rounded-sm border border-transparent bg-clip-padding text-sm font-semibold tracking-wide outline-0 select-none shrink-0 transition touch-action-manipulation [-webkit-tap-highlight-color:transparent] active:scale-98 group/button [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 aria-invalid:outline-2 aria-invalid:outline-offset-2 aria-invalid:outline-destructive ",
+  "inline-flex items-center justify-center gap-1.5 px-3 whitespace-nowrap rounded-sm border border-transparent bg-clip-padding text-sm font-semibold tracking-wide outline-0 select-none shrink-0 transition touch-action-manipulation [-webkit-tap-highlight-color:transparent] group/button [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 aria-invalid:outline-2 aria-invalid:outline-offset-2 aria-invalid:outline-destructive ",
   {
     variants: {
       variant: {
@@ -27,7 +27,7 @@ const buttonVariants = cva(
           "border border-destructive/50 bg-red-100/75 text-red-700 shadow-md hover:bg-destructive/20 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/25 [:active,[data-pressed]]:inset-shadow-[0_1px_4px_1px_--theme(--color-red-400/40%)] [:disabled,:active,[data-pressed]]:shadow-none dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:[:active,[data-pressed]]:bg-destructive/35",
         "destructive-solid":
           "border border-red-700 bg-destructive text-(--color-fg-inverse) shadow-md hover:bg-destructive/80 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/70 [:active,[data-pressed]]:inset-shadow-[0_1px_4px_1px_--theme(--color-destructive/90%)] [:disabled,:active,[data-pressed]]:shadow-none dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:[:active,[data-pressed]]:bg-destructive/35",
-        link: "text-blue-700 underline underline-offset-4 transition-[color,text-underline-offset] hover:underline-offset-2 hover:text-blue-800 [:active,[data-pressed]]:text-blue-900 active:scale-none dark:text-blue-400 dark:hover:text-blue-300 dark:[:active,[data-pressed]]:text-blue-200",
+        link: "text-blue-700 underline underline-offset-4 transition-[color,text-underline-offset] hover:underline-offset-2 hover:text-blue-800 [:active,[data-pressed]]:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 dark:[:active,[data-pressed]]:text-blue-200",
       },
       size: {
         default:
