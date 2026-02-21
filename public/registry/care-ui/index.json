@@ -495,9 +495,9 @@
     "name": "badge",
     "type": "registry:ui",
     "dependencies": [
-      "@radix-ui/react-slot",
       "class-variance-authority",
-      "lucide-react"
+      "lucide-react",
+      "radix-ui"
     ],
     "files": [
       null

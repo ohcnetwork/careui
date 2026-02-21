@@ -6,139 +6,121 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    --color-surface-highest:      var(--color-neutral-950); /* background/darker-950 */
-    --color-surface-high:         var(--color-neutral-800);    /* background/dark-800 */
-    --color-surface-base:         var(--color-neutral-200);    /* background/soft-200 */
-    --color-surface-low:          var(--color-neutral-100);     /* background/light-100 */
-    --color-surface-lower:        var(--color-neutral-50);    /* background/lighter-50 */
-    --color-surface-lowest:       var(--color-white);        /* background/white */
-
-    /* Foreground (text + icon) */
-    --color-fg-stronger:          var(--color-neutral-950);   /* text/dark-950 - headings, key labels input text */
-    --color-fg-strong:            var(--color-neutral-900);   /* text/dark-900 - headings, key labels input text */
-    --color-fg-default:           var(--color-neutral-800);  /* text/sub-800 - body text*/
-    --color-fg-muted:             var(--color-neutral-600);    /* text/soft-600 - helper, hint, meta */
-    --color-fg-disabled:          var(--color-neutral-400); /* text/disabled-400 - disabled / unavailable */
-
-    /* Inverse foreground (on dark / brand surfaces) */
-    --color-fg-inverse:           var(--color-white); /* text/white - text on dark / brand surfaces */
-
-    /* Brand */
-    --color-fg-primary-default:   var(--color-primary-700);
-    --color-fg-primary-inverse:   var(--color-primary-200);
-
-
-    /* positive foreground (text + icons) */
-    --color-fg-positive-strong:   var(--color-green-900);
-    --color-fg-positive-default:  var(--color-green-700);
-    --color-fg-positive-muted:    var(--color-green-600);
-
-    /* Caution foreground */
-    --color-fg-caution-strong:    var(--color-orange-900);
-    --color-fg-caution-default:   var(--color-orange-700);
-    --color-fg-caution-muted:     var(--color-orange-600);
-
-    /* Negative foreground */
-    --color-fg-negative-strong:   var(--color-red-900);
-    --color-fg-negative-default:  var(--color-red-700);
-    --color-fg-negative-muted:    var(--color-red-600);
-
-    /* Informative foreground */
-    --color-fg-info-strong:       var(--color-red-900);
-    --color-fg-info-default:      var(--color-red-700);
-    --color-fg-info-muted :       var(--color-red-600);
-
-
-
-    /* Example alpha color */
-    /* --color-stroke-50: --alpha(var(--color-gray-400) / 50%); */
-
-    /* Stroke */
-    --color-stroke-stronger:      var(--color-neutral-400); /* darker */
-    --color-stroke-strong:        var(--color-neutral-300); /* dark */
-    --color-stroke-default:       var(--color-neutral-200); /* default */
-    --color-stroke-muted:         var(--color-neutral-100); /* soft */
-    --color-stroke-inverse:       var(--color-white);       /* white */
 
     /* Primary palette */
-    --color-primary-50:  var(--color-emerald-50);
-    --color-primary-100: var(--color-emerald-100);
-    --color-primary-200: var(--color-emerald-200);
-    --color-primary-300: var(--color-emerald-300);
-    --color-primary-400: var(--color-emerald-400);
-    --color-primary-500: var(--color-emerald-500);
-    --color-primary-600: var(--color-emerald-600);
-    --color-primary-700: var(--color-emerald-700);
-    --color-primary-800: var(--color-emerald-800);
-    --color-primary-900: var(--color-emerald-900);
-    --color-primary-950: var(--color-emerald-950);
+    --primary-50:  var(--color-emerald-50);
+    --primary-100: var(--color-emerald-100);
+    --primary-200: var(--color-emerald-200);
+    --primary-300: var(--color-emerald-300);
+    --primary-400: var(--color-emerald-400);
+    --primary-500: var(--color-emerald-500);
+    --primary-600: var(--color-emerald-600);
+    --primary-700: var(--color-emerald-700);
+    --primary-800: var(--color-emerald-800);
+    --primary-900: var(--color-emerald-900);
+    --primary-950: var(--color-emerald-950);
 
-    --background: var(--color-surface-lowest);  /* White */
-    --foreground: var(--color-fg-strong);  /* Neutral 950 */
-    --card: var(--color-surface-lowest);  /* White */
-    --card-foreground: var(--color-fg-strong);  /* Neutral 950 */
-    --popover: var(--color-surface-lowest);  /* White */
-    --popover-foreground: var(--color-fg-strong);  /* Neutral 950 */
+    --radius: 0.625rem;
+
+    --background: var(--color-white);
+    --soft-background: var(--color-neutral-50);
+    --muted-background: var(--color-neutral-100);
+    --strong-background: var(--color-neutral-200);
+
+    --muted: var(--color-neutral-100);
+
+    --foreground: var(--color-neutral-950);
+    --muted-foreground: var(--color-neutral-700);
+    --soft-foreground: var(--color-neutral-600);
+    --disabled-foreground: var(--color-neutral-300);
+    --placeholder-foreground: var(--color-neutral-500);
+    --inverse-foreground: var(--color-white);
+
+    --card: var(--color-white); /* White */
+    --card-foreground: var(--color-neutral-950); /* Neutral 950 */
+    --popover: var(--color-white); /* White */
+    --popover-foreground: var(--color-neutral-950); /* Neutral 950 */
+
     --primary: var(--color-primary-800); /* Emerald 800 */
     --primary-foreground: var(--color-primary-50);  /* Emerald 50 */
-    --secondary: var(--color-neutral-100); /* neutral 100 */
-    --secondary-foreground: var(--color-neutral-900);  /* neutral 900 */
-    --muted: var(--color-neutral-100);  /* Neutral 100 */
-    --muted-foreground: var(--color-fg-muted);  /* Neutral 600 */
-    --accent: var(--color-neutral-100);  /* Neutral 100 */
-    --accent-foreground: var(--color-fg-stronger);  /* Neutral 950 */
-    --destructive: var(--color-red-600);  /* Custom */
-    --border: var(--color-stroke-default);  /* Neutral 200 */
-    --input: var(--color-stroke-strong);  /* Neutral 200 */
-    --ring: var(--color-stroke-strong);  /* Neutral 400 */
-    --chart-1: oklch(0.85 0.13 165);  /* Custom */
-    --chart-2: oklch(0.77 0.15 163);  /* Custom */
-    --chart-3: oklch(0.70 0.15 162);  /* Custom */
-    --chart-4: oklch(0.60 0.13 163);  /* Custom */
-    --chart-5: oklch(0.51 0.10 166);  /* Custom */
-    --radius: 0.625rem;
-    --sidebar: var(--color-surface-lower);  /* Neutral 50 */
-    --sidebar-foreground: var(--color-neutral-950);  /* Neutral 950 */
-    --sidebar-primary: oklch(0.60 0.13 163);  /* Custom */
-    --sidebar-primary-foreground: oklch(0.98 0.02 166);  /* Custom */
-    --sidebar-accent: --alpha(var(--color-neutral-200) / 50%);  /* Neutral 100 */
-    --sidebar-accent-foreground: var(--color-fg-strong);  /* Neutral 900 */
-    --sidebar-border: var(--color-stroke-default);  /* Neutral 200 */
-    --sidebar-ring: var(--color-stroke-stronger);  /* Neutral 400 */
+
+    --secondary: var(--color-neutral-100); /* Neutral 100 */
+    --secondary-foreground: var(--color-neutral-900); /* Neutral 900 */
+
+
+    --accent: var(--color-neutral-100); /* Neutral 100 */
+    --accent-foreground: var(--color-neutral-900); /* Neutral 900 */
+
+    --destructive: var(--color-red-600); /* Red 600 */
+    --destructive-foreground: var(--color-red-50); /* Red 50 */
+
+    --soft-border: var(--color-neutral-100); /* Neutral 100 */
+    --border: var(--color-neutral-200); /* Neutral 200 */
+    --strong-border: var(--color-neutral-300); /* Neutral 300 */
+    --stronger-border: var(--color-neutral-400); /* Neutral 400 */
+    --inverse-border: var(--color-white); /* White */
+
+    --input: var(--color-neutral-300); /* Neutral 200 */
+    --ring: alpha(var(--color-indigo-500) / 75%); /* Neutral 400 */
+
+    --chart-1: var(--color-orange-600); /* Orange 600 */
+    --chart-2: var(--color-teal-600); /* Teal 600 */
+    --chart-3: var(--color-cyan-900);/* Cyan 900 */
+    --chart-4: var(--color-amber-400); /* Amber 400 */
+    --chart-5: var(--color-yellow-500); /* Yellow 500 */
+
+    --sidebar: var(--color-neutral-50);
+    --sidebar-foreground: var(--color-neutral-950);
+    --sidebar-primary: var(--color-primary-800);
+    --sidebar-primary-foreground: var(--color-primary-50);
+    --sidebar-accent: var(--color-neutral-100); /* Neutral 100 */
+    --sidebar-accent-foreground: var(--color-neutral-950); /* Neutral 900 */
+    --sidebar-border: var(--color-neutral-200); /* Neutral 200 */
+    --sidebar-ring: var(--color-indigo-400); /* Indigo 400 */
 }
 
 .dark {
-    --background: oklch(0.145 0 0);  /* Neutral 950 */
-    --foreground: oklch(0.985 0 0);  /* Neutral 50 */
-    --card: oklch(0.205 0 0);  /* Neutral 900 */
-    --card-foreground: oklch(0.985 0 0);  /* Neutral 50 */
-    --popover: oklch(0.205 0 0);  /* Neutral 900 */
-    --popover-foreground: oklch(0.985 0 0);  /* Neutral 50 */
-    --primary: oklch(0.70 0.15 162);  /* Custom */
-    --primary-foreground: oklch(0.26 0.05 173);  /* Custom */
-    --secondary: oklch(0.269 0 0);  /* Neutral 800 */
-    --secondary-foreground: oklch(0.985 0 0);  /* Neutral 50 */
-    --muted: oklch(0.269 0 0);  /* Neutral 800 */
-    --muted-foreground: oklch(0.708 0 0);  /* Neutral 400 */
-    --accent: oklch(0.371 0 0);  /* Neutral 700 */
-    --accent-foreground: oklch(0.985 0 0);  /* Neutral 50 */
-    --destructive: oklch(0.704 0.191 22.216);  /* Red 400 */
-    --border: oklch(1 0 0 / 10%);  /* White / 10% */
-    --input: oklch(1 0 0 / 15%);  /* White / 15% */
-    --ring: oklch(0.556 0 0);  /* Neutral 500 */
-    --chart-1: oklch(0.85 0.13 165);  /* Custom */
-    --chart-2: oklch(0.77 0.15 163);  /* Custom */
-    --chart-3: oklch(0.70 0.15 162);  /* Custom */
-    --chart-4: oklch(0.60 0.13 163);  /* Custom */
-    --chart-5: oklch(0.51 0.10 166);  /* Custom */
-    --sidebar: oklch(0.205 0 0);  /* Neutral 900 */
-    --sidebar-foreground: oklch(0.985 0 0);  /* Neutral 50 */
-    --sidebar-primary: oklch(0.77 0.15 163);  /* Custom */
-    --sidebar-primary-foreground: oklch(0.26 0.05 173);  /* Custom */
-    --sidebar-accent: oklch(0.269 0 0);  /* Neutral 800 */
-    --sidebar-accent-foreground: oklch(0.985 0 0);  /* Neutral 50 */
-    --sidebar-border: oklch(1 0 0 / 10%);  /* White / 10% */
-    --sidebar-ring: oklch(0.556 0 0);  /* Neutral 500 */
+    --background: var(--color-neutral-950);
+    --foreground: var(--color-white);
+
+    --card: --alpha(var(--color-neutral-900) / 80%);
+    --card-foreground: var(--color-white);
+
+    --popover: var(--color-neutral-800);
+    --popover-foreground: var(--color-neutral-50);
+
+    --primary: var(--color-primary-400);
+    --primary-foreground: var(--color-primary-950);
+
+    --secondary: var(--color-neutral-800);
+    --secondary-foreground: var(--color-neutral-50);
+
+    --muted: oklch(0.269 0 0); /* Neutral 800 */
+    --muted-foreground: oklch(0.708 0 0); /* Neutral 400 */
+
+    --accent: var(--color-neutral-700);
+    --accent-foreground: var(--color-neutral-50);
+
+    --destructive: var(--color-red-400);
+    --destructive-foreground: var(--color-red-50);
+
+    --border: --alpha(var(--color-white) / 10%);
+
+    --input: oklch(1 0 0 / 15%); /* White / 15% */
+    --ring: oklch(0.556 0 0); /* Neutral 500 */
+    --chart-1: oklch(0.488 0.243 264.376); /* Blue 700 */
+    --chart-2: oklch(0.696 0.17 162.48); /* Emerald 500 */
+    --chart-3: oklch(0.769 0.188 70.08); /* Amber 500 */
+    --chart-4: oklch(0.627 0.265 303.9); /* Purple 500 */
+    --chart-5: oklch(0.645 0.246 16.439); /* Rose 500 */
+    --sidebar: oklch(0.205 0 0); /* Neutral 900 */
+    --sidebar-foreground: oklch(0.985 0 0); /* Zinc 50 */
+    --sidebar-primary: oklch(0.488 0.243 264.376); /* Blue 700 */
+    --sidebar-primary-foreground: oklch(0.985 0 0); /* Zinc 50 */
+    --sidebar-accent: oklch(0.269 0 0); /* Neutral 800 */
+    --sidebar-accent-foreground: oklch(0.985 0 0); /* Zinc 50 */
+    --sidebar-border: oklch(1 0 0 / 10%); /* White / 10% */
+    --sidebar-ring: oklch(0.439 0 0); /* Neutral 600 */
 }
 
 @theme inline {
@@ -181,6 +163,19 @@
     --radius-2xl: calc(var(--radius) + 8px);
     --radius-3xl: calc(var(--radius) + 12px);
     --radius-4xl: calc(var(--radius) + 16px);
+
+    /* Primary color scale */
+    --color-primary-50: var(--primary-50);
+    --color-primary-100: var(--primary-100);
+    --color-primary-200: var(--primary-200);
+    --color-primary-300: var(--primary-300);
+    --color-primary-400: var(--primary-400);
+    --color-primary-500: var(--primary-500);
+    --color-primary-600: var(--primary-600);
+    --color-primary-700: var(--primary-700);
+    --color-primary-800: var(--primary-800);
+    --color-primary-900: var(--primary-900);
+    --color-primary-950: var(--primary-950);
 }
 
 @layer base {
