@@ -1,7 +1,7 @@
 /**
  * @name button
  * @description Displays a button or a component that looks like a button.
- * @dependencies @radix-ui/react-slot class-variance-authority
+ * @dependencies radix-ui class-variance-authority
  * @type registry:ui
  */
 import * as React from "react";

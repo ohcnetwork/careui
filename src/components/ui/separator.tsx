@@ -1,7 +1,7 @@
 /**
  * @name separator
  * @description Visually or semantically separates content.
- * @dependencies @radix-ui/react-separator
+ * @dependencies radix-ui
  * @type registry:ui
  */
 import * as React from "react";

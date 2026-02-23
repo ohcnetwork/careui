@@ -22,7 +22,7 @@ export const dialogDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add dialog",
     manual:
-      "Install @radix-ui/react-dialog and copy the dialog component source code.",
+      "Install radix-ui and copy the dialog component source code.",
   },
   usage: `import { Button } from "@/components/ui/button"
 import {

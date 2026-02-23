@@ -30,30 +30,38 @@ export const selectDoc: ComponentDoc = {
   SelectValue,
 } from "@/components/ui/select"`,
   preview: {
-    code: `<Select>
-  <SelectTrigger className="w-[180px]">
-    <SelectValue placeholder="Theme" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="light">Light</SelectItem>
-    <SelectItem value="dark">Dark</SelectItem>
-    <SelectItem value="system">System</SelectItem>
-  </SelectContent>
-</Select>`,
+    code: `<div className="grid w-full max-w-sm items-center gap-1.5">
+  <Label htmlFor="select-preview-theme">Theme</Label>
+  <Select defaultValue="system">
+    <SelectTrigger id="select-preview-theme">
+      <SelectValue placeholder="Select a theme" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem value="light">Light</SelectItem>
+      <SelectItem value="dark">Dark</SelectItem>
+      <SelectItem value="system">System</SelectItem>
+    </SelectContent>
+  </Select>
+</div>`,
     component: React.createElement(
-      Select,
-      {},
+      "div",
+      { className: "grid w-full max-w-sm items-center gap-1.5" },
+      React.createElement(Label, { htmlFor: "select-preview-theme" }, "Theme"),
       React.createElement(
-        SelectTrigger,
-        { className: "w-[180px]" },
-        React.createElement(SelectValue, { placeholder: "Theme" })
-      ),
-      React.createElement(
-        SelectContent,
-        {},
-        React.createElement(SelectItem, { value: "light" }, "Light"),
-        React.createElement(SelectItem, { value: "dark" }, "Dark"),
-        React.createElement(SelectItem, { value: "system" }, "System")
+        Select,
+        { defaultValue: "system" },
+        React.createElement(
+          SelectTrigger,
+          { id: "select-preview-theme" },
+          React.createElement(SelectValue, { placeholder: "Select a theme" })
+        ),
+        React.createElement(
+          SelectContent,
+          {},
+          React.createElement(SelectItem, { value: "light" }, "Light"),
+          React.createElement(SelectItem, { value: "dark" }, "Dark"),
+          React.createElement(SelectItem, { value: "system" }, "System")
+        )
       )
     ),
   },
@@ -62,7 +70,7 @@ export const selectDoc: ComponentDoc = {
       name: "Scrollable",
       description: "A select component with a scrollable list of options.",
       code: `<Select>
-  <SelectTrigger className="w-[280px]">
+  <SelectTrigger className="w-70">
     <SelectValue placeholder="Select a timezone..." />
   </SelectTrigger>
   <SelectContent>
@@ -92,7 +100,7 @@ export const selectDoc: ComponentDoc = {
         {},
         React.createElement(
           SelectTrigger,
-          { className: "w-[280px]" },
+          { className: "w-70" },
           React.createElement(SelectValue, {
             placeholder: "Select a timezone...",
           })
@@ -116,8 +124,23 @@ export const selectDoc: ComponentDoc = {
             ),
             React.createElement(
               SelectItem,
+              { value: "mst" },
+              "Mountain Standard Time (MST)"
+            ),
+            React.createElement(
+              SelectItem,
               { value: "pst" },
               "Pacific Standard Time (PST)"
+            ),
+            React.createElement(
+              SelectItem,
+              { value: "akst" },
+              "Alaska Standard Time (AKST)"
+            ),
+            React.createElement(
+              SelectItem,
+              { value: "hst" },
+              "Hawaii Standard Time (HST)"
             )
           ),
           React.createElement(SelectSeparator),
@@ -139,6 +162,21 @@ export const selectDoc: ComponentDoc = {
               SelectItem,
               { value: "eet" },
               "Eastern European Time (EET)"
+            ),
+            React.createElement(
+              SelectItem,
+              { value: "west" },
+              "Western European Summer Time (WEST)"
+            ),
+            React.createElement(
+              SelectItem,
+              { value: "cat" },
+              "Central Africa Time (CAT)"
+            ),
+            React.createElement(
+              SelectItem,
+              { value: "eat" },
+              "East Africa Time (EAT)"
             )
           )
         )
@@ -222,6 +260,12 @@ export const selectDoc: ComponentDoc = {
       type: "string",
       description:
         "The name of the select, submitted with its owning form as part of a name/value pair.",
+    },
+    {
+      name: "size",
+      type: '"default" | "sm"',
+      description: "Controls the size of SelectTrigger.",
+      default: '"default"',
     },
   ],
 };

@@ -1,7 +1,7 @@
 /**
  * @name hover-card
  * @description For sighted users to preview content available behind a link.
- * @dependencies @radix-ui/react-hover-card
+ * @dependencies radix-ui
  * @type registry:ui
  */
 "use client";

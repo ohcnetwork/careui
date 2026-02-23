@@ -1,7 +1,7 @@
 /**
  * @name menubar
  * @description A visually persistent menu common in desktop applications.
- * @dependencies @radix-ui/react-menubar lucide-react
+ * @dependencies radix-ui lucide-react
  * @type registry:ui
  */
 import * as React from "react";

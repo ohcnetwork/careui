@@ -1,7 +1,7 @@
 /**
  * @name navigation-menu
  * @description A collection of links for navigating websites.
- * @dependencies @radix-ui/react-navigation-menu lucide-react
+ * @dependencies radix-ui lucide-react
  * @type registry:ui
  */
 import * as React from "react";

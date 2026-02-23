@@ -1,7 +1,7 @@
 /**
  * @name scroll-area
  * @description Augments native scroll functionality for custom, cross-browser styling.
- * @dependencies @radix-ui/react-scroll-area
+ * @dependencies radix-ui
  * @type registry:ui
  */
 "use client";

@@ -1,7 +1,7 @@
 /**
  * @name avatar
  * @description An image element with a fallback for representing the user.
- * @dependencies @radix-ui/react-avatar
+ * @dependencies radix-ui
  * @type registry:ui
  */
 import * as React from "react";

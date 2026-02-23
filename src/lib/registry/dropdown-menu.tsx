@@ -25,7 +25,7 @@ export const dropdownMenuDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add dropdown-menu",
     manual:
-      "Install @radix-ui/react-dropdown-menu dependency and copy the dropdown menu component source code into your project.",
+      "Install radix-ui and copy the dropdown menu component source code into your project.",
   },
   usage: `"use client"
 

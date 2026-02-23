@@ -1,256 +1,132 @@
 # CareUI - AI Coding Agent Instructions
 
-## Project Overview
+CareUI is a **dual-purpose React component library**: a Vite SPA docs site + a shadcn/ui-compatible registry served from `public/registry/care-ui/`. Components serve TWO masters: they must work as React components AND produce valid registry JSON via `scripts/generate-registry.ts`.
 
-CareUI is a **dual-purpose React component library**:
-1. **Live Documentation Site** - Vite-powered SPA showcasing components with interactive previews
-2. **shadcn/ui-Compatible Registry** - Auto-generated JSON files for CLI-based component installation
+**Package manager**: `pnpm`. Use `pnpm dlx` not `npx` for one-off CLI commands.
 
-**Critical Architecture**: Components serve TWO masters—they must work as React components AND generate valid shadcn registry JSON through automated scripts.
+---
 
-## Core Workflow: Adding Components
+## Three-File Component Pattern
 
-### The JSDoc-Driven System
+Every component needs exactly **three files**:
 
-**ALL component metadata flows from JSDoc comments**. The `generate-registry.ts` script reads these to create registry JSON. Missing or incorrect JSDoc breaks the entire installation pipeline.
+| File | Purpose |
+|------|---------|
+| `src/components/ui/<name>.tsx` | Component implementation with JSDoc header |
+| `src/lib/registry/<name>.tsx` | Docs (`ComponentDoc` export, `React.createElement` only) |
+| `public/registry/care-ui/<name>/<name>.json` | **Auto-generated** — never edit manually |
 
-**Required JSDoc format** (must be BEFORE imports):
+### 1. Component implementation (JSDoc MUST come before imports)
+
 ```tsx
 /**
- * @name component-name          // kebab-case, must match filename
- * @description What it does      // Used in CLI output and docs
- * @dependencies pkg1 pkg2        // Space-separated npm packages
- * @type registry:ui              // registry:ui, registry:block, or registry:component
+ * @name badge
+ * @description Displays a small status descriptor.
+ * @dependencies class-variance-authority
+ * @type registry:ui
  */
 import * as React from "react";
+// ...
+// Must include data-slot on the root element:
+<span data-slot="badge" className={cn(badgeVariants({ variant }), className)} {...props} />
 ```
 
-### Three-File Component Pattern
+### 2. Documentation file — `React.createElement` only (JSX has no transform here)
 
-Every component requires exactly THREE files:
+```tsx
+import React from "react";
+import { Badge } from "@/components/ui/badge";
+import { type ComponentDoc } from "@/lib/types";
 
-1. **Component Implementation** (`src/components/ui/badge.tsx`)
-   - Component logic with JSDoc header
-   - Export component and variants
-   - Must include `data-slot="component-name"` attribute
-
-2. **Documentation** (`src/lib/registry/badge.tsx`)
-   - Export `badgeDoc: ComponentDoc` object
-   - Use `React.createElement()` for previews (NOT JSX)
-   - Why createElement? Docs are executed in isolation; JSX transform unavailable
-
-3. **Auto-Generated Registry** (`public/registry/care-ui/badge/badge.json`)
-   - Created by `npm run build:registry`
-   - Contains full source code + metadata for CLI installation
-   - Never edit manually
-
-### Registration Process
-
-After creating files 1 & 2, register in `src/lib/registry/index.ts`:
-```typescript
-const componentLoaders = {
-  "badge": () => import("./badge").then((m) => ({ default: m.badgeDoc })),
+export const badgeDoc: ComponentDoc = {
+  id: "badge",
+  name: "Badge",
+  description: "...",
+  installation: { cli: "npx shadcn@latest add badge", manual: "..." },
+  usage: `import { Badge } from "@/components/ui/badge"`,
+  preview: {
+    code: `<Badge>Badge</Badge>`,
+    component: React.createElement(Badge, {}, "Badge"),   // NOT JSX
+  },
 };
 ```
 
-Then run `npm run build:registry` to generate registry JSON.
+### 3. Register in `src/lib/registry/index.ts`
 
-## File Structure & Conventions
-
-```
-src/
-├── components/
-│   └── ui/              # Component implementations (JSDoc required)
-├── lib/
-│   ├── registry/        # Component documentation (React.createElement)
-│   │   ├── index.ts     # Lazy-loading registry
-│   │   └── _template.tsx  # Copy this for new components
-│   └── types.ts         # ComponentDoc interface
-scripts/
-└── generate-registry.ts # JSDoc → JSON converter
-public/
-└── registry/care-ui/    # Generated JSON (git-tracked for deployment)
+```ts
+badge: () => import("./badge").then((m) => ({ default: m.badgeDoc })),
 ```
 
-**Naming Conventions**:
-- Component files: `kebab-case.tsx` (e.g., `alert-dialog.tsx`)
-- Doc exports: `camelCase + Doc` (e.g., `alertDialogDoc`)
-- Component IDs: `"kebab-case"` strings in registry
+### 4. Generate registry JSON
+
+```bash
+pnpm run build:registry
+```
+
+---
 
 ## Key Scripts
 
 ```bash
-npm run dev                  # Start Vite dev server (localhost:5173)
-npm run build:registry       # Generate registry JSON from JSDoc
-npm run registry:watch       # Auto-regenerate on file changes
-npm run build               # Build for production (includes registry generation via prepublishOnly)
+pnpm dev                 # Vite dev server → http://localhost:5173
+pnpm build:registry      # JSDoc → public/registry/care-ui/**/*.json
+pnpm registry:watch      # Auto-regenerate on file changes
+pnpm build               # tsc + vite build (registry generated via prepublishOnly)
+pnpm lint / pnpm format  # ESLint / Prettier
 ```
 
-**Critical**: Run `build:registry` after ANY change to:
-- Component JSDoc metadata
-- Component source code (reflected in JSON content)
-- New component registration
+Run `build:registry` after **any** change to component source, JSDoc, or registration.
 
-## Component Patterns
+---
 
-### Using class-variance-authority (CVA)
+## Conventions & Patterns
 
-ALL components use CVA for variants:
+### CVA for all variants
 ```tsx
-import { cva, type VariantProps } from "class-variance-authority";
-
-const buttonVariants = cva("base-classes", {
-  variants: {
-    variant: { default: "...", secondary: "..." },
-    size: { sm: "...", md: "...", lg: "..." },
-  },
-  defaultVariants: { variant: "default", size: "md" },
+const badgeVariants = cva("base-classes", {
+  variants: { variant: { default: "...", secondary: "..." } },
+  defaultVariants: { variant: "default" },
 });
-
-function Button({ variant, size, className, ...props }:
-  React.ComponentProps<"button"> & VariantProps<typeof buttonVariants>
-) {
-  return (
-    <button
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  );
-}
+// Props: React.HTMLAttributes<HTMLSpanElement> & VariantProps<typeof badgeVariants>
 ```
 
-### Data Attributes for Component Identification
+### Data attributes
+- `data-slot="<component-name>"` on the component root
+- `data-icon="inline-start" | "inline-end"` on icons inside buttons
+- Tailwind selectors: `has-data-[icon=inline-start]:pl-3`, `in-data-[slot=button-group]:rounded-md`
 
-Use `data-slot` for main components and `data-icon` for icon positioning:
-```tsx
-<button data-slot="button">
-  <Icon data-icon="inline-start" />
-  Text
-</button>
-```
+### Import aliases
+Always use `@/` (mapped via `tsconfig.json` paths). Radix primitives import from `radix-ui` barrel: `import { Slot } from "radix-ui"`.
 
-### Documentation React.createElement Pattern
+### Tailwind CSS v4
+- `@import "tailwindcss";` in `src/index.css`
+- Custom properties: `--primary-950`, `--radius`; semantic tokens via CSS vars
+- New utility syntax: `border-(--color-primary-700)`, `not-disabled:inset-shadow-2xs`
+- Dark mode via `@custom-variant dark (&:is(.dark *))` (class-based)
 
-```tsx
-// ❌ WRONG - JSX won't work in docs
-preview: {
-  component: <Badge variant="outline">Badge</Badge>
-}
+---
 
-// ✅ CORRECT - Use React.createElement
-preview: {
-  component: React.createElement(Badge, { variant: "outline" }, "Badge")
-}
+## Dependency Auto-Detection
 
-// For icons with data attributes
-React.createElement(Mail, { ["data-icon"]: "inline-start" } as any)
-```
+`scripts/generate-registry.ts` maps imports → npm packages via `CONFIG.dependencyMap`. Add new external packages there when introducing new imports not already tracked.
 
-## Dependency Management
+---
 
-### Auto-Detection System
+## File References
 
-`generate-registry.ts` scans imports and maps them via `CONFIG.dependencyMap`:
-```typescript
-dependencyMap: {
-  '@radix-ui/react-dialog': ['@radix-ui/react-dialog'],
-  'class-variance-authority': ['class-variance-authority'],
-  'vaul': ['vaul'],
-}
-```
+- Template: `src/lib/registry/_template.tsx`
+- Types: `src/lib/types.ts` (`ComponentDoc` interface)
+- Registry loader: `src/lib/registry/index.ts`
+- Generation script: `scripts/generate-registry.ts`
+- Button example: `src/components/ui/button.tsx` + `src/lib/registry/button.tsx`
 
-**To add new dependency mapping**: Update this map in `generate-registry.ts` when adding packages not yet tracked.
+---
 
 ## Common Gotchas
 
-1. **JSDoc Missing/Malformed**: Registry JSON won't generate or will have incorrect metadata
-2. **Forgot data-slot**: Component works locally but doesn't follow project conventions
-3. **JSX in Documentation**: Causes runtime errors; always use `React.createElement()`
-4. **Registry Not Updated**: Changes don't appear in CLI; forgot to run `build:registry`
-5. **Import Paths**: Always use `@/` aliases (configured in tsconfig.json via `paths`)
-
-## Testing New Components
-
-1. **Local UI**: `npm run dev` → verify component in sidebar
-2. **Registry JSON**: Check `public/registry/care-ui/component-name/component-name.json` exists
-3. **CLI Install**: Test in separate project:
-   ```bash
-   npx shadcn@latest add component-name --registry http://localhost:5173
-   ```
-
-## Tailwind CSS 4 Specifics
-
-Using Tailwind CSS v4 with CSS variables:
-- Custom properties: `--color-primary-950`, `--radius-md`
-- New syntax: `border-(--color-primary-700)`, `has-data-[icon=inline-start]:pl-3`
-- CSS import: `@import "tailwindcss";` in `src/index.css`
-
-## Important Files to Reference
-
-- **Component Template**: `src/lib/registry/_template.tsx`
-- **Type Definitions**: `src/lib/types.ts` → `ComponentDoc` interface
-- **Registry Logic**: `src/lib/registry/index.ts` → lazy loading setup
-- **Generation Script**: `scripts/generate-registry.ts` → understand JSDoc parsing
-- **Example Component**: `src/components/ui/button.tsx` + `src/lib/registry/button.tsx`
-
-## MCP-Powered Component Workflow
-
-When adding components using shadcn MCP tools, follow this sequence:
-
-### 1. Discovery Phase
-```typescript
-// Search available components
-mcp_shadcn_list_items_in_registries({ registries: ["@shadcn"] })
-
-// View specific component details
-mcp_shadcn_view_items_in_registries({ items: ["@shadcn/badge"] })
-
-// Find usage examples
-mcp_shadcn_get_item_examples_from_registries({
-  registries: ["@shadcn"],
-  query: "badge-demo"
-})
-```
-
-### 2. Installation
-```bash
-pnpm dlx shadcn@latest add badge
-```
-
-### 3. Adaptation (CRITICAL)
-After installation, immediately:
-- Add JSDoc metadata before imports
-- Add `data-slot` attribute to component
-- Verify component exports
-
-### 4. Documentation
-Create `src/lib/registry/badge.tsx` with `React.createElement()` previews
-
-### 5. Registration
-Add to `src/lib/registry/index.ts` loader
-
-### 6. Generation
-```bash
-npm run build:registry
-```
-
-### 7. Verification
-Test locally (`npm run dev`) and via CLI (`npx shadcn@latest add badge --registry http://localhost:5173`)
-
-## When Making Changes
-
-**Before modifying any component**:
-1. Read its JSDoc header (affects registry)
-2. Check if it's registered in `src/lib/registry/index.ts`
-3. Verify registry JSON exists in `public/registry/care-ui/`
-
-**After adding/modifying components**:
-1. Add/update JSDoc in component file
-2. Create/update doc file in `src/lib/registry/`
-3. Register in `src/lib/registry/index.ts`
-4. Run `npm run build:registry`
-5. Test with `npm run dev`
-6. Verify registry JSON updated
-
-This ensures components work both as UI elements AND as CLI-installable packages.
+1. JSDoc block must appear **before** any `import` statements or it won't parse
+2. Doc files use `React.createElement()` — JSX fails at runtime in that context
+3. `preview` in `ComponentDoc` has **two fields**: `{ code: string, component: ReactNode }`
+4. Forgot `data-slot`? Component works locally but breaks registry conventions
+5. Registry JSON not updated after edits? Run `build:registry`
+6. Adding a new external package? Add it to `CONFIG.dependencyMap` in `generate-registry.ts`

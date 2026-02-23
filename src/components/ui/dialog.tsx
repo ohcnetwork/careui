@@ -1,7 +1,7 @@
 /**
  * @name dialog
  * @description A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
- * @dependencies @radix-ui/react-dialog lucide-react
+ * @dependencies radix-ui lucide-react
  * @type registry:ui
  */
 import * as React from "react";

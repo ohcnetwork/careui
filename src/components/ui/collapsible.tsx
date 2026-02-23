@@ -1,7 +1,7 @@
 /**
  * @name collapsible
  * @description An interactive component which expands/collapses a panel.
- * @dependencies @radix-ui/react-collapsible
+ * @dependencies radix-ui
  * @type registry:ui
  */
 "use client";

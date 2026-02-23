@@ -11,7 +11,7 @@ const componentMetadata = {
   accordion: {
     description:
       "A vertically stacked set of interactive headings that each reveal a section of content.",
-    dependencies: "@radix-ui/react-accordion lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   alert: {
     description: "Displays a callout for user attention.",
@@ -24,25 +24,25 @@ const componentMetadata = {
   },
   "aspect-ratio": {
     description: "Displays content within a desired ratio.",
-    dependencies: "@radix-ui/react-aspect-ratio",
+    dependencies: "radix-ui",
   },
   avatar: {
     description: "An image element with a fallback for representing the user.",
-    dependencies: "@radix-ui/react-avatar",
+    dependencies: "radix-ui",
   },
   badge: {
     description:
       "A badge component for displaying small bits of information like status, labels, or notifications.",
-    dependencies: "@radix-ui/react-slot class-variance-authority lucide-react",
+    dependencies: "radix-ui class-variance-authority lucide-react",
   },
   breadcrumb: {
     description:
       "Displays the path to the current resource using a hierarchy of links.",
-    dependencies: "@radix-ui/react-slot lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   button: {
     description: "Displays a button or a component that looks like a button.",
-    dependencies: "@radix-ui/react-slot class-variance-authority",
+    dependencies: "radix-ui class-variance-authority",
   },
   "button-group": {
     description: "A set of related buttons grouped together.",
@@ -69,11 +69,11 @@ const componentMetadata = {
   checkbox: {
     description:
       "A control that allows the user to toggle between checked and not checked.",
-    dependencies: "@radix-ui/react-checkbox lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   collapsible: {
     description: "An interactive component which expands/collapses a panel.",
-    dependencies: "@radix-ui/react-collapsible",
+    dependencies: "radix-ui",
   },
   command: {
     description: "Fast, composable, unstyled command menu for React.",
@@ -81,12 +81,12 @@ const componentMetadata = {
   },
   "context-menu": {
     description: "Displays a menu to the user triggered by right-click.",
-    dependencies: "@radix-ui/react-context-menu lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   dialog: {
     description:
       "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
-    dependencies: "@radix-ui/react-dialog lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   drawer: {
     description: "A drawer component for React, built on top of Vaul.",
@@ -95,7 +95,7 @@ const componentMetadata = {
   "dropdown-menu": {
     description:
       "Displays a menu to the user—such as a set of actions or functions—triggered by a button.",
-    dependencies: "@radix-ui/react-dropdown-menu lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   empty: {
     description: "Displays an empty state when no data is available.",
@@ -104,12 +104,12 @@ const componentMetadata = {
   field: {
     description:
       "A form field component with label, description, and error message support.",
-    dependencies: "@radix-ui/react-label",
+    dependencies: "radix-ui",
   },
   "hover-card": {
     description:
       "For sighted users to preview content available behind a link.",
-    dependencies: "@radix-ui/react-hover-card",
+    dependencies: "radix-ui",
   },
   input: {
     description:
@@ -135,15 +135,15 @@ const componentMetadata = {
   },
   label: {
     description: "Renders an accessible label associated with controls.",
-    dependencies: "@radix-ui/react-label class-variance-authority",
+    dependencies: "radix-ui class-variance-authority",
   },
   menubar: {
     description: "A visually persistent menu common in desktop applications.",
-    dependencies: "@radix-ui/react-menubar lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   "navigation-menu": {
     description: "A collection of links for navigating websites.",
-    dependencies: "@radix-ui/react-navigation-menu lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   pagination: {
     description: "Pagination with page navigation, next and previous links.",
@@ -151,17 +151,17 @@ const componentMetadata = {
   },
   popover: {
     description: "Displays rich content in a portal, triggered by a button.",
-    dependencies: "@radix-ui/react-popover",
+    dependencies: "radix-ui",
   },
   progress: {
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    dependencies: "@radix-ui/react-progress",
+    dependencies: "radix-ui",
   },
   "radio-group": {
     description:
       "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
-    dependencies: "@radix-ui/react-radio-group lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   resizable: {
     description:
@@ -171,26 +171,26 @@ const componentMetadata = {
   "scroll-area": {
     description:
       "Augments native scroll functionality for custom, cross-browser styling.",
-    dependencies: "@radix-ui/react-scroll-area",
+    dependencies: "radix-ui",
   },
   select: {
     description:
       "Displays a list of options for the user to pick from—triggered by a button.",
-    dependencies: "@radix-ui/react-select lucide-react",
+    dependencies: "radix-ui lucide-react",
   },
   separator: {
     description: "Visually or semantically separates content.",
-    dependencies: "@radix-ui/react-separator",
+    dependencies: "radix-ui",
   },
   sheet: {
     description:
       "Extends the Dialog component to display content that complements the main content of the screen.",
     dependencies:
-      "@radix-ui/react-dialog class-variance-authority lucide-react",
+      "radix-ui class-variance-authority lucide-react",
   },
   sidebar: {
     description: "A composable, themeable and customizable sidebar component.",
-    dependencies: "@radix-ui/react-slot class-variance-authority lucide-react",
+    dependencies: "radix-ui class-variance-authority lucide-react",
   },
   skeleton: {
     description: "Use to show a placeholder while content is loading.",
@@ -199,7 +199,7 @@ const componentMetadata = {
   slider: {
     description:
       "An input where the user selects a value from within a given range.",
-    dependencies: "@radix-ui/react-slider",
+    dependencies: "radix-ui",
   },
   sonner: {
     description: "An opinionated toast component for React.",
@@ -212,7 +212,7 @@ const componentMetadata = {
   switch: {
     description:
       "A control that allows the user to toggle between checked and not checked.",
-    dependencies: "@radix-ui/react-switch",
+    dependencies: "radix-ui",
   },
   "syntax-highlighted-code": {
     description:
@@ -226,7 +226,7 @@ const componentMetadata = {
   tabs: {
     description:
       "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    dependencies: "@radix-ui/react-tabs",
+    dependencies: "radix-ui",
   },
   textarea: {
     description:
@@ -235,16 +235,16 @@ const componentMetadata = {
   },
   toggle: {
     description: "A two-state button that can be either on or off.",
-    dependencies: "@radix-ui/react-toggle class-variance-authority",
+    dependencies: "radix-ui class-variance-authority",
   },
   "toggle-group": {
     description: "A set of two-state buttons that can be toggled on or off.",
-    dependencies: "@radix-ui/react-toggle-group class-variance-authority",
+    dependencies: "radix-ui class-variance-authority",
   },
   tooltip: {
     description:
       "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-    dependencies: "@radix-ui/react-tooltip",
+    dependencies: "radix-ui",
   },
 } as const;
 

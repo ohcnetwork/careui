@@ -1,7 +1,7 @@
 /**
  * @name sidebar
  * @description A composable, themeable and customizable sidebar component.
- * @dependencies @radix-ui/react-slot class-variance-authority lucide-react
+ * @dependencies radix-ui class-variance-authority lucide-react
  * @type registry:ui
  */
 "use client";

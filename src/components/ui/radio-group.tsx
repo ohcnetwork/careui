@@ -1,7 +1,7 @@
 /**
  * @name radio-group
  * @description A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
- * @dependencies @radix-ui/react-radio-group lucide-react
+ * @dependencies radix-ui lucide-react
  * @type registry:ui
  */
 "use client";

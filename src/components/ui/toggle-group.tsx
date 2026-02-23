@@ -1,7 +1,7 @@
 /**
  * @name toggle-group
  * @description A set of two-state buttons that can be toggled on or off.
- * @dependencies @radix-ui/react-toggle-group class-variance-authority
+ * @dependencies radix-ui class-variance-authority
  * @type registry:ui
  */
 import * as React from "react";

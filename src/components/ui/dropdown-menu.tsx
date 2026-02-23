@@ -1,7 +1,7 @@
 /**
  * @name dropdown-menu
  * @description A dropdown menu displays a list of options that can be selected.
- * @dependencies @radix-ui/react-dropdown-menu
+ * @dependencies radix-ui
  * @type registry:ui
  */
 import * as React from "react";

@@ -3,7 +3,8 @@
   "type": "registry:ui",
   "dependencies": [
     "none",
-    "class-variance-authority"
+    "class-variance-authority",
+    "radix-ui"
   ],
   "registryDependencies": [],
   "files": [

@@ -1,7 +1,7 @@
 /**
  * @name accordion
  * @description A vertically stacked set of interactive headings that each reveal a section of content.
- * @dependencies @radix-ui/react-accordion lucide-react
+ * @dependencies radix-ui lucide-react
  * @type registry:ui
  */
 import * as React from "react";

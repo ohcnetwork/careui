@@ -1,7 +1,7 @@
 /**
  * @name toggle
  * @description A two-state button that can be either on or off.
- * @dependencies @radix-ui/react-toggle class-variance-authority
+ * @dependencies radix-ui class-variance-authority
  * @type registry:ui
  */
 "use client";

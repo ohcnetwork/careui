@@ -1,7 +1,7 @@
 /**
  * @name checkbox
  * @description A control that allows the user to toggle between checked and not checked.
- * @dependencies @radix-ui/react-checkbox lucide-react
+ * @dependencies radix-ui lucide-react
  * @type registry:ui
  */
 import * as React from "react";

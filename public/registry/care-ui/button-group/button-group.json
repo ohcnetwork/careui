@@ -2,7 +2,8 @@
   "name": "button-group",
   "type": "registry:ui",
   "dependencies": [
-    "class-variance-authority"
+    "class-variance-authority",
+    "radix-ui"
   ],
   "registryDependencies": [],
   "files": [

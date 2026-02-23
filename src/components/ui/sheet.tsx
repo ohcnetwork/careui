@@ -1,7 +1,7 @@
 /**
  * @name sheet
  * @description Extends the Dialog component to display content that complements the main content of the screen.
- * @dependencies @radix-ui/react-dialog class-variance-authority lucide-react
+ * @dependencies radix-ui class-variance-authority lucide-react
  * @type registry:ui
  */
 import * as React from "react";

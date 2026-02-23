@@ -1,7 +1,7 @@
 /**
  * @name aspect-ratio
  * @description Displays content within a desired ratio.
- * @dependencies @radix-ui/react-aspect-ratio
+ * @dependencies radix-ui
  * @type registry:ui
  */
 "use client";

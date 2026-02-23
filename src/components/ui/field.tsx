@@ -1,7 +1,7 @@
 /**
  * @name field
  * @description A form field component with label, description, and error message support.
- * @dependencies @radix-ui/react-label
+ * @dependencies radix-ui
  * @type registry:ui
  */
 import { useMemo } from "react";
@@ -56,7 +56,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 const fieldVariants = cva(
-  "data-[invalid=true]:text-destructive gap-3 group/field flex w-full",
+  "data-[invalid=true]:text-destructive gap-1 group/field flex w-full",
   {
     variants: {
       orientation: {

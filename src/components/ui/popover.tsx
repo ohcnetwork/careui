@@ -1,7 +1,7 @@
 /**
  * @name popover
  * @description Displays rich content in a portal, triggered by a button.
- * @dependencies @radix-ui/react-popover
+ * @dependencies radix-ui
  * @type registry:ui
  */
 "use client";

@@ -1,7 +1,7 @@
 /**
  * @name switch
  * @description A control that allows the user to toggle between checked and not checked.
- * @dependencies @radix-ui/react-switch
+ * @dependencies radix-ui
  * @type registry:ui
  */
 import * as React from "react";

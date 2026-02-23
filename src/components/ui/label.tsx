@@ -1,7 +1,7 @@
 /**
  * @name label
  * @description Renders an accessible label associated with controls.
- * @dependencies @radix-ui/react-label class-variance-authority
+ * @dependencies radix-ui class-variance-authority
  * @type registry:ui
  */
 "use client";

@@ -45,16 +45,8 @@ const CONFIG: RegistryConfig = {
   excludeFiles: ['index.ts', 'types.ts'],
   // Map of common imports to their package names
   dependencyMap: {
-    '@radix-ui/react-slot': ['@radix-ui/react-slot'],
-    '@radix-ui/react-dialog': ['@radix-ui/react-dialog'],
-    '@radix-ui/react-dropdown-menu': ['@radix-ui/react-dropdown-menu'],
-    '@radix-ui/react-accordion': ['@radix-ui/react-accordion'],
-    '@radix-ui/react-switch': ['@radix-ui/react-switch'],
-    '@radix-ui/react-checkbox': ['@radix-ui/react-checkbox'],
-    '@radix-ui/react-select': ['@radix-ui/react-select'],
-    '@radix-ui/react-separator': ['@radix-ui/react-separator'],
-    '@radix-ui/react-progress': ['@radix-ui/react-progress'],
-    '@radix-ui/react-tooltip': ['@radix-ui/react-tooltip'],
+    // Unified Radix package (new shadcn/new-york style)
+    'radix-ui': ['radix-ui'],
     'class-variance-authority': ['class-variance-authority'],
     'vaul': ['vaul'],
     'recharts': ['recharts'],

@@ -1,7 +1,7 @@
 /**
  * @name breadcrumb
  * @description Displays the path to the current resource using a hierarchy of links.
- * @dependencies @radix-ui/react-slot lucide-react
+ * @dependencies radix-ui lucide-react
  * @type registry:ui
  */
 import * as React from "react";

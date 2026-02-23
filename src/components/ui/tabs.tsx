@@ -1,7 +1,7 @@
 /**
  * @name tabs
  * @description A set of layered sections of content—known as tab panels—that are displayed one at a time.
- * @dependencies @radix-ui/react-tabs
+ * @dependencies radix-ui
  * @type registry:ui
  */
 import * as React from "react";

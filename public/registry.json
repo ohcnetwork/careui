@@ -10,7 +10,7 @@
       "type": "registry:ui",
       "description": "Displays a button or a component that looks like a button.",
       "dependencies": [
-        "@radix-ui/react-slot",
+        "radix-ui",
         "class-variance-authority"
       ],
       "files": [
@@ -57,7 +57,7 @@
       "type": "registry:ui",
       "description": "Renders an accessible label associated with controls.",
       "dependencies": [
-        "@radix-ui/react-label"
+        "radix-ui"
       ],
       "files": [
         {
@@ -73,7 +73,7 @@
       "type": "registry:ui",
       "description": "Visually or semantically separates content.",
       "dependencies": [
-        "@radix-ui/react-separator"
+        "radix-ui"
       ],
       "files": [
         {
@@ -89,7 +89,7 @@
       "type": "registry:ui",
       "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
       "dependencies": [
-        "@radix-ui/react-tabs"
+        "radix-ui"
       ],
       "files": [
         {
@@ -105,7 +105,7 @@
       "type": "registry:ui",
       "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
       "dependencies": [
-        "@radix-ui/react-tooltip"
+        "radix-ui"
       ],
       "files": [
         {
@@ -121,7 +121,7 @@
       "type": "registry:ui",
       "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button.",
       "dependencies": [
-        "@radix-ui/react-dropdown-menu"
+        "radix-ui"
       ],
       "files": [
         {
@@ -151,7 +151,7 @@
       "type": "registry:ui",
       "description": "Displays the path to the current resource using a hierarchy of links.",
       "dependencies": [
-        "@radix-ui/react-slot"
+        "radix-ui"
       ],
       "files": [
         {
@@ -167,8 +167,7 @@
       "type": "registry:ui",
       "description": "A composable, themeable and customizable sidebar component.",
       "dependencies": [
-        "@radix-ui/react-separator",
-        "@radix-ui/react-slot"
+        "radix-ui"
       ],
       "files": [
         {
@@ -184,7 +183,7 @@
       "type": "registry:ui",
       "description": "Extends the Dialog component to display content that complements the main content of the screen.",
       "dependencies": [
-        "@radix-ui/react-dialog"
+        "radix-ui"
       ],
       "files": [
         {
@@ -200,7 +199,7 @@
       "type": "registry:ui",
       "description": "A control that allows the user to toggle between checked and not checked.",
       "dependencies": [
-        "@radix-ui/react-checkbox"
+        "radix-ui"
       ],
       "files": [
         {
@@ -216,7 +215,7 @@
       "type": "registry:ui",
       "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
       "dependencies": [
-        "@radix-ui/react-accordion"
+        "radix-ui"
       ],
       "files": [
         {
@@ -246,7 +245,7 @@
       "type": "registry:ui",
       "description": "A modal dialog that interrupts the user with important content and expects a response.",
       "dependencies": [
-        "@radix-ui/react-alert-dialog"
+        "radix-ui"
       ],
       "files": [
         {
@@ -262,7 +261,7 @@
       "type": "registry:ui",
       "description": "An image element with a fallback for representing the user.",
       "dependencies": [
-        "@radix-ui/react-avatar"
+        "radix-ui"
       ],
       "files": [
         {
@@ -338,7 +337,7 @@
       "type": "registry:ui",
       "description": "A window overlaid on either the primary window or another dialog window.",
       "dependencies": [
-        "@radix-ui/react-dialog"
+        "radix-ui"
       ],
       "files": [
         {
@@ -372,7 +371,7 @@
       "type": "registry:ui",
       "description": "For sighted users to preview content available behind a link.",
       "dependencies": [
-        "@radix-ui/react-hover-card"
+        "radix-ui"
       ],
       "files": [
         {
@@ -388,7 +387,7 @@
       "type": "registry:ui",
       "description": "A visually persistent menu common in desktop applications.",
       "dependencies": [
-        "@radix-ui/react-menubar"
+        "radix-ui"
       ],
       "files": [
         {
@@ -404,7 +403,7 @@
       "type": "registry:ui",
       "description": "A collection of links for navigating websites.",
       "dependencies": [
-        "@radix-ui/react-navigation-menu"
+        "radix-ui"
       ],
       "files": [
         {
@@ -420,7 +419,7 @@
       "type": "registry:ui",
       "description": "Displays rich content in a portal, triggered by a button.",
       "dependencies": [
-        "@radix-ui/react-popover"
+        "radix-ui"
       ],
       "files": [
         {
@@ -436,7 +435,7 @@
       "type": "registry:ui",
       "description": "Displays an indicator showing the completion progress of a task.",
       "dependencies": [
-        "@radix-ui/react-progress"
+        "radix-ui"
       ],
       "files": [
         {
@@ -452,7 +451,7 @@
       "type": "registry:ui",
       "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
       "dependencies": [
-        "@radix-ui/react-radio-group"
+        "radix-ui"
       ],
       "files": [
         {
@@ -468,7 +467,7 @@
       "type": "registry:ui",
       "description": "Augments native scroll functionality for custom, cross-browser styling.",
       "dependencies": [
-        "@radix-ui/react-scroll-area"
+        "radix-ui"
       ],
       "files": [
         {
@@ -484,7 +483,7 @@
       "type": "registry:ui",
       "description": "Displays a list of options for the user to pick from—triggered by a button.",
       "dependencies": [
-        "@radix-ui/react-select"
+        "radix-ui"
       ],
       "files": [
         {
@@ -500,7 +499,7 @@
       "type": "registry:ui",
       "description": "An input where the user selects a value from within a given range.",
       "dependencies": [
-        "@radix-ui/react-slider"
+        "radix-ui"
       ],
       "files": [
         {
@@ -516,7 +515,7 @@
       "type": "registry:ui",
       "description": "A control that allows the user to toggle between checked and not checked.",
       "dependencies": [
-        "@radix-ui/react-switch"
+        "radix-ui"
       ],
       "files": [
         {
@@ -560,7 +559,7 @@
       "type": "registry:ui",
       "description": "A succinct message that is displayed temporarily.",
       "dependencies": [
-        "@radix-ui/react-toast"
+        "radix-ui"
       ],
       "files": [
         {
@@ -576,7 +575,7 @@
       "type": "registry:ui",
       "description": "A two-state button that can be either on or off.",
       "dependencies": [
-        "@radix-ui/react-toggle"
+        "radix-ui"
       ],
       "files": [
         {
@@ -592,7 +591,7 @@
       "type": "registry:ui",
       "description": "A set of two-state buttons that can be toggled on or off.",
       "dependencies": [
-        "@radix-ui/react-toggle-group"
+        "radix-ui"
       ],
       "files": [
         {
