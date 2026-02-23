@@ -111,11 +111,11 @@
     --destructive: var(--color-red-400);
     --destructive-foreground: var(--color-red-50);
 
-    --soft-border: var(--color-neutral-100); /* Neutral 100 */
-    --border: --alpha(var(--color-white) / 10%);
-    --strong-border: var(--color-neutral-300); /* Neutral 300 */
-    --stronger-border: var(--color-neutral-400); /* Neutral 400 */
-    --inverse-border: var(--color-white); /* White */
+    --soft-border: --alpha(var(--color-white) / 5%);
+    --border: --alpha(var(--color-white) / 9%);
+    --strong-border: --alpha(var(--color-white) / 15%);
+    --stronger-border: --alpha(var(--color-white) / 22%);
+    --inverse-border: var(--color-neutral-50);
 
     --input: oklch(1 0 0 / 15%); /* White / 15% */
     --ring: --alpha(var(--color-indigo-500) / 75%);
@@ -132,7 +132,7 @@
     --sidebar-primary-foreground: oklch(0.985 0 0); /* Zinc 50 */
     --sidebar-accent: oklch(0.269 0 0); /* Neutral 800 */
     --sidebar-accent-foreground: oklch(0.985 0 0); /* Zinc 50 */
-    --sidebar-border: oklch(1 0 0 / 10%); /* White / 10% */
+    --sidebar-border: --alpha(var(--color-white) / 12%);
     --sidebar-ring: oklch(0.439 0 0); /* Neutral 600 */
 }
 

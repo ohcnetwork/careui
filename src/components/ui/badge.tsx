@@ -16,54 +16,54 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        // Semantic
         primary:
-          "border-primary/50 dark:border-primary/30 bg-primary/10 text-primary-900 dark:text-primary [a&]:hover:bg-primary/20",
+          "border-primary/50 bg-primary-100 text-primary-900 dark:border-primary-400/35 dark:bg-primary-400/15 dark:text-primary-300 [a&]:hover:bg-primary/20 dark:[a&]:hover:bg-primary-400/25",
         success:
-          "border-green-600 dark:border-green-500/30 bg-green-500/10 text-green-800 dark:text-green-400 [a&]:hover:bg-green-500/20",
+          "border-green-600/45 bg-green-100 text-green-900 dark:border-green-500/35 dark:bg-green-500/15 dark:text-green-300 [a&]:hover:bg-green-500/20 dark:[a&]:hover:bg-green-500/25",
         warning:
-          "border-orange-400 dark:border-orange-500/30 bg-orange-500/10 text-orange-800 dark:text-orange-400 [a&]:hover:bg-orange-500/20",
+          "border-orange-500/45 bg-orange-100 text-orange-900 dark:border-orange-400/35 dark:bg-orange-400/15 dark:text-orange-300 [a&]:hover:bg-orange-500/20 dark:[a&]:hover:bg-orange-400/25",
         info:
-          "border-indigo-500 dark:border-indigo-500/30 bg-indigo-500/10 text-indigo-800 dark:text-indigo-400 [a&]:hover:bg-indigo-500/20",
+          "border-indigo-500/45 bg-indigo-100 text-indigo-900 dark:border-indigo-400/35 dark:bg-indigo-400/15 dark:text-indigo-300 [a&]:hover:bg-indigo-500/20 dark:[a&]:hover:bg-indigo-400/25",
         destructive:
-          "border-red-400 dark:border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 [a&]:hover:bg-red-500/20",
-        // Tailwind color scale
+          "border-red-500/45 bg-red-100 text-red-900 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
         neutral:
-          "border-neutral-400/40 bg-neutral-400/10 text-neutral-700 dark:text-neutral-300 [a&]:hover:bg-neutral-400/20",
+          "border-neutral-400/40 bg-neutral-100 text-neutral-800 dark:border-neutral-400/35 dark:bg-neutral-400/15 dark:text-neutral-300 [a&]:hover:bg-neutral-400/20 dark:[a&]:hover:bg-neutral-400/25",
         red:
-          "border-red-500/40 bg-red-500/10 text-red-700 dark:text-red-400 [a&]:hover:bg-red-500/20",
+          "border-red-500/40 bg-red-100 text-red-800 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
         orange:
-          "border-orange-500/40 bg-orange-500/10 text-orange-700 dark:text-orange-400 [a&]:hover:bg-orange-500/20",
+          "border-orange-500/40 bg-orange-100 text-orange-900 dark:border-orange-400/35 dark:bg-orange-400/15 dark:text-orange-300 [a&]:hover:bg-orange-500/20 dark:[a&]:hover:bg-orange-400/25",
         amber:
-          "border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400 [a&]:hover:bg-amber-500/20",
+          "border-amber-500/40 bg-amber-100 text-amber-900 dark:border-amber-400/35 dark:bg-amber-400/15 dark:text-amber-300 [a&]:hover:bg-amber-500/20 dark:[a&]:hover:bg-amber-400/25",
         yellow:
-          "border-yellow-500/40 bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 [a&]:hover:bg-yellow-500/20",
+          "border-yellow-500/40 bg-yellow-100 text-yellow-900 dark:border-yellow-400/35 dark:bg-yellow-400/15 dark:text-yellow-300 [a&]:hover:bg-yellow-500/20 dark:[a&]:hover:bg-yellow-400/25",
         lime:
-          "border-lime-500/40 bg-lime-500/10 text-lime-700 dark:text-lime-500 [a&]:hover:bg-lime-500/20",
+          "border-lime-500/40 bg-lime-100 text-lime-900 dark:border-lime-400/35 dark:bg-lime-400/15 dark:text-lime-300 [a&]:hover:bg-lime-500/20 dark:[a&]:hover:bg-lime-400/25",
         green:
-          "border-green-500/40 bg-green-500/10 text-green-700 dark:text-green-400 [a&]:hover:bg-green-500/20",
-        emerald:
-          "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 [a&]:hover:bg-emerald-500/20",
+          "border-green-500/40 bg-green-100 text-green-900 dark:border-green-400/35 dark:bg-green-400/15 dark:text-green-300 [a&]:hover:bg-green-500/20 dark:[a&]:hover:bg-green-400/25",
         teal:
-          "border-teal-500/40 bg-teal-500/10 text-teal-700 dark:text-teal-400 [a&]:hover:bg-teal-500/20",
+          "border-teal-500/40 bg-teal-100 text-teal-900 dark:border-teal-400/35 dark:bg-teal-400/15 dark:text-teal-300 [a&]:hover:bg-teal-500/20 dark:[a&]:hover:bg-teal-400/25",
         cyan:
-          "border-cyan-500/40 bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 [a&]:hover:bg-cyan-500/20",
+          "border-cyan-500/40 bg-cyan-100 text-cyan-900 dark:border-cyan-400/35 dark:bg-cyan-400/15 dark:text-cyan-300 [a&]:hover:bg-cyan-500/20 dark:[a&]:hover:bg-cyan-400/25",
         sky:
-          "border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-400 [a&]:hover:bg-sky-500/20",
+          "border-sky-500/40 bg-sky-100 text-sky-900 dark:border-sky-400/35 dark:bg-sky-400/15 dark:text-sky-300 [a&]:hover:bg-sky-500/20 dark:[a&]:hover:bg-sky-400/25",
         blue:
-          "border-blue-500/40 bg-blue-500/10 text-blue-700 dark:text-blue-400 [a&]:hover:bg-blue-500/20",
+          "border-blue-500/40 bg-blue-100 text-blue-900 dark:border-blue-400/35 dark:bg-blue-400/15 dark:text-blue-300 [a&]:hover:bg-blue-500/20 dark:[a&]:hover:bg-blue-400/25",
         indigo:
-          "border-indigo-500/40 bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 [a&]:hover:bg-indigo-500/20",
+          "border-indigo-500/40 bg-indigo-100 text-indigo-900 dark:border-indigo-400/35 dark:bg-indigo-400/15 dark:text-indigo-300 [a&]:hover:bg-indigo-500/20 dark:[a&]:hover:bg-indigo-400/25",
         violet:
-          "border-violet-500/40 bg-violet-500/10 text-violet-700 dark:text-violet-400 [a&]:hover:bg-violet-500/20",
+          "border-violet-500/40 bg-violet-100 text-violet-900 dark:border-violet-400/35 dark:bg-violet-400/15 dark:text-violet-300 [a&]:hover:bg-violet-500/20 dark:[a&]:hover:bg-violet-400/25",
         purple:
-          "border-purple-500/40 bg-purple-500/10 text-purple-700 dark:text-purple-400 [a&]:hover:bg-purple-500/20",
+          "border-purple-500/40 bg-purple-100 text-purple-900 dark:border-purple-400/35 dark:bg-purple-400/15 dark:text-purple-300 [a&]:hover:bg-purple-500/20 dark:[a&]:hover:bg-purple-400/25",
         fuchsia:
-          "border-fuchsia-500/40 bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-400 [a&]:hover:bg-fuchsia-500/20",
+          "border-fuchsia-500/40 bg-fuchsia-100 text-fuchsia-900 dark:border-fuchsia-400/35 dark:bg-fuchsia-400/15 dark:text-fuchsia-300 [a&]:hover:bg-fuchsia-500/20 dark:[a&]:hover:bg-fuchsia-400/25",
         pink:
-          "border-pink-500/40 bg-pink-500/10 text-pink-700 dark:text-pink-400 [a&]:hover:bg-pink-500/20",
+          "border-pink-500/40 bg-pink-100 text-pink-900 dark:border-pink-400/35 dark:bg-pink-400/15 dark:text-pink-300 [a&]:hover:bg-pink-500/20 dark:[a&]:hover:bg-pink-400/25",
         rose:
-          "border-rose-500/40 bg-rose-500/10 text-rose-700 dark:text-rose-400 [a&]:hover:bg-rose-500/20",
+          "border-rose-500/40 bg-rose-100 text-rose-900 dark:border-rose-400/35 dark:bg-rose-400/15 dark:text-rose-300 [a&]:hover:bg-rose-500/20 dark:[a&]:hover:bg-rose-400/25",
+      },
+      solid: {
+        true: "",
+        false: "",
       },
       size: {
         xs: "h-4 text-[10px] px-1.5 [&>svg]:size-2.5 has-data-[icon=inline-start]:ps-1 has-data-[icon=inline-end]:pe-1",
@@ -72,8 +72,41 @@ const badgeVariants = cva(
         lg: "h-7 text-sm px-3 [&>svg]:size-3.5 has-data-[icon=inline-start]:ps-2.5 has-data-[icon=inline-end]:pe-2.5",
       },
     },
+    compoundVariants: [
+      {
+        variant: "primary",
+        solid: true,
+        className:
+          "bg-primary-400 border-primary-500 text-primary-950 dark:bg-primary-400 dark:border-primary-500 dark:text-primary-950 [a&]:hover:bg-primary-500",
+      },
+      {
+        variant: "success",
+        solid: true,
+        className:
+          "bg-green-400 border-green-500 text-green-950 dark:bg-green-400 dark:border-green-500 dark:text-green-950 [a&]:hover:bg-green-500",
+      },
+      {
+        variant: "warning",
+        solid: true,
+        className:
+          "bg-orange-300 border-orange-500 text-orange-950 dark:bg-orange-300 dark:border-orange-500 dark:text-orange-950 [a&]:hover:bg-orange-400",
+      },
+      {
+        variant: "info",
+        solid: true,
+        className:
+          "bg-indigo-300 border-indigo-500 text-indigo-950 dark:bg-indigo-300 dark:border-indigo-500 dark:text-indigo-950 [a&]:hover:bg-indigo-400",
+      },
+      {
+        variant: "destructive",
+        solid: true,
+        className:
+          "bg-red-600 border-red-500 text-white dark:bg-red-500 dark:border-red-500 dark:text-white [a&]:hover:bg-red-500",
+      },
+    ],
     defaultVariants: {
       variant: "primary",
+      solid: false,
       size: "md",
     },
   }
@@ -82,14 +115,13 @@ const badgeVariants = cva(
 export type BadgeVariant = NonNullable<VariantProps<typeof badgeVariants>["variant"]>
 export type BadgeSize = NonNullable<VariantProps<typeof badgeVariants>["size"]>
 
-// Solid fill classes — only available for semantic variants
-const solidClassMap: Partial<Record<BadgeVariant, string>> = {
-  primary:     "bg-primary-400 border-primary-600 text-primary-950 [a&]:hover:bg-primary/90",
-  success:     "bg-green-400 border-green-600 text-green-950 [a&]:hover:bg-green-500/90",
-  warning:     "bg-orange-300 border-orange-600 text-orange-950 [a&]:hover:bg-orange-400/90",
-  info:        "bg-indigo-300 border-indigo-500 text-indigo-950 [a&]:hover:bg-blue-500/90",
-  destructive: "bg-red-600 border-red-500 text-white [a&]:hover:bg-red-500/90",
-}
+const semanticVariants: ReadonlySet<BadgeVariant> = new Set([
+  "primary",
+  "success",
+  "warning",
+  "info",
+  "destructive",
+])
 
 // Icon size inside the close button
 const closeIconSizeMap: Record<BadgeSize, string> = {
@@ -119,6 +151,7 @@ function Badge({
     onClose?: React.MouseEventHandler<HTMLButtonElement>
   }) {
   const Comp = asChild ? Slot.Root : "span"
+  const useSolidPalette = Boolean(solid && variant && semanticVariants.has(variant))
 
   return (
     <Comp
@@ -126,8 +159,7 @@ function Badge({
       data-variant={variant}
       data-solid={solid || undefined}
       className={cn(
-        badgeVariants({ variant, size }),
-        solid && variant && solidClassMap[variant],
+        badgeVariants({ variant, size, solid: useSolidPalette }),
         onClose && "pe-0",
         className
       )}

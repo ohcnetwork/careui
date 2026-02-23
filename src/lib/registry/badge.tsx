@@ -324,7 +324,7 @@ export function BadgeDemo() {
     // ── Full Palette ───────────────────────────────────────────────────────
     {
       name: "Full Palette",
-      description: "All 24 variants displayed together.",
+      description: "All variants displayed together.",
       code: `<div className="flex flex-col gap-3">
   <div className="flex items-center gap-2 flex-wrap">
     <Badge variant="primary">Primary</Badge>
@@ -341,7 +341,6 @@ export function BadgeDemo() {
     <Badge variant="yellow">Yellow</Badge>
     <Badge variant="lime">Lime</Badge>
     <Badge variant="green">Green</Badge>
-    <Badge variant="emerald">Emerald</Badge>
     <Badge variant="teal">Teal</Badge>
     <Badge variant="cyan">Cyan</Badge>
     <Badge variant="sky">Sky</Badge>
@@ -387,7 +386,6 @@ export function BadgeDemo() {
           "Green",
           row(
             React.createElement(Badge, { variant: "green" }, "Green"),
-            React.createElement(Badge, { variant: "emerald" }, "Emerald"),
             React.createElement(Badge, { variant: "teal" }, "Teal")
           )
         ),
@@ -417,7 +415,7 @@ export function BadgeDemo() {
   props: [
     {
       name: "variant",
-      type: '"primary" | "success" | "warning" | "info" | "destructive" | "neutral" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose"',
+      type: '"primary" | "success" | "warning" | "info" | "destructive" | "neutral" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose"',
       description: "Color variant of the badge.",
       default: '"primary"',
     },
