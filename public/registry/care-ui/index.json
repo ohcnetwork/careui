@@ -248,8 +248,7 @@
     "name": "label",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
-      "class-variance-authority"
+      "radix-ui"
     ],
     "files": [
       null
@@ -314,17 +313,6 @@
     "type": "registry:ui",
     "dependencies": [
       "radix-ui"
-    ],
-    "files": [
-      null
-    ]
-  },
-  {
-    "name": "field",
-    "type": "registry:ui",
-    "dependencies": [
-      "radix-ui",
-      "class-variance-authority"
     ],
     "files": [
       null

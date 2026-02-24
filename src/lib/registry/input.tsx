@@ -1,29 +1,71 @@
 import React from "react";
-import { type ComponentDoc } from "@/lib/types";
-import { Input } from "@/components/ui/input";
-import {
-  Field,
-  FieldLabel,
-  FieldDescription,
-  FieldGroup,
-} from "@/components/ui/field";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Input } from "@/components/ui/input";
 import {
   InputGroup,
   InputGroupAddon,
-  InputGroupText,
   InputGroupInput,
+  InputGroupText,
 } from "@/components/ui/input-group";
-import { ButtonGroup } from "@/components/ui/button-group";
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
+import { type ComponentDoc } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { InfoIcon } from "lucide-react";
+
+function Field({
+  className,
+  orientation = "vertical",
+  ...props
+}: React.ComponentProps<"div"> & {
+  orientation?: "vertical" | "horizontal";
+}) {
+  return React.createElement("div", {
+    className: cn(
+      "flex w-full gap-1 max-w-sm",
+      orientation === "horizontal" ? "items-center" : "flex-col",
+      className
+    ),
+    ...props,
+  });
+}
+
+function FieldGroup({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return React.createElement("div", {
+    className: cn("flex w-full flex-col gap-4 max-w-sm", className),
+    ...props,
+  });
+}
+
+function FieldLabel({
+  className,
+  ...props
+}: React.ComponentProps<"label">) {
+  return React.createElement("label", {
+    className: cn("text-sm font-medium max-w-sm", className),
+    ...props,
+  });
+}
+
+function FieldDescription({
+  className,
+  ...props
+}: React.ComponentProps<"p">) {
+  return React.createElement("p", {
+    className: cn("text-muted-foreground text-sm", className),
+    ...props,
+  });
+}
 
 export const inputDoc: ComponentDoc = {
   id: "input",
@@ -67,12 +109,6 @@ export const inputDoc: ComponentDoc = {
   },
   examples: [
     {
-      name: "Basic",
-      description: "A basic input field.",
-      code: `<Input placeholder="Enter text" />`,
-      preview: React.createElement(Input, { placeholder: "Enter text" }),
-    },
-    {
       name: "Field",
       description:
         "Use Field, FieldLabel, and FieldDescription to create an input with a label and description.",
@@ -109,8 +145,7 @@ export const inputDoc: ComponentDoc = {
     },
     {
       name: "Field Group",
-      description:
-        "Use FieldGroup to show multiple Field blocks and to build forms.",
+      description: "Use FieldGroup to show multiple Field blocks and forms.",
       code: `<FieldGroup>
   <Field>
     <FieldLabel htmlFor="fieldgroup-name">Name</FieldLabel>
@@ -118,14 +153,8 @@ export const inputDoc: ComponentDoc = {
   </Field>
   <Field>
     <FieldLabel htmlFor="fieldgroup-email">Email</FieldLabel>
-    <Input
-      id="fieldgroup-email"
-      type="email"
-      placeholder="name@example.com"
-    />
-    <FieldDescription>
-      We'll send updates to this address.
-    </FieldDescription>
+    <Input id="fieldgroup-email" type="email" placeholder="name@example.com" />
+    <FieldDescription>We'll send updates to this address.</FieldDescription>
   </Field>
   <Field orientation="horizontal">
     <Button type="reset" variant="outline">Reset</Button>
@@ -138,11 +167,7 @@ export const inputDoc: ComponentDoc = {
         React.createElement(
           Field,
           {},
-          React.createElement(
-            FieldLabel,
-            { htmlFor: "fieldgroup-name" },
-            "Name"
-          ),
+          React.createElement(FieldLabel, { htmlFor: "fieldgroup-name" }, "Name"),
           React.createElement(Input, {
             id: "fieldgroup-name",
             placeholder: "Jordan Lee",
@@ -151,11 +176,7 @@ export const inputDoc: ComponentDoc = {
         React.createElement(
           Field,
           {},
-          React.createElement(
-            FieldLabel,
-            { htmlFor: "fieldgroup-email" },
-            "Email"
-          ),
+          React.createElement(FieldLabel, { htmlFor: "fieldgroup-email" }, "Email"),
           React.createElement(Input, {
             id: "fieldgroup-email",
             type: "email",
@@ -169,7 +190,7 @@ export const inputDoc: ComponentDoc = {
         ),
         React.createElement(
           Field,
-          { orientation: "horizontal" } as any,
+          { orientation: "horizontal" },
           React.createElement(Button, { type: "reset", variant: "outline" }, "Reset"),
           React.createElement(Button, { type: "submit" }, "Submit")
         )
@@ -177,21 +198,15 @@ export const inputDoc: ComponentDoc = {
     },
     {
       name: "Disabled",
-      description:
-        "Use the disabled prop to disable the input. Add the data-disabled attribute to the Field component to style the disabled state.",
+      description: "An input in disabled state.",
       code: `<Field data-disabled>
   <FieldLabel htmlFor="input-demo-disabled">Email</FieldLabel>
-  <Input
-    id="input-demo-disabled"
-    type="email"
-    placeholder="Email"
-    disabled
-  />
+  <Input id="input-demo-disabled" type="email" placeholder="Email" disabled />
   <FieldDescription>This field is currently disabled.</FieldDescription>
 </Field>`,
       preview: React.createElement(
         Field,
-        { "data-disabled": "" } as any,
+        { ["data-disabled"]: true } as any,
         React.createElement(
           FieldLabel,
           { htmlFor: "input-demo-disabled" },
@@ -213,17 +228,15 @@ export const inputDoc: ComponentDoc = {
     {
       name: "Invalid",
       description:
-        "Use the aria-invalid prop to mark the input as invalid. Add the data-invalid attribute to the Field component to style the invalid state.",
+        "Use aria-invalid to mark the input as invalid and data-invalid on Field for styling.",
       code: `<Field data-invalid>
   <FieldLabel htmlFor="input-invalid">Invalid Input</FieldLabel>
   <Input id="input-invalid" placeholder="Error" aria-invalid />
-  <FieldDescription>
-    This field contains validation errors.
-  </FieldDescription>
+  <FieldDescription>This field contains validation errors.</FieldDescription>
 </Field>`,
       preview: React.createElement(
         Field,
-        { "data-invalid": "" } as any,
+        { ["data-invalid"]: true } as any,
         React.createElement(
           FieldLabel,
           { htmlFor: "input-invalid" },
@@ -232,7 +245,7 @@ export const inputDoc: ComponentDoc = {
         React.createElement(Input, {
           id: "input-invalid",
           placeholder: "Error",
-          "aria-invalid": true,
+          ["aria-invalid"]: true,
         } as any),
         React.createElement(
           FieldDescription,
@@ -243,7 +256,7 @@ export const inputDoc: ComponentDoc = {
     },
     {
       name: "File",
-      description: 'Use the type="file" prop to create a file input.',
+      description: 'Use type="file" to create a file input.',
       code: `<Field>
   <FieldLabel htmlFor="picture">Picture</FieldLabel>
   <Input id="picture" type="file" />
@@ -264,14 +277,14 @@ export const inputDoc: ComponentDoc = {
     {
       name: "Inline",
       description:
-        'Use Field with orientation="horizontal" to create an inline input. Pair with Button to create a search input with a button.',
+        "Use horizontal Field orientation and pair with Button for a search row.",
       code: `<Field orientation="horizontal">
   <Input type="search" placeholder="Search..." />
   <Button>Search</Button>
 </Field>`,
       preview: React.createElement(
         Field,
-        { orientation: "horizontal" } as any,
+        { orientation: "horizontal" },
         React.createElement(Input, {
           type: "search",
           placeholder: "Search...",
@@ -281,7 +294,7 @@ export const inputDoc: ComponentDoc = {
     },
     {
       name: "Grid",
-      description: "Use a grid layout to place multiple inputs side by side.",
+      description: "Place multiple inputs side by side with a grid layout.",
       code: `<FieldGroup className="grid max-w-sm grid-cols-2">
   <Field>
     <FieldLabel htmlFor="first-name">First Name</FieldLabel>
@@ -298,37 +311,25 @@ export const inputDoc: ComponentDoc = {
         React.createElement(
           Field,
           {},
-          React.createElement(
-            FieldLabel,
-            { htmlFor: "first-name" },
-            "First Name"
-          ),
+          React.createElement(FieldLabel, { htmlFor: "first-name" }, "First Name"),
           React.createElement(Input, { id: "first-name", placeholder: "Jordan" })
         ),
         React.createElement(
           Field,
           {},
-          React.createElement(
-            FieldLabel,
-            { htmlFor: "last-name" },
-            "Last Name"
-          ),
+          React.createElement(FieldLabel, { htmlFor: "last-name" }, "Last Name"),
           React.createElement(Input, { id: "last-name", placeholder: "Lee" })
         )
       ),
     },
     {
       name: "Required",
-      description: "Use the required attribute to indicate required inputs.",
+      description: "Use required to indicate mandatory inputs.",
       code: `<Field>
   <FieldLabel htmlFor="input-required">
     Required Field <span className="text-destructive">*</span>
   </FieldLabel>
-  <Input
-    id="input-required"
-    placeholder="This field is required"
-    required
-  />
+  <Input id="input-required" placeholder="This field is required" required />
   <FieldDescription>This field must be filled out.</FieldDescription>
 </Field>`,
       preview: React.createElement(
@@ -338,11 +339,7 @@ export const inputDoc: ComponentDoc = {
           FieldLabel,
           { htmlFor: "input-required" },
           "Required Field ",
-          React.createElement(
-            "span",
-            { className: "text-destructive" },
-            "*"
-          )
+          React.createElement("span", { className: "text-destructive" }, "*")
         ),
         React.createElement(Input, {
           id: "input-required",
@@ -358,33 +355,22 @@ export const inputDoc: ComponentDoc = {
     },
     {
       name: "Badge",
-      description:
-        "Use Badge in the label to highlight a recommended field.",
+      description: "Use Badge in the label to highlight a recommended field.",
       code: `<Field>
   <FieldLabel htmlFor="input-badge">
-    Webhook URL{" "}
-    <Badge variant="secondary" className="ml-auto">
-      Beta
-    </Badge>
+    Webhook URL
+    <Badge variant="secondary" className="ml-auto">Beta</Badge>
   </FieldLabel>
-  <Input
-    id="input-badge"
-    type="url"
-    placeholder="https://api.example.com/webhook"
-  />
+  <Input id="input-badge" type="url" placeholder="https://api.example.com/webhook" />
 </Field>`,
       preview: React.createElement(
         Field,
         {},
         React.createElement(
           FieldLabel,
-          { htmlFor: "input-badge" },
-          "Webhook URL ",
-          React.createElement(
-            Badge,
-            { variant: "secondary", className: "ml-auto" } as any,
-            "Beta"
-          )
+          { htmlFor: "input-badge", className: "flex items-center gap-2" },
+          "Webhook URL",
+          React.createElement(Badge, { variant: "neutral", className: "ml-auto" }, "Beta")
         ),
         React.createElement(Input, {
           id: "input-badge",
@@ -395,18 +381,13 @@ export const inputDoc: ComponentDoc = {
     },
     {
       name: "Input Group",
-      description:
-        "To add icons, text, or buttons inside an input, use the InputGroup component. See the Input Group component for more examples.",
+      description: "Use InputGroup to place text or icons inside an input.",
       code: `<Field>
   <FieldLabel htmlFor="input-group-url">Website URL</FieldLabel>
   <InputGroup>
     <InputGroupInput id="input-group-url" placeholder="example.com" />
-    <InputGroupAddon>
-      <InputGroupText>https://</InputGroupText>
-    </InputGroupAddon>
-    <InputGroupAddon align="inline-end">
-      <InfoIcon />
-    </InputGroupAddon>
+    <InputGroupAddon><InputGroupText>https://</InputGroupText></InputGroupAddon>
+    <InputGroupAddon align="inline-end"><InfoIcon /></InputGroupAddon>
   </InputGroup>
 </Field>`,
       preview: React.createElement(
@@ -431,7 +412,7 @@ export const inputDoc: ComponentDoc = {
           ),
           React.createElement(
             InputGroupAddon,
-            { align: "inline-end" } as any,
+            { align: "inline-end" },
             React.createElement(InfoIcon, {})
           )
         )
@@ -439,8 +420,7 @@ export const inputDoc: ComponentDoc = {
     },
     {
       name: "Button Group",
-      description:
-        "To add buttons to an input, use the ButtonGroup component. See the Button Group component for more examples.",
+      description: "Use ButtonGroup to append an action button to an input.",
       code: `<Field>
   <FieldLabel htmlFor="input-button-group">Search</FieldLabel>
   <ButtonGroup>
@@ -469,8 +449,7 @@ export const inputDoc: ComponentDoc = {
     },
     {
       name: "Form",
-      description:
-        "A full form example with multiple inputs, a select, and a button.",
+      description: "A full form example with inputs, a select, and actions.",
       code: `<form className="w-full max-w-sm">
   <FieldGroup>
     <Field>
@@ -480,9 +459,7 @@ export const inputDoc: ComponentDoc = {
     <Field>
       <FieldLabel htmlFor="form-email">Email</FieldLabel>
       <Input id="form-email" type="email" placeholder="john@example.com" />
-      <FieldDescription>
-        We'll never share your email with anyone.
-      </FieldDescription>
+      <FieldDescription>We'll never share your email with anyone.</FieldDescription>
     </Field>
     <div className="grid grid-cols-2 gap-4">
       <Field>
@@ -492,9 +469,7 @@ export const inputDoc: ComponentDoc = {
       <Field>
         <FieldLabel htmlFor="form-country">Country</FieldLabel>
         <Select defaultValue="us">
-          <SelectTrigger id="form-country">
-            <SelectValue />
-          </SelectTrigger>
+          <SelectTrigger id="form-country"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="us">United States</SelectItem>
             <SelectItem value="uk">United Kingdom</SelectItem>
@@ -508,8 +483,10 @@ export const inputDoc: ComponentDoc = {
       <Input id="form-address" type="text" placeholder="123 Main St" />
     </Field>
     <Field orientation="horizontal">
-      <Button type="button" variant="outline">Cancel</Button>
-      <Button type="submit">Submit</Button>
+      <div className="flex gap-4">
+        <Button type="submit">Submit</Button>
+        <Button type="button" variant="outline">Cancel</Button>
+      </div>
     </Field>
   </FieldGroup>
 </form>`,
@@ -600,88 +577,48 @@ export const inputDoc: ComponentDoc = {
           ),
           React.createElement(
             Field,
-            { orientation: "horizontal" } as any,
+            { orientation: "horizontal" },
             React.createElement(
-              Button,
-              { type: "button", variant: "outline" },
-              "Cancel"
-            ),
-            React.createElement(Button, { type: "submit" }, "Submit")
+              "div",
+              { className: "flex w-full flex-row-reverse gap-4" },
+              React.createElement(Button, { type: "submit" }, "Submit"),
+              React.createElement(Button, { type: "button", variant: "outline" }, "Cancel")
+            )
           )
         )
       ),
     },
-    {
-      name: "RTL",
-      description:
-        "Input with RTL (right-to-left) text direction support.",
-      code: `<Field dir="rtl">
-  <FieldLabel htmlFor="input-rtl-api-key">مفتاح API</FieldLabel>
-  <Input
-    id="input-rtl-api-key"
-    type="password"
-    placeholder="sk-..."
-    dir="rtl"
-  />
-  <FieldDescription>
-    مفتاح API الخاص بك مشفر ومخزن بأمان.
-  </FieldDescription>
-</Field>`,
-      preview: React.createElement(
-        Field,
-        { dir: "rtl" } as any,
-        React.createElement(
-          FieldLabel,
-          { htmlFor: "input-rtl-api-key" },
-          "مفتاح API"
-        ),
-        React.createElement(Input, {
-          id: "input-rtl-api-key",
-          type: "password",
-          placeholder: "sk-...",
-          dir: "rtl",
-        } as any),
-        React.createElement(
-          FieldDescription,
-          {},
-          "مفتاح API الخاص بك مشفر ومخزن بأمان."
-        )
-      ),
-    },
+
   ],
   props: [
     {
       name: "type",
       type: "string",
-      description: "The type of input field.",
+      description: "The HTML input type.",
       default: '"text"',
     },
     {
       name: "placeholder",
       type: "string",
-      description: "Placeholder text for the input.",
+      description: "Placeholder text when the input is empty.",
     },
     {
       name: "disabled",
       type: "boolean",
-      description: "Whether the input is disabled.",
-      default: "false",
-    },
-    {
-      name: "required",
-      type: "boolean",
-      description: "Whether the input is required.",
+      description: "Disables user interaction.",
       default: "false",
     },
     {
       name: "aria-invalid",
       type: "boolean",
       description: "Marks the input as invalid for accessibility.",
+      default: "false",
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes to apply to the input.",
+      name: "required",
+      type: "boolean",
+      description: "Marks the field as required.",
+      default: "false",
     },
   ],
 };

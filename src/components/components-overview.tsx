@@ -128,9 +128,10 @@ const componentMetadata: Record<
     description: "Displays an empty state when no data is available.",
     examples: 1,
   },
-  field: {
-    name: "Field",
-    description: "A form field component with label and error handling.",
+  input: {
+    name: "Input",
+    description:
+      "A text input component for forms and user data entry with built-in styling and accessibility features.",
     examples: 2,
   },
   "hover-card": {
@@ -138,12 +139,6 @@ const componentMetadata: Record<
     description:
       "For sighted users to preview content available behind a link.",
     examples: 1,
-  },
-  input: {
-    name: "Input",
-    description:
-      "Displays a form input field or a component that looks like an input field.",
-    examples: 4,
   },
   "input-group": {
     name: "Input Group",

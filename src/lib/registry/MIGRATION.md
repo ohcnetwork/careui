@@ -30,7 +30,6 @@ All 53 components have been successfully migrated to the new modular structure!
 - [x] drawer
 - [x] dropdown-menu
 - [x] empty
-- [x] field
 - [x] hover-card
 - [x] input
 - [x] input-group

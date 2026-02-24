@@ -77,13 +77,13 @@ const badgeVariants = cva(
         variant: "primary",
         solid: true,
         className:
-          "bg-primary-400 border-primary-500 text-primary-950 dark:bg-primary-400 dark:border-primary-500 dark:text-primary-950 [a&]:hover:bg-primary-500",
+          "bg-primary-400 border-primary-600 text-primary-950 dark:bg-primary-400 dark:border-primary-500 dark:text-primary-950 [a&]:hover:bg-primary-500",
       },
       {
         variant: "success",
         solid: true,
         className:
-          "bg-green-400 border-green-500 text-green-950 dark:bg-green-400 dark:border-green-500 dark:text-green-950 [a&]:hover:bg-green-500",
+          "bg-green-400 border-green-600 text-green-950 dark:bg-green-400 dark:border-green-500 dark:text-green-950 [a&]:hover:bg-green-500",
       },
       {
         variant: "warning",
