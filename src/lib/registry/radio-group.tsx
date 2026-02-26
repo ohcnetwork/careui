@@ -351,7 +351,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
         { defaultValue: "option2", className: "w-fit" },
         React.createElement(
           Field,
-          { orientation: "horizontal", "data-disabled": true },
+          { orientation: "horizontal" },
           React.createElement(RadioGroupItem, {
             value: "option1",
             id: "disabled-1",
@@ -425,7 +425,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
           { defaultValue: "email" },
           React.createElement(
             Field,
-            { orientation: "horizontal", "data-invalid": true },
+            { orientation: "horizontal" },
             React.createElement(RadioGroupItem, {
               value: "email",
               id: "invalid-email",
@@ -439,7 +439,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
           ),
           React.createElement(
             Field,
-            { orientation: "horizontal", "data-invalid": true },
+            { orientation: "horizontal" },
             React.createElement(RadioGroupItem, {
               value: "sms",
               id: "invalid-sms",
@@ -453,7 +453,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
           ),
           React.createElement(
             Field,
-            { orientation: "horizontal", "data-invalid": true },
+            { orientation: "horizontal" },
             React.createElement(RadioGroupItem, {
               value: "both",
               id: "invalid-both",

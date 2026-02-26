@@ -2,15 +2,17 @@
 
 This directory contains individual documentation files for each UI component. Each component has its own file for better maintainability and organization.
 
+The docs app uses lazy loading from `src/lib/registry/index.ts` and generated JSON files are published to `public/registry/care-ui/`.
+
 ## Structure
 
-```
+```text
 src/lib/registry/
-├── index.ts              # Main registry that exports all components
+├── index.ts              # Main lazy loader registry
 ├── accordion.tsx         # Accordion component documentation
-├── badge.tsx            # Badge component documentation
-├── button.tsx           # Button component documentation
-└── ...                  # Other component files
+├── badge.tsx             # Badge component documentation
+├── button.tsx            # Button component documentation
+└── ...                   # Other component files
 ```
 
 ## Creating a New Component Registry File
@@ -30,11 +32,7 @@ export const yourComponentDoc: ComponentDoc = {
     cli: 'npx shadcn@latest add your-component',
     manual: 'Copy and paste the component source code into your project.'
   },
-  usage: `import { YourComponent } from "@/components/ui/your-component"
-
-export function YourComponentDemo() {
-  return <YourComponent />
-}`,
+  usage: `import { YourComponent } from "@/components/ui/your-component"`,
   examples: [
     {
       name: 'Default',
@@ -57,30 +55,37 @@ export function YourComponentDemo() {
 ## Adding a New Component
 
 1. **Create the component file**
+
    ```bash
    # Create a new file in src/lib/registry/
    touch src/lib/registry/your-component.tsx
    ```
 
 2. **Write the documentation**
+
    - Follow the pattern shown above
    - Include real component imports
    - Create working preview examples
    - Document all props
 
 3. **Register in index.ts**
+
    ```ts
    // In src/lib/registry/index.ts
-   import { yourComponentDoc } from './your-component'
-
-   export const componentRegistry: Record<string, ComponentDoc> = {
+   const componentLoaders = {
      // ... existing components
-     'your-component': yourComponentDoc,
+     'your-component': () =>
+       import('./your-component').then((m) => ({ default: m.yourComponentDoc })),
    }
    ```
 
-4. **Test the component**
-   - Run `npm run dev`
+4. **Regenerate published registry files**
+
+   - Run `pnpm run build:registry`
+
+5. **Test the component**
+
+   - Run `pnpm dev`
    - Navigate to your component in the UI
    - Verify examples render correctly
 
@@ -99,7 +104,7 @@ To migrate a component from the old `component-registry.ts`:
 1. Find the component object in the old file
 2. Create a new file in this directory
 3. Export the documentation as `{componentName}Doc`
-4. Import and add to `index.ts`
+4. Add lazy loader entry in `index.ts`
 5. Remove from the old file once verified
 
 ## File Naming Convention
@@ -111,6 +116,7 @@ To migrate a component from the old `component-registry.ts`:
 ## Example Components
 
 See these files for reference:
+
 - `accordion.tsx` - Simple component with examples
 - `badge.tsx` - Component with variants and props
 - `button.tsx` - Component with multiple examples

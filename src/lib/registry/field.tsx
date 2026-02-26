@@ -1018,7 +1018,7 @@ export function FieldSlider() {
           ),
           React.createElement(
             FieldGroup,
-            { "data-slot": "checkbox-group" },
+            {},
             React.createElement(
               Field,
               { orientation: "horizontal" },
@@ -1048,7 +1048,7 @@ export function FieldSlider() {
           ),
           React.createElement(
             FieldGroup,
-            { "data-slot": "checkbox-group" },
+            {},
             React.createElement(
               Field,
               { orientation: "horizontal" },

@@ -194,14 +194,14 @@ export const myComponentDoc: ComponentDoc = {
   name: 'MyComponent',
   description: 'Description of your component',
   preview: {
-    component: <MyComponent>Preview</MyComponent>,
+    component: React.createElement(MyComponent, {}, 'Preview'),
     code: \`<MyComponent>Example</MyComponent>\`
   },
   examples: [
     {
       name: 'Basic Usage',
       description: 'Simple example',
-      preview: <MyComponent />,
+      preview: React.createElement(MyComponent),
       code: \`<MyComponent />\`
     }
   ],
@@ -218,12 +218,10 @@ export const myComponentDoc: ComponentDoc = {
           title: "Step 3: Export from Registry",
           content: "Add your component to the registry index file.",
           code: `// src/lib/registry/index.ts
-export { myComponentDoc } from './my-component'
-
-// Add to componentLoaders
+// Add lazy loader entry
 const componentLoaders = {
   // ... existing components
-  'my-component': () => import('./my-component').then(m => m.myComponentDoc),
+  'my-component': () => import('./my-component').then((m) => ({ default: m.myComponentDoc })),
 }`,
         },
         {
@@ -231,10 +229,7 @@ const componentLoaders = {
           content:
             "Run the generation script to create JSON files for the shadcn registry.",
           code: `# Generate registry JSON files
-npx tsx scripts/generate-registry.ts
-
-# Copy to public directory
-cp -r registry/care-ui public/registry/`,
+pnpm run build:registry`,
         },
         {
           title: "Step 5: Test Locally",
@@ -262,9 +257,8 @@ pnpm dev
 # 2. Update documentation (if needed)
 # src/lib/registry/button.tsx
 
-# 3. Regenerate registry
-npx tsx scripts/generate-registry.ts && \\
-cp -r registry/care-ui public/registry/
+# 3. Regenerate registry JSON
+pnpm run build:registry
 
 # 4. Test changes
 pnpm dev
@@ -279,8 +273,7 @@ git push`,
           content:
             "One-liner command for quick updates after modifying components.",
           code: `# Complete update workflow
-npx tsx scripts/generate-registry.ts && \\
-cp -r registry/care-ui public/registry/ && \\
+pnpm run build:registry && \\
 git add . && \\
 git commit -m "Update components" && \\
 git push`,
