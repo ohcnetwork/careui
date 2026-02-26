@@ -37,6 +37,23 @@
       ]
     },
     {
+      "name": "field",
+      "type": "registry:ui",
+      "description": "A form field component with label, description, and error message support.",
+      "dependencies": [
+        "radix-ui",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "name": "field.tsx",
+          "type": "registry:ui",
+          "target": "components/careui/field.tsx",
+          "path": "registry/care-ui/field/field.json"
+        }
+      ]
+    },
+    {
       "name": "drawer",
       "type": "registry:ui",
       "description": "A drawer component built on top of Vaul.",

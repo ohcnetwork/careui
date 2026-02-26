@@ -2,13 +2,13 @@
   "name": "kbd",
   "type": "registry:ui",
   "dependencies": [
-    "none"
+    "class-variance-authority"
   ],
   "registryDependencies": [],
   "files": [
     {
       "path": "registry/care-ui/kbd/kbd.tsx",
-      "content": "/**\n * @name kbd\n * @description Displays keyboard input or keyboard shortcuts.\n * @dependencies none\n * @type registry:ui\n */\nimport { cn } from \"@/lib/utils\";\n\nfunction Kbd({ className, ...props }: React.ComponentProps<\"kbd\">) {\n  return (\n    <kbd\n      data-slot=\"kbd\"\n      className={cn(\n        \"bg-muted text-muted-foreground [[data-slot=tooltip-content]_&]:bg-background/20 [[data-slot=tooltip-content]_&]:text-background dark:[[data-slot=tooltip-content]_&]:bg-background/10 pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm px-1 font-sans text-xs font-medium select-none [&_svg:not([class*='size-'])]:size-3\",\n        className\n      )}\n      {...props}\n    />\n  );\n}\n\nfunction KbdGroup({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <kbd\n      data-slot=\"kbd-group\"\n      className={cn(\"inline-flex items-center gap-1\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { Kbd, KbdGroup };\n",
+      "content": "/**\n * @name kbd\n * @description Used to display textual user input from keyboard.\n * @dependencies class-variance-authority\n * @type registry:ui\n */\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst kbdVariants = cva(\n  \"border-b-2 in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-foreground dark:in-data-[slot=tooltip-content]:bg-background/10 h-5 w-fit min-w-5 gap-1 rounded-sm px-1 font-sans text-xs font-medium [&_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none\",\n  {\n    variants: {\n      variant: {\n        default:\n          \"bg-muted bg-radial-[at_50%_75%] from-muted-background via-soft-background to-strong-background to-90% border-strong-border text-muted-foreground dark:text-muted-foreground\",\n        primary:\n          \"bg-primary bg-radial-[at_50%_75%] from-primary/70 via-primary to-primary/90 to-90% border-primary-950/80 dark:border-primary-700 text-primary-foreground\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n    },\n  }\n)\n\nfunction Kbd({\n  className,\n  variant = \"default\",\n  ...props\n}: React.ComponentProps<\"kbd\"> & VariantProps<typeof kbdVariants>) {\n  return (\n    <kbd\n      data-slot=\"kbd\"\n      data-variant={variant}\n      className={cn(kbdVariants({ variant }), className)}\n      {...props}\n    />\n  )\n}\n\nfunction KbdGroup({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <kbd\n      data-slot=\"kbd-group\"\n      className={cn(\"gap-1 inline-flex items-center\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Kbd, KbdGroup }\n",
       "type": "registry:component",
       "target": "components/careui/kbd.tsx"
     }

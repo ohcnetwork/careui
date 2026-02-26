@@ -41,6 +41,7 @@ const componentNames: Record<string, string> = {
   drawer: "Drawer",
   "dropdown-menu": "Dropdown Menu",
   empty: "Empty",
+  field: "Field",
   input: "Input",
   "hover-card": "Hover Card",
   "input-group": "Input Group",

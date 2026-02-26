@@ -128,6 +128,12 @@ const componentMetadata: Record<
     description: "Displays an empty state when no data is available.",
     examples: 1,
   },
+  field: {
+    name: "Field",
+    description:
+      "A form field component with label, description, and error message support.",
+    examples: 3,
+  },
   input: {
     name: "Input",
     description:
@@ -339,7 +345,7 @@ export function ComponentsOverview() {
               >
                 <CardHeader className="pb-4">
                   {/* Placeholder thumbnail banner */}
-                  <div className="from-primary/10 to-primary/5 mb-4 flex h-32 items-center justify-center rounded-lg border bg-gradient-to-br">
+                  <div className="from-primary/10 to-primary/5 mb-4 flex h-32 items-center justify-center rounded-lg border bg-linear-to-br">
                     <div className="text-primary/20 text-4xl font-bold">
                       {metadata.name.charAt(0).toUpperCase()}
                     </div>

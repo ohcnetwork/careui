@@ -183,8 +183,7 @@
     "name": "radio-group",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
-      "lucide-react"
+      "radix-ui"
     ],
     "files": [
       null
@@ -258,7 +257,7 @@
     "name": "kbd",
     "type": "registry:ui",
     "dependencies": [
-      "none"
+      "class-variance-authority"
     ],
     "files": [
       null
@@ -313,6 +312,17 @@
     "type": "registry:ui",
     "dependencies": [
       "radix-ui"
+    ],
+    "files": [
+      null
+    ]
+  },
+  {
+    "name": "field",
+    "type": "registry:ui",
+    "dependencies": [
+      "radix-ui",
+      "class-variance-authority"
     ],
     "files": [
       null

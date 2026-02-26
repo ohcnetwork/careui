@@ -64,6 +64,7 @@ const componentLoaders: Record<
   "dropdown-menu": () =>
     import("./dropdown-menu").then((m) => ({ default: m.dropdownMenuDoc })),
   empty: () => import("./empty").then((m) => ({ default: m.emptyDoc })),
+  field: () => import("./field").then((m) => ({ default: m.fieldDoc })),
   input: () => import("./input").then((m) => ({ default: m.inputDoc })),
   "hover-card": () =>
     import("./hover-card").then((m) => ({ default: m.hoverCardDoc })),
