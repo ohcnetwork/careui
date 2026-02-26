@@ -1,9 +1,15 @@
-"use client"
+/**
+ * @name separator
+ * @description Visually or semantically separates content.
+ * @dependencies radix-ui
+ * @type registry:ui
+ */
+"use client";
 
-import * as React from "react"
-import { Separator as SeparatorPrimitive } from "radix-ui"
+import * as React from "react";
+import { Separator as SeparatorPrimitive } from "radix-ui";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Separator({
   className,
@@ -22,7 +28,7 @@ function Separator({
       )}
       {...props}
     />
-  )
+  );
 }
 
-export { Separator }
+export { Separator };

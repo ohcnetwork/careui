@@ -67,7 +67,9 @@ export function ButtonDemo() {
     {
       name: "With Icons",
       description: "Buttons with icons on the left or right side.",
-      code: `<div className="flex gap-2 flex-wrap">
+      code: `import { Mail, Plus } from "lucide-react"
+
+<div className="flex gap-2 flex-wrap">
   <Button>
     <Mail data-icon="inline-start" />
     Login with Email
@@ -100,13 +102,18 @@ export function ButtonDemo() {
           Button,
           { variant: "outline" },
           "Continue",
-          React.createElement(ChevronRight, { ["data-icon"]: "inline-end" } as any)
+          React.createElement(ChevronRight, {
+            ["data-icon"]: "inline-end",
+          } as any)
         )
       ),
     },
-    {      name: "All Variants with Icons",
+    {
+      name: "All Variants with Icons",
       description: "All button variants with icons across all sizes.",
-      code: `<div className="space-y-4">
+      code: `import { Mail } from "lucide-react"
+
+<div className="space-y-4">
   {/* Extra Small */}
   <div className="space-y-2">
     <p className="text-xs font-medium text-muted-foreground">Extra Small (xs)</p>
@@ -249,82 +256,281 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "space-y-2" },
-          React.createElement("p", { className: "text-xs font-medium text-muted-foreground" }, "Extra Small (xs)"),
+          React.createElement(
+            "p",
+            { className: "text-xs font-medium text-muted-foreground" },
+            "Extra Small (xs)"
+          ),
           React.createElement(
             "div",
             { className: "flex gap-2 flex-wrap" },
-            React.createElement(Button, { size: "xs" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Default"),
-            React.createElement(Button, { size: "xs", variant: "secondary" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Secondary"),
-            React.createElement(Button, { size: "xs", variant: "outline" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Outline"),
-            React.createElement(Button, { size: "xs", variant: "ghost" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Ghost"),
-            React.createElement(Button, { size: "xs", variant: "destructive" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Destructive")
+            React.createElement(
+              Button,
+              { size: "xs" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Default"
+            ),
+            React.createElement(
+              Button,
+              { size: "xs", variant: "secondary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Secondary"
+            ),
+            React.createElement(
+              Button,
+              { size: "xs", variant: "outline" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Outline"
+            ),
+            React.createElement(
+              Button,
+              { size: "xs", variant: "ghost" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Ghost"
+            ),
+            React.createElement(
+              Button,
+              { size: "xs", variant: "destructive" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Destructive"
+            )
           )
         ),
         // Small
         React.createElement(
           "div",
           { className: "space-y-2" },
-          React.createElement("p", { className: "text-xs font-medium text-muted-foreground" }, "Small (sm)"),
+          React.createElement(
+            "p",
+            { className: "text-xs font-medium text-muted-foreground" },
+            "Small (sm)"
+          ),
           React.createElement(
             "div",
             { className: "flex gap-2 flex-wrap" },
-            React.createElement(Button, { size: "sm" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Default"),
-            React.createElement(Button, { size: "sm", variant: "secondary" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Secondary"),
-            React.createElement(Button, { size: "sm", variant: "outline" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Outline"),
-            React.createElement(Button, { size: "sm", variant: "ghost" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Ghost"),
-            React.createElement(Button, { size: "sm", variant: "destructive" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Destructive")
+            React.createElement(
+              Button,
+              { size: "sm" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Default"
+            ),
+            React.createElement(
+              Button,
+              { size: "sm", variant: "secondary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Secondary"
+            ),
+            React.createElement(
+              Button,
+              { size: "sm", variant: "outline" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Outline"
+            ),
+            React.createElement(
+              Button,
+              { size: "sm", variant: "ghost" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Ghost"
+            ),
+            React.createElement(
+              Button,
+              { size: "sm", variant: "destructive" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Destructive"
+            )
           )
         ),
         // Default
         React.createElement(
           "div",
           { className: "space-y-2" },
-          React.createElement("p", { className: "text-xs font-medium text-muted-foreground" }, "Default"),
+          React.createElement(
+            "p",
+            { className: "text-xs font-medium text-muted-foreground" },
+            "Default"
+          ),
           React.createElement(
             "div",
             { className: "flex gap-2 flex-wrap" },
-            React.createElement(Button, {}, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Default"),
-            React.createElement(Button, { variant: "secondary" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Secondary"),
-            React.createElement(Button, { variant: "outline" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Outline"),
-            React.createElement(Button, { variant: "ghost" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Ghost"),
-            React.createElement(Button, { variant: "destructive" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Destructive")
+            React.createElement(
+              Button,
+              {},
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Default"
+            ),
+            React.createElement(
+              Button,
+              { variant: "secondary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Secondary"
+            ),
+            React.createElement(
+              Button,
+              { variant: "outline" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Outline"
+            ),
+            React.createElement(
+              Button,
+              { variant: "ghost" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Ghost"
+            ),
+            React.createElement(
+              Button,
+              { variant: "destructive" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Destructive"
+            )
           )
         ),
         // Large
         React.createElement(
           "div",
           { className: "space-y-2" },
-          React.createElement("p", { className: "text-xs font-medium text-muted-foreground" }, "Large (lg)"),
+          React.createElement(
+            "p",
+            { className: "text-xs font-medium text-muted-foreground" },
+            "Large (lg)"
+          ),
           React.createElement(
             "div",
             { className: "flex gap-2 flex-wrap" },
-            React.createElement(Button, { size: "lg" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Default"),
-            React.createElement(Button, { size: "lg", variant: "secondary" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Secondary"),
-            React.createElement(Button, { size: "lg", variant: "outline" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Outline"),
-            React.createElement(Button, { size: "lg", variant: "ghost" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Ghost"),
-            React.createElement(Button, { size: "lg", variant: "destructive" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Destructive")
+            React.createElement(
+              Button,
+              { size: "lg" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Default"
+            ),
+            React.createElement(
+              Button,
+              { size: "lg", variant: "secondary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Secondary"
+            ),
+            React.createElement(
+              Button,
+              { size: "lg", variant: "outline" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Outline"
+            ),
+            React.createElement(
+              Button,
+              { size: "lg", variant: "ghost" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Ghost"
+            ),
+            React.createElement(
+              Button,
+              { size: "lg", variant: "destructive" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Destructive"
+            )
           )
         ),
         // Extra Large
         React.createElement(
           "div",
           { className: "space-y-2" },
-          React.createElement("p", { className: "text-xs font-medium text-muted-foreground" }, "Extra Large (xl)"),
+          React.createElement(
+            "p",
+            { className: "text-xs font-medium text-muted-foreground" },
+            "Extra Large (xl)"
+          ),
           React.createElement(
             "div",
             { className: "flex gap-2 flex-wrap" },
-            React.createElement(Button, { size: "xl" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Default"),
-            React.createElement(Button, { size: "xl", variant: "secondary" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Secondary"),
-            React.createElement(Button, { size: "xl", variant: "outline" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Outline"),
-            React.createElement(Button, { size: "xl", variant: "ghost" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Ghost"),
-            React.createElement(Button, { size: "xl", variant: "destructive" }, React.createElement(Mail, { ["data-icon"]: "inline-start" } as any), "Destructive")
+            React.createElement(
+              Button,
+              { size: "xl" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Default"
+            ),
+            React.createElement(
+              Button,
+              { size: "xl", variant: "secondary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Secondary"
+            ),
+            React.createElement(
+              Button,
+              { size: "xl", variant: "outline" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Outline"
+            ),
+            React.createElement(
+              Button,
+              { size: "xl", variant: "ghost" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Ghost"
+            ),
+            React.createElement(
+              Button,
+              { size: "xl", variant: "destructive" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Destructive"
+            )
           )
         )
       ),
     },
-    {      name: "Icon Only",
-      description: "Icon-only buttons in different sizes and variants. Always include aria-label for accessibility.",
-      code: `<div className="flex gap-4 items-center flex-wrap">
+    {
+      name: "Icon Only",
+      description:
+        "Icon-only buttons in different sizes and variants. Always include aria-label for accessibility.",
+      code: `import { Trash2 } from "lucide-react"
+
+<div className="flex gap-4 items-center flex-wrap">
   <div className="flex flex-col items-center gap-2">
     <span className="text-xs text-muted-foreground">xs / outline</span>
     <Button size="icon-xs" variant="outline" aria-label="Delete">
@@ -362,7 +568,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "xs / outline"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "xs / outline"
+          ),
           React.createElement(
             Button,
             { size: "icon-xs", variant: "outline", "aria-label": "Delete" },
@@ -372,7 +582,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "sm / secondary"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "sm / secondary"
+          ),
           React.createElement(
             Button,
             { size: "icon-sm", variant: "secondary", "aria-label": "Delete" },
@@ -382,7 +596,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "default / default"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "default / default"
+          ),
           React.createElement(
             Button,
             { size: "icon", "aria-label": "Delete" },
@@ -392,7 +610,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "lg / destructive"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "lg / destructive"
+          ),
           React.createElement(
             Button,
             { size: "icon-lg", variant: "destructive", "aria-label": "Delete" },
@@ -402,7 +624,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "xl / ghost"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "xl / ghost"
+          ),
           React.createElement(
             Button,
             { size: "icon-xl", variant: "ghost", "aria-label": "Delete" },
@@ -413,8 +639,11 @@ export function ButtonDemo() {
     },
     {
       name: "Icon Only - Close",
-      description: "Close button variations in different sizes and variants. Always include aria-label for accessibility.",
-      code: `<div className="flex gap-4 items-center flex-wrap">
+      description:
+        "Close button variations in different sizes and variants. Always include aria-label for accessibility.",
+      code: `import { X } from "lucide-react"
+
+<div className="flex gap-4 items-center flex-wrap">
   <div className="flex flex-col items-center gap-2">
     <span className="text-xs text-muted-foreground">xs / default</span>
     <Button size="icon-xs" aria-label="Close">
@@ -452,7 +681,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "xs / default"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "xs / default"
+          ),
           React.createElement(
             Button,
             { size: "icon-xs", "aria-label": "Close" },
@@ -462,7 +695,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "sm / secondary"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "sm / secondary"
+          ),
           React.createElement(
             Button,
             { size: "icon-sm", variant: "secondary", "aria-label": "Close" },
@@ -472,7 +709,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "default / outline"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "default / outline"
+          ),
           React.createElement(
             Button,
             { size: "icon", variant: "outline", "aria-label": "Close" },
@@ -482,7 +723,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "lg / ghost"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "lg / ghost"
+          ),
           React.createElement(
             Button,
             { size: "icon-lg", variant: "ghost", "aria-label": "Close" },
@@ -492,7 +737,11 @@ export function ButtonDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col items-center gap-2" },
-          React.createElement("span", { className: "text-xs text-muted-foreground" }, "xl / destructive"),
+          React.createElement(
+            "span",
+            { className: "text-xs text-muted-foreground" },
+            "xl / destructive"
+          ),
           React.createElement(
             Button,
             { size: "icon-xl", variant: "destructive", "aria-label": "Close" },

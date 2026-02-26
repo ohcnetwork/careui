@@ -6,7 +6,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/tooltip/tooltip.tsx"
     ]
   },
   {
@@ -17,7 +17,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/toggle/toggle.tsx"
     ]
   },
   {
@@ -28,7 +28,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/toggle-group/toggle-group.tsx"
     ]
   },
   {
@@ -38,7 +38,7 @@
       "none"
     ],
     "files": [
-      null
+      "registry/care-ui/textarea/textarea.tsx"
     ]
   },
   {
@@ -49,7 +49,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/tabs/tabs.tsx"
     ]
   },
   {
@@ -59,7 +59,7 @@
       "none"
     ],
     "files": [
-      null
+      "registry/care-ui/table/table.tsx"
     ]
   },
   {
@@ -69,7 +69,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/switch/switch.tsx"
     ]
   },
   {
@@ -80,7 +80,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/spinner/spinner.tsx"
     ]
   },
   {
@@ -91,7 +91,7 @@
       "next-themes"
     ],
     "files": [
-      null
+      "registry/care-ui/sonner/sonner.tsx"
     ]
   },
   {
@@ -101,7 +101,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/slider/slider.tsx"
     ]
   },
   {
@@ -111,7 +111,7 @@
       "none"
     ],
     "files": [
-      null
+      "registry/care-ui/skeleton/skeleton.tsx"
     ]
   },
   {
@@ -123,7 +123,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/sidebar/sidebar.tsx"
     ]
   },
   {
@@ -135,7 +135,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/sheet/sheet.tsx"
     ]
   },
   {
@@ -145,7 +145,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/separator/separator.tsx"
     ]
   },
   {
@@ -156,7 +156,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/select/select.tsx"
     ]
   },
   {
@@ -166,7 +166,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/scroll-area/scroll-area.tsx"
     ]
   },
   {
@@ -176,7 +176,7 @@
       "react-resizable-panels"
     ],
     "files": [
-      null
+      "registry/care-ui/resizable/resizable.tsx"
     ]
   },
   {
@@ -186,7 +186,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/radio-group/radio-group.tsx"
     ]
   },
   {
@@ -197,7 +197,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/progress/progress.tsx"
     ]
   },
   {
@@ -207,7 +207,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/popover/popover.tsx"
     ]
   },
   {
@@ -217,7 +217,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/pagination/pagination.tsx"
     ]
   },
   {
@@ -229,7 +229,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/navigation-menu/navigation-menu.tsx"
     ]
   },
   {
@@ -240,17 +240,18 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/menubar/menubar.tsx"
     ]
   },
   {
     "name": "label",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "radix-ui",
+      "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/label/label.tsx"
     ]
   },
   {
@@ -260,7 +261,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/kbd/kbd.tsx"
     ]
   },
   {
@@ -272,7 +273,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/item/item.tsx"
     ]
   },
   {
@@ -282,7 +283,7 @@
       "none"
     ],
     "files": [
-      null
+      "registry/care-ui/input/input.tsx"
     ]
   },
   {
@@ -293,7 +294,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/input-otp/input-otp.tsx"
     ]
   },
   {
@@ -304,7 +305,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/input-group/input-group.tsx"
     ]
   },
   {
@@ -314,7 +315,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/hover-card/hover-card.tsx"
     ]
   },
   {
@@ -325,7 +326,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/field/field.tsx"
     ]
   },
   {
@@ -336,7 +337,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/empty/empty.tsx"
     ]
   },
   {
@@ -347,7 +348,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/dropdown-menu/dropdown-menu.tsx"
     ]
   },
   {
@@ -358,7 +359,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/drawer/drawer.tsx"
     ]
   },
   {
@@ -369,7 +370,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/dialog/dialog.tsx"
     ]
   },
   {
@@ -380,7 +381,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/context-menu/context-menu.tsx"
     ]
   },
   {
@@ -391,7 +392,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/command/command.tsx"
     ]
   },
   {
@@ -401,7 +402,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/collapsible/collapsible.tsx"
     ]
   },
   {
@@ -412,7 +413,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/checkbox/checkbox.tsx"
     ]
   },
   {
@@ -423,7 +424,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/chart/chart.tsx"
     ]
   },
   {
@@ -434,7 +435,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/carousel/carousel.tsx"
     ]
   },
   {
@@ -444,7 +445,7 @@
       "none"
     ],
     "files": [
-      null
+      "registry/care-ui/card/card.tsx"
     ]
   },
   {
@@ -456,7 +457,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/calendar/calendar.tsx"
     ]
   },
   {
@@ -467,7 +468,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/button/button.tsx"
     ]
   },
   {
@@ -478,7 +479,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/button-group/button-group.tsx"
     ]
   },
   {
@@ -489,7 +490,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/breadcrumb/breadcrumb.tsx"
     ]
   },
   {
@@ -501,7 +502,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/badge/badge.tsx"
     ]
   },
   {
@@ -511,7 +512,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/avatar/avatar.tsx"
     ]
   },
   {
@@ -521,7 +522,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/aspect-ratio/aspect-ratio.tsx"
     ]
   },
   {
@@ -531,7 +532,7 @@
       "class-variance-authority"
     ],
     "files": [
-      null
+      "registry/care-ui/alert/alert.tsx"
     ]
   },
   {
@@ -541,7 +542,7 @@
       "radix-ui"
     ],
     "files": [
-      null
+      "registry/care-ui/alert-dialog/alert-dialog.tsx"
     ]
   },
   {
@@ -552,7 +553,7 @@
       "lucide-react"
     ],
     "files": [
-      null
+      "registry/care-ui/accordion/accordion.tsx"
     ]
   }
 ]

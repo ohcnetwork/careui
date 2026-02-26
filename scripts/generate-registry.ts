@@ -120,30 +120,6 @@ function detectDependencies(content: string): string[] {
 }
 
 /**
- * Generate usage example for component
- */
-function generateUsageExample(componentName: string, content: string): string {
-  // Extract export names
-  const exportMatch = content.match(/export\s*\{\s*([^}]+)\s*\}/s)
-  if (!exportMatch) {
-    return `import { ${componentName.charAt(0).toUpperCase() + componentName.slice(1)} } from "@/components/ui/${componentName}";`
-  }
-
-  const exports = exportMatch[1]
-    .split(',')
-    .map(exp => exp.trim())
-    .filter(Boolean)
-
-  const mainExport = exports[0]
-
-  return `import { ${exports.join(', ')} } from "@/components/ui/${componentName}";
-
-export default function Example() {
-  return <${mainExport}>${componentName.charAt(0).toUpperCase() + componentName.slice(1)}</${mainExport}>;
-}`
-}
-
-/**
  * Process a single component file
  */
 async function processComponent(filePath: string): Promise<ComponentMeta> {
@@ -196,8 +172,7 @@ async function writeRegistryFile(component: ComponentMeta): Promise<void> {
     type: component.type,
     dependencies: component.dependencies,
     registryDependencies: component.registryDependencies || [],
-    files: component.files,
-    docs: component.docs
+    files: component.files
   }
 
   await fs.writeFile(outputFile, JSON.stringify(registryData, null, 2))
@@ -212,7 +187,7 @@ async function generateIndex(components: ComponentMeta[]): Promise<void> {
     name: comp.name,
     type: comp.type,
     dependencies: comp.dependencies,
-    files: comp.files.map(f => f.name)
+    files: comp.files.map(file => file.path)
   }))
 
   await fs.writeFile(

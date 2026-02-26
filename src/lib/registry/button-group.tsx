@@ -132,14 +132,30 @@ export function ButtonGroupDemo() {
         React.createElement(
           ButtonGroup,
           {},
-          React.createElement(Button, { size: "xs", variant: "outline" }, "Extra Small"),
-          React.createElement(Button, { size: "xs", variant: "outline" }, "Extra Small")
+          React.createElement(
+            Button,
+            { size: "xs", variant: "outline" },
+            "Extra Small"
+          ),
+          React.createElement(
+            Button,
+            { size: "xs", variant: "outline" },
+            "Extra Small"
+          )
         ),
         React.createElement(
           ButtonGroup,
           {},
-          React.createElement(Button, { size: "sm", variant: "outline" }, "Small"),
-          React.createElement(Button, { size: "sm", variant: "outline" }, "Small")
+          React.createElement(
+            Button,
+            { size: "sm", variant: "outline" },
+            "Small"
+          ),
+          React.createElement(
+            Button,
+            { size: "sm", variant: "outline" },
+            "Small"
+          )
         ),
         React.createElement(
           ButtonGroup,
@@ -150,15 +166,25 @@ export function ButtonGroupDemo() {
         React.createElement(
           ButtonGroup,
           {},
-          React.createElement(Button, { size: "lg", variant: "outline" }, "Large"),
-          React.createElement(Button, { size: "lg", variant: "outline" }, "Large")
+          React.createElement(
+            Button,
+            { size: "lg", variant: "outline" },
+            "Large"
+          ),
+          React.createElement(
+            Button,
+            { size: "lg", variant: "outline" },
+            "Large"
+          )
         )
       ),
     },
     {
       name: "Nested",
       description: "Nest ButtonGroup components to create groups with spacing.",
-      code: `<ButtonGroup>
+      code: `import { Copy } from "lucide-react"
+
+<ButtonGroup>
   <ButtonGroup>
     <Button variant="outline">Copy</Button>
     <Button variant="outline">Cut</Button>
@@ -188,7 +214,9 @@ export function ButtonGroupDemo() {
     {
       name: "Separator",
       description: "Use ButtonGroupSeparator to visually divide buttons.",
-      code: `<ButtonGroup>
+      code: `import { ButtonGroupSeparator, Copy, Download, Share2 } from "lucide-react"
+
+<ButtonGroup>
   <Button variant="outline">
     <Copy data-icon="inline-start" />
     Copy
@@ -217,7 +245,9 @@ export function ButtonGroupDemo() {
         React.createElement(
           Button,
           { variant: "outline" },
-          React.createElement(Download, { ["data-icon"]: "inline-start" } as any),
+          React.createElement(Download, {
+            ["data-icon"]: "inline-start",
+          } as any),
           "Download"
         ),
         React.createElement(ButtonGroupSeparator),
@@ -232,7 +262,9 @@ export function ButtonGroupDemo() {
     {
       name: "Icon Only",
       description: "Button group with icon-only buttons.",
-      code: `<ButtonGroup>
+      code: `import { Copy, Download, Share2 } from "lucide-react"
+
+<ButtonGroup>
   <Button variant="outline" size="icon" aria-label="Copy">
     <Copy />
   </Button>
@@ -267,7 +299,9 @@ export function ButtonGroupDemo() {
     {
       name: "Split",
       description: "Create a split button group with a separator.",
-      code: `<ButtonGroup>
+      code: `import { ButtonGroupSeparator, ChevronDown } from "lucide-react"
+
+<ButtonGroup>
   <Button size="default">Save</Button>
   <ButtonGroupSeparator />
   <Button size="icon" aria-label="More options">
@@ -289,7 +323,9 @@ export function ButtonGroupDemo() {
     {
       name: "Dropdown Menu",
       description: "Create a split button with a dropdown menu.",
-      code: `<ButtonGroup>
+      code: `import { DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, Check, ChevronDown, Copy, Share2, Trash, UserRoundX, VolumeOff } from "lucide-react"
+
+<ButtonGroup>
   <Button variant="outline">Follow</Button>
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
@@ -359,37 +395,49 @@ export function ButtonGroupDemo() {
               React.createElement(
                 DropdownMenuItem,
                 {},
-                React.createElement(VolumeOff, { ["data-icon"]: "inline-start" } as any),
+                React.createElement(VolumeOff, {
+                  ["data-icon"]: "inline-start",
+                } as any),
                 "Mute Conversation"
               ),
               React.createElement(
                 DropdownMenuItem,
                 {},
-                React.createElement(Check, { ["data-icon"]: "inline-start" } as any),
+                React.createElement(Check, {
+                  ["data-icon"]: "inline-start",
+                } as any),
                 "Mark as Read"
               ),
               React.createElement(
                 DropdownMenuItem,
                 {},
-                React.createElement(AlertTriangle, { ["data-icon"]: "inline-start" } as any),
+                React.createElement(AlertTriangle, {
+                  ["data-icon"]: "inline-start",
+                } as any),
                 "Report Conversation"
               ),
               React.createElement(
                 DropdownMenuItem,
                 {},
-                React.createElement(UserRoundX, { ["data-icon"]: "inline-start" } as any),
+                React.createElement(UserRoundX, {
+                  ["data-icon"]: "inline-start",
+                } as any),
                 "Block User"
               ),
               React.createElement(
                 DropdownMenuItem,
                 {},
-                React.createElement(Share2, { ["data-icon"]: "inline-start" } as any),
+                React.createElement(Share2, {
+                  ["data-icon"]: "inline-start",
+                } as any),
                 "Share Conversation"
               ),
               React.createElement(
                 DropdownMenuItem,
                 {},
-                React.createElement(Copy, { ["data-icon"]: "inline-start" } as any),
+                React.createElement(Copy, {
+                  ["data-icon"]: "inline-start",
+                } as any),
                 "Copy Conversation"
               )
             ),
@@ -400,7 +448,9 @@ export function ButtonGroupDemo() {
               React.createElement(
                 DropdownMenuItem,
                 { variant: "destructive" },
-                React.createElement(Trash, { ["data-icon"]: "inline-start" } as any),
+                React.createElement(Trash, {
+                  ["data-icon"]: "inline-start",
+                } as any),
                 "Delete Conversation"
               )
             )
@@ -412,7 +462,9 @@ export function ButtonGroupDemo() {
     {
       name: "Popover",
       description: "Use with a Popover component.",
-      code: `<ButtonGroup>
+      code: `import { PopoverContent, PopoverTrigger, ChevronDown, Mail } from "lucide-react"
+
+<ButtonGroup>
   <Button variant="outline" size="default">
     <Mail data-icon="inline-start" />
     Contact
@@ -450,7 +502,11 @@ export function ButtonGroupDemo() {
             { asChild: true },
             React.createElement(
               Button,
-              { variant: "outline", size: "icon", "aria-label": "More options" },
+              {
+                variant: "outline",
+                size: "icon",
+                "aria-label": "More options",
+              },
               React.createElement(ChevronDown)
             )
           ),
@@ -460,7 +516,11 @@ export function ButtonGroupDemo() {
             React.createElement(
               "div",
               { className: "space-y-2" },
-              React.createElement("h4", { className: "font-medium" }, "Contact Options"),
+              React.createElement(
+                "h4",
+                { className: "font-medium" },
+                "Contact Options"
+              ),
               React.createElement(
                 "p",
                 { className: "text-sm text-muted-foreground" },

@@ -21,7 +21,8 @@ export const kbdDoc: ComponentDoc = {
   description: "Used to display textual user input from keyboard.",
   installation: {
     cli: "npx shadcn@latest add kbd",
-    manual: "Copy and paste the kbd component source code into your project, then update imports to match your setup.",
+    manual:
+      "Copy and paste the kbd component source code into your project, then update imports to match your setup.",
   },
   usage: `import { Kbd } from "@/components/ui/kbd"
 
@@ -69,7 +70,8 @@ export const kbdDoc: ComponentDoc = {
     },
     {
       name: "Group",
-      description: "Use the KbdGroup component to group keyboard keys together.",
+      description:
+        "Use the KbdGroup component to group keyboard keys together.",
       code: `<div className="flex flex-col items-center gap-4">
   <p className="text-muted-foreground text-sm">
     Use{" "}
@@ -101,7 +103,9 @@ export const kbdDoc: ComponentDoc = {
       name: "Button",
       description:
         "Use the Kbd component inside a Button to display a keyboard key inside a button.",
-      code: `<Button variant="outline">
+      code: `import { CornerDownLeftIcon } from "lucide-react"
+
+<Button variant="outline">
   Accept{" "}
   <Kbd data-icon="inline-end" className="translate-x-0.5">
     <CornerDownLeftIcon className="size-3" />
@@ -133,7 +137,11 @@ export const kbdDoc: ComponentDoc = {
         Button,
         {},
         "Save ",
-        React.createElement(Kbd, { variant: "primary", className: "translate-x-0.5" }, "⌘S")
+        React.createElement(
+          Kbd,
+          { variant: "primary", className: "translate-x-0.5" },
+          "⌘S"
+        )
       ),
     },
     {
@@ -224,7 +232,9 @@ export const kbdDoc: ComponentDoc = {
       name: "Input Group",
       description:
         "Use Kbd inside InputGroupAddon to display a keyboard key in an input group.",
-      code: `<div className="flex w-full max-w-xs flex-col gap-6">
+      code: `import { SearchIcon } from "lucide-react"
+
+<div className="flex w-full max-w-xs flex-col gap-6">
   <InputGroup>
     <InputGroupInput placeholder="Search..." />
     <InputGroupAddon>
@@ -272,7 +282,8 @@ export const kbdDoc: ComponentDoc = {
     {
       name: "KbdGroup.className",
       type: "string",
-      description: "Additional classes for the grouped keyboard keys container.",
+      description:
+        "Additional classes for the grouped keyboard keys container.",
       default: '""',
     },
   ],

@@ -37,30 +37,21 @@ function Field({
   });
 }
 
-function FieldGroup({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   return React.createElement("div", {
     className: cn("flex w-full flex-col gap-4 max-w-sm", className),
     ...props,
   });
 }
 
-function FieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<"label">) {
+function FieldLabel({ className, ...props }: React.ComponentProps<"label">) {
   return React.createElement("label", {
     className: cn("text-sm font-medium max-w-sm", className),
     ...props,
   });
 }
 
-function FieldDescription({
-  className,
-  ...props
-}: React.ComponentProps<"p">) {
+function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
   return React.createElement("p", {
     className: cn("text-muted-foreground text-sm", className),
     ...props,
@@ -167,7 +158,11 @@ export const inputDoc: ComponentDoc = {
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "fieldgroup-name" }, "Name"),
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "fieldgroup-name" },
+            "Name"
+          ),
           React.createElement(Input, {
             id: "fieldgroup-name",
             placeholder: "Jordan Lee",
@@ -176,7 +171,11 @@ export const inputDoc: ComponentDoc = {
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "fieldgroup-email" }, "Email"),
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "fieldgroup-email" },
+            "Email"
+          ),
           React.createElement(Input, {
             id: "fieldgroup-email",
             type: "email",
@@ -191,7 +190,11 @@ export const inputDoc: ComponentDoc = {
         React.createElement(
           Field,
           { orientation: "horizontal" },
-          React.createElement(Button, { type: "reset", variant: "outline" }, "Reset"),
+          React.createElement(
+            Button,
+            { type: "reset", variant: "outline" },
+            "Reset"
+          ),
           React.createElement(Button, { type: "submit" }, "Submit")
         )
       ),
@@ -267,11 +270,7 @@ export const inputDoc: ComponentDoc = {
         {},
         React.createElement(FieldLabel, { htmlFor: "picture" }, "Picture"),
         React.createElement(Input, { id: "picture", type: "file" }),
-        React.createElement(
-          FieldDescription,
-          {},
-          "Select a picture to upload."
-        )
+        React.createElement(FieldDescription, {}, "Select a picture to upload.")
       ),
     },
     {
@@ -311,13 +310,24 @@ export const inputDoc: ComponentDoc = {
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "first-name" }, "First Name"),
-          React.createElement(Input, { id: "first-name", placeholder: "Jordan" })
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "first-name" },
+            "First Name"
+          ),
+          React.createElement(Input, {
+            id: "first-name",
+            placeholder: "Jordan",
+          })
         ),
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "last-name" }, "Last Name"),
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "last-name" },
+            "Last Name"
+          ),
           React.createElement(Input, { id: "last-name", placeholder: "Lee" })
         )
       ),
@@ -370,7 +380,11 @@ export const inputDoc: ComponentDoc = {
           FieldLabel,
           { htmlFor: "input-badge", className: "flex items-center gap-2" },
           "Webhook URL",
-          React.createElement(Badge, { variant: "neutral", className: "ml-auto" }, "Beta")
+          React.createElement(
+            Badge,
+            { variant: "neutral", className: "ml-auto" },
+            "Beta"
+          )
         ),
         React.createElement(Input, {
           id: "input-badge",
@@ -382,7 +396,9 @@ export const inputDoc: ComponentDoc = {
     {
       name: "Input Group",
       description: "Use InputGroup to place text or icons inside an input.",
-      code: `<Field>
+      code: `import { InputGroupAddon, InputGroupInput, InputGroupText } from "lucide-react"
+
+<Field>
   <FieldLabel htmlFor="input-group-url">Website URL</FieldLabel>
   <InputGroup>
     <InputGroupInput id="input-group-url" placeholder="example.com" />
@@ -450,7 +466,9 @@ export const inputDoc: ComponentDoc = {
     {
       name: "Form",
       description: "A full form example with inputs, a select, and actions.",
-      code: `<form className="w-full max-w-sm">
+      code: `import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "lucide-react"
+
+<form className="w-full max-w-sm">
   <FieldGroup>
     <Field>
       <FieldLabel htmlFor="form-name">Name</FieldLabel>
@@ -528,7 +546,11 @@ export const inputDoc: ComponentDoc = {
             React.createElement(
               Field,
               {},
-              React.createElement(FieldLabel, { htmlFor: "form-phone" }, "Phone"),
+              React.createElement(
+                FieldLabel,
+                { htmlFor: "form-phone" },
+                "Phone"
+              ),
               React.createElement(Input, {
                 id: "form-phone",
                 type: "tel",
@@ -554,8 +576,16 @@ export const inputDoc: ComponentDoc = {
                 React.createElement(
                   SelectContent,
                   {},
-                  React.createElement(SelectItem, { value: "us" }, "United States"),
-                  React.createElement(SelectItem, { value: "uk" }, "United Kingdom"),
+                  React.createElement(
+                    SelectItem,
+                    { value: "us" },
+                    "United States"
+                  ),
+                  React.createElement(
+                    SelectItem,
+                    { value: "uk" },
+                    "United Kingdom"
+                  ),
                   React.createElement(SelectItem, { value: "ca" }, "Canada")
                 )
               )
@@ -582,13 +612,16 @@ export const inputDoc: ComponentDoc = {
               "div",
               { className: "flex w-full flex-row-reverse gap-4" },
               React.createElement(Button, { type: "submit" }, "Submit"),
-              React.createElement(Button, { type: "button", variant: "outline" }, "Cancel")
+              React.createElement(
+                Button,
+                { type: "button", variant: "outline" },
+                "Cancel"
+              )
             )
           )
         )
       ),
     },
-
   ],
   props: [
     {

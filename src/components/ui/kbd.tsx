@@ -4,9 +4,9 @@
  * @dependencies class-variance-authority
  * @type registry:ui
  */
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const kbdVariants = cva(
   "border border-b-2 in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-foreground dark:in-data-[slot=tooltip-content]:bg-background/10 h-5 w-fit min-w-5 gap-1 rounded-sm px-1 font-sans text-xs font-medium [&_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none",
@@ -23,7 +23,7 @@ const kbdVariants = cva(
       variant: "default",
     },
   }
-)
+);
 
 function Kbd({
   className,
@@ -37,17 +37,17 @@ function Kbd({
       className={cn(kbdVariants({ variant }), className)}
       {...props}
     />
-  )
+  );
 }
 
 function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <kbd
       data-slot="kbd-group"
-      className={cn("gap-1 inline-flex items-center", className)}
+      className={cn("inline-flex items-center gap-1", className)}
       {...props}
     />
-  )
+  );
 }
 
-export { Kbd, KbdGroup }
+export { Kbd, KbdGroup };

@@ -64,7 +64,9 @@ export function CollapsibleDemo() {
   )
 }`,
   preview: {
-    code: `<Collapsible
+    code: `import { CollapsibleTrigger, CollapsibleContent, ChevronsUpDown } from "lucide-react"
+
+<Collapsible
   open={isOpen}
   onOpenChange={setIsOpen}
   className="flex w-[350px] flex-col gap-2"

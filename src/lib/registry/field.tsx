@@ -288,19 +288,13 @@ import { Switch } from "@/components/ui/switch"
                       React.createElement(
                         SelectGroup,
                         {},
-                        ...[
-                          "2024",
-                          "2025",
-                          "2026",
-                          "2027",
-                          "2028",
-                          "2029",
-                        ].map((year) =>
-                          React.createElement(
-                            SelectItem,
-                            { key: year, value: year },
-                            year
-                          )
+                        ...["2024", "2025", "2026", "2027", "2028", "2029"].map(
+                          (year) =>
+                            React.createElement(
+                              SelectItem,
+                              { key: year, value: year },
+                              year
+                            )
                         )
                       )
                     )
@@ -309,7 +303,11 @@ import { Switch } from "@/components/ui/switch"
                 React.createElement(
                   Field,
                   {},
-                  React.createElement(FieldLabel, { htmlFor: "checkout-cvv" }, "CVV"),
+                  React.createElement(
+                    FieldLabel,
+                    { htmlFor: "checkout-cvv" },
+                    "CVV"
+                  ),
                   React.createElement(Input, {
                     id: "checkout-cvv",
                     placeholder: "123",
@@ -422,7 +420,11 @@ import { Switch } from "@/components/ui/switch"
           React.createElement(
             Field,
             {},
-            React.createElement(FieldLabel, { htmlFor: "field-input-username" }, "Username"),
+            React.createElement(
+              FieldLabel,
+              { htmlFor: "field-input-username" },
+              "Username"
+            ),
             React.createElement(Input, {
               id: "field-input-username",
               type: "text",
@@ -437,7 +439,11 @@ import { Switch } from "@/components/ui/switch"
           React.createElement(
             Field,
             {},
-            React.createElement(FieldLabel, { htmlFor: "field-input-password" }, "Password"),
+            React.createElement(
+              FieldLabel,
+              { htmlFor: "field-input-password" },
+              "Password"
+            ),
             React.createElement(
               FieldDescription,
               {},
@@ -479,7 +485,11 @@ import { Switch } from "@/components/ui/switch"
           React.createElement(
             Field,
             {},
-            React.createElement(FieldLabel, { htmlFor: "field-textarea-feedback" }, "Feedback"),
+            React.createElement(
+              FieldLabel,
+              { htmlFor: "field-textarea-feedback" },
+              "Feedback"
+            ),
             React.createElement(Textarea, {
               id: "field-textarea-feedback",
               placeholder: "Your feedback helps us improve...",
@@ -496,7 +506,8 @@ import { Switch } from "@/components/ui/switch"
     },
     {
       name: "Select",
-      description: "Use Field around Select controls for consistent form layout.",
+      description:
+        "Use Field around Select controls for consistent form layout.",
       code: `<Field className="w-full max-w-xs">
   <FieldLabel>Department</FieldLabel>
   <Select>
@@ -530,7 +541,9 @@ import { Switch } from "@/components/ui/switch"
           React.createElement(
             SelectTrigger,
             {},
-            React.createElement(SelectValue, { placeholder: "Choose department" })
+            React.createElement(SelectValue, {
+              placeholder: "Choose department",
+            })
           ),
           React.createElement(
             SelectContent,
@@ -538,14 +551,34 @@ import { Switch } from "@/components/ui/switch"
             React.createElement(
               SelectGroup,
               {},
-              React.createElement(SelectItem, { value: "engineering" }, "Engineering"),
+              React.createElement(
+                SelectItem,
+                { value: "engineering" },
+                "Engineering"
+              ),
               React.createElement(SelectItem, { value: "design" }, "Design"),
-              React.createElement(SelectItem, { value: "marketing" }, "Marketing"),
+              React.createElement(
+                SelectItem,
+                { value: "marketing" },
+                "Marketing"
+              ),
               React.createElement(SelectItem, { value: "sales" }, "Sales"),
-              React.createElement(SelectItem, { value: "support" }, "Customer Support"),
-              React.createElement(SelectItem, { value: "hr" }, "Human Resources"),
+              React.createElement(
+                SelectItem,
+                { value: "support" },
+                "Customer Support"
+              ),
+              React.createElement(
+                SelectItem,
+                { value: "hr" },
+                "Human Resources"
+              ),
               React.createElement(SelectItem, { value: "finance" }, "Finance"),
-              React.createElement(SelectItem, { value: "operations" }, "Operations")
+              React.createElement(
+                SelectItem,
+                { value: "operations" },
+                "Operations"
+              )
             )
           )
         ),
@@ -558,7 +591,8 @@ import { Switch } from "@/components/ui/switch"
     },
     {
       name: "Slider",
-      description: "Combine FieldTitle and FieldDescription with slider controls.",
+      description:
+        "Combine FieldTitle and FieldDescription with slider controls.",
       code: `"use client"
 
 import * as React from "react"
@@ -645,7 +679,11 @@ export function FieldSlider() {
           React.createElement(
             Field,
             {},
-            React.createElement(FieldLabel, { htmlFor: "field-street" }, "Street Address"),
+            React.createElement(
+              FieldLabel,
+              { htmlFor: "field-street" },
+              "Street Address"
+            ),
             React.createElement(Input, {
               id: "field-street",
               type: "text",
@@ -658,7 +696,11 @@ export function FieldSlider() {
             React.createElement(
               Field,
               {},
-              React.createElement(FieldLabel, { htmlFor: "field-city" }, "City"),
+              React.createElement(
+                FieldLabel,
+                { htmlFor: "field-city" },
+                "City"
+              ),
               React.createElement(Input, {
                 id: "field-city",
                 type: "text",
@@ -668,7 +710,11 @@ export function FieldSlider() {
             React.createElement(
               Field,
               {},
-              React.createElement(FieldLabel, { htmlFor: "field-zip" }, "Postal Code"),
+              React.createElement(
+                FieldLabel,
+                { htmlFor: "field-zip" },
+                "Postal Code"
+              ),
               React.createElement(Input, {
                 id: "field-zip",
                 type: "text",
@@ -816,7 +862,11 @@ export function FieldSlider() {
       preview: React.createElement(
         FieldSet,
         { className: "w-full max-w-xs" },
-        React.createElement(FieldLegend, { variant: "label" }, "Subscription Plan"),
+        React.createElement(
+          FieldLegend,
+          { variant: "label" },
+          "Subscription Plan"
+        ),
         React.createElement(
           FieldDescription,
           {},
@@ -828,7 +878,10 @@ export function FieldSlider() {
           React.createElement(
             Field,
             { orientation: "horizontal" },
-            React.createElement(RadioGroupItem, { value: "monthly", id: "field-plan-monthly" }),
+            React.createElement(RadioGroupItem, {
+              value: "monthly",
+              id: "field-plan-monthly",
+            }),
             React.createElement(
               FieldLabel,
               { htmlFor: "field-plan-monthly", className: "font-normal" },
@@ -838,7 +891,10 @@ export function FieldSlider() {
           React.createElement(
             Field,
             { orientation: "horizontal" },
-            React.createElement(RadioGroupItem, { value: "yearly", id: "field-plan-yearly" }),
+            React.createElement(RadioGroupItem, {
+              value: "yearly",
+              id: "field-plan-yearly",
+            }),
             React.createElement(
               FieldLabel,
               { htmlFor: "field-plan-yearly", className: "font-normal" },
@@ -871,7 +927,11 @@ export function FieldSlider() {
       preview: React.createElement(
         Field,
         { orientation: "horizontal", className: "w-fit" },
-        React.createElement(FieldLabel, { htmlFor: "field-2fa" }, "Multi-factor authentication"),
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "field-2fa" },
+          "Multi-factor authentication"
+        ),
         React.createElement(Switch, { id: "field-2fa" })
       ),
     },
@@ -913,7 +973,11 @@ export function FieldSlider() {
         React.createElement(
           FieldSet,
           {},
-          React.createElement(FieldLegend, { variant: "label" }, "Compute Environment"),
+          React.createElement(
+            FieldLegend,
+            { variant: "label" },
+            "Compute Environment"
+          ),
           React.createElement(
             FieldDescription,
             {},
@@ -972,7 +1036,8 @@ export function FieldSlider() {
     },
     {
       name: "Field Group",
-      description: "Stack Field components with FieldGroup and divide with FieldSeparator.",
+      description:
+        "Stack Field components with FieldGroup and divide with FieldSeparator.",
       code: `<FieldGroup className="w-full max-w-xs">
   <FieldSet>
     <FieldLabel>Responses</FieldLabel>
@@ -1075,7 +1140,8 @@ export function FieldSlider() {
     },
     {
       name: "Anatomy",
-      description: "Typical structure for a single field with helper and error text.",
+      description:
+        "Typical structure for a single field with helper and error text.",
       code: `<Field>
   <FieldLabel htmlFor="input-id">Label</FieldLabel>
   {/* Input, Select, Switch, etc. */}
@@ -1086,7 +1152,10 @@ export function FieldSlider() {
         Field,
         {},
         React.createElement(FieldLabel, { htmlFor: "field-anatomy" }, "Label"),
-        React.createElement(Input, { id: "field-anatomy", placeholder: "Input" }),
+        React.createElement(Input, {
+          id: "field-anatomy",
+          placeholder: "Input",
+        }),
         React.createElement(FieldDescription, {}, "Optional helper text."),
         React.createElement(FieldError, {}, "Validation message.")
       ),
@@ -1104,7 +1173,8 @@ export function FieldSlider() {
     },
     {
       name: "RTL",
-      description: "Field supports RTL layouts by passing dir=rtl to the container.",
+      description:
+        "Field supports RTL layouts by passing dir=rtl to the container.",
       code: `<div dir="rtl" className="w-full max-w-md py-6">
   <FieldGroup>
     <FieldSet>
@@ -1127,11 +1197,19 @@ export function FieldSlider() {
             FieldSet,
             {},
             React.createElement(FieldLegend, {}, "طريقة الدفع"),
-            React.createElement(FieldDescription, {}, "جميع المعاملات آمنة ومشفرة"),
+            React.createElement(
+              FieldDescription,
+              {},
+              "جميع المعاملات آمنة ومشفرة"
+            ),
             React.createElement(
               Field,
               {},
-              React.createElement(FieldLabel, { htmlFor: "field-rtl-name" }, "الاسم على البطاقة"),
+              React.createElement(
+                FieldLabel,
+                { htmlFor: "field-rtl-name" },
+                "الاسم على البطاقة"
+              ),
               React.createElement(Input, {
                 id: "field-rtl-name",
                 placeholder: "Evil Rabbit",
@@ -1143,7 +1221,8 @@ export function FieldSlider() {
     },
     {
       name: "Responsive Layout",
-      description: "Use orientation=responsive for automatic container-aware layouts.",
+      description:
+        "Use orientation=responsive for automatic container-aware layouts.",
       code: `<div className="w-full max-w-lg">
   <form>
     <FieldSet>
@@ -1191,7 +1270,11 @@ export function FieldSlider() {
                 React.createElement(
                   FieldContent,
                   {},
-                  React.createElement(FieldLabel, { htmlFor: "field-responsive-name" }, "Name"),
+                  React.createElement(
+                    FieldLabel,
+                    { htmlFor: "field-responsive-name" },
+                    "Name"
+                  ),
                   React.createElement(
                     FieldDescription,
                     {},
@@ -1229,10 +1312,14 @@ export function FieldSlider() {
 </Field>`,
       preview: React.createElement(
         Field,
-        ({ ["data-invalid"]: true } as unknown as React.ComponentProps<
+        { ["data-invalid"]: true } as unknown as React.ComponentProps<
           typeof Field
-        >),
-        React.createElement(FieldLabel, { htmlFor: "field-validation-email" }, "Email"),
+        >,
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "field-validation-email" },
+          "Email"
+        ),
         React.createElement(Input, {
           id: "field-validation-email",
           type: "email",
@@ -1251,9 +1338,21 @@ export function FieldSlider() {
       preview: React.createElement(
         "ul",
         { className: "text-muted-foreground list-disc space-y-1 pl-5 text-sm" },
-        React.createElement("li", {}, "Use FieldSet and FieldLegend to group related controls."),
-        React.createElement("li", {}, "Field renders role=group for grouped controls."),
-        React.createElement("li", {}, "Use FieldSeparator sparingly for clearer reading flow.")
+        React.createElement(
+          "li",
+          {},
+          "Use FieldSet and FieldLegend to group related controls."
+        ),
+        React.createElement(
+          "li",
+          {},
+          "Field renders role=group for grouped controls."
+        ),
+        React.createElement(
+          "li",
+          {},
+          "Use FieldSeparator sparingly for clearer reading flow."
+        )
       ),
     },
   ],
@@ -1272,7 +1371,8 @@ export function FieldSlider() {
     {
       name: "FieldGroup.className",
       type: "string",
-      description: "Layout wrapper class for stacking and container-query grouping.",
+      description:
+        "Layout wrapper class for stacking and container-query grouping.",
     },
     {
       name: "Field.orientation",

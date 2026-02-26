@@ -13,7 +13,9 @@ export const emptyDoc: ComponentDoc = {
   },
   usage: `import { Empty } from "@/components/ui/empty"`,
   preview: {
-    code: `<Empty>
+    code: `import { EmptyTitle } from "lucide-react"
+
+<Empty>
   <EmptyIcon />
   <EmptyTitle>No data</EmptyTitle>
   <EmptyDescription>There is no data to display</EmptyDescription>

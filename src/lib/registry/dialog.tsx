@@ -21,8 +21,7 @@ export const dialogDoc: ComponentDoc = {
     "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
   installation: {
     cli: "npx shadcn@latest add dialog",
-    manual:
-      "Install radix-ui and copy the dialog component source code.",
+    manual: "Install radix-ui and copy the dialog component source code.",
   },
   usage: `import { Button } from "@/components/ui/button"
 import {

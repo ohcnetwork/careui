@@ -4,12 +4,12 @@
  * @dependencies class-variance-authority lucide-react radix-ui
  * @type registry:ui
  */
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { Slot } from "radix-ui"
-import { X } from "lucide-react"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
+import { X } from "lucide-react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
   "inline-flex items-center justify-center gap-1 rounded-sm border font-medium w-fit whitespace-nowrap shrink-0 overflow-hidden [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
@@ -22,32 +22,25 @@ const badgeVariants = cva(
           "border-green-600/45 bg-green-100 text-green-900 dark:border-green-500/35 dark:bg-green-500/15 dark:text-green-300 [a&]:hover:bg-green-500/20 dark:[a&]:hover:bg-green-500/25",
         warning:
           "border-orange-500/45 bg-orange-100 text-orange-900 dark:border-orange-400/35 dark:bg-orange-400/15 dark:text-orange-300 [a&]:hover:bg-orange-500/20 dark:[a&]:hover:bg-orange-400/25",
-        info:
-          "border-indigo-500/45 bg-indigo-100 text-indigo-900 dark:border-indigo-400/35 dark:bg-indigo-400/15 dark:text-indigo-300 [a&]:hover:bg-indigo-500/20 dark:[a&]:hover:bg-indigo-400/25",
+        info: "border-indigo-500/45 bg-indigo-100 text-indigo-900 dark:border-indigo-400/35 dark:bg-indigo-400/15 dark:text-indigo-300 [a&]:hover:bg-indigo-500/20 dark:[a&]:hover:bg-indigo-400/25",
         destructive:
           "border-red-500/45 bg-red-100 text-red-900 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
         neutral:
           "border-neutral-400/40 bg-neutral-100 text-neutral-800 dark:border-neutral-400/35 dark:bg-neutral-400/15 dark:text-neutral-300 [a&]:hover:bg-neutral-400/20 dark:[a&]:hover:bg-neutral-400/25",
-        red:
-          "border-red-500/40 bg-red-100 text-red-800 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
+        red: "border-red-500/40 bg-red-100 text-red-800 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
         orange:
           "border-orange-500/40 bg-orange-100 text-orange-900 dark:border-orange-400/35 dark:bg-orange-400/15 dark:text-orange-300 [a&]:hover:bg-orange-500/20 dark:[a&]:hover:bg-orange-400/25",
         amber:
           "border-amber-500/40 bg-amber-100 text-amber-900 dark:border-amber-400/35 dark:bg-amber-400/15 dark:text-amber-300 [a&]:hover:bg-amber-500/20 dark:[a&]:hover:bg-amber-400/25",
         yellow:
           "border-yellow-500/40 bg-yellow-100 text-yellow-900 dark:border-yellow-400/35 dark:bg-yellow-400/15 dark:text-yellow-300 [a&]:hover:bg-yellow-500/20 dark:[a&]:hover:bg-yellow-400/25",
-        lime:
-          "border-lime-500/40 bg-lime-100 text-lime-900 dark:border-lime-400/35 dark:bg-lime-400/15 dark:text-lime-300 [a&]:hover:bg-lime-500/20 dark:[a&]:hover:bg-lime-400/25",
+        lime: "border-lime-500/40 bg-lime-100 text-lime-900 dark:border-lime-400/35 dark:bg-lime-400/15 dark:text-lime-300 [a&]:hover:bg-lime-500/20 dark:[a&]:hover:bg-lime-400/25",
         green:
           "border-green-500/40 bg-green-100 text-green-900 dark:border-green-400/35 dark:bg-green-400/15 dark:text-green-300 [a&]:hover:bg-green-500/20 dark:[a&]:hover:bg-green-400/25",
-        teal:
-          "border-teal-500/40 bg-teal-100 text-teal-900 dark:border-teal-400/35 dark:bg-teal-400/15 dark:text-teal-300 [a&]:hover:bg-teal-500/20 dark:[a&]:hover:bg-teal-400/25",
-        cyan:
-          "border-cyan-500/40 bg-cyan-100 text-cyan-900 dark:border-cyan-400/35 dark:bg-cyan-400/15 dark:text-cyan-300 [a&]:hover:bg-cyan-500/20 dark:[a&]:hover:bg-cyan-400/25",
-        sky:
-          "border-sky-500/40 bg-sky-100 text-sky-900 dark:border-sky-400/35 dark:bg-sky-400/15 dark:text-sky-300 [a&]:hover:bg-sky-500/20 dark:[a&]:hover:bg-sky-400/25",
-        blue:
-          "border-blue-500/40 bg-blue-100 text-blue-900 dark:border-blue-400/35 dark:bg-blue-400/15 dark:text-blue-300 [a&]:hover:bg-blue-500/20 dark:[a&]:hover:bg-blue-400/25",
+        teal: "border-teal-500/40 bg-teal-100 text-teal-900 dark:border-teal-400/35 dark:bg-teal-400/15 dark:text-teal-300 [a&]:hover:bg-teal-500/20 dark:[a&]:hover:bg-teal-400/25",
+        cyan: "border-cyan-500/40 bg-cyan-100 text-cyan-900 dark:border-cyan-400/35 dark:bg-cyan-400/15 dark:text-cyan-300 [a&]:hover:bg-cyan-500/20 dark:[a&]:hover:bg-cyan-400/25",
+        sky: "border-sky-500/40 bg-sky-100 text-sky-900 dark:border-sky-400/35 dark:bg-sky-400/15 dark:text-sky-300 [a&]:hover:bg-sky-500/20 dark:[a&]:hover:bg-sky-400/25",
+        blue: "border-blue-500/40 bg-blue-100 text-blue-900 dark:border-blue-400/35 dark:bg-blue-400/15 dark:text-blue-300 [a&]:hover:bg-blue-500/20 dark:[a&]:hover:bg-blue-400/25",
         indigo:
           "border-indigo-500/40 bg-indigo-100 text-indigo-900 dark:border-indigo-400/35 dark:bg-indigo-400/15 dark:text-indigo-300 [a&]:hover:bg-indigo-500/20 dark:[a&]:hover:bg-indigo-400/25",
         violet:
@@ -56,10 +49,8 @@ const badgeVariants = cva(
           "border-purple-500/40 bg-purple-100 text-purple-900 dark:border-purple-400/35 dark:bg-purple-400/15 dark:text-purple-300 [a&]:hover:bg-purple-500/20 dark:[a&]:hover:bg-purple-400/25",
         fuchsia:
           "border-fuchsia-500/40 bg-fuchsia-100 text-fuchsia-900 dark:border-fuchsia-400/35 dark:bg-fuchsia-400/15 dark:text-fuchsia-300 [a&]:hover:bg-fuchsia-500/20 dark:[a&]:hover:bg-fuchsia-400/25",
-        pink:
-          "border-pink-500/40 bg-pink-100 text-pink-900 dark:border-pink-400/35 dark:bg-pink-400/15 dark:text-pink-300 [a&]:hover:bg-pink-500/20 dark:[a&]:hover:bg-pink-400/25",
-        rose:
-          "border-rose-500/40 bg-rose-100 text-rose-900 dark:border-rose-400/35 dark:bg-rose-400/15 dark:text-rose-300 [a&]:hover:bg-rose-500/20 dark:[a&]:hover:bg-rose-400/25",
+        pink: "border-pink-500/40 bg-pink-100 text-pink-900 dark:border-pink-400/35 dark:bg-pink-400/15 dark:text-pink-300 [a&]:hover:bg-pink-500/20 dark:[a&]:hover:bg-pink-400/25",
+        rose: "border-rose-500/40 bg-rose-100 text-rose-900 dark:border-rose-400/35 dark:bg-rose-400/15 dark:text-rose-300 [a&]:hover:bg-rose-500/20 dark:[a&]:hover:bg-rose-400/25",
       },
       solid: {
         true: "",
@@ -110,10 +101,12 @@ const badgeVariants = cva(
       size: "md",
     },
   }
-)
+);
 
-export type BadgeVariant = NonNullable<VariantProps<typeof badgeVariants>["variant"]>
-export type BadgeSize = NonNullable<VariantProps<typeof badgeVariants>["size"]>
+export type BadgeVariant = NonNullable<
+  VariantProps<typeof badgeVariants>["variant"]
+>;
+export type BadgeSize = NonNullable<VariantProps<typeof badgeVariants>["size"]>;
 
 const semanticVariants: ReadonlySet<BadgeVariant> = new Set([
   "primary",
@@ -121,7 +114,7 @@ const semanticVariants: ReadonlySet<BadgeVariant> = new Set([
   "warning",
   "info",
   "destructive",
-])
+]);
 
 // Icon size inside the close button
 const closeIconSizeMap: Record<BadgeSize, string> = {
@@ -129,7 +122,7 @@ const closeIconSizeMap: Record<BadgeSize, string> = {
   sm: "size-3",
   md: "size-3",
   lg: "size-3.5",
-}
+};
 
 function Badge({
   className,
@@ -143,15 +136,17 @@ function Badge({
   ...props
 }: React.ComponentProps<"span"> &
   VariantProps<typeof badgeVariants> & {
-    asChild?: boolean
-    dot?: boolean
+    asChild?: boolean;
+    dot?: boolean;
     /** Solid filled background — only applies to the 5 semantic variants */
-    solid?: boolean
+    solid?: boolean;
     /** Renders a close (×) button; not compatible with asChild */
-    onClose?: React.MouseEventHandler<HTMLButtonElement>
+    onClose?: React.MouseEventHandler<HTMLButtonElement>;
   }) {
-  const Comp = asChild ? Slot.Root : "span"
-  const useSolidPalette = Boolean(solid && variant && semanticVariants.has(variant))
+  const Comp = asChild ? Slot.Root : "span";
+  const useSolidPalette = Boolean(
+    solid && variant && semanticVariants.has(variant)
+  );
 
   return (
     <Comp
@@ -168,7 +163,7 @@ function Badge({
       {dot && (
         <span
           data-slot="badge-dot"
-          className="size-1.5 rounded-full bg-current shrink-0"
+          className="size-1.5 shrink-0 rounded-full bg-current"
           aria-hidden="true"
         />
       )}
@@ -178,13 +173,13 @@ function Badge({
           type="button"
           onClick={onClose}
           aria-label="Remove"
-          className="self-stretch aspect-square shrink-0 inline-flex items-center justify-center rounded-r-sm cursor-pointer opacity-60 hover:opacity-100 hover:bg-current/20 outline-none focus-visible:opacity-100 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-indigo-500/80"
+          className="inline-flex aspect-square shrink-0 cursor-pointer items-center justify-center self-stretch rounded-r-sm opacity-60 outline-none hover:bg-current/20 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-indigo-500/80 focus-visible:ring-inset"
         >
           <X className={cn(closeIconSizeMap[size as BadgeSize] ?? "size-3")} />
         </button>
       )}
     </Comp>
-  )
+  );
 }
 
-export { Badge, badgeVariants }
+export { Badge, badgeVariants };

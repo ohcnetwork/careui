@@ -110,7 +110,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
         React.createElement(
           Field,
           { orientation: "horizontal" },
-          React.createElement(RadioGroupItem, { value: "default", id: "desc-r1" }),
+          React.createElement(RadioGroupItem, {
+            value: "default",
+            id: "desc-r1",
+          }),
           React.createElement(
             FieldContent,
             {},
@@ -132,7 +135,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
           React.createElement(
             FieldContent,
             {},
-            React.createElement(FieldLabel, { htmlFor: "desc-r2" }, "Comfortable"),
+            React.createElement(
+              FieldLabel,
+              { htmlFor: "desc-r2" },
+              "Comfortable"
+            ),
             React.createElement(
               FieldDescription,
               {},
@@ -143,7 +150,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
         React.createElement(
           Field,
           { orientation: "horizontal" },
-          React.createElement(RadioGroupItem, { value: "compact", id: "desc-r3" }),
+          React.createElement(RadioGroupItem, {
+            value: "compact",
+            id: "desc-r3",
+          }),
           React.createElement(
             FieldContent,
             {},
@@ -209,7 +219,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
                 "For individuals and small teams."
               )
             ),
-            React.createElement(RadioGroupItem, { value: "plus", id: "plus-plan" })
+            React.createElement(RadioGroupItem, {
+              value: "plus",
+              id: "plus-plan",
+            })
           )
         ),
         React.createElement(
@@ -228,7 +241,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
                 "For growing businesses."
               )
             ),
-            React.createElement(RadioGroupItem, { value: "pro", id: "pro-plan" })
+            React.createElement(RadioGroupItem, {
+              value: "pro",
+              id: "pro-plan",
+            })
           )
         ),
         React.createElement(
@@ -280,7 +296,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
       preview: React.createElement(
         FieldSet,
         { className: "w-full max-w-xs" },
-        React.createElement(FieldLegend, { variant: "label" }, "Subscription Plan"),
+        React.createElement(
+          FieldLegend,
+          { variant: "label" },
+          "Subscription Plan"
+        ),
         React.createElement(
           FieldDescription,
           {},
@@ -305,7 +325,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
           React.createElement(
             Field,
             { orientation: "horizontal" },
-            React.createElement(RadioGroupItem, { value: "yearly", id: "plan-yearly" }),
+            React.createElement(RadioGroupItem, {
+              value: "yearly",
+              id: "plan-yearly",
+            }),
             React.createElement(
               FieldLabel,
               { htmlFor: "plan-yearly", className: "font-normal" },
@@ -366,7 +389,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
         React.createElement(
           Field,
           { orientation: "horizontal" },
-          React.createElement(RadioGroupItem, { value: "option2", id: "disabled-2" }),
+          React.createElement(RadioGroupItem, {
+            value: "option2",
+            id: "disabled-2",
+          }),
           React.createElement(
             FieldLabel,
             { htmlFor: "disabled-2", className: "font-normal" },
@@ -376,7 +402,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
         React.createElement(
           Field,
           { orientation: "horizontal" },
-          React.createElement(RadioGroupItem, { value: "option3", id: "disabled-3" }),
+          React.createElement(RadioGroupItem, {
+            value: "option3",
+            id: "disabled-3",
+          }),
           React.createElement(
             FieldLabel,
             { htmlFor: "disabled-3", className: "font-normal" },
@@ -473,7 +502,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
     {
       name: "defaultValue",
       type: "string",
-      description: "The value of the item that should be checked when initially rendered.",
+      description:
+        "The value of the item that should be checked when initially rendered.",
     },
     {
       name: "value",

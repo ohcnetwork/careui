@@ -39,7 +39,9 @@ export function AlertDemo() {
   )
 }`,
   preview: {
-    code: `<Alert>
+    code: `import { AlertTitle, CheckCircle2Icon } from "lucide-react"
+
+<Alert>
   <CheckCircle2Icon />
   <AlertTitle>Success! Your changes have been saved</AlertTitle>
   <AlertDescription>
@@ -66,7 +68,9 @@ export function AlertDemo() {
     {
       name: "Info Alert",
       description: "An informational alert with custom icon.",
-      code: `<Alert>
+      code: `import { AlertTitle, PopcornIcon } from "lucide-react"
+
+<Alert>
   <PopcornIcon />
   <AlertTitle>
     This Alert has a title and an icon. No description.
@@ -86,7 +90,9 @@ export function AlertDemo() {
     {
       name: "Destructive Alert",
       description: "A destructive alert with detailed error information.",
-      code: `<Alert variant="destructive">
+      code: `import { AlertTitle, AlertCircleIcon } from "lucide-react"
+
+<Alert variant="destructive">
   <AlertCircleIcon />
   <AlertTitle>Unable to process your payment.</AlertTitle>
   <AlertDescription>

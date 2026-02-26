@@ -30,7 +30,9 @@ export function ToggleDemo() {
   )
 }`,
   preview: {
-    code: `<Toggle
+    code: `import { BookmarkIcon } from "lucide-react"
+
+<Toggle
   aria-label="Toggle bookmark"
   size="sm"
   variant="outline"

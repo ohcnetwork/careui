@@ -93,7 +93,9 @@ export function CommandDemo() {
   )
 }`,
   preview: {
-    code: `<Command className="rounded-lg border shadow-md md:min-w-[450px]">
+    code: `import { CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut, Calendar, CreditCard, Settings, Smile, User, Calculator, Command } from "lucide-react"
+
+<Command className="rounded-lg border shadow-md md:min-w-[450px]">
   <CommandInput placeholder="Type a command or search..." />
   <CommandList>
     <CommandEmpty>No results found.</CommandEmpty>
@@ -396,7 +398,9 @@ export function CommandDialogDemo() {
     {
       name: "With Shortcuts",
       description: "Commands with keyboard shortcuts displayed.",
-      code: `<Command>
+      code: `import { CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut, Settings, Command } from "lucide-react"
+
+<Command>
   <CommandInput placeholder="Search commands..." />
   <CommandList>
     <CommandEmpty>No results found.</CommandEmpty>

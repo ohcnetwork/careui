@@ -413,7 +413,9 @@ export function DrawerDemo() {
       name: "Responsive Dialog",
       description:
         "A responsive component that shows a dialog on desktop and a drawer on mobile.",
-      code: `"use client"
+      code: `import { DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "lucide-react"
+
+"use client"
 
 import * as React from "react"
 

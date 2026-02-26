@@ -25,7 +25,10 @@ const section = (label: string, ...children: React.ReactNode[]) =>
     { className: "flex flex-col gap-2" },
     React.createElement(
       "p",
-      { className: "text-xs text-muted-foreground font-medium uppercase tracking-wide" },
+      {
+        className:
+          "text-xs text-muted-foreground font-medium uppercase tracking-wide",
+      },
       label
     ),
     ...children
@@ -57,7 +60,9 @@ export function BadgeDemo() {
 }`,
 
   preview: {
-    code: `<div className="flex items-center gap-2 flex-wrap">
+    code: `import { Info } from "lucide-react"
+
+<div className="flex items-center gap-2 flex-wrap">
   <Badge variant="primary">Primary</Badge>
   <Badge variant="success">Success</Badge>
   <Badge variant="warning">Warning</Badge>
@@ -77,7 +82,8 @@ export function BadgeDemo() {
     // ── Sizes ──────────────────────────────────────────────────────────────
     {
       name: "Sizes",
-      description: "Four sizes: xs (16 px), sm (20 px), md (24 px), lg (28 px).",
+      description:
+        "Four sizes: xs (16 px), sm (20 px), md (24 px), lg (28 px).",
       code: `<div className="flex items-center gap-2 flex-wrap">
   <Badge size="xs" variant="primary">XSmall</Badge>
   <Badge size="sm" variant="primary">Small</Badge>
@@ -85,9 +91,17 @@ export function BadgeDemo() {
   <Badge size="lg" variant="primary">Large</Badge>
 </div>`,
       preview: row(
-        React.createElement(Badge, { size: "xs", variant: "primary" }, "XSmall"),
+        React.createElement(
+          Badge,
+          { size: "xs", variant: "primary" },
+          "XSmall"
+        ),
         React.createElement(Badge, { size: "sm", variant: "primary" }, "Small"),
-        React.createElement(Badge, { size: "md", variant: "primary" }, "Medium"),
+        React.createElement(
+          Badge,
+          { size: "md", variant: "primary" },
+          "Medium"
+        ),
         React.createElement(Badge, { size: "lg", variant: "primary" }, "Large")
       ),
     },
@@ -96,7 +110,9 @@ export function BadgeDemo() {
     {
       name: "With Dot",
       description: "A filled dot that inherits the badge text color.",
-      code: `<div className="flex items-center gap-2 flex-wrap">
+      code: `import { Info } from "lucide-react"
+
+<div className="flex items-center gap-2 flex-wrap">
   <Badge variant="primary" dot>Primary</Badge>
   <Badge variant="success" dot>Success</Badge>
   <Badge variant="warning" dot>Warning</Badge>
@@ -104,18 +120,35 @@ export function BadgeDemo() {
   <Badge variant="destructive" dot>Destructive</Badge>
 </div>`,
       preview: row(
-        React.createElement(Badge, { variant: "primary", dot: true }, "Primary"),
-        React.createElement(Badge, { variant: "success", dot: true }, "Success"),
-        React.createElement(Badge, { variant: "warning", dot: true }, "Warning"),
+        React.createElement(
+          Badge,
+          { variant: "primary", dot: true },
+          "Primary"
+        ),
+        React.createElement(
+          Badge,
+          { variant: "success", dot: true },
+          "Success"
+        ),
+        React.createElement(
+          Badge,
+          { variant: "warning", dot: true },
+          "Warning"
+        ),
         React.createElement(Badge, { variant: "info", dot: true }, "Info"),
-        React.createElement(Badge, { variant: "destructive", dot: true }, "Destructive")
+        React.createElement(
+          Badge,
+          { variant: "destructive", dot: true },
+          "Destructive"
+        )
       ),
     },
 
     // ── With Icon ──────────────────────────────────────────────────────────
     {
       name: "With Icon",
-      description: 'Use data-icon="inline-start" to render the icon on the left and data-icon="inline-end" to render the icon on the right. Padding on the icon side is reduced automatically.',
+      description:
+        'Use data-icon="inline-start" to render the icon on the left and data-icon="inline-end" to render the icon on the right. Padding on the icon side is reduced automatically.',
       code: `import { CheckCircle2, AlertTriangle, Info, XCircle, Star, Zap } from "lucide-react"
 
 {/* Icon on the left — inline-start */}
@@ -166,27 +199,35 @@ export function BadgeDemo() {
             React.createElement(
               Badge,
               { variant: "success" },
-              React.createElement(CheckCircle2, { ["data-icon"]: "inline-start" } as any),
+              React.createElement(CheckCircle2, {
+                ["data-icon"]: "inline-start",
+              } as any),
               "Approved"
             ),
             React.createElement(
               Badge,
               { variant: "warning" },
-              React.createElement(AlertTriangle, { ["data-icon"]: "inline-start" } as any),
+              React.createElement(AlertTriangle, {
+                ["data-icon"]: "inline-start",
+              } as any),
               "Pending"
             ),
             React.createElement(
               Badge,
               { variant: "info" },
-              React.createElement(Info, { ["data-icon"]: "inline-start" } as any),
+              React.createElement(Info, {
+                ["data-icon"]: "inline-start",
+              } as any),
               "Notice"
             ),
             React.createElement(
               Badge,
               { variant: "destructive" },
-              React.createElement(XCircle, { ["data-icon"]: "inline-start" } as any),
+              React.createElement(XCircle, {
+                ["data-icon"]: "inline-start",
+              } as any),
               "Failed"
-            ),
+            )
           )
         ),
         section(
@@ -196,26 +237,28 @@ export function BadgeDemo() {
               Badge,
               { variant: "primary" },
               "Featured",
-              React.createElement(Star, { ["data-icon"]: "inline-end" } as any),
+              React.createElement(Star, { ["data-icon"]: "inline-end" } as any)
             ),
             React.createElement(
               Badge,
               { variant: "violet" },
               "Pro",
-              React.createElement(Zap, { ["data-icon"]: "inline-end" } as any),
+              React.createElement(Zap, { ["data-icon"]: "inline-end" } as any)
             ),
             React.createElement(
               Badge,
               { variant: "success" },
               "Verified",
-              React.createElement(CheckCircle2, { ["data-icon"]: "inline-end" } as any),
+              React.createElement(CheckCircle2, {
+                ["data-icon"]: "inline-end",
+              } as any)
             ),
             React.createElement(
               Badge,
               { variant: "info" },
               "Info",
-              React.createElement(Info, { ["data-icon"]: "inline-end" } as any),
-            ),
+              React.createElement(Info, { ["data-icon"]: "inline-end" } as any)
+            )
           )
         )
       ),
@@ -224,8 +267,11 @@ export function BadgeDemo() {
     // ── Solid ──────────────────────────────────────────────────────────────
     {
       name: "Solid",
-      description: "Add the solid prop to the five semantic variants for a fully filled background.",
-      code: `<div className="flex flex-col gap-3">
+      description:
+        "Add the solid prop to the five semantic variants for a fully filled background.",
+      code: `import { Info } from "lucide-react"
+
+<div className="flex flex-col gap-3">
   <div className="flex items-center gap-2 flex-wrap">
     <Badge variant="primary" solid>Primary</Badge>
     <Badge variant="success" solid>Success</Badge>
@@ -247,21 +293,61 @@ export function BadgeDemo() {
         section(
           "Solid",
           row(
-            React.createElement(Badge, { variant: "primary", solid: true }, "Primary"),
-            React.createElement(Badge, { variant: "success", solid: true }, "Success"),
-            React.createElement(Badge, { variant: "warning", solid: true }, "Warning"),
-            React.createElement(Badge, { variant: "info", solid: true }, "Info"),
-            React.createElement(Badge, { variant: "destructive", solid: true }, "Destructive")
+            React.createElement(
+              Badge,
+              { variant: "primary", solid: true },
+              "Primary"
+            ),
+            React.createElement(
+              Badge,
+              { variant: "success", solid: true },
+              "Success"
+            ),
+            React.createElement(
+              Badge,
+              { variant: "warning", solid: true },
+              "Warning"
+            ),
+            React.createElement(
+              Badge,
+              { variant: "info", solid: true },
+              "Info"
+            ),
+            React.createElement(
+              Badge,
+              { variant: "destructive", solid: true },
+              "Destructive"
+            )
           )
         ),
         section(
           "Solid + Dot",
           row(
-            React.createElement(Badge, { variant: "primary", solid: true, dot: true }, "Primary"),
-            React.createElement(Badge, { variant: "success", solid: true, dot: true }, "Success"),
-            React.createElement(Badge, { variant: "warning", solid: true, dot: true }, "Warning"),
-            React.createElement(Badge, { variant: "info", solid: true, dot: true }, "Info"),
-            React.createElement(Badge, { variant: "destructive", solid: true, dot: true }, "Destructive")
+            React.createElement(
+              Badge,
+              { variant: "primary", solid: true, dot: true },
+              "Primary"
+            ),
+            React.createElement(
+              Badge,
+              { variant: "success", solid: true, dot: true },
+              "Success"
+            ),
+            React.createElement(
+              Badge,
+              { variant: "warning", solid: true, dot: true },
+              "Warning"
+            ),
+            React.createElement(
+              Badge,
+              { variant: "info", solid: true, dot: true },
+              "Info"
+            ),
+            React.createElement(
+              Badge,
+              { variant: "destructive", solid: true, dot: true },
+              "Destructive"
+            )
           )
         )
       ),
@@ -270,8 +356,11 @@ export function BadgeDemo() {
     // ── With Close Button ──────────────────────────────────────────────────
     {
       name: "With Close Button",
-      description: "Pass an onClose handler to render a dismiss button inside the badge.",
-      code: `<div className="flex items-center gap-2 flex-wrap">
+      description:
+        "Pass an onClose handler to render a dismiss button inside the badge.",
+      code: `import { Info } from "lucide-react"
+
+<div className="flex items-center gap-2 flex-wrap">
   <Badge variant="primary" onClose={() => {}}>Primary</Badge>
   <Badge variant="success" onClose={() => {}}>Success</Badge>
   <Badge variant="warning" onClose={() => {}}>Warning</Badge>
@@ -279,11 +368,31 @@ export function BadgeDemo() {
   <Badge variant="destructive" onClose={() => {}}>Destructive</Badge>
 </div>`,
       preview: row(
-        React.createElement(Badge, { variant: "primary", onClose: () => {} }, "Primary"),
-        React.createElement(Badge, { variant: "success", onClose: () => {} }, "Success"),
-        React.createElement(Badge, { variant: "warning", onClose: () => {} }, "Warning"),
-        React.createElement(Badge, { variant: "info", onClose: () => {} }, "Info"),
-        React.createElement(Badge, { variant: "destructive", onClose: () => {} }, "Destructive")
+        React.createElement(
+          Badge,
+          { variant: "primary", onClose: () => {} },
+          "Primary"
+        ),
+        React.createElement(
+          Badge,
+          { variant: "success", onClose: () => {} },
+          "Success"
+        ),
+        React.createElement(
+          Badge,
+          { variant: "warning", onClose: () => {} },
+          "Warning"
+        ),
+        React.createElement(
+          Badge,
+          { variant: "info", onClose: () => {} },
+          "Info"
+        ),
+        React.createElement(
+          Badge,
+          { variant: "destructive", onClose: () => {} },
+          "Destructive"
+        )
       ),
     },
 
@@ -325,7 +434,9 @@ export function BadgeDemo() {
     {
       name: "Full Palette",
       description: "All variants displayed together.",
-      code: `<div className="flex flex-col gap-3">
+      code: `import { Info } from "lucide-react"
+
+<div className="flex flex-col gap-3">
   <div className="flex items-center gap-2 flex-wrap">
     <Badge variant="primary">Primary</Badge>
     <Badge variant="success">Success</Badge>
@@ -363,14 +474,16 @@ export function BadgeDemo() {
             React.createElement(Badge, { variant: "success" }, "Success"),
             React.createElement(Badge, { variant: "warning" }, "Warning"),
             React.createElement(Badge, { variant: "info" }, "Info"),
-            React.createElement(Badge, { variant: "destructive" }, "Destructive")
+            React.createElement(
+              Badge,
+              { variant: "destructive" },
+              "Destructive"
+            )
           )
         ),
         section(
           "Gray",
-          row(
-            React.createElement(Badge, { variant: "neutral" }, "Neutral")
-          )
+          row(React.createElement(Badge, { variant: "neutral" }, "Neutral"))
         ),
         section(
           "Warm",
@@ -422,13 +535,15 @@ export function BadgeDemo() {
     {
       name: "size",
       type: '"xs" | "sm" | "md" | "lg"',
-      description: "Height of the badge: xs=16 px, sm=20 px, md=24 px, lg=28 px.",
+      description:
+        "Height of the badge: xs=16 px, sm=20 px, md=24 px, lg=28 px.",
       default: '"md"',
     },
     {
       name: "solid",
       type: "boolean",
-      description: "When true, renders a fully filled (solid) background instead of the default tinted outline style.",
+      description:
+        "When true, renders a fully filled (solid) background instead of the default tinted outline style.",
       default: "false",
     },
     {
@@ -440,7 +555,8 @@ export function BadgeDemo() {
     {
       name: "onClose",
       type: "React.MouseEventHandler<HTMLButtonElement>",
-      description: "When provided, renders a close (×) button inside the badge.",
+      description:
+        "When provided, renders a close (×) button inside the badge.",
       default: "undefined",
     },
   ],
