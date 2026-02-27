@@ -120,6 +120,7 @@ export function DropdownMenuDemo() {
           DropdownMenuGroup,
           {},
           React.createElement(DropdownMenuLabel, {}, "My Account"),
+          React.createElement(DropdownMenuSeparator, {}),
           React.createElement(
             DropdownMenuItem,
             {},
@@ -359,21 +360,31 @@ export function DropdownMenuCheckboxes() {
 
 import * as React from "react"
 import { ChevronDown } from "lucide-react"
-    import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox"
 
 export function DropdownMenuCheckboxComponent() {
+  const [open, setOpen] = React.useState(false)
   const [showStatusBar, setShowStatusBar] = React.useState(true)
   const [showActivityBar, setShowActivityBar] = React.useState(false)
+  const footerButtonRef = React.useRef<HTMLButtonElement | null>(null)
+  const hasSelection = showStatusBar || showActivityBar
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           View
           <ChevronDown className="size-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent
+        onKeyDown={(event) => {
+          if (event.key === "Tab" && !event.shiftKey) {
+            event.preventDefault()
+            footerButtonRef.current?.focus()
+          }
+        }}
+      >
         <DropdownMenuLabel>Appearance</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -408,18 +419,33 @@ export function DropdownMenuCheckboxComponent() {
           />
           <span>Activity Bar</span>
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <div className="bg-popover sticky bottom-0 -mx-1 p-1">
+          <Button
+            ref={footerButtonRef}
+            size="sm"
+            variant={hasSelection ? "secondary" : "ghost"}
+            className="w-full"
+            onClick={() => setOpen(false)}
+          >
+            {hasSelection ? "Done" : "Close"}
+          </Button>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   )
 }`,
       preview: React.createElement(
         function DropdownMenuCheckboxComponentPreview() {
+          const [open, setOpen] = React.useState(false);
           const [showStatusBar, setShowStatusBar] = React.useState(true);
           const [showActivityBar, setShowActivityBar] = React.useState(false);
+          const footerButtonRef = React.useRef<HTMLButtonElement | null>(null);
+          const hasSelection = showStatusBar || showActivityBar;
 
           return React.createElement(
             DropdownMenu,
-            {},
+            { open, onOpenChange: setOpen },
             React.createElement(
               DropdownMenuTrigger,
               { asChild: true },
@@ -432,7 +458,14 @@ export function DropdownMenuCheckboxComponent() {
             ),
             React.createElement(
               DropdownMenuContent,
-              {},
+              {
+                onKeyDown: (event) => {
+                  if (event.key === "Tab" && !event.shiftKey) {
+                    event.preventDefault();
+                    footerButtonRef.current?.focus();
+                  }
+                },
+              },
               React.createElement(DropdownMenuLabel, {}, "Appearance"),
               React.createElement(DropdownMenuSeparator, {}),
               React.createElement(
@@ -472,6 +505,22 @@ export function DropdownMenuCheckboxComponent() {
                     "pointer-events-none bg-background data-checked:bg-primary data-checked:text-primary-foreground! group-focus-visible/dropdown-menu-item:ring-ring/50 group-focus-visible/dropdown-menu-item:ring-[3px]",
                 }),
                 React.createElement("span", {}, "Activity Bar")
+              ),
+              React.createElement(DropdownMenuSeparator, {}),
+              React.createElement(
+                "div",
+                { className: "bg-popover sticky bottom-0 -mx-1 p-1" },
+                React.createElement(
+                  Button,
+                  {
+                    ref: footerButtonRef,
+                    size: "sm",
+                    variant: hasSelection ? "secondary" : "ghost",
+                    className: "w-full",
+                    onClick: () => setOpen(false),
+                  },
+                  hasSelection ? "Done" : "Close"
+                )
               )
             )
           );
