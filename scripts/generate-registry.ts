@@ -50,7 +50,8 @@ const CONFIG: RegistryConfig = {
     'class-variance-authority': ['class-variance-authority'],
     'vaul': ['vaul'],
     'recharts': ['recharts'],
-    'lucide-react': ['lucide-react']
+    'lucide-react': ['lucide-react'],
+    '@base-ui/react': ['@base-ui/react']
   }
 }
 

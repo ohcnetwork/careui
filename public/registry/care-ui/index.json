@@ -396,6 +396,17 @@
     ]
   },
   {
+    "name": "combobox",
+    "type": "registry:ui",
+    "dependencies": [
+      "@base-ui/react",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/combobox/combobox.tsx"
+    ]
+  },
+  {
     "name": "collapsible",
     "type": "registry:ui",
     "dependencies": [

@@ -19,10 +19,12 @@ const buttonVariants = cva(
           "border-primary-950/90 dark:border-primary-900 bg-primary text-primary-foreground shadow-md shadow-primary/50 dark:shadow-gray-950 hover:bg-primary/90 not-disabled:inset-shadow-2xs not-disabled:inset-shadow-primary-200/30 dark:not-disabled:inset-shadow-2xs dark:not-disabled:inset-shadow-primary-200/80 [:active,[data-pressed]]:bg-primary/80 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-primary-800 dark:[:active,[data-pressed]]:inset-shadow-sm dark:[:active,[data-pressed]]:inset-shadow-primary-800 [:disabled,:active,[data-pressed]]:shadow-none",
         secondary:
           "border border-primary-700 bg-background text-primary-900 dark:text-primary-500 shadow-md hover:border-primary-600 hover:bg-primary-700/10 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground [:active,[data-pressed]]:bg-primary-700/5 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-gray-500/35 dark:[:active,[data-pressed]]:inset-shadow-gray-950 [:disabled,:active,[data-pressed]]:shadow-none",
+        tertiary:
+          "underline underline-offset-4 hover:bg-muted hover:text-foreground hover:border-border aria-expanded:bg-muted aria-expanded:text-foreground [:active,[data-pressed]]:bg-muted/90 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-gray-400/40 dark:hover:bg-muted/50 dark:[:active,[data-pressed]]:inset-shadow-gray-950/80",
         outline:
           "border-border border-gray-400 bg-background shadow-md hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground [:active,[data-pressed]]:bg-muted/80 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-gray-400/50 dark:[:active,[data-pressed]]:inset-shadow-gray-950/80 [:disabled,:active,[data-pressed]]:shadow-none dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         ghost:
-          "underline underline-offset-4 hover:bg-muted hover:text-foreground hover:border-border aria-expanded:bg-muted aria-expanded:text-foreground [:active,[data-pressed]]:bg-muted/90 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-gray-400/40 dark:hover:bg-muted/50 dark:[:active,[data-pressed]]:inset-shadow-gray-950/80",
+          "underline underline-offset-4 hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground [:active,[data-pressed]]:bg-muted/90 dark:hover:bg-muted/50",
         link: "text-blue-700 underline underline-offset-4 transition-[color,text-underline-offset] hover:underline-offset-2 hover:text-blue-800 [:active,[data-pressed]]:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 dark:[:active,[data-pressed]]:text-blue-200",
         destructive:
           "border border-destructive/50 bg-red-100/75 text-red-700 shadow-md hover:bg-destructive/20 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/25 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-red-400/40 [:disabled,:active,[data-pressed]]:shadow-none dark:bg-destructive/5 dark:hover:border-destructive/75 dark:text-red-400 dark:hover:bg-destructive/4 dark:[:active,[data-pressed]]:bg-destructive/5 dark:[:active,[data-pressed]]:inset-shadow-gray-950",
@@ -36,7 +38,7 @@ const buttonVariants = cva(
         sm: "h-9 gap-1 px-3 rounded-[min(var(--radius-md),10px)] [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5 in-data-[slot=button-group]:rounded-md",
         lg: "h-11 gap-1.5 px-4 [&_svg:not([class*='size-'])]:size-5 has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
         xl: "h-12 gap-2 px-4.5 text-base [&_svg:not([class*='size-'])]:size-6 has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4",
-        icon: "size-10 [&_svg:not([class*='size-'])]:size-5",
+        icon: "size-12 md:size-10 [&_svg:not([class*='size-'])]:size-5",
         "icon-xs":
           "size-8 rounded-[min(var(--radius-md),8px)] [&_svg:not([class*='size-'])]:size-3.5 in-data-[slot=button-group]:rounded-md",
         "icon-sm":

@@ -56,6 +56,8 @@ const componentLoaders: Record<
     import("./checkbox").then((m) => ({ default: m.checkboxDoc })),
   collapsible: () =>
     import("./collapsible").then((m) => ({ default: m.collapsibleDoc })),
+  combobox: () =>
+    import("./combobox").then((m) => ({ default: m.comboboxDoc })),
   command: () => import("./command").then((m) => ({ default: m.commandDoc })),
   "context-menu": () =>
     import("./context-menu").then((m) => ({ default: m.contextMenuDoc })),
