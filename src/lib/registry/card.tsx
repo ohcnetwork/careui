@@ -304,7 +304,7 @@ export function CardImage() {
       />
       <CardHeader>
         <CardAction>
-          <Badge variant="secondary">Featured</Badge>
+          <Badge variant="neutral">Featured</Badge>
         </CardAction>
         <CardTitle>Design systems meetup</CardTitle>
         <CardDescription>
@@ -336,7 +336,7 @@ export function CardImage() {
           React.createElement(
             CardAction,
             {},
-            React.createElement(Badge, { variant: "secondary" }, "Featured")
+            React.createElement(Badge, { variant: "neutral" }, "Featured")
           ),
           React.createElement(CardTitle, {}, "Design systems meetup"),
           React.createElement(
