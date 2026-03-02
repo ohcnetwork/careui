@@ -442,7 +442,6 @@
     "name": "carousel",
     "type": "registry:ui",
     "dependencies": [
-      "embla-carousel-react",
       "lucide-react"
     ],
     "files": [
