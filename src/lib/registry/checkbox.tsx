@@ -602,6 +602,12 @@ export function CheckboxInTable() {
   ],
   props: [
     {
+      name: "size",
+      type: '"default" | "md"',
+      description: 'Controls the size of the checkbox. `"default"` is 20 px; `"md"` is 16 px.',
+      default: '"default"',
+    },
+    {
       name: "checked",
       type: 'boolean | "indeterminate"',
       description: "The controlled checked state of the checkbox.",
