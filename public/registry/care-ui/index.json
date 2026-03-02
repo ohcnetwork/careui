@@ -452,9 +452,6 @@
   {
     "name": "card",
     "type": "registry:ui",
-    "dependencies": [
-      "none"
-    ],
     "files": [
       "registry/care-ui/card/card.tsx"
     ]

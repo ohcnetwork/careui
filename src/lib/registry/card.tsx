@@ -9,6 +9,7 @@ import {
   CardAction,
   CardFooter,
 } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -203,7 +204,162 @@ export function CardDemo() {
       )
     ),
   },
+  examples: [
+    // ── Size ───────────────────────────────────────────────────────────────
+    {
+      name: "Size",
+      description:
+        'Use the `size="sm"` prop to set the size of the card to small. The small size variant uses smaller spacing.',
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+export function CardSmall() {
+  return (
+    <Card size="sm" className="mx-auto w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>Small Card</CardTitle>
+        <CardDescription>
+          This card uses the small size variant.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>
+          The card component supports a size prop that can be set to
+          &quot;sm&quot; for a more compact appearance.
+        </p>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" size="sm" className="w-full">
+          Action
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}`,
+      preview: React.createElement(
+        Card,
+        { size: "sm", className: "mx-auto w-full max-w-sm" },
+        React.createElement(
+          CardHeader,
+          {},
+          React.createElement(CardTitle, {}, "Small Card"),
+          React.createElement(
+            CardDescription,
+            {},
+            "This card uses the small size variant."
+          )
+        ),
+        React.createElement(
+          CardContent,
+          {},
+          React.createElement(
+            "p",
+            {},
+            'The card component supports a size prop that can be set to "sm" for a more compact appearance.'
+          )
+        ),
+        React.createElement(
+          CardFooter,
+          {},
+          React.createElement(
+            Button,
+            { variant: "outline", size: "sm", className: "w-full" },
+            "Action"
+          )
+        )
+      ),
+    },
+
+    // ── Image ──────────────────────────────────────────────────────────────
+    {
+      name: "Image",
+      description:
+        "Add an image before the card header to create a card with an image.",
+      code: `import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+export function CardImage() {
+  return (
+    <Card className="relative mx-auto w-full max-w-sm pt-0">
+      <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+      <img
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Event cover"
+        className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
+      />
+      <CardHeader>
+        <CardAction>
+          <Badge variant="secondary">Featured</Badge>
+        </CardAction>
+        <CardTitle>Design systems meetup</CardTitle>
+        <CardDescription>
+          A practical talk on component APIs, accessibility, and shipping
+          faster.
+        </CardDescription>
+      </CardHeader>
+      <CardFooter>
+        <Button className="w-full">View Event</Button>
+      </CardFooter>
+    </Card>
+  )
+}`,
+      preview: React.createElement(
+        Card,
+        { className: "relative mx-auto w-full max-w-sm pt-0" },
+        React.createElement("div", {
+          className: "absolute inset-0 z-30 aspect-video bg-black/35",
+        }),
+        React.createElement("img", {
+          src: "https://avatar.vercel.sh/shadcn1",
+          alt: "Event cover",
+          className:
+            "relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40",
+        }),
+        React.createElement(
+          CardHeader,
+          {},
+          React.createElement(
+            CardAction,
+            {},
+            React.createElement(Badge, { variant: "secondary" }, "Featured")
+          ),
+          React.createElement(CardTitle, {}, "Design systems meetup"),
+          React.createElement(
+            CardDescription,
+            {},
+            "A practical talk on component APIs, accessibility, and shipping faster."
+          )
+        ),
+        React.createElement(
+          CardFooter,
+          {},
+          React.createElement(Button, { className: "w-full" }, "View Event")
+        )
+      ),
+    },
+  ],
   props: [
+    {
+      name: "size",
+      type: '"default" | "sm"',
+      description: "Controls the spacing and padding of the card.",
+      default: '"default"',
+    },
     {
       name: "className",
       type: "string",
