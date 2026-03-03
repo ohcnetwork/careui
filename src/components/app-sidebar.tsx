@@ -77,6 +77,10 @@ const componentNames: Record<string, string> = {
 const data = {
   navMain: [
     {
+      title: "Tools",
+      items: [{ id: "playground", title: "Playground" }],
+    },
+    {
       title: "Documentation",
       items: [
         ...Object.values(documentationPages).map((page) => ({

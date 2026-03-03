@@ -464,6 +464,79 @@ export const inputDoc: ComponentDoc = {
       ),
     },
     {
+      name: "Auto Space",
+      description:
+        "Use autoSpace to automatically insert a space after punctuation (. , ! ? ; :) when the user types without one. Opt-in only — disabled by default. Automatically skipped for email, number, url, password, search, and tel inputs.",
+      code: `<FieldGroup>
+  <Field>
+    <FieldLabel htmlFor="input-autospace-on">Notes (autoSpace on)</FieldLabel>
+    <Input
+      id="input-autospace-on"
+      autoSpace
+      placeholder="Try typing: Hello,World or Hello.World"
+    />
+    <FieldDescription>
+      Punctuation auto-inserts a space before the next word.
+    </FieldDescription>
+  </Field>
+  <Field>
+    <FieldLabel htmlFor="input-autospace-email">Email (always skipped)</FieldLabel>
+    <Input
+      id="input-autospace-email"
+      type="email"
+      autoSpace
+      placeholder="user@example.com"
+    />
+    <FieldDescription>
+      autoSpace is silently ignored for email, number, url, password, search, and tel.
+    </FieldDescription>
+  </Field>
+</FieldGroup>`,
+      preview: React.createElement(
+        FieldGroup,
+        {},
+        React.createElement(
+          Field,
+          {},
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "input-autospace-on" },
+            "Notes (autoSpace on)"
+          ),
+          React.createElement(Input, {
+            id: "input-autospace-on",
+            autoSpace: true,
+            placeholder: "Try typing: Hello,World or Hello.World",
+          } as any),
+          React.createElement(
+            FieldDescription,
+            {},
+            "Punctuation auto-inserts a space before the next word."
+          )
+        ),
+        React.createElement(
+          Field,
+          {},
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "input-autospace-email" },
+            "Email (always skipped)"
+          ),
+          React.createElement(Input, {
+            id: "input-autospace-email",
+            type: "email",
+            autoSpace: true,
+            placeholder: "user@example.com",
+          } as any),
+          React.createElement(
+            FieldDescription,
+            {},
+            "autoSpace is silently ignored for email, number, url, password, search, and tel."
+          )
+        )
+      ),
+    },
+    {
       name: "Form",
       description: "A full form example with inputs, a select, and actions.",
       code: `import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "lucide-react"
@@ -651,6 +724,13 @@ export const inputDoc: ComponentDoc = {
       name: "required",
       type: "boolean",
       description: "Marks the field as required.",
+      default: "false",
+    },
+    {
+      name: "autoSpace",
+      type: "boolean",
+      description:
+        "When true, automatically inserts a space after punctuation (. , ! ? ; :) when the next character typed is not a space. Silently ignored for email, number, url, password, search, and tel inputs.",
       default: "false",
     },
   ],

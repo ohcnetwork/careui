@@ -10,6 +10,7 @@ import { useNavigation } from "@/contexts/navigation-context";
 import { loadComponentDoc } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
 import { ComponentsOverview } from "@/components/components-overview";
+import { Playground } from "@/components/playground";
 import {
   DocumentationDisplay,
   NotFoundDocumentation,
@@ -390,6 +391,11 @@ export function DynamicMainContent() {
   // Handle components overview
   if (activeComponent === "components-overview") {
     return <ComponentsOverview />;
+  }
+
+  // Handle playground
+  if (activeComponent === "playground") {
+    return <Playground />;
   }
 
   // Show loading state

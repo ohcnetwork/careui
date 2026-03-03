@@ -287,8 +287,8 @@ export function DialogNoCloseButton() {
       <DialogTrigger asChild>
         <Button variant="outline">No Close Button</Button>
       </DialogTrigger>
-      <DialogContent showCloseButton={false}>
-        <DialogHeader>
+      <DialogContent>
+        <DialogHeader showCloseButton={false}>
           <DialogTitle>No Close Button</DialogTitle>
           <DialogDescription>
             This dialog doesn&apos;t have a close button in the top-right
@@ -313,10 +313,10 @@ export function DialogNoCloseButton() {
         ),
         React.createElement(
           DialogContent,
-          { showCloseButton: false },
+          {},
           React.createElement(
             DialogHeader,
-            {},
+            { showCloseButton: false },
             React.createElement(DialogTitle, {}, "No Close Button"),
             React.createElement(
               DialogDescription,
