@@ -21,26 +21,28 @@ export function ButtonDemo() {
     code: `<div className="flex gap-2 flex-wrap">
   <Button>Default</Button>
   <Button variant="secondary">Secondary</Button>
-  <Button variant="destructive">Destructive</Button>
-  <Button variant="destructive-solid">Destructive Solid</Button>
+  <Button variant="tertiary">Tertiary</Button>
   <Button variant="outline">Outline</Button>
   <Button variant="ghost">Ghost</Button>
   <Button variant="link">Link</Button>
+  <Button variant="destructive">Destructive</Button>
+  <Button variant="destructive-solid">Destructive Solid</Button>
 </div>`,
     component: React.createElement(
       "div",
-      { className: "flex gap-2 flex-wrap" },
+      { className: "flex gap-8 flex-wrap" },
       React.createElement(Button, {}, "Default"),
       React.createElement(Button, { variant: "secondary" }, "Secondary"),
+      React.createElement(Button, { variant: "tertiary" }, "Tertiary"),
+      React.createElement(Button, { variant: "outline" }, "Outline"),
+      React.createElement(Button, { variant: "ghost" }, "Ghost"),
+      React.createElement(Button, { variant: "link" }, "Link"),
       React.createElement(Button, { variant: "destructive" }, "Destructive"),
       React.createElement(
         Button,
         { variant: "destructive-solid" },
         "Destructive Solid"
-      ),
-      React.createElement(Button, { variant: "outline" }, "Outline"),
-      React.createElement(Button, { variant: "ghost" }, "Ghost"),
-      React.createElement(Button, { variant: "link" }, "Link")
+      )
     ),
   },
   examples: [
@@ -126,6 +128,10 @@ export function ButtonDemo() {
         <Mail data-icon="inline-start" />
         Secondary
       </Button>
+      <Button size="xs" variant="tertiary">
+        <Mail data-icon="inline-start" />
+        Tertiary
+      </Button>
       <Button size="xs" variant="outline">
         <Mail data-icon="inline-start" />
         Outline
@@ -152,6 +158,10 @@ export function ButtonDemo() {
       <Button size="sm" variant="secondary">
         <Mail data-icon="inline-start" />
         Secondary
+      </Button>
+      <Button size="sm" variant="tertiary">
+        <Mail data-icon="inline-start" />
+        Tertiary
       </Button>
       <Button size="sm" variant="outline">
         <Mail data-icon="inline-start" />
@@ -180,6 +190,10 @@ export function ButtonDemo() {
         <Mail data-icon="inline-start" />
         Secondary
       </Button>
+      <Button variant="tertiary">
+        <Mail data-icon="inline-start" />
+        Tertiary
+      </Button>
       <Button variant="outline">
         <Mail data-icon="inline-start" />
         Outline
@@ -207,6 +221,10 @@ export function ButtonDemo() {
         <Mail data-icon="inline-start" />
         Secondary
       </Button>
+      <Button size="lg" variant="tertiary">
+        <Mail data-icon="inline-start" />
+        Tertiary
+      </Button>
       <Button size="lg" variant="outline">
         <Mail data-icon="inline-start" />
         Outline
@@ -233,6 +251,10 @@ export function ButtonDemo() {
       <Button size="xl" variant="secondary">
         <Mail data-icon="inline-start" />
         Secondary
+      </Button>
+      <Button size="xl" variant="tertiary">
+        <Mail data-icon="inline-start" />
+        Tertiary
       </Button>
       <Button size="xl" variant="outline">
         <Mail data-icon="inline-start" />
@@ -279,6 +301,14 @@ export function ButtonDemo() {
                 ["data-icon"]: "inline-start",
               } as any),
               "Secondary"
+            ),
+            React.createElement(
+              Button,
+              { size: "xs", variant: "tertiary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Tertiary"
             ),
             React.createElement(
               Button,
@@ -336,6 +366,14 @@ export function ButtonDemo() {
             ),
             React.createElement(
               Button,
+              { size: "sm", variant: "tertiary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Tertiary"
+            ),
+            React.createElement(
+              Button,
               { size: "sm", variant: "outline" },
               React.createElement(Mail, {
                 ["data-icon"]: "inline-start",
@@ -387,6 +425,14 @@ export function ButtonDemo() {
                 ["data-icon"]: "inline-start",
               } as any),
               "Secondary"
+            ),
+            React.createElement(
+              Button,
+              { variant: "tertiary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Tertiary"
             ),
             React.createElement(
               Button,
@@ -444,6 +490,14 @@ export function ButtonDemo() {
             ),
             React.createElement(
               Button,
+              { size: "lg", variant: "tertiary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Tertiary"
+            ),
+            React.createElement(
+              Button,
               { size: "lg", variant: "outline" },
               React.createElement(Mail, {
                 ["data-icon"]: "inline-start",
@@ -495,6 +549,14 @@ export function ButtonDemo() {
                 ["data-icon"]: "inline-start",
               } as any),
               "Secondary"
+            ),
+            React.createElement(
+              Button,
+              { size: "xl", variant: "tertiary" },
+              React.createElement(Mail, {
+                ["data-icon"]: "inline-start",
+              } as any),
+              "Tertiary"
             ),
             React.createElement(
               Button,
