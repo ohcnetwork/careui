@@ -47,10 +47,13 @@ function DialogOverlay({
 
 function DialogContent({
   className,
+  innerClassName,
   children,
   onOpenAutoFocus,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  innerClassName?: string
+}) {
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -75,7 +78,7 @@ function DialogContent({
         }}
         {...props}
       >
-        <div className="grid gap-4 rounded-lg bg-background p-4 md:p-6 text-sm">
+        <div className={cn("grid gap-4 rounded-lg bg-background p-4 text-sm md:p-6", innerClassName)}>
           {children}
         </div>
       </DialogPrimitive.Content>

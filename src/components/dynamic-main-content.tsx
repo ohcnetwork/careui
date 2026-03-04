@@ -74,7 +74,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
 
   return (
     <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-8 px-8 py-8">
+      <div className="mx-auto max-w-4xl space-y-8 md:p-8">
         {/* Component Header */}
         <div>
           <h1 className="text-foreground text-4xl font-bold">{doc.name}</h1>
@@ -94,7 +94,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <TabsTrigger value="code">Code</TabsTrigger>
             </TabsList>
             <TabsContent value="preview" className="mt-4">
-              <div className="border-border bg-card flex min-h-[400px] items-center justify-center rounded-lg border p-8">
+              <div className="border-border bg-card flex min-h-[400px] items-center justify-center rounded-lg border p-4 md:p-8">
                 {doc.preview?.component || <div>No preview available</div>}
               </div>
             </TabsContent>
@@ -402,7 +402,7 @@ export function DynamicMainContent() {
   if (loading) {
     return (
       <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-4xl space-y-8 px-8 py-8">
+        <div className="mx-auto max-w-4xl space-y-8 md:p-8">
           <div className="flex min-h-[400px] items-center justify-center">
             <div className="text-muted-foreground">Loading...</div>
           </div>

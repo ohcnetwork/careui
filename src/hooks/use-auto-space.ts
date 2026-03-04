@@ -14,8 +14,15 @@ const PUNCT = new Set([".", ",", "!", "?", ";", ":"]);
  * - No re-renders, no native-setter hacks, no `useLayoutEffect` needed
  *
  * Special cases that are left untouched:
- * - Decimal numbers: "3.1" — digit · dot · digit
+ * - Decimal / version numbers: "3.14", "1.0.2" — digit · dot · digit
+ * - Thousands separators: "1,000" — digit · comma · digit
  * - The typed character is whitespace or punctuation itself
+ * - IME composition events (mobile keyboards)
+ *
+ * Known design limitation (cannot be resolved at character level):
+ * - letter·dot·letter is ambiguous: "Dr.Smith" (wanted: space) vs "U.S.A"
+ *   (unwanted: space). Restrict autoSpace to prose-only fields (notes, comments)
+ *   and never enable on structured clinical or code fields.
  */
 export function useAutoSpace(
   enabled: boolean,
@@ -25,6 +32,12 @@ export function useAutoSpace(
       if (!enabled) return;
 
       const event = e.nativeEvent as InputEvent;
+
+      // Skip IME composition events (mobile CJK / predictive keyboards).
+      // During composition, event.data may be a partial syllable; intercepting
+      // it would corrupt the composition buffer.
+      if (event.isComposing) return;
+
       const char = event.data;
 
       // Only handle single printable character insertions.
@@ -40,10 +53,18 @@ export function useAutoSpace(
       const prevChar = el.value[cursor - 1];
       if (!PUNCT.has(prevChar)) return;
 
-      // Exception: decimal / version numbers — digit.digit → "3.14", "1.0.2"
-      if (prevChar === "." && /\d/.test(char)) {
-        const beforeDot = cursor >= 2 ? el.value[cursor - 2] : "";
-        if (/\d/.test(beforeDot)) return;
+      // Exception: decimal / version / dosage numbers — skip whenever a digit
+      // follows ".". Covers: "3.14", "1.0.2", "TDS.5", "192.168.0.1", etc.
+      // Using a one-sided guard (just char-is-digit) is intentionally conservative:
+      // it avoids corrupting any numeric or medical abbreviation context.
+      if (prevChar === "." && /\d/.test(char)) return;
+
+      // Exception: thousands separators — digit,digit → "1,000", "12,000".
+      // Only skip when the character immediately before the comma is also a digit
+      // so that list commas ("apples,oranges") still receive a space.
+      if (prevChar === "," && /\d/.test(char)) {
+        const beforeComma = cursor >= 2 ? el.value[cursor - 2] : "";
+        if (/\d/.test(beforeComma)) return;
       }
 
       // Intercept the keystroke and re-insert as " <char>".

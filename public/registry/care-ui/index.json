@@ -388,7 +388,6 @@
     "name": "command",
     "type": "registry:ui",
     "dependencies": [
-      "cmdk",
       "lucide-react"
     ],
     "files": [
