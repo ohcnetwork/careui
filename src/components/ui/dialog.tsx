@@ -48,6 +48,7 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  onOpenAutoFocus,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content>) {
   return (
@@ -59,9 +60,22 @@ function DialogContent({
           "fixed top-1/2 left-1/2 z-50 w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 rounded-xl bg-foreground/10 p-1.5 duration-100 outline-none shadow-xl sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
           className
         )}
+        onOpenAutoFocus={(e) => {
+          if (onOpenAutoFocus) {
+            onOpenAutoFocus(e)
+            return
+          }
+          const input = (e.currentTarget as HTMLElement).querySelector<HTMLElement>(
+            'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])'
+          )
+          if (input) {
+            e.preventDefault()
+            input.focus()
+          }
+        }}
         {...props}
       >
-        <div className="grid gap-6 rounded-lg bg-background p-6 text-sm">
+        <div className="grid gap-4 rounded-lg bg-background p-4 md:p-6 text-sm">
           {children}
         </div>
       </DialogPrimitive.Content>
@@ -80,13 +94,13 @@ function DialogHeader({
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-row items-start justify-between gap-4", className)}
+      className={cn("flex flex-row border-b pb-4 items-start justify-between gap-4", className)}
       {...props}
     >
-      <div className="flex flex-col gap-2">{children}</div>
+      <div className="flex flex-col gap-0.5">{children}</div>
       {showCloseButton && (
         <DialogPrimitive.Close data-slot="dialog-close" asChild>
-          <Button variant="outline" size="icon" className="shrink-0 -mt-1 -mr-1">
+          <Button variant="ghost" size="icon" className="shrink-0 -mt-1 -mr-1">
             <XIcon />
             <span className="sr-only">Close</span>
           </Button>
@@ -108,7 +122,7 @@ function DialogFooter({
     <div
       data-slot="dialog-footer"
       className={cn(
-        "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+        "flex border-t pt-4 flex-col-reverse gap-4 sm:flex-row sm:justify-end",
         className
       )}
       {...props}
@@ -130,7 +144,7 @@ function DialogTitle({
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("leading-none font-medium", className)}
+      className={cn("leading-none text-lg font-semibold", className)}
       {...props}
     />
   )
@@ -144,7 +158,7 @@ function DialogDescription({
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        "text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        "text-sm text-soft-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
         className
       )}
       {...props}
