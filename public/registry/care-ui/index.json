@@ -55,9 +55,6 @@
   {
     "name": "table",
     "type": "registry:ui",
-    "dependencies": [
-      "none"
-    ],
     "files": [
       "registry/care-ui/table/table.tsx"
     ]
@@ -371,6 +368,17 @@
     ],
     "files": [
       "registry/care-ui/dialog/dialog.tsx"
+    ]
+  },
+  {
+    "name": "data-table",
+    "type": "registry:ui",
+    "dependencies": [
+      "@tanstack/react-table",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/data-table/data-table.tsx"
     ]
   },
   {
