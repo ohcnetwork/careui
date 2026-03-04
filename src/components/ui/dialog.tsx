@@ -78,7 +78,7 @@ function DialogContent({
         }}
         {...props}
       >
-        <div className={cn("grid gap-4 rounded-lg bg-background p-4 text-sm md:p-6", innerClassName)}>
+        <div className={cn("grid gap-4 rounded-lg bg-background p-4 text-sm md:px-6 md:py-5", innerClassName)}>
           {children}
         </div>
       </DialogPrimitive.Content>
