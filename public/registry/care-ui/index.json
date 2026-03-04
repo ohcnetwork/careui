@@ -431,8 +431,7 @@
     "name": "chart",
     "type": "registry:ui",
     "dependencies": [
-      "recharts",
-      "lucide-react"
+      "recharts"
     ],
     "files": [
       "registry/care-ui/chart/chart.tsx"

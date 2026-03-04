@@ -94,8 +94,10 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <TabsTrigger value="code">Code</TabsTrigger>
             </TabsList>
             <TabsContent value="preview" className="mt-4">
-              <div className="border-border bg-card flex min-h-[400px] items-center justify-center rounded-lg border p-4 md:p-8">
-                {doc.preview?.component || <div>No preview available</div>}
+              <div className="border-border bg-card min-h-[300px] rounded-lg border p-4 md:p-8 [&:has(.recharts-responsive-container)]:flex-none">
+                <div className="flex min-h-[250px] items-center justify-center [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
+                  {doc.preview?.component || <div>No preview available</div>}
+                </div>
               </div>
             </TabsContent>
             <TabsContent value="code" className="mt-4">
@@ -182,11 +184,8 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               className="absolute top-2 right-2 z-10 h-8 w-8 p-0"
               onClick={() =>
                 copyToClipboard(
-                  `import { ${doc.name} } from "@/components/careui/${doc.id}";
-
-export default function Example() {
-  return <${doc.name}>${doc.name}</${doc.name}>;
-}`,
+                  doc.usage ||
+                    `import { ${doc.name} } from "@/components/careui/${doc.id}";`,
                   "usage-code"
                 )
               }
@@ -206,11 +205,8 @@ export default function Example() {
                 fontSize: "0.875rem",
               }}
             >
-              {`import { ${doc.name} } from "@/components/careui/${doc.id}";
-
-export default function Example() {
-  return <${doc.name}>${doc.name}</${doc.name}>;
-}`}
+              {doc.usage ||
+                `import { ${doc.name} } from "@/components/careui/${doc.id}";`}
             </SyntaxHighlighter>
           </div>
         </section>{" "}
@@ -234,8 +230,10 @@ export default function Example() {
                       <TabsTrigger value="code">Code</TabsTrigger>
                     </TabsList>
                     <TabsContent value="preview" className="mt-4">
-                      <div className="border-border bg-card flex min-h-[400px] items-center justify-center gap-4 rounded-lg border p-8">
-                        {example.preview}
+                      <div className="border-border bg-card min-h-[200px] rounded-lg border p-4 md:p-8">
+                        <div className="flex min-h-[160px] items-center justify-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
+                          {example.preview}
+                        </div>
                       </div>
                     </TabsContent>
                     <TabsContent value="code" className="mt-4">
