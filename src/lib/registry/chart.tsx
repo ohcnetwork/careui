@@ -144,7 +144,7 @@ const ChartDemo = () => {
       CardContent,
       { className: "px-2 sm:p-6" },
       React.createElement(
-        ChartContainer,
+        ChartContainer as any,
         {
           config: interactiveChartConfig,
           className: "aspect-auto h-[250px] w-full",
@@ -171,7 +171,7 @@ const ChartDemo = () => {
               });
             },
           }),
-          React.createElement(ChartTooltip, {
+          React.createElement(ChartTooltip as any, {
             content: React.createElement(ChartTooltipContent, {
               className: "w-[150px]",
               nameKey: "views",
@@ -390,7 +390,7 @@ export function ChartExample() {
   )
 }`,
       preview: React.createElement(
-        ChartContainer,
+        ChartContainer as any,
         {
           config: simpleChartConfig,
           className: "min-h-[200px] w-full",
@@ -451,7 +451,7 @@ export function ChartBarDemoGrid() {
   )
 }`,
       preview: React.createElement(
-        ChartContainer,
+        ChartContainer as any,
         {
           config: simpleChartConfig,
           className: "min-h-[200px] w-full",
@@ -520,7 +520,7 @@ export function ChartBarDemoAxis() {
   )
 }`,
       preview: React.createElement(
-        ChartContainer,
+        ChartContainer as any,
         {
           config: simpleChartConfig,
           className: "min-h-[200px] w-full",
@@ -602,7 +602,7 @@ export function ChartBarDemoTooltip() {
   )
 }`,
       preview: React.createElement(
-        ChartContainer,
+        ChartContainer as any,
         {
           config: simpleChartConfig,
           className: "min-h-[200px] w-full",
@@ -618,7 +618,7 @@ export function ChartBarDemoTooltip() {
             axisLine: false,
             tickFormatter: (value: string) => value.slice(0, 3),
           }),
-          React.createElement(ChartTooltip, {
+          React.createElement(ChartTooltip as any, {
             content: React.createElement(ChartTooltipContent, {}),
           }),
           React.createElement(Bar as any, {
@@ -690,7 +690,7 @@ export function ChartBarDemoLegend() {
   )
 }`,
       preview: React.createElement(
-        ChartContainer,
+        ChartContainer as any,
         {
           config: simpleChartConfig,
           className: "min-h-[200px] w-full",
@@ -706,10 +706,10 @@ export function ChartBarDemoLegend() {
             axisLine: false,
             tickFormatter: (value: string) => value.slice(0, 3),
           }),
-          React.createElement(ChartTooltip, {
+          React.createElement(ChartTooltip as any, {
             content: React.createElement(ChartTooltipContent, {}),
           }),
-          React.createElement(ChartLegend, {
+          React.createElement(ChartLegend as any, {
             content: React.createElement(ChartLegendContent, {}),
           }),
           React.createElement(Bar as any, {
