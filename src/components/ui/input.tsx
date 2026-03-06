@@ -2,6 +2,7 @@
  * @name input
  * @description A text input component for forms and user data entry with built-in styling and accessibility features.
  * @dependencies none
+ * @registryDependencies use-auto-space
  * @type registry:ui
  */
 import * as React from "react";

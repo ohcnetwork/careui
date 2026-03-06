@@ -34,9 +34,6 @@
   {
     "name": "textarea",
     "type": "registry:ui",
-    "dependencies": [
-      "none"
-    ],
     "files": [
       "registry/care-ui/textarea/textarea.tsx"
     ]
@@ -567,6 +564,41 @@
     ],
     "files": [
       "registry/care-ui/accordion/accordion.tsx"
+    ]
+  },
+  {
+    "name": "use-scroll-restoration",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/use-scroll-restoration/use-scroll-restoration.ts"
+    ]
+  },
+  {
+    "name": "use-mobile",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/use-mobile/use-mobile.ts"
+    ]
+  },
+  {
+    "name": "use-media-query",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/use-media-query/use-media-query.ts"
+    ]
+  },
+  {
+    "name": "use-copy-to-clipboard",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/use-copy-to-clipboard/use-copy-to-clipboard.ts"
+    ]
+  },
+  {
+    "name": "use-auto-space",
+    "type": "registry:hook",
+    "files": [
+      "registry/care-ui/use-auto-space/use-auto-space.ts"
     ]
   }
 ]

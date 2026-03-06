@@ -34,6 +34,9 @@
           "target": "components/careui/input.tsx",
           "path": "registry/care-ui/input/input.json"
         }
+      ],
+      "registryDependencies": [
+        "use-auto-space"
       ]
     },
     {
@@ -569,6 +572,9 @@
           "target": "components/careui/textarea.tsx",
           "path": "registry/care-ui/textarea/textarea.json"
         }
+      ],
+      "registryDependencies": [
+        "use-auto-space"
       ]
     },
     {
@@ -616,6 +622,20 @@
           "type": "registry:ui",
           "target": "components/careui/toggle-group.tsx",
           "path": "registry/care-ui/toggle-group/toggle-group.json"
+        }
+      ]
+    },
+    {
+      "name": "use-auto-space",
+      "type": "registry:hook",
+      "description": "Returns an onBeforeInput handler that auto-inserts a space after punctuation when the next character typed is not a space.",
+      "dependencies": [],
+      "files": [
+        {
+          "name": "use-auto-space.ts",
+          "type": "registry:hook",
+          "target": "hooks/use-auto-space.ts",
+          "path": "registry/care-ui/use-auto-space/use-auto-space.json"
         }
       ]
     }

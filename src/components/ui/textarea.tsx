@@ -1,38 +1,36 @@
 /**
  * @name textarea
  * @description Displays a form textarea or a component that looks like a textarea.
- * @dependencies none
+ * @dependencies
+ * @registryDependencies use-auto-space
  * @type registry:ui
  */
-import * as React from "react";
+import * as React from "react"
 
-import { cn } from "@/lib/utils";
-import { useAutoSpace } from "@/hooks/use-auto-space";
+import { useAutoSpace } from "@/hooks/use-auto-space"
+import { cn } from "@/lib/utils"
 
 function Textarea({
   className,
   autoSpace = false,
+  onBeforeInput,
   ...props
-}: React.ComponentProps<"textarea"> & {
-  /**
-   * When `true`, automatically inserts a space after punctuation (. , ! ? ; :)
-   * when the user types the next word without one.
-   */
-  autoSpace?: boolean;
-}) {
-  const handleBeforeInput = useAutoSpace(autoSpace);
-
+}: React.ComponentProps<"textarea"> & { autoSpace?: boolean }) {
+  const handleAutoSpace = useAutoSpace(autoSpace)
   return (
     <textarea
       data-slot="textarea"
       className={cn(
-        "border-input dark:bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 placeholder:text-placeholder-foreground flex field-sizing-content min-h-16 w-full rounded-md border bg-transparent px-2.5 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-[3px] md:text-sm",
+        "flex field-sizing-content min-h-16 w-full rounded-md border border-input bg-transparent px-2.5 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
         className
       )}
-      onBeforeInput={handleBeforeInput}
+      onBeforeInput={(e) => {
+        handleAutoSpace(e)
+        onBeforeInput?.(e)
+      }}
       {...props}
     />
-  );
+  )
 }
 
-export { Textarea };
+export { Textarea }

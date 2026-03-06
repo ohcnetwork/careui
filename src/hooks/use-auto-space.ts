@@ -1,3 +1,8 @@
+/**
+ * @name use-auto-space
+ * @description Returns an onBeforeInput handler that auto-inserts a space after punctuation when the next character typed is not a space.
+ * @type registry:hook
+ */
 import * as React from "react";
 
 const PUNCT = new Set([".", ",", "!", "?", ";", ":"]);

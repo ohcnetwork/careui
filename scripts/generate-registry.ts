@@ -34,14 +34,18 @@ interface ComponentMeta {
 
 interface RegistryConfig {
   componentsDir: string
+  hooksDir: string
   registryDir: string
+  registryBaseUrl: string
   excludeFiles: string[]
   dependencyMap: Record<string, string[]>
 }
 
 const CONFIG: RegistryConfig = {
   componentsDir: 'src/components/ui',
+  hooksDir: 'src/hooks',
   registryDir: 'public/registry/care-ui',
+  registryBaseUrl: 'https://careui.vercel.app/registry/care-ui',
   excludeFiles: ['index.ts', 'types.ts'],
   // Map of common imports to their package names
   dependencyMap: {
@@ -60,7 +64,7 @@ const CONFIG: RegistryConfig = {
  * Extract JSDoc metadata from component file
  */
 function extractMetadata(content: string, fileName: string): Partial<ComponentMeta> {
-  const componentName = path.basename(fileName, '.tsx')
+  const componentName = path.parse(fileName).name
 
   // Extract JSDoc block
   const jsdocMatch = content.match(/\/\*\*([\s\S]*?)\*\//)
@@ -89,10 +93,17 @@ function extractMetadata(content: string, fileName: string): Partial<ComponentMe
   const typeMatch = jsdoc.match(/@type\s+(.+?)(?=@|\*\/|$)/s)
   const type = typeMatch ? typeMatch[1].trim() as ComponentMeta['type'] : 'registry:ui'
 
+  // Extract @registryDependencies
+  const regDepsMatch = jsdoc.match(/@registryDependencies\s+(.+?)(?=@|\*\/|$)/s)
+  const registryDependencies = regDepsMatch
+    ? regDepsMatch[1].trim().replace(/\s*\*\s*/g, ' ').split(/[\s,]+/).filter(Boolean)
+    : []
+
   return {
     name: componentName,
     description,
     dependencies,
+    registryDependencies,
     type
   }
 }
@@ -127,12 +138,17 @@ function detectDependencies(content: string): string[] {
 async function processComponent(filePath: string): Promise<ComponentMeta> {
   const content = await fs.readFile(filePath, 'utf-8')
   const fileName = path.basename(filePath)
-  const componentName = path.basename(filePath, '.tsx')
+  const componentName = path.parse(fileName).name
 
   // Extract metadata
   const metadata = extractMetadata(content, fileName)
   const autoDeps = detectDependencies(content)
   const allDeps = [...new Set([...metadata.dependencies || [], ...autoDeps])]
+
+  const isHook = (metadata.type || 'registry:ui') === 'registry:hook'
+  const fileExt = path.extname(fileName)
+  const fileType = isHook ? 'registry:hook' : 'registry:component'
+  const targetDir = isHook ? 'hooks' : 'components/careui'
 
   return {
     name: metadata.name || componentName,
@@ -141,10 +157,10 @@ async function processComponent(filePath: string): Promise<ComponentMeta> {
     dependencies: allDeps.length > 0 ? allDeps : undefined,
     registryDependencies: metadata.registryDependencies && metadata.registryDependencies.length > 0 ? metadata.registryDependencies : undefined,
     files: [{
-      path: `registry/care-ui/${componentName}/${fileName}`,
+      path: `registry/care-ui/${componentName}/${componentName}${fileExt}`,
       content,
-      type: 'registry:component',
-      target: `components/careui/${fileName}`
+      type: fileType,
+      target: `${targetDir}/${componentName}${fileExt}`
     }]
   }
 }
@@ -163,17 +179,26 @@ async function ensureDir(dirPath: string): Promise<void> {
 /**
  * Write registry JSON file
  */
-async function writeRegistryFile(component: ComponentMeta): Promise<void> {
+async function writeRegistryFile(component: ComponentMeta, localNames: Set<string>): Promise<void> {
   const outputDir = path.join(CONFIG.registryDir, component.name)
   const outputFile = path.join(outputDir, `${component.name}.json`)
 
   await ensureDir(outputDir)
 
+  // Resolve bare local names to full URLs; leave full URLs and official names as-is
+  const resolvedDeps = (component.registryDependencies || []).map(dep => {
+    if (dep.startsWith('http')) return dep
+    if (localNames.has(dep)) {
+      return `${CONFIG.registryBaseUrl}/${dep}/${dep}.json`
+    }
+    return dep
+  })
+
   const registryData = {
     name: component.name,
     type: component.type,
     dependencies: component.dependencies,
-    registryDependencies: component.registryDependencies || [],
+    registryDependencies: resolvedDeps,
     files: component.files
   }
 
@@ -206,30 +231,43 @@ async function main(): Promise<void> {
   console.log('🚀 Starting registry generation...')
 
   try {
-    // Find all component files
+    // Find all component + hook files
     const componentFiles = await glob(`${CONFIG.componentsDir}/*.tsx`, {
       ignore: CONFIG.excludeFiles.map(file => `${CONFIG.componentsDir}/${file}`)
     })
+    const hookFiles = await glob(`${CONFIG.hooksDir}/*.ts`)
+    const allFiles = [...componentFiles, ...hookFiles]
 
-    if (componentFiles.length === 0) {
+    if (allFiles.length === 0) {
       console.warn('⚠️  No component files found')
       return
     }
 
-    console.log(`📁 Found ${componentFiles.length} component files`)
+    console.log(`📁 Found ${componentFiles.length} component files, ${hookFiles.length} hook files`)
 
     // Ensure registry directory exists
     await ensureDir(CONFIG.registryDir)
 
     // Process each component
     const components: ComponentMeta[] = []
-    for (const filePath of componentFiles) {
+    for (const filePath of allFiles) {
       try {
         const component = await processComponent(filePath)
         components.push(component)
-        await writeRegistryFile(component)
       } catch (error) {
         console.error(`❌ Error processing ${filePath}:`, error)
+      }
+    }
+
+    // Build set of all local component/hook names for URL resolution
+    const localNames = new Set(components.map(c => c.name))
+
+    // Write registry files (resolves local deps to full URLs)
+    for (const component of components) {
+      try {
+        await writeRegistryFile(component, localNames)
+      } catch (error) {
+        console.error(`❌ Error writing ${component.name}:`, error)
       }
     }
 
