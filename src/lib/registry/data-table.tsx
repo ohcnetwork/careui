@@ -67,6 +67,14 @@ const fullColumns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "email",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Email",
+      }),
+  },
+  {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) =>
@@ -77,26 +85,18 @@ const fullColumns: ColumnDef<Payment>[] = [
       ),
   },
   {
-    accessorKey: "email",
-    header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, {
-        column: column as any,
-        title: "Email",
-      }),
-  },
-  {
     accessorKey: "amount",
-    header: () =>
-      React.createElement("div", { className: "text-right" }, "Amount"),
+    header: "Amount",
+    meta: { className: "text-right" },
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-IN", {
         style: "currency",
-        currency: "USD",
+        currency: "INR",
       }).format(amount);
       return React.createElement(
         "div",
-        { className: "text-right font-medium" },
+        { className: "font-medium tabular-nums" },
         formatted
       );
     },
@@ -104,10 +104,12 @@ const fullColumns: ColumnDef<Payment>[] = [
   {
     id: "actions",
     enableHiding: false,
+    meta: { className: "w-0" },
     cell: ({ row }) =>
       React.createElement(
         DataTableRowActions,
         {},
+
         React.createElement(
           DropdownMenuItem,
           {
@@ -126,26 +128,32 @@ const fullColumns: ColumnDef<Payment>[] = [
 
 const basicColumns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "status",
-    header: "Status",
-  },
-  {
     accessorKey: "email",
     header: "Email",
   },
   {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) =>
+      React.createElement(
+        Badge,
+        { variant: statusVariantMap[row.getValue("status") as Payment["status"]] },
+        row.getValue("status")
+      ),
+  },
+  {
     accessorKey: "amount",
-    header: () =>
-      React.createElement("div", { className: "text-right" }, "Amount"),
+    header: "Amount",
+    meta: { className: "text-right" },
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-IN", {
         style: "currency",
-        currency: "USD",
+        currency: "INR",
       }).format(amount);
       return React.createElement(
         "div",
-        { className: "text-right font-medium" },
+        { className: "font-medium tabular-nums" },
         formatted
       );
     },
@@ -191,18 +199,19 @@ type Payment = {
 }
 
 const columns: ColumnDef<Payment>[] = [
-  { accessorKey: "status", header: "Status" },
   { accessorKey: "email", header: "Email" },
+  { accessorKey: "status", header: "Status" },
   {
     accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    header: "Amount",
+    meta: { className: "text-right" },
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-IN", {
         style: "currency",
-        currency: "USD",
+        currency: "INR",
       }).format(amount)
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="font-medium tabular-nums">{formatted}</div>
     },
   },
 ]
@@ -267,6 +276,10 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "email",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
+  },
+  {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => (
@@ -276,23 +289,21 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: "email",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
-  },
-  {
     accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    header: "Amount",
+    meta: { className: "text-right" },
     cell: ({ row }) => {
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-IN", {
         style: "currency",
-        currency: "USD",
+        currency: "INR",
       }).format(parseFloat(row.getValue("amount")))
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="font-medium tabular-nums">{formatted}</div>
     },
   },
   {
     id: "actions",
     enableHiding: false,
+    meta: { className: "w-0" },
     cell: ({ row }) => (
       <DataTableRowActions>
         <DropdownMenuItem
@@ -326,6 +337,7 @@ export function DataTableDemo() {
       description: "A simple table with status, email, and amount columns.",
       code: `"use client"
 
+import { Badge } from "@/components/ui/badge"
 import { DataTable } from "@/components/ui/data-table"
 import { type ColumnDef } from "@tanstack/react-table"
 
@@ -336,18 +348,34 @@ type Payment = {
   email: string
 }
 
+const statusVariantMap = {
+  success: "success",
+  processing: "info",
+  pending: "neutral",
+  failed: "destructive",
+} as const
+
 const columns: ColumnDef<Payment>[] = [
-  { accessorKey: "status", header: "Status" },
   { accessorKey: "email", header: "Email" },
   {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant={statusVariantMap[row.getValue("status") as Payment["status"]]}>
+        {row.getValue("status")}
+      </Badge>
+    ),
+  },
+  {
     accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    header: "Amount",
+    meta: { className: "text-right" },
     cell: ({ row }) => {
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-IN", {
         style: "currency",
-        currency: "USD",
+        currency: "INR",
       }).format(parseFloat(row.getValue("amount")))
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="font-medium tabular-nums">{formatted}</div>
     },
   },
 ]
@@ -363,6 +391,7 @@ export function BasicDataTable() {
         "Add a dropdown menu to each row for contextual actions like view, edit, or delete.",
       code: `"use client"
 
+import { Badge } from "@/components/ui/badge"
 import { DataTable, DataTableRowActions } from "@/components/ui/data-table"
 import {
   DropdownMenuItem,
@@ -370,12 +399,28 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { type ColumnDef } from "@tanstack/react-table"
 
+const statusVariantMap = {
+  success: "success",
+  processing: "info",
+  pending: "neutral",
+  failed: "destructive",
+} as const
+
 export const columns: ColumnDef<Payment>[] = [
-  { accessorKey: "status", header: "Status" },
   { accessorKey: "email", header: "Email" },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant={statusVariantMap[row.getValue("status") as Payment["status"]]}>
+        {row.getValue("status")}
+      </Badge>
+    ),
+  },
   {
     id: "actions",
     enableHiding: false,
+    meta: { className: "w-0" },
     cell: ({ row }) => (
       <DataTableRowActions>
         <DropdownMenuItem
@@ -393,16 +438,23 @@ export const columns: ColumnDef<Payment>[] = [
       preview: React.createElement(DataTable as any, {
         columns: [
           {
-            accessorKey: "status",
-            header: "Status",
-          },
-          {
             accessorKey: "email",
             header: "Email",
           },
           {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({ row }: any) =>
+              React.createElement(
+                Badge,
+                { variant: statusVariantMap[row.getValue("status") as Payment["status"]] },
+                row.getValue("status")
+              ),
+          },
+          {
             id: "actions",
             enableHiding: false,
+            meta: { className: "w-0" },
             cell: ({ row }: any) =>
               React.createElement(
                 DataTableRowActions,
@@ -434,11 +486,18 @@ export const columns: ColumnDef<Payment>[] = [
         "Use DataTableColumnHeader to make columns sortable by clicking the header.",
       code: `"use client"
 
+import { Badge } from "@/components/ui/badge"
 import { DataTable, DataTableColumnHeader } from "@/components/ui/data-table"
 import { type ColumnDef } from "@tanstack/react-table"
 
+const statusVariantMap = {
+  success: "success",
+  processing: "info",
+  pending: "neutral",
+  failed: "destructive",
+} as const
+
 export const columns: ColumnDef<Payment>[] = [
-  { accessorKey: "status", header: "Status" },
   {
     accessorKey: "email",
     header: ({ column }) => (
@@ -446,16 +505,26 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant={statusVariantMap[row.getValue("status") as Payment["status"]]}>
+        {row.getValue("status")}
+      </Badge>
+    ),
+  },
+  {
     accessorKey: "amount",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Amount" />
     ),
+    meta: { className: "text-right" },
     cell: ({ row }) => {
-      const formatted = new Intl.NumberFormat("en-US", {
+      const formatted = new Intl.NumberFormat("en-IN", {
         style: "currency",
-        currency: "USD",
+        currency: "INR",
       }).format(parseFloat(row.getValue("amount")))
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="font-medium tabular-nums">{formatted}</div>
     },
   },
 ]
@@ -472,7 +541,6 @@ export function SortableDataTable() {
 }`,
       preview: React.createElement(DataTable as any, {
         columns: [
-          { accessorKey: "status", header: "Status" },
           {
             accessorKey: "email",
             header: ({ column }: any) =>
@@ -482,20 +550,31 @@ export function SortableDataTable() {
               }),
           },
           {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({ row }: any) =>
+              React.createElement(
+                Badge,
+                { variant: statusVariantMap[row.getValue("status") as Payment["status"]] },
+                row.getValue("status")
+              ),
+          },
+          {
             accessorKey: "amount",
             header: ({ column }: any) =>
               React.createElement(DataTableColumnHeader, {
                 column,
                 title: "Amount",
               }),
+            meta: { className: "text-right" },
             cell: ({ row }: any) => {
-              const formatted = new Intl.NumberFormat("en-US", {
+              const formatted = new Intl.NumberFormat("en-IN", {
                 style: "currency",
-                currency: "USD",
+                currency: "INR",
               }).format(parseFloat(row.getValue("amount")));
               return React.createElement(
                 "div",
-                { className: "text-right font-medium" },
+                { className: "font-medium tabular-nums" },
                 formatted
               );
             },

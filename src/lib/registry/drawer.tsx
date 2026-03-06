@@ -35,7 +35,34 @@ export const drawerDoc: ComponentDoc = {
     manual:
       "Install vaul dependency and copy the drawer component source code into your project.",
   },
-  usage: `"use client"
+  usage: `import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+<Drawer>
+  <DrawerTrigger>Open</DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+      <DrawerDescription>This action cannot be undone.</DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <Button>Submit</Button>
+      <DrawerClose>
+        <Button variant="outline">Cancel</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>`,
+  preview: {
+    code: `"use client"
 
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
@@ -151,133 +178,7 @@ export function DrawerDemo() {
                     dataKey="goal"
                     style={
                       {
-                        fill: "hsl(var(--foreground))",
-                        opacity: 0.9,
-                      } as React.CSSProperties
-                    }
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </div>
-      </DrawerContent>
-    </Drawer>
-  )
-}`,
-  preview: {
-    code: `"use client"
-
-import * as React from "react"
-import { Minus, Plus } from "lucide-react"
-import { Bar, BarChart, ResponsiveContainer } from "recharts"
-
-const data = [
-  {
-    goal: 400,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 239,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 349,
-  },
-]
-
-export function DrawerDemo() {
-  const [goal, setGoal] = React.useState(350)
-
-  function onClick(adjustment: number) {
-    setGoal(Math.max(200, Math.min(400, goal + adjustment)))
-  }
-
-  return (
-    <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="outline">Open Drawer</Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
-          </DrawerHeader>
-          <div className="p-4 pb-0">
-            <div className="flex items-center justify-center space-x-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(-10)}
-                disabled={goal <= 200}
-              >
-                <Minus />
-                <span className="sr-only">Decrease</span>
-              </Button>
-              <div className="flex-1 text-center">
-                <div className="text-7xl font-bold tracking-tighter">
-                  {goal}
-                </div>
-                <div className="text-muted-foreground text-[0.70rem] uppercase">
-                  Calories/day
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(10)}
-                disabled={goal >= 400}
-              >
-                <Plus />
-                <span className="sr-only">Increase</span>
-              </Button>
-            </div>
-            <div className="mt-3 h-[120px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data}>
-                  <Bar
-                    dataKey="goal"
-                    style={
-                      {
-                        fill: "hsl(var(--foreground))",
-                        opacity: 0.9,
+                        fill: "var(--chart-1)",
                       } as React.CSSProperties
                     }
                   />
@@ -410,18 +311,214 @@ export function DrawerDemo() {
   },
   examples: [
     {
+      name: "Scrollable Content",
+      description: "Keep actions visible while the content scrolls.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+export function DrawerScrollableContent() {
+  return (
+    <Drawer direction="right">
+      <DrawerTrigger asChild>
+        <Button variant="outline">Scrollable Content</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Move Goal</DrawerTitle>
+          <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+        </DrawerHeader>
+        <div className="no-scrollbar overflow-y-auto px-4">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <p key={index} className="mb-4 leading-normal">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+          ))}
+        </div>
+        <DrawerFooter>
+          <Button>Submit</Button>
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}`,
+      preview: React.createElement(() =>
+        React.createElement(
+          Drawer,
+          { direction: "right" },
+          React.createElement(
+            DrawerTrigger,
+            { asChild: true },
+            React.createElement(Button, { variant: "outline" }, "Scrollable Content")
+          ),
+          React.createElement(
+            DrawerContent,
+            {},
+            React.createElement(
+              DrawerHeader,
+              {},
+              React.createElement(DrawerTitle, {}, "Move Goal"),
+              React.createElement(DrawerDescription, {}, "Set your daily activity goal.")
+            ),
+            React.createElement(
+              "div",
+              { className: "no-scrollbar overflow-y-auto px-4" },
+              ...Array.from({ length: 10 }, (_, index) =>
+                React.createElement(
+                  "p",
+                  { key: index, className: "mb-4 leading-normal" },
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                )
+              )
+            ),
+            React.createElement(
+              DrawerFooter,
+              {},
+              React.createElement(Button, {}, "Submit"),
+              React.createElement(
+                DrawerClose,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Cancel")
+              )
+            )
+          )
+        )
+      ),
+    },
+    {
+      name: "Sides",
+      description:
+        "Use the direction prop to set the side of the drawer. Available options are top, right, bottom, and left.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+const DRAWER_SIDES = ["top", "right", "bottom", "left"] as const
+
+export function DrawerWithSides() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {DRAWER_SIDES.map((side) => (
+        <Drawer
+          key={side}
+          direction={
+            side === "bottom" ? undefined : (side as "top" | "right" | "left")
+          }
+        >
+          <DrawerTrigger asChild>
+            <Button variant="outline" className="capitalize">
+              {side}
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent className="data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]">
+            <DrawerHeader>
+              <DrawerTitle>Move Goal</DrawerTitle>
+              <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ))}
+    </div>
+  )
+}`,
+      preview: React.createElement(() => {
+        const DRAWER_SIDES = ["top", "right", "bottom", "left"] as const;
+        return React.createElement(
+          "div",
+          { className: "flex flex-wrap gap-2" },
+          ...DRAWER_SIDES.map((side) =>
+            React.createElement(
+              Drawer,
+              {
+                key: side,
+                direction:
+                  side === "bottom"
+                    ? undefined
+                    : (side as "top" | "right" | "left"),
+              },
+              React.createElement(
+                DrawerTrigger,
+                { asChild: true },
+                React.createElement(
+                  Button,
+                  { variant: "outline", className: "capitalize" },
+                  side
+                )
+              ),
+              React.createElement(
+                DrawerContent,
+                {
+                  className:
+                    "data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]",
+                },
+                React.createElement(
+                  DrawerHeader,
+                  {},
+                  React.createElement(DrawerTitle, {}, "Move Goal"),
+                  React.createElement(
+                    DrawerDescription,
+                    {},
+                    "Set your daily activity goal."
+                  )
+                ),
+                React.createElement(
+                  DrawerFooter,
+                  {},
+                  React.createElement(Button, {}, "Submit"),
+                  React.createElement(
+                    DrawerClose,
+                    { asChild: true },
+                    React.createElement(Button, { variant: "outline" }, "Cancel")
+                  )
+                )
+              )
+            )
+          )
+        );
+      }),
+    },
+    {
       name: "Responsive Dialog",
       description:
         "A responsive component that shows a dialog on desktop and a drawer on mobile.",
-      code: `import { DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "lucide-react"
-
-"use client"
+      code: `"use client"
 
 import * as React from "react"
-
-import { cn } from "@/lib/utils"
-import { useMediaQuery } from "@/hooks/use-media-query"
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import {
   Dialog,
   DialogContent,

@@ -11,12 +11,12 @@ import { Slot } from "radix-ui";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 px-3 whitespace-nowrap rounded-sm border border-transparent bg-clip-padding text-sm font-semibold tracking-wide outline-0 select-none shrink-0 transition touch-action-manipulation [-webkit-tap-highlight-color:transparent] group/button [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 aria-invalid:outline-2 aria-invalid:outline-offset-2 aria-invalid:outline-destructive ",
+  "inline-flex items-center justify-center gap-1.5 px-3 whitespace-nowrap rounded-md border border-transparent bg-clip-padding text-sm font-semibold tracking-wide outline-0 select-none shrink-0 transition touch-action-manipulation [-webkit-tap-highlight-color:transparent] group/button [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 aria-invalid:outline-2 aria-invalid:outline-offset-2 aria-invalid:outline-destructive ",
   {
     variants: {
       variant: {
         default:
-          "border-primary-950/90 dark:border-primary-900 bg-primary text-primary-foreground shadow-md shadow-primary/50 dark:shadow-gray-950 hover:bg-primary/90 not-disabled:inset-shadow-2xs not-disabled:inset-shadow-primary-200/30 dark:not-disabled:inset-shadow-2xs dark:not-disabled:inset-shadow-primary-200/80 [:active,[data-pressed]]:bg-primary/80 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-primary-800 dark:[:active,[data-pressed]]:inset-shadow-sm dark:[:active,[data-pressed]]:inset-shadow-primary-800 [:disabled,:active,[data-pressed]]:shadow-none",
+          "text-shadow-xs text-shadow-primary-950 dark:text-shadow-primary-200 border-primary-950/90 dark:border-primary-900 bg-primary text-primary-foreground shadow-md shadow-primary/50 dark:shadow-gray-950 hover:bg-primary/90 not-disabled:inset-shadow-2xs not-disabled:inset-shadow-primary-200/30 dark:not-disabled:inset-shadow-2xs dark:not-disabled:inset-shadow-primary-200/80 [:active,[data-pressed]]:bg-primary/80 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-primary-800 dark:[:active,[data-pressed]]:inset-shadow-sm dark:[:active,[data-pressed]]:inset-shadow-primary-800 [:disabled,:active,[data-pressed]]:shadow-none",
         secondary:
           "border border-primary-700 bg-background text-primary-900 dark:text-primary-500 shadow-md hover:border-primary-600 hover:bg-primary-700/10 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground [:active,[data-pressed]]:bg-primary-700/5 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-gray-500/35 dark:[:active,[data-pressed]]:inset-shadow-gray-950 [:disabled,:active,[data-pressed]]:shadow-none",
         tertiary:
@@ -29,11 +29,11 @@ const buttonVariants = cva(
         destructive:
           "border border-destructive/50 bg-red-100/75 text-red-700 shadow-md hover:bg-destructive/20 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/25 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-red-400/40 [:disabled,:active,[data-pressed]]:shadow-none dark:bg-destructive/5 dark:hover:border-destructive/75 dark:text-red-400 dark:hover:bg-destructive/4 dark:[:active,[data-pressed]]:bg-destructive/5 dark:[:active,[data-pressed]]:inset-shadow-gray-950",
         "destructive-solid":
-          "border border-red-700 bg-destructive text-red-100 shadow-md hover:bg-destructive/80 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/70 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-destructive/90 [:disabled,:active,[data-pressed]]:shadow-none dark:bg-red-500/90 dark:[:active,[data-pressed]]:inset-shadow-red-950/90 dark:hover:bg-red-500/80 dark:[:active,[data-pressed]]:bg-red-500/70",
+          "text-shadow-xs text-shadow-red-950 dark:text-shadow-red-900 border border-red-700 bg-destructive text-red-100 shadow-md hover:bg-destructive/80 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/70 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-destructive/90 [:disabled,:active,[data-pressed]]:shadow-none dark:bg-red-500/90 dark:[:active,[data-pressed]]:inset-shadow-red-950/90 dark:hover:bg-red-500/80 dark:[:active,[data-pressed]]:bg-red-500/70",
       },
       size: {
         default:
-          "h-12 md:h-10 px-4.5 md:px-3.5 [&_svg:not([class*='size-'])]:size-5 has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3 in-data-[slot=button-group]:rounded-md",
+          "h-12 md:h-10 px-4.5 md:px-3.5 [&_svg:not([class*='size-'])]:size-5 has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3 in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
         xs: "h-8 gap-1 px-2.5 rounded-[min(var(--radius-md),8px)] text-xs [&_svg:not([class*='size-'])]:size-3.5 has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2 in-data-[slot=button-group]:rounded-md",
         sm: "h-9 gap-1 px-3 rounded-[min(var(--radius-md),10px)] [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5 in-data-[slot=button-group]:rounded-md",
         lg: "h-11 gap-1.5 px-4 [&_svg:not([class*='size-'])]:size-5 has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
