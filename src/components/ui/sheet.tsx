@@ -9,6 +9,7 @@ import { Dialog as SheetPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { XIcon } from "lucide-react";
 
 function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
@@ -49,16 +50,29 @@ function SheetOverlay({
   );
 }
 
+const sheetSizeClasses = {
+  sm: "data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm",
+  md: "data-[side=left]:sm:max-w-lg data-[side=right]:sm:max-w-lg",
+  lg: "data-[side=left]:sm:max-w-2xl data-[side=right]:sm:max-w-2xl",
+  xl: "data-[side=left]:sm:max-w-4xl data-[side=right]:sm:max-w-4xl",
+  full: "data-[side=left]:max-w-none data-[side=right]:max-w-none",
+  screen: "data-[side=left]:w-screen data-[side=left]:h-screen data-[side=right]:w-screen data-[side=right]:h-screen",
+} as const;
+
+type SheetSize = keyof typeof sheetSizeClasses;
+
 function SheetContent({
   className,
   children,
   side = "right",
-  showCloseButton = true,
+  size = "sm",
+  onOpenAutoFocus,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left";
-  showCloseButton?: boolean;
+  size?: SheetSize;
 }) {
+  const isMobile = useIsMobile();
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -66,36 +80,59 @@ function SheetContent({
         data-slot="sheet-content"
         data-side={side}
         className={cn(
-          "bg-background data-open:animate-in data-closed:animate-out data-[side=right]:data-closed:slide-out-to-right-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=top]:data-closed:slide-out-to-top-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:fade-out-0 data-open:fade-in-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=bottom]:data-open:slide-in-from-bottom-10 fixed z-50 flex flex-col gap-4 bg-clip-padding text-sm shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm",
+          "bg-background data-open:animate-in data-closed:animate-out data-[side=right]:data-closed:slide-out-to-right-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=top]:data-closed:slide-out-to-top-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:fade-out-0 data-open:fade-in-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=bottom]:data-open:slide-in-from-bottom-10 fixed z-50 flex flex-col gap-4 bg-clip-padding text-sm shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-full data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-full data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b",
+          sheetSizeClasses[size],
           className
         )}
+        onOpenAutoFocus={(e) => {
+          if (onOpenAutoFocus) {
+            onOpenAutoFocus(e);
+            return;
+          }
+          if (isMobile) {
+            e.preventDefault();
+            return;
+          }
+          const input = (e.currentTarget as HTMLElement).querySelector<HTMLElement>(
+            'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])'
+          );
+          if (input) {
+            e.preventDefault();
+            input.focus();
+          }
+        }}
         {...props}
       >
         {children}
-        {showCloseButton && (
-          <SheetPrimitive.Close data-slot="sheet-close" asChild>
-            <Button
-              variant="ghost"
-              className="absolute top-4 right-4"
-              size="icon-sm"
-            >
-              <XIcon />
-              <span className="sr-only">Close</span>
-            </Button>
-          </SheetPrimitive.Close>
-        )}
       </SheetPrimitive.Content>
     </SheetPortal>
   );
 }
 
-function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
+function SheetHeader({
+  className,
+  children,
+  showCloseButton = true,
+  ...props
+}: React.ComponentProps<"div"> & {
+  showCloseButton?: boolean;
+}) {
   return (
     <div
       data-slot="sheet-header"
-      className={cn("flex flex-col gap-1.5 p-4", className)}
+      className={cn("flex flex-row items-start justify-between gap-4 border-b p-4", className)}
       {...props}
-    />
+    >
+      <div className="flex flex-col gap-1">{children}</div>
+      {showCloseButton && (
+        <SheetPrimitive.Close data-slot="sheet-close" asChild>
+          <Button variant="ghost" size="icon" className="-mt-1 -mr-1 shrink-0">
+            <XIcon />
+            <span className="sr-only">Close</span>
+          </Button>
+        </SheetPrimitive.Close>
+      )}
+    </div>
   );
 }
 
