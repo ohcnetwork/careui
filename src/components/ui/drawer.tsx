@@ -8,12 +8,14 @@ import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
 
 import { cn } from "@/lib/utils"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 function Drawer({
-  autoFocus = true,
+  autoFocus,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
-  return <DrawerPrimitive.Root data-slot="drawer" autoFocus={autoFocus} {...props} />
+  const isMobile = useIsMobile()
+  return <DrawerPrimitive.Root data-slot="drawer" autoFocus={autoFocus ?? !isMobile} {...props} />
 }
 
 function DrawerTrigger({
