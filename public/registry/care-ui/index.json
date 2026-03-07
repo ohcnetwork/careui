@@ -101,9 +101,6 @@
   {
     "name": "skeleton",
     "type": "registry:ui",
-    "dependencies": [
-      "none"
-    ],
     "files": [
       "registry/care-ui/skeleton/skeleton.tsx"
     ]
@@ -112,8 +109,8 @@
     "name": "sidebar",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
       "class-variance-authority",
+      "radix-ui",
       "lucide-react"
     ],
     "files": [

@@ -97,6 +97,7 @@ const componentLoaders: Record<
   separator: () =>
     import("./separator").then((m) => ({ default: m.separatorDoc })),
   sheet: () => import("./sheet").then((m) => ({ default: m.sheetDoc })),
+  sidebar: () => import("./sidebar").then((m) => ({ default: m.sidebarDoc })),
   skeleton: () =>
     import("./skeleton").then((m) => ({ default: m.skeletonDoc })),
   slider: () => import("./slider").then((m) => ({ default: m.sliderDoc })),

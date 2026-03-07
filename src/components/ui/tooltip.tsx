@@ -1,13 +1,9 @@
-/**
- * @name tooltip
- * @description A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
- * @dependencies radix-ui
- * @type registry:ui
- */
-import * as React from "react";
-import { Tooltip as TooltipPrimitive } from "radix-ui";
+"use client"
 
-import { cn } from "@/lib/utils";
+import * as React from "react"
+import { Tooltip as TooltipPrimitive } from "radix-ui"
+
+import { cn } from "@/lib/utils"
 
 function TooltipProvider({
   delayDuration = 0,
@@ -19,23 +15,19 @@ function TooltipProvider({
       delayDuration={delayDuration}
       {...props}
     />
-  );
+  )
 }
 
 function Tooltip({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
-  return (
-    <TooltipProvider>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
-    </TooltipProvider>
-  );
+  return <TooltipPrimitive.Root data-slot="tooltip" {...props} />
 }
 
 function TooltipTrigger({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
-  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
+  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 
 function TooltipContent({
@@ -59,7 +51,7 @@ function TooltipContent({
         <TooltipPrimitive.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
-  );
+  )
 }
 
-export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger };
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger }
