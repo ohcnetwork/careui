@@ -39,6 +39,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, ChevronDown, Info } from "lucide-react";
+import { AppSidebarDemo } from "@/lib/registry/sidebar";
 
 function Section({
   title,
@@ -324,6 +325,17 @@ export function Playground() {
           </div>
         </div>
       </Section>
+
+      <Separator />
+
+      {/* Sidebar */}
+      <div className="space-y-3">
+        <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+          Sidebar
+        </p>
+        <AppSidebarDemo />
+      </div>
+
     </main>
   );
 }
