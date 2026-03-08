@@ -60,6 +60,7 @@ const componentNames: Record<string, string> = {
   select: "Select",
   separator: "Separator",
   sheet: "Sheet",
+  sidebar: "Sidebar",
   skeleton: "Skeleton",
   slider: "Slider",
   sonner: "Sonner",
