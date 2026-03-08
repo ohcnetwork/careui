@@ -1,34 +1,14 @@
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -38,364 +18,150 @@ import {
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarProvider,
-  SidebarRail,
   SidebarTrigger,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
-  AudioWaveform,
-  BadgeCheck,
+  Activity,
   Bell,
-  BookOpen,
-  Bot,
-  ChevronRight,
+  Box,
+  CalendarDays,
+  Check,
   ChevronsUpDown,
-  Command,
   CreditCard,
-  Folder,
-  Forward,
-  Frame,
-  GalleryVerticalEnd,
-  LogOut,
-  Map,
-  MoreHorizontal,
-  PieChart,
+  House,
+  MapPin,
+  Package,
   Plus,
+  Search,
   Settings2,
-  Sparkles,
-  SquareTerminal,
-  Trash2,
+  UserCog,
+  Users,
 } from "lucide-react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Care Navigation Data ─────────────────────────────────────────────────────
 
-type Team = { name: string; logo: React.ElementType; plan: string };
-type NavItem = {
-  title: string;
-  url: string;
-  icon?: React.ElementType;
-  isActive?: boolean;
-  items?: { title: string; url: string }[];
-};
-type Project = { name: string; url: string; icon: React.ElementType };
-type User = { name: string; email: string; avatar: string };
+type CareNavItem = { title: string; icon: React.ElementType; isActive?: boolean };
+type CareNavGroup = { label: string | null; items: CareNavItem[] };
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
+const careNavGroups: CareNavGroup[] = [
+  {
+    label: null as string | null,
+    items: [{ title: "Home", icon: House, isActive: true }],
+  },
+  {
+    label: "Patient Management",
+    items: [
+      { title: "Search Patient", icon: Search },
+      { title: "Appointments", icon: CalendarDays },
+      { title: "Queues", icon: Users },
+    ],
+  },
+  {
+    label: "Encounters & Locations",
+    items: [
+      { title: "All Encounters", icon: Activity },
+      { title: "Search by Location", icon: MapPin },
+    ],
+  },
+  {
+    label: "Services",
+    items: [
+      { title: "Services", icon: Package },
+      { title: "Resource", icon: Box },
+    ],
+  },
+  {
+    label: "Administration",
+    items: [
+      { title: "Users", icon: UserCog },
+      { title: "Billing", icon: CreditCard },
+      { title: "Settings", icon: Settings2 },
+    ],
+  },
+];
 
-const data = {
-  user: { name: "shadcn", email: "m@example.com", avatar: "/avatars/shadcn.jpg" },
-  teams: [
-    { name: "Acme Inc", logo: GalleryVerticalEnd, plan: "Enterprise" },
-    { name: "Acme Corp.", logo: AudioWaveform, plan: "Startup" },
-    { name: "Evil Corp.", logo: Command, plan: "Free" },
-  ] as Team[],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        { title: "History", url: "#" },
-        { title: "Starred", url: "#" },
-        { title: "Settings", url: "#" },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        { title: "Genesis", url: "#" },
-        { title: "Explorer", url: "#" },
-        { title: "Quantum", url: "#" },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        { title: "Introduction", url: "#" },
-        { title: "Get Started", url: "#" },
-        { title: "Tutorials", url: "#" },
-        { title: "Changelog", url: "#" },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        { title: "General", url: "#" },
-        { title: "Team", url: "#" },
-        { title: "Billing", url: "#" },
-        { title: "Limits", url: "#" },
-      ],
-    },
-  ] as NavItem[],
-  projects: [
-    { name: "Design Engineering", url: "#", icon: Frame },
-    { name: "Sales & Marketing", url: "#", icon: PieChart },
-    { name: "Travel", url: "#", icon: Map },
-  ] as Project[],
-};
+const careFacilities = ["Care Facility", "City Hospital", "Rural Clinic"];
 
-// ─── TeamSwitcher ─────────────────────────────────────────────────────────────
+const careUser = { name: "Prabha Narendran", role: "Nurse", initials: "PN" };
 
-function TeamSwitcher({ teams }: { teams: Team[] }) {
-  const { isMobile } = useSidebar();
-  const [activeTeam, setActiveTeam] = React.useState(teams[0]);
+// ─── CareFacilitySelector ─────────────────────────────────────────────────────
 
-  if (!activeTeam) return null;
-
+function CareFacilitySelector() {
+  const [selected, setSelected] = React.useState(careFacilities[0]);
   return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <activeTeam.logo className="size-4" />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{activeTeam.name}</span>
-                <span className="truncate text-xs">{activeTeam.plan}</span>
-              </div>
-              <ChevronsUpDown className="ml-auto" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            align="start"
-            side={isMobile ? "bottom" : "right"}
-            sideOffset={4}
-          >
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="text-xs text-muted-foreground">
-                Teams
-              </DropdownMenuLabel>
-              {teams.map((team, index) => (
-                <DropdownMenuItem
-                  key={team.name}
-                  onClick={() => setActiveTeam(team)}
-                  className="gap-2 p-2"
-                >
-                  <div className="flex size-6 items-center justify-center rounded-md border">
-                    <team.logo className="size-3.5 shrink-0" />
-                  </div>
-                  {team.name}
-                  <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem className="gap-2 p-2">
-                <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                  <Plus className="size-4" />
-                </div>
-                <div className="font-medium text-muted-foreground">Add team</div>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" className="gap-2 font-normal">
+          {selected}
+          <ChevronsUpDown className="h-3.5 w-3.5 opacity-60" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="min-w-44">
+        {careFacilities.map((f) => (
+          <DropdownMenuItem key={f} onClick={() => setSelected(f)} className="gap-2">
+            {f === selected ? (
+              <Check className="h-4 w-4 text-primary" />
+            ) : (
+              <span className="h-4 w-4 inline-block" />
+            )}
+            {f}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
-// ─── NavMain ──────────────────────────────────────────────────────────────────
+// ─── CareNavGroups ────────────────────────────────────────────────────────────
 
-function NavMain({ items }: { items: NavItem[] }) {
+function CareNavGroups() {
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
-      <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
+    <>
+      {careNavGroups.map((group, i) => (
+        <SidebarGroup key={i} className={i > 0 ? "pt-0" : undefined}>
+          {group.label && (
+            <SidebarGroupLabel className="text-[10px] font-semibold tracking-wider uppercase">
+              {group.label}
+            </SidebarGroupLabel>
+          )}
+          <SidebarMenu>
+            {group.items.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton isActive={!!item.isActive} tooltip={item.title}>
+                  <item.icon />
                   <span>{item.title}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </a>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
-        ))}
-      </SidebarMenu>
-    </SidebarGroup>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+      ))}
+    </>
   );
 }
 
-// ─── NavProjects ──────────────────────────────────────────────────────────────
+// ─── CareNavUserCard ──────────────────────────────────────────────────────────
 
-function NavProjects({ projects }: { projects: Project[] }) {
-  const { isMobile } = useSidebar();
-
-  return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Projects</SidebarGroupLabel>
-      <SidebarMenu>
-        {projects.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <item.icon />
-                <span>{item.name}</span>
-              </a>
-            </SidebarMenuButton>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuAction showOnHover>
-                  <MoreHorizontal />
-                  <span className="sr-only">More</span>
-                </SidebarMenuAction>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="w-48 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
-              >
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Folder className="text-muted-foreground" />
-                    <span>View Project</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Forward className="text-muted-foreground" />
-                    <span>Share Project</span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <Trash2 className="text-muted-foreground" />
-                    <span>Delete Project</span>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        ))}
-        <SidebarMenuItem>
-          <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontal className="text-sidebar-foreground/70" />
-            <span>More</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
-    </SidebarGroup>
-  );
-}
-
-// ─── NavUser ──────────────────────────────────────────────────────────────────
-
-function NavUser({ user }: { user: User }) {
-  const { isMobile } = useSidebar();
-
+function CareNavUserCard() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
-              </div>
-              <ChevronsUpDown className="ml-auto size-4" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
-            align="end"
-            sideOffset={4}
-          >
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
-                  </div>
-                </div>
-              </DropdownMenuLabel>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <LogOut />
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <SidebarMenuButton size="lg">
+          <Avatar className="h-8 w-8 rounded-lg">
+            <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold dark:bg-green-900 dark:text-green-200">
+              {careUser.initials}
+            </AvatarFallback>
+          </Avatar>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-medium">{careUser.name}</span>
+            <span className="truncate text-xs text-muted-foreground">{careUser.role}</span>
+          </div>
+          <ChevronsUpDown className="ml-auto size-4 opacity-60" />
+        </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
   );
@@ -403,65 +169,86 @@ function NavUser({ user }: { user: User }) {
 
 // ─── AppSidebarDemo ───────────────────────────────────────────────────────────
 
-export function AppSidebarDemo() {
+export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
   return (
     <TooltipProvider>
       <div
-        style={{ height: "400px", transform: "translateZ(0)", overflow: "hidden" }}
-        className="rounded-lg border [&_[data-slot=sidebar-container]]:h-full!"
+        style={{
+          height: fullPage ? "100vh" : "400px",
+          transform: fullPage ? undefined : "translateZ(0)",
+          overflow: "hidden",
+        }}
+        className={fullPage ? "**:data-[slot=sidebar-container]:h-full!" : "rounded-lg border **:data-[slot=sidebar-container]:h-full!"}
       >
         <SidebarProvider
           className="min-h-0! h-full"
-          style={
-            {
-              "--sidebar-width": "16rem",
-              height: "100%",
-            } as React.CSSProperties
-          }
+          style={{ "--sidebar-width": "15rem", height: "100%" } as React.CSSProperties}
         >
-          <Sidebar collapsible="icon">
-            <SidebarHeader>
-              <TeamSwitcher teams={data.teams} />
+          <Sidebar collapsible="offcanvas">
+            {/* Care logo */}
+            <SidebarHeader className="border-b py-3">
+              <div className="flex items-center gap-2 px-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
+                  <Plus className="h-5 w-5" />
+                </div>
+                <span className="text-lg font-bold tracking-tight text-green-700 dark:text-green-400">care</span>
+              </div>
             </SidebarHeader>
             <SidebarContent>
-              <NavMain items={data.navMain} />
-              <NavProjects projects={data.projects} />
+              <CareNavGroups />
             </SidebarContent>
-            <SidebarFooter>
-              <NavUser user={data.user} />
+            <SidebarFooter className="border-t">
+              <CareNavUserCard />
             </SidebarFooter>
-            <SidebarRail />
           </Sidebar>
+
           <SidebarInset className="overflow-hidden">
-            <header className="flex h-16 shrink-0 items-center gap-2">
-              <div className="flex items-center gap-2 px-4">
-                <SidebarTrigger className="-ml-1" />
-                <Separator
-                  orientation="vertical"
-                  className="mr-2 data-[orientation=vertical]:h-4"
-                />
-                <Breadcrumb>
-                  <BreadcrumbList>
-                    <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="#">
-                        Build Your Application
-                      </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator className="hidden md:block" />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                    </BreadcrumbItem>
-                  </BreadcrumbList>
-                </Breadcrumb>
+            {/* Top header */}
+            <header className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
+              <SidebarTrigger className="-ml-1" />
+              <Separator orientation="vertical" className="h-5" />
+              <CareFacilitySelector />
+              <div className="ml-auto flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2 text-muted-foreground"
+                >
+                  <Search className="h-3.5 w-3.5" />
+                  <span>Search</span>
+                  <kbd className="pointer-events-none ml-1 rounded border bg-muted px-1.5 py-0.5 text-[10px] font-medium leading-none">
+                    ⌘K
+                  </kbd>
+                </Button>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Bell className="h-4 w-4" />
+                </Button>
               </div>
             </header>
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+
+            {/* Main content */}
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
+              {/* Good Morning banner */}
+              <div className="flex items-center justify-between rounded-xl bg-linear-to-r from-amber-50 to-lime-50 p-5 dark:from-amber-950/20 dark:to-lime-950/20">
+                <div className="space-y-0.5">
+                  <p className="text-base font-medium">
+                    Good Morning,{" "}
+                    <span className="font-bold">Prabha Narendran</span> 👋
+                  </p>
+                  <p className="text-sm text-muted-foreground">Welcome back!</p>
+                </div>
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-green-600/10">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-600 text-white shadow-sm">
+                    <Plus className="h-5 w-5" />
+                  </div>
+                </div>
+              </div>
               <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                 <div className="aspect-video rounded-xl bg-muted/50" />
                 <div className="aspect-video rounded-xl bg-muted/50" />
                 <div className="aspect-video rounded-xl bg-muted/50" />
               </div>
-              <div className="flex-1 rounded-xl bg-muted/50" />
+              <div className="min-h-24 rounded-xl bg-muted/50" />
             </div>
           </SidebarInset>
         </SidebarProvider>
