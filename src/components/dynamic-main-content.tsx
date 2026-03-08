@@ -94,8 +94,8 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <TabsTrigger value="code">Code</TabsTrigger>
             </TabsList>
             <TabsContent value="preview" className="mt-4">
-              <div className="border-border bg-card min-h-[300px] rounded-lg border p-4 md:p-8 [&:has(.recharts-responsive-container)]:flex-none">
-                <div className="flex min-h-[250px] items-center justify-center [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
+              <div className="border-border bg-card min-h-75 rounded-lg border p-4 md:p-8 [&:has(.recharts-responsive-container)]:flex-none [&:has([data-slot=sidebar-wrapper])]:h-full [&:has([data-slot=sidebar-wrapper])]:min-h-0 [&:has([data-slot=sidebar-wrapper])]:translate-x-0 [&:has([data-slot=sidebar-wrapper])]:overflow-hidden [&:has([data-slot=sidebar-wrapper])]:p-0">
+                <div className="flex min-h-40 items-center justify-center [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0 [&:has([data-slot=sidebar-wrapper])]:block [&:has([data-slot=sidebar-wrapper])]:min-h-0">
                   {doc.preview?.component || <div>No preview available</div>}
                 </div>
               </div>
@@ -230,8 +230,8 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                       <TabsTrigger value="code">Code</TabsTrigger>
                     </TabsList>
                     <TabsContent value="preview" className="mt-4">
-                      <div className="border-border bg-card min-h-[200px] rounded-lg border p-4 md:p-8">
-                        <div className="flex min-h-[160px] items-center justify-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
+                      <div className="border-border bg-card min-h-50 rounded-lg border p-4 md:p-8">
+                        <div className="flex min-h-40 items-center justify-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
                           {example.preview}
                         </div>
                       </div>
@@ -401,7 +401,7 @@ export function DynamicMainContent() {
     return (
       <main className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-4xl space-y-8 md:p-8">
-          <div className="flex min-h-[400px] items-center justify-center">
+          <div className="flex min-h-100 items-center justify-center">
             <div className="text-muted-foreground">Loading...</div>
           </div>
         </div>
