@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ChevronLeft } from "lucide-react";
+import { Copy, Check, Home } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { AppSidebarDemo } from "@/lib/registry/sidebar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useNavigation } from "@/contexts/navigation-context";
+
 
 // ─── Inline block preview components ─────────────────────────────────────────
 
 function LoginPreview() {
   return (
-    <div className="flex min-h-120 items-center justify-center bg-background p-8">
+    <div className="flex min-h-screen items-center justify-center bg-background p-8">
       <div className="w-full max-w-sm space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
@@ -53,7 +52,7 @@ function LoginPreview() {
 
 function LoginSplitPreview() {
   return (
-    <div className="flex min-h-120 bg-background">
+    <div className="flex min-h-screen bg-background">
       <div className="flex flex-1 items-center justify-center p-8">
         <div className="w-full max-w-sm space-y-5">
           <div className="space-y-1">
@@ -94,7 +93,7 @@ function LoginSplitPreview() {
 
 function SignupPreview() {
   return (
-    <div className="flex min-h-120 items-center justify-center bg-background p-8">
+    <div className="flex min-h-screen items-center justify-center bg-background p-8">
       <div className="w-full max-w-sm space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-2xl font-bold tracking-tight">Create an account</h1>
@@ -137,7 +136,7 @@ function SignupPreview() {
 
 function DashboardPreview() {
   return (
-    <div className="min-h-120 bg-background p-6 space-y-6">
+    <div className="min-h-screen bg-background p-6 space-y-6">
       <div className="space-y-1">
         <h2 className="text-lg font-semibold">Dashboard</h2>
         <p className="text-sm text-muted-foreground">Welcome back, John</p>
@@ -200,7 +199,7 @@ interface BlockDef {
   name: string;
   description: string;
   category: Exclude<BlockCategory, "All">;
-  preview: React.ReactNode;
+  preview: (fullPage?: boolean) => React.ReactNode;
   scale?: number;
   code: string;
 }
@@ -391,7 +390,7 @@ const BLOCKS: BlockDef[] = [
     name: "sidebar-01",
     description: "A dashboard with collapsible sidebar navigation and team switcher.",
     category: "Sidebar",
-    preview: <AppSidebarDemo />,
+    preview: (fullPage) => <AppSidebarDemo fullPage={fullPage} />,
     scale: 0.68,
     code: SIDEBAR_01_CODE,
   },
@@ -400,7 +399,7 @@ const BLOCKS: BlockDef[] = [
     name: "login-01",
     description: "A centered login page with email and password inputs.",
     category: "Authentication",
-    preview: <LoginPreview />,
+    preview: () => <LoginPreview />,
     scale: 0.58,
     code: LOGIN_01_CODE,
   },
@@ -409,7 +408,7 @@ const BLOCKS: BlockDef[] = [
     name: "login-02",
     description: "A login page with a branded split-panel layout.",
     category: "Authentication",
-    preview: <LoginSplitPreview />,
+    preview: () => <LoginSplitPreview />,
     scale: 0.58,
     code: LOGIN_02_CODE,
   },
@@ -418,7 +417,7 @@ const BLOCKS: BlockDef[] = [
     name: "signup-01",
     description: "A signup page with name, email and password fields.",
     category: "Authentication",
-    preview: <SignupPreview />,
+    preview: () => <SignupPreview />,
     scale: 0.58,
     code: SIGNUP_01_CODE,
   },
@@ -427,7 +426,7 @@ const BLOCKS: BlockDef[] = [
     name: "dashboard-01",
     description: "A dashboard overview with stats cards and a bar chart.",
     category: "Dashboard",
-    preview: <DashboardPreview />,
+    preview: () => <DashboardPreview />,
     scale: 0.55,
     code: DASHBOARD_01_CODE,
   },
@@ -435,24 +434,23 @@ const BLOCKS: BlockDef[] = [
 
 // ─── BlockThumbnail ───────────────────────────────────────────────────────────
 
-function BlockThumbnail({
-  block,
-  onSelect,
-}: {
-  block: BlockDef;
-  onSelect: (id: string) => void;
-}) {
+function BlockThumbnail({ block }: { block: BlockDef }) {
+  const { copyToClipboard, isCopied } = useCopyToClipboard();
   const scale = block.scale ?? 0.5;
   const containerHeight = Math.round(480 * scale + 10);
 
+  function openPreview() {
+    const base = window.location.pathname + window.location.search;
+    window.open(base + "#block-preview-" + block.id, "_blank", "noopener,noreferrer");
+  }
+
   return (
-    <button
-      className="group flex w-full flex-col overflow-hidden rounded-xl border bg-card text-left shadow-sm transition-all hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      onClick={() => onSelect(block.id)}
-    >
-      <div
-        className="relative overflow-hidden bg-muted/20 w-full"
+    <div className="group flex flex-col overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md">
+      <button
+        className="relative overflow-hidden bg-muted/20 w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         style={{ height: containerHeight }}
+        onClick={openPreview}
+        aria-label={`Open ${block.name} preview`}
       >
         <div
           style={{
@@ -464,82 +462,55 @@ function BlockThumbnail({
             userSelect: "none",
           }}
         >
-          {block.preview}
+          {block.preview()}
         </div>
+      </button>
+      <div className="flex items-center gap-3 border-t px-4 py-3">
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium">{block.name}</p>
+          <p className="truncate text-xs text-muted-foreground">{block.description}</p>
+        </div>
+        <Button
+          size="sm"
+          variant="outline"
+          className="shrink-0 gap-1.5 text-xs"
+          onClick={() => copyToClipboard(block.code, block.id)}
+        >
+          {isCopied(block.id) ? (
+            <Check className="h-3 w-3" />
+          ) : (
+            <Copy className="h-3 w-3" />
+          )}
+          {isCopied(block.id) ? "Copied!" : "Copy code"}
+        </Button>
       </div>
-      <div className="border-t px-4 py-3">
-        <p className="truncate text-sm font-medium">{block.name}</p>
-        <p className="truncate text-xs text-muted-foreground">{block.description}</p>
-      </div>
-    </button>
+    </div>
   );
 }
 
-// ─── BlockDetail ──────────────────────────────────────────────────────────────
+// ─── BlockPreviewPage (rendered in new tab at #block-preview-{id}) ────────────
 
-function BlockDetail({
-  block,
-  onBack,
-}: {
-  block: BlockDef;
-  onBack: () => void;
-}) {
-  const { copyToClipboard, isCopied } = useCopyToClipboard();
-  const copied = isCopied(block.id);
+export function BlockPreviewPage({ id }: { id: string }) {
+  const block = BLOCKS.find((b) => b.id === id);
+
+  if (!block) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-background">
+        <p className="text-muted-foreground">Block not found: {id}</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
-      <div className="flex items-center gap-3 border-b px-6 py-3">
-        <Button variant="ghost" size="sm" className="gap-1.5" onClick={onBack}>
-          <ChevronLeft className="h-4 w-4" />
-          All blocks
-        </Button>
+    <div className="relative bg-background">
+      {/* Floating toolbar */}
+      <div className="fixed top-3 right-4 z-50 flex items-center gap-2 rounded-lg border bg-background/80 px-3 py-1.5 shadow-md backdrop-blur-sm">
+        <span className="text-xs font-medium text-muted-foreground">{block.name}</span>
         <Separator orientation="vertical" className="h-4" />
-        <h2 className="text-sm font-medium">{block.name}</h2>
-        <p className="text-sm text-muted-foreground hidden md:block">{block.description}</p>
+        <ThemeToggle />
       </div>
-      <div className="flex flex-1 overflow-hidden">
-        <Tabs defaultValue="preview" className="flex flex-1 flex-col overflow-hidden">
-          <div className="flex items-center gap-3 border-b px-6 py-2">
-            <TabsList className="h-8">
-              <TabsTrigger value="preview" className="text-xs">Preview</TabsTrigger>
-              <TabsTrigger value="code" className="text-xs">Code</TabsTrigger>
-            </TabsList>
-            <div className="ml-auto">
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-1.5 text-xs"
-                onClick={() => copyToClipboard(block.code, block.id)}
-              >
-                {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-                {copied ? "Copied!" : "Copy code"}
-              </Button>
-            </div>
-          </div>
-          <TabsContent value="preview" className="flex-1 overflow-auto m-0 border-0">
-            <div className="min-h-full bg-muted/20 p-6">
-              {block.preview}
-            </div>
-          </TabsContent>
-          <TabsContent value="code" className="flex-1 overflow-auto m-0 border-0">
-            <SyntaxHighlighter
-              language="tsx"
-              style={oneDark}
-              customStyle={{
-                margin: 0,
-                borderRadius: 0,
-                fontSize: "0.8125rem",
-                lineHeight: "1.5",
-                minHeight: "100%",
-              }}
-              showLineNumbers
-            >
-              {block.code}
-            </SyntaxHighlighter>
-          </TabsContent>
-        </Tabs>
-      </div>
+      {/* Full preview */}
+      {block.preview(true)}
     </div>
   );
 }
@@ -549,28 +520,29 @@ function BlockDetail({
 const CATEGORIES: BlockCategory[] = ["All", "Sidebar", "Authentication", "Dashboard"];
 
 export function BlocksPage() {
+  const { setActiveComponent } = useNavigation();
   const [activeCategory, setActiveCategory] = useState<BlockCategory>("All");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const filtered =
     activeCategory === "All"
       ? BLOCKS
       : BLOCKS.filter((b) => b.category === activeCategory);
 
-  const selectedBlock = selectedId
-    ? BLOCKS.find((b) => b.id === selectedId) ?? null
-    : null;
-
   return (
     <div className="flex h-screen flex-col bg-background">
       {/* Top navbar */}
       <header className="flex h-14 shrink-0 items-center gap-4 border-b px-6">
-        <button
-          className="text-sm font-semibold tracking-tight hover:text-primary transition-colors"
-          onClick={() => setSelectedId(null)}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="gap-1.5"
+          onClick={() => setActiveComponent("get-started")}
         >
-          Care UI
-        </button>
+          <Home className="h-4 w-4" />
+          Home
+        </Button>
+        <Separator orientation="vertical" className="h-4" />
+        <span className="text-sm font-semibold tracking-tight">Care UI</span>
         <Separator orientation="vertical" className="h-4" />
         <span className="text-sm text-muted-foreground">Blocks</span>
         <div className="ml-auto">
@@ -578,46 +550,41 @@ export function BlocksPage() {
         </div>
       </header>
 
-      {/* Content */}
-      {selectedBlock ? (
-        <BlockDetail block={selectedBlock} onBack={() => setSelectedId(null)} />
-      ) : (
-        <main className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
-            <div className="space-y-2 pt-2">
-              <h1 className="text-3xl font-bold tracking-tight">
-                Building Blocks for the Web
-              </h1>
-              <p className="max-w-2xl text-muted-foreground">
-                Clean, modern building blocks. Copy and paste into your apps.
-                Works with all React frameworks. Open Source. Free forever.
-              </p>
-            </div>
-            <Separator />
-            <div className="flex items-center gap-1">
-              {CATEGORIES.map((cat) => (
-                <Button
-                  key={cat}
-                  variant={activeCategory === cat ? "secondary" : "ghost"}
-                  size="sm"
-                  className="rounded-full px-4"
-                  onClick={() => setActiveCategory(cat)}
-                >
-                  {cat}
-                </Button>
-              ))}
-              <span className="ml-auto text-xs text-muted-foreground">
-                {filtered.length} block{filtered.length !== 1 ? "s" : ""}
-              </span>
-            </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {filtered.map((block) => (
-                <BlockThumbnail key={block.id} block={block} onSelect={setSelectedId} />
-              ))}
-            </div>
+      <main className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
+          <div className="space-y-2 pt-2">
+            <h1 className="text-3xl font-bold tracking-tight">
+              Building Blocks for the Web
+            </h1>
+            <p className="max-w-2xl text-muted-foreground">
+              Clean, modern building blocks. Copy and paste into your apps.
+              Works with all React frameworks. Open Source. Free forever.
+            </p>
           </div>
-        </main>
-      )}
+          <Separator />
+          <div className="flex items-center gap-1">
+            {CATEGORIES.map((cat) => (
+              <Button
+                key={cat}
+                variant={activeCategory === cat ? "secondary" : "ghost"}
+                size="sm"
+                className="rounded-full px-4"
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat}
+              </Button>
+            ))}
+            <span className="ml-auto text-xs text-muted-foreground">
+              {filtered.length} block{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {filtered.map((block) => (
+              <BlockThumbnail key={block.id} block={block} />
+            ))}
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

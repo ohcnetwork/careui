@@ -12,13 +12,18 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { BlocksPage } from "@/components/blocks";
+import { BlocksPage, BlockPreviewPage } from "@/components/blocks";
 
 function AppShell() {
   const { activeComponent } = useNavigation();
 
   if (activeComponent === "blocks") {
     return <BlocksPage />;
+  }
+
+  if (activeComponent.startsWith("block-preview-")) {
+    const id = activeComponent.slice("block-preview-".length);
+    return <BlockPreviewPage id={id} />;
   }
 
   return (

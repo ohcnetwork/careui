@@ -1,10 +1,13 @@
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
@@ -21,11 +24,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-  SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   Activity,
+  BadgeCheck,
   Bell,
   Box,
   CalendarDays,
@@ -33,8 +37,10 @@ import {
   ChevronsUpDown,
   CreditCard,
   House,
+  LogOut,
   MapPin,
   Package,
+  PanelLeft,
   Plus,
   Search,
   Settings2,
@@ -146,22 +152,61 @@ function CareNavGroups() {
 
 // ─── CareNavUserCard ──────────────────────────────────────────────────────────
 
-function CareNavUserCard() {
+function CareNavUserCard({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean) => void }) {
+  const { isMobile } = useSidebar();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton size="lg">
-          <Avatar className="h-8 w-8 rounded-lg">
-            <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold dark:bg-green-900 dark:text-green-200">
-              {careUser.initials}
-            </AvatarFallback>
-          </Avatar>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-medium">{careUser.name}</span>
-            <span className="truncate text-xs text-muted-foreground">{careUser.role}</span>
-          </div>
-          <ChevronsUpDown className="ml-auto size-4 opacity-60" />
-        </SidebarMenuButton>
+        <DropdownMenu onOpenChange={onMenuOpenChange}>
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+              <Avatar className="h-8 w-8 rounded-lg">
+                <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold dark:bg-green-900 dark:text-green-200">
+                  {careUser.initials}
+                </AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{careUser.name}</span>
+                <span className="truncate text-xs text-muted-foreground">{careUser.role}</span>
+              </div>
+              <ChevronsUpDown className="ml-auto size-4 opacity-60" />
+            </SidebarMenuButton>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            side={isMobile ? "bottom" : "right"}
+            align="end"
+            sideOffset={4}
+          >
+            <DropdownMenuLabel className="p-0 font-normal">
+              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold dark:bg-green-900 dark:text-green-200">
+                    {careUser.initials}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">{careUser.name}</span>
+                  <span className="truncate text-xs text-muted-foreground">{careUser.role}</span>
+                </div>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <BadgeCheck className="mr-2 h-4 w-4" />
+              Account
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Bell className="mr-2 h-4 w-4" />
+              Notifications
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <LogOut className="mr-2 h-4 w-4" />
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
   );
@@ -170,6 +215,45 @@ function CareNavUserCard() {
 // ─── AppSidebarDemo ───────────────────────────────────────────────────────────
 
 export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
+  const [pinned, setPinned] = React.useState(true);
+  const [overlayOpen, setOverlayOpen] = React.useState(false);
+  // overlayReady becomes true only AFTER the close animation finishes (~210ms).
+  // This prevents top/height from snapping while the sidebar is still visible and sliding.
+  const [overlayReady, setOverlayReady] = React.useState(false);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const menuOpenRef = React.useRef(false);
+
+  const cancelClose = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+    if (settleTimerRef.current) {
+      clearTimeout(settleTimerRef.current);
+      settleTimerRef.current = null;
+    }
+  };
+
+  // Called after any close — waits for the 200ms slide-out transition to finish
+  // then snaps the container into overlay-ready position (while off-screen).
+  const startSettle = () => {
+    if (settleTimerRef.current) clearTimeout(settleTimerRef.current);
+    settleTimerRef.current = setTimeout(() => setOverlayReady(true), 210);
+  };
+
+  const scheduleClose = () => {
+    if (!pinned && !menuOpenRef.current) {
+      cancelClose();
+      closeTimerRef.current = setTimeout(() => {
+        setOverlayOpen(false);
+        startSettle();
+      }, 300);
+    }
+  };
+
+  const isOverlay = overlayOpen && !pinned;
+
   return (
     <TooltipProvider>
       <div
@@ -178,15 +262,59 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
           transform: fullPage ? undefined : "translateZ(0)",
           overflow: "hidden",
         }}
-        className={fullPage ? "**:data-[slot=sidebar-container]:h-full!" : "rounded-lg border **:data-[slot=sidebar-container]:h-full!"}
+        className={cn(
+          fullPage
+            ? "**:data-[slot=sidebar-container]:h-full!"
+            : "rounded-lg border **:data-[slot=sidebar-container]:h-full!",
+          // Overlay: open=true sets ml-0 on the inset internally (gap handles spacing),
+          // but we zero the gap for overlay, so force ml-2 back to keep content in place.
+          isOverlay && "**:data-[slot=sidebar-inset]:ml-2!",
+          // Gap: only suppress layout push during active overlay (not during close animation).
+          isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
+          // top/height: only applied once off-screen (after settle timer), so the
+          // close slide-out happens from top:0 full-height with no visible snap.
+          overlayReady && !pinned && [
+            "**:data-[slot=sidebar-container]:top-14!",
+            "**:data-[slot=sidebar-container]:h-[calc(100%-3.5rem)]!",
+          ],
+          isOverlay && "**:data-[slot=sidebar-container]:bg-sidebar!",
+          isOverlay && "**:data-[slot=sidebar-container]:border-t",
+          isOverlay && "**:data-[slot=sidebar-container]:rounded-r-md",
+          isOverlay && "**:data-[slot=sidebar-container]:shadow-xl",
+        )}
       >
         <SidebarProvider
+          open={pinned || overlayOpen}
+          onOpenChange={(o) => {
+            if (o) {
+              setOverlayReady(false);
+              setPinned(true);
+              setOverlayOpen(false);
+            } else {
+              setOverlayReady(false);
+              setPinned(false);
+              setOverlayOpen(false);
+              startSettle();
+            }
+          }}
           className="min-h-0! h-full"
           style={{ "--sidebar-width": "15rem", height: "100%" } as React.CSSProperties}
         >
-          <Sidebar collapsible="offcanvas">
-            {/* Care logo */}
-            <SidebarHeader className="border-b py-3">
+          <Sidebar
+            variant="inset"
+            collapsible="offcanvas"
+            className={isOverlay ? "border-r!" : undefined}
+            onMouseEnter={cancelClose}
+            onMouseLeave={scheduleClose}
+          >
+            <SidebarHeader
+              className={cn(
+                "overflow-hidden border-b",
+                pinned
+                  ? "max-h-14 py-3 border-border"
+                  : "max-h-0 py-0 border-transparent"
+              )}
+            >
               <div className="flex items-center gap-2 px-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
                   <Plus className="h-5 w-5" />
@@ -198,15 +326,47 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
               <CareNavGroups />
             </SidebarContent>
             <SidebarFooter className="border-t">
-              <CareNavUserCard />
+              <CareNavUserCard
+                onMenuOpenChange={(open) => {
+                  menuOpenRef.current = open;
+                  if (open) cancelClose();
+                  else scheduleClose();
+                }}
+              />
             </SidebarFooter>
           </Sidebar>
 
           <SidebarInset className="overflow-hidden">
-            {/* Top header */}
-            <header className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
-              <SidebarTrigger className="-ml-1" />
-              <Separator orientation="vertical" className="h-5" />
+              <header
+              className="flex h-14 shrink-0 items-center gap-3 border-b px-4"
+            >
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative h-7 w-7 -ml-1 after:absolute after:-inset-2 after:content-['']"
+                onMouseEnter={() => { cancelClose(); if (!pinned) { setOverlayReady(true); setOverlayOpen(true); } }}
+                onMouseLeave={scheduleClose}
+                onClick={() => {
+                  cancelClose();
+                  if (isOverlay) {
+                    setOverlayReady(false);
+                    setPinned(true);
+                    setOverlayOpen(false);
+                  } else if (pinned) {
+                    setOverlayReady(false);
+                    setPinned(false);
+                    setOverlayOpen(false);
+                    startSettle();
+                  } else {
+                    setPinned(true);
+                    setOverlayOpen(false);
+                  }
+                }}
+              >
+                <PanelLeft className="h-4 w-4" />
+                <span className="sr-only">Toggle Sidebar</span>
+              </Button>
+              <Separator orientation="vertical" />
               <CareFacilitySelector />
               <div className="ml-auto flex items-center gap-2">
                 <Button
