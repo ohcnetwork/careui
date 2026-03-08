@@ -79,7 +79,10 @@ const data = {
   navMain: [
     {
       title: "Tools",
-      items: [{ id: "playground", title: "Playground" }],
+      items: [
+        { id: "playground", title: "Playground" },
+        { id: "blocks", title: "Blocks" },
+      ],
     },
     {
       title: "Documentation",
