@@ -504,9 +504,9 @@ export function BlockPreviewPage({ id }: { id: string }) {
   return (
     <div className="relative bg-background">
       {/* Floating toolbar */}
-      <div className="fixed top-3 right-4 z-50 flex items-center gap-2 rounded-lg border bg-background/80 px-3 py-1.5 shadow-md backdrop-blur-sm">
+      <div className="fixed bottom-3 right-4 z-50 flex items-center gap-2 rounded-lg border bg-background/80 px-3 py-1.5 shadow-md backdrop-blur-sm">
         <span className="text-xs font-medium text-muted-foreground">{block.name}</span>
-        <Separator orientation="vertical" className="h-4" />
+        <Separator orientation="vertical" />
         <ThemeToggle />
       </div>
       {/* Full preview */}

@@ -52,6 +52,7 @@ import {
   Settings2,
   UserCog,
   Users,
+  X,
 } from "lucide-react";
 
 // ─── Care Navigation Data ─────────────────────────────────────────────────────
@@ -134,7 +135,9 @@ function CareNavGroups() {
   return (
     <>
       {careNavGroups.map((group, i) => (
-        <SidebarGroup key={i} className={i > 0 ? "pt-0" : undefined}>
+        <React.Fragment key={i}>
+          {i > 0 && <Separator className="mx-3 w-auto" />}
+          <SidebarGroup className={i > 0 ? "pt-0" : undefined}>
           {group.label && (
             <SidebarGroupLabel className="text-[10px] font-semibold tracking-wider uppercase">
               {group.label}
@@ -151,6 +154,7 @@ function CareNavGroups() {
             ))}
           </SidebarMenu>
         </SidebarGroup>
+        </React.Fragment>
       ))}
     </>
   );
@@ -227,14 +231,14 @@ function CareSidebarInner({
   pinned: boolean;
   onMenuOpenChange: (open: boolean) => void;
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
   const showHeader = pinned || isMobile;
   return (
     <>
       <SidebarHeader
         className={cn(
           "overflow-hidden border-b",
-          showHeader ? "max-h-14 py-3 border-border" : "max-h-0 py-0 border-transparent"
+          showHeader ? "py-3 border-border" : "max-h-0 py-0 border-transparent"
         )}
       >
         <div
@@ -247,6 +251,17 @@ function CareSidebarInner({
             <Plus className="h-5 w-5" />
           </div>
           <span className="text-lg font-bold tracking-tight text-green-700 dark:text-green-400">care</span>
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="ml-auto"
+              onClick={() => setOpenMobile(false)}
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close sidebar</span>
+            </Button>
+          )}
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -271,30 +286,35 @@ function SidebarToggleButton({
   onMouseLeave: () => void;
 }) {
   const { isMobile, setOpenMobile } = useSidebar();
+
+  const button = (
+    <Button
+      variant="ghost"
+      size="icon"
+      className="relative h-7 w-7 -ml-1 after:absolute after:-inset-3 after:content-['']"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={() => {
+        if (isMobile) {
+          setOpenMobile(true);
+        } else {
+          onDesktopToggle();
+        }
+      }}
+    >
+      <PanelLeft className="h-4 w-4" />
+      <span className="sr-only">Toggle Sidebar</span>
+    </Button>
+  );
+
+  if (isMobile) return button;
+
   return (
     <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative h-7 w-7 -ml-1 after:absolute after:-inset-2 after:content-['']"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onClick={() => {
-            if (isMobile) {
-              setOpenMobile(true);
-            } else {
-              onDesktopToggle();
-            }
-          }}
-        >
-          <PanelLeft className="h-4 w-4" />
-          <span className="sr-only">Toggle Sidebar</span>
-        </Button>
-      </TooltipTrigger>
+      <TooltipTrigger asChild>{button}</TooltipTrigger>
       <TooltipContent side="bottom" className="flex items-center gap-1.5">
         Toggle sidebar
-        <Kbd className="hidden sm:inline-flex">⌘B</Kbd>
+        <Kbd>⌘B</Kbd>
       </TooltipContent>
     </Tooltip>
   );
@@ -338,6 +358,14 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
 
   const isOverlay = overlayOpen && !pinned;
 
+  const handleToggleMouseEnter = React.useCallback(() => {
+    cancelClose();
+    if (!pinned) {
+      setOverlayReady(true);
+      setOverlayOpen(true);
+    }
+  }, [pinned, cancelClose]);
+
   const toggleSidebar = React.useCallback(() => {
     cancelClose();
     if (isOverlay) {
@@ -375,16 +403,14 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
           overflow: "hidden",
         }}
         className={cn(
-          fullPage
-            ? "**:data-[slot=sidebar-container]:h-full!"
-            : "rounded-lg border **:data-[slot=sidebar-container]:h-full!",
-          // Speed up the slide-in/out for the overlay so hover feels snappy.
+          !fullPage && "rounded-lg border",
+          "**:data-[slot=sidebar-container]:h-full!",
+          // Speed up the slide-in/out so hover feels snappy.
+          "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
           "**:data-[slot=sidebar-container]:duration-150!",
           "**:data-[slot=sidebar-gap]:duration-150!",
-          // Overlay: open=true sets ml-0 on the inset internally (gap handles spacing),
-          // but we zero the gap for overlay, so force ml-2 back to keep content in place.
+          // Overlay: zero the gap so it doesn't push content, and restore inset margin.
           isOverlay && "**:data-[slot=sidebar-inset]:ml-2!",
-          // Gap: only suppress layout push during active overlay (not during close animation).
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
           // top/height: only applied once off-screen (after settle timer), so the
           // close slide-out happens from top:0 full-height with no visible snap.
@@ -392,10 +418,13 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
             "**:data-[slot=sidebar-container]:top-14!",
             "**:data-[slot=sidebar-container]:h-[calc(100%-3.5rem)]!",
           ],
-          isOverlay && "**:data-[slot=sidebar-container]:bg-sidebar",
-          isOverlay && "**:data-[slot=sidebar-container]:border-t",
-          isOverlay && "**:data-[slot=sidebar-container]:rounded-r-md",
-          isOverlay && "**:data-[slot=sidebar-container]:shadow-xl",
+          // Overlay appearance: elevation + rounded corner.
+          isOverlay && [
+            "**:data-[slot=sidebar-container]:bg-sidebar",
+            "**:data-[slot=sidebar-container]:border-t",
+            "**:data-[slot=sidebar-container]:rounded-r-md",
+            "**:data-[slot=sidebar-container]:shadow-xl",
+          ],
         )}
       >
         <SidebarProvider
@@ -436,7 +465,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
             <header className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
               <SidebarToggleButton
                 onDesktopToggle={toggleSidebar}
-                onMouseEnter={() => { cancelClose(); if (!pinned) { setOverlayReady(true); setOverlayOpen(true); } }}
+                onMouseEnter={handleToggleMouseEnter}
                 onMouseLeave={scheduleClose}
               />
               <Separator orientation="vertical" />
@@ -449,9 +478,9 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
                 >
                   <Search className="h-3.5 w-3.5" />
                   <span>Search</span>
-                  <Kbd className="hidden sm:inline-flex">⌘K</Kbd>
+                  <Kbd>⌘K</Kbd>
                 </Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
+                <Button variant="ghost" size="icon">
                   <Bell className="h-4 w-4" />
                 </Button>
               </div>
