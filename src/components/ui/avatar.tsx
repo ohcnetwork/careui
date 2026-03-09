@@ -25,7 +25,7 @@ function Avatar({
       data-size={size}
       data-shape={shape}
       className={cn(
-        "after:border-border group/avatar relative flex size-8 shrink-0 overflow-hidden select-none after:absolute after:inset-0 after:border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
+        "after:border-border group/avatar relative flex size-8 shrink-0 select-none after:absolute after:inset-0 after:border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
         "data-[shape=circle]:rounded-full data-[shape=circle]:after:rounded-full",
         "data-[shape=rounded]:rounded-md data-[shape=rounded]:after:rounded-md",
         "data-[shape=squircle]:rounded-2xl data-[shape=squircle]:squircle data-[shape=squircle]:after:rounded-2xl data-[shape=squircle]:after:squircle",
@@ -45,6 +45,9 @@ function AvatarImage({
       data-slot="avatar-image"
       className={cn(
         "aspect-square size-full object-cover",
+        "group-data-[shape=circle]/avatar:rounded-full",
+        "group-data-[shape=rounded]/avatar:rounded-md",
+        "group-data-[shape=squircle]/avatar:rounded-2xl",
         className
       )}
       {...props}
@@ -56,6 +59,9 @@ const avatarFallbackVariants = cva(
   [
     "flex size-full items-center justify-center text-sm",
     "group-data-[size=sm]/avatar:text-xs",
+    "group-data-[shape=circle]/avatar:rounded-full",
+    "group-data-[shape=rounded]/avatar:rounded-md",
+    "group-data-[shape=squircle]/avatar:rounded-2xl group-data-[shape=squircle]/avatar:squircle",
   ],
   {
     variants: {
