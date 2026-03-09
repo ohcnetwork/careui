@@ -294,7 +294,7 @@ function SidebarToggleButton({
       </TooltipTrigger>
       <TooltipContent side="bottom" className="flex items-center gap-1.5">
         Toggle sidebar
-        <Kbd>⌘B</Kbd>
+        <Kbd className="hidden sm:inline-flex">⌘B</Kbd>
       </TooltipContent>
     </Tooltip>
   );
@@ -449,7 +449,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
                 >
                   <Search className="h-3.5 w-3.5" />
                   <span>Search</span>
-                  <Kbd>⌘K</Kbd>
+                  <Kbd className="hidden sm:inline-flex">⌘K</Kbd>
                 </Button>
                 <Button variant="ghost" size="icon" className="h-8 w-8">
                   <Bell className="h-4 w-4" />
