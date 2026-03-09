@@ -10,6 +10,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { Kbd } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -138,22 +152,22 @@ function CareNavGroups() {
         <React.Fragment key={i}>
           {i > 0 && <Separator className="mx-3 w-auto" />}
           <SidebarGroup className={i > 0 ? "pt-0" : undefined}>
-          {group.label && (
-            <SidebarGroupLabel className="text-[10px] font-semibold tracking-wider uppercase">
-              {group.label}
-            </SidebarGroupLabel>
-          )}
-          <SidebarMenu>
-            {group.items.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton isActive={!!item.isActive} tooltip={item.title}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
+            {group.label && (
+              <SidebarGroupLabel className="text-[10px] font-semibold tracking-wider uppercase">
+                {group.label}
+              </SidebarGroupLabel>
+            )}
+            <SidebarMenu>
+              {group.items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton isActive={!!item.isActive} tooltip={item.title}>
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
         </React.Fragment>
       ))}
     </>
@@ -270,6 +284,66 @@ function CareSidebarInner({
       <SidebarFooter className="border-t">
         <CareNavUserCard onMenuOpenChange={onMenuOpenChange} />
       </SidebarFooter>
+    </>
+  );
+}
+
+// ─── CareSearchBar ───────────────────────────────────────────────────────────
+
+function CareSearchBar() {
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  return (
+    <>
+      <InputGroup
+        className="h-8 w-52 cursor-pointer text-sm"
+        onClick={() => setOpen(true)}
+      >
+        <InputGroupInput
+          placeholder="Search"
+          readOnly
+          className="cursor-pointer text-sm"
+        />
+        <InputGroupAddon>
+          <Search className="text-muted-foreground" />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <Kbd>⌘K</Kbd>
+        </InputGroupAddon>
+      </InputGroup>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <Command>
+          <CommandInput placeholder="Search..." />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            {careNavGroups.map((group, i) => (
+              <CommandGroup key={i} heading={group.label ?? "Quick Access"}>
+                {group.items.map((item) => (
+                  <CommandItem
+                    key={item.title}
+                    value={item.title}
+                    onSelect={() => setOpen(false)}
+                  >
+                    <item.icon className="mr-2 h-4 w-4" />
+                    {item.title}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            ))}
+          </CommandList>
+        </Command>
+      </CommandDialog>
     </>
   );
 }
@@ -471,15 +545,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
               <Separator orientation="vertical" />
               <CareFacilitySelector />
               <div className="ml-auto flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="gap-2 text-muted-foreground"
-                >
-                  <Search className="h-3.5 w-3.5" />
-                  <span>Search</span>
-                  <Kbd>⌘K</Kbd>
-                </Button>
+                <CareSearchBar />
                 <Button variant="ghost" size="icon">
                   <Bell className="h-4 w-4" />
                 </Button>

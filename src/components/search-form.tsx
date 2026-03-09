@@ -1,29 +1,109 @@
+import * as React from "react";
 import { Search } from "lucide-react";
 
-import { Label } from "@/components/ui/label";
-
+import { componentNames } from "@/lib/component-names";
 import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarInput,
-} from "@/components/ui/sidebar";
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
+import { useNavigation } from "@/contexts/navigation-context";
+import { getComponentIds } from "@/lib/component-registry";
+import { documentationPages } from "@/lib/documentation";
 
-export function SearchForm({ ...props }: React.ComponentProps<"form">) {
+const navSections = [
+  {
+    title: "Tools",
+    items: [
+      { id: "playground", title: "Playground" },
+      { id: "blocks", title: "Blocks" },
+    ],
+  },
+  {
+    title: "Documentation",
+    items: Object.values(documentationPages).map((page) => ({
+      id: page.id,
+      title: page.title,
+    })),
+  },
+  {
+    title: "Components",
+    items: getComponentIds().map((id) => ({
+      id,
+      title: componentNames[id] || id,
+    })),
+  },
+];
+
+export function SearchForm(props: React.ComponentProps<"form">) {
+  const [open, setOpen] = React.useState(false);
+  const { setActiveComponent } = useNavigation();
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
-    <form {...props}>
+    <form {...props} onSubmit={(e) => e.preventDefault()}>
       <SidebarGroup className="py-0">
-        <SidebarGroupContent className="relative">
-          <Label htmlFor="search" className="sr-only">
-            Search
-          </Label>
-          <SidebarInput
-            id="search"
-            placeholder="Search the docs..."
-            className="pl-8"
-          />
-          <Search className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
+        <SidebarGroupContent>
+          <InputGroup
+            className="cursor-pointer"
+            onClick={() => setOpen(true)}
+          >
+            <InputGroupInput
+              placeholder="Search..."
+              readOnly
+              className="cursor-pointer"
+            />
+            <InputGroupAddon>
+              <Search className="text-muted-foreground" />
+            </InputGroupAddon>
+          </InputGroup>
         </SidebarGroupContent>
       </SidebarGroup>
+
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <Command>
+          <CommandInput placeholder="Search components and docs..." />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            {navSections.map((section) => (
+              <CommandGroup key={section.title} heading={section.title}>
+                {section.items.map((item) => (
+                  <CommandItem
+                    key={item.id}
+                    value={item.title}
+                    onSelect={() => {
+                      setActiveComponent(item.id);
+                      setOpen(false);
+                    }}
+                  >
+                    {item.title}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            ))}
+          </CommandList>
+        </Command>
+      </CommandDialog>
     </form>
   );
 }

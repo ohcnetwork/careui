@@ -3,6 +3,7 @@ import * as React from "react";
 import { SearchForm } from "@/components/search-form";
 import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
+import { componentNames } from "@/lib/component-names";
 import { documentationPages } from "@/lib/documentation";
 import {
   Sidebar,
@@ -17,63 +18,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-// Component names mapping (for sidebar display)
-const componentNames: Record<string, string> = {
-  "components-overview": "Overview",
-  accordion: "Accordion",
-  alert: "Alert",
-  "alert-dialog": "Alert Dialog",
-  "aspect-ratio": "Aspect Ratio",
-  avatar: "Avatar",
-  badge: "Badge",
-  breadcrumb: "Breadcrumb",
-  button: "Button",
-  "button-group": "Button Group",
-  calendar: "Calendar",
-  card: "Card",
-  carousel: "Carousel",
-  chart: "Chart",
-  checkbox: "Checkbox",
-  collapsible: "Collapsible",
-  command: "Command",
-  "context-menu": "Context Menu",
-  dialog: "Dialog",
-  drawer: "Drawer",
-  "dropdown-menu": "Dropdown Menu",
-  empty: "Empty",
-  field: "Field",
-  input: "Input",
-  "hover-card": "Hover Card",
-  "input-group": "Input Group",
-  "input-otp": "Input OTP",
-  item: "Item",
-  kbd: "Kbd",
-  label: "Label",
-  menubar: "Menubar",
-  "navigation-menu": "Navigation Menu",
-  pagination: "Pagination",
-  popover: "Popover",
-  progress: "Progress",
-  "radio-group": "Radio Group",
-  resizable: "Resizable",
-  "scroll-area": "Scroll Area",
-  select: "Select",
-  separator: "Separator",
-  sheet: "Sheet",
-  sidebar: "Sidebar",
-  skeleton: "Skeleton",
-  slider: "Slider",
-  sonner: "Sonner",
-  spinner: "Spinner",
-  switch: "Switch",
-  table: "Table",
-  tabs: "Tabs",
-  textarea: "Textarea",
-  toggle: "Toggle",
-  "toggle-group": "Toggle Group",
-  tooltip: "Tooltip",
-};
-
 // Navigation data
 const data = {
   navMain: [
@@ -86,12 +30,10 @@ const data = {
     },
     {
       title: "Documentation",
-      items: [
-        ...Object.values(documentationPages).map((page) => ({
-          id: page.id,
-          title: page.title,
-        })),
-      ],
+      items: Object.values(documentationPages).map((page) => ({
+        id: page.id,
+        title: page.title,
+      })),
     },
     {
       title: "Components",
@@ -175,7 +117,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarGroupContent>
               <SidebarMenu>
                 {section.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton
                       isActive={activeComponent === item.id}
                       onClick={() => setActiveComponent(item.id)}
@@ -194,14 +136,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Context Menu */}
       {contextMenu.show && (
         <div
-          className="fixed z-50 min-w-40 rounded-md border border-gray-200 bg-white py-1 shadow-lg"
+          className="fixed z-50 min-w-40 rounded-md border bg-popover py-1 shadow-lg"
           style={{
             left: contextMenu.x,
             top: contextMenu.y,
           }}
         >
           <button
-            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-gray-100"
+            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-accent"
             onClick={() =>
               downloadAsset("care-ui-logo.svg", "/care-ui-logo.svg")
             }
@@ -209,16 +151,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             Download Logo (SVG)
           </button>
           <button
-            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-gray-100"
+            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-accent"
             onClick={() =>
               downloadAsset("care-ui-logo.png", "/care-ui-logo.png")
             }
           >
             Download Logo (PNG)
           </button>
-          <div className="my-1 border-t border-gray-200" />
+          <div className="my-1 border-t" />
           <button
-            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-gray-100"
+            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-accent"
             onClick={() => {
               navigator.clipboard.writeText("Care UI");
               setContextMenu((prev) => ({ ...prev, show: false }));

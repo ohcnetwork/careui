@@ -331,7 +331,7 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sidebar-header"
       data-sidebar="header"
-      className={cn("flex flex-col justify-center gap-2 p-2 max-h-16", className)}
+      className={cn("flex flex-col justify-center gap-2 p-2", className)}
       {...props}
     />
   )
@@ -473,8 +473,8 @@ const sidebarMenuButtonVariants = cva(
           "bg-background shadow-[0_0_0_1px_hsl(var(--sidebar-border))] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_hsl(var(--sidebar-accent))]",
       },
       size: {
-        default: "h-10 text-sm",
-        sm: "h-9 text-xs",
+        default: "h-10 text-base md:text-sm",
+        sm: "h-9 text-sm",
         lg: "h-12 text-sm group-data-[collapsible=icon]:p-0!",
       },
     },
