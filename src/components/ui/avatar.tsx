@@ -1,10 +1,11 @@
 /**
  * @name avatar
  * @description An image element with a fallback for representing the user.
- * @dependencies radix-ui
+ * @dependencies class-variance-authority radix-ui
  * @type registry:ui
  */
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 import { Avatar as AvatarPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
@@ -12,16 +13,22 @@ import { cn } from "@/lib/utils"
 function Avatar({
   className,
   size = "default",
+  shape = "circle",
   ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Root> & {
   size?: "default" | "sm" | "lg"
+  shape?: "circle" | "rounded" | "squircle"
 }) {
   return (
     <AvatarPrimitive.Root
       data-slot="avatar"
       data-size={size}
+      data-shape={shape}
       className={cn(
-        "after:border-border group/avatar relative flex size-8 shrink-0 rounded-full select-none after:absolute after:inset-0 after:rounded-full after:border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
+        "after:border-border group/avatar relative flex size-8 shrink-0 overflow-hidden select-none after:absolute after:inset-0 after:border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
+        "data-[shape=circle]:rounded-full data-[shape=circle]:after:rounded-full",
+        "data-[shape=rounded]:rounded-md data-[shape=rounded]:after:rounded-md",
+        "data-[shape=squircle]:rounded-2xl data-[shape=squircle]:squircle data-[shape=squircle]:after:rounded-2xl data-[shape=squircle]:after:squircle",
         className
       )}
       {...props}
@@ -37,7 +44,7 @@ function AvatarImage({
     <AvatarPrimitive.Image
       data-slot="avatar-image"
       className={cn(
-        "aspect-square size-full rounded-full object-cover",
+        "aspect-square size-full object-cover",
         className
       )}
       {...props}
@@ -45,17 +52,66 @@ function AvatarImage({
   )
 }
 
+const avatarFallbackVariants = cva(
+  [
+    "flex size-full items-center justify-center text-sm",
+    "group-data-[size=sm]/avatar:text-xs",
+  ],
+  {
+    variants: {
+      color: {
+        default: "bg-muted text-muted-foreground",
+        primary:
+          "bg-primary-100 text-primary-900 dark:bg-primary-400/15 dark:text-primary-300",
+        red: "bg-red-100 text-red-800 dark:bg-red-400/15 dark:text-red-300",
+        orange:
+          "bg-orange-100 text-orange-900 dark:bg-orange-400/15 dark:text-orange-300",
+        amber:
+          "bg-amber-100 text-amber-900 dark:bg-amber-400/15 dark:text-amber-300",
+        yellow:
+          "bg-yellow-100 text-yellow-900 dark:bg-yellow-400/15 dark:text-yellow-300",
+        lime: "bg-lime-100 text-lime-900 dark:bg-lime-400/15 dark:text-lime-300",
+        green:
+          "bg-green-100 text-green-900 dark:bg-green-400/15 dark:text-green-300",
+        teal: "bg-teal-100 text-teal-900 dark:bg-teal-400/15 dark:text-teal-300",
+        cyan: "bg-cyan-100 text-cyan-900 dark:bg-cyan-400/15 dark:text-cyan-300",
+        sky: "bg-sky-100 text-sky-900 dark:bg-sky-400/15 dark:text-sky-300",
+        blue: "bg-blue-100 text-blue-900 dark:bg-blue-400/15 dark:text-blue-300",
+        indigo:
+          "bg-indigo-100 text-indigo-900 dark:bg-indigo-400/15 dark:text-indigo-300",
+        violet:
+          "bg-violet-100 text-violet-900 dark:bg-violet-400/15 dark:text-violet-300",
+        purple:
+          "bg-purple-100 text-purple-900 dark:bg-purple-400/15 dark:text-purple-300",
+        fuchsia:
+          "bg-fuchsia-100 text-fuchsia-900 dark:bg-fuchsia-400/15 dark:text-fuchsia-300",
+        pink: "bg-pink-100 text-pink-900 dark:bg-pink-400/15 dark:text-pink-300",
+        rose: "bg-rose-100 text-rose-900 dark:bg-rose-400/15 dark:text-rose-300",
+        neutral:
+          "bg-neutral-100 text-neutral-800 dark:bg-neutral-400/15 dark:text-neutral-300",
+      },
+    },
+    defaultVariants: {
+      color: "default",
+    },
+  }
+)
+
+export type AvatarColor = NonNullable<
+  VariantProps<typeof avatarFallbackVariants>["color"]
+>
+
 function AvatarFallback({
   className,
+  color = "default",
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+}: React.ComponentProps<typeof AvatarPrimitive.Fallback> & {
+  color?: AvatarColor
+}) {
   return (
     <AvatarPrimitive.Fallback
       data-slot="avatar-fallback"
-      className={cn(
-        "bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs",
-        className
-      )}
+      className={cn(avatarFallbackVariants({ color }), className)}
       {...props}
     />
   )

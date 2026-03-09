@@ -122,7 +122,7 @@ function CareFacilitySelector() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2 font-normal">
+        <Button variant="outline" size="sm" className="gap-2 font-normal shadow-sm">
           {selected}
           <ChevronsUpDown className="h-3.5 w-3.5 opacity-60" />
         </Button>
@@ -252,7 +252,7 @@ function CareSidebarInner({
       <SidebarHeader
         className={cn(
           "overflow-hidden border-b",
-          showHeader ? "py-3 border-border" : "max-h-0 py-0 border-transparent"
+          showHeader ? "py-3 border-border min-h-14" : "max-h-0 py-0 border-transparent"
         )}
       >
         <div
@@ -261,10 +261,8 @@ function CareSidebarInner({
             showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
           )}
         >
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
-            <Plus className="h-5 w-5" />
-          </div>
-          <span className="text-lg font-bold tracking-tight text-green-700 dark:text-green-400">care</span>
+
+          <img src="/Care-logo.svg" alt="Care" className="h-10 w-auto dark:invert" />
           {isMobile && (
             <Button
               variant="ghost"
@@ -307,7 +305,7 @@ function CareSearchBar() {
   return (
     <>
       <InputGroup
-        className="h-8 w-52 cursor-pointer text-sm"
+        className="md:h-9 w-52 cursor-pointer text-sm"
         onClick={() => setOpen(true)}
       >
         <InputGroupInput

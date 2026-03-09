@@ -7,6 +7,7 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
+  type AvatarColor,
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -592,6 +593,124 @@ export function AvatarDropdown() {
               DropdownMenuItem,
               { variant: "destructive" },
               "Log out"
+            )
+          )
+        )
+      ),
+    },
+
+    // ── Colors ─────────────────────────────────────────────────────────────
+    {
+      name: "Colors",
+      description:
+        "Use the color prop on AvatarFallback to apply a colored background with matching text. Follows the same palette as Badge.",
+      code: `import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+
+const users = [
+  { initials: "AB", color: "red" },
+  { initials: "CD", color: "orange" },
+  { initials: "EF", color: "amber" },
+  { initials: "GH", color: "lime" },
+  { initials: "IJ", color: "green" },
+  { initials: "KL", color: "teal" },
+  { initials: "MN", color: "sky" },
+  { initials: "OP", color: "blue" },
+  { initials: "QR", color: "violet" },
+  { initials: "ST", color: "purple" },
+  { initials: "UV", color: "pink" },
+  { initials: "WX", color: "rose" },
+] as const
+
+export function AvatarColorsExample() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {users.map(({ initials, color }) => (
+        <Avatar key={color}>
+          <AvatarFallback color={color}>{initials}</AvatarFallback>
+        </Avatar>
+      ))}
+    </div>
+  )
+}`,
+      preview: React.createElement(
+        "div",
+        { className: "flex flex-wrap gap-2" },
+        ...[
+          { initials: "AB", color: "red" },
+          { initials: "CD", color: "orange" },
+          { initials: "EF", color: "amber" },
+          { initials: "GH", color: "lime" },
+          { initials: "IJ", color: "green" },
+          { initials: "KL", color: "teal" },
+          { initials: "MN", color: "sky" },
+          { initials: "OP", color: "blue" },
+          { initials: "QR", color: "violet" },
+          { initials: "ST", color: "purple" },
+          { initials: "UV", color: "pink" },
+          { initials: "WX", color: "rose" },
+        ].map(({ initials, color }) =>
+          React.createElement(
+            Avatar,
+            { key: color },
+            React.createElement(AvatarFallback, { color: color as AvatarColor }, initials)
+          )
+        )
+      ),
+    },
+
+    // ── Shapes ─────────────────────────────────────────────────────────────
+    {
+      name: "Shapes",
+      description:
+        "Use the shape prop to choose between circle (default), rounded, or squircle.",
+      code: `import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+
+export function AvatarShapesExample() {
+  return (
+    <div className="flex flex-wrap items-center gap-6">
+      <div className="flex flex-col items-center gap-2">
+        <Avatar shape="circle" size="lg">
+          <AvatarFallback color="blue">CN</AvatarFallback>
+        </Avatar>
+        <span className="text-xs text-muted-foreground">circle</span>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <Avatar shape="rounded" size="lg">
+          <AvatarFallback color="violet">CN</AvatarFallback>
+        </Avatar>
+        <span className="text-xs text-muted-foreground">rounded</span>
+      </div>
+      <div className="flex flex-col items-center gap-2">
+        <Avatar shape="squircle" size="lg">
+          <AvatarFallback color="green">CN</AvatarFallback>
+        </Avatar>
+        <span className="text-xs text-muted-foreground">squircle</span>
+      </div>
+    </div>
+  )
+}`,
+      preview: React.createElement(
+        "div",
+        { className: "flex flex-wrap items-center gap-6" },
+        ...(
+          [
+            { shape: "circle", color: "blue" },
+            { shape: "rounded", color: "violet" },
+            { shape: "squircle", color: "green" },
+          ] as const
+        ).map(({ shape, color }) =>
+          React.createElement(
+            "div",
+            { key: shape, className: "flex flex-col items-center gap-2" },
+            React.createElement(
+              Avatar,
+              { shape, size: "lg" },
+              React.createElement(AvatarFallback, { color }, "CN")
+            ),
+            React.createElement(
+              "span",
+              { className: "text-xs text-muted-foreground" },
+              shape
             )
           )
         )
