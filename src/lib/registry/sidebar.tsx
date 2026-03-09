@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Kbd } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +27,12 @@ import {
   SidebarProvider,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Activity,
   BadgeCheck,
@@ -55,7 +61,7 @@ type CareNavGroup = { label: string | null; items: CareNavItem[] };
 
 const careNavGroups: CareNavGroup[] = [
   {
-    label: null as string | null,
+    label: null,
     items: [{ title: "Home", icon: House, isActive: true }],
   },
   {
@@ -212,6 +218,88 @@ function CareNavUserCard({ onMenuOpenChange }: { onMenuOpenChange?: (open: boole
   );
 }
 
+// ─── CareSidebarInner ─────────────────────────────────────────────────────────
+
+function CareSidebarInner({
+  pinned,
+  onMenuOpenChange,
+}: {
+  pinned: boolean;
+  onMenuOpenChange: (open: boolean) => void;
+}) {
+  const { isMobile } = useSidebar();
+  const showHeader = pinned || isMobile;
+  return (
+    <>
+      <SidebarHeader
+        className={cn(
+          "overflow-hidden border-b",
+          showHeader ? "max-h-14 py-3 border-border" : "max-h-0 py-0 border-transparent"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center gap-2 px-2 transition-[opacity,transform] duration-150 ease-linear",
+            showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+          )}
+        >
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
+            <Plus className="h-5 w-5" />
+          </div>
+          <span className="text-lg font-bold tracking-tight text-green-700 dark:text-green-400">care</span>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <CareNavGroups />
+      </SidebarContent>
+      <SidebarFooter className="border-t">
+        <CareNavUserCard onMenuOpenChange={onMenuOpenChange} />
+      </SidebarFooter>
+    </>
+  );
+}
+
+// ─── SidebarToggleButton ──────────────────────────────────────────────────────
+
+function SidebarToggleButton({
+  onDesktopToggle,
+  onMouseEnter,
+  onMouseLeave,
+}: {
+  onDesktopToggle: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
+}) {
+  const { isMobile, setOpenMobile } = useSidebar();
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative h-7 w-7 -ml-1 after:absolute after:-inset-2 after:content-['']"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onClick={() => {
+            if (isMobile) {
+              setOpenMobile(true);
+            } else {
+              onDesktopToggle();
+            }
+          }}
+        >
+          <PanelLeft className="h-4 w-4" />
+          <span className="sr-only">Toggle Sidebar</span>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" className="flex items-center gap-1.5">
+        Toggle sidebar
+        <Kbd>⌘B</Kbd>
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
 // ─── AppSidebarDemo ───────────────────────────────────────────────────────────
 
 export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
@@ -224,25 +312,21 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
   const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const menuOpenRef = React.useRef(false);
 
-  const cancelClose = () => {
-    if (closeTimerRef.current) {
-      clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-    if (settleTimerRef.current) {
-      clearTimeout(settleTimerRef.current);
-      settleTimerRef.current = null;
-    }
-  };
+  const cancelClose = React.useCallback(() => {
+    clearTimeout(closeTimerRef.current ?? undefined);
+    clearTimeout(settleTimerRef.current ?? undefined);
+    closeTimerRef.current = null;
+    settleTimerRef.current = null;
+  }, []);
 
-  // Called after any close — waits for the 200ms slide-out transition to finish
-  // then snaps the container into overlay-ready position (while off-screen).
-  const startSettle = () => {
-    if (settleTimerRef.current) clearTimeout(settleTimerRef.current);
+  // Waits for the slide-out transition to finish, then snaps the container
+  // into overlay-ready position while it's off-screen.
+  const startSettle = React.useCallback(() => {
+    clearTimeout(settleTimerRef.current ?? undefined);
     settleTimerRef.current = setTimeout(() => setOverlayReady(true), 210);
-  };
+  }, []);
 
-  const scheduleClose = () => {
+  const scheduleClose = React.useCallback(() => {
     if (!pinned && !menuOpenRef.current) {
       cancelClose();
       closeTimerRef.current = setTimeout(() => {
@@ -250,9 +334,37 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
         startSettle();
       }, 300);
     }
-  };
+  }, [pinned, cancelClose, startSettle]);
 
   const isOverlay = overlayOpen && !pinned;
+
+  const toggleSidebar = React.useCallback(() => {
+    cancelClose();
+    if (isOverlay) {
+      setOverlayReady(false);
+      setPinned(true);
+      setOverlayOpen(false);
+    } else if (pinned) {
+      setOverlayReady(false);
+      setPinned(false);
+      setOverlayOpen(false);
+      startSettle();
+    } else {
+      setPinned(true);
+      setOverlayOpen(false);
+    }
+  }, [isOverlay, pinned, cancelClose, startSettle]);
+
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "b") {
+        e.preventDefault();
+        toggleSidebar();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [toggleSidebar]);
 
   return (
     <TooltipProvider>
@@ -266,6 +378,9 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
           fullPage
             ? "**:data-[slot=sidebar-container]:h-full!"
             : "rounded-lg border **:data-[slot=sidebar-container]:h-full!",
+          // Speed up the slide-in/out for the overlay so hover feels snappy.
+          "**:data-[slot=sidebar-container]:duration-150!",
+          "**:data-[slot=sidebar-gap]:duration-150!",
           // Overlay: open=true sets ml-0 on the inset internally (gap handles spacing),
           // but we zero the gap for overlay, so force ml-2 back to keep content in place.
           isOverlay && "**:data-[slot=sidebar-inset]:ml-2!",
@@ -277,7 +392,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
             "**:data-[slot=sidebar-container]:top-14!",
             "**:data-[slot=sidebar-container]:h-[calc(100%-3.5rem)]!",
           ],
-          isOverlay && "**:data-[slot=sidebar-container]:bg-sidebar!",
+          isOverlay && "**:data-[slot=sidebar-container]:bg-sidebar",
           isOverlay && "**:data-[slot=sidebar-container]:border-t",
           isOverlay && "**:data-[slot=sidebar-container]:rounded-r-md",
           isOverlay && "**:data-[slot=sidebar-container]:shadow-xl",
@@ -307,65 +422,23 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
             onMouseEnter={cancelClose}
             onMouseLeave={scheduleClose}
           >
-            <SidebarHeader
-              className={cn(
-                "overflow-hidden border-b",
-                pinned
-                  ? "max-h-14 py-3 border-border"
-                  : "max-h-0 py-0 border-transparent"
-              )}
-            >
-              <div className="flex items-center gap-2 px-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-600 text-white">
-                  <Plus className="h-5 w-5" />
-                </div>
-                <span className="text-lg font-bold tracking-tight text-green-700 dark:text-green-400">care</span>
-              </div>
-            </SidebarHeader>
-            <SidebarContent>
-              <CareNavGroups />
-            </SidebarContent>
-            <SidebarFooter className="border-t">
-              <CareNavUserCard
-                onMenuOpenChange={(open) => {
-                  menuOpenRef.current = open;
-                  if (open) cancelClose();
-                  else scheduleClose();
-                }}
-              />
-            </SidebarFooter>
+            <CareSidebarInner
+              pinned={pinned}
+              onMenuOpenChange={(open) => {
+                menuOpenRef.current = open;
+                if (open) cancelClose();
+                else scheduleClose();
+              }}
+            />
           </Sidebar>
 
           <SidebarInset className="overflow-hidden">
-              <header
-              className="flex h-14 shrink-0 items-center gap-3 border-b px-4"
-            >
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative h-7 w-7 -ml-1 after:absolute after:-inset-2 after:content-['']"
+            <header className="flex h-14 shrink-0 items-center gap-3 border-b px-4">
+              <SidebarToggleButton
+                onDesktopToggle={toggleSidebar}
                 onMouseEnter={() => { cancelClose(); if (!pinned) { setOverlayReady(true); setOverlayOpen(true); } }}
                 onMouseLeave={scheduleClose}
-                onClick={() => {
-                  cancelClose();
-                  if (isOverlay) {
-                    setOverlayReady(false);
-                    setPinned(true);
-                    setOverlayOpen(false);
-                  } else if (pinned) {
-                    setOverlayReady(false);
-                    setPinned(false);
-                    setOverlayOpen(false);
-                    startSettle();
-                  } else {
-                    setPinned(true);
-                    setOverlayOpen(false);
-                  }
-                }}
-              >
-                <PanelLeft className="h-4 w-4" />
-                <span className="sr-only">Toggle Sidebar</span>
-              </Button>
+              />
               <Separator orientation="vertical" />
               <CareFacilitySelector />
               <div className="ml-auto flex items-center gap-2">
@@ -376,9 +449,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
                 >
                   <Search className="h-3.5 w-3.5" />
                   <span>Search</span>
-                  <kbd className="pointer-events-none ml-1 rounded border bg-muted px-1.5 py-0.5 text-[10px] font-medium leading-none">
-                    ⌘K
-                  </kbd>
+                  <Kbd>⌘K</Kbd>
                 </Button>
                 <Button variant="ghost" size="icon" className="h-8 w-8">
                   <Bell className="h-4 w-4" />

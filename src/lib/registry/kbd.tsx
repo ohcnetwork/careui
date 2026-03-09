@@ -11,6 +11,7 @@ import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { type ComponentDoc } from "@/lib/types";
@@ -177,6 +178,9 @@ export const kbdDoc: ComponentDoc = {
   </ButtonGroup>
 </div>`,
       preview: React.createElement(
+        TooltipProvider as React.ComponentType<React.PropsWithChildren>,
+        {},
+        React.createElement(
         "div",
         { className: "flex flex-wrap gap-4" },
         React.createElement(
@@ -226,7 +230,8 @@ export const kbdDoc: ComponentDoc = {
             )
           )
         )
-      ),
+      )
+    ),
     },
     {
       name: "Input Group",
