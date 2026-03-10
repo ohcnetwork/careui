@@ -251,7 +251,7 @@ function CareSidebarInner({
       <SidebarHeader
         className={cn(
           "overflow-hidden border-b",
-          showHeader ? "py-3 border-border min-h-14" : "max-h-0 py-0 border-transparent"
+          showHeader ? "py-2 border-border min-h-14" : "max-h-0 py-0 border-transparent"
         )}
       >
         <div
@@ -261,8 +261,8 @@ function CareSidebarInner({
           )}
         >
 
-          <img src="/Care-logo-in-light.svg" alt="Care" className="h-10 w-auto dark:hidden" />
-          <img src="/Care-logo-in-dark.svg" alt="Care" className="h-10 w-auto hidden dark:block" />
+          <img src="/Care-logo-in-light.svg" alt="Care" className="h-9 w-auto dark:hidden" />
+          <img src="/Care-logo-in-dark.svg" alt="Care" className="h-9 w-auto hidden dark:block" />
           {isMobile && (
             <Button
               variant="ghost"
@@ -384,7 +384,7 @@ function SidebarToggleButton({
   return (
     <Tooltip>
       <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent side="right" className="flex items-center gap-1.5">
+      <TooltipContent side="left" className="flex items-center gap-1.5">
         Toggle sidebar
         <Kbd>⌘B</Kbd>
       </TooltipContent>
