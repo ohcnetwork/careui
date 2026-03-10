@@ -1,3 +1,9 @@
+/**
+ * @name radio-group
+ * @description A set of checkable buttons where only one can be checked at a time.
+ * @dependencies radix-ui
+ * @type registry:ui
+ */
 import * as React from "react"
 import { RadioGroup as RadioGroupPrimitive } from "radix-ui"
 

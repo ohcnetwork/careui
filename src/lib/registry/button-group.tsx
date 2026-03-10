@@ -562,9 +562,9 @@ export function ButtonGroupSeparatorDemo() {
       preview: React.createElement(
         ButtonGroup,
         {},
-        React.createElement(Button, { variant: "secondary", size: "sm" }, "Copy"),
+        React.createElement(Button, { variant: "tertiary", size: "sm" }, "Copy"),
         React.createElement(ButtonGroupSeparator),
-        React.createElement(Button, { variant: "secondary", size: "sm" }, "Paste")
+        React.createElement(Button, { variant: "tertiary", size: "sm" }, "Paste")
       ),
     },
     {
@@ -590,7 +590,6 @@ export function ButtonGroupSplit() {
         ButtonGroup,
         {},
         React.createElement(Button, { variant: "secondary" }, "Button"),
-        React.createElement(ButtonGroupSeparator),
         React.createElement(
           Button,
           { size: "icon", variant: "secondary" },
@@ -622,7 +621,7 @@ export function ButtonGroupInput() {
         React.createElement(Input, { placeholder: "Search..." }),
         React.createElement(
           Button,
-          { variant: "outline", "aria-label": "Search" },
+          { className: "shadow-sm border-strong-border", variant: "outline", "aria-label": "Search" },
           React.createElement(SearchIcon)
         )
       ),

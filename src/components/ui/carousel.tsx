@@ -1,3 +1,9 @@
+/**
+ * @name carousel
+ * @description A carousel with motion and swipe built using Embla.
+ * @dependencies embla-carousel-react
+ * @type registry:ui
+ */
 import * as React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,

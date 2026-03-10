@@ -1,3 +1,9 @@
+/**
+ * @name input-group
+ * @description Combines an input with addons, buttons, or icons into a unified control.
+ * @dependencies
+ * @type registry:ui
+ */
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

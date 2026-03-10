@@ -1,3 +1,9 @@
+/**
+ * @name checkbox
+ * @description A control that allows the user to toggle between checked and not checked.
+ * @dependencies radix-ui
+ * @type registry:ui
+ */
 import * as React from "react"
 import { Checkbox as CheckboxPrimitive } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"

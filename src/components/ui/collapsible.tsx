@@ -1,3 +1,9 @@
+/**
+ * @name collapsible
+ * @description An interactive component which expands/collapses a panel.
+ * @dependencies radix-ui
+ * @type registry:ui
+ */
 import { Collapsible as CollapsiblePrimitive } from "radix-ui"
 
 function Collapsible({

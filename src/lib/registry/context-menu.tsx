@@ -17,12 +17,12 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import {
-  ClipboardPaste,
-  Copy,
+  ClipboardPasteIcon,
+  CopyIcon,
   PencilIcon,
-  Scissors,
+  ScissorsIcon,
   ShareIcon,
-  Trash,
+  TrashIcon,
 } from "lucide-react";
 
 const TriggerArea = () =>
@@ -42,8 +42,16 @@ export const contextMenuDoc: ComponentDoc = {
   description: "Displays a menu of actions triggered by a right click.",
   installation: {
     cli: "npx shadcn@latest add context-menu",
-    manual:
-      "Copy and paste the context menu component source code into your project.",
+    manual: `Install the following dependencies:
+
+\`\`\`bash
+npm install radix-ui
+\`\`\`
+
+Copy and paste the following code into your project:
+components/ui/context-menu.tsx
+
+Update the import paths to match your project setup.`,
   },
   usage: `import {
   ContextMenu,
@@ -52,9 +60,6 @@ export const contextMenuDoc: ComponentDoc = {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
 
-\`\`\`
-
-\`\`\`tsx
 <ContextMenu>
   <ContextMenuTrigger>Right click here</ContextMenuTrigger>
   <ContextMenuContent>
@@ -495,13 +500,13 @@ export function ContextMenuIcons() {
           ContextMenuContent,
           {},
           React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, {}, React.createElement(Copy, {}), "Copy"),
-            React.createElement(ContextMenuItem, {}, React.createElement(Scissors, {}), "Cut"),
-            React.createElement(ContextMenuItem, {}, React.createElement(ClipboardPaste, {}), "Paste")
+            React.createElement(ContextMenuItem, {}, React.createElement(CopyIcon, {}), "Copy"),
+            React.createElement(ContextMenuItem, {}, React.createElement(ScissorsIcon, {}), "Cut"),
+            React.createElement(ContextMenuItem, {}, React.createElement(ClipboardPasteIcon, {}), "Paste")
           ),
           React.createElement(ContextMenuSeparator),
           React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, { variant: "destructive" }, React.createElement(Trash, {}), "Delete")
+            React.createElement(ContextMenuItem, { variant: "destructive" }, React.createElement(TrashIcon, {}), "Delete")
           )
         )
       ),
@@ -677,7 +682,7 @@ export function ContextMenuDestructive() {
           ),
           React.createElement(ContextMenuSeparator),
           React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, { variant: "destructive" }, React.createElement(Trash, {}), "Delete")
+            React.createElement(ContextMenuItem, { variant: "destructive" }, React.createElement(TrashIcon, {}), "Delete")
           )
         )
       ),

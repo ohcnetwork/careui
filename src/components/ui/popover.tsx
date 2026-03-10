@@ -1,3 +1,9 @@
+/**
+ * @name popover
+ * @description Displays rich content in a portal, triggered by a button.
+ * @dependencies radix-ui
+ * @type registry:ui
+ */
 import * as React from "react"
 import { Popover as PopoverPrimitive } from "radix-ui"
 

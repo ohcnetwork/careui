@@ -1,3 +1,9 @@
+/**
+ * @name chart
+ * @description Beautiful charts built using Recharts.
+ * @dependencies recharts
+ * @type registry:ui
+ */
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 

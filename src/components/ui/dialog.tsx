@@ -1,3 +1,9 @@
+/**
+ * @name dialog
+ * @description A window overlaid on either the primary window or another dialog window.
+ * @dependencies radix-ui
+ * @type registry:ui
+ */
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "radix-ui"
 

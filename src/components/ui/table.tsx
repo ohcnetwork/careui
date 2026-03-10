@@ -1,3 +1,9 @@
+/**
+ * @name table
+ * @description A responsive table component for displaying structured data.
+ * @dependencies
+ * @type registry:ui
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

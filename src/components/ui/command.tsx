@@ -1,3 +1,9 @@
+/**
+ * @name command
+ * @description Fast, composable, unstyled command menu for React.
+ * @dependencies cmdk radix-ui
+ * @type registry:ui
+ */
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 

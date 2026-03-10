@@ -1,3 +1,9 @@
+/**
+ * @name card
+ * @description Displays a card with header, content, and footer.
+ * @dependencies
+ * @type registry:ui
+ */
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
