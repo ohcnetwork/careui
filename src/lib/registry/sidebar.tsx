@@ -61,7 +61,6 @@ import {
   MapPin,
   Package,
   PanelLeft,
-  Plus,
   Search,
   Settings2,
   UserCog,
@@ -262,7 +261,8 @@ function CareSidebarInner({
           )}
         >
 
-          <img src="/Care-logo.svg" alt="Care" className="h-10 w-auto dark:invert" />
+          <img src="/Care-logo-in-light.svg" alt="Care" className="h-10 w-auto dark:hidden" />
+          <img src="/Care-logo-in-dark.svg" alt="Care" className="h-10 w-auto hidden dark:block" />
           {isMobile && (
             <Button
               variant="ghost"
@@ -384,7 +384,7 @@ function SidebarToggleButton({
   return (
     <Tooltip>
       <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent side="bottom" className="flex items-center gap-1.5">
+      <TooltipContent side="right" className="flex items-center gap-1.5">
         Toggle sidebar
         <Kbd>⌘B</Kbd>
       </TooltipContent>
@@ -553,18 +553,13 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
             {/* Main content */}
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
               {/* Good Morning banner */}
-              <div className="flex items-center justify-between rounded-xl bg-linear-to-r from-amber-50 to-lime-50 p-5 dark:from-amber-950/20 dark:to-lime-950/20">
+              <div className="flex items-center justify-between border border-sky-100 dark:border-sky-900/20 rounded-xl bg-linear-to-r from-sky-50 to-primary-100 p-5 dark:from-sky-950/20 dark:to-primary-950/20">
                 <div className="space-y-0.5">
-                  <p className="text-base font-medium">
+                  <h1 className="text-base md:text-xl font-normal text-neutral-500">
                     Good Morning,{" "}
-                    <span className="font-bold">Prabha Narendran</span> 👋
-                  </p>
+                    <span className="font-semibold text-foreground">Prabha Narendran</span> 👋
+                  </h1>
                   <p className="text-sm text-muted-foreground">Welcome back!</p>
-                </div>
-                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-green-600/10">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-600 text-white shadow-sm">
-                    <Plus className="h-5 w-5" />
-                  </div>
                 </div>
               </div>
               <div className="grid auto-rows-min gap-4 md:grid-cols-3">

@@ -222,14 +222,66 @@
     @apply border-border outline-ring/50;
     }
   body {
-    @apply font-sans bg-background text-foreground;
+    @apply font-sans bg-background text-foreground antialiased;
     }
   html {
     @apply font-sans;
     }
+    h1, h2, h3, h4 {
+      @apply text-balance;
+    }
+    p {
+      @apply text-pretty;
+    }
 }
-@utility squircle {
-  @supports (corner-shape: squircle) {
-    corner-shape: squircle;
+
+/* Squircle utilities aligned with Tailwind rounded scale */
+
+@utility rounded-squircle-sm {
+  @supports (corner-shape: superellipse(1.6)) {
+    @apply rounded-sm!;
+    corner-shape: superellipse(1.6);
+  }
+}
+
+@utility rounded-squircle-md {
+  @supports (corner-shape: superellipse(1.6)) {
+    @apply rounded-lg!;
+    corner-shape: superellipse(1.6);
+  }
+}
+
+@utility rounded-squircle-lg {
+  @supports (corner-shape: superellipse(1.6)) {
+    @apply rounded-lg!;
+    corner-shape: superellipse(1.6);
+  }
+}
+
+@utility rounded-squircle-xl {
+  @supports (corner-shape: superellipse(1.6)) {
+    @apply rounded-xl!;
+    corner-shape: superellipse(1.6);
+  }
+}
+
+@utility rounded-squircle-2xl {
+  @supports (corner-shape: superellipse(1.6)) {
+    @apply rounded-xl!;
+    corner-shape: superellipse(1.6);
+  }
+}
+
+@utility rounded-squircle-3xl {
+  @supports (corner-shape: superellipse(1.6)) {
+    @apply rounded-3xl!;
+    corner-shape: superellipse(1.6);
+  }
+}
+
+@utility rounded-squircle-full {
+  @supports (corner-shape: superellipse(1)) {
+    @apply rounded-full!;
+    corner-shape: superellipse(1);
   }
 }

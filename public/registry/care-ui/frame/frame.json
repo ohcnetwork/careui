@@ -1,0 +1,16 @@
+{
+  "name": "frame",
+  "type": "registry:ui",
+  "dependencies": [
+    "(none)"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/care-ui/frame/frame.tsx",
+      "content": "/**\n * @name frame\n * @description A visual chrome container that wraps UI panels with a structured border, background, and shadow.\n * @dependencies (none)\n * @type registry:ui\n */\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Frame({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"frame\"\n      className={cn(\n        \"relative flex flex-col gap-0.75 p-0.75 rounded-xl bg-muted/50 border border-border/50 bg-clip-padding\",\n        \"**:data-[slot=frame-panel]:p-4\",\n        \"**:data-[slot=frame-panel-header]:px-4 **:data-[slot=frame-panel-header]:py-3\",\n        \"**:data-[slot=frame-panel-footer]:px-4 **:data-[slot=frame-panel-footer]:py-3\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction FramePanel({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"frame-panel\"\n      className={cn(\n        \"relative grow rounded-lg bg-background border bg-clip-padding shadow-xs\",\n        \"before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] before:shadow-black/5\",\n        \"dark:bg-clip-border dark:before:shadow-white/5\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Frame, FramePanel }\n",
+      "type": "registry:component",
+      "target": "components/careui/frame.tsx"
+    }
+  ]
+}

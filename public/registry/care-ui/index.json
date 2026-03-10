@@ -292,7 +292,6 @@
     "name": "input-group",
     "type": "registry:ui",
     "dependencies": [
-      "none",
       "class-variance-authority"
     ],
     "files": [
@@ -307,6 +306,16 @@
     ],
     "files": [
       "registry/care-ui/hover-card/hover-card.tsx"
+    ]
+  },
+  {
+    "name": "frame",
+    "type": "registry:ui",
+    "dependencies": [
+      "(none)"
+    ],
+    "files": [
+      "registry/care-ui/frame/frame.tsx"
     ]
   },
   {
@@ -516,6 +525,7 @@
     "name": "avatar",
     "type": "registry:ui",
     "dependencies": [
+      "class-variance-authority",
       "radix-ui"
     ],
     "files": [

@@ -26,9 +26,9 @@ function Avatar({
       data-shape={shape}
       className={cn(
         "after:border-border group/avatar relative flex size-8 shrink-0 select-none after:absolute after:inset-0 after:border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
-        "data-[shape=circle]:rounded-full data-[shape=circle]:after:rounded-full",
-        "data-[shape=rounded]:rounded-md data-[shape=rounded]:after:rounded-md",
-        "data-[shape=squircle]:rounded-2xl data-[shape=squircle]:squircle data-[shape=squircle]:after:rounded-2xl data-[shape=squircle]:after:squircle",
+        shape === "circle" && "rounded-full after:rounded-full",
+        shape === "rounded" && "rounded-md after:rounded-md",
+        shape === "squircle" && "rounded-2xl squircle after:rounded-2xl after:squircle",
         className
       )}
       {...props}
