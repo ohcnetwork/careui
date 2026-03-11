@@ -11,7 +11,7 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/studio-sidebar";
 import { BlocksPage, BlockPreviewPage } from "@/components/blocks";
 
 function AppShell() {

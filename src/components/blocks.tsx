@@ -61,10 +61,13 @@ function BlockThumbnail({ block }: { block: BlockDef }) {
 
   return (
     <div className="group flex flex-col overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md">
-      <button
+      <div
+        role="button"
+        tabIndex={0}
         className="relative overflow-hidden bg-muted/20 w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         style={{ height: containerHeight }}
         onClick={openPreview}
+        onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && openPreview()}
         aria-label={`Open ${block.name} preview`}
       >
         <div
@@ -79,7 +82,7 @@ function BlockThumbnail({ block }: { block: BlockDef }) {
         >
           {block.preview()}
         </div>
-      </button>
+      </div>
       <div className="flex items-center gap-3 border-t px-4 py-3">
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium">{block.name}</p>

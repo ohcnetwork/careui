@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import { SearchForm } from "@/components/search-form";
+import { Button } from "@/components/ui/button";
 import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
 import { componentNames } from "@/lib/component-names";
@@ -16,7 +17,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar";
+  useSidebar,
+} from "@/components/ui/studio-sidebar";
+import { X } from "lucide-react";
 
 // Navigation data
 const data = {
@@ -47,6 +50,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { activeComponent, setActiveComponent } = useNavigation();
+  const { isMobile, setOpenMobile } = useSidebar();
   const [contextMenu, setContextMenu] = React.useState<{
     show: boolean;
     x: number;
@@ -106,6 +110,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               onContextMenu={handleLogoRightClick}
             />
           </div>
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="ml-auto"
+              onClick={() => setOpenMobile(false)}
+              aria-label="Close sidebar"
+            >
+              <X className="size-5" />
+            </Button>
+          )}
         </div>
         <SearchForm />
       </SidebarHeader>
@@ -120,7 +135,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton
                       isActive={activeComponent === item.id}
-                      onClick={() => setActiveComponent(item.id)}
+                      onClick={() => {
+                        setActiveComponent(item.id);
+                        if (isMobile) setOpenMobile(false);
+                      }}
                     >
                       {item.title}
                     </SidebarMenuButton>
