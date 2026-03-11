@@ -6,12 +6,18 @@ import {
   SheetClose,
   SheetContent,
   SheetHeader,
+  SheetBody,
   SheetTitle,
   SheetDescription,
   SheetFooter,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
 const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
@@ -51,10 +57,16 @@ export const sheetDoc: ComponentDoc = {
 </Sheet>`,
   preview: {
     code: `import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
   Sheet,
+  SheetBody,
   SheetClose,
   SheetContent,
   SheetDescription,
@@ -70,23 +82,31 @@ export function SheetDemo() {
       <SheetTrigger asChild>
         <Button variant="outline">Open</Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent size="md">
         <SheetHeader>
           <SheetTitle>Edit profile</SheetTitle>
           <SheetDescription>
             Make changes to your profile here. Click save when you&apos;re done.
           </SheetDescription>
         </SheetHeader>
-        <div className="grid flex-1 auto-rows-min gap-6 px-4">
-          <div className="grid gap-3">
-            <Label htmlFor="sheet-demo-name">Name</Label>
-            <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
-          </div>
-          <div className="grid gap-3">
-            <Label htmlFor="sheet-demo-username">Username</Label>
-            <Input id="sheet-demo-username" defaultValue="@peduarte" />
-          </div>
-        </div>
+        <SheetBody>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="sheet-demo-name">Full name</FieldLabel>
+              <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="sheet-demo-username">Username</FieldLabel>
+              <Input id="sheet-demo-username" defaultValue="@peduarte" />
+              <FieldDescription>This is your public display name.</FieldDescription>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="sheet-demo-email">Email</FieldLabel>
+              <Input id="sheet-demo-email" type="email" defaultValue="pedro@example.com" />
+              <FieldDescription>Used for notifications and account recovery.</FieldDescription>
+            </Field>
+          </FieldGroup>
+        </SheetBody>
         <SheetFooter>
           <Button type="submit">Save changes</Button>
           <SheetClose asChild>
@@ -107,7 +127,7 @@ export function SheetDemo() {
       ),
       React.createElement(
         SheetContent,
-        {},
+        { size: "md" },
         React.createElement(
           SheetHeader,
           {},
@@ -119,33 +139,31 @@ export function SheetDemo() {
           )
         ),
         React.createElement(
-          "div",
-          { className: "grid flex-1 auto-rows-min gap-6 px-4" },
+          SheetBody,
+          {},
           React.createElement(
-            "div",
-            { className: "grid gap-3" },
+            FieldGroup,
+            {},
             React.createElement(
-              Label,
-              { htmlFor: "sheet-demo-name" },
-              "Name"
+              Field,
+              {},
+              React.createElement(FieldLabel, { htmlFor: "sheet-demo-name" }, "Full name"),
+              React.createElement(Input, { id: "sheet-demo-name", defaultValue: "Pedro Duarte" })
             ),
-            React.createElement(Input, {
-              id: "sheet-demo-name",
-              defaultValue: "Pedro Duarte",
-            })
-          ),
-          React.createElement(
-            "div",
-            { className: "grid gap-3" },
             React.createElement(
-              Label,
-              { htmlFor: "sheet-demo-username" },
-              "Username"
+              Field,
+              {},
+              React.createElement(FieldLabel, { htmlFor: "sheet-demo-username" }, "Username"),
+              React.createElement(Input, { id: "sheet-demo-username", defaultValue: "@peduarte" }),
+              React.createElement(FieldDescription, {}, "This is your public display name.")
             ),
-            React.createElement(Input, {
-              id: "sheet-demo-username",
-              defaultValue: "@peduarte",
-            })
+            React.createElement(
+              Field,
+              {},
+              React.createElement(FieldLabel, { htmlFor: "sheet-demo-email" }, "Email"),
+              React.createElement(Input, { id: "sheet-demo-email", type: "email", defaultValue: "pedro@example.com" }),
+              React.createElement(FieldDescription, {}, "Used for notifications and account recovery.")
+            )
           )
         ),
         React.createElement(
@@ -202,13 +220,13 @@ export function SheetSide() {
                 done.
               </SheetDescription>
             </SheetHeader>
-            <div className="no-scrollbar overflow-y-auto px-4">
+            <SheetBody>
               {Array.from({ length: 10 }).map((_, index) => (
                 <p key={index} className="mb-2 leading-relaxed">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </p>
               ))}
-            </div>
+            </SheetBody>
             <SheetFooter>
               <Button type="submit">Save changes</Button>
               <SheetClose asChild>
@@ -242,7 +260,7 @@ export function SheetSide() {
               {
                 side,
                 className:
-                  "data-[side=bottom]:max-h-[50vh] data-[side=top]:max-h-[50vh]",
+                  "data-[side=bottom]:h-dvh data-[side=top]:h-dvh md:data-[side=bottom]:max-h-[70vh] md:data-[side=top]:max-h-[70vh]",
               },
               React.createElement(
                 SheetHeader,
@@ -255,8 +273,8 @@ export function SheetSide() {
                 )
               ),
               React.createElement(
-                "div",
-                { className: "no-scrollbar overflow-y-auto px-4" },
+                SheetBody,
+                {},
                 ...Array.from({ length: 10 }, (_, i) =>
                   React.createElement(
                     "p",
@@ -275,64 +293,6 @@ export function SheetSide() {
                   React.createElement(Button, { variant: "outline" }, "Cancel")
                 )
               )
-            )
-          )
-        )
-      ),
-    },
-
-    // ── No Close Button ───────────────────────────────────────────────────
-    {
-      name: "No Close Button",
-      description:
-        "Use `showCloseButton={false}` on `SheetContent` to hide the close button.",
-      code: `import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-
-export function SheetNoCloseButton() {
-  return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Open Sheet</Button>
-      </SheetTrigger>
-      <SheetContent>
-        <SheetHeader showCloseButton={false}>
-          <SheetTitle>No Close Button</SheetTitle>
-          <SheetDescription>
-            This sheet doesn&apos;t have a close button in the top-right corner.
-            Click outside to close.
-          </SheetDescription>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
-  )
-}`,
-      preview: React.createElement(
-        Sheet,
-        {},
-        React.createElement(
-          SheetTrigger,
-          { asChild: true },
-          React.createElement(Button, { variant: "outline" }, "Open Sheet")
-        ),
-        React.createElement(
-          SheetContent,
-          {},
-          React.createElement(
-            SheetHeader,
-            { showCloseButton: false },
-            React.createElement(SheetTitle, {}, "No Close Button"),
-            React.createElement(
-              SheetDescription,
-              {},
-              "This sheet doesn't have a close button in the top-right corner. Click outside to close."
             )
           )
         )
@@ -407,7 +367,100 @@ export function SheetSizes() {
                   {},
                   `This sheet uses size="${size}".`
                 )
+              ),
+              React.createElement(
+                SheetBody,
+                {},
+                ...Array.from({ length: 10 }, (_, i) =>
+                  React.createElement(
+                    "p",
+                    { key: i, className: "mb-2 leading-relaxed" },
+                    loremParagraph
+                  )
+                )
+              ),
+              React.createElement(
+                SheetFooter,
+                {},
+                React.createElement(Button, { type: "submit" }, "Save changes"),
+                React.createElement(
+                  SheetClose,
+                  { asChild: true },
+                  React.createElement(Button, { variant: "outline" }, "Cancel")
+                )
               )
+            )
+          )
+        )
+      ),
+    },
+    // ── Dismissible ───────────────────────────────────────────────────────
+    {
+      name: "Dismissible",
+      description:
+        "Set `dismissible={true}` on `SheetContent` to allow closing the sheet by clicking outside. By default sheets are non-dismissible and can only be closed via the close button or the Escape key.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
+export function SheetDismissible() {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Open (dismissible)</Button>
+      </SheetTrigger>
+      <SheetContent dismissible={true}>
+        <SheetHeader>
+          <SheetTitle>Dismissible sheet</SheetTitle>
+          <SheetDescription>
+            Click outside to close this sheet.
+          </SheetDescription>
+        </SheetHeader>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button variant="outline">Close</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  )
+}`,
+      preview: React.createElement(
+        Sheet,
+        {},
+        React.createElement(
+          SheetTrigger,
+          { asChild: true },
+          React.createElement(Button, { variant: "outline" }, "Open (dismissible)")
+        ),
+        React.createElement(
+          SheetContent,
+          { dismissible: true } as React.ComponentProps<typeof SheetContent>,
+          React.createElement(
+            SheetHeader,
+            {},
+            React.createElement(SheetTitle, {}, "Dismissible sheet"),
+            React.createElement(
+              SheetDescription,
+              {},
+              "Click outside to close this sheet."
+            )
+          ),
+          React.createElement(
+            SheetFooter,
+            {},
+            React.createElement(
+              SheetClose,
+              { asChild: true },
+              React.createElement(Button, { variant: "outline" }, "Close")
             )
           )
         )

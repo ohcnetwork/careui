@@ -555,7 +555,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
               {/* Good Morning banner */}
               <div className="flex items-center justify-between border border-sky-100 dark:border-sky-900/20 rounded-xl bg-linear-to-r from-sky-50 to-primary-100 p-5 dark:from-sky-950/20 dark:to-primary-950/20">
                 <div className="space-y-0.5">
-                  <h1 className="text-base md:text-xl font-normal text-neutral-500">
+                  <h1 className="text-base md:text-xl font-normal text-soft-foreground">
                     Good Morning,{" "}
                     <span className="font-semibold text-foreground">Prabha Narendran</span> 👋
                   </h1>
