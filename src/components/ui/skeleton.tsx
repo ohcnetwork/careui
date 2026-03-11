@@ -1,7 +1,7 @@
 /**
  * @name skeleton
  * @description Use to show a placeholder while content is loading.
- * @dependencies
+ * @dependencies none
  * @type registry:ui
  */
 import { cn } from "@/lib/utils"
