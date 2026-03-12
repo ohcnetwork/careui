@@ -60,10 +60,23 @@
     "name": "switch",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "radix-ui",
+      "lucide-react"
     ],
     "files": [
       "registry/care-ui/switch/switch.tsx"
+    ]
+  },
+  {
+    "name": "studio-sidebar",
+    "type": "registry:ui",
+    "dependencies": [
+      "radix-ui",
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/studio-sidebar/studio-sidebar.tsx"
     ]
   },
   {
@@ -101,6 +114,9 @@
   {
     "name": "skeleton",
     "type": "registry:ui",
+    "dependencies": [
+      "none"
+    ],
     "files": [
       "registry/care-ui/skeleton/skeleton.tsx"
     ]
@@ -109,8 +125,8 @@
     "name": "sidebar",
     "type": "registry:ui",
     "dependencies": [
-      "class-variance-authority",
       "radix-ui",
+      "class-variance-authority",
       "lucide-react"
     ],
     "files": [
@@ -398,6 +414,8 @@
     "name": "command",
     "type": "registry:ui",
     "dependencies": [
+      "cmdk",
+      "radix-ui",
       "lucide-react"
     ],
     "files": [
@@ -409,6 +427,7 @@
     "type": "registry:ui",
     "dependencies": [
       "@base-ui/react",
+      "radix-ui",
       "lucide-react"
     ],
     "files": [
@@ -451,6 +470,7 @@
     "name": "carousel",
     "type": "registry:ui",
     "dependencies": [
+      "embla-carousel-react",
       "lucide-react"
     ],
     "files": [

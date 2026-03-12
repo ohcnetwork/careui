@@ -19,12 +19,122 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Switch } from "@/components/ui/switch";
 
 const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
 const SHEET_SIZES = ["sm", "md", "lg", "xl", "full"] as const;
 
 const loremParagraph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+const longFormSheetPreview = React.createElement(
+    Sheet,
+    null,
+    React.createElement(
+      SheetTrigger,
+      { asChild: true },
+      React.createElement(Button, { variant: "outline" }, "Open Registration Form")
+    ),
+    React.createElement(
+      SheetContent,
+      { size: "md" },
+      React.createElement(
+        SheetHeader,
+        null,
+        React.createElement(SheetTitle, null, "Patient Registration"),
+        React.createElement(SheetDescription, null, "Fill in the details below. All fields marked with * are required.")
+      ),
+      React.createElement(
+        SheetBody,
+        null,
+        React.createElement(
+          FieldGroup,
+          null,
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-firstname" }, "First name *"),
+            React.createElement(Input, { id: "lf-firstname", placeholder: "John" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-lastname" }, "Last name *"),
+            React.createElement(Input, { id: "lf-lastname", placeholder: "Doe" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-dob" }, "Date of birth *"),
+            React.createElement(Input, { id: "lf-dob", type: "date" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-email" }, "Email address *"),
+            React.createElement(Input, { id: "lf-email", type: "email", placeholder: "john@example.com" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-phone" }, "Phone number"),
+            React.createElement(Input, { id: "lf-phone", type: "tel", placeholder: "+1 (555) 000-0000" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-age" }, "Age"),
+            React.createElement(Input, { id: "lf-age", type: "numeric", placeholder: "30", min: "0", max: "120" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-address" }, "Street address"),
+            React.createElement(Input, { id: "lf-address", placeholder: "123 Main St" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-city" }, "City"),
+            React.createElement(Input, { id: "lf-city", placeholder: "San Francisco" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-zip" }, "ZIP / Postal code"),
+            React.createElement(Input, { id: "lf-zip", placeholder: "94103" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-ec-name" }, "Emergency contact name"),
+            React.createElement(Input, { id: "lf-ec-name", placeholder: "Jane Doe" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-ec-phone" }, "Emergency contact phone"),
+            React.createElement(Input, { id: "lf-ec-phone", type: "tel", placeholder: "+1 (555) 000-0001" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-website" }, "Personal website"),
+            React.createElement(Input, { id: "lf-website", type: "url", placeholder: "https://example.com" })
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-allergies" }, "Known allergies"),
+            React.createElement(Textarea, { id: "lf-allergies", placeholder: "List any known allergies…", rows: 3 }),
+            React.createElement(FieldDescription, null, "Separate multiple entries with commas.")
+          ),
+          React.createElement(Field, null,
+            React.createElement(FieldLabel, { htmlFor: "lf-meds" }, "Current medications"),
+            React.createElement(Textarea, { id: "lf-meds", placeholder: "List any current medications…", rows: 3 })
+          ),
+          React.createElement("div", { className: "flex items-center gap-3 py-1" },
+            React.createElement(Checkbox, { id: "lf-newsletter" }),
+            React.createElement("label", { htmlFor: "lf-newsletter", className: "text-sm cursor-pointer" }, "Subscribe to health tips newsletter")
+          ),
+          React.createElement("div", { className: "flex items-center gap-3 py-1" },
+            React.createElement(Checkbox, { id: "lf-terms" }),
+            React.createElement("label", { htmlFor: "lf-terms", className: "text-sm cursor-pointer" }, "I agree to the terms and conditions *")
+          ),
+          React.createElement("div", { className: "flex items-center justify-between py-1" },
+            React.createElement("label", { htmlFor: "lf-sms", className: "text-sm cursor-pointer" }, "Enable SMS appointment reminders"),
+            React.createElement(Switch, { id: "lf-sms" })
+          )
+        )
+      ),
+      React.createElement(
+        SheetFooter,
+        null,
+        React.createElement(Button, { type: "submit" }, "Submit registration"),
+        React.createElement(
+          SheetClose,
+          { asChild: true },
+          React.createElement(Button, { variant: "outline" }, "Cancel")
+        )
+      )
+    )
+  );
 
 export const sheetDoc: ComponentDoc = {
   id: "sheet",
@@ -37,6 +147,7 @@ export const sheetDoc: ComponentDoc = {
   },
   usage: `import {
   Sheet,
+  SheetBody,
   SheetClose,
   SheetContent,
   SheetDescription,
@@ -46,6 +157,10 @@ export const sheetDoc: ComponentDoc = {
   SheetTrigger,
 } from "@/components/ui/sheet"
 
+// Always wrap scrollable content in <SheetBody>.
+// SheetContent uses overflow:hidden + flex-col so that the header and footer
+// stay pinned even when the mobile keyboard is open. SheetBody is the only
+// element that scrolls.
 <Sheet>
   <SheetTrigger>Open</SheetTrigger>
   <SheetContent>
@@ -53,6 +168,14 @@ export const sheetDoc: ComponentDoc = {
       <SheetTitle>Are you absolutely sure?</SheetTitle>
       <SheetDescription>This action cannot be undone.</SheetDescription>
     </SheetHeader>
+    <SheetBody>
+      {/* your form / content goes here */}
+    </SheetBody>
+    <SheetFooter>
+      <SheetClose asChild>
+        <Button>Close</Button>
+      </SheetClose>
+    </SheetFooter>
   </SheetContent>
 </Sheet>`,
   preview: {
@@ -274,12 +397,78 @@ export function SheetSide() {
               ),
               React.createElement(
                 SheetBody,
-                {},
-                ...Array.from({ length: 10 }, (_, i) =>
-                  React.createElement(
-                    "p",
-                    { key: i, className: "mb-2 leading-relaxed" },
-                    loremParagraph
+                null,
+                React.createElement(
+                  FieldGroup,
+                  null,
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-firstname" }, "First name *"),
+                    React.createElement(Input, { id: "lf-firstname", placeholder: "John" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-lastname" }, "Last name *"),
+                    React.createElement(Input, { id: "lf-lastname", placeholder: "Doe" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-dob" }, "Date of birth *"),
+                    React.createElement(Input, { id: "lf-dob", type: "date" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-email" }, "Email address *"),
+                    React.createElement(Input, { id: "lf-email", type: "email", placeholder: "john@example.com" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-phone" }, "Phone number"),
+                    React.createElement(Input, { id: "lf-phone", type: "tel", placeholder: "+1 (555) 000-0000" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-age" }, "Age"),
+                    React.createElement(Input, { id: "lf-age", type: "numeric", placeholder: "30", min: "0", max: "120" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-address" }, "Street address"),
+                    React.createElement(Input, { id: "lf-address", placeholder: "123 Main St" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-city" }, "City"),
+                    React.createElement(Input, { id: "lf-city", placeholder: "San Francisco" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-zip" }, "ZIP / Postal code"),
+                    React.createElement(Input, { id: "lf-zip", placeholder: "94103" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-ec-name" }, "Emergency contact name"),
+                    React.createElement(Input, { id: "lf-ec-name", placeholder: "Jane Doe" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-ec-phone" }, "Emergency contact phone"),
+                    React.createElement(Input, { id: "lf-ec-phone", type: "tel", placeholder: "+1 (555) 000-0001" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-website" }, "Personal website"),
+                    React.createElement(Input, { id: "lf-website", type: "url", placeholder: "https://example.com" })
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-allergies" }, "Known allergies"),
+                    React.createElement(Textarea, { id: "lf-allergies", placeholder: "List any known allergies…", rows: 3 }),
+                    React.createElement(FieldDescription, null, "Separate multiple entries with commas.")
+                  ),
+                  React.createElement(Field, null,
+                    React.createElement(FieldLabel, { htmlFor: "lf-meds" }, "Current medications"),
+                    React.createElement(Textarea, { id: "lf-meds", placeholder: "List any current medications…", rows: 3 })
+                  ),
+                  React.createElement("div", { className: "flex items-center gap-3 py-1" },
+                    React.createElement(Checkbox, { id: "lf-newsletter" }),
+                    React.createElement("label", { htmlFor: "lf-newsletter", className: "text-sm cursor-pointer" }, "Subscribe to health tips newsletter")
+                  ),
+                  React.createElement("div", { className: "flex items-center gap-3 py-1" },
+                    React.createElement(Checkbox, { id: "lf-terms" }),
+                    React.createElement("label", { htmlFor: "lf-terms", className: "text-sm cursor-pointer" }, "I agree to the terms and conditions *")
+                  ),
+                  React.createElement("div", { className: "flex items-center justify-between py-1" },
+                    React.createElement("label", { htmlFor: "lf-sms", className: "text-sm cursor-pointer" }, "Enable SMS appointment reminders"),
+                    React.createElement(Switch, { id: "lf-sms" })
                   )
                 )
               ),
@@ -401,7 +590,14 @@ export function SheetSizes() {
         "Set `dismissible={true}` on `SheetContent` to allow closing the sheet by clicking outside. By default sheets are non-dismissible and can only be closed via the close button or the Escape key.",
       code: `import { Button } from "@/components/ui/button"
 import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import {
   Sheet,
+  SheetBody,
   SheetClose,
   SheetContent,
   SheetDescription,
@@ -424,7 +620,20 @@ export function SheetDismissible() {
             Click outside to close this sheet.
           </SheetDescription>
         </SheetHeader>
+        <SheetBody>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="dis-name">Full name</FieldLabel>
+              <Input id="dis-name" placeholder="John Doe" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-email">Email address</FieldLabel>
+              <Input id="dis-email" type="email" placeholder="john@example.com" />
+            </Field>
+          </FieldGroup>
+        </SheetBody>
         <SheetFooter>
+          <Button type="submit">Save changes</Button>
           <SheetClose asChild>
             <Button variant="outline">Close</Button>
           </SheetClose>
@@ -455,16 +664,168 @@ export function SheetDismissible() {
             )
           ),
           React.createElement(
-            SheetFooter,
+            SheetBody,
             {},
             React.createElement(
-              SheetClose,
-              { asChild: true },
-              React.createElement(Button, { variant: "outline" }, "Close")
+              FieldGroup,
+              {},
+              React.createElement(
+                Field,
+                {},
+                React.createElement(FieldLabel, { htmlFor: "dis-name" }, "Full name"),
+                React.createElement(Input, { id: "dis-name", placeholder: "John Doe" })
+              ),
+              React.createElement(
+                Field,
+                {},
+                React.createElement(FieldLabel, { htmlFor: "dis-email" }, "Email address"),
+                React.createElement(Input, { id: "dis-email", type: "email", placeholder: "john@example.com" })
+              ),
+              React.createElement("div", { className: "flex flex-row-reverse gap-4" },
+                React.createElement(Button, { type: "submit" }, "Save changes"),
+                React.createElement(
+                  SheetClose,
+                  { asChild: true },
+                  React.createElement(Button, { variant: "outline" }, "Close")
+                )
+              )
             )
           )
         )
       ),
+    },
+
+    // ── Long Form ─────────────────────────────────────────────────────────
+    {
+      name: "Long Form",
+      description:
+        "A sheet with a long scrollable form containing 16 fields of varied types — text, email, tel, number, date, url, textarea, checkbox, and switch. The header and footer remain pinned while only `SheetBody` scrolls, including when the mobile keyboard is open.",
+      code: `import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import {
+  Sheet,
+  SheetBody,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Switch } from "@/components/ui/switch"
+import { Textarea } from "@/components/ui/textarea"
+
+export function LongFormSheet() {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Open Registration Form</Button>
+      </SheetTrigger>
+      <SheetContent size="md">
+        <SheetHeader>
+          <SheetTitle>Patient Registration</SheetTitle>
+          <SheetDescription>
+            Fill in the details below. All fields marked with * are required.
+          </SheetDescription>
+        </SheetHeader>
+        <SheetBody>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="lf-firstname">First name *</FieldLabel>
+              <Input id="lf-firstname" placeholder="John" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-lastname">Last name *</FieldLabel>
+              <Input id="lf-lastname" placeholder="Doe" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-dob">Date of birth *</FieldLabel>
+              <Input id="lf-dob" type="date" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-email">Email address *</FieldLabel>
+              <Input id="lf-email" type="email" placeholder="john@example.com" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-phone">Phone number</FieldLabel>
+              <Input id="lf-phone" type="tel" placeholder="+1 (555) 000-0000" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-age">Age</FieldLabel>
+              <Input id="lf-age" type="number" placeholder="30" min="0" max="120" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-address">Street address</FieldLabel>
+              <Input id="lf-address" placeholder="123 Main St" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-city">City</FieldLabel>
+              <Input id="lf-city" placeholder="San Francisco" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-zip">ZIP / Postal code</FieldLabel>
+              <Input id="lf-zip" placeholder="94103" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-ec-name">Emergency contact name</FieldLabel>
+              <Input id="lf-ec-name" placeholder="Jane Doe" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-ec-phone">Emergency contact phone</FieldLabel>
+              <Input id="lf-ec-phone" type="tel" placeholder="+1 (555) 000-0001" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-website">Personal website</FieldLabel>
+              <Input id="lf-website" type="url" placeholder="https://example.com" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-allergies">Known allergies</FieldLabel>
+              <Textarea id="lf-allergies" placeholder="List any known allergies…" rows={3} />
+              <FieldDescription>Separate multiple entries with commas.</FieldDescription>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="lf-meds">Current medications</FieldLabel>
+              <Textarea id="lf-meds" placeholder="List any current medications…" rows={3} />
+            </Field>
+            <div className="flex items-center gap-3 py-1">
+              <Checkbox id="lf-newsletter" />
+              <label htmlFor="lf-newsletter" className="text-sm cursor-pointer">
+                Subscribe to health tips newsletter
+              </label>
+            </div>
+            <div className="flex items-center gap-3 py-1">
+              <Checkbox id="lf-terms" />
+              <label htmlFor="lf-terms" className="text-sm cursor-pointer">
+                I agree to the terms and conditions *
+              </label>
+            </div>
+            <div className="flex items-center justify-between py-1">
+              <label htmlFor="lf-sms" className="text-sm cursor-pointer">
+                Enable SMS appointment reminders
+              </label>
+              <Switch id="lf-sms" />
+            </div>
+          </FieldGroup>
+        </SheetBody>
+        <SheetFooter>
+          <Button type="submit">Submit registration</Button>
+          <SheetClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  )
+}`,
+      preview: longFormSheetPreview,
     },
   ],
 };
