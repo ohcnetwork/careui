@@ -72,10 +72,14 @@ export function SwitchDescription() {
         Field,
         { orientation: "horizontal", className: "max-w-sm" },
         React.createElement(
+          FieldLabel,
+          { htmlFor: "switch-share-devices" },
+        React.createElement(
           FieldContent,
           {},
           React.createElement(FieldLabel, { htmlFor: "switch-share-devices" }, "Share across devices"),
           React.createElement(FieldDescription, {}, "Focus is shared across devices, and turns off when you leave the app.")
+        )
         ),
         React.createElement(Switch, { id: "switch-share-devices" })
       ),
@@ -214,12 +218,16 @@ export function SwitchInvalid() {
         Field,
         Object.assign({ orientation: "horizontal", className: "max-w-sm" }, { "data-invalid": "" }) as React.ComponentPropsWithoutRef<typeof Field>,
         React.createElement(
+          FieldLabel,
+          { htmlFor: "switch-terms" },
+        React.createElement(
           FieldContent,
           {},
           React.createElement(FieldLabel, { htmlFor: "switch-terms" }, "Accept terms and conditions"),
           React.createElement(FieldDescription, {}, "You must accept the terms and conditions to continue.")
         ),
         React.createElement(Switch, { id: "switch-terms", "aria-invalid": true })
+      )
       ),
     },
 
