@@ -35,7 +35,7 @@ function CliCommand({ command, onCopy, isCopied }: CliCommandProps) {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute top-2 right-2 z-10 h-8 w-8"
+        className="absolute top-2 right-2 z-10 h-8 w-8 text-neutral-300"
         onClick={onCopy}
       >
         {isCopied ? (
@@ -105,7 +105,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="absolute top-2 right-2 z-10 h-8 w-8 p-0"
+                  className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
                   onClick={() =>
                     copyToClipboard(
                       doc.preview?.code || "<Component />",
@@ -181,7 +181,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
             <Button
               size="sm"
               variant="ghost"
-              className="absolute top-2 right-2 z-10 h-8 w-8 p-0"
+              className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
               onClick={() =>
                 copyToClipboard(
                   doc.usage ||
@@ -224,7 +224,17 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                   <p className="text-muted-foreground mt-1 text-sm">
                     {example.description}
                   </p>
-                  <Tabs defaultValue="preview" className="mt-4 w-full">
+                  {example.items && example.items.length > 0 && (
+                    <ul className="mt-4 space-y-3">
+                      {example.items.map((item, i) => (
+                        <li key={i}>
+                          <p className="text-foreground text-sm font-semibold">{item.title}</p>
+                          <p className="text-muted-foreground mt-0.5 text-sm">{item.description}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {(example.preview || example.code) && <Tabs defaultValue="preview" className="mt-4 w-full">
                     <TabsList>
                       <TabsTrigger value="preview">Preview</TabsTrigger>
                       <TabsTrigger value="code">Code</TabsTrigger>
@@ -241,9 +251,9 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="absolute top-2 right-2 z-10 h-8 w-8 p-0"
+                          className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
                           onClick={() =>
-                            copyToClipboard(example.code, `example-${index}`)
+                            copyToClipboard(example.code ?? "", `example-${index}`)
                           }
                         >
                           {isCopied(`example-${index}`) ? (
@@ -261,11 +271,11 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                             fontSize: "0.875rem",
                           }}
                         >
-                          {example.code}
+                          {example.code ?? ""}
                         </SyntaxHighlighter>
                       </div>
                     </TabsContent>
-                  </Tabs>
+                  </Tabs>}
                 </div>
               ))}
             </div>

@@ -1,8 +1,9 @@
 export interface ComponentExample {
   name: string;
   description: string;
-  code: string;
-  preview: React.ReactNode;
+  items?: Array<{ title: string; description: string }>;
+  code?: string;
+  preview?: React.ReactNode;
 }
 
 export interface DocumentationPage {

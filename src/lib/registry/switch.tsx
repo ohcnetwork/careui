@@ -270,5 +270,26 @@ export function SwitchSizes() {
         )
       ),
     },
+
+    // ── Accessibility ─────────────────────────────────────────────────────
+    {
+      name: "Accessibility",
+      description:
+        "Guidelines for making switches usable by everyone, including keyboard and screen-reader users.",
+      items: [
+        { title: "Use for binary settings", description: "Use a switch only for settings that toggle immediately between on and off." },
+        { title: "Provide a clear label", description: "Every switch must have a visible label describing the setting." },
+        { title: "Link label to switch", description: "Use id and htmlFor so screen readers correctly associate the label with the switch." },
+        { title: "Optional description", description: "Add a short description if the setting needs more explanation." },
+        { title: "Label and description should be clickable", description: "When a description is present, both the label and description should toggle the switch." },
+        { title: "Keyboard accessible", description: "Tab → focus. Space / Enter → toggle." },
+        { title: "Visible focus state", description: "The switch must show a clear focus indicator." },
+        { title: "Do not rely on color alone", description: "Use additional cues like thumb movement or icons (check / minus) so color-blind users can understand the state." },
+        { title: "Touch target size", description: "Ensure a minimum 44 × 44 px clickable area." },
+        { title: "Expose state to assistive tech", description: 'Use proper attributes like role="switch" and aria-checked.' },
+      ],
+      code: "",
+      preview: null,
+    },
   ],
 };
