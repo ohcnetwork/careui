@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, type DependencyList } from "react";
 
 /**
  * Custom hook to restore scroll position to top when dependencies change
  * Useful for resetting scroll when navigating between pages/components
  * Only scrolls the main content area, not the entire page or sidebar
  */
-export function useScrollRestoration(deps: any[]) {
+export function useScrollRestoration(deps: DependencyList) {
   useEffect(() => {
     // Scroll immediately
     scrollToTop();

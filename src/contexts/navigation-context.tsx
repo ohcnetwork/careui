@@ -1,5 +1,3 @@
-"use client";
-
 import {
   createContext,
   useContext,
@@ -61,18 +59,16 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
 
   // Listen for hash changes (back/forward navigation)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleHashChange = () => {
-        const hash = window.location.hash.slice(1);
-        if (hash && hash !== activeComponent) {
-          setActiveComponent(hash);
-        }
-      };
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash) {
+        setActiveComponent(hash);
+      }
+    };
 
-      window.addEventListener("hashchange", handleHashChange);
-      return () => window.removeEventListener("hashchange", handleHashChange);
-    }
-  }, [activeComponent]);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   return (
     <NavigationContext.Provider

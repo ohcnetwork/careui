@@ -1,7 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function useCopyToClipboard() {
   const [copiedStates, setCopiedStates] = useState<Record<string, boolean>>({});
+  const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({});
+
+  useEffect(() => {
+    const currentTimers = timers.current;
+    return () => {
+      Object.values(currentTimers).forEach(clearTimeout);
+    };
+  }, []);
+
+  const scheduleReset = (key: string) => {
+    if (timers.current[key]) clearTimeout(timers.current[key]);
+    timers.current[key] = setTimeout(() => {
+      setCopiedStates((prev) => ({ ...prev, [key]: false }));
+      delete timers.current[key];
+    }, 2000);
+  };
 
   const copyToClipboard = async (text: string, key: string) => {
     if (!navigator.clipboard) {
@@ -18,10 +34,7 @@ export function useCopyToClipboard() {
       try {
         document.execCommand("copy");
         setCopiedStates((prev) => ({ ...prev, [key]: true }));
-        setTimeout(
-          () => setCopiedStates((prev) => ({ ...prev, [key]: false })),
-          2000
-        );
+        scheduleReset(key);
         return true;
       } catch (err) {
         console.error("Failed to copy text: ", err);
@@ -34,10 +47,7 @@ export function useCopyToClipboard() {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedStates((prev) => ({ ...prev, [key]: true }));
-      setTimeout(
-        () => setCopiedStates((prev) => ({ ...prev, [key]: false })),
-        2000
-      );
+      scheduleReset(key);
       return true;
     } catch (err) {
       console.error("Failed to copy text: ", err);

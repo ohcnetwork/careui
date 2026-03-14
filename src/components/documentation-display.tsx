@@ -1,5 +1,3 @@
-"use client";
-
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { type DocumentationPage } from "@/lib/types";
 import { Copy, Check } from "lucide-react";

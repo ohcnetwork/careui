@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Copy, Check } from "lucide-react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -16,7 +14,6 @@ import {
   NotFoundDocumentation,
 } from "@/components/documentation-display";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { useScrollRestoration } from "@/hooks/use-scroll-restoration";
 import { type ComponentDoc } from "@/lib/types";
 
 interface ComponentDocDisplayProps {
@@ -359,9 +356,6 @@ export function DynamicMainContent() {
   const { activeComponent } = useNavigation();
   const [componentDoc, setComponentDoc] = useState<ComponentDoc | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // Reset scroll position when activeComponent changes
-  useScrollRestoration([activeComponent]);
 
   // Load component documentation dynamically
   useEffect(() => {

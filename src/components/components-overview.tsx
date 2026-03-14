@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect } from "react";
 import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
 import {
@@ -290,25 +287,14 @@ const componentMetadata: Record<
   },
 };
 
+const allComponentIds = getComponentIds().filter(
+  (id) => id !== "components-overview"
+);
+
 export function ComponentsOverview() {
   const { setActiveComponent } = useNavigation();
 
-  // Reset scroll position when this component mounts
-  useEffect(() => {
-    // Find the main container for this component and reset scroll
-    const mainContainer = document.querySelector("main.flex-1.overflow-y-auto");
-    if (mainContainer && "scrollTop" in mainContainer) {
-      (mainContainer as Element & { scrollTop: number }).scrollTop = 0;
-    }
-
-    // Also reset window scroll
-    window.scrollTo(0, 0);
-  }, []);
-
-  // Get all component IDs and filter out overview
-  const componentIds = getComponentIds().filter(
-    (id) => id !== "components-overview"
-  );
+  const componentIds = allComponentIds;
 
   const handleComponentClick = (componentId: string) => {
     setActiveComponent(componentId);
