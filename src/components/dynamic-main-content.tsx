@@ -15,6 +15,7 @@ import {
 } from "@/components/documentation-display";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { type ComponentDoc } from "@/lib/types";
+import { LoadingAnimation } from "@/components/ui/loading-animation";
 
 interface ComponentDocDisplayProps {
   doc: ComponentDoc;
@@ -404,10 +405,8 @@ export function DynamicMainContent() {
   if (loading) {
     return (
       <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-4xl space-y-8 md:p-8">
-          <div className="flex min-h-100 items-center justify-center">
-            <div className="text-muted-foreground">Loading...</div>
-          </div>
+        <div className="flex min-h-100 items-center justify-center">
+          <LoadingAnimation />
         </div>
       </main>
     );

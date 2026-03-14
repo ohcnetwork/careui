@@ -288,6 +288,9 @@
 
 @theme {
   --animate-sheet-shake: sheet-shake 0.4s ease;
+  --animate-blink: blink 1.5s infinite;
+  /* Spring-bounce pulse for loading animation cells */
+  --animate-cell-pulse: cell-pulse 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
 
   @keyframes sheet-shake {
     0%, 100% { transform: translateX(0) rotate(0deg); }
@@ -297,6 +300,17 @@
     60%       { transform: translateX(3px) rotate(4deg); }
     75%       { transform: translateX(-2px) rotate(-2deg); }
     90%       { transform: translateX(2px) rotate(2deg); }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 0; }
+    50%       { opacity: 1; }
+  }
+
+  @keyframes cell-pulse {
+    0%   { transform: scale(1);    }
+    38%  { transform: scale(1.1);  }
+    100% { transform: scale(1);    }
   }
 }
 
