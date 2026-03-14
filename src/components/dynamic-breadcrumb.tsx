@@ -1,7 +1,7 @@
-"use client";
-
 import { useNavigation } from "@/contexts/navigation-context";
-import { componentDocs } from "@/lib/component-registry";
+import { getComponentIds } from "@/lib/component-registry";
+import { componentNames } from "@/lib/component-names";
+import { documentationPages } from "@/lib/documentation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,35 +11,45 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
+const componentIds = new Set(getComponentIds());
+
+type BreadcrumbPath = {
+  section: string;
+  sectionTarget: string | null;
+  page: string;
+};
+
+function getBreadcrumbPath(activeComponent: string): BreadcrumbPath {
+  if (componentIds.has(activeComponent)) {
+    return {
+      section: "Components",
+      sectionTarget: "components-overview",
+      page: componentNames[activeComponent] || activeComponent,
+    };
+  }
+
+  const docPage = documentationPages[activeComponent];
+  if (docPage) {
+    return {
+      section: "Documentation",
+      sectionTarget: "get-started",
+      page: docPage.title,
+    };
+  }
+
+  switch (activeComponent) {
+    case "components-overview":
+      return { section: "Components", sectionTarget: null, page: "Overview" };
+    case "playground":
+      return { section: "Tools", sectionTarget: null, page: "Playground" };
+    default:
+      return { section: "Care UI", sectionTarget: null, page: activeComponent };
+  }
+}
+
 export function DynamicBreadcrumb() {
   const { activeComponent, setActiveComponent } = useNavigation();
-
-  // Get component info from registry
-  const componentDoc = componentDocs[activeComponent];
-
-  // Determine the breadcrumb path based on the active component
-  const getBreadcrumbPath = () => {
-    if (componentDoc) {
-      return {
-        section: "Components",
-        page: componentDoc.name,
-      };
-    }
-
-    // Handle non-component navigation items
-    switch (activeComponent) {
-      case "installation":
-        return { section: "Getting Started", page: "Installation" };
-      case "project-structure":
-        return { section: "Getting Started", page: "Project Structure" };
-      case "components-overview":
-        return { section: "Components", page: "Overview" };
-      default:
-        return { section: "Components", page: "Overview" };
-    }
-  };
-
-  const { section, page } = getBreadcrumbPath();
+  const { section, sectionTarget, page } = getBreadcrumbPath(activeComponent);
 
   return (
     <Breadcrumb>
@@ -49,7 +59,7 @@ export function DynamicBreadcrumb() {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              // Could add navigation to home here if needed
+              setActiveComponent("get-started");
             }}
           >
             Care UI
@@ -57,23 +67,28 @@ export function DynamicBreadcrumb() {
         </BreadcrumbItem>
         <BreadcrumbSeparator className="hidden md:block" />
         <BreadcrumbItem className="hidden md:block">
-          <BreadcrumbLink
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              // Navigate to components overview if in Components section
-              if (section === "Components") {
-                setActiveComponent("components-overview");
-              }
-            }}
-          >
-            {section}
-          </BreadcrumbLink>
+          {sectionTarget ? (
+            <BreadcrumbLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveComponent(sectionTarget);
+              }}
+            >
+              {section}
+            </BreadcrumbLink>
+          ) : (
+            <BreadcrumbPage>{section}</BreadcrumbPage>
+          )}
         </BreadcrumbItem>
-        <BreadcrumbSeparator className="hidden md:block" />
-        <BreadcrumbItem>
-          <BreadcrumbPage>{page}</BreadcrumbPage>
-        </BreadcrumbItem>
+        {sectionTarget && (
+          <>
+            <BreadcrumbSeparator className="hidden md:block" />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{page}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   );
