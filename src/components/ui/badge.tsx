@@ -59,7 +59,7 @@ const badgeVariants = cva(
       size: {
         xs: "h-4 text-[10px] px-1.5 [&>svg]:size-2.5 has-data-[icon=inline-start]:ps-1 has-data-[icon=inline-end]:pe-1",
         sm: "h-5 text-xs px-2 [&>svg]:size-3 has-data-[icon=inline-start]:ps-1.5 has-data-[icon=inline-end]:pe-1.5",
-        md: "h-6 text-xs px-2.5 [&>svg]:size-3 has-data-[icon=inline-start]:ps-2 has-data-[icon=inline-end]:pe-2",
+        md: "h-6 text-xs px-2 [&>svg]:size-3 has-data-[icon=inline-start]:ps-2 has-data-[icon=inline-end]:pe-2",
         lg: "h-7 text-sm px-3 [&>svg]:size-3.5 has-data-[icon=inline-start]:ps-2.5 has-data-[icon=inline-end]:pe-2.5",
       },
     },

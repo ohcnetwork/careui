@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 
 // Component metadata for display
 const componentMetadata: Record<
@@ -317,7 +316,7 @@ export function ComponentsOverview() {
 
   return (
     <main className="flex-1 overflow-y-auto">
-      <div className="max-w-6xl space-y-8 px-8 py-8">
+      <div className="space-y-8 px-8 py-8">
         {/* Header */}
         <div className="space-y-4">
           <h1 className="text-foreground text-4xl font-bold">Components</h1>
@@ -329,7 +328,7 @@ export function ComponentsOverview() {
         </div>
 
         {/* Components Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid bg-soft-background rounded-xl p-4 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {componentIds.map((id) => {
             const metadata = componentMetadata[id] || {
               name: id,
@@ -340,7 +339,7 @@ export function ComponentsOverview() {
             return (
               <Card
                 key={id}
-                className="group hover:shadow-ring/10 hover:border-ring/20 cursor-pointer transition-all hover:shadow-md"
+                className="group justify-between shadow-md hover:shadow-primary/20 hover:border-primary/70 cursor-pointer transition-all hover:shadow-lg"
                 onClick={() => handleComponentClick(id)}
               >
                 <CardHeader className="pb-4">
@@ -353,7 +352,6 @@ export function ComponentsOverview() {
                   <div className="space-y-2">
                     <CardTitle className="flex items-center justify-between">
                       {metadata.name}
-                      <ArrowRight className="text-muted-foreground group-hover:text-foreground h-4 w-4 transition-colors" />
                     </CardTitle>
                     <CardDescription className="line-clamp-2">
                       {metadata.description}
