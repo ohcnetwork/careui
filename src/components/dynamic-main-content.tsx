@@ -340,7 +340,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
 function NotFoundDisplay({ componentId }: { componentId: string }) {
   return (
     <main className="flex-1 overflow-y-auto">
-      <div className="max-w-2xl space-y-8 px-8 py-8">
+      <div className="max-w-2xl space-y-8 p-4 md:p-8">
         <div>
           <h1 className="text-foreground text-4xl font-bold">
             Component Not Found

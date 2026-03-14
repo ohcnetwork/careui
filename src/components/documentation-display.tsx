@@ -13,7 +13,7 @@ export function DocumentationDisplay({ doc }: DocumentationDisplayProps) {
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
   return (
-    <div className="max-w-4xl space-y-8 px-8 py-8">
+    <div className="max-w-4xl space-y-8 p-4 md:p-8">
       {/* Page Header */}
       <div>
         <h1 className="text-foreground text-4xl font-bold">{doc.title}</h1>

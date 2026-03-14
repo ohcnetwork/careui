@@ -316,7 +316,7 @@ export function ComponentsOverview() {
 
   return (
     <main className="flex-1 overflow-y-auto">
-      <div className="space-y-8 px-8 py-8">
+      <div className="space-y-8 p-4 md:p-8">
         {/* Header */}
         <div className="space-y-4">
           <h1 className="text-foreground text-4xl font-bold">Components</h1>

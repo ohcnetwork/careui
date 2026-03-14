@@ -16,7 +16,11 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
+import {
+  SidebarGroup,
+  SidebarGroupContent,
+  useSidebar,
+} from "@/components/ui/studio-sidebar";
 import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
@@ -48,6 +52,7 @@ const navSections = [
 export function SearchForm(props: React.ComponentProps<"form">) {
   const [open, setOpen] = React.useState(false);
   const { setActiveComponent } = useNavigation();
+  const { isMobile, setOpenMobile } = useSidebar();
 
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -94,6 +99,7 @@ export function SearchForm(props: React.ComponentProps<"form">) {
                     onSelect={() => {
                       setActiveComponent(item.id);
                       setOpen(false);
+                      if (isMobile) setOpenMobile(false);
                     }}
                   >
                     {item.title}
