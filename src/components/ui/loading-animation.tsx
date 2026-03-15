@@ -33,8 +33,8 @@ const LOGO_PATTERN = [
 const ROWS = 8;
 const COLS = 10;
 // Wave timing constants (ms)
-const WAVE_STEP_MS  = 30;   // delay between each concentric ring (both appear and collapse)
-const HOLD_MS       = 500;  // time to hold pattern before next transition
+const WAVE_STEP_MS  = 40;   // delay between each concentric ring
+const HOLD_MS       = 650;  // time to hold pattern before next transition
 
 type CellData = {
   row: number;
@@ -211,8 +211,8 @@ export function LoadingAnimation({ className }: { className?: string }) {
             <div
               key={flatIdx}
               className={cn(
-                "[transition:opacity_350ms_ease-in-out,transform_350ms_ease-in-out,background-color_350ms_ease-in-out]",
-                state === "idle" ? "opacity-0 scale-[0.82]" : "opacity-100 scale-100",
+                "[transition:opacity_500ms_ease-in-out,transform_500ms_ease-in-out,background-color_500ms_ease-in-out]",
+                state === "idle" ? "opacity-0 scale-[0.65]" : "opacity-100 scale-100",
                 state === "heart" ? "bg-rose-500"
                   : state === "logo"
                     ? cell.isLogoLight ? "bg-emerald-600" : "bg-emerald-700"

@@ -32,8 +32,9 @@ const LOGO_PATTERN = [
 
 const ROWS = 8;
 const COLS = 10;
-const WAVE_STEP_MS = 30;
-const HOLD_MS = 500;
+const WAVE_SPAN_MS = 300;       // total time from center cell to outermost cell
+const HOLD_MS = 650;
+const CELL_DURATION_MS = 550;   // per-cell animation — longer than WAVE_SPAN for overlap
 
 // Colors matching the div-based component
 const HEART_FILL = "#f43f5e";  // rose-500
@@ -41,7 +42,7 @@ const LOGO_LIGHT = "#059669";  // emerald-600
 const LOGO_DARK  = "#047857";  // emerald-700
 
 // Corner radius in SVG units (cell = 1×1); matches rounded-xs at display size
-const R = 0.20;
+const R = 0.30;
 
 type CornerSpec = { tl?: number; tr?: number; bl?: number; br?: number };
 
@@ -113,19 +114,25 @@ const CELL_DATA = buildCellData();
 const CELL_BY_IDX: CellData[] = Array(ROWS * COLS);
 CELL_DATA.forEach((c) => { CELL_BY_IDX[c.idx] = c; });
 
-const WAVE_GROUPS: { indices: number[]; delay: number }[] = (() => {
-  const map = new Map<number, number[]>();
-  CELL_DATA.forEach((c) => {
-    const key = Math.round(Math.sqrt((c.row - 3.5) ** 2 + (c.col - 4.5) ** 2) * 2);
-    if (!map.has(key)) map.set(key, []);
-    map.get(key)!.push(c.idx);
-  });
-  return [...map.entries()]
-    .sort(([a], [b]) => a - b)
-    .map(([, indices], i) => ({ indices, delay: i * WAVE_STEP_MS }));
+// Each cell gets its own delay based on exact radial distance → continuous wave,
+// not stepped rings. FWD = center→out (heart), REV = out→center (logo).
+const CELL_DELAYS_FWD: number[] = Array(ROWS * COLS).fill(0);
+const CELL_DELAYS_REV: number[] = Array(ROWS * COLS).fill(0);
+(() => {
+  let maxDist = 0;
+  for (let r = 0; r < ROWS; r++)
+    for (let c = 0; c < COLS; c++)
+      maxDist = Math.max(maxDist, Math.sqrt((r - 3.5) ** 2 + (c - 4.5) ** 2));
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const dist = Math.sqrt((r - 3.5) ** 2 + (c - 4.5) ** 2);
+      const t = Math.round((dist / maxDist) * WAVE_SPAN_MS);
+      const idx = r * COLS + c;
+      CELL_DELAYS_FWD[idx] = t;
+      CELL_DELAYS_REV[idx] = WAVE_SPAN_MS - t;
+    }
+  }
 })();
-
-const POP_IN_DURATION = (WAVE_GROUPS.length - 1) * WAVE_STEP_MS;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -144,8 +151,9 @@ const POP_IN_DURATION = (WAVE_GROUPS.length - 1) * WAVE_STEP_MS;
 export function LoadingAnimationSvg({ className }: { className?: string }) {
   const beatRef  = React.useRef<SVGGElement>(null);
   const rectRefs = React.useRef<(Element | null)[]>(Array(ROWS * COLS).fill(null));
-  const timers   = React.useRef<ReturnType<typeof setTimeout>[]>([]);
-  const mounted  = React.useRef(true);
+  const timers      = React.useRef<ReturnType<typeof setTimeout>[]>([]);
+  const mounted     = React.useRef(true);
+  const isFirstShow = React.useRef(true);
 
   const schedule = React.useCallback((fn: () => void, delay: number) => {
     const id: ReturnType<typeof setTimeout> = setTimeout(() => {
@@ -166,53 +174,80 @@ export function LoadingAnimationSvg({ className }: { className?: string }) {
       beatRef.current?.animate(
         [
           { transform: "scale(1)"    },
-          { transform: "scale(1.06)" },
+          { transform: "scale(1.10)" },
           { transform: "scale(1)"    },
-          { transform: "scale(1.03)" },
+          { transform: "scale(1.05)" },
           { transform: "scale(1)"    },
         ],
         { duration: 500, easing: "ease-in-out", fill: "none" },
       );
 
-      const nextProp = next === "heart" ? "inHeart" : "inLogo";
-      const groups = next === "logo" ? [...WAVE_GROUPS].reverse() : WAVE_GROUPS;
+      // On the very first show there is no previous pattern — all cells start invisible.
+      const first = isFirstShow.current;
+      if (first) isFirstShow.current = false;
 
-      groups.forEach(({ indices }, i) => {
-        const delay = i * WAVE_STEP_MS;
+      const nextProp = next === "heart" ? "inHeart" : "inLogo";
+      const prevProp = next === "heart" ? "inLogo"  : "inHeart";
+      const delays   = next === "logo"  ? CELL_DELAYS_REV : CELL_DELAYS_FWD;
+
+      // Schedule each cell individually — unique delay per cell based on
+      // exact radial distance gives a continuous fluid wave, not stepped rings.
+      CELL_BY_IDX.forEach((cell) => {
+        if (!cell) return;
+        const inNext = cell[nextProp as "inHeart" | "inLogo"];
+        const inPrev = !first && cell[prevProp as "inHeart" | "inLogo"];
+        if (!inNext && !inPrev) return; // not involved — skip entirely
+
         schedule(() => {
           if (!mounted.current) return;
-          indices.forEach((idx) => {
-            const el = rectRefs.current[idx];
-            const cell = CELL_BY_IDX[idx];
-            if (!el) return;
+          const el = rectRefs.current[cell.idx];
+          if (!el) return;
 
-            // Commit any forwards-fill into inline style before cancelling,
-            // so the element keeps its visual state across animation restarts.
-            el.getAnimations().forEach((a) => {
-              try { a.commitStyles(); } catch { /* element may not be replaceable */ }
-              a.cancel();
-            });
-
-            if (cell[nextProp as "inHeart" | "inLogo"]) {
-              el.setAttribute("fill", next === "heart" ? HEART_FILL : cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK);
-              el.animate(
-                [{ opacity: "0", transform: "scale(0.82)" }, { opacity: "1", transform: "scale(1)" }],
-                { duration: 350, easing: "ease-in-out", fill: "forwards" },
-              );
-            } else {
-              el.animate(
-                [{ opacity: "1", transform: "scale(1)" }, { opacity: "0", transform: "scale(0.82)" }],
-                { duration: 350, easing: "ease-in-out", fill: "forwards" },
-              );
-            }
+          el.getAnimations().forEach((a) => {
+            try { a.commitStyles(); } catch { /* SVG elements may not support commitStyles */ }
+            a.cancel();
           });
-        }, delay);
+
+          const nextFill = next === "heart" ? HEART_FILL : (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK);
+          const prevFill = next === "heart" ? (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK) : HEART_FILL;
+
+          if (inNext && inPrev) {
+            // Shared cell: color sweeps through — scale dips slightly so
+            // the color swap happens while least visible, then springs back.
+            el.animate(
+              [
+                { fill: prevFill, transform: "scale(1)",    opacity: "1", offset: 0    },
+                { fill: nextFill, transform: "scale(0.92)", opacity: "1", offset: 0.35 },
+                { fill: nextFill, transform: "scale(1)",    opacity: "1", offset: 1    },
+              ],
+              { duration: CELL_DURATION_MS, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" },
+            );
+          } else if (inNext) {
+            // New cell: spring pop-in with slight overshoot
+            el.animate(
+              [
+                { fill: nextFill, transform: "scale(0.65)", opacity: "0" },
+                { fill: nextFill, transform: "scale(1)",    opacity: "1" },
+              ],
+              { duration: CELL_DURATION_MS, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "forwards" },
+            );
+          } else {
+            // Leaving cell: snap away cleanly
+            el.animate(
+              [
+                { fill: prevFill, transform: "scale(1)",    opacity: "1" },
+                { fill: prevFill, transform: "scale(0.65)", opacity: "0" },
+              ],
+              { duration: CELL_DURATION_MS * 0.8, easing: "cubic-bezier(0.4, 0, 1, 1)", fill: "forwards" },
+            );
+          }
+        }, delays[cell.idx]);
       });
 
       schedule(() => {
         if (!mounted.current) return;
         onDone?.();
-      }, POP_IN_DURATION + HOLD_MS + (next === "logo" ? WAVE_STEP_MS : 0));
+      }, WAVE_SPAN_MS + HOLD_MS);
     },
     [schedule],
   );

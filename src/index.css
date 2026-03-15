@@ -233,9 +233,11 @@
     p {
       @apply text-pretty;
     }
+
 }
 
-/* Squircle utilities aligned with Tailwind rounded scale */
+
+/* Squircle utilities */
 
 @utility rounded-squircle-sm {
   @supports (corner-shape: superellipse(1.6)) {
