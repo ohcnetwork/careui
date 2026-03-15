@@ -82,6 +82,8 @@ const componentLoaders: Record<
   label: () => import("./label").then((m) => ({ default: m.labelDoc })),
   "loading-animation": () =>
     import("./loading-animation").then((m) => ({ default: m.loadingAnimationDoc })),
+  "loading-animation-svg": () =>
+    import("./loading-animation-svg").then((m) => ({ default: m.loadingAnimationSvgDoc })),
   menubar: () => import("./menubar").then((m) => ({ default: m.menubarDoc })),
   "navigation-menu": () =>
     import("./navigation-menu").then((m) => ({ default: m.navigationMenuDoc })),

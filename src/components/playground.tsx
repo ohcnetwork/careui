@@ -40,6 +40,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, ChevronDown, Info } from "lucide-react";
 import { AppSidebarDemo } from "@/lib/registry/sidebar";
+import { LoadingAnimation } from "@/components/ui/loading-animation";
 
 function Section({
   title,
@@ -103,6 +104,12 @@ export function Playground() {
       </Section>
 
       <Separator />
+
+
+      {/* Loading Animation */}
+      <Section title="Loading Animation">
+        <LoadingAnimation />
+      </Section>
 
       {/* Alerts */}
       <div className="space-y-3">
@@ -335,6 +342,8 @@ export function Playground() {
         </p>
         <AppSidebarDemo />
       </div>
+
+
 
     </main>
   );

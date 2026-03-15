@@ -1,7 +1,6 @@
 /**
  * @name loading-animation
  * @description A pixel-art Care UI logo loading animation that alternates between a red heart and a green logo shape using radial wave ripple transitions.
- * @dependencies class-variance-authority
  * @type registry:ui
  */
 import * as React from "react";
@@ -34,10 +33,8 @@ const LOGO_PATTERN = [
 const ROWS = 8;
 const COLS = 10;
 // Wave timing constants (ms)
-const WAVE_STEP_MS  = 40;   // delay between each concentric ring on pop-in
-const FADE_STEP_MS  = 22;   // delay between each ring on collapse
-const HOLD_MS       = 900;  // time to hold pattern after pulse
-const PULSE_MS      = 600;  // must match --animate-cell-pulse duration in CSS
+const WAVE_STEP_MS  = 30;   // delay between each concentric ring (both appear and collapse)
+const HOLD_MS       = 500;  // time to hold pattern before next transition
 
 type CellData = {
   row: number;
@@ -49,14 +46,8 @@ type CellData = {
 };
 
 function buildCellData(): CellData[] {
-  const HEART_SHAPE: Record<string, string> = {
-    "0,2": "rounded-tl-xs", "0,3": "rounded-tr-xs",
-    "0,6": "rounded-tl-xs", "0,7": "rounded-tr-xs",
-    "2,0": "rounded-tl-xs", "3,0": "rounded-bl-xs",
-    "2,9": "rounded-tr-xs", "3,9": "rounded-br-xs",
-    "7,4": "rounded-bl-xs", "7,5": "rounded-br-xs",
-  };
-  const LOGO_SHAPE: Record<string, string> = {
+  // Both shapes share the same corner-rounding positions.
+  const CORNER_SHAPE: Record<string, string> = {
     "0,2": "rounded-tl-xs", "0,3": "rounded-tr-xs",
     "0,6": "rounded-tl-xs", "0,7": "rounded-tr-xs",
     "2,0": "rounded-tl-xs", "3,0": "rounded-bl-xs",
@@ -74,7 +65,7 @@ function buildCellData(): CellData[] {
       const key = `${row},${col}`;
       const inHeart = HEART_PATTERN[row][col] === 1;
       const inLogo  = LOGO_PATTERN[row][col] === 1;
-      const shapeClasses = (inHeart ? HEART_SHAPE[key] : inLogo ? LOGO_SHAPE[key] : "") ?? "";
+      const shapeClasses = (inHeart || inLogo) ? (CORNER_SHAPE[key] ?? "") : "";
       raw.push({ row, col, inHeart, inLogo, isLogoLight: LOGO_LIGHT_KEYS.has(key), shapeClasses });
     }
   }
@@ -91,7 +82,7 @@ const CELL_DATA = buildCellData();
 const CELL_BY_IDX: CellData[] = Array(ROWS * COLS);
 CELL_DATA.forEach((c) => { CELL_BY_IDX[c.row * COLS + c.col] = c; });
 
-// Pop-in groups: center → out
+// Pop-in groups: center → out (used for both appear and collapse)
 const WAVE_GROUPS: { indices: number[]; delay: number }[] = (() => {
   const map = new Map<number, number[]>();
   CELL_DATA.forEach((c) => {
@@ -104,12 +95,7 @@ const WAVE_GROUPS: { indices: number[]; delay: number }[] = (() => {
     .map(([, indices], i) => ({ indices, delay: i * WAVE_STEP_MS }));
 })();
 
-// Fade-out groups: outer → center
-const WAVE_GROUPS_REV: { indices: number[]; delay: number }[] =
-  [...WAVE_GROUPS].reverse().map(({ indices }, i) => ({ indices, delay: i * FADE_STEP_MS }));
-
-const POP_IN_DURATION   = (WAVE_GROUPS.length    - 1) * WAVE_STEP_MS;
-const FADE_OUT_DURATION = (WAVE_GROUPS_REV.length - 1) * FADE_STEP_MS;
+const POP_IN_DURATION = (WAVE_GROUPS.length - 1) * WAVE_STEP_MS;
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
@@ -121,28 +107,19 @@ type CellState = "idle" | "heart" | "logo";
  * Pixel-art Care UI loading animation. The heart shape pops in from the center
  * on mount, then cycles between the heart (red) and the Care UI logo (green)
  * using a radial wave collapse → expand transition.
- *
- * Requires the following CSS keyframes in your global stylesheet:
- * ```css
- * @keyframes cell-pulse {
- *   0%   { transform: scale(1);   }
- *   38%  { transform: scale(1.1); }
- *   100% { transform: scale(1);   }
- * }
- * ```
- * And the Tailwind v4 utility:
- * ```css
- * --animate-cell-pulse: cell-pulse 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
- * ```
  */
 export function LoadingAnimation({ className }: { className?: string }) {
   const [states, setStates] = React.useState<CellState[]>(() => Array(ROWS * COLS).fill("idle"));
-  const [pulseSet, setPulseSet] = React.useState<ReadonlySet<number>>(new Set());
   const timers = React.useRef<ReturnType<typeof setTimeout>[]>([]);
   const mounted = React.useRef(true);
+  const beatRef = React.useRef<HTMLDivElement>(null);
 
   const schedule = React.useCallback((fn: () => void, delay: number) => {
-    timers.current.push(setTimeout(fn, delay));
+    const id: ReturnType<typeof setTimeout> = setTimeout(() => {
+      timers.current = timers.current.filter((t) => t !== id);
+      fn();
+    }, delay);
+    timers.current.push(id);
   }, []);
 
   const clearAllTimers = React.useCallback(() => {
@@ -150,85 +127,56 @@ export function LoadingAnimation({ className }: { className?: string }) {
     timers.current = [];
   }, []);
 
-  const triggerPulse = React.useCallback(
-    (pattern: "heart" | "logo", onDone?: () => void) => {
-      const prop = (pattern === "heart" ? "inHeart" : "inLogo") as "inHeart" | "inLogo";
-      setPulseSet(new Set(CELL_DATA.filter((c) => c[prop]).map((c) => c.row * COLS + c.col)));
+  // Animate center→out: sweeps each ring converting cells to the new pattern.
+  // - Cells in next pattern:       appear / crossfade to new color
+  // - Cells not in next pattern:   fade to idle
+  // Works identically for first-appear (from empty) and transitions.
+  const show = React.useCallback(
+    (next: "heart" | "logo", onDone?: () => void) => {
+      // Fire the lub-dub via Web Animations API — no @keyframes needed,
+      // fires reliably on every call regardless of CSS tree-shaking.
+      beatRef.current?.animate(
+        [
+          { transform: "scale(1)"    },
+          { transform: "scale(1.06)" }, // lub — center cells arriving
+          { transform: "scale(1)"    },
+          { transform: "scale(1.03)" }, // dub — outer ring completing
+          { transform: "scale(1)"    },
+        ],
+        { duration: 500, easing: "ease-in-out", fill: "none" },
+      );
+
+      const nextProp = (next === "heart" ? "inHeart" : "inLogo") as "inHeart" | "inLogo";
+      const groups = next === "logo" ? [...WAVE_GROUPS].reverse() : WAVE_GROUPS;
+      groups.forEach(({ indices }, i) => {
+        const delay = i * WAVE_STEP_MS;
+        schedule(() => {
+          if (!mounted.current) return;
+          setStates((prev) => {
+            const copy = [...prev];
+            indices.forEach((idx) => {
+              copy[idx] = CELL_BY_IDX[idx][nextProp] ? next : "idle";
+            });
+            return copy;
+          });
+        }, delay);
+      });
       schedule(() => {
         if (!mounted.current) return;
-        setPulseSet(new Set());
         onDone?.();
-      }, PULSE_MS);
+      }, POP_IN_DURATION + HOLD_MS + (next === "logo" ? WAVE_STEP_MS : 0));
     },
     [schedule],
   );
 
-  // Pop next pattern in from center → out (first appear)
-  const popIn = React.useCallback(
-    (next: "heart" | "logo", onDone?: () => void) => {
-      const nextProp = (next === "heart" ? "inHeart" : "inLogo") as "inHeart" | "inLogo";
-      WAVE_GROUPS.forEach(({ indices, delay }) => {
-        schedule(() => {
-          if (!mounted.current) return;
-          setStates((prev) => {
-            const copy = [...prev];
-            indices.forEach((idx) => { copy[idx] = CELL_BY_IDX[idx][nextProp] ? next : "idle"; });
-            return copy;
-          });
-        }, delay);
-      });
-      schedule(() => {
-        if (!mounted.current) return;
-        triggerPulse(next, () => { schedule(() => onDone?.(), HOLD_MS); });
-      }, POP_IN_DURATION + 60);
-    },
-    [schedule, triggerPulse],
-  );
-
-  // Full transition: collapse outer → center, then pop next center → out
-  const transition = React.useCallback(
-    (next: "heart" | "logo", onDone?: () => void) => {
-      const nextProp = (next === "heart" ? "inHeart" : "inLogo") as "inHeart" | "inLogo";
-
-      WAVE_GROUPS_REV.forEach(({ indices, delay }) => {
-        schedule(() => {
-          if (!mounted.current) return;
-          setStates((prev) => {
-            const copy = [...prev];
-            indices.forEach((idx) => { copy[idx] = "idle"; });
-            return copy;
-          });
-        }, delay);
-      });
-
-      const startPop = FADE_OUT_DURATION + 260;
-      WAVE_GROUPS.forEach(({ indices, delay }) => {
-        schedule(() => {
-          if (!mounted.current) return;
-          setStates((prev) => {
-            const copy = [...prev];
-            indices.forEach((idx) => { copy[idx] = CELL_BY_IDX[idx][nextProp] ? next : "idle"; });
-            return copy;
-          });
-        }, startPop + delay);
-      });
-
-      schedule(() => {
-        if (!mounted.current) return;
-        triggerPulse(next, () => { schedule(() => onDone?.(), HOLD_MS); });
-      }, startPop + POP_IN_DURATION + 60);
-    },
-    [schedule, triggerPulse],
-  );
-
   React.useEffect(() => {
     mounted.current = true;
-    popIn("heart", () => {
+    show("heart", () => {
       if (!mounted.current) return;
       function cycle() {
-        transition("logo", () => {
+        show("logo", () => {
           if (!mounted.current) return;
-          transition("heart", () => {
+          show("heart", () => {
             if (!mounted.current) return;
             cycle();
           });
@@ -240,31 +188,31 @@ export function LoadingAnimation({ className }: { className?: string }) {
       mounted.current = false;
       clearAllTimers();
     };
-  }, [popIn, transition, clearAllTimers]);
+  }, [show, clearAllTimers]);
 
   return (
     <div data-slot="loading-animation" className={cn("grid place-items-center gap-3", className)}>
-      <div
-        className="grid w-16"
-        style={{
-          aspectRatio: "5/4",
-          gridTemplateColumns: `repeat(${COLS}, 1fr)`,
-          gridTemplateRows: `repeat(${ROWS}, 1fr)`,
-          gap: 0,
-        }}
-      >
+      {/* Outer wrapper owns the heartbeat — scales the whole shape as one GPU layer,
+          preventing sub-pixel gaps between individual cells during the animation. */}
+      <div ref={beatRef} className="will-change-transform">
+        <div
+          className="grid w-16"
+          style={{
+            aspectRatio: "5/4",
+            gridTemplateColumns: `repeat(${COLS}, 1fr)`,
+            gridTemplateRows: `repeat(${ROWS}, 1fr)`,
+            gap: 0,
+          }}
+        >
         {Array.from({ length: ROWS * COLS }, (_, flatIdx) => {
           const cell = CELL_BY_IDX[flatIdx];
           const state = states[flatIdx];
-          const isPulsing = pulseSet.has(flatIdx);
           return (
             <div
               key={flatIdx}
               className={cn(
-                isPulsing
-                  ? "animate-cell-pulse [transition:opacity_250ms_ease-out,background-color_350ms_ease-in-out]"
-                  : "[transition:opacity_250ms_ease-out,transform_250ms_ease-out,background-color_350ms_ease-in-out]",
-                state === "idle" ? "opacity-0 scale-[0.6]" : "opacity-100 scale-100",
+                "[transition:opacity_350ms_ease-in-out,transform_350ms_ease-in-out,background-color_350ms_ease-in-out]",
+                state === "idle" ? "opacity-0 scale-[0.82]" : "opacity-100 scale-100",
                 state === "heart" ? "bg-rose-500"
                   : state === "logo"
                     ? cell.isLogoLight ? "bg-emerald-600" : "bg-emerald-700"
@@ -274,8 +222,9 @@ export function LoadingAnimation({ className }: { className?: string }) {
             />
           );
         })}
+        </div>
       </div>
-      <p className="pl-6 text-center text-xs font-medium uppercase tracking-widest text-gray-500">
+      <p className="pl-3 text-center text-xs font-medium uppercase tracking-widest text-gray-500">
         loading
         <span className="animate-blink opacity-0">.</span>
         <span className="animate-[blink_1.5s_0.2s_infinite] opacity-0">.</span>
