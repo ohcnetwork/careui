@@ -1,0 +1,5 @@
+name = "careui"
+compatibility_date = "2026-03-16"
+
+[site]
+bucket = "./dist"
