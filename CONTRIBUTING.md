@@ -28,6 +28,15 @@ This project deploys to Cloudflare Pages. The build configuration requires:
    PNPM_VERSION=10.11.1
    ```
 
+**Build Settings (Cloudflare Pages Dashboard):**
+- **Build command**: `pnpm run build`
+- **Build output directory**: `dist`
+- **Root directory**: `/` (project root)
+
+**Configuration Files:**
+- `.nvmrc`: Specifies Node.js version (22.16.0)
+- `wrangler.toml`: Configures Cloudflare Pages deployment with static assets from `dist` directory
+
 **Note**: The `.nvmrc` file is used instead of `.tool-versions` because Cloudflare Pages doesn't reliably support asdf's `.tool-versions` format. For pnpm, you must set the `PNPM_VERSION` environment variable in the Cloudflare Pages dashboard under Settings → Environment Variables.
 
 ## Adding a New Component
