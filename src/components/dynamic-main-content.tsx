@@ -72,7 +72,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
 
   return (
     <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-8 md:p-8">
+      <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-8">
         {/* Component Header */}
         <div>
           <h1 className="text-foreground text-4xl font-bold">{doc.name}</h1>

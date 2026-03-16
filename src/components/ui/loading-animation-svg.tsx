@@ -116,7 +116,7 @@ CELL_DATA.forEach((c) => { CELL_BY_IDX[c.idx] = c; });
 
 // Ring groups — same quantization as the div-based component.
 // Cells at the same rounded radial distance fire together as a crisp concentric ring.
-const WAVE_GROUPS: { indices: number[]; delay: number }[] = (() => {
+const WAVE_GROUPS: { indices: number[] }[] = (() => {
   const map = new Map<number, number[]>();
   CELL_DATA.forEach((c) => {
     const key = Math.round(Math.sqrt((c.row - 3.5) ** 2 + (c.col - 4.5) ** 2) * 2);
@@ -125,22 +125,13 @@ const WAVE_GROUPS: { indices: number[]; delay: number }[] = (() => {
   });
   return [...map.entries()]
     .sort(([a], [b]) => a - b)
-    .map(([, indices], i) => ({ indices, delay: i * WAVE_STEP_MS }));
+    .map(([, indices]) => ({ indices }));
 })();
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 /**
  * LoadingAnimationSvg
- *
- * SVG alternative to LoadingAnimation with identical visuals.
- *
- * Performance advantage over the div-based version:
- * - 0 React re-renders during the animation loop (vs ~12 per wave)
- * - All opacity/transform transitions run via the Web Animations API directly
- *   on SVG <rect> elements — no React reconciliation on the main thread
- * - Color changes are `setAttribute` mutations, not className diffs
- * - Heartbeat runs on the GPU compositor via WAAPI
  */
 export function LoadingAnimationSvg({ className }: { className?: string }) {
   const beatRef  = React.useRef<SVGGElement>(null);
@@ -169,12 +160,8 @@ export function LoadingAnimationSvg({ className }: { className?: string }) {
 
       const nextProp = next === "heart" ? "inHeart" : "inLogo";
       const prevProp = next === "heart" ? "inLogo"  : "inHeart";
-      // Heart: center→out wave. Logo: out→center wave (reverse the ring order).
       const groups = next === "logo" ? [...WAVE_GROUPS].reverse() : WAVE_GROUPS;
       const waveDuration = (groups.length - 1) * WAVE_STEP_MS;
-
-      // Heartbeat — delayed to ~45 % of the wave so the lub peak lands when the shape
-      // has enough visual mass. Two-part lub-dub timed to the ring front passing mid-shape.
       schedule(() => {
         if (!mounted.current) return;
         beatRef.current?.animate(
@@ -189,8 +176,6 @@ export function LoadingAnimationSvg({ className }: { className?: string }) {
         );
       }, Math.round(waveDuration * 0.45));
 
-      // Fire all cells in each ring simultaneously — crisp concentric ripple rings
-      // at WAVE_STEP_MS intervals matching the div-based component's wave rhythm.
       groups.forEach(({ indices }, i) => {
         schedule(() => {
           if (!mounted.current) return;
@@ -205,7 +190,7 @@ export function LoadingAnimationSvg({ className }: { className?: string }) {
             if (!el) return;
 
             el.getAnimations().forEach((a) => {
-              try { a.commitStyles(); } catch { /* SVG elements may not support commitStyles */ }
+              try { a.commitStyles(); } catch { /* ignore */ }
               a.cancel();
             });
 
@@ -213,9 +198,6 @@ export function LoadingAnimationSvg({ className }: { className?: string }) {
             const prevFill = next === "heart" ? (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK) : HEART_FILL;
 
             if (inNext && inPrev) {
-              // Shared cell — compress to minimum, swap color at the exact nadir (imperceptible
-              // hard cut), then ease back up. Uses ease-in for the collapse, ease-out for the
-              // bloom so the color reveal feels snappy.
               el.animate(
                 [
                   { fill: prevFill, transform: "scale(1)",    opacity: "1",   offset: 0    },
@@ -226,9 +208,6 @@ export function LoadingAnimationSvg({ className }: { className?: string }) {
                 { duration: CELL_ANIM_MS, easing: "ease-in-out", fill: "forwards" },
               );
             } else if (inNext) {
-              // Arriving cell — clean scale + fade with material-standard deceleration.
-              // No elastic overshoot; overshoot per-cell creates visual noise that breaks
-              // the uniform ring boundary the eye needs to track the wave front.
               el.animate(
                 [
                   { fill: nextFill, transform: "scale(0.35)", opacity: "0" },
@@ -237,9 +216,6 @@ export function LoadingAnimationSvg({ className }: { className?: string }) {
                 { duration: CELL_ANIM_MS, easing: "cubic-bezier(0.2, 0, 0.2, 1)", fill: "forwards" },
               );
             } else {
-              // Departing cell — mirror of arriving: scale down + fade with fast-out easing.
-              // No counter-direction micro-pop — it would create an anti-wave competing with
-              // the main ripple front and destroying the uniform outward/inward feel.
               el.animate(
                 [
                   { fill: prevFill, transform: "scale(1)",    opacity: "1" },

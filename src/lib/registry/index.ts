@@ -80,8 +80,6 @@ const componentLoaders: Record<
   item: () => import("./item").then((m) => ({ default: m.itemDoc })),
   kbd: () => import("./kbd").then((m) => ({ default: m.kbdDoc })),
   label: () => import("./label").then((m) => ({ default: m.labelDoc })),
-  "loading-animation": () =>
-    import("./loading-animation").then((m) => ({ default: m.loadingAnimationDoc })),
   "loading-animation-svg": () =>
     import("./loading-animation-svg").then((m) => ({ default: m.loadingAnimationSvgDoc })),
   menubar: () => import("./menubar").then((m) => ({ default: m.menubarDoc })),

@@ -30,7 +30,6 @@ export const componentNames: Record<string, string> = {
   item: "Item",
   kbd: "Kbd",
   label: "Label",
-  "loading-animation": "Loading Animation",
   "loading-animation-svg": "Loading Animation SVG",
   menubar: "Menubar",
   "navigation-menu": "Navigation Menu",

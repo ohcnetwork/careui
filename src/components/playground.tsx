@@ -40,7 +40,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, ChevronDown, Info } from "lucide-react";
 import { AppSidebarDemo } from "@/lib/registry/sidebar";
-import { LoadingAnimation } from "@/components/ui/loading-animation";
+import { LoadingAnimationSvg } from "@/components/ui/loading-animation-svg";
 
 function Section({
   title,
@@ -108,7 +108,7 @@ export function Playground() {
 
       {/* Loading Animation */}
       <Section title="Loading Animation">
-        <LoadingAnimation />
+        <LoadingAnimationSvg />
       </Section>
 
       {/* Alerts */}
