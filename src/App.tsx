@@ -51,7 +51,7 @@ function AppShell() {
         </header>
         <div
           id="main-content-scroll"
-          className="flex flex-1 flex-col gap-4 overflow-y-auto p-4"
+          className="flex flex-1 flex-col gap-4 overflow-y-auto"
         >
           <DynamicMainContent />
         </div>

@@ -32,9 +32,9 @@ const LOGO_PATTERN = [
 
 const ROWS = 8;
 const COLS = 10;
-const WAVE_SPAN_MS = 300;       // total time from center cell to outermost cell
+const WAVE_STEP_MS = 50;    // ring step — wider gap = distinct ring boundaries in the ripple
 const HOLD_MS = 650;
-const CELL_DURATION_MS = 550;   // per-cell animation — longer than WAVE_SPAN for overlap
+const CELL_ANIM_MS = 300;  // must be well below (WAVE_STEP_MS × numRings) so rings don't bleed
 
 // Colors matching the div-based component
 const HEART_FILL = "#f43f5e";  // rose-500
@@ -114,24 +114,18 @@ const CELL_DATA = buildCellData();
 const CELL_BY_IDX: CellData[] = Array(ROWS * COLS);
 CELL_DATA.forEach((c) => { CELL_BY_IDX[c.idx] = c; });
 
-// Each cell gets its own delay based on exact radial distance → continuous wave,
-// not stepped rings. FWD = center→out (heart), REV = out→center (logo).
-const CELL_DELAYS_FWD: number[] = Array(ROWS * COLS).fill(0);
-const CELL_DELAYS_REV: number[] = Array(ROWS * COLS).fill(0);
-(() => {
-  let maxDist = 0;
-  for (let r = 0; r < ROWS; r++)
-    for (let c = 0; c < COLS; c++)
-      maxDist = Math.max(maxDist, Math.sqrt((r - 3.5) ** 2 + (c - 4.5) ** 2));
-  for (let r = 0; r < ROWS; r++) {
-    for (let c = 0; c < COLS; c++) {
-      const dist = Math.sqrt((r - 3.5) ** 2 + (c - 4.5) ** 2);
-      const t = Math.round((dist / maxDist) * WAVE_SPAN_MS);
-      const idx = r * COLS + c;
-      CELL_DELAYS_FWD[idx] = t;
-      CELL_DELAYS_REV[idx] = WAVE_SPAN_MS - t;
-    }
-  }
+// Ring groups — same quantization as the div-based component.
+// Cells at the same rounded radial distance fire together as a crisp concentric ring.
+const WAVE_GROUPS: { indices: number[]; delay: number }[] = (() => {
+  const map = new Map<number, number[]>();
+  CELL_DATA.forEach((c) => {
+    const key = Math.round(Math.sqrt((c.row - 3.5) ** 2 + (c.col - 4.5) ** 2) * 2);
+    if (!map.has(key)) map.set(key, []);
+    map.get(key)!.push(c.idx);
+  });
+  return [...map.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([, indices], i) => ({ indices, delay: i * WAVE_STEP_MS }));
 })();
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -170,84 +164,111 @@ export function LoadingAnimationSvg({ className }: { className?: string }) {
 
   const show = React.useCallback(
     (next: "heart" | "logo", onDone?: () => void) => {
-      // Heartbeat — compositor-only, no layout/paint
-      beatRef.current?.animate(
-        [
-          { transform: "scale(1)"    },
-          { transform: "scale(1.10)" },
-          { transform: "scale(1)"    },
-          { transform: "scale(1.05)" },
-          { transform: "scale(1)"    },
-        ],
-        { duration: 500, easing: "ease-in-out", fill: "none" },
-      );
-
-      // On the very first show there is no previous pattern — all cells start invisible.
       const first = isFirstShow.current;
       if (first) isFirstShow.current = false;
 
       const nextProp = next === "heart" ? "inHeart" : "inLogo";
       const prevProp = next === "heart" ? "inLogo"  : "inHeart";
-      const delays   = next === "logo"  ? CELL_DELAYS_REV : CELL_DELAYS_FWD;
+      // Heart: center→out wave. Logo: out→center wave (reverse the ring order).
+      const groups = next === "logo" ? [...WAVE_GROUPS].reverse() : WAVE_GROUPS;
+      const waveDuration = (groups.length - 1) * WAVE_STEP_MS;
 
-      // Schedule each cell individually — unique delay per cell based on
-      // exact radial distance gives a continuous fluid wave, not stepped rings.
-      CELL_BY_IDX.forEach((cell) => {
-        if (!cell) return;
-        const inNext = cell[nextProp as "inHeart" | "inLogo"];
-        const inPrev = !first && cell[prevProp as "inHeart" | "inLogo"];
-        if (!inNext && !inPrev) return; // not involved — skip entirely
+      // Heartbeat — delayed to ~45 % of the wave so the lub peak lands when the shape
+      // has enough visual mass. Two-part lub-dub timed to the ring front passing mid-shape.
+      schedule(() => {
+        if (!mounted.current) return;
+        beatRef.current?.animate(
+          [
+            { transform: "scale(1)",    offset: 0    },
+            { transform: "scale(1.08)", offset: 0.20 }, // lub — shape ~half filled
+            { transform: "scale(1)",    offset: 0.46 },
+            { transform: "scale(1.03)", offset: 0.68 }, // dub — outer rings settling
+            { transform: "scale(1)",    offset: 1    },
+          ],
+          { duration: 580, easing: "ease-in-out", fill: "none" },
+        );
+      }, Math.round(waveDuration * 0.45));
 
+      // Fire all cells in each ring simultaneously — crisp concentric ripple rings
+      // at WAVE_STEP_MS intervals matching the div-based component's wave rhythm.
+      groups.forEach(({ indices }, i) => {
         schedule(() => {
           if (!mounted.current) return;
-          const el = rectRefs.current[cell.idx];
-          if (!el) return;
+          indices.forEach((idx) => {
+            const cell = CELL_BY_IDX[idx];
+            if (!cell) return;
+            const inNext = cell[nextProp as "inHeart" | "inLogo"];
+            const inPrev = !first && cell[prevProp as "inHeart" | "inLogo"];
+            if (!inNext && !inPrev) return;
 
-          el.getAnimations().forEach((a) => {
-            try { a.commitStyles(); } catch { /* SVG elements may not support commitStyles */ }
-            a.cancel();
+            const el = rectRefs.current[idx];
+            if (!el) return;
+
+            el.getAnimations().forEach((a) => {
+              try { a.commitStyles(); } catch { /* SVG elements may not support commitStyles */ }
+              a.cancel();
+            });
+
+            const nextFill = next === "heart" ? HEART_FILL : (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK);
+            const prevFill = next === "heart" ? (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK) : HEART_FILL;
+
+            if (inNext && inPrev) {
+              // Shared cell — compress to minimum, swap color at the exact nadir (imperceptible
+              // hard cut), then ease back up. Uses ease-in for the collapse, ease-out for the
+              // bloom so the color reveal feels snappy.
+              el.animate(
+                [
+                  { fill: prevFill, transform: "scale(1)",    opacity: "1",   offset: 0    },
+                  { fill: prevFill, transform: "scale(0.68)", opacity: "0.4", offset: 0.30 },
+                  { fill: nextFill, transform: "scale(0.68)", opacity: "0.4", offset: 0.33 },
+                  { fill: nextFill, transform: "scale(1)",    opacity: "1",   offset: 1    },
+                ],
+                { duration: CELL_ANIM_MS, easing: "ease-in-out", fill: "forwards" },
+              );
+            } else if (inNext) {
+              // Arriving cell — clean scale + fade with material-standard deceleration.
+              // No elastic overshoot; overshoot per-cell creates visual noise that breaks
+              // the uniform ring boundary the eye needs to track the wave front.
+              el.animate(
+                [
+                  { fill: nextFill, transform: "scale(0.35)", opacity: "0" },
+                  { fill: nextFill, transform: "scale(1)",    opacity: "1" },
+                ],
+                { duration: CELL_ANIM_MS, easing: "cubic-bezier(0.2, 0, 0.2, 1)", fill: "forwards" },
+              );
+            } else {
+              // Departing cell — mirror of arriving: scale down + fade with fast-out easing.
+              // No counter-direction micro-pop — it would create an anti-wave competing with
+              // the main ripple front and destroying the uniform outward/inward feel.
+              el.animate(
+                [
+                  { fill: prevFill, transform: "scale(1)",    opacity: "1" },
+                  { fill: prevFill, transform: "scale(0.35)", opacity: "0" },
+                ],
+                { duration: CELL_ANIM_MS, easing: "cubic-bezier(0.55, 0, 1, 0.45)", fill: "forwards" },
+              );
+            }
           });
-
-          const nextFill = next === "heart" ? HEART_FILL : (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK);
-          const prevFill = next === "heart" ? (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK) : HEART_FILL;
-
-          if (inNext && inPrev) {
-            // Shared cell: color sweeps through — scale dips slightly so
-            // the color swap happens while least visible, then springs back.
-            el.animate(
-              [
-                { fill: prevFill, transform: "scale(1)",    opacity: "1", offset: 0    },
-                { fill: nextFill, transform: "scale(0.92)", opacity: "1", offset: 0.35 },
-                { fill: nextFill, transform: "scale(1)",    opacity: "1", offset: 1    },
-              ],
-              { duration: CELL_DURATION_MS, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "forwards" },
-            );
-          } else if (inNext) {
-            // New cell: spring pop-in with slight overshoot
-            el.animate(
-              [
-                { fill: nextFill, transform: "scale(0.65)", opacity: "0" },
-                { fill: nextFill, transform: "scale(1)",    opacity: "1" },
-              ],
-              { duration: CELL_DURATION_MS, easing: "cubic-bezier(0.34, 1.56, 0.64, 1)", fill: "forwards" },
-            );
-          } else {
-            // Leaving cell: snap away cleanly
-            el.animate(
-              [
-                { fill: prevFill, transform: "scale(1)",    opacity: "1" },
-                { fill: prevFill, transform: "scale(0.65)", opacity: "0" },
-              ],
-              { duration: CELL_DURATION_MS * 0.8, easing: "cubic-bezier(0.4, 0, 1, 1)", fill: "forwards" },
-            );
-          }
-        }, delays[cell.idx]);
+        }, i * WAVE_STEP_MS);
       });
+
+      // Gentle breathing pulse mid-hold — keeps the settled shape alive rather than static.
+      schedule(() => {
+        if (!mounted.current) return;
+        beatRef.current?.animate(
+          [
+            { transform: "scale(1)",     offset: 0   },
+            { transform: "scale(1.025)", offset: 0.5 },
+            { transform: "scale(1)",     offset: 1   },
+          ],
+          { duration: Math.round(HOLD_MS * 0.8), easing: "ease-in-out", fill: "none" },
+        );
+      }, waveDuration + Math.round(CELL_ANIM_MS * 0.55));
 
       schedule(() => {
         if (!mounted.current) return;
         onDone?.();
-      }, WAVE_SPAN_MS + HOLD_MS);
+      }, waveDuration + HOLD_MS);
     },
     [schedule],
   );
