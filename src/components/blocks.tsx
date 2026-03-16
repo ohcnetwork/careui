@@ -33,7 +33,7 @@ interface BlockDef {
 }
 
 const SIDEBAR_01_CODE = `// See the main-sidebar component in the registry
-// pnpm dlx shadcn@latest add https://careui.vercel.app/registry/care-ui/main-sidebar/main-sidebar.json`;
+// pnpm dlx shadcn@latest add https://careui.ohc.network/registry/care-ui/main-sidebar/main-sidebar.json`;
 
 const BLOCKS: BlockDef[] = [
   {

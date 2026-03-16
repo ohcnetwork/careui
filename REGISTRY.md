@@ -7,7 +7,7 @@ A modern React component library built with Tailwind CSS and Radix UI.
 Install components from the Care UI registry using the shadcn CLI:
 
 ```bash
-npx shadcn@latest add button --registry https://careui.vercel.app
+npx shadcn@latest add button --registry https://careui.ohc.network
 ```
 
 ## Available Components
@@ -79,13 +79,13 @@ npx shadcn@latest add button --registry https://careui.vercel.app
 ### Install a single component
 
 ```bash
-npx shadcn@latest add button --registry https://careui.vercel.app
+npx shadcn@latest add button --registry https://careui.ohc.network
 ```
 
 ### Install multiple components
 
 ```bash
-npx shadcn@latest add button input label card --registry https://careui.vercel.app
+npx shadcn@latest add button input label card --registry https://careui.ohc.network
 ```
 
 ### Configure as default registry
@@ -95,7 +95,7 @@ Add to your `components.json`:
 ```json
 {
   "registries": {
-    "care-ui": "https://careui.vercel.app"
+    "care-ui": "https://careui.ohc.network"
   }
 }
 ```
@@ -108,7 +108,7 @@ npx shadcn@latest add care-ui:button
 
 ## Documentation
 
-Visit [https://careui.vercel.app](https://careui.vercel.app) for full documentation and examples.
+Visit [https://careui.ohc.network](https://careui.ohc.network) for full documentation and examples.
 
 ## License
 

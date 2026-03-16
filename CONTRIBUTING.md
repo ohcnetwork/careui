@@ -249,7 +249,7 @@ Once deployed, users can install components:
 
 ```bash
 # Install via shadcn CLI
-npx shadcn@latest add https://careui.vercel.app/registry/care-ui/my-component/my-component.json
+npx shadcn@latest add https://careui.ohc.network/registry/care-ui/my-component/my-component.json
 ```
 
 Components will be installed to `components/careui/` in the user's project:
@@ -260,4 +260,4 @@ import { MyComponent } from "@/components/careui/my-component"
 
 ## Questions?
 
-Check the [Contributing](https://careui.vercel.app) page in the documentation for detailed examples and guidance.
+Check the [Contributing](https://careui.ohc.network) page in the documentation for detailed examples and guidance.
