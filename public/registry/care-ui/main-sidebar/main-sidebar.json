@@ -2,7 +2,7 @@
   "name": "main-sidebar",
   "type": "registry:ui",
   "registryDependencies": [
-    "https://careui.vercel.app/registry/care-ui/sidebar/sidebar.json"
+    "https://careui.ohc.network/registry/care-ui/sidebar/sidebar.json"
   ],
   "files": [
     {

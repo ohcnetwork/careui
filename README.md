@@ -7,7 +7,7 @@ A modern React component library built with Tailwind CSS and Radix UI. Beautiful
 Install components from the Care UI registry using the shadcn CLI:
 
 ```bash
-npx shadcn@latest add button --registry https://careui.vercel.app
+npx shadcn@latest add button --registry https://careui.ohc.network
 ```
 
 ## 📦 Installation
@@ -15,13 +15,13 @@ npx shadcn@latest add button --registry https://careui.vercel.app
 ### Single Component
 
 ```bash
-npx shadcn@latest add button --registry https://careui.vercel.app
+npx shadcn@latest add button --registry https://careui.ohc.network
 ```
 
 ### Multiple Components
 
 ```bash
-npx shadcn@latest add button input label card --registry https://careui.vercel.app
+npx shadcn@latest add button input label card --registry https://careui.ohc.network
 ```
 
 ### Set as Default Registry
@@ -31,7 +31,7 @@ Add to your `components.json`:
 ```json
 {
   "registries": {
-    "care-ui": "https://careui.vercel.app"
+    "care-ui": "https://careui.ohc.network"
   }
 }
 ```
@@ -44,7 +44,7 @@ npx shadcn@latest add care-ui:button
 
 ## 📚 Documentation
 
-Visit **[careui.vercel.app](https://careui.vercel.app)** for:
+Visit **[careui.ohc.network](https://careui.ohc.network)** for:
 - Live component previews
 - Interactive examples
 - Installation guides
@@ -61,7 +61,7 @@ Over 50+ components including:
 - **Feedback**: Alert, Toast, Progress, Skeleton, Badge, Avatar
 - **Utilities**: Scroll Area, Resizable, Toggle, Carousel, Chart
 
-[View all components →](https://careui.vercel.app)
+[View all components →](https://careui.ohc.network)
 
 ## 🛠️ Tech Stack
 
@@ -86,6 +86,6 @@ MIT License - see LICENSE file for details.
 
 ## 🔗 Links
 
-- **Website**: [careui.vercel.app](https://careui.vercel.app)
-- **Registry**: [careui.vercel.app/registry.json](https://careui.vercel.app/registry.json)
+- **Website**: [careui.ohc.network](https://careui.ohc.network)
+- **Registry**: [careui.ohc.network/registry.json](https://careui.ohc.network/registry.json)
 - **Repository**: [github.com/vinutv/careui](https://github.com/vinutv/careui)

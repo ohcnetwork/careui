@@ -36,7 +36,7 @@
 - For user-facing install snippets, keep consistency with current docs patterns (repo uses `pnpm`; public snippets may include multi-manager CLI commands).
 
 ## Integration Points
-- `src/components/dynamic-main-content.tsx` builds install commands and links to `https://careui.vercel.app`.
+- `src/components/dynamic-main-content.tsx` builds install commands and links to `https://careui.ohc.network`.
 - `src/lib/documentation.ts` and `src/lib/registry/*.tsx` define displayed docs and examples.
 - `src/lib/component-registry.ts` bridges app-facing docs types to the lazy registry loader.
 - Registry metadata for shadcn consumers is exposed through `public/registry.json` and `public/registry/care-ui/index.json`.
