@@ -253,11 +253,15 @@
   {
     "name": "loading-animation",
     "type": "registry:ui",
-    "dependencies": [
-      "class-variance-authority"
-    ],
     "files": [
       "registry/care-ui/loading-animation/loading-animation.tsx"
+    ]
+  },
+  {
+    "name": "loading-animation-svg",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/loading-animation-svg/loading-animation-svg.tsx"
     ]
   },
   {

@@ -2,7 +2,7 @@
   "name": "textarea",
   "type": "registry:ui",
   "registryDependencies": [
-    "https://careui.vercel.app/registry/care-ui/use-auto-space/use-auto-space.json"
+    "https://careui.ohc.network/registry/care-ui/use-auto-space/use-auto-space.json"
   ],
   "files": [
     {

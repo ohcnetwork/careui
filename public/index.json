@@ -2,7 +2,7 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "care-ui",
   "description": "A modern React component library built with Tailwind CSS and Radix UI",
-  "homepage": "https://careui.vercel.app",
+  "homepage": "https://careui.ohc.network",
   "repository": "https://github.com/vinutv/careui.git",
-  "url": "https://careui.vercel.app/registry"
+  "url": "https://careui.ohc.network/registry"
 }
