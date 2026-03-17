@@ -20,7 +20,7 @@ const buttonVariants = cva(
         secondary:
           "border border-primary-700 bg-background text-primary-900 dark:text-primary-500 shadow-md hover:border-primary-600 hover:bg-primary-700/10 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground [:active,[data-pressed]]:bg-primary-700/5 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-neutral-500/35 dark:[:active,[data-pressed]]:inset-shadow-neutral-950 [:disabled,:active,[data-pressed]]:shadow-none",
         tertiary:
-          "underline underline-offset-4 hover:bg-muted hover:text-foreground hover:border-border aria-expanded:bg-muted aria-expanded:text-foreground [:active,[data-pressed]]:bg-muted/90 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-neutral-400/40 dark:hover:bg-muted/50 dark:[:active,[data-pressed]]:inset-shadow-neutral-950/80",
+          "underline underline-offset-4 bg-muted-background/50 hover:bg-muted hover:text-foreground hover:border-border aria-expanded:bg-muted aria-expanded:text-foreground [:active,[data-pressed]]:bg-muted/90 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-neutral-400/40 dark:hover:bg-muted/50 dark:[:active,[data-pressed]]:inset-shadow-neutral-950/80",
         outline:
           "border-border border-stronger-border bg-background shadow-md hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground [:active,[data-pressed]]:bg-muted/80 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-neutral-400/50 dark:[:active,[data-pressed]]:inset-shadow-neutral-950/80 [:disabled,:active,[data-pressed]]:shadow-none dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         ghost:
