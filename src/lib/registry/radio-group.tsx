@@ -352,6 +352,93 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
       ),
     },
     {
+      name: "Grid Layout",
+      description:
+        "Display radio options in a 2-column grid using card-style FieldLabels wrapping each option.",
+      code: `<RadioGroup defaultValue="small" className="grid grid-cols-2 max-w-xs">
+  <FieldLabel htmlFor="grid-small">
+    <Field orientation="horizontal">
+      <RadioGroupItem value="small" id="grid-small" />
+      Small
+    </Field>
+  </FieldLabel>
+  <FieldLabel htmlFor="grid-medium">
+    <Field orientation="horizontal">
+      <RadioGroupItem value="medium" id="grid-medium" />
+      Medium
+    </Field>
+  </FieldLabel>
+  <FieldLabel htmlFor="grid-large">
+    <Field orientation="horizontal">
+      <RadioGroupItem value="large" id="grid-large" />
+      Large
+    </Field>
+  </FieldLabel>
+  <FieldLabel htmlFor="grid-xlarge">
+    <Field orientation="horizontal">
+      <RadioGroupItem value="xlarge" id="grid-xlarge" />
+      X-Large
+    </Field>
+  </FieldLabel>
+</RadioGroup>`,
+      preview: React.createElement(
+        RadioGroup,
+        { defaultValue: "small", className: "grid grid-cols-2 max-w-xs" },
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "grid-small" },
+          React.createElement(
+            Field,
+            { orientation: "horizontal" },
+            React.createElement(RadioGroupItem, {
+              value: "small",
+              id: "grid-small",
+            }),
+            "Small"
+          )
+        ),
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "grid-medium" },
+          React.createElement(
+            Field,
+            { orientation: "horizontal" },
+            React.createElement(RadioGroupItem, {
+              value: "medium",
+              id: "grid-medium",
+            }),
+            "Medium"
+          )
+        ),
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "grid-large" },
+          React.createElement(
+            Field,
+            { orientation: "horizontal" },
+            React.createElement(RadioGroupItem, {
+              value: "large",
+              id: "grid-large",
+            }),
+            "Large"
+          )
+        ),
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "grid-xlarge" },
+          React.createElement(
+            Field,
+            { orientation: "horizontal" },
+            React.createElement(RadioGroupItem, {
+              value: "xlarge",
+              id: "grid-xlarge",
+            }),
+            "X-Large"
+          )
+        )
+      ),
+    },
+    {
       name: "Disabled",
       description:
         "Use the disabled prop on RadioGroupItem to disable individual items.",
