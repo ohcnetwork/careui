@@ -595,6 +595,72 @@ const innerNavItems = [
   { title: "Settings", icon: Settings2 },
 ];
 
+function InnerSidebarContent({ pinned }: { pinned: boolean }) {
+  const { isMobile, setOpenMobile } = useSidebar();
+  const showHeader = pinned || isMobile;
+  return (
+    <>
+      <SidebarHeader
+        className={cn(
+          "overflow-hidden border-b",
+          showHeader ? "border-border min-h-12" : "max-h-0 py-0 border-transparent"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center gap-2 px-2 transition-[opacity,transform] duration-150 ease-linear",
+            showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+          )}
+        >
+          <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground -ml-1">
+              <ChevronLeft className="h-4 w-4" />
+              Back
+            </Button>
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="ml-auto"
+              onClick={() => setOpenMobile(false)}
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close sidebar</span>
+            </Button>
+          )}
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarMenu>
+            {innerNavItems.map((item, i) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton isActive={i === 0} tooltip={item.title}>
+                  <item.icon />
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
+    </>
+  );
+}
+
+function InnerPageBackButton({ pinned }: { pinned: boolean }) {
+  const { isMobile } = useSidebar();
+  if (pinned && !isMobile) return null;
+  return (
+    <>
+      <Separator orientation="vertical" />
+      <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground h-7 px-2">
+        <ChevronLeft className="h-4 w-4" />
+        Back
+      </Button>
+    </>
+  );
+}
+
 export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }) {
   const [pinned, setPinned] = React.useState(true);
   const [overlayOpen, setOverlayOpen] = React.useState(false);
@@ -689,70 +755,20 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
             onMouseEnter={cancelClose}
             onMouseLeave={scheduleClose}
           >
-            <SidebarHeader
-              className={cn(
-                "overflow-hidden border-b",
-                pinned ? "border-border min-h-12" : "max-h-0 py-0 border-transparent"
-              )}
-            >
-              <div
-                className={cn(
-                  "flex items-center gap-2 px-2 transition-[opacity,transform] duration-150 ease-linear",
-                  pinned ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
-                )}
-              >
-                <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground -ml-1">
-                  <ChevronLeft className="h-4 w-4" />
-                  Back
-                </Button>
-              </div>
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarGroup>
-                <SidebarMenu>
-                  {innerNavItems.map((item, i) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton isActive={i === 0} tooltip={item.title}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroup>
-            </SidebarContent>
-            <SidebarFooter className="border-t">
-              <CareNavUserCard onMenuOpenChange={(open) => {
-                menuOpenRef.current = open;
-                if (open) cancelClose();
-                else scheduleClose();
-              }} />
-            </SidebarFooter>
+            <InnerSidebarContent pinned={pinned} />
           </Sidebar>
 
           <SidebarInset className="overflow-hidden">
             <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="relative h-7 w-7 -ml-1 after:absolute after:-inset-3 after:content-['']"
-                    onMouseEnter={() => {
-                      cancelClose();
-                      if (!pinned) { setOverlayReady(true); setOverlayOpen(true); }
-                    }}
-                    onMouseLeave={scheduleClose}
-                    onClick={toggleSidebar}
-                  >
-                    <PanelLeft className="h-4 w-4" />
-                    <span className="sr-only">Toggle Sidebar</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right" className="flex items-center gap-1.5">
-                  Toggle sidebar <Kbd>⌘B</Kbd>
-                </TooltipContent>
-              </Tooltip>
+              <SidebarToggleButton
+                onDesktopToggle={toggleSidebar}
+                onMouseEnter={() => {
+                  cancelClose();
+                  if (!pinned) { setOverlayReady(true); setOverlayOpen(true); }
+                }}
+                onMouseLeave={scheduleClose}
+              />
+              <InnerPageBackButton pinned={pinned} />
               <Separator orientation="vertical" />
               <Breadcrumb>
                 <BreadcrumbList>
@@ -767,8 +783,8 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
               </Breadcrumb>
               <div className="ml-auto flex items-center gap-2">
                 <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-                  <Bell className="h-3.5 w-3.5" />
-                  Alerts
+                  <Bell className="h-3 w-3" />
+                  <span className="hidden md:inline">Alerts</span>
                 </Button>
               </div>
             </header>
