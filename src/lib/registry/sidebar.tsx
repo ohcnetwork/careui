@@ -667,7 +667,7 @@ function InnerPageBackButton({ pinned }: { pinned: boolean }) {
   return (
     <>
       <Separator orientation="vertical" />
-      <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground h-7 px-2">
+      <Button variant="tertiary" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground">
         <ChevronLeft className="h-4 w-4" />
         Back
       </Button>

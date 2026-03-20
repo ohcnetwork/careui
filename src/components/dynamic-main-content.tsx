@@ -5,7 +5,7 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigation } from "@/contexts/navigation-context";
-import { loadComponentDoc } from "@/lib/component-registry";
+import { loadComponentDoc, getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
 import { ComponentsOverview } from "@/components/components-overview";
 import { Playground } from "@/components/playground";
@@ -353,10 +353,14 @@ function NotFoundDisplay({ componentId }: { componentId: string }) {
   );
 }
 
+const knownComponentIds = new Set(getComponentIds());
+
 export function DynamicMainContent() {
   const { activeComponent } = useNavigation();
   const [componentDoc, setComponentDoc] = useState<ComponentDoc | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(
+    () => knownComponentIds.has(activeComponent)
+  );
 
   // Load component documentation dynamically
   useEffect(() => {
@@ -401,8 +405,8 @@ export function DynamicMainContent() {
     return <Playground />;
   }
 
-  // Show loading state
-  if (loading) {
+  // Show loading state — also covers the gap between navigation and effect firing
+  if (loading || (knownComponentIds.has(activeComponent) && !componentDoc)) {
     return (
       <main className="flex-1 overflow-y-auto">
         <div className="flex min-h-100 items-center justify-center">
