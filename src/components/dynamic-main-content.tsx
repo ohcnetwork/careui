@@ -33,7 +33,7 @@ function CliCommand({ command, onCopy, isCopied }: CliCommandProps) {
       <Button
         variant="ghost"
         size="icon"
-        className="absolute top-2 right-2 z-10 h-8 w-8 text-neutral-300"
+        className="absolute top-2 right-2 z-10 h-8 w-8 "
         onClick={onCopy}
       >
         {isCopied ? (
@@ -103,7 +103,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
+                  className="absolute top-2 right-2 z-10 h-8 w-8 p-0 "
                   onClick={() =>
                     copyToClipboard(
                       doc.preview?.code || "<Component />",
@@ -179,7 +179,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
             <Button
               size="sm"
               variant="ghost"
-              className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
+              className="absolute top-2 right-2 z-10 h-8 w-8 p-0 "
               onClick={() =>
                 copyToClipboard(
                   doc.usage ||
@@ -249,7 +249,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
+                          className="absolute top-2 right-2 z-10 h-8 w-8 p-0 "
                           onClick={() =>
                             copyToClipboard(example.code ?? "", `example-${index}`)
                           }
