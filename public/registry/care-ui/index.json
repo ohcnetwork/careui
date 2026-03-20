@@ -149,7 +149,8 @@
     "name": "separator",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "radix-ui",
+      "class-variance-authority"
     ],
     "files": [
       "registry/care-ui/separator/separator.tsx"
@@ -253,11 +254,15 @@
   {
     "name": "loading-animation",
     "type": "registry:ui",
-    "dependencies": [
-      "class-variance-authority"
-    ],
     "files": [
       "registry/care-ui/loading-animation/loading-animation.tsx"
+    ]
+  },
+  {
+    "name": "loading-animation-svg",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/loading-animation-svg/loading-animation-svg.tsx"
     ]
   },
   {

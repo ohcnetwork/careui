@@ -159,7 +159,7 @@ function CareNavGroups() {
     <>
       {careNavGroups.map((group, i) => (
         <React.Fragment key={i}>
-          {i > 0 && <Separator className="mx-3 w-auto" />}
+          {i > 0 && <Separator variant="inset" className="mx-3 w-auto" />}
           <SidebarGroup className={i > 0 ? "pt-0" : undefined}>
             {group.label && (
               <SidebarGroupLabel className="text-[10px] font-semibold tracking-wider uppercase">

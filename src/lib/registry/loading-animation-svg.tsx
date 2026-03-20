@@ -25,29 +25,7 @@ export const loadingAnimationSvgDoc: ComponentDoc = {
       code: `<LoadingAnimationSvg />`,
       preview: React.createElement(LoadingAnimationSvg),
     },
-    {
-      name: "Performance comparison",
-      description:
-        "Unlike the div-based version, each animation frame is a direct WAAPI mutation — no React state, no reconciliation, no className diffing. Ideal for resource-constrained loading states.",
-      items: [
-        {
-          title: "React re-renders during animation",
-          description: "0 (SVG) vs ~12 per wave (div version)",
-        },
-        {
-          title: "Animation driver",
-          description: "Web Animations API on SVG <rect> elements — runs off the main thread",
-        },
-        {
-          title: "Color changes",
-          description: "setAttribute mutations — no className recalculation",
-        },
-        {
-          title: "Heartbeat",
-          description: "WAAPI on <g> element composite layer — compositor only",
-        },
-      ],
-    },
+
   ],
   props: [
     {
