@@ -314,8 +314,17 @@ function CareSearchBar() {
 
   return (
     <>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="md:hidden"
+        onClick={() => setOpen(true)}
+      >
+        <Search className="h-4 w-4" />
+        <span className="sr-only">Search</span>
+      </Button>
       <InputGroup
-        className="md:h-9 w-52 cursor-pointer text-sm"
+        className="hidden md:flex md:h-9 w-52 cursor-pointer text-sm"
         onClick={() => setOpen(true)}
       >
         <InputGroupInput
@@ -489,8 +498,8 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
           "**:data-[slot=sidebar-container]:h-full!",
           // Speed up the slide-in/out so hover feels snappy.
           "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
-          "**:data-[slot=sidebar-container]:duration-150!",
-          "**:data-[slot=sidebar-gap]:duration-150!",
+          "**:data-[slot=sidebar-container]:duration-100!",
+          "**:data-[slot=sidebar-gap]:duration-100!",
           // Overlay: zero the gap so it doesn't push content, and restore inset margin.
           isOverlay && "**:data-[slot=sidebar-inset]:ml-2!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
@@ -552,7 +561,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
               />
               <Separator orientation="vertical" />
               <CareFacilitySelector />
-              <div className="ml-auto flex items-center gap-2">
+              <div className="ml-auto flex items-center md:gap-2">
                 <CareSearchBar />
                 <Button variant="ghost" size="icon">
                   <Bell className="h-4 w-4" />
@@ -635,7 +644,11 @@ function InnerSidebarContent({ pinned }: { pinned: boolean }) {
           <SidebarMenu>
             {innerNavItems.map((item, i) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton isActive={i === 0} tooltip={item.title}>
+                <SidebarMenuButton
+                  isActive={i === 0}
+                  tooltip={item.title}
+                  className="data-active:bg-strong-background data-active:text-foreground data-active:hover:bg-strong-background data-active:ring-neutral-400 data-active:dark:ring-neutral-100/50 data-active:hover:text-foreground data-active:after:bg-neutral-500 data-active:dark:after:bg-neutral-300 data-[active=true]:font-medium"
+                >
                   <item.icon />
                   <span>{item.title}</span>
                 </SidebarMenuButton>
@@ -725,8 +738,8 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
           !fullPage && "rounded-lg border",
           "**:data-[slot=sidebar-container]:h-full!",
           "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
-          "**:data-[slot=sidebar-container]:duration-150!",
-          "**:data-[slot=sidebar-gap]:duration-150!",
+          "**:data-[slot=sidebar-container]:duration-100!",
+          "**:data-[slot=sidebar-gap]:duration-100!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
           overlayReady && !pinned && [
             "**:data-[slot=sidebar-container]:top-12!",
