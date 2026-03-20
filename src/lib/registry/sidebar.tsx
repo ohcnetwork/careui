@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Breadcrumb,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
@@ -772,19 +773,38 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
               <Separator orientation="vertical" />
               <Breadcrumb>
                 <BreadcrumbList>
-                  <BreadcrumbItem>
+                  <BreadcrumbItem className="sm:hidden">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size="icon-sm" variant="ghost">
+                          <BreadcrumbEllipsis />
+                          <span className="sr-only">Toggle menu</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <DropdownMenuItem>Encounters</DropdownMenuItem>
+                        <DropdownMenuItem>Patients</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="sm:hidden" />
+                  <BreadcrumbItem className="hidden sm:flex">
+                    <BreadcrumbLink>Encounters</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden sm:flex" />
+                  <BreadcrumbItem className="hidden sm:flex">
                     <BreadcrumbLink>Patients</BreadcrumbLink>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator />
+                  <BreadcrumbSeparator className="hidden sm:flex" />
                   <BreadcrumbItem>
                     <BreadcrumbPage>John Doe</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
               <div className="ml-auto flex items-center gap-2">
-                <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-                  <Bell className="h-3 w-3" />
-                  <span className="hidden md:inline">Alerts</span>
+                <Button variant="outline" size="icon-sm">
+                  <Bell className="h-3.5 w-3.5" />
+                  <span className="sr-only">Alerts</span>
                 </Button>
               </div>
             </header>
