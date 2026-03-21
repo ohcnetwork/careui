@@ -26,7 +26,7 @@ const badgeVariants = cva(
         destructive:
           "border-red-500/45 bg-red-100 text-red-900 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
         neutral:
-          "border-neutral-400/40 bg-neutral-100 text-neutral-800 dark:border-neutral-400/35 dark:bg-neutral-400/15 dark:text-neutral-300 [a&]:hover:bg-neutral-400/20 dark:[a&]:hover:bg-neutral-400/25",
+          "border-stronger-border/40 bg-muted-background text-accent-foreground dark:border-strong-border dark:bg-muted-background dark:text-accent-foreground [a&]:hover:bg-muted-background/20 dark:[a&]:hover:bg-muted-background/25",
         red: "border-red-500/40 bg-red-100 text-red-800 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
         orange:
           "border-orange-500/40 bg-orange-100 text-orange-900 dark:border-orange-400/35 dark:bg-orange-400/15 dark:text-orange-300 [a&]:hover:bg-orange-500/20 dark:[a&]:hover:bg-orange-400/25",

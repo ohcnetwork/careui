@@ -1,7 +1,7 @@
 /**
  * @name command
  * @description Fast, composable, unstyled command menu for React.
- * @dependencies cmdk radix-ui
+ * @dependencies cmdk radix-ui vaul
  * @type registry:ui
  */
 import * as React from "react"
@@ -16,10 +16,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer"
+import {
   InputGroup,
   InputGroupAddon,
 } from "@/components/ui/input-group"
 import { SearchIcon, CheckIcon } from "lucide-react"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 function Command({
   className,
@@ -42,28 +50,46 @@ function CommandDialog({
   description = "Search for a command to run...",
   children,
   className,
+  open,
+  onOpenChange,
   ...props
 }: React.ComponentProps<typeof Dialog> & {
   title?: string
   description?: string
   className?: string
 }) {
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+
+  if (isDesktop) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange} {...props}>
+        <DialogHeader className="sr-only">
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        <DialogContent
+          className={cn(
+            "top-1/3 translate-y-0 overflow-hidden rounded-xl! bg-foreground/10 p-1.5",
+            className
+          )}
+          innerClassName="p-1 md:p-1"
+        >
+          {children}
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
   return (
-    <Dialog {...props}>
-      <DialogHeader className="sr-only">
-        <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
-      </DialogHeader>
-      <DialogContent
-        className={cn(
-          "top-1/3 translate-y-0 overflow-hidden rounded-xl! bg-foreground/10 p-1.5",
-          className
-        )}
-        innerClassName="p-1 md:p-1"
-      >
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerContent className={cn("overflow-hidden p-1.5", className)}>
+        <DrawerHeader className="sr-only">
+          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerDescription>{description}</DrawerDescription>
+        </DrawerHeader>
         {children}
-      </DialogContent>
-    </Dialog>
+      </DrawerContent>
+    </Drawer>
   )
 }
 

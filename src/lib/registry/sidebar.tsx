@@ -647,7 +647,7 @@ function InnerSidebarContent({ pinned }: { pinned: boolean }) {
                 <SidebarMenuButton
                   isActive={i === 0}
                   tooltip={item.title}
-                  className="data-active:bg-strong-background data-active:text-foreground data-active:hover:bg-strong-background data-active:ring-neutral-400 data-active:dark:ring-neutral-100/50 data-active:hover:text-foreground data-active:after:bg-neutral-500 data-active:dark:after:bg-neutral-300 data-[active=true]:font-medium"
+                  className="data-active:bg-strong-background data-active:text-foreground data-active:hover:bg-strong-background data-active:ring-stronger-border data-active:dark:ring-neutral-100/50 data-active:hover:text-foreground data-active:after:bg-neutral-500 data-active:dark:after:bg-neutral-300 data-[active=true]:font-medium"
                 >
                   <item.icon />
                   <span>{item.title}</span>
