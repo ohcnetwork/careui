@@ -123,6 +123,7 @@ export function BlockCodePage({ id }: { id: string }) {
 
 export function BlockPreviewPage({ id }: { id: string }) {
   const block = BLOCKS.find((b) => b.id === id);
+  const { setActiveComponent } = useNavigation();
 
   if (!block) {
     return (
@@ -136,6 +137,17 @@ export function BlockPreviewPage({ id }: { id: string }) {
     <div className="relative bg-background">
       {/* Floating toolbar */}
       <div className="fixed bottom-3 right-4 z-50 flex items-center gap-2 rounded-lg border bg-background/80 px-3 py-1.5 shadow-md backdrop-blur-sm">
+        <Button
+          size="sm"
+          variant="ghost"
+          className="h-7 gap-1.5 px-2 text-xs"
+          onClick={() => setActiveComponent("get-started")}
+          aria-label="Back to home"
+        >
+          <ChevronLeft className="h-3.5 w-3.5" />
+          Home
+        </Button>
+        <Separator orientation="vertical" />
         <span className="text-xs font-medium text-muted-foreground">{block.name}</span>
         <Separator orientation="vertical" />
         <ThemeToggle />
