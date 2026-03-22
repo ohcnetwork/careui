@@ -74,7 +74,7 @@ const longFormSheetPreview = React.createElement(
           ),
           React.createElement(Field, null,
             React.createElement(FieldLabel, { htmlFor: "lf-age" }, "Age"),
-            React.createElement(Input, { id: "lf-age", type: "numeric", placeholder: "30", min: "0", max: "120" })
+            React.createElement(Input, { id: "lf-age", type: "number", placeholder: "30", min: "0", max: "120" })
           ),
           React.createElement(Field, null,
             React.createElement(FieldLabel, { htmlFor: "lf-address" }, "Street address"),
@@ -423,7 +423,7 @@ export function SheetSide() {
                   ),
                   React.createElement(Field, null,
                     React.createElement(FieldLabel, { htmlFor: "lf-age" }, "Age"),
-                    React.createElement(Input, { id: "lf-age", type: "numeric", placeholder: "30", min: "0", max: "120" })
+                    React.createElement(Input, { id: "lf-age", type: "number", placeholder: "30", min: "0", max: "120" })
                   ),
                   React.createElement(Field, null,
                     React.createElement(FieldLabel, { htmlFor: "lf-address" }, "Street address"),
@@ -589,8 +589,10 @@ export function SheetSizes() {
       description:
         "Set `dismissible={true}` on `SheetContent` to allow closing the sheet by clicking outside. By default sheets are non-dismissible and can only be closed via the close button or the Escape key.",
       code: `import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Field,
+  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field"
@@ -606,6 +608,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { Switch } from "@/components/ui/switch"
+import { Textarea } from "@/components/ui/textarea"
 
 export function SheetDismissible() {
   return (
@@ -613,29 +617,86 @@ export function SheetDismissible() {
       <SheetTrigger asChild>
         <Button variant="outline">Open (dismissible)</Button>
       </SheetTrigger>
-      <SheetContent dismissible={true}>
+      <SheetContent dismissible={true} size="md">
         <SheetHeader>
-          <SheetTitle>Dismissible sheet</SheetTitle>
+          <SheetTitle>Patient Registration</SheetTitle>
           <SheetDescription>
-            Click outside to close this sheet.
+            Click outside to close. All fields marked with * are required.
           </SheetDescription>
         </SheetHeader>
         <SheetBody>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="dis-name">Full name</FieldLabel>
-              <Input id="dis-name" placeholder="John Doe" />
+              <FieldLabel htmlFor="dis-firstname">First name *</FieldLabel>
+              <Input id="dis-firstname" placeholder="John" />
             </Field>
             <Field>
-              <FieldLabel htmlFor="dis-email">Email address</FieldLabel>
+              <FieldLabel htmlFor="dis-lastname">Last name *</FieldLabel>
+              <Input id="dis-lastname" placeholder="Doe" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-dob">Date of birth *</FieldLabel>
+              <Input id="dis-dob" type="date" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-email">Email address *</FieldLabel>
               <Input id="dis-email" type="email" placeholder="john@example.com" />
             </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-phone">Phone number</FieldLabel>
+              <Input id="dis-phone" type="tel" placeholder="+1 (555) 000-0000" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-age">Age</FieldLabel>
+              <Input id="dis-age" type="number" placeholder="30" min="0" max="120" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-address">Street address</FieldLabel>
+              <Input id="dis-address" placeholder="123 Main St" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-city">City</FieldLabel>
+              <Input id="dis-city" placeholder="San Francisco" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-zip">ZIP / Postal code</FieldLabel>
+              <Input id="dis-zip" placeholder="94103" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-ec-name">Emergency contact name</FieldLabel>
+              <Input id="dis-ec-name" placeholder="Jane Doe" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-ec-phone">Emergency contact phone</FieldLabel>
+              <Input id="dis-ec-phone" type="tel" placeholder="+1 (555) 000-0001" />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-allergies">Known allergies</FieldLabel>
+              <Textarea id="dis-allergies" placeholder="List any known allergies\u2026" rows={3} />
+              <FieldDescription>Separate multiple entries with commas.</FieldDescription>
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="dis-meds">Current medications</FieldLabel>
+              <Textarea id="dis-meds" placeholder="List any current medications\u2026" rows={3} />
+            </Field>
+            <div className="flex items-center gap-3 py-1">
+              <Checkbox id="dis-terms" />
+              <label htmlFor="dis-terms" className="text-sm cursor-pointer">
+                I agree to the terms and conditions *
+              </label>
+            </div>
+            <div className="flex items-center justify-between py-1">
+              <label htmlFor="dis-sms" className="text-sm cursor-pointer">
+                Enable SMS appointment reminders
+              </label>
+              <Switch id="dis-sms" />
+            </div>
           </FieldGroup>
         </SheetBody>
         <SheetFooter>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit">Submit registration</Button>
           <SheetClose asChild>
-            <Button variant="outline">Close</Button>
+            <Button variant="outline">Cancel</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>
@@ -652,16 +713,12 @@ export function SheetDismissible() {
         ),
         React.createElement(
           SheetContent,
-          { dismissible: true } as React.ComponentProps<typeof SheetContent>,
+          { dismissible: true, size: "md" } as React.ComponentProps<typeof SheetContent>,
           React.createElement(
             SheetHeader,
             {},
-            React.createElement(SheetTitle, {}, "Dismissible sheet"),
-            React.createElement(
-              SheetDescription,
-              {},
-              "Click outside to close this sheet."
-            )
+            React.createElement(SheetTitle, {}, "Patient Registration"),
+            React.createElement(SheetDescription, {}, "Click outside to close. All fields marked with * are required.")
           ),
           React.createElement(
             SheetBody,
@@ -669,28 +726,73 @@ export function SheetDismissible() {
             React.createElement(
               FieldGroup,
               {},
-              React.createElement(
-                Field,
-                {},
-                React.createElement(FieldLabel, { htmlFor: "dis-name" }, "Full name"),
-                React.createElement(Input, { id: "dis-name", placeholder: "John Doe" })
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-firstname" }, "First name *"),
+                React.createElement(Input, { id: "dis-firstname", placeholder: "John" })
               ),
-              React.createElement(
-                Field,
-                {},
-                React.createElement(FieldLabel, { htmlFor: "dis-email" }, "Email address"),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-lastname" }, "Last name *"),
+                React.createElement(Input, { id: "dis-lastname", placeholder: "Doe" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-dob" }, "Date of birth *"),
+                React.createElement(Input, { id: "dis-dob", type: "date" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-email" }, "Email address *"),
                 React.createElement(Input, { id: "dis-email", type: "email", placeholder: "john@example.com" })
               ),
-              React.createElement("div", { className: "flex flex-row-reverse gap-4" },
-                React.createElement(Button, { type: "submit" }, "Save changes"),
-                React.createElement(
-                  SheetClose,
-                  { asChild: true },
-                  React.createElement(Button, { variant: "outline" }, "Close")
-                )
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-phone" }, "Phone number"),
+                React.createElement(Input, { id: "dis-phone", type: "tel", placeholder: "+1 (555) 000-0000" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-age" }, "Age"),
+                React.createElement(Input, { id: "dis-age", type: "number", placeholder: "30", min: "0", max: "120" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-address" }, "Street address"),
+                React.createElement(Input, { id: "dis-address", placeholder: "123 Main St" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-city" }, "City"),
+                React.createElement(Input, { id: "dis-city", placeholder: "San Francisco" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-zip" }, "ZIP / Postal code"),
+                React.createElement(Input, { id: "dis-zip", placeholder: "94103" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-ec-name" }, "Emergency contact name"),
+                React.createElement(Input, { id: "dis-ec-name", placeholder: "Jane Doe" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-ec-phone" }, "Emergency contact phone"),
+                React.createElement(Input, { id: "dis-ec-phone", type: "tel", placeholder: "+1 (555) 000-0001" })
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-allergies" }, "Known allergies"),
+                React.createElement(Textarea, { id: "dis-allergies", placeholder: "List any known allergies\u2026", rows: 3 }),
+                React.createElement(FieldDescription, {}, "Separate multiple entries with commas.")
+              ),
+              React.createElement(Field, {},
+                React.createElement(FieldLabel, { htmlFor: "dis-meds" }, "Current medications"),
+                React.createElement(Textarea, { id: "dis-meds", placeholder: "List any current medications\u2026", rows: 3 })
+              ),
+              React.createElement("div", { className: "flex items-center gap-3 py-1" },
+                React.createElement(Checkbox, { id: "dis-terms" }),
+                React.createElement("label", { htmlFor: "dis-terms", className: "text-sm cursor-pointer" }, "I agree to the terms and conditions *")
+              ),
+              React.createElement("div", { className: "flex items-center justify-between py-1" },
+                React.createElement("label", { htmlFor: "dis-sms", className: "text-sm cursor-pointer" }, "Enable SMS appointment reminders"),
+                React.createElement(Switch, { id: "dis-sms" })
+              ),
+              React.createElement("div", { className: "flex flex-row-reverse py-4 border-t bg-background gap-4 items-end" },
+                React.createElement(Button, { type: "submit" }, "Submit registration"),
+                React.createElement(SheetClose, { asChild: true }, React.createElement(Button, { variant: "outline" }, "Cancel"))
               )
             )
-          )
+          ),
         )
       ),
     },

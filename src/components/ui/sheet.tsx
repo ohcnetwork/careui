@@ -91,6 +91,34 @@ function SheetContent({
   const [shaking, setShaking] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
+  const contentRef = React.useCallback((el: HTMLDivElement | null) => {
+    const vv = window.visualViewport;
+    if (!el || !vv) return;
+    let rafId: number;
+    const update = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (side === "left" || side === "right") {
+          el.style.height = `${vv.height}px`;
+          el.style.top = `${vv.offsetTop}px`;
+        } else if (side === "bottom") {
+          const keyboardHeight = window.innerHeight - vv.offsetTop - vv.height;
+          el.style.bottom = `${keyboardHeight}px`;
+        } else if (side === "top") {
+          el.style.maxHeight = `${vv.height}px`;
+        }
+      });
+    };
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    update();
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+      cancelAnimationFrame(rafId);
+    };
+  }, [side]);
+
   const resolvedContainerClassName =
     containerClassName ??
     (side === "top" || side === "bottom" ? "mx-auto w-full max-w-3xl px-4" : "px-4");
@@ -100,7 +128,6 @@ function SheetContent({
     setShaking(false);
     requestAnimationFrame(() => setShaking(true));
   }, []);
-  const handleAnimationEnd = React.useCallback(() => setShaking(false), []);
 
   const contextValue = React.useMemo(
     () => ({ shaking, onShakeEnd, side, containerClassName: resolvedContainerClassName, scrolled, setScrolled }),
@@ -112,46 +139,47 @@ function SheetContent({
       <SheetOverlay />
       <SheetContext.Provider value={contextValue}>
         <SheetPrimitive.Content
-        data-slot="sheet-content"
-        data-side={side}
-        className={cn(
-          "bg-background overflow-hidden data-open:animate-in data-closed:animate-out data-[side=right]:data-closed:slide-out-to-right-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=top]:data-closed:slide-out-to-top-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:fade-out-0 data-open:fade-in-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=bottom]:data-open:slide-in-from-bottom-10 fixed z-50 flex flex-col bg-clip-padding text-sm shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-dvh data-[side=left]:w-full data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-dvh data-[side=right]:w-full data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b",
-          sheetSizeClasses[size],
-          className
-        )}
-        onOpenAutoFocus={(e) => {
-          if (onOpenAutoFocus) {
-            onOpenAutoFocus(e);
-            return;
-          }
-          if (isMobile) {
-            e.preventDefault();
-            return;
-          }
-          const input = (e.currentTarget as HTMLElement).querySelector<HTMLElement>(
-            'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])'
-          );
-          if (input) {
-            e.preventDefault();
-            input.focus();
-          }
-        }}
-        onInteractOutside={(e) => {
-          if (!dismissible) {
-            e.preventDefault();
-            triggerShake();
-          }
-          onInteractOutside?.(e);
-        }}
-        onPointerDownOutside={(e) => {
-          if (!dismissible) e.preventDefault();
-          onPointerDownOutside?.(e);
-        }}
-        data-shaking={shaking || undefined}
-        onAnimationEnd={handleAnimationEnd}
-        {...props}
-      >
-        {children}
+          ref={contentRef}
+          data-slot="sheet-content"
+          data-side={side}
+          className={cn(
+            "bg-background overflow-hidden data-open:animate-in data-closed:animate-out data-[side=right]:data-closed:slide-out-to-right-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=top]:data-closed:slide-out-to-top-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:fade-out-0 data-open:fade-in-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=bottom]:data-open:slide-in-from-bottom-10 fixed z-50 flex flex-col bg-clip-padding text-sm shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-dvh data-[side=left]:w-full data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-dvh data-[side=right]:w-full data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b",
+            sheetSizeClasses[size],
+            className
+          )}
+          onOpenAutoFocus={(e) => {
+            if (onOpenAutoFocus) {
+              onOpenAutoFocus(e);
+              return;
+            }
+            if (isMobile) {
+              e.preventDefault();
+              return;
+            }
+            const input = (e.currentTarget as HTMLElement).querySelector<HTMLElement>(
+              'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])'
+            );
+            if (input) {
+              e.preventDefault();
+              input.focus();
+            }
+          }}
+          onInteractOutside={(e) => {
+            if (!dismissible) {
+              e.preventDefault();
+              triggerShake();
+            }
+            onInteractOutside?.(e);
+          }}
+          onPointerDownOutside={(e) => {
+            if (!dismissible) e.preventDefault();
+            onPointerDownOutside?.(e);
+          }}
+          data-shaking={shaking || undefined}
+          onAnimationEnd={onShakeEnd}
+          {...props}
+        >
+          {children}
         </SheetPrimitive.Content>
       </SheetContext.Provider>
     </SheetPortal>

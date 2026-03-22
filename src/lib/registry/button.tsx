@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { type ComponentDoc } from "@/lib/types";
 import { ChevronRight, Mail, Plus, Trash2, X } from "lucide-react";
 
@@ -108,6 +109,26 @@ export function ButtonDemo() {
             ["data-icon"]: "inline-end",
           } as any)
         )
+      ),
+    },
+    {
+      name: "As Child",
+      description:
+        "Use the asChild prop on <Button /> to make another component look like a button. Here's an example of a link that looks like a button.",
+      code: `import Link from "next/link"
+import { Button } from "@/components/ui/button"
+
+export function ButtonAsChild() {
+  return (
+    <Button asChild>
+      <Link href="/login">Login</Link>
+    </Button>
+  )
+}`,
+      preview: React.createElement(
+        Button,
+        { asChild: true },
+        React.createElement("a", { href: "#" }, "Login")
       ),
     },
     {
@@ -583,6 +604,94 @@ export function ButtonDemo() {
               "Destructive"
             )
           )
+        )
+      ),
+    },
+    {
+      name: "Spinner",
+      description:
+        'Render a <Spinner /> component inside the button to show a loading state. Remember to add the `data-icon="inline-start"` or `data-icon="inline-end"` attribute to the spinner for the correct spacing.',
+      code: `import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+
+export function ButtonSpinner() {
+  return (
+    <div className="flex gap-2 flex-wrap">
+      <Button disabled>
+        <Spinner data-icon="inline-start" />
+        Default
+      </Button>
+      <Button variant="secondary" disabled>
+        <Spinner data-icon="inline-start" />
+        Secondary
+      </Button>
+      <Button variant="tertiary" disabled>
+        <Spinner data-icon="inline-start" />
+        Tertiary
+      </Button>
+      <Button variant="outline" disabled>
+        <Spinner data-icon="inline-start" />
+        Outline
+      </Button>
+      <Button variant="ghost" disabled>
+        <Spinner data-icon="inline-start" />
+        Ghost
+      </Button>
+      <Button variant="destructive" disabled>
+        <Spinner data-icon="inline-start" />
+        Destructive
+      </Button>
+      <Button variant="destructive-solid" disabled>
+        <Spinner data-icon="inline-start" />
+        Destructive Solid
+      </Button>
+    </div>
+  )
+}`,
+      preview: React.createElement(
+        "div",
+        { className: "flex gap-2 flex-wrap" },
+        React.createElement(
+          Button,
+          { disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Default"
+        ),
+        React.createElement(
+          Button,
+          { variant: "secondary", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Secondary"
+        ),
+        React.createElement(
+          Button,
+          { variant: "tertiary", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Tertiary"
+        ),
+        React.createElement(
+          Button,
+          { variant: "outline", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Outline"
+        ),
+        React.createElement(
+          Button,
+          { variant: "ghost", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Ghost"
+        ),
+        React.createElement(
+          Button,
+          { variant: "destructive", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Destructive"
+        ),
+        React.createElement(
+          Button,
+          { variant: "destructive-solid", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Destructive Solid"
         )
       ),
     },

@@ -431,6 +431,7 @@
     "dependencies": [
       "cmdk",
       "radix-ui",
+      "vaul",
       "lucide-react"
     ],
     "files": [
