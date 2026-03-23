@@ -7,6 +7,8 @@
 import { useMemo } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
+import { TriangleAlert } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -220,9 +222,10 @@ function FieldError({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn("text-destructive text-sm font-normal", className)}
+      className={cn("text-destructive bg-destructive/10 px-1.5 rounded inline-flex items-start gap-1 max-w-fit text-sm font-normal", className)}
       {...props}
     >
+      <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />
       {content}
     </div>
   );

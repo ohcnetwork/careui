@@ -1,7 +1,7 @@
 /**
  * @name input-group
- * @description Combines an input with addons, buttons, or icons into a unified control.
- * @dependencies
+ * @description A wrapper for input fields with prefix and suffix elements.
+ * @dependencies none
  * @type registry:ui
  */
 import * as React from "react"
@@ -32,13 +32,13 @@ const inputGroupAddonVariants = cva(
     variants: {
       align: {
         "inline-start":
-          "order-first pl-2 has-[>button]:-ml-1 has-[>kbd]:ml-[-0.15rem]",
+          "order-first pl-2 has-[>button]:-ml-1.75 has-[>kbd]:ml-[-0.15rem]",
         "inline-end":
-          "order-last pr-2 has-[>button]:-mr-1 has-[>kbd]:mr-[-0.15rem]",
+          "order-last pr-2 has-[>button]:-mr-1.75 has-[>kbd]:mr-[-0.15rem]",
         "block-start":
           "order-first w-full justify-start px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:pb-2",
         "block-end":
-          "order-last w-full justify-start px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:pt-2",
+          "order-last w-full bg-soft-background rounded-bl-md justify-start px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:pt-2",
       },
     },
     defaultVariants: {
@@ -57,7 +57,7 @@ function InputGroupAddon({
       role="group"
       data-slot="input-group-addon"
       data-align={align}
-      className={cn(inputGroupAddonVariants({ align }), className)}
+      className={cn(inputGroupAddonVariants({ align }), className) }
       onClick={(e) => {
         if ((e.target as HTMLElement).closest("button")) {
           return
@@ -74,11 +74,11 @@ const inputGroupButtonVariants = cva(
   {
     variants: {
       size: {
-        xs: "h-6 gap-1 rounded-[calc(var(--radius)-5px)] px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
-        sm: "",
+        xs: "h-10 md:h-9 rounded-[calc(var(--radius)-5px)] px-2.5! [&>svg:not([class*='size-'])]:size-4.5",
+        sm: "h-12 md:h-10 rounded-[calc(var(--radius)-4px)] px-2 [&>svg:not([class*='size-'])]:size-4",
         "icon-xs":
-          "size-6 rounded-[calc(var(--radius)-5px)] p-0 has-[>svg]:p-0",
-        "icon-sm": "size-8 p-0 has-[>svg]:p-0",
+          "size-10 md:size-9 rounded-[calc(var(--radius)-5px)] p-0 has-[>svg]:p-0",
+        "icon-sm": "size-12 md:size-10 p-0 has-[>svg]:p-0",
       },
     },
     defaultVariants: {
@@ -91,7 +91,7 @@ function InputGroupButton({
   className,
   type = "button",
   variant = "ghost",
-  size = "xs",
+  size = "sm",
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "size"> &
   VariantProps<typeof inputGroupButtonVariants>) {

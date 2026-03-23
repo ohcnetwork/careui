@@ -2,6 +2,13 @@ import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   InputGroup,
@@ -17,46 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { type ComponentDoc } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { InfoIcon } from "lucide-react";
-
-function Field({
-  className,
-  orientation = "vertical",
-  ...props
-}: React.ComponentProps<"div"> & {
-  orientation?: "vertical" | "horizontal";
-}) {
-  return React.createElement("div", {
-    className: cn(
-      "flex w-full gap-1 max-w-sm",
-      orientation === "horizontal" ? "items-center" : "flex-col",
-      className
-    ),
-    ...props,
-  });
-}
-
-function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
-  return React.createElement("div", {
-    className: cn("flex w-full flex-col gap-4 max-w-sm", className),
-    ...props,
-  });
-}
-
-function FieldLabel({ className, ...props }: React.ComponentProps<"label">) {
-  return React.createElement("label", {
-    className: cn("text-sm font-medium max-w-sm", className),
-    ...props,
-  });
-}
-
-function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
-  return React.createElement("p", {
-    className: cn("text-muted-foreground text-sm", className),
-    ...props,
-  });
-}
 
 export const inputDoc: ComponentDoc = {
   id: "input",
@@ -231,11 +199,11 @@ export const inputDoc: ComponentDoc = {
     {
       name: "Invalid",
       description:
-        "Use aria-invalid to mark the input as invalid and data-invalid on Field for styling.",
+        "Use aria-invalid to mark the input as invalid and data-invalid on Field for styling. Use FieldError to display the error message.",
       code: `<Field data-invalid>
   <FieldLabel htmlFor="input-invalid">Invalid Input</FieldLabel>
   <Input id="input-invalid" placeholder="Error" aria-invalid />
-  <FieldDescription>This field contains validation errors.</FieldDescription>
+  <FieldError>This field contains validation errors.</FieldError>
 </Field>`,
       preview: React.createElement(
         Field,
@@ -251,7 +219,7 @@ export const inputDoc: ComponentDoc = {
           ["aria-invalid"]: true,
         } as any),
         React.createElement(
-          FieldDescription,
+          FieldError,
           {},
           "This field contains validation errors."
         )
