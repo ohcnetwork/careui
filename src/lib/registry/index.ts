@@ -83,6 +83,8 @@ const componentLoaders: Record<
   "loading-animation-svg": () =>
     import("./loading-animation-svg").then((m) => ({ default: m.loadingAnimationSvgDoc })),
   menubar: () => import("./menubar").then((m) => ({ default: m.menubarDoc })),
+  "native-select": () =>
+    import("./native-select").then((m) => ({ default: m.nativeSelectDoc })),
   "navigation-menu": () =>
     import("./navigation-menu").then((m) => ({ default: m.navigationMenuDoc })),
   pagination: () =>

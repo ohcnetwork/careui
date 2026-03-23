@@ -32,6 +32,7 @@ export const componentNames: Record<string, string> = {
   label: "Label",
   "loading-animation-svg": "Loading Animation SVG",
   menubar: "Menubar",
+  "native-select": "Native Select",
   "navigation-menu": "Navigation Menu",
   pagination: "Pagination",
   popover: "Popover",

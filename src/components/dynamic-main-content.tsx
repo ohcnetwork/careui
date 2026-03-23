@@ -62,7 +62,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
   const [activeTab, setActiveTab] = useState("preview");
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
-  const registryUrl = `https://careui.vercel.app/registry/care-ui/${doc.id}/${doc.id}.json`;
+  const registryUrl = `https://careui.ohc.network/registry/care-ui/${doc.id}/${doc.id}.json`;
   const installCommands = {
     pnpm: `pnpm dlx shadcn@latest add ${registryUrl}`,
     npm: `npx shadcn@latest add ${registryUrl}`,

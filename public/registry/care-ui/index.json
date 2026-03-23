@@ -241,6 +241,16 @@
     ]
   },
   {
+    "name": "native-select",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/native-select/native-select.tsx"
+    ]
+  },
+  {
     "name": "menubar",
     "type": "registry:ui",
     "dependencies": [
@@ -323,6 +333,7 @@
     "name": "input-group",
     "type": "registry:ui",
     "dependencies": [
+      "none",
       "class-variance-authority"
     ],
     "files": [
@@ -354,7 +365,8 @@
     "type": "registry:ui",
     "dependencies": [
       "radix-ui",
-      "class-variance-authority"
+      "class-variance-authority",
+      "lucide-react"
     ],
     "files": [
       "registry/care-ui/field/field.tsx"

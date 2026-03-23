@@ -45,7 +45,7 @@ const CONFIG: RegistryConfig = {
   componentsDir: 'src/components/ui',
   hooksDir: 'src/hooks',
   registryDir: 'public/registry/care-ui',
-  registryBaseUrl: 'https://careui.vercel.app/registry/care-ui',
+  registryBaseUrl: 'https://careui.ohc.network/registry/care-ui',
   excludeFiles: ['index.ts', 'types.ts'],
   // Map of common imports to their package names
   dependencyMap: {

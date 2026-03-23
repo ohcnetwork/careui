@@ -562,7 +562,7 @@ export function InputOTPForm() {
               React.createElement(FieldLabel, { htmlFor: "otp-verification" }, "Verification code"),
               React.createElement(
                 Button,
-                { variant: "outline", size: "xs" as any },
+                { variant: "tertiary", size: "xs" as any },
                 React.createElement(RefreshCwIcon),
                 "Resend Code"
               )
