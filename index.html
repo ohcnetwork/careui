@@ -13,13 +13,19 @@
         if (value !== 1) {
           document.documentElement.style.setProperty("--font-size-scale", value);
         }
+
+        var theme = localStorage.getItem("vite-ui-theme") || "system";
+        var dark =
+          theme === "dark" ||
+          (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.style.setProperty("--loading-bg", dark ? "#0a0a0a" : "#fff");
       })();
     </script>
   </head>
   <body>
     <div
       id="app-loading"
-      style="position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;background:var(--background,#fff);z-index:9999;font-family:sans-serif"
+      style="position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;background:var(--loading-bg,#fff);z-index:9999;font-family:sans-serif"
     ></div>
     <div id="root"></div>
     <script src="/loading-screen.js"></script>
