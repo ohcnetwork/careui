@@ -16,6 +16,7 @@ export function useScrollRestoration(deps: DependencyList) {
     }, 50);
 
     return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }
 

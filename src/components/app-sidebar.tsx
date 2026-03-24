@@ -98,14 +98,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <img
               src="/care-ui-logo.svg"
               alt="Care UI"
-              className="block h-14 w-auto cursor-pointer transition-opacity hover:opacity-80 dark:hidden"
+              className="block h-12 w-auto cursor-pointer transition-opacity hover:opacity-80 dark:hidden"
               onClick={handleLogoClick}
               onContextMenu={handleLogoRightClick}
             />
             <img
               src="/care-ui-logo-dark.svg"
               alt="Care UI"
-              className="hidden h-14 w-auto cursor-pointer transition-opacity hover:opacity-80 dark:block"
+              className="hidden h-12 w-auto cursor-pointer transition-opacity hover:opacity-80 dark:block"
               onClick={handleLogoClick}
               onContextMenu={handleLogoRightClick}
             />
@@ -154,7 +154,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Context Menu */}
       {contextMenu.show && (
         <div
-          className="fixed z-50 min-w-40 rounded-md border bg-popover py-1 shadow-lg"
+          className="fixed z-50 w-40 max-w-fit rounded-md border bg-popover py-1 shadow-lg"
           style={{
             left: contextMenu.x,
             top: contextMenu.y,
