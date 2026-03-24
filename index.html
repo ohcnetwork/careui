@@ -17,7 +17,12 @@
     </script>
   </head>
   <body>
+    <div
+      id="app-loading"
+      style="position:fixed;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;background:var(--background,#fff);z-index:9999;font-family:sans-serif"
+    ></div>
     <div id="root"></div>
+    <script src="/loading-screen.js"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

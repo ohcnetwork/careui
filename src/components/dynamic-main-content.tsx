@@ -356,6 +356,20 @@ function NotFoundDisplay({ componentId }: { componentId: string }) {
 
 const knownComponentIds = new Set(getComponentIds());
 
+// Track whether the pre-React HTML loading screen has been dismissed yet.
+// The first time DynamicMainContent renders real content it calls
+// __removeLoadingScreen() so there is never a gap (or overlap) between
+// the two loading animations.
+let htmlScreenDismissed = false;
+function dismissHtmlScreen() {
+  if (!htmlScreenDismissed) {
+    htmlScreenDismissed = true;
+    if (typeof window.__removeLoadingScreen === "function") {
+      window.__removeLoadingScreen();
+    }
+  }
+}
+
 export function DynamicMainContent() {
   const { activeComponent } = useNavigation();
   const [componentDoc, setComponentDoc] = useState<ComponentDoc | null>(null);
@@ -393,26 +407,36 @@ export function DynamicMainContent() {
   // Check if it's a documentation page
   const docPage = documentationPages[activeComponent];
   if (docPage) {
+    dismissHtmlScreen();
     return <DocumentationDisplay doc={docPage} />;
   }
 
   // Handle components overview
   if (activeComponent === "components-overview") {
+    dismissHtmlScreen();
     return <ComponentsOverview />;
   }
 
   // Handle playground
   if (activeComponent === "playground") {
+    dismissHtmlScreen();
     return <Playground />;
   }
 
   // Handle settings
   if (activeComponent === "settings") {
+    dismissHtmlScreen();
     return <SettingsPage />;
   }
 
-  // Show loading state — also covers the gap between navigation and effect firing
+  // Show loading state — also covers the gap between navigation and effect firing.
+  // If the HTML loading screen is still up, suppress the React spinner to avoid
+  // showing two animations simultaneously.
   if (loading || (knownComponentIds.has(activeComponent) && !componentDoc)) {
+    if (!htmlScreenDismissed) {
+      // HTML screen is still visible — render nothing inside root
+      return null;
+    }
     return (
       <main className="flex-1 overflow-y-auto">
         <div className="flex min-h-100 items-center justify-center">
@@ -424,6 +448,7 @@ export function DynamicMainContent() {
 
   // Handle component documentation
   if (componentDoc) {
+    dismissHtmlScreen();
     return <ComponentDocDisplay key={componentDoc.id} doc={componentDoc} />;
   }
 
