@@ -22,9 +22,15 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Minus, Plus } from "lucide-react";
-// import { Bar, BarChart, ResponsiveContainer } from 'recharts'
+import { Bar, BarChart, ResponsiveContainer } from "recharts";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
+
+const chartData = [
+  { goal: 400 }, { goal: 300 }, { goal: 200 }, { goal: 300 }, { goal: 200 },
+  { goal: 278 }, { goal: 189 }, { goal: 239 }, { goal: 300 }, { goal: 200 },
+  { goal: 278 }, { goal: 189 }, { goal: 349 },
+];
 
 export const drawerDoc: ComponentDoc = {
   id: "drawer",
@@ -171,7 +177,7 @@ export function DrawerDemo() {
                 <span className="sr-only">Increase</span>
               </Button>
             </div>
-            <div className="mt-3 h-[120px]">
+            <div className="mt-3 h-30">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data}>
                   <Bar
@@ -288,9 +294,16 @@ export function DrawerDemo() {
                 "div",
                 { className: "mt-3 h-30" },
                 React.createElement(
-                  "div",
-                  { style: { width: "100%", height: "100%" } },
-                  "Chart placeholder (build compatibility)"
+                  ResponsiveContainer as any,
+                  { width: "100%", height: "100%" },
+                  React.createElement(
+                    BarChart as any,
+                    { data: chartData },
+                    React.createElement(Bar as any, {
+                      dataKey: "goal",
+                      style: { fill: "var(--chart-1)" } as React.CSSProperties,
+                    })
+                  )
                 )
               )
             ),
@@ -338,9 +351,17 @@ export function DrawerScrollableContent() {
         </DrawerHeader>
         <div className="no-scrollbar overflow-y-auto px-4">
           {Array.from({ length: 10 }).map((_, index) => (
-            <p key={index} className="mb-4 leading-normal">
+            <p
+              key={index}
+              className="mb-4 leading-normal style-lyra:mb-2 style-lyra:leading-relaxed"
+            >
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
           ))}
         </div>
@@ -433,8 +454,27 @@ export function DrawerWithSides() {
           <DrawerContent className="data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]">
             <DrawerHeader>
               <DrawerTitle>Move Goal</DrawerTitle>
-              <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+              <DrawerDescription>
+                Set your daily activity goal.
+              </DrawerDescription>
             </DrawerHeader>
+            <div className="no-scrollbar overflow-y-auto px-4">
+              {Array.from({ length: 10 }).map((_, index) => (
+                <p
+                  key={index}
+                  className="mb-4 leading-normal style-lyra:mb-2 style-lyra:leading-relaxed"
+                >
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+              ))}
+            </div>
             <DrawerFooter>
               <Button>Submit</Button>
               <DrawerClose asChild>
@@ -488,6 +528,17 @@ export function DrawerWithSides() {
                   )
                 ),
                 React.createElement(
+                  "div",
+                  { className: "no-scrollbar overflow-y-auto px-4" },
+                  ...Array.from({ length: 10 }, (_, index) =>
+                    React.createElement(
+                      "p",
+                      { key: index, className: "mb-4 leading-normal" },
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                    )
+                  )
+                ),
+                React.createElement(
                   DrawerFooter,
                   {},
                   React.createElement(Button, {}, "Submit"),
@@ -506,19 +557,11 @@ export function DrawerWithSides() {
     {
       name: "Responsive Dialog",
       description:
-        "A responsive component that shows a dialog on desktop and a drawer on mobile.",
+        "You can combine the Dialog and Drawer components to create a responsive dialog. This renders a Dialog component on desktop and a Drawer on mobile.",
       code: `"use client"
 
 import * as React from "react"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import {
   Dialog,
   DialogContent,
@@ -550,7 +593,7 @@ export function DrawerDialogDemo() {
         <DialogTrigger asChild>
           <Button variant="outline">Edit Profile</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-sm">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>
