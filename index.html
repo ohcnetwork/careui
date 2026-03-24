@@ -5,6 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/care-ui-logo-mark.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Care·ui</title>
+    <script>
+      (function () {
+        var scale = { small: 0.875, default: 1, large: 1.125, larger: 1.25 };
+        var saved = localStorage.getItem("careui-font-size");
+        var value = scale[saved] || 1;
+        if (value !== 1) {
+          document.documentElement.style.setProperty("--font-size-scale", value);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

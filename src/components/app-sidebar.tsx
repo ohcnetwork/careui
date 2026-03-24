@@ -29,6 +29,7 @@ const data = {
       items: [
         { id: "playground", title: "Playground" },
         { id: "blocks", title: "Blocks" },
+        { id: "settings", title: "Settings" },
       ],
     },
     {

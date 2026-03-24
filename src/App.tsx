@@ -4,6 +4,7 @@ import { DynamicMainContent } from "@/components/dynamic-main-content";
 import { DynamicBreadcrumb } from "@/components/dynamic-breadcrumb";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { FontSizeProvider } from "@/components/font-size-provider";
 import { NavigationProvider, useNavigation } from "@/contexts/navigation-context";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
@@ -67,11 +68,13 @@ function AppShell() {
 
 export default function Page() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <NavigationProvider>
-        <AppShell />
-      </NavigationProvider>
-      <Toaster />
-    </ThemeProvider>
+    <FontSizeProvider>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <NavigationProvider>
+          <AppShell />
+        </NavigationProvider>
+        <Toaster />
+      </ThemeProvider>
+    </FontSizeProvider>
   );
 }

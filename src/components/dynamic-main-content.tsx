@@ -9,6 +9,7 @@ import { loadComponentDoc, getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
 import { ComponentsOverview } from "@/components/components-overview";
 import { Playground } from "@/components/playground";
+import { SettingsPage } from "@/components/settings-page";
 import {
   DocumentationDisplay,
   NotFoundDocumentation,
@@ -403,6 +404,11 @@ export function DynamicMainContent() {
   // Handle playground
   if (activeComponent === "playground") {
     return <Playground />;
+  }
+
+  // Handle settings
+  if (activeComponent === "settings") {
+    return <SettingsPage />;
   }
 
   // Show loading state — also covers the gap between navigation and effect firing
