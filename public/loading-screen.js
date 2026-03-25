@@ -1,20 +1,20 @@
 /**
  * Pre-React loading screen.
  *
- * Mirrors the Web Animations API logic in LoadingAnimationSvg.tsx so the
- * exact same pixel-art animation is visible from the very first paint,
- * before the React bundle has loaded.
+ * Renders the pixel-art Care UI animation from the very first paint, before
+ * the React bundle loads. Plays a full heart → logo cycle before removing
+ * itself, so the animation is never cut off mid-transition.
  *
  * Lifecycle:
- *   1. This script runs synchronously before the module bundle.
- *   2. It injects the SVG + "loading..." text into <div id="app-loading">.
- *   3. DynamicMainContent calls window.__removeLoadingScreen() once the
- *      first component finishes loading, fading out this screen seamlessly.
+ *   1. Runs synchronously; injects SVG + text into <div id="app-loading">.
+ *   2. Animates: heart in → ripple to logo.
+ *   3. When the page is ready, DynamicMainContent calls __removeLoadingScreen().
+ *      The screen fades out at the next natural cycle boundary.
  */
 (function () {
   var ROWS = 8, COLS = 10;
-  var WAVE_STEP_MS = 50;
-  var HOLD_MS = 650;
+  var WAVE_STEP_MS = 35;
+  var HOLD_MS = 400;
   var CELL_ANIM_MS = 300;
   var HEART_FILL = "#f43f5e";
   var LOGO_LIGHT = "#059669";
@@ -111,6 +111,7 @@
   var WAVE_GROUPS = Object.keys(groupMap)
     .map(Number).sort(function(a,b){return a-b;})
     .map(function(k){ return { indices: groupMap[k] }; });
+  var WAVE_GROUPS_REV = WAVE_GROUPS.slice().reverse();
 
   // ─── build DOM ────────────────────────────────────────────────────────────
   var NS = "http://www.w3.org/2000/svg";
@@ -118,7 +119,6 @@
   var container = document.getElementById("app-loading");
   if (!container) return;
 
-  // SVG
   var svg = document.createElementNS(NS, "svg");
   svg.setAttribute("viewBox", "0 0 " + COLS + " " + ROWS);
   svg.setAttribute("aria-hidden", "true");
@@ -128,9 +128,29 @@
   beatG.style.cssText = "transform-box:fill-box;transform-origin:center";
   svg.appendChild(beatG);
 
-  var rectRefs = new Array(ROWS * COLS).fill(null);
+  var rectRefs = new Array(ROWS * COLS);
+  var KF = new Array(ROWS * COLS);
   for (var i = 0; i < ROWS * COLS; i++) {
     var cell = CELL_BY_IDX[i];
+    var lFill = cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK;
+    KF[i] = {
+      heartIn:     [{ fill: HEART_FILL, transform:"scale(0.35)", opacity:"0" }, { fill: HEART_FILL, transform:"scale(1)", opacity:"1" }],
+      logoIn:      [{ fill: lFill,      transform:"scale(0.35)", opacity:"0" }, { fill: lFill,      transform:"scale(1)", opacity:"1" }],
+      heartOut:    [{ fill: HEART_FILL, transform:"scale(1)", opacity:"1" }, { fill: HEART_FILL, transform:"scale(0.35)", opacity:"0" }],
+      logoOut:     [{ fill: lFill,      transform:"scale(1)", opacity:"1" }, { fill: lFill,      transform:"scale(0.35)", opacity:"0" }],
+      heartToLogo: [
+        { fill: HEART_FILL, transform:"scale(1)",    opacity:"1",   offset:0    },
+        { fill: HEART_FILL, transform:"scale(0.68)", opacity:"0.4", offset:0.30 },
+        { fill: lFill,      transform:"scale(0.68)", opacity:"0.4", offset:0.33 },
+        { fill: lFill,      transform:"scale(1)",    opacity:"1",   offset:1    },
+      ],
+      logoToHeart: [
+        { fill: lFill,      transform:"scale(1)",    opacity:"1",   offset:0    },
+        { fill: lFill,      transform:"scale(0.68)", opacity:"0.4", offset:0.30 },
+        { fill: HEART_FILL, transform:"scale(0.68)", opacity:"0.4", offset:0.33 },
+        { fill: HEART_FILL, transform:"scale(1)",    opacity:"1",   offset:1    },
+      ],
+    };
     var path = document.createElementNS(NS, "path");
     path.setAttribute("d", cell.d);
     path.setAttribute("fill", "transparent");
@@ -140,25 +160,25 @@
     rectRefs[i] = path;
   }
 
-  // "loading..." text
-  var p = document.createElement("p");
-  p.style.cssText = "padding-left:12px;margin:0px;text-align:center;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#6b7280";
-  p.textContent = "loading...";
+  var label = document.createElement("p");
+  label.style.cssText = "padding-left:12px;margin:0;text-align:center;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#6b7280";
+  label.textContent = "loading care...";
 
   container.appendChild(svg);
-  container.appendChild(p);
+  container.appendChild(label);
 
   // ─── animation engine ─────────────────────────────────────────────────────
-  var timers = [];
+  var timers = new Set();
   var mounted = true;
   var isFirstShow = true;
+  var pendingRemove = false;
 
   function schedule(fn, delay) {
     var id = setTimeout(function() {
-      timers = timers.filter(function(t){ return t !== id; });
+      timers.delete(id);
       fn();
     }, delay);
-    timers.push(id);
+    timers.add(id);
   }
 
   function show(next, onDone) {
@@ -167,7 +187,7 @@
 
     var nextProp = next === "heart" ? "inHeart" : "inLogo";
     var prevProp = next === "heart" ? "inLogo"  : "inHeart";
-    var groups = next === "logo" ? WAVE_GROUPS.slice().reverse() : WAVE_GROUPS;
+    var groups = next === "logo" ? WAVE_GROUPS_REV : WAVE_GROUPS;
     var waveDuration = (groups.length - 1) * WAVE_STEP_MS;
 
     // heartbeat pulse
@@ -200,26 +220,16 @@
             a.cancel();
           });
 
-          var nextFill = next === "heart" ? HEART_FILL : (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK);
-          var prevFill = next === "heart" ? (cell.isLogoLight ? LOGO_LIGHT : LOGO_DARK) : HEART_FILL;
-
+          var kf = KF[idx];
           if (inNext && inPrev) {
-            el.animate([
-              { fill:prevFill, transform:"scale(1)",    opacity:"1",   offset:0    },
-              { fill:prevFill, transform:"scale(0.68)", opacity:"0.4", offset:0.30 },
-              { fill:nextFill, transform:"scale(0.68)", opacity:"0.4", offset:0.33 },
-              { fill:nextFill, transform:"scale(1)",    opacity:"1",   offset:1    },
-            ], { duration:CELL_ANIM_MS, easing:"ease-in-out", fill:"forwards" });
+            el.animate(next === "heart" ? kf.logoToHeart : kf.heartToLogo,
+              { duration:CELL_ANIM_MS, easing:"ease-in-out", fill:"forwards" });
           } else if (inNext) {
-            el.animate([
-              { fill:nextFill, transform:"scale(0.35)", opacity:"0" },
-              { fill:nextFill, transform:"scale(1)",    opacity:"1" },
-            ], { duration:CELL_ANIM_MS, easing:"cubic-bezier(0.2,0,0.2,1)", fill:"forwards" });
+            el.animate(next === "heart" ? kf.heartIn : kf.logoIn,
+              { duration:CELL_ANIM_MS, easing:"cubic-bezier(0.2,0,0.2,1)", fill:"forwards" });
           } else {
-            el.animate([
-              { fill:prevFill, transform:"scale(1)",    opacity:"1" },
-              { fill:prevFill, transform:"scale(0.35)", opacity:"0" },
-            ], { duration:CELL_ANIM_MS, easing:"cubic-bezier(0.55,0,1,0.45)", fill:"forwards" });
+            el.animate(next === "heart" ? kf.logoOut : kf.heartOut,
+              { duration:CELL_ANIM_MS, easing:"cubic-bezier(0.55,0,1,0.45)", fill:"forwards" });
           }
         });
       }, i * WAVE_STEP_MS);
@@ -242,22 +252,10 @@
   }
 
   // ─── start loop ───────────────────────────────────────────────────────────
-  show("heart", function() {
-    function cycle() {
-      show("logo", function() {
-        show("heart", function() {
-          cycle();
-        });
-      });
-    }
-    cycle();
-  });
-
-  // ─── teardown (called by main.tsx after React mounts) ─────────────────────
-  window.__removeLoadingScreen = function() {
+  function doRemove() {
     mounted = false;
     timers.forEach(clearTimeout);
-    timers = [];
+    timers.clear();
     if (container && container.parentNode) {
       container.style.transition = "opacity 150ms ease";
       container.style.opacity = "0";
@@ -268,5 +266,31 @@
       }, 200);
     }
     delete window.__removeLoadingScreen;
+  }
+
+  show("heart", function() {
+    show("logo", function() {
+      // One full sequence (heart → logo) done. Remove now if page is ready,
+      // otherwise keep cycling until it is.
+      if (pendingRemove) { doRemove(); return; }
+      function cycle() {
+        show("heart", function() {
+          show("logo", function() {
+            if (pendingRemove) { doRemove(); return; }
+            cycle();
+          });
+        });
+      }
+      cycle();
+    });
+  });
+
+  // ─── teardown (called by main.tsx after React mounts) ─────────────────────
+  // Sets a flag; the loading screen fades out at the next natural shape
+  // boundary so the current animation is never cut off mid-transition.
+  // Safety timeout ensures removal even if the cycle loop stalls (3s cap).
+  window.__removeLoadingScreen = function() {
+    pendingRemove = true;
+    setTimeout(function() { if (mounted) doRemove(); }, 3000);
   };
 })();
