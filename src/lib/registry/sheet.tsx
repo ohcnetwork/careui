@@ -334,7 +334,7 @@ export function SheetSide() {
           </SheetTrigger>
           <SheetContent
             side={side}
-            className="data-[side=bottom]:max-h-[50vh] data-[side=top]:max-h-[50vh]"
+            className="data-[side=bottom]:h-dvh data-[side=top]:h-dvh md:data-[side=bottom]:h-[70dvh] md:data-[side=top]:h-[70dvh]"
           >
             <SheetHeader>
               <SheetTitle>Edit profile</SheetTitle>
@@ -383,7 +383,7 @@ export function SheetSide() {
               {
                 side,
                 className:
-                  "data-[side=bottom]:h-dvh data-[side=top]:h-dvh md:data-[side=bottom]:max-h-[70vh] md:data-[side=top]:max-h-[70vh]",
+                  "data-[side=bottom]:h-dvh data-[side=top]:h-dvh md:data-[side=bottom]:h-[70dvh] md:data-[side=top]:h-[70dvh]",
               },
               React.createElement(
                 SheetHeader,
@@ -928,6 +928,99 @@ export function LongFormSheet() {
   )
 }`,
       preview: longFormSheetPreview,
+    },
+
+    // ── Non-modal ─────────────────────────────────────────────────────────
+    {
+      name: "Non-modal",
+      description:
+        "Set `modal={false}` on `Sheet` and `overlay={false}` on `SheetContent` to keep the page behind fully interactive — users can scroll, click, and type outside the sheet while it's open.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Sheet,
+  SheetBody,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
+export function SheetNonModal() {
+  return (
+    <Sheet modal={false}>
+      <SheetTrigger asChild>
+        <Button variant="outline">Open non-modal sheet</Button>
+      </SheetTrigger>
+      <SheetContent overlay={false} size="md">
+        <SheetHeader>
+          <SheetTitle>Filters</SheetTitle>
+          <SheetDescription>
+            The page behind remains scrollable and clickable while this panel is open.
+          </SheetDescription>
+        </SheetHeader>
+        <SheetBody>
+          <p className="text-muted-foreground text-sm leading-relaxed">
+            Try interacting with the rest of the page — links, buttons, and
+            scrollable areas all remain accessible because{" "}
+            <code>modal=&#123;false&#125;</code> disables focus trapping and
+            pointer-event blocking.
+          </p>
+        </SheetBody>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button variant="outline">Close</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  )
+}`,
+      preview: React.createElement(
+        Sheet,
+        { modal: false } as React.ComponentProps<typeof Sheet>,
+        React.createElement(
+          SheetTrigger,
+          { asChild: true },
+          React.createElement(Button, { variant: "outline" }, "Open non-modal sheet")
+        ),
+        React.createElement(
+          SheetContent,
+          { dismissible: true, overlay: false, size: "md" } as React.ComponentProps<typeof SheetContent>,
+          React.createElement(
+            SheetHeader,
+            {},
+            React.createElement(SheetTitle, {}, "Filters"),
+            React.createElement(
+              SheetDescription,
+              {},
+              "The page behind remains scrollable and clickable while this panel is open."
+            )
+          ),
+          React.createElement(
+            SheetBody,
+            {},
+            React.createElement(
+              "p",
+              { className: "text-muted-foreground text-sm leading-relaxed" },
+              "Try interacting with the rest of the page — links, buttons, and scrollable areas all remain accessible because ",
+              React.createElement("code", {}, "modal={false}"),
+              " disables focus trapping and pointer-event blocking."
+            )
+          ),
+          React.createElement(
+            SheetFooter,
+            {},
+            React.createElement(
+              SheetClose,
+              { asChild: true },
+              React.createElement(Button, { variant: "outline" }, "Close")
+            )
+          )
+        )
+      ),
     },
   ],
 };

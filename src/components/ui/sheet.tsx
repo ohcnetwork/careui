@@ -21,8 +21,8 @@ const SheetContext = React.createContext<{
   setScrolled: (v: boolean) => void;
 } | null>(null);
 
-function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <SheetPrimitive.Root data-slot="sheet" {...props} />;
+function Sheet({ modal = true, ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
+  return <SheetPrimitive.Root data-slot="sheet" modal={modal} {...props} />;
 }
 
 function SheetTrigger({
@@ -76,6 +76,7 @@ function SheetContent({
   side = "right",
   size = "sm",
   dismissible = false,
+  overlay = true,
   containerClassName,
   onOpenAutoFocus,
   onInteractOutside,
@@ -85,6 +86,7 @@ function SheetContent({
   side?: "top" | "right" | "bottom" | "left";
   size?: SheetSize;
   dismissible?: boolean;
+  overlay?: boolean;
   containerClassName?: string;
 }) {
   const isMobile = useIsMobile();
@@ -136,7 +138,7 @@ function SheetContent({
 
   return (
     <SheetPortal>
-      <SheetOverlay />
+      {overlay && <SheetOverlay />}
       <SheetContext.Provider value={contextValue}>
         <SheetPrimitive.Content
           ref={contentRef}
