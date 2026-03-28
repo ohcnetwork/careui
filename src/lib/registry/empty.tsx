@@ -13,10 +13,11 @@ export const emptyDoc: ComponentDoc = {
   },
   usage: `import { Empty } from "@/components/ui/empty"`,
   preview: {
-    code: `import { EmptyTitle } from "lucide-react"
+    code: `import { InboxIcon } from "lucide-react"
+import { Empty, EmptyTitle, EmptyDescription } from "@/components/ui/empty"
 
 <Empty>
-  <EmptyIcon />
+  <InboxIcon className="mx-auto h-12 w-12 text-muted-foreground" />
   <EmptyTitle>No data</EmptyTitle>
   <EmptyDescription>There is no data to display</EmptyDescription>
 </Empty>`,

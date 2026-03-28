@@ -15,8 +15,21 @@ export const scrollAreaDoc: ComponentDoc = {
   },
   usage: `import { ScrollArea } from "@/components/ui/scroll-area"`,
   preview: {
-    code: `<ScrollArea className="h-72">
-  <div>Content...</div>
+    code: `import { Separator } from "@/components/ui/separator"
+import { ScrollArea } from "@/components/ui/scroll-area"
+
+const tags = ["v1.0.0", "v1.1.0", "v1.2.0", "v2.0.0", "v2.1.0"]
+
+<ScrollArea className="h-72 w-48 rounded-md border">
+  <div className="p-4">
+    <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
+    {tags.map((tag, i) => (
+      <div key={tag}>
+        <div className="text-sm">{tag}</div>
+        {i < tags.length - 1 && <Separator className="my-2" />}
+      </div>
+    ))}
+  </div>
 </ScrollArea>`,
     component: React.createElement(
       ScrollArea,

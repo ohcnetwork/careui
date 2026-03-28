@@ -123,7 +123,7 @@ function SheetContent({
 
   const resolvedContainerClassName =
     containerClassName ??
-    (side === "top" || side === "bottom" ? "mx-auto w-full max-w-3xl px-4" : "px-4");
+    (side === "top" || side === "bottom" ? "mx-auto w-full max-w-2xl px-4" : "px-4");
 
   const onShakeEnd = React.useCallback(() => setShaking(false), []);
   const triggerShake = React.useCallback(() => {
@@ -218,7 +218,7 @@ function SheetHeader({
   return (
     <div
       data-slot="sheet-header"
-      className={cn("border-b bg-background shrink-0 transition-all duration-200", ctx?.scrolled ? "items-center py-1.5" : "py-2 md:py-3", className)}
+      className={cn("border-b bg-background shrink-0 transition-all duration-200", (ctx?.side === "top" || ctx?.side === "bottom") && "md:pr-4", ctx?.scrolled ? "items-center py-1.5" : "py-2 md:py-3", className)}
       {...props}
     >
       {inner}
@@ -231,7 +231,7 @@ function SheetBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-body"
-      className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain py-4", className)}
+      className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain py-4 [scrollbar-gutter:stable]", className)}
       onScroll={(e) => ctx?.setScrolled((e.currentTarget as HTMLElement).scrollTop > 0)}
     >
       <div className={cn(ctx?.containerClassName)} {...props} />

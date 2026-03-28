@@ -78,7 +78,7 @@ export function DropdownMenuDemo() {
 
 <DropdownMenu>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline" size="sm">
+    <Button variant="outline" size="default">
       Open Menu
       <ChevronDown className="size-4" />
     </Button>
@@ -86,6 +86,7 @@ export function DropdownMenuDemo() {
   <DropdownMenuContent className="w-44" align="start">
     <DropdownMenuGroup>
       <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuSeparator />
       <DropdownMenuItem>
         Profile
         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>

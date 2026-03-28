@@ -60,9 +60,7 @@ export function BadgeDemo() {
 }`,
 
   preview: {
-    code: `import { Info } from "lucide-react"
-
-<div className="flex items-center gap-2 flex-wrap">
+    code: `<div className="flex items-center gap-2 flex-wrap">
   <Badge variant="primary">Primary</Badge>
   <Badge variant="success">Success</Badge>
   <Badge variant="warning">Warning</Badge>
@@ -110,9 +108,7 @@ export function BadgeDemo() {
     {
       name: "With Dot",
       description: "A filled dot that inherits the badge text color.",
-      code: `import { Info } from "lucide-react"
-
-<div className="flex items-center gap-2 flex-wrap">
+      code: `<div className="flex items-center gap-2 flex-wrap">
   <Badge variant="primary" dot>Primary</Badge>
   <Badge variant="success" dot>Success</Badge>
   <Badge variant="warning" dot>Warning</Badge>
@@ -269,9 +265,7 @@ export function BadgeDemo() {
       name: "Solid",
       description:
         "Add the solid prop to the five semantic variants for a fully filled background.",
-      code: `import { Info } from "lucide-react"
-
-<div className="flex flex-col gap-3">
+      code: `<div className="flex flex-col gap-3">
   <div className="flex items-center gap-2 flex-wrap">
     <Badge variant="primary" solid>Primary</Badge>
     <Badge variant="success" solid>Success</Badge>
@@ -358,9 +352,7 @@ export function BadgeDemo() {
       name: "With Close Button",
       description:
         "Pass an onClose handler to render a dismiss button inside the badge.",
-      code: `import { Info } from "lucide-react"
-
-<div className="flex items-center gap-2 flex-wrap">
+      code: `<div className="flex items-center gap-2 flex-wrap">
   <Badge variant="primary" onClose={() => {}}>Primary</Badge>
   <Badge variant="success" onClose={() => {}}>Success</Badge>
   <Badge variant="warning" onClose={() => {}}>Warning</Badge>
@@ -434,9 +426,7 @@ export function BadgeDemo() {
     {
       name: "Full Palette",
       description: "All variants displayed together.",
-      code: `import { Info } from "lucide-react"
-
-<div className="flex flex-col gap-3">
+      code: `<div className="flex flex-col gap-3">
   <div className="flex items-center gap-2 flex-wrap">
     <Badge variant="primary">Primary</Badge>
     <Badge variant="success">Success</Badge>

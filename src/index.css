@@ -228,16 +228,14 @@
   html {
     @apply font-sans;
     font-size: calc(100% * var(--font-size-scale));
-    }
-    h1, h2, h3, h4 {
-      @apply text-balance;
-    }
-    p {
-      @apply text-pretty;
-    }
-
+  }
+  h1, h2, h3, h4 {
+    @apply text-balance;
+  }
+  p {
+    @apply text-pretty;
+  }
 }
-
 
 /* Squircle utilities */
 

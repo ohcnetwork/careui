@@ -14,10 +14,18 @@ export const toggleGroupDoc: ComponentDoc = {
   },
   usage: `import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"`,
   preview: {
-    code: `<ToggleGroup type="single">
-  <ToggleGroupItem value="a">A</ToggleGroupItem>
-  <ToggleGroupItem value="b">B</ToggleGroupItem>
-  <ToggleGroupItem value="c">C</ToggleGroupItem>
+    code: `import { Bold, Italic, Underline } from "lucide-react"
+
+<ToggleGroup type="single">
+  <ToggleGroupItem value="bold">
+    <Bold className="h-4 w-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="italic">
+    <Italic className="h-4 w-4" />
+  </ToggleGroupItem>
+  <ToggleGroupItem value="underline">
+    <Underline className="h-4 w-4" />
+  </ToggleGroupItem>
 </ToggleGroup>`,
     component: React.createElement(
       ToggleGroup,

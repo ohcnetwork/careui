@@ -31,6 +31,10 @@ export const tableDoc: ComponentDoc = {
       <TableCell>John Doe</TableCell>
       <TableCell>Active</TableCell>
     </TableRow>
+    <TableRow>
+      <TableCell>Jane Smith</TableCell>
+      <TableCell>Inactive</TableCell>
+    </TableRow>
   </TableBody>
 </Table>`,
     component: React.createElement(

@@ -13,13 +13,13 @@ export const tabsDoc: ComponentDoc = {
   },
   usage: `import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"`,
   preview: {
-    code: `<Tabs defaultValue="tab1">
+    code: `<Tabs defaultValue="tab1" className="w-full">
   <TabsList>
-    <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-    <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+    <TabsTrigger value="tab1">Account</TabsTrigger>
+    <TabsTrigger value="tab2">Password</TabsTrigger>
   </TabsList>
-  <TabsContent value="tab1">Content 1</TabsContent>
-  <TabsContent value="tab2">Content 2</TabsContent>
+  <TabsContent value="tab1">Account settings content</TabsContent>
+  <TabsContent value="tab2">Password settings content</TabsContent>
 </Tabs>`,
     component: React.createElement(
       Tabs,

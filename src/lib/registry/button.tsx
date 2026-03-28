@@ -19,7 +19,7 @@ export function ButtonDemo() {
   return <Button>Click me</Button>
 }`,
   preview: {
-    code: `<div className="flex gap-2 flex-wrap">
+    code: `<div className="flex gap-8 flex-wrap">
   <Button>Default</Button>
   <Button variant="secondary">Secondary</Button>
   <Button variant="tertiary">Tertiary</Button>

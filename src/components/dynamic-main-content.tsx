@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { componentNames } from "@/lib/component-names";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button } from "@/components/ui/button";
@@ -59,9 +60,21 @@ function CliCommand({ command, onCopy, isCopied }: CliCommandProps) {
   );
 }
 
+const componentNavOrder = Object.keys(componentNames).filter(
+  (id) => id !== "components-overview"
+);
+
 function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
   const [activeTab, setActiveTab] = useState("preview");
   const { copyToClipboard, isCopied } = useCopyToClipboard();
+  const { setActiveComponent } = useNavigation();
+
+  const currentIndex = componentNavOrder.indexOf(doc.id);
+  const prevId = currentIndex > 0 ? componentNavOrder[currentIndex - 1] : null;
+  const nextId =
+    currentIndex < componentNavOrder.length - 1
+      ? componentNavOrder[currentIndex + 1]
+      : null;
 
   const registryUrl = `https://careui.ohc.network/registry/care-ui/${doc.id}/${doc.id}.json`;
   const installCommands = {
@@ -331,6 +344,35 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
             </div>
           </section>
         )}
+        {/* Prev / Next navigation */}
+        <div className="flex items-center justify-between border-t pt-8">
+          <div>
+            {prevId && (
+              <Button
+                variant="tertiary"
+                size="lg"
+                className=""
+                onClick={() => setActiveComponent(prevId)}
+              >
+              <ChevronLeft className="h-3 w-3" />
+              {componentNames[prevId]}
+              </Button>
+            )}
+          </div>
+          <div>
+            {nextId && (
+              <Button
+                variant="tertiary"
+                size="lg"
+                className=""
+                onClick={() => setActiveComponent(nextId)}
+              >
+                  {componentNames[nextId]}
+                  <ChevronRight className="h-3 w-3" />
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
     </main>
   );

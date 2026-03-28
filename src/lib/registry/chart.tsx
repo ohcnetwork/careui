@@ -175,8 +175,8 @@ const ChartDemo = () => {
             content: React.createElement(ChartTooltipContent, {
               className: "w-[150px]",
               nameKey: "views",
-              labelFormatter: (value: string) =>
-                new Date(value).toLocaleDateString("en-US", {
+              labelFormatter: (value: React.ReactNode) =>
+                new Date(String(value)).toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",

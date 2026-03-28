@@ -14,7 +14,12 @@ export const sonnerDoc: ComponentDoc = {
   },
   usage: `import { toast } from "sonner"`,
   preview: {
-    code: `toast("Event has been created")`,
+    code: `import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+
+<Button onClick={() => toast("Event has been created")}>
+  Show Toast
+</Button>`,
     component: React.createElement(
       Button,
       {

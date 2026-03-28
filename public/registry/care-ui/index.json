@@ -397,7 +397,9 @@
     "name": "drawer",
     "type": "registry:ui",
     "dependencies": [
-      "vaul"
+      "vaul",
+      "lucide-react",
+      "button"
     ],
     "files": [
       "registry/care-ui/drawer/drawer.tsx"

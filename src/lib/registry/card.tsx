@@ -50,9 +50,7 @@ export function CardDemo() {
       </CardHeader>
       <CardContent>
         <form>
-          <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
+          <div className="flex flex-col gap-4">
               <Input
                 id="email"
                 type="email"
@@ -99,9 +97,7 @@ export function CardDemo() {
   </CardHeader>
   <CardContent>
     <form>
-      <div className="flex flex-col gap-6">
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
+      <div className="flex flex-col gap-4">
           <Input
             id="email"
             type="email"

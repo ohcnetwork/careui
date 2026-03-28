@@ -50,12 +50,12 @@ export function LabelInField() {
     <div className="w-full max-w-sm">
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="email">Email address</FieldLabel>
-          <Input id="email" type="email" placeholder="m@example.com" />
+          <FieldLabel htmlFor="label-field-email">Email address</FieldLabel>
+          <Input id="label-field-email" type="email" placeholder="m@example.com" />
         </Field>
         <Field>
-          <FieldLabel htmlFor="name">Full name</FieldLabel>
-          <Input id="name" placeholder="Evil Rabbit" />
+          <FieldLabel htmlFor="label-field-name">Full name</FieldLabel>
+          <Input id="label-field-name" placeholder="Evil Rabbit" />
         </Field>
       </FieldGroup>
     </div>
