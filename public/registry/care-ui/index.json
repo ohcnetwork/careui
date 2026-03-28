@@ -95,7 +95,8 @@
     "type": "registry:ui",
     "dependencies": [
       "sonner",
-      "next-themes"
+      "next-themes",
+      "lucide-react"
     ],
     "files": [
       "registry/care-ui/sonner/sonner.tsx"

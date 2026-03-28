@@ -1,3 +1,9 @@
+/**
+ * @name empty
+ * @description Displays an empty state when no data is available.
+ * @dependencies lucide-react
+ * @type registry:ui
+ */
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
