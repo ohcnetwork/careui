@@ -80,6 +80,10 @@ export function BlockCodePage({ id }: { id: string }) {
   const block = BLOCKS.find((b) => b.id === id);
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
+  if (typeof window.__removeLoadingScreen === "function") {
+    window.__removeLoadingScreen();
+  }
+
   if (!block) {
     return (
       <div className="flex h-screen items-center justify-center bg-background">
@@ -124,6 +128,10 @@ export function BlockCodePage({ id }: { id: string }) {
 export function BlockPreviewPage({ id }: { id: string }) {
   const block = BLOCKS.find((b) => b.id === id);
   const { setActiveComponent } = useNavigation();
+
+  if (typeof window.__removeLoadingScreen === "function") {
+    window.__removeLoadingScreen();
+  }
 
   if (!block) {
     return (
