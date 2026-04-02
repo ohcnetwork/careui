@@ -174,6 +174,10 @@ export function BlocksPage() {
   const { setActiveComponent } = useNavigation();
   const [activeCategory, setActiveCategory] = useState<BlockCategory>("All");
 
+  if (typeof window.__removeLoadingScreen === "function") {
+    window.__removeLoadingScreen();
+  }
+
   const filtered =
     activeCategory === "All"
       ? BLOCKS
