@@ -454,18 +454,18 @@ type SelectionMember = {
 };
 
 const selectionMembers: SelectionMember[] = [
-  { id: "1",  name: "Alex Johnson",      availability: "online",  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "us", email: "alex@apple.com",      location: "United States",  joined: "Apr, 2021" },
-  { id: "2",  name: "Sarah Chen",        availability: "away",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah@openai.com",    location: "United Kingdom", joined: "Jul, 2020" },
-  { id: "3",  name: "Michael Rodriguez", availability: "busy",    avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ca", email: "michael@meta.com",    location: "Canada",         joined: "Mar, 2019" },
-  { id: "4",  name: "Emma Wilson",       availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "au", email: "emma@tesla.com",      location: "Australia",      joined: "Jan, 2022" },
-  { id: "5",  name: "David Kim",         availability: "online",  avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "de", email: "david@sap.com",       location: "Germany",        joined: "May, 2023" },
-  { id: "6",  name: "Aron Thompson",     availability: "away",    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "my", email: "aron@keenthemes.com", location: "Malaysia",       joined: "Nov, 2018" },
-  { id: "7",  name: "James Brown",       availability: "busy",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "james@bbva.es",       location: "Spain",          joined: "Jun, 2021" },
-  { id: "8",  name: "Maria Garcia",      availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "jp", email: "maria@sony.jp",       location: "Japan",          joined: "Oct, 2020" },
-  { id: "9",  name: "Nick Johnson",      availability: "online",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "fr", email: "nick@lvmh.fr",        location: "France",         joined: "Sep, 2019" },
-  { id: "10", name: "Liam Thompson",     availability: "away",    avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "it", email: "liam@eni.it",         location: "Italy",          joined: "Feb, 2023" },
-  { id: "11", name: "Alex Johnson",      availability: "busy",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "br", email: "alex@vale.br",        location: "Brazil",         joined: "Dec, 2022" },
-  { id: "12", name: "Sarah Chen",        availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "sarah@tata.in",       location: "India",          joined: "Mar, 2020" },
+  { id: "1",  name: "Dr. Anika Sharma",     availability: "online",  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in",     location: "India",          joined: "Mar, 2021" },
+  { id: "2",  name: "Dr. Sarah Mitchell",   availability: "away",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in",   location: "United Kingdom", joined: "Jul, 2020" },
+  { id: "3",  name: "Dr. David Okafor",     availability: "busy",    avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in",     location: "Nigeria",        joined: "Mar, 2019" },
+  { id: "4",  name: "Nurse Elena Fischer",  availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in",    location: "Germany",        joined: "Jan, 2022" },
+  { id: "5",  name: "Dr. Hiroshi Tanaka",   availability: "online",  avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in",   location: "Japan",          joined: "May, 2023" },
+  { id: "6",  name: "Dr. Ravi Menon",       availability: "away",    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in",       location: "India",          joined: "Nov, 2018" },
+  { id: "7",  name: "Dr. Carlos Rivera",    availability: "busy",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in",    location: "Spain",          joined: "Jun, 2021" },
+  { id: "8",  name: "Nurse Mei Lin Wong",   availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in",         location: "Singapore",      joined: "Oct, 2020" },
+  { id: "9",  name: "Dr. Siddharth Patel",  availability: "online",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in",  location: "India",          joined: "Sep, 2019" },
+  { id: "10", name: "Dr. Amara Diallo",     availability: "away",    avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in",     location: "Senegal",        joined: "Feb, 2023" },
+  { id: "11", name: "Dr. Priya Krishnan",   availability: "busy",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in",   location: "India",          joined: "Dec, 2022" },
+  { id: "12", name: "Nurse Rekha Thomas",   availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in",     location: "India",          joined: "Mar, 2020" },
 ];
 
 const availabilityColor: Record<SelectionMember["availability"], string> = {
@@ -548,7 +548,7 @@ const PatientTableDemo = () =>
     columns: selectionColumns,
     data: selectionMembers,
     filterColumn: "name",
-    filterPlaceholder: "Search members...",
+    filterPlaceholder: "Search practitioners...",
   });
 
 const MedLogDemo = () =>
@@ -598,17 +598,17 @@ type DndMember = {
 };
 
 const dndMembers: DndMember[] = [
-  { id: "1",  name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "alex@apple.com",    company: "Apple",      role: "CEO",             location: "United States",  status: "active"   },
-  { id: "2",  name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "sarah@openai.com",  company: "OpenAI",     role: "CTO",             location: "United Kingdom", status: "inactive" },
-  { id: "3",  name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "michael@meta.com",  company: "Meta",       role: "Designer",        location: "Canada",         status: "active"   },
-  { id: "4",  name: "Emma Wilson",       avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "emma@tesla.com",    company: "Tesla",      role: "Developer",       location: "Australia",      status: "inactive" },
-  { id: "5",  name: "David Kim",         avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "david@sap.com",     company: "SAP",        role: "Lawyer",          location: "Germany",        status: "inactive" },
-  { id: "6",  name: "Aron Thompson",     avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "aron@keen.com",     company: "Keenthemes", role: "Director",        location: "Malaysia",       status: "active"   },
-  { id: "7",  name: "James Brown",       avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "james@bbva.es",     company: "BBVA",       role: "Product Manager", location: "Spain",          status: "inactive" },
-  { id: "8",  name: "Maria Garcia",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "maria@sony.jp",     company: "Sony",       role: "Marketing Lead",  location: "Japan",          status: "inactive" },
-  { id: "9",  name: "Nick Johnson",      avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "nick@lvmh.fr",      company: "LVMH",       role: "Data Scientist",  location: "France",         status: "inactive" },
-  { id: "10", name: "Liam Thompson",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "liam@eni.it",       company: "ENI",        role: "Engineer",        location: "Italy",          status: "inactive" },
-  { id: "11", name: "Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=96&h=96&dpr=2&q=80", email: "pooja@tata.in",     company: "Tata",       role: "Sales Manager",   location: "India",          status: "active"   },
+  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "kiran.reddy@ohc.in",     company: "Cardiology",       role: "Senior Consultant",   location: "Hyderabad",  status: "active"   },
+  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "anita.menon@ohc.in",     company: "Pediatrics",       role: "Consultant",          location: "Kochi",      status: "inactive" },
+  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "suresh.pillai@ohc.in",   company: "General Surgery",  role: "Head of Department",  location: "Trivandrum", status: "active"   },
+  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "rekha.thomas@ohc.in",    company: "ICU",              role: "Senior Nurse",        location: "Bangalore",  status: "inactive" },
+  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "imran.sheikh@ohc.in",    company: "Orthopedics",      role: "Consultant",          location: "Mumbai",     status: "inactive" },
+  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "kavitha.nair@ohc.in",    company: "Neurology",        role: "Senior Consultant",   location: "Chennai",    status: "active"   },
+  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "rajiv.kapoor@ohc.in",    company: "Radiology",        role: "Consultant",          location: "Delhi",      status: "inactive" },
+  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "sumathi.k@ohc.in",       company: "Maternity",        role: "Senior Nurse",        location: "Coimbatore", status: "inactive" },
+  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "farhan.hossain@ohc.in",  company: "Oncology",         role: "Consultant",          location: "Kolkata",    status: "inactive" },
+  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "pooja.iyer@ohc.in",      company: "Dermatology",      role: "Consultant",          location: "Pune",       status: "inactive" },
+  { id: "11", name: "Nurse Arun Mathew",     avatar: "https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=96&h=96&dpr=2&q=80", email: "arun.mathew@ohc.in",     company: "Emergency",        role: "Charge Nurse",        location: "Mangalore",  status: "active"   },
 ];
 
 function DndSortableHeader({
@@ -681,7 +681,7 @@ const dndMemberColumns: ColumnDef<DndMember>[] = [
   {
     id: "company",
     accessorKey: "company",
-    header: "Company",
+    header: "Department",
     cell: ({ row }) => (
       <span className="font-medium text-sm">{row.original.company}</span>
     ),
@@ -689,7 +689,7 @@ const dndMemberColumns: ColumnDef<DndMember>[] = [
   {
     id: "role",
     accessorKey: "role",
-    header: "Occupation",
+    header: "Designation",
     cell: ({ row }) => (
       <span className="text-sm">{row.original.role}</span>
     ),
@@ -774,7 +774,7 @@ function DraggableColumnsDemo() {
       onDragEnd={handleDragEnd}
       onDragCancel={() => { setNoTransition(true); setActiveId(null); setOverId(null); setActiveDelta(0); requestAnimationFrame(() => setNoTransition(false)); }}
     >
-      <div className="overflow-hidden rounded-md border [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
+      <div className="overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3 [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -884,7 +884,7 @@ function ResizableColumnsDemo() {
   });
 
   return (
-    <div className="overflow-x-auto overflow-hidden rounded-md border [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
+    <div className="overflow-x-auto overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3 [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
       <Table style={{ width: table.getTotalSize() }}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -943,18 +943,18 @@ type PinnableMember = {
 };
 
 const pinnableMembers: PinnableMember[] = [
-  { id: "1",  name: "Alex Johnson",      availability: "online",  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "us", email: "alex@apple.com",       company: "Apple",      role: "CEO",              joined: "Jan, 2024", location: "United States"  },
-  { id: "2",  name: "Sarah Chen",        availability: "away",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "gb", email: "sarah@openai.com",     company: "OpenAI",     role: "CTO",              joined: "Mar, 2023", location: "United Kingdom" },
-  { id: "3",  name: "Michael Rodriguez", availability: "busy",    avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active",   flag: "ca", email: "michael@meta.com",     company: "Meta",       role: "Designer",         joined: "Jun, 2022", location: "Canada"         },
-  { id: "4",  name: "Emma Wilson",       availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "au", email: "emma@tesla.com",       company: "Tesla",      role: "Developer",        joined: "Sep, 2024", location: "Australia"      },
-  { id: "5",  name: "David Kim",         availability: "online",  avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active",   flag: "de", email: "david@sap.com",        company: "SAP",        role: "Lawyer",           joined: "Nov, 2023", location: "Germany"        },
-  { id: "6",  name: "Aron Thompson",     availability: "away",    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active",   flag: "my", email: "aron@keenthemes.com",  company: "Keenthemes", role: "Director",         joined: "Feb, 2022", location: "Malaysia"       },
-  { id: "7",  name: "James Brown",       availability: "busy",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "es", email: "james@bbva.es",        company: "BBVA",       role: "Product Manager",  joined: "Aug, 2024", location: "Spain"          },
-  { id: "8",  name: "Maria Garcia",      availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active",   flag: "jp", email: "maria@sony.jp",        company: "Sony",       role: "Marketing Lead",   joined: "Dec, 2023", location: "Japan"          },
-  { id: "9",  name: "Nick Johnson",      availability: "online",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "fr", email: "nick@lvmh.fr",         company: "LVMH",       role: "Data Scientist",   joined: "Apr, 2022", location: "France"         },
-  { id: "10", name: "Liam Thompson",     availability: "away",    avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "it", email: "liam@eni.it",          company: "ENI",        role: "Engineer",         joined: "Jul, 2024", location: "Italy"          },
-  { id: "11", name: "Alex Johnson",      availability: "busy",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "br", email: "alex@vale.br",         company: "Vale",       role: "Software Engineer", joined: "May, 2023", location: "Brazil"        },
-  { id: "12", name: "Sarah Chen",        availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "sarah@tata.in",        company: "Tata",       role: "Sales Manager",    joined: "Oct, 2024", location: "India"          },
+  { id: "1",  name: "Dr. Kiran Reddy",       availability: "online",  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "kiran.reddy@ohc.in",      company: "Cardiology",       role: "Senior Consultant",   joined: "Jan, 2018", location: "India"          },
+  { id: "2",  name: "Dr. Anita Menon",       availability: "away",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "anita.menon@ohc.in",      company: "Pediatrics",       role: "Consultant",          joined: "Mar, 2020", location: "India"          },
+  { id: "3",  name: "Dr. Suresh Pillai",     availability: "busy",    avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "suresh.pillai@ohc.in",    company: "General Surgery",  role: "Head of Department",  joined: "Jun, 2015", location: "India"          },
+  { id: "4",  name: "Nurse Rekha Thomas",    availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "rekha.thomas@ohc.in",     company: "ICU",              role: "Senior Nurse",        joined: "Sep, 2019", location: "India"          },
+  { id: "5",  name: "Dr. Imran Sheikh",      availability: "online",  avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "imran.sheikh@ohc.in",     company: "Orthopedics",      role: "Consultant",          joined: "Nov, 2017", location: "India"          },
+  { id: "6",  name: "Dr. Kavitha Nair",      availability: "away",    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "kavitha.nair@ohc.in",     company: "Neurology",        role: "Senior Consultant",   joined: "Aug, 2016", location: "India"          },
+  { id: "7",  name: "Dr. Rajiv Kapoor",      availability: "busy",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "rajiv.kapoor@ohc.in",     company: "Radiology",        role: "Consultant",          joined: "Dec, 2021", location: "India"          },
+  { id: "8",  name: "Nurse Sumathi K.",      availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "sumathi.k@ohc.in",        company: "Maternity",        role: "Senior Nurse",        joined: "Apr, 2018", location: "India"          },
+  { id: "9",  name: "Dr. Farhan Hossain",    availability: "online",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "farhan.hossain@ohc.in",   company: "Oncology",         role: "Consultant",          joined: "Jul, 2020", location: "India"          },
+  { id: "10", name: "Dr. Pooja Iyer",        availability: "away",    avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "pooja.iyer@ohc.in",       company: "Dermatology",      role: "Consultant",          joined: "May, 2023", location: "India"          },
+  { id: "11", name: "Nurse Arun Mathew",     availability: "busy",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "arun.mathew@ohc.in",      company: "Emergency",        role: "Charge Nurse",        joined: "Oct, 2019", location: "India"          },
+  { id: "12", name: "Dr. Preethi Sajan",     availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "preethi.sajan@ohc.in",    company: "General Medicine", role: "Staff Physician",     joined: "Feb, 2022", location: "India"          },
 ];
 
 const pinnableColumns: ColumnDef<PinnableMember>[] = [
@@ -1005,7 +1005,7 @@ const pinnableColumns: ColumnDef<PinnableMember>[] = [
     accessorKey: "company",
     size: 160,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Company" />,
+    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Department" />,
     cell: ({ row }) => <span className="font-medium text-sm whitespace-nowrap">{row.original.company}</span>,
   },
   {
@@ -1013,7 +1013,7 @@ const pinnableColumns: ColumnDef<PinnableMember>[] = [
     accessorKey: "role",
     size: 180,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Role" />,
+    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Designation" />,
     cell: ({ row }) => <span className="text-sm whitespace-nowrap">{row.original.role}</span>,
   },
   {
@@ -1042,7 +1042,7 @@ const PinnableColumnsDemo = () =>
     columns: pinnableColumns,
     data: pinnableMembers,
     filterColumn: "name",
-    filterPlaceholder: "Search members...",
+    filterPlaceholder: "Search practitioners...",
     pinnable: true,
     initialPinning: { left: ["name"] },
   });
@@ -1165,18 +1165,18 @@ interface AutoWidthRow {
 }
 
 const autoWidthData: AutoWidthRow[] = [
-  { id: "1", name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "us", email: "alex@apple.com", location: "United States", joined: "Jan, 2026" },
-  { id: "2", name: "Sarah Chen", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah@openai.com", location: "United Kingdom", joined: "Jul, 2025" },
-  { id: "3", name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ca", email: "michael@meta.com", location: "Canada", joined: "Mar, 2019" },
-  { id: "4", name: "Emma Wilson", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "au", email: "emma@tesla.com", location: "Australia", joined: "Jan, 2024" },
-  { id: "5", name: "David Kim", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "de", email: "david@sap.com", location: "Germany", joined: "May, 2023" },
-  { id: "6", name: "Aron Thompson", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "my", email: "aron@keenthemes.com", location: "Malaysia", joined: "Nov, 2018" },
-  { id: "7", name: "James Brown", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "james@bbva.es", location: "Spain", joined: "Jun, 2021" },
-  { id: "8", name: "Maria Garcia", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "jp", email: "maria@sony.jp", location: "Japan", joined: "Oct, 2020" },
-  { id: "9", name: "Nick Johnson", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "fr", email: "nick@lvmh.fr", location: "France", joined: "Sep, 2019" },
-  { id: "10", name: "Liam Thompson", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "it", email: "liam@eni.it", location: "Italy", joined: "Feb, 2023" },
-  { id: "11", name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "br", email: "alex@vale.br", location: "Brazil", joined: "Dec, 2022" },
-  { id: "12", name: "Sarah Chen", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "sarah@tata.in", location: "India", joined: "Mar, 2020" },
+  { id: "1", name: "Dr. Anika Sharma", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in", location: "India", joined: "Mar, 2021" },
+  { id: "2", name: "Dr. Sarah Mitchell", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom", joined: "Jul, 2020" },
+  { id: "3", name: "Dr. David Okafor", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria", joined: "Mar, 2019" },
+  { id: "4", name: "Nurse Elena Fischer", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in", location: "Germany", joined: "Jan, 2022" },
+  { id: "5", name: "Dr. Hiroshi Tanaka", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan", joined: "May, 2023" },
+  { id: "6", name: "Dr. Ravi Menon", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in", location: "India", joined: "Nov, 2018" },
+  { id: "7", name: "Dr. Carlos Rivera", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain", joined: "Jun, 2021" },
+  { id: "8", name: "Nurse Mei Lin Wong", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore", joined: "Oct, 2020" },
+  { id: "9", name: "Dr. Siddharth Patel", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in", location: "India", joined: "Sep, 2019" },
+  { id: "10", name: "Dr. Amara Diallo", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal", joined: "Feb, 2023" },
+  { id: "11", name: "Dr. Priya Krishnan", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in", location: "India", joined: "Dec, 2022" },
+  { id: "12", name: "Nurse Rekha Thomas", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in", location: "India", joined: "Mar, 2020" },
 ];
 
 const autoWidthColumns: ColumnDef<AutoWidthRow>[] = [
@@ -1254,7 +1254,7 @@ function AutoWidthDemo() {
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
   return React.createElement("div", { className: "w-full space-y-2.5" },
-    React.createElement("div", { className: "w-fit overflow-x-auto rounded-md border" },
+    React.createElement("div", { className: "w-fit overflow-x-auto rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(Table, { className: "w-auto" },
         React.createElement(TableHeader, null,
           table.getHeaderGroups().map((hg) =>
@@ -1411,7 +1411,7 @@ function RowSelectionDemo() {
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
   return React.createElement("div", { className: "w-full space-y-2.5" },
-    React.createElement("div", { className: "overflow-hidden rounded-md border" },
+    React.createElement("div", { className: "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(Table, null,
         React.createElement(TableHeader, null,
           table.getHeaderGroups().map((hg) =>
@@ -1974,7 +1974,7 @@ function RowPinningDemo() {
     ),
     React.createElement(
       "div",
-      { className: "overflow-hidden rounded-md border" },
+      { className: "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(
         Table,
         null,
@@ -2057,18 +2057,18 @@ interface LightTableRow {
 }
 
 const lightTableData: LightTableRow[] = [
-  { id: "1", name: "Alex Johnson", availability: "online", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "us", email: "alex@apple.com", location: "United States" },
-  { id: "2", name: "Sarah Chen", availability: "away", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "gb", email: "sarah@openai.com", location: "United Kingdom" },
-  { id: "3", name: "Michael Rodriguez", availability: "busy", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active", flag: "ca", email: "michael@meta.com", location: "Canada" },
-  { id: "4", name: "Emma Wilson", availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "au", email: "emma@tesla.com", location: "Australia" },
-  { id: "5", name: "David Kim", availability: "online", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active", flag: "de", email: "david@sap.com", location: "Germany" },
-  { id: "6", name: "Aron Thompson", availability: "away", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active", flag: "my", email: "aron@keenthemes.com", location: "Malaysia" },
-  { id: "7", name: "James Brown", availability: "busy", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "es", email: "james@bbva.es", location: "Spain" },
-  { id: "8", name: "Maria Garcia", availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active", flag: "jp", email: "maria@sony.jp", location: "Japan" },
-  { id: "9", name: "Nick Johnson", availability: "online", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "active", flag: "fr", email: "nick@lvmh.fr", location: "France" },
-  { id: "10", name: "Liam Thompson", availability: "away", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "it", email: "liam@eni.it", location: "Italy" },
-  { id: "11", name: "Alex Johnson", availability: "busy", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "br", email: "alex@vale.br", location: "Brazil" },
-  { id: "12", name: "Sarah Chen", availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "sarah@tata.in", location: "India" },
+  { id: "1", name: "Dr. Anika Sharma", availability: "online", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "anika.sharma@ohc.in", location: "India" },
+  { id: "2", name: "Dr. Sarah Mitchell", availability: "away", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom" },
+  { id: "3", name: "Dr. David Okafor", availability: "busy", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria" },
+  { id: "4", name: "Nurse Elena Fischer", availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "de", email: "elena.fischer@ohc.in", location: "Germany" },
+  { id: "5", name: "Dr. Hiroshi Tanaka", availability: "online", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan" },
+  { id: "6", name: "Dr. Ravi Menon", availability: "away", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "ravi.menon@ohc.in", location: "India" },
+  { id: "7", name: "Dr. Carlos Rivera", availability: "busy", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain" },
+  { id: "8", name: "Nurse Mei Lin Wong", availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore" },
+  { id: "9", name: "Dr. Siddharth Patel", availability: "online", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "siddharth.patel@ohc.in", location: "India" },
+  { id: "10", name: "Dr. Amara Diallo", availability: "away", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal" },
+  { id: "11", name: "Dr. Priya Krishnan", availability: "busy", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "priya.krishnan@ohc.in", location: "India" },
+  { id: "12", name: "Nurse Rekha Thomas", availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "rekha.thomas@ohc.in", location: "India" },
 ];
 
 const availabilityColors: Record<string, string> = {
@@ -2148,7 +2148,7 @@ function LightTableDemo() {
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
   return React.createElement("div", { className: "w-full space-y-2.5" },
-    React.createElement("div", { className: "rounded-md border" },
+    React.createElement("div", { className: "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(Table, null,
         React.createElement(TableHeader, null,
           table.getHeaderGroups().map((hg) =>
@@ -2221,18 +2221,18 @@ interface StripedTableRow {
 }
 
 const stripedTableData: StripedTableRow[] = [
-  { id: "1", name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "us", email: "alex@apple.com", location: "United States", balance: 5143.03 },
-  { id: "2", name: "Sarah Chen", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah@openai.com", location: "United Kingdom", balance: 4321.87 },
-  { id: "3", name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ca", email: "michael@meta.com", location: "Canada", balance: 7654.98 },
-  { id: "4", name: "Emma Wilson", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "au", email: "emma@tesla.com", location: "Australia", balance: 3456.45 },
-  { id: "5", name: "David Kim", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "de", email: "david@sap.com", location: "Germany", balance: 9876.54 },
-  { id: "6", name: "Aron Thompson", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "my", email: "aron@keenthemes.com", location: "Malaysia", balance: 6214.22 },
-  { id: "7", name: "James Brown", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "james@bbva.es", location: "Spain", balance: 5321.77 },
-  { id: "8", name: "Maria Garcia", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "jp", email: "maria@sony.jp", location: "Japan", balance: 8452.39 },
-  { id: "9", name: "Nick Johnson", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "fr", email: "nick@lvmh.fr", location: "France", balance: 7345.10 },
-  { id: "10", name: "Liam Thompson", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "it", email: "liam@eni.it", location: "Italy", balance: 5214.88 },
-  { id: "11", name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "br", email: "alex@vale.br", location: "Brazil", balance: 9421.50 },
-  { id: "12", name: "Sarah Chen", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "sarah@tata.in", location: "India", balance: 4521.67 },
+  { id: "1", name: "Dr. Anika Sharma", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in", location: "India", balance: 5143.03 },
+  { id: "2", name: "Dr. Sarah Mitchell", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom", balance: 4321.87 },
+  { id: "3", name: "Dr. David Okafor", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria", balance: 7654.98 },
+  { id: "4", name: "Nurse Elena Fischer", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in", location: "Germany", balance: 3456.45 },
+  { id: "5", name: "Dr. Hiroshi Tanaka", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan", balance: 9876.54 },
+  { id: "6", name: "Dr. Ravi Menon", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in", location: "India", balance: 6214.22 },
+  { id: "7", name: "Dr. Carlos Rivera", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain", balance: 5321.77 },
+  { id: "8", name: "Nurse Mei Lin Wong", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore", balance: 8452.39 },
+  { id: "9", name: "Dr. Siddharth Patel", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in", location: "India", balance: 7345.10 },
+  { id: "10", name: "Dr. Amara Diallo", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal", balance: 5214.88 },
+  { id: "11", name: "Dr. Priya Krishnan", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in", location: "India", balance: 9421.50 },
+  { id: "12", name: "Nurse Rekha Thomas", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in", location: "India", balance: 4521.67 },
 ];
 
 const stripedTableColumns: ColumnDef<StripedTableRow>[] = [
@@ -2312,7 +2312,7 @@ function StripedTableDemo() {
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
   return React.createElement("div", { className: "w-full space-y-2.5" },
-    React.createElement("div", { className: "rounded-md border" },
+    React.createElement("div", { className: "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(Table, null,
         React.createElement(TableHeader, null,
           table.getHeaderGroups().map((hg) =>
@@ -2424,7 +2424,7 @@ function StickyHeaderDemo() {
 
   return React.createElement(
     ScrollArea,
-    { className: "h-80 rounded-md border" },
+    { className: "h-80 overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
     React.createElement(
       "table",
       { className: "w-full caption-bottom text-sm" },
@@ -2475,7 +2475,7 @@ const cardColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "name",
     id: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "User" }),
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
     size: 480,
     enableSorting: true,
     enableHiding: false,
@@ -2556,7 +2556,7 @@ function CardContainerDemo() {
         )
       )
     ),
-    React.createElement("div", { className: "w-full border-y" },
+    React.createElement("div", { className: "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(Table, null,
         React.createElement(TableHeader, null,
           table.getHeaderGroups().map((hg) =>
@@ -2625,7 +2625,7 @@ const visibilityColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "name",
     id: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "User" }),
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
     size: 200,
     enableSorting: true,
     enableHiding: false,
@@ -2742,7 +2742,7 @@ function ColumnVisibilityDemo() {
         )
       )
     ),
-    React.createElement("div", { className: "w-full border-y" },
+    React.createElement("div", { className: "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(Table, null,
         React.createElement(TableHeader, null,
           table.getHeaderGroups().map((hg) =>
@@ -2811,7 +2811,7 @@ const skeletonColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "name",
     id: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "User" }),
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
     size: 200,
     enableSorting: true,
     enableHiding: false,
@@ -2907,7 +2907,7 @@ function LoadingSkeletonDemo() {
         }, isLoading ? "Disable Loading" : "Enable Loading")
       )
     ),
-    React.createElement("div", { className: "w-full border-y" },
+    React.createElement("div", { className: "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(Table, null,
         React.createElement(TableHeader, null,
           table.getHeaderGroups().map((hg) =>
@@ -3006,18 +3006,18 @@ interface CrudMember {
 }
 
 const crudData: CrudMember[] = [
-  { id: "1",  name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "us", email: "alex@apple.com",      role: "CEO",              joined: "Jan, 2024", location: "United States" },
-  { id: "2",  name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "gb", email: "sarah@openai.com",    role: "CTO",              joined: "Mar, 2023", location: "United Kingdom" },
-  { id: "3",  name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "ca", email: "michael@meta.com",    role: "Designer",         joined: "Jun, 2022", location: "Canada" },
-  { id: "4",  name: "Emma Wilson",       avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "au", email: "emma@tesla.com",      role: "Developer",        joined: "Sep, 2024", location: "Australia" },
-  { id: "5",  name: "David Kim",         avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "de", email: "david@sap.com",       role: "Lawyer",           joined: "Nov, 2023", location: "Germany" },
-  { id: "6",  name: "Aron Thompson",     avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "my", email: "aron@keenthemes.com", role: "Director",         joined: "Feb, 2022", location: "Malaysia" },
-  { id: "7",  name: "James Brown",       avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "es", email: "james@bbva.es",       role: "Product Manager",  joined: "Aug, 2024", location: "Spain" },
-  { id: "8",  name: "Maria Garcia",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "jp", email: "maria@sony.jp",       role: "Marketing Lead",   joined: "Dec, 2023", location: "Japan" },
-  { id: "9",  name: "Nick Johnson",      avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "fr", email: "nick@lvmh.fr",        role: "Data Scientist",   joined: "Apr, 2022", location: "France" },
-  { id: "10", name: "Liam Thompson",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "it", email: "liam@eni.it",         role: "Engineer",         joined: "Jul, 2024", location: "Italy" },
-  { id: "11", name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "br", email: "alex@vale.br",        role: "Software Engineer",joined: "May, 2023", location: "Brazil" },
-  { id: "12", name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "sarah@tata.in",       role: "Sales Manager",    joined: "Oct, 2024", location: "India" },
+  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "kiran.reddy@ohc.in",      role: "Senior Consultant",   joined: "Jan, 2018", location: "India" },
+  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "in", email: "anita.menon@ohc.in",      role: "Consultant",          joined: "Mar, 2020", location: "India" },
+  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "in", email: "suresh.pillai@ohc.in",    role: "Head of Department",  joined: "Jun, 2015", location: "India" },
+  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "in", email: "rekha.thomas@ohc.in",     role: "Senior Nurse",        joined: "Sep, 2019", location: "India" },
+  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "imran.sheikh@ohc.in",     role: "Consultant",          joined: "Nov, 2017", location: "India" },
+  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "in", email: "kavitha.nair@ohc.in",     role: "Senior Consultant",   joined: "Aug, 2016", location: "India" },
+  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "in", email: "rajiv.kapoor@ohc.in",     role: "Consultant",          joined: "Dec, 2021", location: "India" },
+  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "in", email: "sumathi.k@ohc.in",        role: "Senior Nurse",        joined: "Apr, 2018", location: "India" },
+  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "in", email: "farhan.hossain@ohc.in",   role: "Consultant",          joined: "Jul, 2020", location: "India" },
+  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "in", email: "pooja.iyer@ohc.in",       role: "Consultant",          joined: "May, 2023", location: "India" },
+  { id: "11", name: "Nurse Arun Mathew",     avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "in", email: "arun.mathew@ohc.in",      role: "Charge Nurse",        joined: "Oct, 2019", location: "India" },
+  { id: "12", name: "Dr. Preethi Sajan",     avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "preethi.sajan@ohc.in",    role: "Staff Physician",     joined: "Feb, 2022", location: "India" },
 ];
 
 function CrudActionsCell({ row }: { row: Row<CrudMember> }) {
@@ -3035,7 +3035,7 @@ function CrudActionsCell({ row }: { row: Row<CrudMember> }) {
       React.createElement(DropdownMenuItem, {
         onClick: () => {
           navigator.clipboard.writeText(row.original.id);
-          toast.success("Employee ID copied", { description: row.original.id });
+          toast.success("Practitioner ID copied", { description: row.original.id });
         },
       }, "Copy ID"),
       React.createElement(DropdownMenuSeparator),
@@ -3095,7 +3095,7 @@ function CrudDemo() {
     {
       accessorKey: "name",
       id: "name",
-      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "User" }),
+      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "Practitioner" }),
       cell: ({ row }) =>
         React.createElement("div", { className: "flex items-center gap-3" },
           React.createElement(Avatar, { className: "size-8" },
@@ -3129,7 +3129,7 @@ function CrudDemo() {
     {
       accessorKey: "role",
       id: "role",
-      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "Role" }),
+      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "Designation" }),
       cell: ({ row }) => React.createElement("div", { className: "text-foreground font-medium" }, row.original.role),
       size: 150,
       enableSorting: true,
@@ -3244,7 +3244,7 @@ function CrudDemo() {
         ),
       ),
     ),
-    React.createElement(CardContent, { className: "border-y px-0" },
+    React.createElement(CardContent, { className: "overflow-hidden border-y px-0 [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
       React.createElement(ScrollArea, null,
         React.createElement(Table, null,
           React.createElement(TableHeader, null,
@@ -3305,6 +3305,472 @@ function CrudDemo() {
     ),
   );
 }
+
+// ─── Footer Totals data & columns ─────────────────────────────────────────────
+
+type Employee = {
+  id: string;
+  name: string;
+  avatar: string;
+  role: string;
+  status: "Active" | "Inactive" | "Pending" | "Blocked";
+  balance: number;
+};
+
+const employees: Employee[] = [
+  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", role: "Senior Consultant",   status: "Active",   balance: 5143.03 },
+  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Inactive", balance: 4321.87 },
+  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", role: "Head of Department",  status: "Blocked",  balance: 7654.98 },
+  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", role: "Senior Nurse",        status: "Inactive", balance: 3456.45 },
+  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Active",   balance: 9876.54 },
+  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", role: "Senior Consultant",   status: "Pending",  balance: 6214.22 },
+  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Inactive", balance: 5321.77 },
+  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", role: "Senior Nurse",        status: "Blocked",  balance: 8452.39 },
+  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Pending",  balance: 7345.10 },
+  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Inactive", balance: 5214.88 },
+];
+
+const employeeStatusVariant: Record<Employee["status"], "success" | "destructive" | "info" | "warning"> = {
+  Active:   "success",
+  Blocked:  "destructive",
+  Inactive: "info",
+  Pending:  "warning",
+};
+
+const formatUSD = (amount: number) =>
+  "$" + amount.toLocaleString("en-US", { minimumFractionDigits: 2 });
+
+const footerTotalsColumns: ColumnDef<Employee>[] = [
+  {
+    id: "select",
+    header: ({ table }) =>
+      React.createElement(Checkbox, {
+        checked:
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() ? "indeterminate" : false),
+        onCheckedChange: (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+        "aria-label": "Select all",
+      }),
+    cell: ({ row }) =>
+      React.createElement(Checkbox, {
+        checked: row.getIsSelected(),
+        onCheckedChange: (value: boolean) => row.toggleSelected(!!value),
+        "aria-label": "Select row",
+      }),
+    footer: () => null,
+    enableSorting: false,
+    enableHiding: false,
+    size: 35,
+  },
+  {
+    id: "name",
+    accessorKey: "name",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
+    footer: () => React.createElement("span", { className: "text-muted-foreground text-xs" }, "Total balance"),
+    cell: ({ row }) =>
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
+        React.createElement(
+          Avatar,
+          { className: "size-8" },
+          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
+          React.createElement(AvatarFallback, null, getInitials(row.original.name)),
+        ),
+        React.createElement("span", { className: "text-foreground font-medium" }, row.original.name),
+      ),
+    size: 200,
+    enableSorting: true,
+  },
+  {
+    id: "role",
+    accessorKey: "role",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Designation" }),
+    footer: () => null,
+    cell: ({ row }) =>
+      React.createElement("span", { className: "text-foreground font-medium" }, row.original.role),
+    size: 150,
+    enableSorting: true,
+  },
+  {
+    id: "status",
+    accessorKey: "status",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Status" }),
+    footer: () => null,
+    cell: ({ row }) =>
+      React.createElement(
+        Badge,
+        { variant: employeeStatusVariant[row.original.status] },
+        row.original.status,
+      ),
+    size: 110,
+    enableSorting: true,
+  },
+  {
+    id: "balance",
+    accessorKey: "balance",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Balance" }),
+    footer: ({ table }) => {
+      const total = table
+        .getFilteredRowModel()
+        .rows.reduce((sum, row) => sum + (row.getValue("balance") as number), 0);
+      return React.createElement(
+        "span",
+        { className: "font-bold tabular-nums" },
+        formatUSD(total),
+      );
+    },
+    cell: ({ row }) =>
+      React.createElement(
+        "span",
+        { className: "text-foreground font-medium tabular-nums" },
+        formatUSD(row.original.balance),
+      ),
+    size: 130,
+    enableSorting: true,
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    meta: { className: "w-0" },
+    footer: () => null,
+    cell: ({ row }) =>
+      React.createElement(
+        DataTableRowActions,
+        {},
+        React.createElement(
+          DropdownMenuItem,
+          { onClick: () => navigator.clipboard.writeText(row.original.id) },
+          "Copy ID",
+        ),
+        React.createElement(DropdownMenuSeparator, {}),
+        React.createElement(DropdownMenuItem, {}, "Edit"),
+        React.createElement(
+          DropdownMenuItem,
+          { className: "text-destructive" },
+          "Delete",
+        ),
+      ),
+  },
+];
+
+const FooterTotalsDemo = () =>
+  React.createElement(DataTable as any, {
+    columns: footerTotalsColumns,
+    data: employees,
+    filterColumn: "name",
+    filterPlaceholder: "Search practitioners...",
+  });
+
+// ─── Footer Summary data & columns ───────────────────────────────────────────
+
+type SummaryMember = {
+  id: string;
+  name: string;
+  avatar: string;
+  location: string;
+  flag: string;
+  status: "Active" | "Inactive" | "Pending" | "Blocked";
+  balance: number;
+};
+
+const summaryMembers: SummaryMember[] = [
+  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Active",   balance: 5143.03 },
+  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Inactive", balance: 4321.87 },
+  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Blocked",  balance: 7654.98 },
+  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Inactive", balance: 3456.45 },
+  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", location: "United Kingdom", flag: "gb", status: "Active",   balance: 9876.54 },
+  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", location: "Singapore",      flag: "sg", status: "Pending",  balance: 6214.22 },
+  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", location: "Canada",         flag: "ca", status: "Inactive", balance: 5321.77 },
+  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Blocked",  balance: 8452.39 },
+  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Pending",  balance: 7345.10 },
+  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Inactive", balance: 5214.88 },
+];
+
+const summaryStatusVariant: Record<SummaryMember["status"], "success" | "destructive" | "info" | "warning"> = {
+  Active:   "success",
+  Blocked:  "destructive",
+  Inactive: "info",
+  Pending:  "warning",
+};
+
+const fmtUSD = (n: number) =>
+  "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2 });
+
+const footerSummaryColumns: ColumnDef<SummaryMember>[] = [
+  {
+    id: "name",
+    accessorKey: "name",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
+    footer: ({ table }) => {
+      const count = table.getFilteredRowModel().rows.length;
+      return React.createElement(
+        "div",
+        { className: "flex flex-col gap-0.5" },
+        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Practitioners"),
+        React.createElement("span", { className: "font-medium tabular-nums" }, String(count)),
+      );
+    },
+    cell: ({ row }) =>
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
+        React.createElement(
+          Avatar,
+          { className: "size-8" },
+          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
+          React.createElement(AvatarFallback, null, getInitials(row.original.name)),
+        ),
+        React.createElement("span", { className: "text-foreground font-medium" }, row.original.name),
+      ),
+    size: 150,
+    enableSorting: true,
+  },
+  {
+    id: "location",
+    accessorKey: "location",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Location" }),
+    footer: ({ table }) => {
+      const activeCount = table
+        .getFilteredRowModel()
+        .rows.filter((r) => (r.getValue("status") as string) === "Active").length;
+      return React.createElement(
+        "div",
+        { className: "flex items-center gap-1.5" },
+        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Active"),
+        React.createElement(Badge, { variant: "success" }, String(activeCount)),
+      );
+    },
+    cell: ({ row }) =>
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-1.5" },
+        React.createElement("img", {
+          src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+          alt: row.original.flag,
+          className: "size-4 rounded-full object-cover",
+        }),
+        React.createElement("span", { className: "text-foreground font-medium" }, row.original.location),
+      ),
+    size: 150,
+    enableSorting: true,
+  },
+  {
+    id: "status",
+    accessorKey: "status",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Status" }),
+    footer: ({ table }) => {
+      const rows = table.getFilteredRowModel().rows;
+      const avg = rows.length
+        ? rows.reduce((sum, r) => sum + (r.getValue("balance") as number), 0) / rows.length
+        : 0;
+      return React.createElement(
+        "div",
+        { className: "flex flex-col gap-0.5" },
+        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Avg balance"),
+        React.createElement("span", { className: "font-medium tabular-nums" }, fmtUSD(avg)),
+      );
+    },
+    cell: ({ row }) =>
+      React.createElement(
+        Badge,
+        { variant: summaryStatusVariant[row.original.status] },
+        row.original.status,
+      ),
+    size: 110,
+    enableSorting: true,
+  },
+  {
+    id: "balance",
+    accessorKey: "balance",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Balance" }),
+    footer: ({ table }) => {
+      const balances = table.getFilteredRowModel().rows.map((r) => r.getValue("balance") as number);
+      const min = balances.length ? Math.min(...balances) : 0;
+      const max = balances.length ? Math.max(...balances) : 0;
+      return React.createElement(
+        "div",
+        { className: "flex flex-col gap-0.5" },
+        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Min / Max"),
+        React.createElement(
+          "span",
+          { className: "font-medium tabular-nums" },
+          fmtUSD(min) + " – " + fmtUSD(max),
+        ),
+      );
+    },
+    cell: ({ row }) =>
+      React.createElement(
+        "span",
+        { className: "text-foreground font-medium tabular-nums" },
+        fmtUSD(row.original.balance),
+      ),
+    size: 130,
+    enableSorting: true,
+  },
+];
+
+const FooterSummaryDemo = () =>
+  React.createElement(DataTable as any, {
+    columns: footerSummaryColumns,
+    data: summaryMembers,
+    filterColumn: "name",
+    filterPlaceholder: "Search practitioners...",
+  });
+
+// ─── Footer Aggregates data & columns ─────────────────────────────────────────
+
+type AggregateMember = {
+  id: string;
+  name: string;
+  avatar: string;
+  status: "Active" | "Inactive" | "Pending" | "Blocked";
+  balance: number;
+  transactions: number;
+};
+
+const aggregateMembers: AggregateMember[] = [
+  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Active",   balance: 5143.03, transactions: 48 },
+  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Inactive", balance: 4321.87, transactions: 31 },
+  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "Blocked",  balance: 7654.98, transactions: 67 },
+  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "Inactive", balance: 3456.45, transactions: 22 },
+  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "Active",   balance: 9876.54, transactions: 93 },
+  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "Pending",  balance: 6214.22, transactions: 55 },
+  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "Inactive", balance: 5321.77, transactions: 40 },
+  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "Blocked",  balance: 8452.39, transactions: 74 },
+  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "Pending",  balance: 7345.10, transactions: 61 },
+  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "Inactive", balance: 5214.88, transactions: 37 },
+];
+
+const aggregateStatusVariant: Record<AggregateMember["status"], "success" | "destructive" | "info" | "warning"> = {
+  Active:   "success",
+  Blocked:  "destructive",
+  Inactive: "info",
+  Pending:  "warning",
+};
+
+const fmtAggUSD = (n: number) =>
+  "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2 });
+
+const footerAggregateColumns: ColumnDef<AggregateMember>[] = [
+  {
+    id: "name",
+    accessorKey: "name",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
+    footer: ({ table }) => {
+      const count = table.getFilteredRowModel().rows.length;
+      return React.createElement(
+        "div",
+        { className: "flex flex-col gap-0.5" },
+        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Summary"),
+        React.createElement("span", { className: "text-foreground font-medium" }, "Across all practitioners"),
+        React.createElement("span", { className: "text-muted-foreground text-xs tabular-nums" }, count + " practitioners"),
+      );
+    },
+    cell: ({ row }) =>
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
+        React.createElement(
+          Avatar,
+          { className: "size-8" },
+          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
+          React.createElement(AvatarFallback, null, getInitials(row.original.name)),
+        ),
+        React.createElement("span", { className: "text-foreground font-medium" }, row.original.name),
+      ),
+    size: 200,
+    enableSorting: true,
+  },
+  {
+    id: "status",
+    accessorKey: "status",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Status" }),
+    footer: () => null,
+    cell: ({ row }) =>
+      React.createElement(
+        Badge,
+        { variant: aggregateStatusVariant[row.original.status] },
+        row.original.status,
+      ),
+    size: 110,
+    enableSorting: true,
+  },
+  {
+    id: "balance",
+    accessorKey: "balance",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Balance" }),
+    footer: ({ table }) => {
+      const rows = table.getFilteredRowModel().rows;
+      const balances = rows.map((r) => r.getValue("balance") as number);
+      const avg = balances.length ? balances.reduce((a, b) => a + b, 0) / balances.length : 0;
+      const min = balances.length ? Math.min(...balances) : 0;
+      const max = balances.length ? Math.max(...balances) : 0;
+      return React.createElement(
+        "div",
+        { className: "flex flex-col gap-0.5" },
+        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Avg"),
+        React.createElement("span", { className: "tabular-nums" }, fmtAggUSD(avg)),
+        React.createElement("span", { className: "text-muted-foreground text-xs tabular-nums" }, fmtAggUSD(min) + " – " + fmtAggUSD(max)),
+      );
+    },
+    cell: ({ row }) =>
+      React.createElement(
+        "span",
+        { className: "text-foreground font-medium tabular-nums" },
+        fmtAggUSD(row.original.balance),
+      ),
+    size: 130,
+    enableSorting: true,
+  },
+  {
+    id: "transactions",
+    accessorKey: "transactions",
+    header: ({ column }) =>
+      React.createElement(DataTableColumnHeader, { column: column as any, title: "Encounters" }),
+    footer: ({ table }) => {
+      const rows = table.getFilteredRowModel().rows;
+      const txns = rows.map((r) => r.getValue("transactions") as number);
+      const avg = txns.length ? Math.round(txns.reduce((a, b) => a + b, 0) / txns.length) : 0;
+      const min = txns.length ? Math.min(...txns) : 0;
+      const max = txns.length ? Math.max(...txns) : 0;
+      return React.createElement(
+        "div",
+        { className: "flex flex-col gap-0.5" },
+        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Avg"),
+        React.createElement("span", { className: "tabular-nums" }, String(avg)),
+        React.createElement("span", { className: "text-muted-foreground text-xs tabular-nums" }, min + " – " + max),
+      );
+    },
+    cell: ({ row }) =>
+      React.createElement(
+        "span",
+        { className: "text-foreground font-medium tabular-nums" },
+        String(row.original.transactions),
+      ),
+    size: 120,
+    enableSorting: true,
+  },
+];
+
+const FooterAggregatesDemo = () =>
+  React.createElement(DataTable as any, {
+    columns: footerAggregateColumns,
+    data: aggregateMembers,
+    filterColumn: "name",
+    filterPlaceholder: "Search practitioners...",
+  });
 
 // ─── ComponentDoc ─────────────────────────────────────────────────────────────
 
@@ -3454,7 +3920,7 @@ export function MemberListDemo() {
       columns={columns}
       data={members}
       filterColumn="name"
-      filterPlaceholder="Search members..."
+      filterPlaceholder="Search practitioners..."
     />
   )
 }`,
@@ -3930,17 +4396,17 @@ type Member = {
 }
 
 const members: Member[] = [
-  { id: "1",  name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "alex@apple.com",    company: "Apple",      role: "CEO",             status: "active"   },
-  { id: "2",  name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "sarah@openai.com",  company: "OpenAI",     role: "CTO",             status: "inactive" },
-  { id: "3",  name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "michael@meta.com",  company: "Meta",       role: "Designer",        status: "active"   },
-  { id: "4",  name: "Emma Wilson",       avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "emma@tesla.com",    company: "Tesla",      role: "Developer",       status: "inactive" },
-  { id: "5",  name: "David Kim",         avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "david@sap.com",     company: "SAP",        role: "Lawyer",          status: "inactive" },
-  { id: "6",  name: "Aron Thompson",     avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "aron@keen.com",     company: "Keenthemes", role: "Director",        status: "active"   },
-  { id: "7",  name: "James Brown",       avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "james@bbva.es",     company: "BBVA",       role: "Product Manager", status: "inactive" },
-  { id: "8",  name: "Maria Garcia",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "maria@sony.jp",     company: "Sony",       role: "Marketing Lead",  status: "inactive" },
-  { id: "9",  name: "Nick Johnson",      avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "nick@lvmh.fr",      company: "LVMH",       role: "Data Scientist",  status: "inactive" },
-  { id: "10", name: "Liam Thompson",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "liam@eni.it",       company: "ENI",        role: "Engineer",        status: "inactive" },
-  { id: "11", name: "Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=96&h=96&dpr=2&q=80", email: "pooja@tata.in",     company: "Tata",       role: "Sales Manager",   status: "active"   },
+  { id: "1",  name: "Dr. Anika Sharma",     avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "anika.sharma@ohc.in",     company: "Cardiology",       role: "Senior Consultant",    status: "active"   },
+  { id: "2",  name: "Dr. Sarah Mitchell",   avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "sarah.mitchell@ohc.in",   company: "Pediatrics",       role: "Consultant",           status: "inactive" },
+  { id: "3",  name: "Dr. David Okafor",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "david.okafor@ohc.in",     company: "General Surgery",  role: "Head of Department",   status: "active"   },
+  { id: "4",  name: "Nurse Elena Fischer",  avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "elena.fischer@ohc.in",    company: "ICU",              role: "Senior Nurse",         status: "inactive" },
+  { id: "5",  name: "Dr. Hiroshi Tanaka",   avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "hiroshi.tanaka@ohc.in",   company: "Orthopedics",      role: "Consultant",           status: "inactive" },
+  { id: "6",  name: "Dr. Ravi Menon",       avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "ravi.menon@ohc.in",       company: "Neurology",        role: "Senior Consultant",    status: "active"   },
+  { id: "7",  name: "Dr. Carlos Rivera",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "carlos.rivera@ohc.in",    company: "Radiology",        role: "Consultant",           status: "inactive" },
+  { id: "8",  name: "Nurse Mei Lin Wong",   avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "mei.wong@ohc.in",         company: "Maternity",        role: "Senior Nurse",         status: "inactive" },
+  { id: "9",  name: "Dr. Siddharth Patel",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "siddharth.patel@ohc.in",  company: "Oncology",         role: "Consultant",           status: "inactive" },
+  { id: "10", name: "Dr. Amara Diallo",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "amara.diallo@ohc.in",     company: "Dermatology",      role: "Consultant",           status: "inactive" },
+  { id: "11", name: "Nurse Arun Mathew",    avatar: "https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=96&h=96&dpr=2&q=80", email: "arun.mathew@ohc.in",      company: "General Medicine", role: "Staff Physician",      status: "active"   },
 ]
 
 const columns: ColumnDef<Member>[] = [
@@ -3958,17 +4424,17 @@ const columns: ColumnDef<Member>[] = [
       </div>
     ),
   },
-  { id: "email",   accessorKey: "email",   header: "Email",      cell: ({ row }) => <span className="text-muted-foreground text-sm">{row.original.email}</span> },
-  { id: "company", accessorKey: "company", header: "Company",    cell: ({ row }) => <span className="font-medium text-sm">{row.original.company}</span> },
-  { id: "role",    accessorKey: "role",    header: "Occupation", cell: ({ row }) => <span className="text-sm">{row.original.role}</span> },
+  { id: "email",   accessorKey: "email",   header: "Email",        cell: ({ row }) => <span className="text-muted-foreground text-sm">{row.original.email}</span> },
+  { id: "company", accessorKey: "company", header: "Department",   cell: ({ row }) => <span className="font-medium text-sm">{row.original.company}</span> },
+  { id: "role",    accessorKey: "role",    header: "Designation",  cell: ({ row }) => <span className="text-sm">{row.original.role}</span> },
   {
     id: "status",
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) =>
       row.original.status === "active"
-        ? <Badge variant="success">Approved</Badge>
-        : <Badge variant="warning">Pending</Badge>,
+        ? <Badge variant="success">Active</Badge>
+        : <Badge variant="warning">On Leave</Badge>,
   },
 ]
 
@@ -4077,7 +4543,7 @@ export function DraggableColumnsTable() {
       onDragEnd={handleDragEnd}
       onDragCancel={() => { setNoTransition(true); setActiveId(null); setOverId(null); setActiveDelta(0); requestAnimationFrame(() => setNoTransition(false)) }}
     >
-      <div className="overflow-hidden rounded-md border [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
+      <div className="overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3 [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -4162,17 +4628,17 @@ type Member = {
 }
 
 const members: Member[] = [
-  { id: "1",  name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "alex@apple.com",    company: "Apple",      role: "CEO",             status: "active"   },
-  { id: "2",  name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "sarah@openai.com",  company: "OpenAI",     role: "CTO",             status: "inactive" },
-  { id: "3",  name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "michael@meta.com",  company: "Meta",       role: "Designer",        status: "active"   },
-  { id: "4",  name: "Emma Wilson",       avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "emma@tesla.com",    company: "Tesla",      role: "Developer",       status: "inactive" },
-  { id: "5",  name: "David Kim",         avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "david@sap.com",     company: "SAP",        role: "Lawyer",          status: "inactive" },
-  { id: "6",  name: "Aron Thompson",     avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "aron@keen.com",     company: "Keenthemes", role: "Director",        status: "active"   },
-  { id: "7",  name: "James Brown",       avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "james@bbva.es",     company: "BBVA",       role: "Product Manager", status: "inactive" },
-  { id: "8",  name: "Maria Garcia",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "maria@sony.jp",     company: "Sony",       role: "Marketing Lead",  status: "inactive" },
-  { id: "9",  name: "Nick Johnson",      avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "nick@lvmh.fr",      company: "LVMH",       role: "Data Scientist",  status: "inactive" },
-  { id: "10", name: "Liam Thompson",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "liam@eni.it",       company: "ENI",        role: "Engineer",        status: "inactive" },
-  { id: "11", name: "Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=96&h=96&dpr=2&q=80", email: "pooja@tata.in",     company: "Tata",       role: "Sales Manager",   status: "active"   },
+  { id: "1",  name: "Dr. Anika Sharma",     avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "anika.sharma@ohc.in",     company: "Cardiology",       role: "Senior Consultant",    status: "active"   },
+  { id: "2",  name: "Dr. Sarah Mitchell",   avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "sarah.mitchell@ohc.in",   company: "Pediatrics",       role: "Consultant",           status: "inactive" },
+  { id: "3",  name: "Dr. David Okafor",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "david.okafor@ohc.in",     company: "General Surgery",  role: "Head of Department",   status: "active"   },
+  { id: "4",  name: "Nurse Elena Fischer",  avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "elena.fischer@ohc.in",    company: "ICU",              role: "Senior Nurse",         status: "inactive" },
+  { id: "5",  name: "Dr. Hiroshi Tanaka",   avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "hiroshi.tanaka@ohc.in",   company: "Orthopedics",      role: "Consultant",           status: "inactive" },
+  { id: "6",  name: "Dr. Ravi Menon",       avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "ravi.menon@ohc.in",       company: "Neurology",        role: "Senior Consultant",    status: "active"   },
+  { id: "7",  name: "Dr. Carlos Rivera",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "carlos.rivera@ohc.in",    company: "Radiology",        role: "Consultant",           status: "inactive" },
+  { id: "8",  name: "Nurse Mei Lin Wong",   avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "mei.wong@ohc.in",         company: "Maternity",        role: "Senior Nurse",         status: "inactive" },
+  { id: "9",  name: "Dr. Siddharth Patel",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "siddharth.patel@ohc.in",  company: "Oncology",         role: "Consultant",           status: "inactive" },
+  { id: "10", name: "Dr. Amara Diallo",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "amara.diallo@ohc.in",     company: "Dermatology",      role: "Consultant",           status: "inactive" },
+  { id: "11", name: "Nurse Arun Mathew",    avatar: "https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=96&h=96&dpr=2&q=80", email: "arun.mathew@ohc.in",      company: "General Medicine", role: "Staff Physician",      status: "active"   },
 ]
 
 const getInitials = (name: string) =>
@@ -4200,14 +4666,14 @@ const columns: ColumnDef<Member>[] = [
   {
     id: "company",
     accessorKey: "company",
-    header: "Company",
+    header: "Department",
     size: 160,
     cell: ({ row }) => <span className="font-medium text-sm">{row.original.company}</span>,
   },
   {
     id: "role",
     accessorKey: "role",
-    header: "Occupation",
+    header: "Designation",
     size: 160,
     cell: ({ row }) => <span className="text-sm">{row.original.role}</span>,
   },
@@ -4219,8 +4685,8 @@ const columns: ColumnDef<Member>[] = [
     enableResizing: false,
     cell: ({ row }) =>
       row.original.status === "active"
-        ? <Badge variant="success">Approved</Badge>
-        : <Badge variant="warning">Pending</Badge>,
+        ? <Badge variant="success">Active</Badge>
+        : <Badge variant="warning">On Leave</Badge>,
   },
 ]
 
@@ -4233,7 +4699,7 @@ export function ResizableColumnsTable() {
   })
 
   return (
-    <div className="overflow-x-auto overflow-hidden rounded-md border [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
+    <div className="overflow-x-auto overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3 [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
       <Table style={{ width: table.getTotalSize() }}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -4302,18 +4768,18 @@ type Member = {
 }
 
 const members: Member[] = [
-  { id: "1",  name: "Alex Johnson",      availability: "online",  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "us", email: "alex@apple.com",       company: "Apple",      role: "CEO",              joined: "Jan, 2024", location: "United States"  },
-  { id: "2",  name: "Sarah Chen",        availability: "away",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "gb", email: "sarah@openai.com",     company: "OpenAI",     role: "CTO",              joined: "Mar, 2023", location: "United Kingdom" },
-  { id: "3",  name: "Michael Rodriguez", availability: "busy",    avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active",   flag: "ca", email: "michael@meta.com",     company: "Meta",       role: "Designer",         joined: "Jun, 2022", location: "Canada"         },
-  { id: "4",  name: "Emma Wilson",       availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "au", email: "emma@tesla.com",       company: "Tesla",      role: "Developer",        joined: "Sep, 2024", location: "Australia"      },
-  { id: "5",  name: "David Kim",         availability: "online",  avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active",   flag: "de", email: "david@sap.com",        company: "SAP",        role: "Lawyer",           joined: "Nov, 2023", location: "Germany"        },
-  { id: "6",  name: "Aron Thompson",     availability: "away",    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active",   flag: "my", email: "aron@keenthemes.com",  company: "Keenthemes", role: "Director",         joined: "Feb, 2022", location: "Malaysia"       },
-  { id: "7",  name: "James Brown",       availability: "busy",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "es", email: "james@bbva.es",        company: "BBVA",       role: "Product Manager",  joined: "Aug, 2024", location: "Spain"          },
-  { id: "8",  name: "Maria Garcia",      availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active",   flag: "jp", email: "maria@sony.jp",        company: "Sony",       role: "Marketing Lead",   joined: "Dec, 2023", location: "Japan"          },
-  { id: "9",  name: "Nick Johnson",      availability: "online",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "fr", email: "nick@lvmh.fr",         company: "LVMH",       role: "Data Scientist",   joined: "Apr, 2022", location: "France"         },
-  { id: "10", name: "Liam Thompson",     availability: "away",    avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "it", email: "liam@eni.it",          company: "ENI",        role: "Engineer",         joined: "Jul, 2024", location: "Italy"          },
-  { id: "11", name: "Alex Johnson",      availability: "busy",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "br", email: "alex@vale.br",         company: "Vale",       role: "Software Engineer", joined: "May, 2023", location: "Brazil"        },
-  { id: "12", name: "Sarah Chen",        availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "sarah@tata.in",        company: "Tata",       role: "Sales Manager",    joined: "Oct, 2024", location: "India"          },
+  { id: "1",  name: "Dr. Anika Sharma",      availability: "online",  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "anika.sharma@ohc.in",      company: "Cardiology",       role: "Senior Consultant",     joined: "Jan, 2024", location: "India"          },
+  { id: "2",  name: "Dr. Sarah Mitchell",    availability: "away",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "gb", email: "sarah.mitchell@ohc.in",    company: "Pediatrics",       role: "Consultant",            joined: "Mar, 2023", location: "United Kingdom" },
+  { id: "3",  name: "Dr. David Okafor",      availability: "busy",    avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active",   flag: "ng", email: "david.okafor@ohc.in",      company: "General Surgery",  role: "Head of Department",    joined: "Jun, 2022", location: "Nigeria"        },
+  { id: "4",  name: "Nurse Elena Fischer",   availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "de", email: "elena.fischer@ohc.in",     company: "ICU",              role: "Senior Nurse",          joined: "Sep, 2024", location: "Germany"        },
+  { id: "5",  name: "Dr. Hiroshi Tanaka",    availability: "online",  avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active",   flag: "jp", email: "hiroshi.tanaka@ohc.in",    company: "Orthopedics",      role: "Consultant",            joined: "Nov, 2023", location: "Japan"          },
+  { id: "6",  name: "Dr. Ravi Menon",        availability: "away",    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "ravi.menon@ohc.in",        company: "Neurology",        role: "Senior Consultant",     joined: "Feb, 2022", location: "India"          },
+  { id: "7",  name: "Dr. Carlos Rivera",     availability: "busy",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "es", email: "carlos.rivera@ohc.in",     company: "Radiology",        role: "Consultant",            joined: "Aug, 2024", location: "Spain"          },
+  { id: "8",  name: "Nurse Mei Lin Wong",    availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active",   flag: "sg", email: "mei.wong@ohc.in",          company: "Maternity",        role: "Senior Nurse",          joined: "Dec, 2023", location: "Singapore"      },
+  { id: "9",  name: "Dr. Siddharth Patel",   availability: "online",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "siddharth.patel@ohc.in",   company: "Oncology",         role: "Consultant",            joined: "Apr, 2022", location: "India"          },
+  { id: "10", name: "Dr. Amara Diallo",      availability: "away",    avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "sn", email: "amara.diallo@ohc.in",      company: "Dermatology",      role: "Consultant",            joined: "Jul, 2024", location: "Senegal"        },
+  { id: "11", name: "Dr. Priya Krishnan",    availability: "busy",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "priya.krishnan@ohc.in",    company: "General Medicine", role: "Staff Physician",       joined: "May, 2023", location: "India"          },
+  { id: "12", name: "Nurse Rekha Thomas",    availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "rekha.thomas@ohc.in",      company: "Emergency",        role: "Charge Nurse",          joined: "Oct, 2024", location: "India"          },
 ]
 
 const columns: ColumnDef<Member>[] = [
@@ -4368,7 +4834,7 @@ const columns: ColumnDef<Member>[] = [
     accessorKey: "company",
     size: 160,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Company" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Department" />,
     cell: ({ row }) => (
       <span className="font-medium text-sm whitespace-nowrap">{row.original.company}</span>
     ),
@@ -4378,7 +4844,7 @@ const columns: ColumnDef<Member>[] = [
     accessorKey: "role",
     size: 180,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Role" />,
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Designation" />,
     cell: ({ row }) => (
       <span className="text-sm whitespace-nowrap">{row.original.role}</span>
     ),
@@ -4401,8 +4867,8 @@ const columns: ColumnDef<Member>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) =>
       row.original.status === "active"
-        ? <Badge variant="success">Approved</Badge>
-        : <Badge variant="warning">Pending</Badge>,
+        ? <Badge variant="success">Active</Badge>
+        : <Badge variant="warning">On Leave</Badge>,
   },
 ]
 
@@ -4412,7 +4878,7 @@ export function PinnableColumnsTable() {
       columns={columns}
       data={members}
       filterColumn="name"
-      filterPlaceholder="Search members..."
+      filterPlaceholder="Search practitioners..."
       pinnable
       initialPinning={{ left: ["name"] }}
     />
@@ -4627,18 +5093,18 @@ interface IData {
 }
 
 const data: IData[] = [
-  { id: "1", name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "us", email: "alex@apple.com", location: "United States", joined: "Jan, 2026" },
-  { id: "2", name: "Sarah Chen", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah@openai.com", location: "United Kingdom", joined: "Jul, 2025" },
-  { id: "3", name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ca", email: "michael@meta.com", location: "Canada", joined: "Mar, 2019" },
-  { id: "4", name: "Emma Wilson", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "au", email: "emma@tesla.com", location: "Australia", joined: "Jan, 2024" },
-  { id: "5", name: "David Kim", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "de", email: "david@sap.com", location: "Germany", joined: "May, 2023" },
-  { id: "6", name: "Aron Thompson", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "my", email: "aron@keenthemes.com", location: "Malaysia", joined: "Nov, 2018" },
-  { id: "7", name: "James Brown", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "james@bbva.es", location: "Spain", joined: "Jun, 2021" },
-  { id: "8", name: "Maria Garcia", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "jp", email: "maria@sony.jp", location: "Japan", joined: "Oct, 2020" },
-  { id: "9", name: "Nick Johnson", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "fr", email: "nick@lvmh.fr", location: "France", joined: "Sep, 2019" },
-  { id: "10", name: "Liam Thompson", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "it", email: "liam@eni.it", location: "Italy", joined: "Feb, 2023" },
-  { id: "11", name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "br", email: "alex@vale.br", location: "Brazil", joined: "Dec, 2022" },
-  { id: "12", name: "Sarah Chen", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "sarah@tata.in", location: "India", joined: "Mar, 2020" },
+  { id: "1", name: "Dr. Anika Sharma", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in", location: "India", joined: "Jan, 2026" },
+  { id: "2", name: "Dr. Sarah Mitchell", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom", joined: "Jul, 2025" },
+  { id: "3", name: "Dr. David Okafor", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria", joined: "Mar, 2019" },
+  { id: "4", name: "Nurse Elena Fischer", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in", location: "Germany", joined: "Jan, 2024" },
+  { id: "5", name: "Dr. Hiroshi Tanaka", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan", joined: "May, 2023" },
+  { id: "6", name: "Dr. Ravi Menon", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in", location: "India", joined: "Nov, 2018" },
+  { id: "7", name: "Dr. Carlos Rivera", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain", joined: "Jun, 2021" },
+  { id: "8", name: "Nurse Mei Lin Wong", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore", joined: "Oct, 2020" },
+  { id: "9", name: "Dr. Siddharth Patel", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in", location: "India", joined: "Sep, 2019" },
+  { id: "10", name: "Dr. Amara Diallo", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal", joined: "Feb, 2023" },
+  { id: "11", name: "Dr. Priya Krishnan", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in", location: "India", joined: "Dec, 2022" },
+  { id: "12", name: "Nurse Rekha Thomas", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in", location: "India", joined: "Mar, 2020" },
 ]
 
 export function AutoWidthDemo() {
@@ -4714,7 +5180,7 @@ export function AutoWidthDemo() {
 
   return (
     <div className="w-full space-y-2.5">
-      <div className="w-fit overflow-x-auto rounded-md border">
+      <div className="w-fit overflow-x-auto rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <Table className="w-auto">
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -5380,7 +5846,7 @@ export function RowPinningTable() {
           className="max-w-sm h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         />
       </div>
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -5529,7 +5995,7 @@ export function StickyHeaderTable() {
   })
 
   return (
-    <ScrollArea className="h-80 rounded-md border">
+    <ScrollArea className="h-80 overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
       <table className="w-full caption-bottom text-sm">
         <TableHeader className="sticky top-0 z-10 bg-background shadow-[0_1px_0_0_var(--border)]">
           {table.getHeaderGroups().map((hg) => (
@@ -5611,18 +6077,18 @@ interface IData {
 }
 
 const data: IData[] = [
-  { id: "1", name: "Alex Johnson", availability: "online", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "us", email: "alex@apple.com", location: "United States" },
-  { id: "2", name: "Sarah Chen", availability: "away", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "gb", email: "sarah@openai.com", location: "United Kingdom" },
-  { id: "3", name: "Michael Rodriguez", availability: "busy", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active", flag: "ca", email: "michael@meta.com", location: "Canada" },
-  { id: "4", name: "Emma Wilson", availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "au", email: "emma@tesla.com", location: "Australia" },
-  { id: "5", name: "David Kim", availability: "online", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active", flag: "de", email: "david@sap.com", location: "Germany" },
-  { id: "6", name: "Aron Thompson", availability: "away", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active", flag: "my", email: "aron@keenthemes.com", location: "Malaysia" },
-  { id: "7", name: "James Brown", availability: "busy", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "es", email: "james@bbva.es", location: "Spain" },
-  { id: "8", name: "Maria Garcia", availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active", flag: "jp", email: "maria@sony.jp", location: "Japan" },
-  { id: "9", name: "Nick Johnson", availability: "online", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "active", flag: "fr", email: "nick@lvmh.fr", location: "France" },
-  { id: "10", name: "Liam Thompson", availability: "away", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "it", email: "liam@eni.it", location: "Italy" },
-  { id: "11", name: "Alex Johnson", availability: "busy", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "br", email: "alex@vale.br", location: "Brazil" },
-  { id: "12", name: "Sarah Chen", availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "sarah@tata.in", location: "India" },
+  { id: "1", name: "Dr. Anika Sharma", availability: "online", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "anika.sharma@ohc.in", location: "India" },
+  { id: "2", name: "Dr. Sarah Mitchell", availability: "away", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom" },
+  { id: "3", name: "Dr. David Okafor", availability: "busy", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria" },
+  { id: "4", name: "Nurse Elena Fischer", availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "de", email: "elena.fischer@ohc.in", location: "Germany" },
+  { id: "5", name: "Dr. Hiroshi Tanaka", availability: "online", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan" },
+  { id: "6", name: "Dr. Ravi Menon", availability: "away", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "ravi.menon@ohc.in", location: "India" },
+  { id: "7", name: "Dr. Carlos Rivera", availability: "busy", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain" },
+  { id: "8", name: "Nurse Mei Lin Wong", availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore" },
+  { id: "9", name: "Dr. Siddharth Patel", availability: "online", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "siddharth.patel@ohc.in", location: "India" },
+  { id: "10", name: "Dr. Amara Diallo", availability: "away", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal" },
+  { id: "11", name: "Dr. Priya Krishnan", availability: "busy", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "priya.krishnan@ohc.in", location: "India" },
+  { id: "12", name: "Nurse Rekha Thomas", availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "rekha.thomas@ohc.in", location: "India" },
 ]
 
 const statusColors = { online: "bg-green-500", away: "bg-yellow-500", busy: "bg-orange-500", offline: "bg-gray-400" }
@@ -5667,7 +6133,7 @@ export function LightTableDemo() {
       cell: ({ row }) =>
         row.original.status === "active"
           ? <Badge variant="success">Active</Badge>
-          : <Badge variant="warning">Pending</Badge>,
+          : <Badge variant="warning">On Leave</Badge>,
       size: 100,
     },
   ], [])
@@ -5690,7 +6156,7 @@ export function LightTableDemo() {
 
   return (
     <div className="w-full space-y-2.5">
-      <div className="rounded-md border">
+      <div className="overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -5795,18 +6261,18 @@ interface IData {
 }
 
 const data: IData[] = [
-  { id: "1", name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "us", email: "alex@apple.com", location: "United States", balance: 5143.03 },
-  { id: "2", name: "Sarah Chen", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah@openai.com", location: "United Kingdom", balance: 4321.87 },
-  { id: "3", name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ca", email: "michael@meta.com", location: "Canada", balance: 7654.98 },
-  { id: "4", name: "Emma Wilson", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "au", email: "emma@tesla.com", location: "Australia", balance: 3456.45 },
-  { id: "5", name: "David Kim", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "de", email: "david@sap.com", location: "Germany", balance: 9876.54 },
-  { id: "6", name: "Aron Thompson", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "my", email: "aron@keenthemes.com", location: "Malaysia", balance: 6214.22 },
-  { id: "7", name: "James Brown", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "james@bbva.es", location: "Spain", balance: 5321.77 },
-  { id: "8", name: "Maria Garcia", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "jp", email: "maria@sony.jp", location: "Japan", balance: 8452.39 },
-  { id: "9", name: "Nick Johnson", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "fr", email: "nick@lvmh.fr", location: "France", balance: 7345.10 },
-  { id: "10", name: "Liam Thompson", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "it", email: "liam@eni.it", location: "Italy", balance: 5214.88 },
-  { id: "11", name: "Alex Johnson", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "br", email: "alex@vale.br", location: "Brazil", balance: 9421.50 },
-  { id: "12", name: "Sarah Chen", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "sarah@tata.in", location: "India", balance: 4521.67 },
+  { id: "1", name: "Dr. Anika Sharma", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in", location: "India", balance: 5143.03 },
+  { id: "2", name: "Dr. Sarah Mitchell", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom", balance: 4321.87 },
+  { id: "3", name: "Dr. David Okafor", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria", balance: 7654.98 },
+  { id: "4", name: "Nurse Elena Fischer", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in", location: "Germany", balance: 3456.45 },
+  { id: "5", name: "Dr. Hiroshi Tanaka", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan", balance: 9876.54 },
+  { id: "6", name: "Dr. Ravi Menon", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in", location: "India", balance: 6214.22 },
+  { id: "7", name: "Dr. Carlos Rivera", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain", balance: 5321.77 },
+  { id: "8", name: "Nurse Mei Lin Wong", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore", balance: 8452.39 },
+  { id: "9", name: "Dr. Siddharth Patel", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in", location: "India", balance: 7345.10 },
+  { id: "10", name: "Dr. Amara Diallo", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal", balance: 5214.88 },
+  { id: "11", name: "Dr. Priya Krishnan", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in", location: "India", balance: 9421.50 },
+  { id: "12", name: "Nurse Rekha Thomas", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in", location: "India", balance: 4521.67 },
 ]
 
 export function StripedTableDemo() {
@@ -5882,7 +6348,7 @@ export function StripedTableDemo() {
 
   return (
     <div className="w-full space-y-2.5">
-      <div className="rounded-md border">
+      <div className="overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -6105,7 +6571,7 @@ export function RowSelectionDemo() {
 
   return (
     <div className="w-full space-y-2.5">
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -6239,7 +6705,7 @@ export function CardContainerDemo() {
         accessorKey: "name",
         id: "name",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="User" />
+          <DataTableColumnHeader column={column} title="Practitioner" />
         ),
         cell: ({ row }) => (
           <div className="flex items-center gap-3">
@@ -6321,7 +6787,7 @@ export function CardContainerDemo() {
           </Button>
         </CardAction>
       </CardHeader>
-      <div className="w-full border-y">
+      <div className="overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -6445,18 +6911,18 @@ interface Member {
 }
 
 const members: Member[] = [
-  { id: "1",  name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "us", email: "alex@apple.com",      location: "United States",  joined: "Apr, 2021", status: "active"   },
-  { id: "2",  name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah@openai.com",    location: "United Kingdom", joined: "Jul, 2020", status: "inactive" },
-  { id: "3",  name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ca", email: "michael@meta.com",    location: "Canada",         joined: "Mar, 2019", status: "active"   },
-  { id: "4",  name: "Emma Wilson",       avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "au", email: "emma@tesla.com",      location: "Australia",      joined: "Jan, 2022", status: "inactive" },
-  { id: "5",  name: "David Kim",         avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "de", email: "david@sap.com",       location: "Germany",        joined: "May, 2023", status: "active"   },
-  { id: "6",  name: "Aron Thompson",     avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "my", email: "aron@keenthemes.com", location: "Malaysia",       joined: "Nov, 2018", status: "active"   },
-  { id: "7",  name: "James Brown",       avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "james@bbva.es",       location: "Spain",          joined: "Jun, 2021", status: "inactive" },
-  { id: "8",  name: "Maria Garcia",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "jp", email: "maria@sony.jp",       location: "Japan",          joined: "Oct, 2020", status: "active"   },
-  { id: "9",  name: "Nick Johnson",      avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "fr", email: "nick@lvmh.fr",        location: "France",         joined: "Sep, 2019", status: "active"   },
-  { id: "10", name: "Liam Thompson",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "it", email: "liam@eni.it",         location: "Italy",          joined: "Feb, 2023", status: "inactive" },
-  { id: "11", name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "br", email: "alex@vale.br",        location: "Brazil",         joined: "Dec, 2022", status: "active"   },
-  { id: "12", name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "sarah@tata.in",       location: "India",          joined: "Mar, 2020", status: "active"   },
+  { id: "1",  name: "Dr. Anika Sharma",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in",     location: "India",          joined: "Apr, 2021", status: "active"   },
+  { id: "2",  name: "Dr. Sarah Mitchell",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in",   location: "United Kingdom", joined: "Jul, 2020", status: "inactive" },
+  { id: "3",  name: "Dr. David Okafor",      avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in",     location: "Nigeria",        joined: "Mar, 2019", status: "active"   },
+  { id: "4",  name: "Nurse Elena Fischer",   avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in",    location: "Germany",        joined: "Jan, 2022", status: "inactive" },
+  { id: "5",  name: "Dr. Hiroshi Tanaka",    avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in",   location: "Japan",          joined: "May, 2023", status: "active"   },
+  { id: "6",  name: "Dr. Ravi Menon",        avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in",       location: "India",          joined: "Nov, 2018", status: "active"   },
+  { id: "7",  name: "Dr. Carlos Rivera",     avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in",    location: "Spain",          joined: "Jun, 2021", status: "inactive" },
+  { id: "8",  name: "Nurse Mei Lin Wong",    avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in",         location: "Singapore",      joined: "Oct, 2020", status: "active"   },
+  { id: "9",  name: "Dr. Siddharth Patel",   avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in",  location: "India",          joined: "Sep, 2019", status: "active"   },
+  { id: "10", name: "Dr. Amara Diallo",      avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in",     location: "Senegal",        joined: "Feb, 2023", status: "inactive" },
+  { id: "11", name: "Dr. Priya Krishnan",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in",   location: "India",          joined: "Dec, 2022", status: "active"   },
+  { id: "12", name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in",     location: "India",          joined: "Mar, 2020", status: "active"   },
 ]
 
 export function ColumnVisibilityTable() {
@@ -6475,7 +6941,7 @@ export function ColumnVisibilityTable() {
         accessorKey: "name",
         id: "name",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="User" />
+          <DataTableColumnHeader column={column} title="Practitioner" />
         ),
         size: 200,
         enableSorting: true,
@@ -6537,8 +7003,8 @@ export function ColumnVisibilityTable() {
         enableHiding: true,
         cell: ({ row }) =>
           row.original.status === "active"
-            ? <Badge variant="success">Approved</Badge>
-            : <Badge variant="warning">Pending</Badge>,
+            ? <Badge variant="success">Active</Badge>
+            : <Badge variant="warning">On Leave</Badge>,
       },
     ],
     []
@@ -6592,7 +7058,7 @@ export function ColumnVisibilityTable() {
           </DropdownMenu>
         </CardAction>
       </CardHeader>
-      <div className="w-full border-y">
+      <div className="overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -6718,18 +7184,18 @@ interface Member {
 }
 
 const members: Member[] = [
-  { id: "1",  name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "alex@apple.com",      status: "active"   },
-  { id: "2",  name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "sarah@openai.com",    status: "inactive" },
-  { id: "3",  name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "michael@meta.com",    status: "active"   },
-  { id: "4",  name: "Emma Wilson",       avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "emma@tesla.com",      status: "inactive" },
-  { id: "5",  name: "David Kim",         avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "david@sap.com",       status: "active"   },
-  { id: "6",  name: "Aron Thompson",     avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "aron@keenthemes.com", status: "active"   },
-  { id: "7",  name: "James Brown",       avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "james@bbva.es",       status: "inactive" },
-  { id: "8",  name: "Maria Garcia",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "maria@sony.jp",       status: "active"   },
-  { id: "9",  name: "Nick Johnson",      avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "nick@lvmh.fr",        status: "active"   },
-  { id: "10", name: "Liam Thompson",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "liam@eni.it",         status: "inactive" },
-  { id: "11", name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "alex@vale.br",        status: "active"   },
-  { id: "12", name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "sarah@tata.in",       status: "active"   },
+  { id: "1",  name: "Dr. Anika Sharma",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "anika.sharma@ohc.in",     status: "active"   },
+  { id: "2",  name: "Dr. Sarah Mitchell",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "sarah.mitchell@ohc.in",   status: "inactive" },
+  { id: "3",  name: "Dr. David Okafor",      avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "david.okafor@ohc.in",     status: "active"   },
+  { id: "4",  name: "Nurse Elena Fischer",   avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "elena.fischer@ohc.in",    status: "inactive" },
+  { id: "5",  name: "Dr. Hiroshi Tanaka",    avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "hiroshi.tanaka@ohc.in",   status: "active"   },
+  { id: "6",  name: "Dr. Ravi Menon",        avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "ravi.menon@ohc.in",       status: "active"   },
+  { id: "7",  name: "Dr. Carlos Rivera",     avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "carlos.rivera@ohc.in",    status: "inactive" },
+  { id: "8",  name: "Nurse Mei Lin Wong",    avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "mei.wong@ohc.in",         status: "active"   },
+  { id: "9",  name: "Dr. Siddharth Patel",   avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "siddharth.patel@ohc.in",  status: "active"   },
+  { id: "10", name: "Dr. Amara Diallo",      avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "amara.diallo@ohc.in",     status: "inactive" },
+  { id: "11", name: "Dr. Priya Krishnan",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "priya.krishnan@ohc.in",   status: "active"   },
+  { id: "12", name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "rekha.thomas@ohc.in",     status: "active"   },
 ]
 
 export function LoadingSkeletonTable() {
@@ -6748,7 +7214,7 @@ export function LoadingSkeletonTable() {
         accessorKey: "name",
         id: "name",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="User" />
+          <DataTableColumnHeader column={column} title="Practitioner" />
         ),
         size: 200,
         enableSorting: true,
@@ -6800,8 +7266,8 @@ export function LoadingSkeletonTable() {
         size: 100,
         cell: ({ row }) =>
           row.original.status === "active"
-            ? <Badge variant="success">Approved</Badge>
-            : <Badge variant="warning">Pending</Badge>,
+            ? <Badge variant="success">Active</Badge>
+            : <Badge variant="warning">On Leave</Badge>,
         meta: {
           skeleton: <Skeleton className="h-5 w-16 rounded-full" />,
         },
@@ -6831,7 +7297,7 @@ export function LoadingSkeletonTable() {
   return (
     <Card className="w-full gap-3 py-3.5">
       <CardHeader className="flex items-center justify-between px-3.5">
-        <CardTitle>Employees</CardTitle>
+        <CardTitle>Practitioners</CardTitle>
         <CardAction>
           <Button
             variant="outline"
@@ -6842,7 +7308,7 @@ export function LoadingSkeletonTable() {
           </Button>
         </CardAction>
       </CardHeader>
-      <div className="w-full border-y">
+      <div className="overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((hg) => (
@@ -7051,18 +7517,18 @@ interface Member {
 }
 
 const data: Member[] = [
-  { id: "1",  name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "us", email: "alex@apple.com",      role: "CEO",              joined: "Jan, 2024", location: "United States" },
-  { id: "2",  name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "gb", email: "sarah@openai.com",    role: "CTO",              joined: "Mar, 2023", location: "United Kingdom" },
-  { id: "3",  name: "Michael Rodriguez", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "ca", email: "michael@meta.com",    role: "Designer",         joined: "Jun, 2022", location: "Canada" },
-  { id: "4",  name: "Emma Wilson",       avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "au", email: "emma@tesla.com",      role: "Developer",        joined: "Sep, 2024", location: "Australia" },
-  { id: "5",  name: "David Kim",         avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "de", email: "david@sap.com",       role: "Lawyer",           joined: "Nov, 2023", location: "Germany" },
-  { id: "6",  name: "Aron Thompson",     avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "my", email: "aron@keenthemes.com", role: "Director",         joined: "Feb, 2022", location: "Malaysia" },
-  { id: "7",  name: "James Brown",       avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "es", email: "james@bbva.es",       role: "Product Manager",  joined: "Aug, 2024", location: "Spain" },
-  { id: "8",  name: "Maria Garcia",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "jp", email: "maria@sony.jp",       role: "Marketing Lead",   joined: "Dec, 2023", location: "Japan" },
-  { id: "9",  name: "Nick Johnson",      avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "fr", email: "nick@lvmh.fr",        role: "Data Scientist",   joined: "Apr, 2022", location: "France" },
-  { id: "10", name: "Liam Thompson",     avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "it", email: "liam@eni.it",         role: "Engineer",         joined: "Jul, 2024", location: "Italy" },
-  { id: "11", name: "Alex Johnson",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "br", email: "alex@vale.br",        role: "Software Engineer",joined: "May, 2023", location: "Brazil" },
-  { id: "12", name: "Sarah Chen",        avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "sarah@tata.in",       role: "Sales Manager",    joined: "Oct, 2024", location: "India" },
+  { id: "1",  name: "Dr. Anika Sharma",      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "anika.sharma@ohc.in",     role: "Senior Consultant",     joined: "Jan, 2024", location: "India" },
+  { id: "2",  name: "Dr. Sarah Mitchell",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "gb", email: "sarah.mitchell@ohc.in",   role: "Consultant",            joined: "Mar, 2023", location: "United Kingdom" },
+  { id: "3",  name: "Dr. David Okafor",      avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "ng", email: "david.okafor@ohc.in",     role: "Head of Department",    joined: "Jun, 2022", location: "Nigeria" },
+  { id: "4",  name: "Nurse Elena Fischer",   avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "de", email: "elena.fischer@ohc.in",    role: "Senior Nurse",          joined: "Sep, 2024", location: "Germany" },
+  { id: "5",  name: "Dr. Hiroshi Tanaka",    avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "jp", email: "hiroshi.tanaka@ohc.in",   role: "Consultant",            joined: "Nov, 2023", location: "Japan" },
+  { id: "6",  name: "Dr. Ravi Menon",        avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "in", email: "ravi.menon@ohc.in",       role: "Senior Consultant",     joined: "Feb, 2022", location: "India" },
+  { id: "7",  name: "Dr. Carlos Rivera",     avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "es", email: "carlos.rivera@ohc.in",    role: "Consultant",            joined: "Aug, 2024", location: "Spain" },
+  { id: "8",  name: "Nurse Mei Lin Wong",    avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "sg", email: "mei.wong@ohc.in",         role: "Senior Nurse",          joined: "Dec, 2023", location: "Singapore" },
+  { id: "9",  name: "Dr. Siddharth Patel",   avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "in", email: "siddharth.patel@ohc.in",  role: "Consultant",            joined: "Apr, 2022", location: "India" },
+  { id: "10", name: "Dr. Amara Diallo",      avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "sn", email: "amara.diallo@ohc.in",     role: "Consultant",            joined: "Jul, 2024", location: "Senegal" },
+  { id: "11", name: "Dr. Priya Krishnan",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "in", email: "priya.krishnan@ohc.in",   role: "Staff Physician",       joined: "May, 2023", location: "India" },
+  { id: "12", name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "rekha.thomas@ohc.in",     role: "Charge Nurse",          joined: "Oct, 2024", location: "India" },
 ]
 
 function ActionsCell({ row }: { row: Row<Member> }) {
@@ -7078,7 +7544,7 @@ function ActionsCell({ row }: { row: Row<Member> }) {
         <DropdownMenuItem
           onClick={() => {
             navigator.clipboard.writeText(row.original.id)
-            toast.success("Employee ID copied", {
+            toast.success("Practitioner ID copied", {
               description: row.original.id,
             })
           }}
@@ -7165,7 +7631,7 @@ export function CrudTable() {
         accessorKey: "name",
         id: "name",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="User" />
+          <DataTableColumnHeader column={column} title="Practitioner" />
         ),
         cell: ({ row }) => (
           <div className="flex items-center gap-3">
@@ -7219,7 +7685,7 @@ export function CrudTable() {
         accessorKey: "role",
         id: "role",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Role" />
+          <DataTableColumnHeader column={column} title="Designation" />
         ),
         cell: ({ row }) => (
           <div className="text-foreground font-medium">
@@ -7252,12 +7718,12 @@ export function CrudTable() {
         cell: ({ row }) => {
           const status = row.original.status
           if (status === "Active")
-            return <Badge variant="success">Approved</Badge>
+            return <Badge variant="success">Active</Badge>
           if (status === "Blocked")
             return <Badge variant="destructive">Blocked</Badge>
           if (status === "Inactive")
             return <Badge variant="info">Inactive</Badge>
-          return <Badge variant="warning">Pending</Badge>
+          return <Badge variant="warning">On Leave</Badge>
         },
         size: 100,
         enableSorting: true,
@@ -7372,7 +7838,7 @@ export function CrudTable() {
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent className="border-y px-0">
+      <CardContent className="overflow-hidden border-y px-0 [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3">
         <ScrollArea orientation="horizontal">
           <Table>
             <TableHeader>
@@ -7472,6 +7938,457 @@ export function CrudTable() {
   )
 }`,
       preview: React.createElement(CrudDemo),
+    },
+    {
+      name: "Footer Totals",
+      description:
+        "Employee balance table with row selection, sortable columns, row actions, and a footer row that auto-computes the total of the balance column across filtered rows.",
+      code: `"use client"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  DataTable,
+  DataTableColumnHeader,
+  DataTableRowActions,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/data-table"
+import { type ColumnDef } from "@tanstack/react-table"
+
+interface Employee {
+  id: string
+  name: string
+  avatar: string
+  role: string
+  status: "Active" | "Inactive" | "Pending" | "Blocked"
+  balance: number
+}
+
+const employees: Employee[] = [
+  { id: "1",  name: "Dr. Anika Sharma",     avatar: "…", role: "Senior Consultant",   status: "Active",   balance: 5143.03 },
+  { id: "2",  name: "Dr. Sarah Mitchell",   avatar: "…", role: "Consultant",          status: "Inactive", balance: 4321.87 },
+  { id: "3",  name: "Dr. David Okafor",     avatar: "…", role: "Head of Department",  status: "Blocked",  balance: 7654.98 },
+  { id: "4",  name: "Nurse Elena Fischer",  avatar: "…", role: "Senior Nurse",        status: "Inactive", balance: 3456.45 },
+  { id: "5",  name: "Dr. Hiroshi Tanaka",   avatar: "…", role: "Consultant",          status: "Active",   balance: 9876.54 },
+  // ...
+]
+
+const statusVariant = {
+  Active:   "success",
+  Blocked:  "destructive",
+  Inactive: "info",
+  Pending:  "warning",
+} as const
+
+const formatUSD = (n: number) =>
+  "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2 })
+
+const columns: ColumnDef<Employee>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() ? "indeterminate" : false)}
+        onCheckedChange={(v) => table.toggleAllPageRowsSelected(!!v)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(v) => row.toggleSelected(!!v)}
+        aria-label="Select row"
+      />
+    ),
+    footer: () => null,
+    enableSorting: false,
+    enableHiding: false,
+    size: 35,
+  },
+  {
+    id: "name",
+    accessorKey: "name",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Practitioner" />,
+    footer: () => <span className="text-muted-foreground text-xs">Total balance</span>,
+    cell: ({ row }) => (
+      <div className="flex items-center gap-3">
+        <Avatar className="size-8">
+          <AvatarImage src={row.original.avatar} alt={row.original.name} />
+          <AvatarFallback>{row.original.name.split(" ").map(n => n[0]).join("")}</AvatarFallback>
+        </Avatar>
+        <span className="text-foreground font-medium">{row.original.name}</span>
+      </div>
+    ),
+    size: 200,
+    enableSorting: true,
+  },
+  {
+    id: "role",
+    accessorKey: "role",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Designation" />,
+    footer: () => null,
+    cell: ({ row }) => <span className="text-foreground font-medium">{row.original.role}</span>,
+    size: 150,
+  },
+  {
+    id: "status",
+    accessorKey: "status",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+    footer: () => null,
+    cell: ({ row }) => (
+      <Badge variant={statusVariant[row.original.status]}>{row.original.status}</Badge>
+    ),
+    size: 110,
+  },
+  {
+    id: "balance",
+    accessorKey: "balance",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Balance" />,
+    footer: ({ table }) => {
+      const total = table.getFilteredRowModel().rows.reduce(
+        (sum, row) => sum + (row.getValue("balance") as number), 0
+      )
+      return <span className="font-bold tabular-nums">{formatUSD(total)}</span>
+    },
+    cell: ({ row }) => (
+      <span className="text-foreground font-medium tabular-nums">
+        {formatUSD(row.original.balance)}
+      </span>
+    ),
+    size: 130,
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    footer: () => null,
+    cell: ({ row }) => (
+      <DataTableRowActions>
+        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(row.original.id)}>
+          Copy ID
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Edit</DropdownMenuItem>
+        <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+      </DataTableRowActions>
+    ),
+  },
+]
+
+export function EmployeeBalancesTable() {
+  return (
+    <DataTable
+      columns={columns}
+      data={employees}
+      filterColumn="name"
+      filterPlaceholder="Search practitioners..."
+    />
+  )
+}`,
+      preview: React.createElement(FooterTotalsDemo),
+    },
+    {
+      name: "Footer Summary",
+      description:
+        "Team summary table with a footer row that displays aggregate statistics across filtered rows: member count, active count, average balance, and min/max balance range — all recomputed live as filters change.",
+      code: `"use client"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import {
+  DataTable,
+  DataTableColumnHeader,
+} from "@/components/ui/data-table"
+import { type ColumnDef } from "@tanstack/react-table"
+
+interface Member {
+  id: string
+  name: string
+  avatar: string
+  location: string
+  flag: string
+  status: "Active" | "Inactive" | "Pending" | "Blocked"
+  balance: number
+}
+
+const members: Member[] = [
+  { id: "1",  name: "Dr. Anika Sharma",     avatar: "…", location: "India",          flag: "in", status: "Active",   balance: 5143.03 },
+  { id: "2",  name: "Dr. Sarah Mitchell",   avatar: "…", location: "United Kingdom", flag: "gb", status: "Inactive", balance: 4321.87 },
+  { id: "3",  name: "Dr. David Okafor",     avatar: "…", location: "Nigeria",        flag: "ng", status: "Blocked",  balance: 7654.98 },
+  // ...
+]
+
+const statusVariant = {
+  Active: "success", Blocked: "destructive", Inactive: "info", Pending: "warning",
+} as const
+
+const fmt = (n: number) =>
+  "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2 })
+
+const columns: ColumnDef<Member>[] = [
+  {
+    id: "name",
+    accessorKey: "name",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Practitioner" />,
+    footer: ({ table }) => {
+      const count = table.getFilteredRowModel().rows.length
+      return (
+        <div className="flex flex-col gap-0.5">
+          <span className="text-muted-foreground text-xs">Practitioners</span>
+          <span className="font-medium tabular-nums">{count}</span>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <div className="flex items-center gap-3">
+        <Avatar className="size-8">
+          <AvatarImage src={row.original.avatar} alt={row.original.name} />
+          <AvatarFallback>
+            {row.original.name.split(" ").map((n) => n[0]).join("")}
+          </AvatarFallback>
+        </Avatar>
+        <span className="text-foreground font-medium">{row.original.name}</span>
+      </div>
+    ),
+    size: 150,
+    enableSorting: true,
+  },
+  {
+    id: "location",
+    accessorKey: "location",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Location" />,
+    footer: ({ table }) => {
+      const activeCount = table.getFilteredRowModel().rows
+        .filter((r) => r.getValue("status") === "Active").length
+      return (
+        <div className="flex items-center gap-1.5">
+          <span className="text-muted-foreground text-xs">Active</span>
+          <Badge variant="success">{activeCount}</Badge>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <div className="flex items-center gap-1.5">
+        <img
+          src={\`https://flagcdn.com/\${row.original.flag}.svg\`}
+          alt={row.original.flag}
+          className="size-4 rounded-full object-cover"
+        />
+        <span className="text-foreground font-medium">{row.original.location}</span>
+      </div>
+    ),
+    size: 150,
+  },
+  {
+    id: "status",
+    accessorKey: "status",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+    footer: ({ table }) => {
+      const rows = table.getFilteredRowModel().rows
+      const avg = rows.length
+        ? rows.reduce((sum, r) => sum + (r.getValue("balance") as number), 0) / rows.length
+        : 0
+      return (
+        <div className="flex flex-col gap-0.5">
+          <span className="text-muted-foreground text-xs">Avg balance</span>
+          <span className="font-medium tabular-nums">{fmt(avg)}</span>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <Badge variant={statusVariant[row.original.status]}>
+        {row.original.status}
+      </Badge>
+    ),
+    size: 110,
+  },
+  {
+    id: "balance",
+    accessorKey: "balance",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Balance" />,
+    footer: ({ table }) => {
+      const balances = table.getFilteredRowModel().rows.map(
+        (r) => r.getValue("balance") as number
+      )
+      const min = balances.length ? Math.min(...balances) : 0
+      const max = balances.length ? Math.max(...balances) : 0
+      return (
+        <div className="flex flex-col gap-0.5">
+          <span className="text-muted-foreground text-xs">Min / Max</span>
+          <span className="font-medium tabular-nums">
+            {fmt(min)} – {fmt(max)}
+          </span>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <span className="text-foreground font-medium tabular-nums">
+        {fmt(row.original.balance)}
+      </span>
+    ),
+    size: 130,
+  },
+]
+
+export function TeamSummaryTable() {
+  return (
+    <DataTable
+      columns={columns}
+      data={members}
+      filterColumn="name"
+      filterPlaceholder="Search practitioners..."
+    />
+  )
+}`,
+      preview: React.createElement(FooterSummaryDemo),
+    },
+    {
+      name: "Footer Aggregates",
+      description:
+        "Column aggregate footer showing avg, min, and max for numeric columns (balance & transactions). All stats recompute live as filters change.",
+      code: `"use client"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import {
+  DataTable,
+  DataTableColumnHeader,
+} from "@/components/ui/data-table"
+import { type ColumnDef } from "@tanstack/react-table"
+
+interface Member {
+  id: string
+  name: string
+  avatar: string
+  status: "Active" | "Inactive" | "Pending" | "Blocked"
+  balance: number
+  transactions: number
+}
+
+const members: Member[] = [
+  { id: "1",  name: "Dr. Anika Sharma",     avatar: "…", status: "Active",   balance: 5143.03, transactions: 48 },
+  { id: "2",  name: "Dr. Sarah Mitchell",   avatar: "…", status: "Inactive", balance: 4321.87, transactions: 31 },
+  { id: "3",  name: "Dr. David Okafor",     avatar: "…", status: "Blocked",  balance: 7654.98, transactions: 67 },
+  // ...
+]
+
+const statusVariant = {
+  Active: "success", Blocked: "destructive", Inactive: "info", Pending: "warning",
+} as const
+
+const fmt = (n: number) =>
+  "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2 })
+
+const columns: ColumnDef<Member>[] = [
+  {
+    id: "name",
+    accessorKey: "name",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Practitioner" />,
+    footer: ({ table }) => {
+      const count = table.getFilteredRowModel().rows.length
+      return (
+        <div className="flex flex-col gap-0.5">
+          <span className="text-muted-foreground text-xs">Summary</span>
+          <span className="text-foreground font-medium">Across all practitioners</span>
+          <span className="text-muted-foreground text-xs tabular-nums">{count} practitioners</span>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <div className="flex items-center gap-3">
+        <Avatar className="size-8">
+          <AvatarImage src={row.original.avatar} alt={row.original.name} />
+          <AvatarFallback>
+            {row.original.name.split(" ").map((n) => n[0]).join("")}
+          </AvatarFallback>
+        </Avatar>
+        <span className="text-foreground font-medium">{row.original.name}</span>
+      </div>
+    ),
+    size: 200,
+  },
+  {
+    id: "status",
+    accessorKey: "status",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
+    footer: () => null,
+    cell: ({ row }) => (
+      <Badge variant={statusVariant[row.original.status]}>{row.original.status}</Badge>
+    ),
+    size: 110,
+  },
+  {
+    id: "balance",
+    accessorKey: "balance",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Balance" />,
+    footer: ({ table }) => {
+      const balances = table.getFilteredRowModel().rows.map(
+        (r) => r.getValue("balance") as number
+      )
+      const avg = balances.length ? balances.reduce((a, b) => a + b, 0) / balances.length : 0
+      const min = balances.length ? Math.min(...balances) : 0
+      const max = balances.length ? Math.max(...balances) : 0
+      return (
+        <div className="flex flex-col gap-0.5">
+          <span className="text-muted-foreground text-xs">Avg</span>
+          <span className="tabular-nums">{fmt(avg)}</span>
+          <span className="text-muted-foreground text-xs tabular-nums">
+            {fmt(min)} – {fmt(max)}
+          </span>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <span className="text-foreground font-medium tabular-nums">
+        {fmt(row.original.balance)}
+      </span>
+    ),
+    size: 130,
+  },
+  {
+    id: "transactions",
+    accessorKey: "transactions",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Encounters" />
+    ),
+    footer: ({ table }) => {
+      const txns = table.getFilteredRowModel().rows.map(
+        (r) => r.getValue("transactions") as number
+      )
+      const avg = txns.length ? Math.round(txns.reduce((a, b) => a + b, 0) / txns.length) : 0
+      const min = txns.length ? Math.min(...txns) : 0
+      const max = txns.length ? Math.max(...txns) : 0
+      return (
+        <div className="flex flex-col gap-0.5">
+          <span className="text-muted-foreground text-xs">Avg</span>
+          <span className="tabular-nums">{avg}</span>
+          <span className="text-muted-foreground text-xs tabular-nums">
+            {min} – {max}
+          </span>
+        </div>
+      )
+    },
+    cell: ({ row }) => (
+      <span className="text-foreground font-medium tabular-nums">
+        {row.original.transactions}
+      </span>
+    ),
+    size: 120,
+  },
+]
+
+export function AggregateTable() {
+  return (
+    <DataTable
+      columns={columns}
+      data={members}
+      filterColumn="name"
+      filterPlaceholder="Search practitioners..."
+    />
+  )
+}`,
+      preview: React.createElement(FooterAggregatesDemo),
     },
   ],
   props: [

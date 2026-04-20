@@ -1,34 +1,66 @@
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
-import { Frame, FramePanel } from "@/components/ui/frame";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircleIcon, AlertTriangleIcon, CheckCircle2Icon, InfoIcon } from "lucide-react";
+import {
+  Frame,
+  FrameDescription,
+  FrameFooter,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame";
 
 export const frameDoc: ComponentDoc = {
   id: "frame",
   name: "Frame",
   description:
-    "A visual chrome container that wraps UI panels with a structured border, background, and shadow.",
+    "Displays related content in a structured frame with header, content, and footer.",
   installation: {
     cli: "npx shadcn@latest add frame",
     manual: "Copy and paste the frame component source code into your project.",
   },
-  usage: `import { Frame, FramePanel } from "@/components/ui/frame"
+  usage: `import {
+  Frame,
+  FrameDescription,
+  FrameFooter,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
 
 <Frame>
   <FramePanel>
-    Content goes here
+    <FrameHeader>
+      <FrameTitle>Frame Title</FrameTitle>
+      <FrameDescription>Frame Description</FrameDescription>
+    </FrameHeader>
+    <div className="p-5">Frame Content</div>
+    <FrameFooter>Frame Footer</FrameFooter>
   </FramePanel>
 </Frame>`,
   preview: {
-    code: `import { Frame, FramePanel } from "@/components/ui/frame"
+    code: `import {
+  Frame,
+  FrameDescription,
+  FrameFooter,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
 
 export function FrameDemo() {
   return (
     <Frame className="w-full max-w-sm">
-      <FramePanel className="p-4">
-        <p className="text-sm text-muted-foreground">Panel content goes here.</p>
+      <FrameHeader>
+        <FrameTitle>Section header</FrameTitle>
+        <FrameDescription>Description for the section</FrameDescription>
+      </FrameHeader>
+      <FramePanel>
+        <h2 className="text-sm font-semibold">Section title</h2>
+        <p className="text-muted-foreground text-sm">Section description</p>
       </FramePanel>
+      <FrameFooter>
+        <p className="text-muted-foreground text-sm">Section footer</p>
+      </FrameFooter>
     </Frame>
   )
 }`,
@@ -36,71 +68,348 @@ export function FrameDemo() {
       Frame,
       { className: "w-full max-w-sm" },
       React.createElement(
+        FrameHeader,
+        null,
+        React.createElement(FrameTitle, null, "Section header"),
+        React.createElement(
+          FrameDescription,
+          null,
+          "Description for the section"
+        )
+      ),
+      React.createElement(
         FramePanel,
-        { className: "p-4" },
+        null,
+        React.createElement(
+          "h2",
+          { className: "text-sm font-semibold" },
+          "Section title"
+        ),
         React.createElement(
           "p",
-          { className: "text-sm text-muted-foreground" },
-          "Panel content goes here."
+          { className: "text-muted-foreground text-sm" },
+          "Section description"
+        )
+      ),
+      React.createElement(
+        FrameFooter,
+        null,
+        React.createElement(
+          "p",
+          { className: "text-muted-foreground text-sm" },
+          "Section footer"
         )
       )
     ),
   },
   examples: [
-    // ── Stacked Alerts ────────────────────────────────────────────────────
     {
-      name: "Stacked Alerts",
-      description:
-        "Multiple Alert panels stacked inside a Frame. Each panel removes its own border and rounded corners so the Frame provides the outer chrome.",
-      code: `import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Frame, FramePanel } from "@/components/ui/frame"
-import {
-  AlertCircleIcon,
-  AlertTriangleIcon,
-  CheckCircle2Icon,
-  InfoIcon,
-} from "lucide-react"
+      name: "With Separated Panels",
+      description: "Frame with multiple panels separated by the frame's gap.",
+      code: `import {
+  Frame,
+  FrameDescription,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
 
-export function FrameStackedAlerts() {
+export function FrameSeparatedPanels() {
   return (
-    <div className="mx-auto w-full max-w-lg">
-      <Frame>
-        <FramePanel className="overflow-hidden p-0!">
-          <Alert variant="info" className="rounded-none border-0 shadow-none">
-            <InfoIcon />
-            <AlertTitle>Scheduled maintenance</AlertTitle>
-            <AlertDescription>
-              The service will be unavailable on Sunday from 2\u20134\u00a0AM UTC.
-            </AlertDescription>
-          </Alert>
+    <Frame className="w-full max-w-lg">
+      <FrameHeader>
+        <FrameTitle>Section header</FrameTitle>
+        <FrameDescription>Description for the section</FrameDescription>
+      </FrameHeader>
+      <FramePanel>
+        <h2 className="text-sm font-semibold">Separated panel</h2>
+        <p className="text-muted-foreground text-sm">Section description</p>
+      </FramePanel>
+      <FramePanel>
+        <h2 className="text-sm font-semibold">Separated panel</h2>
+        <p className="text-muted-foreground text-sm">Section description</p>
+      </FramePanel>
+    </Frame>
+  )
+}`,
+      preview: React.createElement(
+        Frame,
+        { className: "w-full max-w-lg" },
+        React.createElement(
+          FrameHeader,
+          null,
+          React.createElement(FrameTitle, null, "Section header"),
+          React.createElement(
+            FrameDescription,
+            null,
+            "Description for the section"
+          )
+        ),
+        React.createElement(
+          FramePanel,
+          null,
+          React.createElement(
+            "h2",
+            { className: "text-sm font-semibold" },
+            "Separated panel"
+          ),
+          React.createElement(
+            "p",
+            { className: "text-muted-foreground text-sm" },
+            "Section description"
+          )
+        ),
+        React.createElement(
+          FramePanel,
+          null,
+          React.createElement(
+            "h2",
+            { className: "text-sm font-semibold" },
+            "Separated panel"
+          ),
+          React.createElement(
+            "p",
+            { className: "text-muted-foreground text-sm" },
+            "Section description"
+          )
+        )
+      ),
+    },
+    {
+      name: "With Stacked Panels",
+      description:
+        "Use the stacked prop to remove margins between panels and connect them with shared borders.",
+      code: `import {
+  Frame,
+  FrameDescription,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
+
+export function FrameStackedPanels() {
+  return (
+    <Frame className="w-full max-w-lg" stacked>
+      <FrameHeader>
+        <FrameTitle>Section header</FrameTitle>
+        <FrameDescription>Description for the section</FrameDescription>
+      </FrameHeader>
+      <FramePanel>
+        <h2 className="text-sm font-semibold">Stacked panel</h2>
+        <p className="text-muted-foreground text-sm">Section description</p>
+      </FramePanel>
+      <FramePanel>
+        <h2 className="text-sm font-semibold">Stacked panel</h2>
+        <p className="text-muted-foreground text-sm">Section description</p>
+      </FramePanel>
+    </Frame>
+  )
+}`,
+      preview: React.createElement(
+        Frame,
+        { stacked: true, className: "w-full max-w-lg" },
+        React.createElement(
+          FrameHeader,
+          null,
+          React.createElement(FrameTitle, null, "Section header"),
+          React.createElement(
+            FrameDescription,
+            null,
+            "Description for the section"
+          )
+        ),
+        React.createElement(
+          FramePanel,
+          null,
+          React.createElement(
+            "h2",
+            { className: "text-sm font-semibold" },
+            "Stacked panel"
+          ),
+          React.createElement(
+            "p",
+            { className: "text-muted-foreground text-sm" },
+            "Section description"
+          )
+        ),
+        React.createElement(
+          FramePanel,
+          null,
+          React.createElement(
+            "h2",
+            { className: "text-sm font-semibold" },
+            "Stacked panel"
+          ),
+          React.createElement(
+            "p",
+            { className: "text-muted-foreground text-sm" },
+            "Section description"
+          )
+        )
+      ),
+    },
+    {
+      name: "With Dense Panels",
+      description:
+        "Combine the dense prop with stacked to remove panel padding for a tighter layout.",
+      code: `import {
+  Frame,
+  FrameDescription,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
+
+export function FrameDensePanels() {
+  return (
+    <Frame className="w-full max-w-lg" stacked dense>
+      <FrameHeader>
+        <FrameTitle>Section header</FrameTitle>
+        <FrameDescription>Description for the section</FrameDescription>
+      </FrameHeader>
+      <FramePanel>
+        <h2 className="text-sm font-semibold">Stacked panel</h2>
+        <p className="text-muted-foreground text-sm">Section description</p>
+      </FramePanel>
+      <FramePanel>
+        <h2 className="text-sm font-semibold">Stacked panel</h2>
+        <p className="text-muted-foreground text-sm">Section description</p>
+      </FramePanel>
+    </Frame>
+  )
+}`,
+      preview: React.createElement(
+        Frame,
+        { stacked: true, dense: true, className: "w-full max-w-lg" },
+        React.createElement(
+          FrameHeader,
+          null,
+          React.createElement(FrameTitle, null, "Section header"),
+          React.createElement(
+            FrameDescription,
+            null,
+            "Description for the section"
+          )
+        ),
+        React.createElement(
+          FramePanel,
+          null,
+          React.createElement(
+            "h2",
+            { className: "text-sm font-semibold" },
+            "Stacked panel"
+          ),
+          React.createElement(
+            "p",
+            { className: "text-muted-foreground text-sm" },
+            "Section description"
+          )
+        ),
+        React.createElement(
+          FramePanel,
+          null,
+          React.createElement(
+            "h2",
+            { className: "text-sm font-semibold" },
+            "Stacked panel"
+          ),
+          React.createElement(
+            "p",
+            { className: "text-muted-foreground text-sm" },
+            "Section description"
+          )
+        )
+      ),
+    },
+    {
+      name: "Without Outer Border",
+      description:
+        "Use the ghost variant to remove the outer frame border and background.",
+      code: `import {
+  Frame,
+  FrameDescription,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
+
+export function FrameGhost() {
+  return (
+    <Frame className="w-full max-w-lg" variant="ghost">
+      <FrameHeader>
+        <FrameTitle>No Outer Border</FrameTitle>
+        <FrameDescription>
+          This frame uses variant="ghost" to remove the outer border.
+        </FrameDescription>
+      </FrameHeader>
+      <FramePanel>
+        <p className="text-muted-foreground text-sm">
+          The outer container of this frame has no border, only the background
+          and panels are visible.
+        </p>
+      </FramePanel>
+    </Frame>
+  )
+}`,
+      preview: React.createElement(
+        Frame,
+        { variant: "ghost", className: "w-full max-w-lg" },
+        React.createElement(
+          FrameHeader,
+          null,
+          React.createElement(FrameTitle, null, "No Outer Border"),
+          React.createElement(
+            FrameDescription,
+            null,
+            'This frame uses variant="ghost" to remove the outer border.'
+          )
+        ),
+        React.createElement(
+          FramePanel,
+          null,
+          React.createElement(
+            "p",
+            { className: "text-muted-foreground text-sm" },
+            "The outer container of this frame has no border, only the background and panels are visible."
+          )
+        )
+      ),
+    },
+    {
+      name: "Custom Spacing",
+      description:
+        "Use the spacing prop to control internal padding and the gap between panels.",
+      code: `import {
+  Frame,
+  FrameDescription,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
+
+export function FrameCustomSpacing() {
+  return (
+    <div className="flex flex-col gap-6 w-full max-w-lg">
+      <Frame spacing="sm">
+        <FrameHeader>
+          <FrameTitle>Small spacing</FrameTitle>
+          <FrameDescription>Compact padding and gap</FrameDescription>
+        </FrameHeader>
+        <FramePanel>
+          <p className="text-sm text-muted-foreground">
+            Small spacing is ideal for high-density toolbars and property panels.
+          </p>
         </FramePanel>
-        <FramePanel className="overflow-hidden p-0!">
-          <Alert variant="success" className="rounded-none border-0 shadow-none">
-            <CheckCircle2Icon />
-            <AlertTitle>Deployment successful</AlertTitle>
-            <AlertDescription>
-              Your changes are live. It may take a few minutes to propagate.
-            </AlertDescription>
-          </Alert>
-        </FramePanel>
-        <FramePanel className="overflow-hidden p-0!">
-          <Alert variant="warning" className="rounded-none border-0 shadow-none">
-            <AlertTriangleIcon />
-            <AlertTitle>Subscription expiring soon</AlertTitle>
-            <AlertDescription>
-              Your plan renews in 3 days. Update your billing info to avoid
-              interruption.
-            </AlertDescription>
-          </Alert>
-        </FramePanel>
-        <FramePanel className="overflow-hidden p-0!">
-          <Alert variant="destructive" className="rounded-none border-0 shadow-none">
-            <AlertCircleIcon />
-            <AlertTitle>Payment failed</AlertTitle>
-            <AlertDescription>
-              We could not charge your card. Please update your payment method.
-            </AlertDescription>
-          </Alert>
+      </Frame>
+      <Frame spacing="lg">
+        <FrameHeader>
+          <FrameTitle>Large spacing</FrameTitle>
+          <FrameDescription>Generous padding and gap</FrameDescription>
+        </FrameHeader>
+        <FramePanel>
+          <p className="text-sm text-muted-foreground">
+            Large spacing works well for marketing pages and feature highlights.
+          </p>
         </FramePanel>
       </Frame>
     </div>
@@ -108,69 +417,111 @@ export function FrameStackedAlerts() {
 }`,
       preview: React.createElement(
         "div",
-        { className: "mx-auto w-full max-w-lg" },
+        { className: "flex flex-col gap-6 w-full max-w-lg" },
         React.createElement(
           Frame,
-          {},
+          { spacing: "sm" },
           React.createElement(
-            FramePanel,
-            { className: "overflow-hidden p-0!" },
+            FrameHeader,
+            null,
+            React.createElement(FrameTitle, null, "Small spacing"),
             React.createElement(
-              Alert,
-              { variant: "info" as never, className: "rounded-none border-0 shadow-none" },
-              React.createElement(InfoIcon),
-              React.createElement(AlertTitle, {}, "Scheduled maintenance"),
-              React.createElement(
-                AlertDescription,
-                {},
-                "The service will be unavailable on Sunday from 2\u20134\u00a0AM UTC."
-              )
+              FrameDescription,
+              null,
+              "Compact padding and gap"
             )
           ),
           React.createElement(
             FramePanel,
-            { className: "overflow-hidden p-0!" },
+            null,
             React.createElement(
-              Alert,
-              { variant: "success" as never, className: "rounded-none border-0 shadow-none" },
-              React.createElement(CheckCircle2Icon),
-              React.createElement(AlertTitle, {}, "Deployment successful"),
-              React.createElement(
-                AlertDescription,
-                {},
-                "Your changes are live. It may take a few minutes to propagate."
-              )
+              "p",
+              { className: "text-sm text-muted-foreground" },
+              "Small spacing is ideal for high-density toolbars and property panels."
+            )
+          )
+        ),
+        React.createElement(
+          Frame,
+          { spacing: "lg" },
+          React.createElement(
+            FrameHeader,
+            null,
+            React.createElement(FrameTitle, null, "Large spacing"),
+            React.createElement(
+              FrameDescription,
+              null,
+              "Generous padding and gap"
             )
           ),
           React.createElement(
             FramePanel,
-            { className: "overflow-hidden p-0!" },
+            null,
             React.createElement(
-              Alert,
-              { variant: "warning" as never, className: "rounded-none border-0 shadow-none" },
-              React.createElement(AlertTriangleIcon),
-              React.createElement(AlertTitle, {}, "Subscription expiring soon"),
-              React.createElement(
-                AlertDescription,
-                {},
-                "Your plan renews in 3 days. Update your billing info to avoid interruption."
-              )
+              "p",
+              { className: "text-sm text-muted-foreground" },
+              "Large spacing works well for marketing pages and feature highlights."
             )
+          )
+        )
+      ),
+    },
+    {
+      name: "Custom Radius",
+      description:
+        "Customize the border radius of the frame and panels using the --frame-radius CSS variable.",
+      code: `import {
+  Frame,
+  FrameDescription,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
+
+export function FrameCustomRadius() {
+  return (
+    <Frame className="w-full max-w-lg [--frame-radius:var(--radius-md)]">
+      <FrameHeader>
+        <FrameTitle>Media Library</FrameTitle>
+        <FrameDescription>Manage your assets and downloads</FrameDescription>
+      </FrameHeader>
+      <FramePanel>
+        <h2 className="text-sm font-semibold">Storage Capacity</h2>
+        <p className="text-muted-foreground text-sm">
+          Medium radius is a versatile middle ground between sharp and rounded
+          aesthetics.
+        </p>
+      </FramePanel>
+    </Frame>
+  )
+}`,
+      preview: React.createElement(
+        Frame,
+        {
+          className: "w-full max-w-lg [--frame-radius:var(--radius-md)]",
+        },
+        React.createElement(
+          FrameHeader,
+          null,
+          React.createElement(FrameTitle, null, "Media Library"),
+          React.createElement(
+            FrameDescription,
+            null,
+            "Manage your assets and downloads"
+          )
+        ),
+        React.createElement(
+          FramePanel,
+          null,
+          React.createElement(
+            "h2",
+            { className: "text-sm font-semibold" },
+            "Storage Capacity"
           ),
           React.createElement(
-            FramePanel,
-            { className: "overflow-hidden p-0!" },
-            React.createElement(
-              Alert,
-              { variant: "destructive", className: "rounded-none border-0 shadow-none" },
-              React.createElement(AlertCircleIcon),
-              React.createElement(AlertTitle, {}, "Payment failed"),
-              React.createElement(
-                AlertDescription,
-                {},
-                "We could not charge your card. Please update your payment method."
-              )
-            )
+            "p",
+            { className: "text-muted-foreground text-sm" },
+            "Medium radius is a versatile middle ground between sharp and rounded aesthetics."
           )
         )
       ),

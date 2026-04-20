@@ -376,6 +376,7 @@ function DataTable<TData, TValue>({
       </div>
 
       {/* Footer */}
+      {table.getPageCount() > 1 && (
       <div className="flex items-center justify-between py-4">
         <p className="text-sm text-muted-foreground">
           {(() => {
@@ -415,6 +416,7 @@ function DataTable<TData, TValue>({
           </PaginationContent>
         </Pagination>
       </div>
+      )}
     </div>
     </DataTableMoveContext.Provider>
   );

@@ -353,7 +353,7 @@ export function ComponentsOverview() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-muted-foreground hover:text-foreground h-auto p-0"
+                      className=""
                       onClick={(e) => {
                         e.stopPropagation();
                         handleComponentClick(id);

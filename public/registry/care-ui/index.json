@@ -384,7 +384,7 @@
     "name": "frame",
     "type": "registry:ui",
     "dependencies": [
-      "(none)"
+      "class-variance-authority"
     ],
     "files": [
       "registry/care-ui/frame/frame.tsx"

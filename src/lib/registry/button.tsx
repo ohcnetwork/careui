@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { RadialSpinner, Spinner } from "@/components/ui/spinner";
 import { type ComponentDoc } from "@/lib/types";
-import { CheckIcon, ChevronRight, Mail, Plus, RefreshCwIcon, SaveIcon, Trash2, X } from "lucide-react";
+import { BadgeCheck, CheckIcon, ChevronRight, Mail, Plus, RefreshCwIcon, Trash2, X } from "lucide-react";
 
 type AsyncButtonState = "idle" | "loading" | "success" | "error"
 
@@ -100,9 +100,9 @@ function AsyncButtonDemo() {
           {
             onClick: saveAction,
             idleContent: React.createElement(React.Fragment, null,
-              React.createElement(SaveIcon, { ["data-icon"]: "inline-start" } as any), "Save Changes"),
+              React.createElement(CheckIcon, { ["data-icon"]: "inline-start" } as any), "Save Changes"),
             successContent: React.createElement(React.Fragment, null,
-              React.createElement(CheckIcon, { ["data-icon"]: "inline-start" } as any), "Saved"),
+              React.createElement(BadgeCheck, { ["data-icon"]: "inline-start" } as any), "Saved"),
           },
         ),
         React.createElement("span", { className: "text-xs text-muted-foreground" }, "→ success"),
@@ -116,7 +116,7 @@ function AsyncButtonDemo() {
             onClick: failAction,
             disableOnSuccess: false,
             idleContent: React.createElement(React.Fragment, null,
-              React.createElement(SaveIcon, { ["data-icon"]: "inline-start" } as any), "Update Changes"),
+              React.createElement(CheckIcon, { ["data-icon"]: "inline-start" } as any), "Update Changes"),
             errorContent: React.createElement(React.Fragment, null,
               React.createElement(RefreshCwIcon, { ["data-icon"]: "inline-start" } as any), "Retry"),
           },
