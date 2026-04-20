@@ -23,6 +23,7 @@ export const componentNames: Record<string, string> = {
   "dropdown-menu": "Dropdown Menu",
   empty: "Empty",
   field: "Field",
+  filters: "Filters",
   frame: "Frame",
   input: "Input",
   "hover-card": "Hover Card",

@@ -391,6 +391,17 @@
     ]
   },
   {
+    "name": "filters",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/filters/filters.tsx"
+    ]
+  },
+  {
     "name": "field",
     "type": "registry:ui",
     "dependencies": [
