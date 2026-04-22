@@ -198,7 +198,7 @@ const previewFields: FilterFieldConfig[] = [
         React.createElement(
           "div",
           {
-            className: "flex items-center -space-x-1.5",
+            className: "flex items-center",
             "aria-hidden": true,
           },
           selected.slice(0, 3).map((o) =>
@@ -505,11 +505,10 @@ function CustomSliderRangeInput({
       PopoverTrigger,
       { asChild: true },
       React.createElement(
-        "button",
+        Button,
         {
-          type: "button",
-          className:
-            "text-sm tabular-nums underline underline-offset-4 cursor-pointer",
+          variant: "outline",
+          className: "font-normal tabular-nums",
         },
         `${range[0]} – ${range[1]}`
       )

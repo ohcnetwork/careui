@@ -910,7 +910,7 @@ function SelectOptionsPopover<T = unknown>({
               field.customValueRenderer(values, field.options || [])
             ) : (
               <>
-                {selectedOptions.length > 0 && (
+                {selectedOptions.some((opt) => opt.icon) && (
                   <div
                     className="flex items-center -space-x-1.5"
                     aria-hidden="true"
@@ -952,25 +952,12 @@ function FilterValueSelector<T = unknown>({
   open,
   onOpenChange,
 }: FilterValueSelectorProps<T>) {
-  const context = useFilterContext()
-
   if (operator === "empty" || operator === "not_empty") {
     return null
   }
 
   if (field.customRenderer) {
-    return (
-      <Button
-        variant="outline"
-        size={context.size}
-        className="text-start whitespace-nowrap font-normal"
-        asChild
-      >
-        <div data-slot="filter-value">
-          {field.customRenderer({ field, values, onChange, operator })}
-        </div>
-      </Button>
-    )
+    return <>{field.customRenderer({ field, values, onChange, operator })}</>
   }
 
   if (field.type === "text") {
@@ -1266,8 +1253,9 @@ function FilterChip<T = unknown>({
           if (field.type === "text") {
             chipRef.current?.querySelector("input")?.focus()
           } else if (field.type === "custom") {
-            const valueEl = chipRef.current?.querySelector<HTMLElement>("[data-slot=filter-value]")
-            const clickable = valueEl?.querySelector<HTMLElement>("button, a, [role=button]") ?? valueEl
+            const clickable = chipRef.current?.querySelector<HTMLElement>(
+              "[data-slot=filter-value], [data-slot=button]"
+            )
             clickable?.click()
           } else {
             setValueSelectorOpen(true)
