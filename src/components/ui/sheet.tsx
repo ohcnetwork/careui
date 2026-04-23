@@ -205,7 +205,7 @@ function SheetHeader({
           <Button
             variant="ghost"
             size="icon"
-            className={cn("-mt-1 -mr-1 shrink-0", ctx?.shaking && "bg-destructive/20 animate-sheet-shake")}
+            className={cn("-mt-1 -mr-1 shrink-0", ctx?.shaking && "bg-destructive/20 will-change-transform animate-sheet-shake")}
             onAnimationEnd={ctx?.onShakeEnd}
           >
             <XIcon />

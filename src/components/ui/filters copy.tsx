@@ -2,7 +2,7 @@
  * @name filters
  * @description A comprehensive filtering system with multiple filter types, operators, and visual indicators for data organization.
  * @dependencies class-variance-authority lucide-react
- * @registryDependencies button button-group checkbox dropdown-menu input input-group kbd native-select popover scroll-area separator tooltip
+ * @registryDependencies button button-group dropdown-menu input input-group kbd scroll-area tooltip
  * @type registry:ui
  */
 "use client"
@@ -22,20 +22,16 @@ import { cva } from "class-variance-authority"
 import {
   AlertCircleIcon,
   CheckIcon,
-  ChevronDownIcon,
   ListFilterIcon,
-  PlusIcon,
-  SaveIcon,
-  Trash2Icon,
   XIcon,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -54,13 +50,7 @@ import {
   InputGroupText,
 } from "@/components/ui/input-group"
 import { Kbd } from "@/components/ui/kbd"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
 import {
   Tooltip,
   TooltipContent,
@@ -144,7 +134,7 @@ export const DEFAULT_I18N: FilterI18nConfig = {
   searchFields: "Filter...",
   noFieldsFound: "No filters found.",
   noResultsFound: "No results found.",
-  select: "Select",
+  select: "Select...",
   true: "True",
   false: "False",
   min: "Min",
@@ -187,11 +177,11 @@ export const DEFAULT_I18N: FilterI18nConfig = {
   },
   placeholders: {
     enterField: (fieldType: string) => `Enter ${fieldType}...`,
-    selectField: "Select",
+    selectField: "Select...",
     searchField: (fieldName: string) =>
       `Search ${fieldName.toLowerCase()}...`,
-    enterKey: "Enter key",
-    enterValue: "Enter value",
+    enterKey: "Enter key...",
+    enterValue: "Enter value...",
   },
   helpers: {
     formatOperator: (operator: string) => operator.replace(/_/g, " "),
@@ -323,7 +313,7 @@ function FilterInput<T = unknown>({
   }
 
   return (
-    <InputGroup className={cn("flex-1 border-stronger-border dark:border-strong-border shadow-md", className)}>
+    <InputGroup className={cn("w-36", className)}>
       {field?.prefix && (
         <InputGroupAddon>
           <InputGroupText>{field.prefix}</InputGroupText>
@@ -634,7 +624,6 @@ interface FilterValueSelectorProps<T = unknown> {
   autoFocus?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
-  className?: string
 }
 
 interface SelectOptionsPopoverProps<T = unknown> {
@@ -645,7 +634,6 @@ interface SelectOptionsPopoverProps<T = unknown> {
   inline?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
-  className?: string
 }
 
 function SelectOptionsPopover<T = unknown>({
@@ -656,7 +644,6 @@ function SelectOptionsPopover<T = unknown>({
   inline = false,
   open: controlledOpen,
   onOpenChange: controlledOnOpenChange,
-  className,
 }: SelectOptionsPopoverProps<T>) {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
   const open = controlledOpen ?? uncontrolledOpen
@@ -680,60 +667,29 @@ function SelectOptionsPopover<T = unknown>({
     }
   }, [highlightedIndex, open, baseId])
 
-  const isMultiSelect = field.type === "multiselect" || field.type === "select" || values.length > 1
+  const isMultiSelect = field.type === "multiselect" || values.length > 1
 
-  const effectiveValues = useMemo(
-    () => (field.value !== undefined ? (field.value as T[]) : values) || [],
-    [field.value, values]
-  )
+  const effectiveValues =
+    (field.value !== undefined ? (field.value as T[]) : values) || []
 
-  const selectedOptions = useMemo(
-    () => field.options?.filter((opt) => effectiveValues.includes(opt.value)) || [],
-    [field.options, effectiveValues]
-  )
-  const unselectedOptions = useMemo(
-    () => field.options?.filter((opt) => !effectiveValues.includes(opt.value)) || [],
-    [field.options, effectiveValues]
-  )
+  const selectedOptions =
+    field.options?.filter((opt) => effectiveValues.includes(opt.value)) || []
+  const unselectedOptions =
+    field.options?.filter((opt) => !effectiveValues.includes(opt.value)) || []
 
-  const filteredUnselectedOptions = useMemo(
-    () =>
-      unselectedOptions.filter((opt) =>
-        opt.label.toLowerCase().includes(searchInput.toLowerCase())
-      ),
-    [unselectedOptions, searchInput]
+  const filteredSelectedOptions = selectedOptions
+  const filteredUnselectedOptions = unselectedOptions.filter((opt) =>
+    opt.label.toLowerCase().includes(searchInput.toLowerCase())
   )
 
   const allFilteredOptions = useMemo(
-    () => [...selectedOptions, ...filteredUnselectedOptions],
-    [selectedOptions, filteredUnselectedOptions]
+    () => [...filteredSelectedOptions, ...filteredUnselectedOptions],
+    [filteredSelectedOptions, filteredUnselectedOptions]
   )
 
   const handleClose = () => {
     setOpen(false)
     onClose?.()
-  }
-
-  const toggleOption = (option: FilterOption<T>) => {
-    const isSelected = effectiveValues.includes(option.value as T)
-    const next = isSelected
-      ? (effectiveValues.filter((v) => v !== option.value) as T[])
-      : isMultiSelect
-        ? ([...effectiveValues, option.value] as T[])
-        : ([option.value] as T[])
-
-    if (
-      !isSelected &&
-      isMultiSelect &&
-      field.maxSelections &&
-      next.length > field.maxSelections
-    ) {
-      return
-    }
-
-    if (field.onValueChange) field.onValueChange(next)
-    else onChange(next)
-    if (!isMultiSelect) handleClose()
   }
 
   const renderMenuContent = () => (
@@ -783,17 +739,37 @@ function SelectOptionsPopover<T = unknown>({
               } else if (e.key === "Enter" && highlightedIndex >= 0) {
                 e.preventDefault()
                 const option = allFilteredOptions[highlightedIndex]
-                if (option) toggleOption(option)
+                if (option) {
+                  const isSelected = effectiveValues.includes(option.value as T)
+                  const next = isSelected
+                    ? (effectiveValues.filter((v) => v !== option.value) as T[])
+                    : isMultiSelect
+                      ? ([...effectiveValues, option.value] as T[])
+                      : ([option.value] as T[])
+
+                  if (
+                    !isSelected &&
+                    isMultiSelect &&
+                    field.maxSelections &&
+                    next.length > field.maxSelections
+                  ) {
+                    return
+                  }
+
+                  if (field.onValueChange) field.onValueChange(next)
+                  else onChange(next)
+                  if (!isMultiSelect) handleClose()
+                }
               }
               e.stopPropagation()
             }}
           />
-          <Separator />
+          <DropdownMenuSeparator />
         </>
       )}
       <div className="relative flex max-h-full">
         <div
-          className="flex max-h-[min(var(--radix-popover-content-available-height),24rem)] w-full scroll-pt-2 scroll-pb-2 flex-col overscroll-contain"
+          className="flex max-h-[min(var(--radix-dropdown-menu-content-available-height),24rem)] w-full scroll-pt-2 scroll-pb-2 flex-col overscroll-contain"
           role="listbox"
           id={`${baseId}-listbox`}
         >
@@ -804,70 +780,95 @@ function SelectOptionsPopover<T = unknown>({
               </div>
             )}
 
-            {selectedOptions.length > 0 && (
-              <div className="px-1 py-1">
-                {selectedOptions.map((option, index) => {
+            {filteredSelectedOptions.length > 0 && (
+              <DropdownMenuGroup className="px-1">
+                {filteredSelectedOptions.map((option, index) => {
                   const isHighlighted = highlightedIndex === index
                   const itemId = `${baseId}-item-${index}`
                   return (
-                    <button
+                    <DropdownMenuCheckboxItem
                       key={String(option.value)}
                       id={itemId}
-                      type="button"
                       role="option"
                       aria-selected={isHighlighted}
                       data-highlighted={isHighlighted || undefined}
                       onMouseEnter={() => setHighlightedIndex(index)}
+                      checked={true}
                       className={cn(
-                        "relative flex w-full cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none",
                         "data-highlighted:bg-accent data-highlighted:text-accent-foreground",
                         option.className
                       )}
-                      onClick={() => toggleOption(option)}
+                      onSelect={(e) => {
+                        if (isMultiSelect) e.preventDefault()
+                      }}
+                      onCheckedChange={() => {
+                        const next = effectiveValues.filter(
+                          (v) => v !== option.value
+                        ) as T[]
+                        if (field.onValueChange) field.onValueChange(next)
+                        else onChange(next)
+                        if (!isMultiSelect) handleClose()
+                      }}
                     >
-                      <Checkbox checked={true} size="md" className="pointer-events-none" tabIndex={-1} aria-hidden="true" />
                       {option.icon && option.icon}
                       <span className="truncate">{option.label}</span>
-                    </button>
+                    </DropdownMenuCheckboxItem>
                   )
                 })}
-              </div>
+              </DropdownMenuGroup>
             )}
 
-            {selectedOptions.length > 0 &&
+            {filteredSelectedOptions.length > 0 &&
               filteredUnselectedOptions.length > 0 && (
-                <Separator />
+                <DropdownMenuSeparator className="mx-0" />
               )}
 
             {filteredUnselectedOptions.length > 0 && (
-              <div className="px-1 py-1">
+              <DropdownMenuGroup className="px-1">
                 {filteredUnselectedOptions.map((option, index) => {
-                  const overallIndex = index + selectedOptions.length
+                  const overallIndex = index + filteredSelectedOptions.length
                   const isHighlighted = highlightedIndex === overallIndex
                   const itemId = `${baseId}-item-${overallIndex}`
                   return (
-                    <button
+                    <DropdownMenuCheckboxItem
                       key={String(option.value)}
                       id={itemId}
-                      type="button"
                       role="option"
                       aria-selected={isHighlighted}
                       data-highlighted={isHighlighted || undefined}
                       onMouseEnter={() => setHighlightedIndex(overallIndex)}
+                      checked={false}
                       className={cn(
-                        "relative flex w-full cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none",
                         "data-highlighted:bg-accent data-highlighted:text-accent-foreground",
                         option.className
                       )}
-                      onClick={() => toggleOption(option)}
+                      onSelect={(e) => {
+                        if (isMultiSelect) e.preventDefault()
+                      }}
+                      onCheckedChange={() => {
+                        const next = isMultiSelect
+                          ? ([...effectiveValues, option.value] as T[])
+                          : ([option.value] as T[])
+
+                        if (
+                          isMultiSelect &&
+                          field.maxSelections &&
+                          next.length > field.maxSelections
+                        ) {
+                          return
+                        }
+
+                        if (field.onValueChange) field.onValueChange(next)
+                        else onChange(next)
+                        if (!isMultiSelect) handleClose()
+                      }}
                     >
-                      <Checkbox checked={false} size="md" className="pointer-events-none" tabIndex={-1} aria-hidden="true" />
                       {option.icon && option.icon}
                       <span className="truncate">{option.label}</span>
-                    </button>
+                    </DropdownMenuCheckboxItem>
                   )
                 })}
-              </div>
+              </DropdownMenuGroup>
             )}
           </ScrollArea>
         </div>
@@ -880,7 +881,7 @@ function SelectOptionsPopover<T = unknown>({
   }
 
   return (
-    <Popover
+    <DropdownMenu
       modal={false}
       open={open}
       onOpenChange={(open) => {
@@ -890,7 +891,7 @@ function SelectOptionsPopover<T = unknown>({
         }
       }}
     >
-      <PopoverTrigger asChild>
+      <DropdownMenuTrigger asChild>
         <Button
           data-slot="filter-value"
           variant="outline"
@@ -902,47 +903,42 @@ function SelectOptionsPopover<T = unknown>({
                 ? selectedOptions[0].label
                 : `${selectedOptions.length} ${context.i18n.selectedCount}`
           }`}
-          className={cn("font-normal", className)}
+          className="font-normal"
         >
-          <div className="flex items-center justify-between gap-1.5 w-full">
-            <div className="flex items-center gap-1.5">
-              {field.customValueRenderer ? (
-                field.customValueRenderer(values, field.options || [])
-              ) : (
-                <>
-                  {selectedOptions.some((opt) => opt.icon) && (
-                    <div
-                      className="flex items-center [&>*:not(:first-child)]:-ml-1.5"
-                      aria-hidden="true"
-                    >
-                      {selectedOptions.slice(0, 3).map((option) => (
-                        <div key={String(option.value)}>{option.icon}</div>
-                      ))}
-                    </div>
-                  )}
-                  <span className={cn(selectedOptions.length > 0 && "underline underline-offset-4")}>
-                    {selectedOptions.length === 1
-                      ? selectedOptions[0].label
-                      : selectedOptions.length > 1
-                        ? `${selectedOptions.length} ${context.i18n.selectedCount}`
-                        : context.i18n.select}
-                  </span>
-                </>
-              )}
-            </div>
-            {selectedOptions.length === 0 && (
-              <ChevronDownIcon className="text-muted-foreground size-3.5 shrink-0" aria-hidden="true" />
+          <div className="flex items-center gap-1.5">
+            {field.customValueRenderer ? (
+              field.customValueRenderer(values, field.options || [])
+            ) : (
+              <>
+                {selectedOptions.some((opt) => opt.icon) && (
+                  <div
+                    className="flex items-center -space-x-1.5"
+                    aria-hidden="true"
+                  >
+                    {selectedOptions.slice(0, 3).map((option) => (
+                      <div key={String(option.value)}>{option.icon}</div>
+                    ))}
+                  </div>
+                )}
+                <span className="underline underline-offset-4">
+                  {selectedOptions.length === 1
+                    ? selectedOptions[0].label
+                    : selectedOptions.length > 1
+                      ? `${selectedOptions.length} ${context.i18n.selectedCount}`
+                      : context.i18n.select}
+                </span>
+              </>
             )}
           </div>
         </Button>
-      </PopoverTrigger>
-      <PopoverContent
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
         align="start"
-        className={cn("w-50 gap-0 p-0", field.className)}
+        className={cn("w-50 px-0", field.className)}
       >
         {renderMenuContent()}
-      </PopoverContent>
-    </Popover>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
@@ -955,7 +951,6 @@ function FilterValueSelector<T = unknown>({
   autoFocus,
   open,
   onOpenChange,
-  className,
 }: FilterValueSelectorProps<T>) {
   if (operator === "empty" || operator === "not_empty") {
     return null
@@ -974,14 +969,20 @@ function FilterValueSelector<T = unknown>({
         placeholder={field.placeholder}
         pattern={field.pattern}
         field={field}
-        className={cn("min-w-max", className, field.className)}
+        className={cn("w-36", field.className)}
         autoFocus={autoFocus}
       />
     )
   }
 
+  if (field.type === "select" || field.type === "multiselect") {
+    return (
+      <SelectOptionsPopover field={field} values={values} onChange={onChange} open={open} onOpenChange={onOpenChange} />
+    )
+  }
+
   return (
-    <SelectOptionsPopover field={field} values={values} onChange={onChange} open={open} onOpenChange={onOpenChange} className={className} />
+    <SelectOptionsPopover field={field} values={values} onChange={onChange} open={open} onOpenChange={onOpenChange} />
   )
 }
 
@@ -1176,26 +1177,28 @@ function FilterSubmenuContent<T = unknown>({
                   const isHighlighted = highlightedIndex === index
                   const itemId = `${baseId}-item-${index}`
                   return (
-                    <DropdownMenuItem
+                    <DropdownMenuCheckboxItem
                       key={String(option.value)}
                       id={itemId}
                       role="option"
                       aria-selected={isHighlighted}
                       data-highlighted={isHighlighted || undefined}
                       onMouseEnter={() => setHighlightedIndex(index)}
+                      checked={isSelected}
                       className={cn(
-                        "gap-2 data-highlighted:bg-accent data-highlighted:text-accent-foreground",
+                        "data-highlighted:bg-accent data-highlighted:text-accent-foreground",
                         option.className
                       )}
                       onSelect={(e) => {
                         if (isMultiSelect) e.preventDefault()
-                        onToggle(option.value as T, isSelected)
                       }}
+                      onCheckedChange={() =>
+                        onToggle(option.value as T, isSelected)
+                      }
                     >
-                      <Checkbox checked={isSelected} size="md" className="pointer-events-none" tabIndex={-1} aria-hidden="true" />
                       {option.icon && option.icon}
                       <span className="truncate">{option.label}</span>
-                    </DropdownMenuItem>
+                    </DropdownMenuCheckboxItem>
                   )
                 })}
               </DropdownMenuGroup>
@@ -1216,8 +1219,6 @@ interface FilterChipProps<T = unknown> {
   lastAddedFilterId: string | null
   onUpdateFilter: (filterId: string, updates: Partial<Filter<T>>) => void
   onRemoveFilter: (filterId: string) => void
-  openFilterId?: string | null
-  onOpenFilterHandled?: () => void
 }
 
 function FilterChip<T = unknown>({
@@ -1228,36 +1229,9 @@ function FilterChip<T = unknown>({
   lastAddedFilterId,
   onUpdateFilter,
   onRemoveFilter,
-  openFilterId,
-  onOpenFilterHandled,
 }: FilterChipProps<T>) {
-  const isNewlyAdded = filter.id === lastAddedFilterId
   const [valueSelectorOpen, setValueSelectorOpen] = useState(false)
   const chipRef = useRef<HTMLDivElement>(null)
-
-  // Auto-open value selector for non-text fields when newly added
-  useEffect(() => {
-    if (isNewlyAdded && field.type !== "text") {
-      // Small delay to let the chip render and the add-filter dropdown close
-      const timer = setTimeout(() => setValueSelectorOpen(true), 50)
-      return () => clearTimeout(timer)
-    }
-  }, [isNewlyAdded, field.type])
-
-  // Open value selector when triggered from add-filter menu (duplicate prevention)
-  useEffect(() => {
-    if (openFilterId === filter.id) {
-      const timer = setTimeout(() => {
-        if (field.type === "text") {
-          chipRef.current?.querySelector("input")?.focus()
-        } else {
-          setValueSelectorOpen(true)
-        }
-        onOpenFilterHandled?.()
-      }, 50)
-      return () => clearTimeout(timer)
-    }
-  }, [openFilterId, filter.id, field.type, onOpenFilterHandled])
 
   return (
     <ButtonGroup
@@ -1265,6 +1239,7 @@ function FilterChip<T = unknown>({
       data-slot="filter-chip"
       aria-label={`${field.label ?? "Filter"} filter`}
       className={cn(
+        "shadow-md *:shadow-none",
         "[&>*:not(:first-child)]:rounded-l-none! [&>*:not(:last-child)]:rounded-r-none!",
         "[&>*:not(:first-child)]:border-l-0!"
       )}
@@ -1273,7 +1248,7 @@ function FilterChip<T = unknown>({
         variant="outline"
         size={size}
         data-slot="filter-field"
-        className="flex-1 justify-start text-foreground font-medium [&_svg]:text-muted-foreground"
+        className="text-foreground font-medium [&_svg]:text-muted-foreground"
         onClick={() => {
           if (field.type === "text") {
             chipRef.current?.querySelector("input")?.focus()
@@ -1304,7 +1279,6 @@ function FilterChip<T = unknown>({
         autoFocus={filter.id === lastAddedFilterId}
         open={valueSelectorOpen}
         onOpenChange={setValueSelectorOpen}
-        className="flex-1"
       />
       <FilterRemoveButton
         onClick={() => onRemoveFilter(filter.id)}
@@ -1354,8 +1328,6 @@ export function Filters<T = unknown>({
   const [lastAddedFilterId, setLastAddedFilterId] = useState<string | null>(
     null
   )
-  const [openFilterId, setOpenFilterId] = useState<string | null>(null)
-  const clearOpenFilterId = useCallback(() => setOpenFilterId(null), [])
   const rootInputRef = useRef<HTMLInputElement>(null)
   const rootId = useId()
 
@@ -1394,10 +1366,7 @@ export function Filters<T = unknown>({
   }, [highlightedIndex, addFilterOpen, rootId])
 
   useEffect(() => {
-    if (!addFilterOpen) {
-      const timer = setTimeout(() => setOpenSubMenu(null), 200)
-      return () => clearTimeout(timer)
-    }
+    if (!addFilterOpen) setOpenSubMenu(null)
   }, [addFilterOpen])
 
   const [sessionFilterIds, setSessionFilterIds] = useState<
@@ -1453,15 +1422,6 @@ export function Filters<T = unknown>({
     (fieldKey: string) => {
       const field = fieldsMap[fieldKey]
       if (field && field.key) {
-        // If a chip already exists for this field, open its dropdown instead
-        const existingFilter = filters.find((f) => f.field === fieldKey)
-        if (existingFilter) {
-          setOpenFilterId(existingFilter.id)
-          setAddFilterOpen(false)
-          setMenuSearchInput("")
-          return
-        }
-
         const defaultOperator =
           field.defaultOperator ||
           (field.type === "multiselect" ? "is_any_of" : "is")
@@ -1484,9 +1444,10 @@ export function Filters<T = unknown>({
     const flatFields = flattenFields(fields)
     return flatFields.filter((field) => {
       if (!field.key || field.type === "separator") return false
-      return true
+      if (allowMultiple) return true
+      return !filters.some((filter) => filter.field === field.key)
     })
-  }, [fields])
+  }, [fields, filters, allowMultiple])
 
   const filteredFields = useMemo(() => {
     return selectableFields.filter(
@@ -1521,10 +1482,8 @@ export function Filters<T = unknown>({
             onOpenChange={(open) => {
               setAddFilterOpen(open)
               if (!open) {
-                setTimeout(() => {
-                  setMenuSearchInput("")
-                  setSessionFilterIds({})
-                }, 200)
+                setMenuSearchInput("")
+                setSessionFilterIds({})
               } else {
                 setActiveMenu("root")
               }
@@ -1669,12 +1628,11 @@ export function Filters<T = unknown>({
                         if (hasSubMenu) {
                           const isMultiSelect = field.type === "multiselect"
                           const fieldKey = field.key as string
-                          const existingFieldFilter = filters.find((f) => f.field === fieldKey)
                           const sessionFilterId = sessionFilterIds[fieldKey]
                           const sessionFilter = sessionFilterId
                             ? filters.find((f) => f.id === sessionFilterId)
                             : null
-                          const currentValues = existingFieldFilter?.values || sessionFilter?.values || []
+                          const currentValues = sessionFilter?.values || []
 
                           return (
                             <DropdownMenuSub
@@ -1729,13 +1687,11 @@ export function Filters<T = unknown>({
                                           ) as T[])
                                         : ([...currentValues, value] as T[])
 
-                                      // Find an existing filter to update (either from chips or this session)
-                                      const targetFilter = existingFieldFilter ?? sessionFilter
-                                      if (targetFilter) {
+                                      if (sessionFilter) {
                                         if (nextValues.length === 0) {
                                           onChange(
                                             filters.filter(
-                                              (f) => f.id !== targetFilter.id
+                                              (f) => f.id !== sessionFilter.id
                                             )
                                           )
                                           setSessionFilterIds((prev) => ({
@@ -1745,7 +1701,7 @@ export function Filters<T = unknown>({
                                         } else {
                                           onChange(
                                             filters.map((f) =>
-                                              f.id === targetFilter.id
+                                              f.id === sessionFilter.id
                                                 ? { ...f, values: nextValues }
                                                 : f
                                             )
@@ -1764,26 +1720,14 @@ export function Filters<T = unknown>({
                                         }))
                                       }
                                     } else {
-                                      // Single-select: update existing filter if present
-                                      if (existingFieldFilter) {
-                                        onChange(
-                                          filters.map((f) =>
-                                            f.id === existingFieldFilter.id
-                                              ? { ...f, values: [value] as T[] }
-                                              : f
-                                          )
-                                        )
-                                        setAddFilterOpen(false)
-                                      } else {
-                                        const newFilter = createFilter<T>(
-                                          fieldKey,
-                                          field.defaultOperator || "is",
-                                          [value] as T[]
-                                        )
-                                        setLastAddedFilterId(newFilter.id)
-                                        onChange([...filters, newFilter])
-                                        setAddFilterOpen(false)
-                                      }
+                                      const newFilter = createFilter<T>(
+                                        fieldKey,
+                                        field.defaultOperator || "is",
+                                        [value] as T[]
+                                      )
+                                      setLastAddedFilterId(newFilter.id)
+                                      onChange([...filters, newFilter])
+                                      setAddFilterOpen(false)
                                     }
                                   }}
                                 />
@@ -1829,8 +1773,6 @@ export function Filters<T = unknown>({
               lastAddedFilterId={lastAddedFilterId}
               onUpdateFilter={updateFilter}
               onRemoveFilter={removeFilter}
-              openFilterId={openFilterId}
-              onOpenFilterHandled={clearOpenFilterId}
             />
           )
         })}
@@ -1849,398 +1791,6 @@ export function Filters<T = unknown>({
           </Button>
         )}
       </div>
-    </FilterContext.Provider>
-  )
-}
-
-// ─── FilterPanel (popover-based variant) ─────────────────────────────────────
-type FilterConjunction = "and" | "or"
-
-interface FilterPanelProps<T = unknown> {
-  filters: Filter<T>[]
-  fields: FilterFieldsConfig<T>
-  onChange: (filters: Filter<T>[]) => void
-  conjunction?: FilterConjunction
-  onConjunctionChange?: (conjunction: FilterConjunction) => void
-  onSave?: (filters: Filter<T>[], conjunction: FilterConjunction) => void
-  className?: string
-  size?: "sm" | "default" | "lg"
-  i18n?: Partial<FilterI18nConfig>
-  trigger?: React.ReactNode
-  allowMultiple?: boolean
-  popoverClassName?: string
-}
-
-export function FilterPanel<T = unknown>({
-  filters,
-  fields,
-  onChange,
-  conjunction: controlledConjunction,
-  onSave,
-  className,
-  size = "default",
-  i18n,
-  trigger,
-  allowMultiple = true,
-  popoverClassName,
-}: FilterPanelProps<T>) {
-  const [open, setOpen] = useState(false)
-  const [internalConjunction] =
-    useState<FilterConjunction>("and")
-  const [showFieldPicker, setShowFieldPicker] = useState(false)
-  const [fieldPickerSearch, setFieldPickerSearch] = useState("")
-  const [highlightedFieldIndex, setHighlightedFieldIndex] = useState(-1)
-  const [lastAddedFilterId, setLastAddedFilterId] = useState<string | null>(
-    null
-  )
-  const [openFilterId, setOpenFilterId] = useState<string | null>(null)
-  const clearOpenFilterId = useCallback(() => setOpenFilterId(null), [])
-  const fieldPickerInputRef = useRef<HTMLInputElement>(null)
-  const fieldPickerId = useId()
-
-  const conjunction = controlledConjunction ?? internalConjunction
-
-  const mergedI18n: FilterI18nConfig = {
-    ...DEFAULT_I18N,
-    ...i18n,
-    operators: { ...DEFAULT_I18N.operators, ...i18n?.operators },
-    placeholders: { ...DEFAULT_I18N.placeholders, ...i18n?.placeholders },
-    validation: { ...DEFAULT_I18N.validation, ...i18n?.validation },
-  }
-
-  const fieldsMap = useMemo(() => getFieldsMap(fields), [fields])
-
-  const selectableFields = useMemo(() => {
-    const flatFields = flattenFields(fields)
-    return flatFields.filter((field) => {
-      if (!field.key || field.type === "separator") return false
-      return true
-    })
-  }, [fields])
-
-  const filteredPickerFields = useMemo(
-    () =>
-      selectableFields.filter(
-        (f) =>
-          !fieldPickerSearch ||
-          f.label?.toLowerCase().includes(fieldPickerSearch.toLowerCase())
-      ),
-    [selectableFields, fieldPickerSearch]
-  )
-
-  useEffect(() => {
-    setHighlightedFieldIndex(-1)
-  }, [fieldPickerSearch])
-
-  useEffect(() => {
-    if (showFieldPicker && filteredPickerFields.length > 0) {
-      setHighlightedFieldIndex(0)
-    }
-  }, [showFieldPicker, filteredPickerFields.length])
-
-  // Focus the search input when field picker opens
-  useEffect(() => {
-    if (showFieldPicker) {
-      requestAnimationFrame(() => fieldPickerInputRef.current?.focus())
-    }
-  }, [showFieldPicker])
-
-  useEffect(() => {
-    if (lastAddedFilterId) {
-      const timer = setTimeout(() => setLastAddedFilterId(null), 1000)
-      return () => clearTimeout(timer)
-    }
-  }, [lastAddedFilterId])
-
-  // Auto-show field picker when popover opens with no filters
-  // Delay reset on close so content stays stable during exit animation
-  useEffect(() => {
-    if (open && filters.length === 0) {
-      setShowFieldPicker(true)
-    }
-    if (!open) {
-      const timer = setTimeout(() => {
-        setShowFieldPicker(false)
-        setFieldPickerSearch("")
-      }, 200)
-      return () => clearTimeout(timer)
-    }
-  }, [open, filters.length])
-
-  const addFilter = useCallback(
-    (fieldKey: string) => {
-      const field = fieldsMap[fieldKey]
-      if (field && field.key) {
-        // If a chip already exists for this field, open its dropdown instead
-        const existingFilter = filters.find((f) => f.field === fieldKey)
-        if (existingFilter) {
-          setOpenFilterId(existingFilter.id)
-          setShowFieldPicker(false)
-          setFieldPickerSearch("")
-          return
-        }
-
-        const defaultOperator =
-          field.defaultOperator ||
-          (field.type === "multiselect" ? "is_any_of" : "is")
-        const defaultValues: unknown[] = field.type === "text" ? [""] : []
-        const newFilter = createFilter<T>(
-          fieldKey,
-          defaultOperator,
-          defaultValues as T[]
-        )
-        setLastAddedFilterId(newFilter.id)
-        onChange([...filters, newFilter])
-        setShowFieldPicker(false)
-        setFieldPickerSearch("")
-      }
-    },
-    [fieldsMap, filters, onChange]
-  )
-
-  const updateFilter = useCallback(
-    (filterId: string, updates: Partial<Filter<T>>) => {
-      onChange(
-        filters.map((filter) => {
-          if (filter.id === filterId) {
-            const updatedFilter = { ...filter, ...updates }
-            if (
-              updates.operator === "empty" ||
-              updates.operator === "not_empty"
-            ) {
-              updatedFilter.values = [] as T[]
-            }
-            return updatedFilter
-          }
-          return filter
-        })
-      )
-    },
-    [filters, onChange]
-  )
-
-  const removeFilter = useCallback(
-    (filterId: string) => {
-      const next = filters.filter((f) => f.id !== filterId)
-      onChange(next)
-      if (next.length === 0) {
-        setShowFieldPicker(true)
-      }
-    },
-    [filters, onChange]
-  )
-
-  const activeFilterCount = filters.filter((f) => {
-    if (f.operator === "empty" || f.operator === "not_empty") return true
-    return f.values.length > 0 && f.values.some((v) => v !== "" && v != null)
-  }).length
-
-  return (
-    <FilterContext.Provider
-      value={{
-        size,
-        i18n: mergedI18n,
-        className,
-        allowMultiple,
-      }}
-    >
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          {trigger || (
-            <Button
-              data-slot="filter-panel-trigger"
-              variant="outline"
-              size={size}
-              className={cn(
-                activeFilterCount > 0 && "gap-1.5",
-                className
-              )}
-            >
-              <ListFilterIcon aria-hidden="true" />
-              {mergedI18n.addFilter}
-              {activeFilterCount > 0 && (
-                <span className="bg-primary text-primary-foreground inline-flex size-5 items-center justify-center rounded-full text-xs font-medium">
-                  {activeFilterCount}
-                </span>
-              )}
-            </Button>
-          )}
-        </PopoverTrigger>
-        <PopoverContent
-          align="start"
-          className={cn(
-            "w-auto min-w-80 max-w-[calc(100vw-2rem)] gap-0 p-0",
-            popoverClassName
-          )}
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between px-3 py-2">
-            <span className="text-muted-foreground text-xs font-medium uppercase tracking-wider">
-              Filters
-            </span>
-            <div className="flex items-center gap-1">
-              {onSave && filters.length > 0 && (
-                <Button
-                  variant="ghost"
-                  size="icon-xs"
-                  onClick={() => onSave(filters, conjunction)}
-                  aria-label="Save filters"
-                >
-                  <SaveIcon />
-                </Button>
-              )}
-              {filters.length > 0 && (
-                <Button
-                  variant="ghost"
-                  size="icon-xs"
-                  onClick={() => onChange([])}
-                  aria-label={mergedI18n.clearAll}
-                  className="text-muted-foreground hover:text-destructive"
-                >
-                  <Trash2Icon />
-                </Button>
-              )}
-            </div>
-          </div>
-
-          <Separator />
-
-          {/* Filter chips */}
-          {filters.length > 0 && (
-            <div className="grid gap-2 px-3 py-2 **:data-[slot=filter-chip]:w-full">
-              {filters.map((filter) => {
-                const field = fieldsMap[filter.field]
-                if (!field) return null
-
-                return (
-                  <FilterChip<T>
-                    key={filter.id}
-                    filter={filter}
-                    field={field}
-                    size={size}
-                    i18n={mergedI18n}
-                    lastAddedFilterId={lastAddedFilterId}
-                    onUpdateFilter={updateFilter}
-                    onRemoveFilter={removeFilter}
-                    openFilterId={openFilterId}
-                    onOpenFilterHandled={clearOpenFilterId}
-                  />
-                )
-              })}
-            </div>
-          )}
-
-          {/* Field picker (inline dropdown) */}
-          {showFieldPicker && (
-            <>
-              {filters.length > 0 && <Separator />}
-              <div className="p-1">
-                <Input
-                  ref={fieldPickerInputRef}
-                  role="combobox"
-                  aria-controls={`${fieldPickerId}-listbox`}
-                  aria-activedescendant={
-                    highlightedFieldIndex >= 0
-                      ? `${fieldPickerId}-item-${highlightedFieldIndex}`
-                      : undefined
-                  }
-                  placeholder={mergedI18n.searchFields}
-                  className={cn(
-                    "h-8 border-0 bg-transparent! px-2 text-sm shadow-none",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0"
-                  )}
-                  value={fieldPickerSearch}
-                  onChange={(e) => setFieldPickerSearch(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "ArrowDown") {
-                      e.preventDefault()
-                      if (filteredPickerFields.length > 0) {
-                        setHighlightedFieldIndex((prev) =>
-                          prev < filteredPickerFields.length - 1
-                            ? prev + 1
-                            : 0
-                        )
-                      }
-                    } else if (e.key === "ArrowUp") {
-                      e.preventDefault()
-                      if (filteredPickerFields.length > 0) {
-                        setHighlightedFieldIndex((prev) =>
-                          prev > 0
-                            ? prev - 1
-                            : filteredPickerFields.length - 1
-                        )
-                      }
-                    } else if (e.key === "Enter" && highlightedFieldIndex >= 0) {
-                      e.preventDefault()
-                      const f = filteredPickerFields[highlightedFieldIndex]
-                      if (f?.key) addFilter(f.key)
-                    } else if (e.key === "Escape") {
-                      if (filters.length > 0) {
-                        setShowFieldPicker(false)
-                      } else {
-                        setOpen(false)
-                      }
-                    }
-                  }}
-                />
-                <Separator className="mb-1" />
-                <div
-                  role="listbox"
-                  id={`${fieldPickerId}-listbox`}
-                  className="max-h-52 overflow-y-auto"
-                >
-                  {filteredPickerFields.length === 0 ? (
-                    <div className="text-muted-foreground py-4 text-center text-sm">
-                      {mergedI18n.noFieldsFound}
-                    </div>
-                  ) : (
-                    filteredPickerFields.map((f, index) => (
-                      <button
-                        key={f.key}
-                        id={`${fieldPickerId}-item-${index}`}
-                        role="option"
-                        aria-selected={highlightedFieldIndex === index}
-                        type="button"
-                        className={cn(
-                          "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none",
-                          highlightedFieldIndex === index
-                            ? "bg-accent text-accent-foreground"
-                            : "hover:bg-accent hover:text-accent-foreground"
-                        )}
-                        onMouseEnter={() => setHighlightedFieldIndex(index)}
-                        onClick={() => f.key && addFilter(f.key)}
-                      >
-                        {f.icon && (
-                          <span className="text-muted-foreground">{f.icon}</span>
-                        )}
-                        <span>{f.label}</span>
-                      </button>
-                    ))
-                  )}
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* Add filter button */}
-          {!showFieldPicker && selectableFields.length > 0 && (
-            <>
-              <Separator />
-              <div className="p-1.5">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-foreground w-full justify-start gap-1.5 font-normal"
-                  onClick={() => setShowFieldPicker(true)}
-                >
-                  <PlusIcon className="size-3.5" />
-                  Add filter
-                </Button>
-              </div>
-            </>
-          )}
-        </PopoverContent>
-      </Popover>
     </FilterContext.Provider>
   )
 }

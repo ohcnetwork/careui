@@ -18,7 +18,6 @@ import {
 import { type ComponentDoc } from "@/lib/types";
 import {
   createFilter,
-  FilterPanel,
   Filters,
   type Filter,
   type FilterFieldConfig,
@@ -139,7 +138,7 @@ const previewFields: FilterFieldConfig[] = [
     options: statusOptions,
     customValueRenderer: (values, options) => {
       const selected = options.find((o) => o.value === values[0]);
-      if (!selected) return "Select";
+      if (!selected) return "Select...";
       const pillClass =
         selected.value === "completed"
           ? "rounded-md bg-emerald-500/15 px-1.5 py-0.5 text-emerald-700 dark:text-emerald-400"
@@ -192,7 +191,7 @@ const previewFields: FilterFieldConfig[] = [
     options: tagOptions,
     customValueRenderer: (values, options) => {
       const selected = options.filter((o) => values.includes(o.value));
-      if (selected.length === 0) return "Select";
+      if (selected.length === 0) return "Select...";
       return React.createElement(
         React.Fragment,
         null,
@@ -631,64 +630,6 @@ function FiltersCustomControlsDemo() {
   );
 }
 
-// ─── Filter Panel (popover variant) ──────────────────────────────────────────
-
-const panelFields: FilterFieldConfig[] = [
-  {
-    key: "status",
-    label: "Status",
-    icon: React.createElement(CircleDashedIcon, { className: "size-3.5" }),
-    type: "select",
-    searchable: false,
-    options: statusOptions,
-  },
-  {
-    key: "priority",
-    label: "Priority",
-    icon: React.createElement(AlertCircleIcon, { className: "size-3.5" }),
-    type: "multiselect",
-    options: priorityOptions,
-  },
-  {
-    key: "tag",
-    label: "Tags",
-    icon: React.createElement(TagIcon, { className: "size-3.5" }),
-    type: "multiselect",
-    options: tagOptions,
-  },
-  {
-    key: "assignee",
-    label: "Assignee",
-    icon: React.createElement(UserIcon, { className: "size-3.5" }),
-    type: "text",
-    placeholder: "Name...",
-  },
-  {
-    key: "dueDate",
-    label: "Due date",
-    icon: React.createElement(CalendarIcon, { className: "size-3.5" }),
-    type: "select",
-    options: [
-      { value: "2025-07-01", label: "1 Jul 2025" },
-      { value: "2025-08-01", label: "1 Aug 2025" },
-      { value: "2025-09-01", label: "1 Sep 2025" },
-    ],
-  },
-];
-
-function FilterPanelDemo() {
-  const [filters, setFilters] = React.useState<Filter[]>([]);
-  const [conjunction, setConjunction] = React.useState<"and" | "or">("and");
-  return React.createElement(FilterPanel, {
-    filters,
-    fields: panelFields,
-    onChange: setFilters,
-    conjunction,
-    onConjunctionChange: setConjunction,
-    onSave: () => alert("Filters saved!"),
-  });
-}
-
 // ─── i18n Support (matches c-filters-9) ──────────────────────────────────────
 
 const i18nConfigs: Record<string, Partial<FilterI18nConfig>> = {
@@ -938,40 +879,6 @@ export const filtersDoc: ComponentDoc = {
   }}
 />`,
       preview: React.createElement(FiltersI18nDemo),
-    },
-    {
-      name: "Filter Panel (Popover)",
-      description:
-        "A popover-based filter panel with inline filter chips, AND/OR conjunction, clear, and save. Ideal for ClickUp/Linear-style filter experiences.",
-      code: `import { useState } from "react"
-import {
-  FilterPanel,
-  type Filter,
-  type FilterFieldConfig,
-} from "@/components/ui/filters"
-
-const fields: FilterFieldConfig[] = [
-  { key: "status", label: "Status", type: "select", options: [/* ... */] },
-  { key: "priority", label: "Priority", type: "multiselect", options: [/* ... */] },
-  { key: "assignee", label: "Assignee", type: "text", placeholder: "Name..." },
-]
-
-export function FilterPanelExample() {
-  const [filters, setFilters] = useState<Filter[]>([])
-  const [conjunction, setConjunction] = useState<"and" | "or">("and")
-
-  return (
-    <FilterPanel
-      filters={filters}
-      fields={fields}
-      onChange={setFilters}
-      conjunction={conjunction}
-      onConjunctionChange={setConjunction}
-      onSave={() => console.log("Saved!", filters)}
-    />
-  )
-}`,
-      preview: React.createElement(FilterPanelDemo),
     },
   ],
 };

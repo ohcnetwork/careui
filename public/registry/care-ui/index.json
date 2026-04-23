@@ -402,6 +402,17 @@
     ]
   },
   {
+    "name": "filters copy",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/filters copy/filters copy.tsx"
+    ]
+  },
+  {
     "name": "field",
     "type": "registry:ui",
     "dependencies": [

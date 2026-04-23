@@ -84,9 +84,9 @@
 .dark {
     color-scheme: dark;
     --background: var(--color-neutral-950);
-    --soft-background: --alpha(var(--color-neutral-900) / 75%);
-    --muted-background: --alpha(var(--color-neutral-800) / 75%);
-    --strong-background: --alpha(var(--color-neutral-700) / 95%);
+    --soft-background: var(--color-neutral-900);
+    --muted-background: var(--color-neutral-800);
+    --strong-background: var(--color-neutral-700);
 
     --muted: var(--color-neutral-800);
 
@@ -97,7 +97,7 @@
     --placeholder-foreground: var(--color-neutral-600);
     --inverse-foreground: var(--color-black);
 
-    --card: --alpha(var(--color-neutral-900) / 80%);
+    --card: var(--color-neutral-900);
     --card-foreground: var(--color-white);
 
     --popover: var(--color-neutral-950);
