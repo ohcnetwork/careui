@@ -371,6 +371,16 @@
     ]
   },
   {
+    "name": "indicator",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority"
+    ],
+    "files": [
+      "registry/care-ui/indicator/indicator.tsx"
+    ]
+  },
+  {
     "name": "hover-card",
     "type": "registry:ui",
     "dependencies": [
@@ -399,17 +409,6 @@
     ],
     "files": [
       "registry/care-ui/filters/filters.tsx"
-    ]
-  },
-  {
-    "name": "filters copy",
-    "type": "registry:ui",
-    "dependencies": [
-      "class-variance-authority",
-      "lucide-react"
-    ],
-    "files": [
-      "registry/care-ui/filters copy/filters copy.tsx"
     ]
   },
   {
