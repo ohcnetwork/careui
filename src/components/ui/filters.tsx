@@ -41,6 +41,7 @@ import {
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
+  DrawerNestedRoot,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
@@ -235,6 +236,22 @@ const FilterContext = createContext<FilterContextValue>({
 })
 
 const useFilterContext = () => useContext(FilterContext)
+
+// Signals that any inner mobile Drawer rendered below is nested inside an
+// outer Drawer (the FilterPanel's mobile sheet). When true, inner drawers use
+// `DrawerNestedRoot` so vaul can coordinate the gesture and produce the
+// Sonner-like scale-back stacking effect. Defaults to false so the standalone
+// `Filters` component keeps using top-level drawers.
+const FilterPanelMobileContext = createContext(false)
+
+const MobileDrawerRoot = ({
+  children,
+  ...props
+}: React.ComponentProps<typeof Drawer>) => {
+  const isInsidePanel = useContext(FilterPanelMobileContext)
+  const Root = isInsidePanel ? DrawerNestedRoot : Drawer
+  return <Root {...props}>{children}</Root>
+}
 
 const filtersContainerVariants = cva("flex flex-wrap items-center", {
   variants: {
@@ -632,7 +649,7 @@ function FilterOperatorDropdown<T = unknown>({
 
   if (isMobile) {
     return (
-      <Drawer open={mobileOpen} onOpenChange={setMobileOpen}>
+      <MobileDrawerRoot open={mobileOpen} onOpenChange={setMobileOpen}>
         <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
         <DrawerContent className="max-h-[85vh]">
           <DrawerHeader>
@@ -669,7 +686,7 @@ function FilterOperatorDropdown<T = unknown>({
             ))}
           </DrawerBody>
         </DrawerContent>
-      </Drawer>
+      </MobileDrawerRoot>
     )
   }
 
@@ -1009,7 +1026,7 @@ function SelectOptionsPopover<T = unknown>({
 
   if (isMobile) {
     return (
-      <Drawer
+      <MobileDrawerRoot
         open={open}
         onOpenChange={(nextOpen) => {
           setOpen(nextOpen)
@@ -1037,7 +1054,7 @@ function SelectOptionsPopover<T = unknown>({
             </div>
           )}
         </DrawerContent>
-      </Drawer>
+      </MobileDrawerRoot>
     )
   }
 
@@ -2974,7 +2991,9 @@ export function FilterPanel<T = unknown>({
                   popoverClassName
                 )}
               >
-                {body}
+                <FilterPanelMobileContext.Provider value={true}>
+                  {body}
+                </FilterPanelMobileContext.Provider>
               </DrawerContent>
             </Drawer>
           )
