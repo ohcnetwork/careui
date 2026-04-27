@@ -2,7 +2,7 @@
  * @name filters
  * @description A comprehensive filtering system with multiple filter types, operators, and visual indicators for data organization.
  * @dependencies class-variance-authority lucide-react
- * @registryDependencies button button-group checkbox dropdown-menu input input-group kbd native-select popover scroll-area separator tooltip
+ * @registryDependencies badge button button-group checkbox dropdown-menu drawer input input-group kbd popover scroll-area separator tooltip
  * @type registry:ui
  */
 "use client"
@@ -25,15 +25,25 @@ import {
   ChevronDownIcon,
   ListFilterIcon,
   PlusIcon,
-  SaveIcon,
-  Trash2Icon,
+  SquarePenIcon,
   XIcon,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Drawer,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,6 +77,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 // ─── i18n ────────────────────────────────────────────────────────────────────
 export interface FilterI18nConfig {
@@ -137,7 +148,7 @@ export interface FilterI18nConfig {
 }
 
 export const DEFAULT_I18N: FilterI18nConfig = {
-  addFilter: "Filter",
+  addFilter: "Add Filter",
   clearAll: "Clear all",
   removeFilter: "Remove filter",
   changeOperator: "Change operator",
@@ -156,7 +167,7 @@ export const DEFAULT_I18N: FilterI18nConfig = {
   percent: "%",
   defaultCurrency: "$",
   defaultColor: "#000000",
-  addFilterTitle: "Add filter",
+  addFilterTitle: "Filters",
   operators: {
     is: "is",
     isNot: "is not",
@@ -323,7 +334,7 @@ function FilterInput<T = unknown>({
   }
 
   return (
-    <InputGroup className={cn("flex-1 border-stronger-border dark:border-strong-border shadow-md", className)}>
+    <InputGroup className={cn("flex-1 shadow-sm", className)}>
       {field?.prefix && (
         <InputGroupAddon>
           <InputGroupText>{field.prefix}</InputGroupText>
@@ -490,29 +501,43 @@ const isGroupLevelField = <T = unknown,>(
 const flattenFields = <T = unknown,>(
   fields: FilterFieldsConfig<T>
 ): FilterFieldConfig<T>[] => {
-  return fields.reduce<FilterFieldConfig<T>[]>((acc, item) => {
+  const result: FilterFieldConfig<T>[] = []
+  for (const item of fields) {
     if (isFieldGroup(item)) {
-      return [...acc, ...item.fields]
+      result.push(...item.fields)
+    } else if (isGroupLevelField(item)) {
+      result.push(...(item.fields as FilterFieldConfig<T>[]))
+    } else {
+      result.push(item)
     }
-    if (isGroupLevelField(item as FilterFieldConfig<T>)) {
-      return [...acc, ...((item as FilterFieldConfig<T>).fields as FilterFieldConfig<T>[])]
-    }
-    return [...acc, item as FilterFieldConfig<T>]
-  }, [])
+  }
+  return result
 }
 
 const getFieldsMap = <T = unknown,>(
   fields: FilterFieldsConfig<T>
 ): Record<string, FilterFieldConfig<T>> => {
-  const flatFields = flattenFields(fields)
-  return flatFields.reduce(
-    (acc, field) => {
-      if (field.key) acc[field.key] = field
-      return acc
-    },
-    {} as Record<string, FilterFieldConfig<T>>
-  )
+  const map: Record<string, FilterFieldConfig<T>> = {}
+  for (const field of flattenFields(fields)) {
+    if (field.key) map[field.key] = field
+  }
+  return map
 }
+
+const getSelectableFields = <T = unknown,>(
+  fields: FilterFieldsConfig<T>
+): FilterFieldConfig<T>[] =>
+  flattenFields(fields).filter(
+    (field) => Boolean(field.key) && field.type !== "separator"
+  )
+
+const mergeI18n = (i18n?: Partial<FilterI18nConfig>): FilterI18nConfig => ({
+  ...DEFAULT_I18N,
+  ...i18n,
+  operators: { ...DEFAULT_I18N.operators, ...i18n?.operators },
+  placeholders: { ...DEFAULT_I18N.placeholders, ...i18n?.placeholders },
+  validation: { ...DEFAULT_I18N.validation, ...i18n?.validation },
+})
 
 const createOperatorsFromI18n = (
   i18n: FilterI18nConfig
@@ -583,27 +608,74 @@ function FilterOperatorDropdown<T = unknown>({
   onChange,
 }: FilterOperatorDropdownProps<T>) {
   const context = useFilterContext()
+  const isMobile = useIsMobile()
+  const [mobileOpen, setMobileOpen] = useState(false)
   const operators = getOperatorsForField(field, values, context.i18n)
 
   const operatorLabel =
     operators.find((op) => op.value === operator)?.label ||
     context.i18n.helpers.formatOperator(operator)
 
+  const triggerButton = (
+    <Button
+      data-slot="filter-operator"
+      variant="outline"
+      size={context.size}
+      aria-label={`${context.i18n.changeOperator}${
+        field.label ? ` (${field.label})` : ""
+      }, currently ${operatorLabel}`}
+      className="text-muted-foreground hover:text-foreground font-normal underline underline-offset-4"
+    >
+      {operatorLabel}
+    </Button>
+  )
+
+  if (isMobile) {
+    return (
+      <Drawer open={mobileOpen} onOpenChange={setMobileOpen}>
+        <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
+        <DrawerContent className="max-h-[85vh]">
+          <DrawerHeader>
+            <DrawerTitle>{context.i18n.changeOperator}</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              {field.label
+                ? `Select an operator for ${field.label}`
+                : context.i18n.changeOperator}
+            </DrawerDescription>
+          </DrawerHeader>
+          <DrawerBody className="p-1">
+            {operators.map((op) => (
+              <button
+                key={op.value}
+                type="button"
+                onClick={() => {
+                  onChange(op.value)
+                  setMobileOpen(false)
+                }}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-sm px-3 py-2.5 text-sm outline-none",
+                  "hover:bg-accent hover:text-accent-foreground",
+                  "focus-visible:bg-accent focus-visible:text-accent-foreground"
+                )}
+              >
+                <span>{op.label}</span>
+                <CheckIcon
+                  className={cn(
+                    "text-primary ms-auto size-4",
+                    op.value === operator ? "opacity-100" : "opacity-0"
+                  )}
+                />
+              </button>
+            ))}
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    )
+  }
+
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <Button
-          data-slot="filter-operator"
-          variant="outline"
-          size={context.size}
-          aria-label={`${context.i18n.changeOperator}${
-            field.label ? ` (${field.label})` : ""
-          }, currently ${operatorLabel}`}
-          className="text-muted-foreground hover:text-foreground font-normal underline underline-offset-4"
-        >
-          {operatorLabel}
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{triggerButton}</DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-fit min-w-fit">
         {operators.map((op) => (
           <DropdownMenuItem
@@ -661,15 +733,24 @@ function SelectOptionsPopover<T = unknown>({
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = controlledOnOpenChange ?? setUncontrolledOpen
-  const [searchInput, setSearchInput] = useState("")
+  const [searchInput, setSearchInputState] = useState("")
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const context = useFilterContext()
+  const isMobile = useIsMobile()
   const baseId = useId()
 
-  useEffect(() => {
+  const setSearchInput = useCallback((value: string) => {
+    setSearchInputState(value)
     setHighlightedIndex(-1)
-  }, [searchInput, open])
+  }, [])
+
+  // Reset highlight when popover open state changes
+  const [prevOpen, setPrevOpen] = useState(open)
+  if (prevOpen !== open) {
+    setPrevOpen(open)
+    setHighlightedIndex(-1)
+  }
 
   useEffect(() => {
     if (highlightedIndex >= 0 && open) {
@@ -815,7 +896,7 @@ function SelectOptionsPopover<T = unknown>({
                       id={itemId}
                       type="button"
                       role="option"
-                      aria-selected={isHighlighted}
+                      aria-selected={true}
                       data-highlighted={isHighlighted || undefined}
                       onMouseEnter={() => setHighlightedIndex(index)}
                       className={cn(
@@ -826,7 +907,7 @@ function SelectOptionsPopover<T = unknown>({
                       onClick={() => toggleOption(option)}
                     >
                       <Checkbox checked={true} size="md" className="pointer-events-none" tabIndex={-1} aria-hidden="true" />
-                      {option.icon && option.icon}
+                      {option.icon}
                       <span className="truncate">{option.label}</span>
                     </button>
                   )
@@ -851,7 +932,7 @@ function SelectOptionsPopover<T = unknown>({
                       id={itemId}
                       type="button"
                       role="option"
-                      aria-selected={isHighlighted}
+                      aria-selected={false}
                       data-highlighted={isHighlighted || undefined}
                       onMouseEnter={() => setHighlightedIndex(overallIndex)}
                       className={cn(
@@ -862,7 +943,7 @@ function SelectOptionsPopover<T = unknown>({
                       onClick={() => toggleOption(option)}
                     >
                       <Checkbox checked={false} size="md" className="pointer-events-none" tabIndex={-1} aria-hidden="true" />
-                      {option.icon && option.icon}
+                      {option.icon}
                       <span className="truncate">{option.label}</span>
                     </button>
                   )
@@ -879,63 +960,99 @@ function SelectOptionsPopover<T = unknown>({
     return <div className="w-full">{renderMenuContent()}</div>
   }
 
+  const triggerButton = (
+    <Button
+      data-slot="filter-value"
+      variant="outline"
+      size={context.size}
+      aria-label={`${field.label ?? "Filter"} value, currently ${
+        selectedOptions.length === 0
+          ? context.i18n.select
+          : selectedOptions.length === 1
+            ? selectedOptions[0].label
+            : `${selectedOptions.length} ${context.i18n.selectedCount}`
+      }`}
+      className={cn("font-normal", className)}
+    >
+      <div className="flex items-center justify-between gap-1.5 w-full">
+        <div className="flex items-center gap-1.5">
+          {field.customValueRenderer ? (
+            field.customValueRenderer(values, field.options || [])
+          ) : (
+            <>
+              {selectedOptions.some((opt) => opt.icon) && (
+                <div
+                  className="flex items-center [&>*:not(:first-child)]:-ml-1.5"
+                  aria-hidden="true"
+                >
+                  {selectedOptions.slice(0, 3).map((option) => (
+                    <div key={String(option.value)}>{option.icon}</div>
+                  ))}
+                </div>
+              )}
+              <span className={cn(selectedOptions.length > 0 && "underline underline-offset-4")}>
+                {selectedOptions.length === 1
+                  ? selectedOptions[0].label
+                  : selectedOptions.length > 1
+                    ? `${selectedOptions.length} ${context.i18n.selectedCount}`
+                    : context.i18n.select}
+              </span>
+            </>
+          )}
+        </div>
+        {selectedOptions.length === 0 && (
+          <ChevronDownIcon className="text-muted-foreground size-3.5 shrink-0" aria-hidden="true" />
+        )}
+      </div>
+    </Button>
+  )
+
+  if (isMobile) {
+    return (
+      <Drawer
+        open={open}
+        onOpenChange={(nextOpen) => {
+          setOpen(nextOpen)
+          if (!nextOpen) {
+            setTimeout(() => setSearchInput(""), 200)
+          }
+        }}
+      >
+        <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
+        <DrawerContent className="max-h-[85vh]">
+          <DrawerHeader>
+            <DrawerTitle>{field.label ?? context.i18n.select}</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              {context.i18n.placeholders.searchField(field.label || "")}
+            </DrawerDescription>
+          </DrawerHeader>
+          <DrawerBody className="p-0">{renderMenuContent()}</DrawerBody>
+          {isMultiSelect && (
+            <div className="flex justify-end gap-2 p-3 pt-0">
+              <DrawerClose asChild>
+                <Button variant="outline" size="sm">
+                  Done
+                </Button>
+              </DrawerClose>
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
+    )
+  }
+
   return (
     <Popover
       modal={false}
       open={open}
-      onOpenChange={(open) => {
-        setOpen(open)
-        if (!open) {
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen)
+        if (!nextOpen) {
           setTimeout(() => setSearchInput(""), 200)
         }
       }}
     >
-      <PopoverTrigger asChild>
-        <Button
-          data-slot="filter-value"
-          variant="outline"
-          size={context.size}
-          aria-label={`${field.label ?? "Filter"} value, currently ${
-            selectedOptions.length === 0
-              ? context.i18n.select
-              : selectedOptions.length === 1
-                ? selectedOptions[0].label
-                : `${selectedOptions.length} ${context.i18n.selectedCount}`
-          }`}
-          className={cn("font-normal", className)}
-        >
-          <div className="flex items-center justify-between gap-1.5 w-full">
-            <div className="flex items-center gap-1.5">
-              {field.customValueRenderer ? (
-                field.customValueRenderer(values, field.options || [])
-              ) : (
-                <>
-                  {selectedOptions.some((opt) => opt.icon) && (
-                    <div
-                      className="flex items-center [&>*:not(:first-child)]:-ml-1.5"
-                      aria-hidden="true"
-                    >
-                      {selectedOptions.slice(0, 3).map((option) => (
-                        <div key={String(option.value)}>{option.icon}</div>
-                      ))}
-                    </div>
-                  )}
-                  <span className={cn(selectedOptions.length > 0 && "underline underline-offset-4")}>
-                    {selectedOptions.length === 1
-                      ? selectedOptions[0].label
-                      : selectedOptions.length > 1
-                        ? `${selectedOptions.length} ${context.i18n.selectedCount}`
-                        : context.i18n.select}
-                  </span>
-                </>
-              )}
-            </div>
-            {selectedOptions.length === 0 && (
-              <ChevronDownIcon className="text-muted-foreground size-3.5 shrink-0" aria-hidden="true" />
-            )}
-          </div>
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger asChild>{triggerButton}</PopoverTrigger>
       <PopoverContent
         align="start"
         className={cn("w-50 gap-0 p-0", field.className)}
@@ -1024,14 +1141,15 @@ function FilterSubmenuContent<T = unknown>({
   onBack,
   onClose,
 }: FilterSubmenuContentProps<T>) {
-  const [searchInput, setSearchInput] = useState("")
+  const [searchInput, setSearchInputState] = useState("")
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const baseId = useId()
 
-  useEffect(() => {
+  const setSearchInput = useCallback((value: string) => {
+    setSearchInputState(value)
     setHighlightedIndex(-1)
-  }, [searchInput])
+  }, [])
 
   useEffect(() => {
     if (highlightedIndex >= 0 && isActive) {
@@ -1053,11 +1171,21 @@ function FilterSubmenuContent<T = unknown>({
     )
   }, [field.options, searchInput, currentValues])
 
-  useEffect(() => {
+  // Reset highlight to first item when submenu becomes active
+  const [prevIsActive, setPrevIsActive] = useState(isActive)
+  if (prevIsActive !== isActive) {
+    setPrevIsActive(isActive)
     if (isActive && filteredOptions.length > 0) {
       setHighlightedIndex(0)
     }
-  }, [isActive, filteredOptions.length])
+  }
+
+  // Auto-focus search input when submenu becomes active (keyboard navigation)
+  useEffect(() => {
+    if (isActive && field.searchable !== false) {
+      requestAnimationFrame(() => inputRef.current?.focus())
+    }
+  }, [isActive, field.searchable])
 
   return (
     <div className="flex flex-col" onMouseEnter={onActive}>
@@ -1180,7 +1308,7 @@ function FilterSubmenuContent<T = unknown>({
                       key={String(option.value)}
                       id={itemId}
                       role="option"
-                      aria-selected={isHighlighted}
+                      aria-selected={isSelected}
                       data-highlighted={isHighlighted || undefined}
                       onMouseEnter={() => setHighlightedIndex(index)}
                       className={cn(
@@ -1193,7 +1321,7 @@ function FilterSubmenuContent<T = unknown>({
                       }}
                     >
                       <Checkbox checked={isSelected} size="md" className="pointer-events-none" tabIndex={-1} aria-hidden="true" />
-                      {option.icon && option.icon}
+                      {option.icon}
                       <span className="truncate">{option.label}</span>
                     </DropdownMenuItem>
                   )
@@ -1259,6 +1387,95 @@ function FilterChip<T = unknown>({
     }
   }, [openFilterId, filter.id, field.type, onOpenFilterHandled])
 
+  const isMobile = useIsMobile()
+
+  const fieldButton = (
+    <Button
+      variant="outline"
+      size={size}
+      data-slot="filter-field"
+      className="min-w-0 flex-1 justify-start text-foreground font-medium [&_svg]:text-muted-foreground"
+      onClick={() => {
+        if (field.type === "text") {
+          chipRef.current?.querySelector("input")?.focus()
+        } else if (field.type === "custom") {
+          const clickable = chipRef.current?.querySelector<HTMLElement>(
+            "[data-slot=filter-value], [data-slot=button]"
+          )
+          clickable?.click()
+        } else {
+          setValueSelectorOpen(true)
+        }
+      }}
+    >
+      {field.icon}
+      <span className="truncate">{field.label}</span>
+    </Button>
+  )
+
+  const operatorDropdown = (
+    <FilterOperatorDropdown<T>
+      field={field}
+      operator={filter.operator}
+      values={filter.values}
+      onChange={(operator) => onUpdateFilter(filter.id, { operator })}
+    />
+  )
+
+  const valueSelector = (
+    <FilterValueSelector<T>
+      field={field}
+      values={filter.values}
+      operator={filter.operator}
+      onChange={(values) => onUpdateFilter(filter.id, { values })}
+      autoFocus={filter.id === lastAddedFilterId}
+      open={valueSelectorOpen}
+      onOpenChange={setValueSelectorOpen}
+      className="flex-1"
+    />
+  )
+
+  const removeButton = (
+    <FilterRemoveButton
+      onClick={() => onRemoveFilter(filter.id)}
+      aria-label={`${i18n.removeFilter}: ${field.label ?? ""}`.trim()}
+    />
+  )
+
+  if (isMobile) {
+    return (
+      <div
+        ref={chipRef}
+        data-slot="filter-chip"
+        aria-label={`${field.label ?? "Filter"} filter`}
+        className="flex w-full flex-col p-1 bg-muted-background rounded-lg"
+      >
+        <ButtonGroup
+          className={cn(
+            "grid w-full grid-cols-2",
+            "[&>*:not(:first-child)]:rounded-l-none! [&>*:not(:last-child)]:rounded-r-none!",
+            "[&>*:not(:first-child)]:border-l-0!",
+            "[&>*]:rounded-b-none! [&>*]:shadow-none! [&>[data-slot]:not(:has(~[data-slot]))]:rounded-br-none!"
+          )}
+        >
+          {fieldButton}
+          {operatorDropdown}
+        </ButtonGroup>
+        <ButtonGroup
+          className={cn(
+            "w-full",
+            "[&>*:not(:first-child)]:rounded-l-none! [&>*:not(:last-child)]:rounded-r-none!",
+            "[&>*]:border-t-0! [&>*:not(:first-child)]:border-l-0!",
+            "[&>*]:rounded-t-none! [&>*]:shadow-none! [&>[data-slot]:not(:has(~[data-slot]))]:rounded-tr-none!"
+          )}
+        >
+          {valueSelector}
+          {removeButton}
+        </ButtonGroup>
+      </div>
+    )
+  }
+
   return (
     <ButtonGroup
       ref={chipRef}
@@ -1269,47 +1486,10 @@ function FilterChip<T = unknown>({
         "[&>*:not(:first-child)]:border-l-0!"
       )}
     >
-      <Button
-        variant="outline"
-        size={size}
-        data-slot="filter-field"
-        className="flex-1 justify-start text-foreground font-medium [&_svg]:text-muted-foreground"
-        onClick={() => {
-          if (field.type === "text") {
-            chipRef.current?.querySelector("input")?.focus()
-          } else if (field.type === "custom") {
-            const clickable = chipRef.current?.querySelector<HTMLElement>(
-              "[data-slot=filter-value], [data-slot=button]"
-            )
-            clickable?.click()
-          } else {
-            setValueSelectorOpen(true)
-          }
-        }}
-      >
-        {field.icon && field.icon}
-        {field.label}
-      </Button>
-      <FilterOperatorDropdown<T>
-        field={field}
-        operator={filter.operator}
-        values={filter.values}
-        onChange={(operator) => onUpdateFilter(filter.id, { operator })}
-      />
-      <FilterValueSelector<T>
-        field={field}
-        values={filter.values}
-        operator={filter.operator}
-        onChange={(values) => onUpdateFilter(filter.id, { values })}
-        autoFocus={filter.id === lastAddedFilterId}
-        open={valueSelectorOpen}
-        onOpenChange={setValueSelectorOpen}
-        className="flex-1"
-      />
-      <FilterRemoveButton
-        onClick={() => onRemoveFilter(filter.id)}
-        aria-label={`${i18n.removeFilter}: ${field.label ?? ""}`.trim()}
-      />
+      {fieldButton}
+      {operatorDropdown}
+      {valueSelector}
+      {removeButton}
     </ButtonGroup>
   )
 }
@@ -1347,7 +1527,7 @@ export function Filters<T = unknown>({
   shortcutLabel = "F",
 }: FiltersProps<T>) {
   const [addFilterOpen, setAddFilterOpen] = useState(false)
-  const [menuSearchInput, setMenuSearchInput] = useState("")
+  const [menuSearchInput, setMenuSearchInputState] = useState("")
   const [activeMenu, setActiveMenu] = useState<string>("root")
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null)
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
@@ -1358,6 +1538,11 @@ export function Filters<T = unknown>({
   const clearOpenFilterId = useCallback(() => setOpenFilterId(null), [])
   const rootInputRef = useRef<HTMLInputElement>(null)
   const rootId = useId()
+
+  const setMenuSearchInput = useCallback((value: string) => {
+    setMenuSearchInputState(value)
+    setHighlightedIndex(-1)
+  }, [])
 
   useEffect(() => {
     if (!enableShortcut) return
@@ -1379,10 +1564,6 @@ export function Filters<T = unknown>({
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [enableShortcut, shortcutKey, addFilterOpen])
-
-  useEffect(() => {
-    setHighlightedIndex(-1)
-  }, [menuSearchInput])
 
   useEffect(() => {
     if (highlightedIndex >= 0 && addFilterOpen) {
@@ -1411,13 +1592,7 @@ export function Filters<T = unknown>({
     }
   }, [lastAddedFilterId])
 
-  const mergedI18n: FilterI18nConfig = {
-    ...DEFAULT_I18N,
-    ...i18n,
-    operators: { ...DEFAULT_I18N.operators, ...i18n?.operators },
-    placeholders: { ...DEFAULT_I18N.placeholders, ...i18n?.placeholders },
-    validation: { ...DEFAULT_I18N.validation, ...i18n?.validation },
-  }
+  const mergedI18n: FilterI18nConfig = useMemo(() => mergeI18n(i18n), [i18n])
 
   const fieldsMap = useMemo(() => getFieldsMap(fields), [fields])
 
@@ -1477,16 +1652,13 @@ export function Filters<T = unknown>({
         setMenuSearchInput("")
       }
     },
-    [fieldsMap, filters, onChange]
+    [fieldsMap, filters, onChange, setMenuSearchInput]
   )
 
-  const selectableFields = useMemo(() => {
-    const flatFields = flattenFields(fields)
-    return flatFields.filter((field) => {
-      if (!field.key || field.type === "separator") return false
-      return true
-    })
-  }, [fields])
+  const selectableFields = useMemo(
+    () => getSelectableFields(fields),
+    [fields]
+  )
 
   const filteredFields = useMemo(() => {
     return selectableFields.filter(
@@ -1496,9 +1668,21 @@ export function Filters<T = unknown>({
     )
   }, [selectableFields, menuSearchInput])
 
-  useEffect(() => {
-    if (addFilterOpen && filteredFields.length > 0) setHighlightedIndex(0)
-  }, [addFilterOpen, filteredFields.length])
+  // Sync highlight to first item when dropdown opens or filtered list changes
+  const [prevAddFilterOpen, setPrevAddFilterOpen] = useState(addFilterOpen)
+  const [prevFilteredCount, setPrevFilteredCount] = useState(
+    filteredFields.length
+  )
+  if (
+    prevAddFilterOpen !== addFilterOpen ||
+    prevFilteredCount !== filteredFields.length
+  ) {
+    setPrevAddFilterOpen(addFilterOpen)
+    setPrevFilteredCount(filteredFields.length)
+    if (addFilterOpen && filteredFields.length > 0) {
+      setHighlightedIndex(0)
+    }
+  }
 
   return (
     <FilterContext.Provider
@@ -1667,7 +1851,7 @@ export function Filters<T = unknown>({
                           field.options?.length
 
                         if (hasSubMenu) {
-                          const isMultiSelect = field.type === "multiselect"
+                          const isMultiSelect = field.type === "multiselect" || field.type === "select"
                           const fieldKey = field.key as string
                           const existingFieldFilter = filters.find((f) => f.field === fieldKey)
                           const sessionFilterId = sessionFilterIds[fieldKey]
@@ -1703,6 +1887,11 @@ export function Filters<T = unknown>({
                               >
                                 {field.icon}
                                 <span>{field.label}</span>
+                                {currentValues.length > 0 && (
+                                  <span className="text-muted-foreground ml-auto text-xs tabular-nums">
+                                    {currentValues.length}
+                                  </span>
+                                )}
                               </DropdownMenuSubTrigger>
                               <DropdownMenuSubContent className="w-50">
                                 <FilterSubmenuContent
@@ -1792,6 +1981,9 @@ export function Filters<T = unknown>({
                           )
                         }
 
+                        const existingFilter = filters.find((f) => f.field === field.key)
+                        const filterValueCount = existingFilter?.values.filter((v) => v !== "" && v != null).length || 0
+
                         return (
                           <DropdownMenuItem
                             key={field.key}
@@ -1805,6 +1997,11 @@ export function Filters<T = unknown>({
                           >
                             {field.icon}
                             <span>{field.label}</span>
+                            {filterValueCount > 0 && (
+                              <span className="text-muted-foreground ml-auto text-xs tabular-nums">
+                                {filterValueCount}
+                              </span>
+                            )}
                           </DropdownMenuItem>
                         )
                       })
@@ -1853,8 +2050,248 @@ export function Filters<T = unknown>({
   )
 }
 
+// ─── SavedFilterRow / SavedFilterRenameRow ───────────────────────────────────
+interface SavedFilterRowProps {
+  name: string
+  index: number
+  isActive: boolean
+  canRename: boolean
+  canDelete: boolean
+  onSelect: () => void
+  onRename: () => void
+  onDelete: () => void
+  onFocusRow: (index: number) => void
+  onActivate: (index: number) => void
+  rowCount: number
+}
+
+function SavedFilterRow({
+  name,
+  index,
+  isActive,
+  canRename,
+  canDelete,
+  onSelect,
+  onRename,
+  onDelete,
+  onFocusRow,
+  onActivate,
+  rowCount,
+}: SavedFilterRowProps) {
+  const handleRowKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault()
+        onFocusRow(index < rowCount - 1 ? index + 1 : 0)
+        break
+      case "ArrowUp":
+        e.preventDefault()
+        onFocusRow(index > 0 ? index - 1 : rowCount - 1)
+        break
+      case "Home":
+        e.preventDefault()
+        onFocusRow(0)
+        break
+      case "End":
+        e.preventDefault()
+        onFocusRow(rowCount - 1)
+        break
+      case "ArrowRight": {
+        const firstAction =
+          e.currentTarget.parentElement?.querySelector<HTMLButtonElement>(
+            '[data-saved-action="rename"], [data-saved-action="delete"]'
+          )
+        if (firstAction) {
+          e.preventDefault()
+          firstAction.focus()
+        }
+        break
+      }
+      default:
+        break
+    }
+  }
+
+  const handleActionKeyDown = (
+    e: React.KeyboardEvent<HTMLButtonElement>
+  ) => {
+    const rowEl = e.currentTarget.closest<HTMLElement>('[role="option"]')
+    const selectBtn = rowEl?.querySelector<HTMLButtonElement>(
+      '[data-saved-action="select"]'
+    )
+    switch (e.key) {
+      case "ArrowLeft": {
+        e.preventDefault()
+        const prev = e.currentTarget
+          .previousElementSibling as HTMLButtonElement | null
+        if (prev?.hasAttribute("data-saved-action")) prev.focus()
+        else selectBtn?.focus()
+        break
+      }
+      case "ArrowRight": {
+        e.preventDefault()
+        const next = e.currentTarget
+          .nextElementSibling as HTMLButtonElement | null
+        if (next?.hasAttribute("data-saved-action")) next.focus()
+        else selectBtn?.focus()
+        break
+      }
+      case "ArrowDown":
+        e.preventDefault()
+        onFocusRow(index < rowCount - 1 ? index + 1 : 0)
+        break
+      case "ArrowUp":
+        e.preventDefault()
+        onFocusRow(index > 0 ? index - 1 : rowCount - 1)
+        break
+      case "Escape":
+        e.preventDefault()
+        selectBtn?.focus()
+        break
+      default:
+        break
+    }
+  }
+
+  return (
+    <div
+      role="option"
+      aria-selected={isActive}
+      className={cn(
+        "group/saved-row relative flex items-center gap-0.5 rounded-sm px-1 py-0.5 transition-colors",
+        "hover:bg-accent/40",
+        "focus-within:bg-accent/60",
+        isActive && "bg-accent/40"
+      )}
+      onFocus={() => onActivate(index)}
+    >
+      <Button
+        data-saved-action="select"
+        data-saved-index={index}
+        variant="ghost"
+        size="sm"
+        tabIndex={0}
+        className={cn(
+          "min-w-0 flex-1 justify-start px-2 font-normal",
+          "hover:bg-accent hover:text-accent-foreground",
+          "focus-visible:bg-accent focus-visible:text-accent-foreground"
+        )}
+        onClick={onSelect}
+        onKeyDown={handleRowKeyDown}
+        aria-label={`Load saved filter ${name}`}
+      >
+        <span className="truncate">{name}</span>
+      </Button>
+      <span
+        className={cn(
+          "flex shrink-0 items-center gap-0.5 transition-opacity",
+          "opacity-0 group-hover/saved-row:opacity-100 group-focus-within/saved-row:opacity-100"
+        )}
+      >
+        {canRename && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                data-saved-action="rename"
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground hover:text-foreground size-7"
+                onClick={onRename}
+                onKeyDown={handleActionKeyDown}
+                aria-label={`Rename ${name}`}
+              >
+                <SquarePenIcon />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top">Rename</TooltipContent>
+          </Tooltip>
+        )}
+        {canDelete && (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                data-saved-action="delete"
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground hover:text-destructive size-7"
+                onClick={onDelete}
+                onKeyDown={handleActionKeyDown}
+                aria-label={`Delete ${name}`}
+              >
+                <XIcon />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top">Delete</TooltipContent>
+          </Tooltip>
+        )}
+      </span>
+    </div>
+  )
+}
+
+interface SavedFilterRenameRowProps {
+  value: string
+  onChange: (value: string) => void
+  onSubmit: () => void
+  onCancel: () => void
+  inputRef: React.RefObject<HTMLInputElement | null>
+}
+
+function SavedFilterRenameRow({
+  value,
+  onChange,
+  onSubmit,
+  onCancel,
+  inputRef,
+}: SavedFilterRenameRowProps) {
+  return (
+    <div className="px-1 py-0.5">
+      <ButtonGroup className="w-full">
+        <Input
+          ref={inputRef}
+          className="flex-1 text-sm"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault()
+              onSubmit()
+            } else if (e.key === "Escape") {
+              e.preventDefault()
+              onCancel()
+            }
+          }}
+        />
+        <Button
+          variant="outline"
+          size="icon"
+          aria-label="Cancel rename"
+          onClick={onCancel}
+        >
+          <XIcon />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          aria-label="Save name"
+          onClick={onSubmit}
+        >
+          <CheckIcon />
+        </Button>
+      </ButtonGroup>
+    </div>
+  )
+}
+
 // ─── FilterPanel (popover-based variant) ─────────────────────────────────────
 type FilterConjunction = "and" | "or"
+
+export interface SavedFilter<T = unknown> {
+  id: string
+  name: string
+  filters: Filter<T>[]
+  conjunction: FilterConjunction
+}
 
 interface FilterPanelProps<T = unknown> {
   filters: Filter<T>[]
@@ -1862,7 +2299,11 @@ interface FilterPanelProps<T = unknown> {
   onChange: (filters: Filter<T>[]) => void
   conjunction?: FilterConjunction
   onConjunctionChange?: (conjunction: FilterConjunction) => void
-  onSave?: (filters: Filter<T>[], conjunction: FilterConjunction) => void
+  onSave?: (name: string, filters: Filter<T>[], conjunction: FilterConjunction) => void
+  savedFilters?: SavedFilter<T>[]
+  onLoadSavedFilter?: (saved: SavedFilter<T>) => void
+  onDeleteSavedFilter?: (id: string) => void
+  onRenameSavedFilter?: (id: string, name: string) => void
   className?: string
   size?: "sm" | "default" | "lg"
   i18n?: Partial<FilterI18nConfig>
@@ -1877,6 +2318,10 @@ export function FilterPanel<T = unknown>({
   onChange,
   conjunction: controlledConjunction,
   onSave,
+  savedFilters,
+  onLoadSavedFilter,
+  onDeleteSavedFilter,
+  onRenameSavedFilter,
   className,
   size = "default",
   i18n,
@@ -1884,39 +2329,68 @@ export function FilterPanel<T = unknown>({
   allowMultiple = true,
   popoverClassName,
 }: FilterPanelProps<T>) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpenState] = useState(false)
   const [internalConjunction] =
     useState<FilterConjunction>("and")
   const [showFieldPicker, setShowFieldPicker] = useState(false)
-  const [fieldPickerSearch, setFieldPickerSearch] = useState("")
+  const [fieldPickerSearch, setFieldPickerSearchState] = useState("")
   const [highlightedFieldIndex, setHighlightedFieldIndex] = useState(-1)
   const [lastAddedFilterId, setLastAddedFilterId] = useState<string | null>(
     null
   )
   const [openFilterId, setOpenFilterId] = useState<string | null>(null)
+  const [savingFilterName, setSavingFilterName] = useState<string | null>(null)
+  const [editingFilterId, setEditingFilterId] = useState<string | null>(null)
+  const [editingFilterName, setEditingFilterName] = useState("")
+  const [savedFiltersOpen, setSavedFiltersOpenState] = useState(false)
+  const [highlightedSavedIndex, setHighlightedSavedIndex] = useState(-1)
+  const savedListRef = useRef<HTMLDivElement>(null)
+  const saveInputRef = useRef<HTMLInputElement>(null)
+  const editInputRef = useRef<HTMLInputElement>(null)
   const clearOpenFilterId = useCallback(() => setOpenFilterId(null), [])
   const fieldPickerInputRef = useRef<HTMLInputElement>(null)
   const fieldPickerId = useId()
 
   const conjunction = controlledConjunction ?? internalConjunction
+  const isMobile = useIsMobile()
 
-  const mergedI18n: FilterI18nConfig = {
-    ...DEFAULT_I18N,
-    ...i18n,
-    operators: { ...DEFAULT_I18N.operators, ...i18n?.operators },
-    placeholders: { ...DEFAULT_I18N.placeholders, ...i18n?.placeholders },
-    validation: { ...DEFAULT_I18N.validation, ...i18n?.validation },
-  }
+  const mergedI18n: FilterI18nConfig = useMemo(() => mergeI18n(i18n), [i18n])
 
   const fieldsMap = useMemo(() => getFieldsMap(fields), [fields])
 
-  const selectableFields = useMemo(() => {
-    const flatFields = flattenFields(fields)
-    return flatFields.filter((field) => {
-      if (!field.key || field.type === "separator") return false
-      return true
-    })
-  }, [fields])
+  const setFieldPickerSearch = useCallback((value: string) => {
+    setFieldPickerSearchState(value)
+    setHighlightedFieldIndex(-1)
+  }, [])
+
+  const setOpen = useCallback(
+    (next: boolean) => {
+      setOpenState(next)
+      if (next && filters.length === 0) {
+        setShowFieldPicker(true)
+      }
+      if (!next) {
+        setTimeout(() => {
+          setShowFieldPicker(false)
+          setFieldPickerSearchState("")
+          setHighlightedFieldIndex(-1)
+          setSavingFilterName(null)
+          setEditingFilterId(null)
+        }, 200)
+      }
+    },
+    [filters.length]
+  )
+
+  const setSavedFiltersOpen = useCallback((next: boolean) => {
+    setSavedFiltersOpenState(next)
+    if (next) setHighlightedSavedIndex(-1)
+  }, [])
+
+  const selectableFields = useMemo(
+    () => getSelectableFields(fields),
+    [fields]
+  )
 
   const filteredPickerFields = useMemo(
     () =>
@@ -1928,15 +2402,22 @@ export function FilterPanel<T = unknown>({
     [selectableFields, fieldPickerSearch]
   )
 
-  useEffect(() => {
-    setHighlightedFieldIndex(-1)
-  }, [fieldPickerSearch])
-
-  useEffect(() => {
+  // Sync highlight to first item when picker opens or filtered list changes
+  const [prevShowFieldPicker, setPrevShowFieldPicker] =
+    useState(showFieldPicker)
+  const [prevFilteredPickerCount, setPrevFilteredPickerCount] = useState(
+    filteredPickerFields.length
+  )
+  if (
+    prevShowFieldPicker !== showFieldPicker ||
+    prevFilteredPickerCount !== filteredPickerFields.length
+  ) {
+    setPrevShowFieldPicker(showFieldPicker)
+    setPrevFilteredPickerCount(filteredPickerFields.length)
     if (showFieldPicker && filteredPickerFields.length > 0) {
       setHighlightedFieldIndex(0)
     }
-  }, [showFieldPicker, filteredPickerFields.length])
+  }
 
   // Focus the search input when field picker opens
   useEffect(() => {
@@ -1952,20 +2433,25 @@ export function FilterPanel<T = unknown>({
     }
   }, [lastAddedFilterId])
 
-  // Auto-show field picker when popover opens with no filters
-  // Delay reset on close so content stays stable during exit animation
+  // Auto-focus and select save input
   useEffect(() => {
-    if (open && filters.length === 0) {
-      setShowFieldPicker(true)
+    if (savingFilterName !== null) {
+      requestAnimationFrame(() => {
+        saveInputRef.current?.focus()
+        saveInputRef.current?.select()
+      })
     }
-    if (!open) {
-      const timer = setTimeout(() => {
-        setShowFieldPicker(false)
-        setFieldPickerSearch("")
-      }, 200)
-      return () => clearTimeout(timer)
+  }, [savingFilterName])
+
+  // Auto-focus and select edit input
+  useEffect(() => {
+    if (editingFilterId) {
+      requestAnimationFrame(() => {
+        editInputRef.current?.focus()
+        editInputRef.current?.select()
+      })
     }
-  }, [open, filters.length])
+  }, [editingFilterId])
 
   const addFilter = useCallback(
     (fieldKey: string) => {
@@ -1995,7 +2481,7 @@ export function FilterPanel<T = unknown>({
         setFieldPickerSearch("")
       }
     },
-    [fieldsMap, filters, onChange]
+    [fieldsMap, filters, onChange, setFieldPickerSearch]
   )
 
   const updateFilter = useCallback(
@@ -2044,60 +2530,287 @@ export function FilterPanel<T = unknown>({
         allowMultiple,
       }}
     >
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          {trigger || (
-            <Button
-              data-slot="filter-panel-trigger"
-              variant="outline"
-              size={size}
-              className={cn(
-                activeFilterCount > 0 && "gap-1.5",
-                className
-              )}
-            >
-              <ListFilterIcon aria-hidden="true" />
-              {mergedI18n.addFilter}
-              {activeFilterCount > 0 && (
-                <span className="bg-primary text-primary-foreground inline-flex size-5 items-center justify-center rounded-full text-xs font-medium">
-                  {activeFilterCount}
-                </span>
-              )}
-            </Button>
-          )}
-        </PopoverTrigger>
-        <PopoverContent
-          align="start"
-          className={cn(
-            "w-auto min-w-80 max-w-[calc(100vw-2rem)] gap-0 p-0",
-            popoverClassName
-          )}
-        >
-          {/* Header */}
+      {(() => {
+        const triggerNode = trigger || (
+          <Button
+            data-slot="filter-panel-trigger"
+            variant="outline"
+            size={size}
+            className={cn(
+              activeFilterCount > 0 && "gap-1.5",
+              className
+            )}
+          >
+            <ListFilterIcon aria-hidden="true" />
+            {mergedI18n.addFilter}
+            {activeFilterCount > 0 && (
+              <Badge variant="primary" size="sm" counter>
+                {activeFilterCount}
+              </Badge>
+            )}
+          </Button>
+        )
+
+        const body = (
+          <>
+            {/* Header */}
           <div className="flex items-center justify-between px-3 py-2">
-            <span className="text-muted-foreground text-xs font-medium uppercase tracking-wider">
-              Filters
+            <span className="text-muted-foreground text-sm font-medium tracking-wider">
+              {mergedI18n.addFilterTitle}
             </span>
             <div className="flex items-center gap-1">
-              {onSave && filters.length > 0 && (
-                <Button
-                  variant="ghost"
-                  size="icon-xs"
-                  onClick={() => onSave(filters, conjunction)}
-                  aria-label="Save filters"
-                >
-                  <SaveIcon />
-                </Button>
+              {onSave && (
+                <Popover open={savedFiltersOpen} onOpenChange={(v) => {
+                  setSavedFiltersOpen(v)
+                  if (!v) {
+                    setSavingFilterName(null)
+                    setEditingFilterId(null)
+                  }
+                }}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-muted-foreground hover:text-foreground gap-1.5"
+                      aria-label="Saved filters"
+                    >
+                      Saved filters
+                      <ChevronDownIcon className="size-3.5" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    align="end"
+                    side="bottom"
+                    className="w-64 gap-0 p-0"
+                    onOpenAutoFocus={(e) => {
+                      e.preventDefault()
+                      ;(e.currentTarget as HTMLElement).focus()
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return
+                      const active = document.activeElement as HTMLElement | null
+                      if (active && savedListRef.current?.contains(active) && active.closest('[role="option"]')) {
+                        return
+                      }
+                      if (!savedFilters || savedFilters.length === 0) return
+                      e.preventDefault()
+                      const targetIndex = e.key === "ArrowDown" ? 0 : savedFilters.length - 1
+                      const el = savedListRef.current?.querySelector<HTMLElement>(
+                        `[data-saved-index="${targetIndex}"]`
+                      )
+                      el?.focus()
+                      setHighlightedSavedIndex(targetIndex)
+                    }}
+                  >
+                    {/* Saved filter list */}
+                    {savedFilters && savedFilters.length > 0 && (
+                      <TooltipProvider delayDuration={300}>
+                        <div
+                          ref={savedListRef}
+                          role="listbox"
+                          aria-label="Saved filters"
+                          className="max-h-64 overflow-y-auto p-1"
+                        >
+                          {savedFilters.map((saved, index) => {
+                            if (editingFilterId === saved.id) {
+                              return (
+                                <SavedFilterRenameRow
+                                  key={saved.id}
+                                  value={editingFilterName}
+                                  onChange={setEditingFilterName}
+                                  inputRef={editInputRef}
+                                  onSubmit={() => {
+                                    const trimmed = editingFilterName.trim()
+                                    if (trimmed) {
+                                      onRenameSavedFilter?.(saved.id, trimmed)
+                                      setEditingFilterId(null)
+                                      requestAnimationFrame(() => {
+                                        const el =
+                                          savedListRef.current?.querySelector<HTMLElement>(
+                                            `[data-saved-index="${index}"]`
+                                          )
+                                        el?.focus()
+                                      })
+                                    }
+                                  }}
+                                  onCancel={() => {
+                                    setEditingFilterId(null)
+                                    requestAnimationFrame(() => {
+                                      const el =
+                                        savedListRef.current?.querySelector<HTMLElement>(
+                                          `[data-saved-index="${index}"]`
+                                        )
+                                      el?.focus()
+                                    })
+                                  }}
+                                />
+                              )
+                            }
+                            return (
+                              <SavedFilterRow
+                                key={saved.id}
+                                name={saved.name}
+                                index={index}
+                                rowCount={savedFilters.length}
+                                isActive={highlightedSavedIndex === index}
+                                canRename={Boolean(onRenameSavedFilter)}
+                                canDelete={Boolean(onDeleteSavedFilter)}
+                                onActivate={setHighlightedSavedIndex}
+                                onFocusRow={(i) => {
+                                  setHighlightedSavedIndex(i)
+                                  const el =
+                                    savedListRef.current?.querySelector<HTMLElement>(
+                                      `[data-saved-index="${i}"]`
+                                    )
+                                  el?.focus()
+                                }}
+                                onSelect={() => {
+                                  setSavedFiltersOpen(false)
+                                  setTimeout(
+                                    () => onLoadSavedFilter?.(saved),
+                                    150
+                                  )
+                                }}
+                                onRename={() => {
+                                  setEditingFilterId(saved.id)
+                                  setEditingFilterName(saved.name)
+                                }}
+                                onDelete={() => {
+                                  onDeleteSavedFilter?.(saved.id)
+                                  const nextIndex = Math.min(
+                                    index,
+                                    savedFilters.length - 2
+                                  )
+                                  if (nextIndex >= 0) {
+                                    setHighlightedSavedIndex(nextIndex)
+                                    requestAnimationFrame(() => {
+                                      const el =
+                                        savedListRef.current?.querySelector<HTMLElement>(
+                                          `[data-saved-index="${nextIndex}"]`
+                                        )
+                                      el?.focus()
+                                    })
+                                  }
+                                }}
+                              />
+                            )
+                          })}
+                        </div>
+                      </TooltipProvider>
+                    )}
+
+                    {/* Save new filter input */}
+                    {savingFilterName !== null && (
+                      <>
+                        {savedFilters && savedFilters.length > 0 && (
+                          <Separator />
+                        )}
+                        <div className="p-1">
+                          <ButtonGroup className="w-full">
+                            <Input
+                              ref={saveInputRef}
+                              className="h-8 flex-1 text-sm"
+                              placeholder="Filter name..."
+                              value={savingFilterName}
+                              onChange={(e) =>
+                                setSavingFilterName(e.target.value)
+                              }
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault()
+                                  const trimmed = savingFilterName.trim()
+                                  if (trimmed) {
+                                    onSave(trimmed, filters, conjunction)
+                                    setSavingFilterName(null)
+                                  }
+                                } else if (e.key === "Escape") {
+                                  setSavingFilterName(null)
+                                }
+                              }}
+                            />
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              aria-label="Cancel"
+                              onClick={() => setSavingFilterName(null)}
+                            >
+                              <XIcon />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              aria-label="Save filter"
+                              onClick={() => {
+                                const trimmed = savingFilterName.trim()
+                                if (trimmed) {
+                                  onSave(trimmed, filters, conjunction)
+                                  setSavingFilterName(null)
+                                }
+                              }}
+                            >
+                              <CheckIcon />
+                            </Button>
+                          </ButtonGroup>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Empty state or save button */}
+                    {savingFilterName === null && (
+                      <>
+                        {(!savedFilters || savedFilters.length === 0) && (
+                          <div className="px-3 py-4 text-center">
+                            <p className="text-muted-foreground text-sm font-medium">
+                              No saved filters yet
+                            </p>
+                            <p className="text-muted-foreground mt-0.5 text-xs">
+                              Save frequently used filters for quick access.
+                            </p>
+                          </div>
+                        )}
+                        {activeFilterCount > 0 && (
+                          <>
+                            {savedFilters && savedFilters.length > 0 && (
+                              <Separator />
+                            )}
+                            <div className="p-3">
+                              <Button
+                                variant="outline"
+                                className="w-full"
+                                onClick={() =>
+                                  setSavingFilterName(
+                                    `Filter set ${(savedFilters?.length ?? 0) + 1}`
+                                  )
+                                }
+                              >
+                                <PlusIcon />
+                                Save current filters
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                        {activeFilterCount === 0 &&
+                          savedFilters &&
+                          savedFilters.length > 0 && (
+                            <div className="text-muted-foreground px-3 py-2 text-center text-xs">
+                              Add filters to save them
+                            </div>
+                          )}
+                      </>
+                    )}
+                  </PopoverContent>
+                </Popover>
               )}
               {filters.length > 0 && (
                 <Button
+                  data-slot="filter-clear-all"
+                  type="button"
                   variant="ghost"
-                  size="icon-xs"
+                  size="sm"
                   onClick={() => onChange([])}
-                  aria-label={mergedI18n.clearAll}
-                  className="text-muted-foreground hover:text-destructive"
+                  className="text-muted-foreground hover:text-foreground gap-1.5 underline underline-offset-4"
                 >
-                  <Trash2Icon />
+                  {mergedI18n.clearAll}
                 </Button>
               )}
             </div>
@@ -2194,28 +2907,38 @@ export function FilterPanel<T = unknown>({
                       {mergedI18n.noFieldsFound}
                     </div>
                   ) : (
-                    filteredPickerFields.map((f, index) => (
-                      <button
-                        key={f.key}
-                        id={`${fieldPickerId}-item-${index}`}
-                        role="option"
-                        aria-selected={highlightedFieldIndex === index}
-                        type="button"
-                        className={cn(
-                          "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none",
-                          highlightedFieldIndex === index
-                            ? "bg-accent text-accent-foreground"
-                            : "hover:bg-accent hover:text-accent-foreground"
-                        )}
-                        onMouseEnter={() => setHighlightedFieldIndex(index)}
-                        onClick={() => f.key && addFilter(f.key)}
-                      >
-                        {f.icon && (
-                          <span className="text-muted-foreground">{f.icon}</span>
-                        )}
-                        <span>{f.label}</span>
-                      </button>
-                    ))
+                    filteredPickerFields.map((f, index) => {
+                      const existingFilter = filters.find((fil) => fil.field === f.key)
+                      const filterValueCount = existingFilter?.values.filter((v) => v !== "" && v != null).length || 0
+
+                      return (
+                        <button
+                          key={f.key}
+                          id={`${fieldPickerId}-item-${index}`}
+                          role="option"
+                          aria-selected={highlightedFieldIndex === index}
+                          type="button"
+                          className={cn(
+                            "flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none",
+                            highlightedFieldIndex === index
+                              ? "bg-accent text-accent-foreground"
+                              : "hover:bg-accent hover:text-accent-foreground"
+                          )}
+                          onMouseEnter={() => setHighlightedFieldIndex(index)}
+                          onClick={() => f.key && addFilter(f.key)}
+                        >
+                          {f.icon && (
+                            <span className="text-muted-foreground">{f.icon}</span>
+                          )}
+                          <span>{f.label}</span>
+                          {filterValueCount > 0 && (
+                            <span className="text-muted-foreground ml-auto text-xs tabular-nums">
+                              {filterValueCount}
+                            </span>
+                          )}
+                        </button>
+                      )
+                    })
                   )}
                 </div>
               </div>
@@ -2226,21 +2949,52 @@ export function FilterPanel<T = unknown>({
           {!showFieldPicker && selectableFields.length > 0 && (
             <>
               <Separator />
-              <div className="p-1.5">
+              <div className="p-3">
                 <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-foreground w-full justify-start gap-1.5 font-normal"
+                  variant="secondary"
+                  className=""
                   onClick={() => setShowFieldPicker(true)}
                 >
-                  <PlusIcon className="size-3.5" />
-                  Add filter
+                  <PlusIcon />
+                  {mergedI18n.addFilter}
                 </Button>
               </div>
             </>
           )}
-        </PopoverContent>
-      </Popover>
+          </>
+        )
+
+        if (isMobile) {
+          return (
+            <Drawer open={open} onOpenChange={setOpen}>
+              <DrawerTrigger asChild>{triggerNode}</DrawerTrigger>
+              <DrawerContent
+                className={cn(
+                  "max-h-[85vh] gap-0 overflow-y-auto p-0",
+                  popoverClassName
+                )}
+              >
+                {body}
+              </DrawerContent>
+            </Drawer>
+          )
+        }
+
+        return (
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>{triggerNode}</PopoverTrigger>
+            <PopoverContent
+              align="start"
+              className={cn(
+                "w-auto min-w-80 max-w-[calc(100vw-2rem)] gap-0 p-0",
+                popoverClassName
+              )}
+            >
+              {body}
+            </PopoverContent>
+          </Popover>
+        )
+      })()}
     </FilterContext.Provider>
   )
 }

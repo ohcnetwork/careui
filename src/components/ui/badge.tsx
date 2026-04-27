@@ -56,6 +56,10 @@ const badgeVariants = cva(
         true: "",
         false: "",
       },
+      counter: {
+        true: "tabular-nums rounded-sm gap-0",
+        false: "",
+      },
       size: {
         xs: "h-4 text-[10px] px-1.5 [&>svg]:size-2.5 has-data-[icon=inline-start]:ps-1 has-data-[icon=inline-end]:pe-1",
         sm: "h-5 text-xs px-2 [&>svg]:size-3 has-data-[icon=inline-start]:ps-1.5 has-data-[icon=inline-end]:pe-1.5",
@@ -94,10 +98,15 @@ const badgeVariants = cva(
         className:
           "bg-red-600 border-red-500 text-white dark:bg-red-500 dark:border-red-500 dark:text-white [a&]:hover:bg-red-500",
       },
+      { counter: true, size: "xs", className: "min-w-4 px-1" },
+      { counter: true, size: "sm", className: "min-w-5 px-1" },
+      { counter: true, size: "md", className: "min-w-6 px-1.5" },
+      { counter: true, size: "lg", className: "min-w-7 px-2" },
     ],
     defaultVariants: {
       variant: "primary",
       solid: false,
+      counter: false,
       size: "md",
     },
   }
@@ -131,6 +140,7 @@ function Badge({
   asChild = false,
   dot = false,
   solid = false,
+  counter = false,
   onClose,
   children,
   ...props
@@ -140,6 +150,8 @@ function Badge({
     dot?: boolean;
     /** Solid filled background — only applies to the 5 semantic variants */
     solid?: boolean;
+    /** Counter pill — square at single digit, grows for multi-digit, tabular-nums */
+    counter?: boolean;
     /** Renders a close (×) button; not compatible with asChild */
     onClose?: React.MouseEventHandler<HTMLButtonElement>;
   }) {
@@ -154,7 +166,7 @@ function Badge({
       data-variant={variant}
       data-solid={solid || undefined}
       className={cn(
-        badgeVariants({ variant, size, solid: useSolidPalette }),
+        badgeVariants({ variant, size, solid: useSolidPalette, counter }),
         onClose && "pe-0",
         className
       )}

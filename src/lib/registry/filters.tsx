@@ -4,7 +4,6 @@ import {
   AtSignIcon,
   CalendarIcon,
   CircleDashedIcon,
-  CircleIcon,
   ClockIcon,
   GlobeIcon,
   LinkIcon,
@@ -16,6 +15,7 @@ import {
   UserIcon,
 } from "lucide-react";
 import { type ComponentDoc } from "@/lib/types";
+import { Indicator } from "@/components/ui/indicator";
 import {
   createFilter,
   FilterPanel,
@@ -23,6 +23,7 @@ import {
   type Filter,
   type FilterFieldConfig,
   type FilterI18nConfig,
+  type SavedFilter,
 } from "@/components/ui/filters";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -38,23 +39,17 @@ const statusOptions = [
   {
     value: "in_progress",
     label: "In Progress",
-    icon: React.createElement(CircleIcon, {
-      className: "size-3 fill-blue-500 text-blue-500",
-    }),
+    icon: React.createElement(Indicator, { tone: "blue", size: "md" }),
   },
   {
     value: "completed",
     label: "Completed",
-    icon: React.createElement(CircleIcon, {
-      className: "size-3 fill-emerald-500 text-emerald-500",
-    }),
+    icon: React.createElement(Indicator, { tone: "green", size: "md" }),
   },
   {
     value: "blocked",
     label: "Blocked",
-    icon: React.createElement(CircleIcon, {
-      className: "size-3 fill-red-500 text-red-500",
-    }),
+    icon: React.createElement(Indicator, { tone: "red", size: "md" }),
   },
 ];
 
@@ -62,29 +57,17 @@ const tagOptions = [
   {
     value: "design",
     label: "Design",
-    icon: React.createElement("span", {
-      className:
-        "size-3 rounded-full border-2 border-background bg-pink-500 inline-block",
-      "aria-hidden": true,
-    }),
+    icon: React.createElement(Indicator, { tone: "pink", size: "md" }),
   },
   {
     value: "engineering",
     label: "Engineering",
-    icon: React.createElement("span", {
-      className:
-        "size-3 rounded-full border-2 border-background bg-blue-500 inline-block",
-      "aria-hidden": true,
-    }),
+    icon: React.createElement(Indicator, { tone: "blue", size: "md" }),
   },
   {
     value: "research",
     label: "Research",
-    icon: React.createElement("span", {
-      className:
-        "size-3 rounded-full border-2 border-background bg-amber-500 inline-block",
-      "aria-hidden": true,
-    }),
+    icon: React.createElement(Indicator, { tone: "amber", size: "md" }),
   },
 ];
 
@@ -92,30 +75,22 @@ const priorityOptions = [
   {
     value: "low",
     label: "Low",
-    icon: React.createElement("div", {
-      className: "size-2.5 shrink-0 rounded-full bg-green-500",
-    }),
+    icon: React.createElement(Indicator, { tone: "green", size: "md" }),
   },
   {
     value: "medium",
     label: "Medium",
-    icon: React.createElement("div", {
-      className: "size-2.5 shrink-0 rounded-full bg-yellow-500",
-    }),
+    icon: React.createElement(Indicator, { tone: "yellow", size: "md" }),
   },
   {
     value: "high",
     label: "High",
-    icon: React.createElement("div", {
-      className: "size-2.5 shrink-0 rounded-full bg-orange-500",
-    }),
+    icon: React.createElement(Indicator, { tone: "orange", size: "md" }),
   },
   {
     value: "urgent",
     label: "Urgent",
-    icon: React.createElement("div", {
-      className: "size-2.5 shrink-0 rounded-full bg-red-500",
-    }),
+    icon: React.createElement(Indicator, { tone: "red", size: "md" }),
   },
 ];
 
@@ -135,7 +110,6 @@ const previewFields: FilterFieldConfig[] = [
     type: "select",
     icon: React.createElement(CircleDashedIcon, { className: "size-4" }),
     defaultOperator: "is",
-    searchable: false,
     options: statusOptions,
     customValueRenderer: (values, options) => {
       const selected = options.find((o) => o.value === values[0]);
@@ -441,7 +415,6 @@ const sizeFields: FilterFieldConfig[] = [
     label: "Status",
     icon: React.createElement(ClockIcon, { className: "size-3.5" }),
     type: "select",
-    searchable: false,
     options: [
       { value: "todo", label: "To Do" },
       { value: "in-progress", label: "In Progress" },
@@ -639,7 +612,6 @@ const panelFields: FilterFieldConfig[] = [
     label: "Status",
     icon: React.createElement(CircleDashedIcon, { className: "size-3.5" }),
     type: "select",
-    searchable: false,
     options: statusOptions,
   },
   {
@@ -679,13 +651,47 @@ const panelFields: FilterFieldConfig[] = [
 function FilterPanelDemo() {
   const [filters, setFilters] = React.useState<Filter[]>([]);
   const [conjunction, setConjunction] = React.useState<"and" | "or">("and");
+  const [savedFilters, setSavedFilters] = React.useState<SavedFilter[]>([
+    {
+      id: "saved-1",
+      name: "High priority blocked",
+      filters: [
+        createFilter("priority", "is_any_of", ["high", "urgent"]),
+        createFilter("status", "is", ["blocked"]),
+      ],
+      conjunction: "and",
+    },
+  ]);
   return React.createElement(FilterPanel, {
     filters,
     fields: panelFields,
     onChange: setFilters,
     conjunction,
     onConjunctionChange: setConjunction,
-    onSave: () => alert("Filters saved!"),
+    savedFilters,
+    onLoadSavedFilter: (saved: SavedFilter) => {
+      setFilters(saved.filters);
+      setConjunction(saved.conjunction);
+    },
+    onDeleteSavedFilter: (id: string) => {
+      setSavedFilters((prev) => prev.filter((s) => s.id !== id));
+    },
+    onRenameSavedFilter: (id: string, name: string) => {
+      setSavedFilters((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, name } : s))
+      );
+    },
+    onSave: (name: string, currentFilters: Filter[], currentConjunction: "and" | "or") => {
+      setSavedFilters((prev) => [
+        ...prev,
+        {
+          id: `saved-${Date.now()}`,
+          name,
+          filters: currentFilters,
+          conjunction: currentConjunction,
+        },
+      ]);
+    },
   });
 }
 
@@ -773,7 +779,6 @@ const i18nFields: FilterFieldConfig[] = [
     label: "Status",
     icon: React.createElement(CircleDashedIcon, { className: "size-3.5" }),
     type: "select",
-    searchable: false,
     options: [
       { value: "active", label: "Active" },
       { value: "inactive", label: "Inactive" },
