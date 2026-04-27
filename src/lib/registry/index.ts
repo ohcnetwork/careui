@@ -76,6 +76,8 @@ const componentLoaders: Record<
   input: () => import("./input").then((m) => ({ default: m.inputDoc })),
   "hover-card": () =>
     import("./hover-card").then((m) => ({ default: m.hoverCardDoc })),
+  indicator: () =>
+    import("./indicator").then((m) => ({ default: m.indicatorDoc })),
   "input-group": () =>
     import("./input-group").then((m) => ({ default: m.inputGroupDoc })),
   "input-otp": () =>
