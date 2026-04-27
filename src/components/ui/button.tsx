@@ -29,22 +29,22 @@ const buttonVariants = cva(
         destructive:
           "border border-destructive/70 bg-red-100/75 text-red-700 shadow-md hover:bg-destructive/20 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/25 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-red-400/40 [:disabled,:active,[data-pressed]]:shadow-none dark:bg-destructive/5 dark:hover:border-destructive/75 dark:text-red-400 dark:hover:bg-destructive/4 dark:[:active,[data-pressed]]:bg-destructive/5 dark:[:active,[data-pressed]]:inset-shadow-neutral-950",
         "destructive-solid":
-          "text-shadow-xs text-shadow-red-950/75 dark:text-shadow-red-900 border border-red-700 bg-destructive text-red-100 shadow-md hover:bg-destructive/80 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/70 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-destructive/90 [:disabled,:active,[data-pressed]]:shadow-none dark:bg-red-500/90 dark:[:active,[data-pressed]]:inset-shadow-red-950/90 dark:hover:bg-red-500/80 dark:[:active,[data-pressed]]:bg-red-500/70",
+          "text-shadow-xs text-shadow-red-950/75 dark:text-shadow-red-900 border border-red-700 bg-destructive text-white shadow-md hover:bg-destructive/80 focus-visible:outline-destructive [:active,[data-pressed]]:bg-destructive/70 [:active,[data-pressed]]:inset-shadow-sm [:active,[data-pressed]]:inset-shadow-destructive/90 [:disabled,:active,[data-pressed]]:shadow-none dark:bg-red-500/90 dark:[:active,[data-pressed]]:inset-shadow-red-950/90 dark:hover:bg-red-500/80 dark:[:active,[data-pressed]]:bg-red-500/70",
       },
       size: {
         default:
           "h-12 md:h-10 px-4.5 md:px-3.5 [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75] has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3 in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
         xs: "h-8 md:h-8 gap-1 px-2.5 rounded-[min(var(--radius-md),8px)] text-xs [&_svg:not([class*='size-'])]:size-3.5 has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2 in-data-[slot=button-group]:rounded-md",
         sm: "h-9 md:h-9 gap-1.5 px-3 rounded-[min(var(--radius-md),10px)] [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5 in-data-[slot=button-group]:rounded-md",
-        lg: "h-11 md:h-11 gap-1.5 px-4 text-base [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75] has-data-[icon=inline-start]:pl-3.5 has-data-[icon=inline-end]:pr-3.5",
-        xl: "h-12 md:h-12 gap-2 px-4.5 text-base [&_svg:not([class*='size-'])]:size-5 has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4",
+        lg: "h-11 md:h-11 gap-1.5 px-4 text-base [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75] has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3 in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
+        xl: "h-12 md:h-12 gap-2 px-4.5 text-base [&_svg:not([class*='size-'])]:size-5 has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4 in-data-[slot=button-group]:rounded-[min(var(--radius-md),12px)]",
         icon: "size-12 md:size-10 [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75]",
         "icon-xs":
           "size-8 md:size-8 rounded-[min(var(--radius-md),8px)] [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:stroke-2 in-data-[slot=button-group]:rounded-md",
         "icon-sm":
           "size-9 md:size-9 rounded-[min(var(--radius-md),10px)] [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-2 in-data-[slot=button-group]:rounded-md",
-        "icon-lg": "size-11 md:size-11 [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75]",
-        "icon-xl": "size-12 md:size-12 [&_svg:not([class*='size-'])]:size-6",
+        "icon-lg": "size-11 md:size-11 [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75] in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
+        "icon-xl": "size-12 md:size-12 [&_svg:not([class*='size-'])]:size-6 in-data-[slot=button-group]:rounded-[min(var(--radius-md),12px)]",
       },
     },
     defaultVariants: {
