@@ -1022,5 +1022,155 @@ export function SheetNonModal() {
         )
       ),
     },
+    {
+      name: "Nested Sheets",
+      description:
+        "Sheets can be nested — opening a sheet from inside another sheet stacks the second on top of the first. Each sheet keeps its own focus trap and dismiss behavior; closing the inner sheet returns focus to the trigger in the parent sheet.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Sheet,
+  SheetBody,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
+export function NestedSheetDemo() {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Open Sheet</Button>
+      </SheetTrigger>
+      <SheetContent size="md">
+        <SheetHeader>
+          <SheetTitle>Nested Sheets</SheetTitle>
+          <SheetDescription>
+            Open another sheet from inside this one to stack them.
+          </SheetDescription>
+        </SheetHeader>
+        <SheetBody>
+          <p className="text-muted-foreground mb-4 text-sm">
+            Sheets compose naturally — drop a{" "}
+            <code className="bg-muted rounded px-1 py-0.5 text-xs">Sheet</code>{" "}
+            anywhere inside another sheet&apos;s body and it will open on top
+            with its own overlay and focus trap.
+          </p>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button className="w-full">Open Nested Sheet</Button>
+            </SheetTrigger>
+            <SheetContent size="sm">
+              <SheetHeader>
+                <SheetTitle>This sheet is nested.</SheetTitle>
+                <SheetDescription>
+                  Closing this sheet returns focus to the trigger in the parent
+                  sheet.
+                </SheetDescription>
+              </SheetHeader>
+              <SheetFooter>
+                <SheetClose asChild>
+                  <Button variant="outline">Close</Button>
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </SheetBody>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button variant="outline">Close</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
+  )
+}`,
+      preview: React.createElement(
+        Sheet,
+        null,
+        React.createElement(
+          SheetTrigger,
+          { asChild: true },
+          React.createElement(Button, { variant: "outline" }, "Open Sheet")
+        ),
+        React.createElement(
+          SheetContent,
+          { size: "md" },
+          React.createElement(
+            SheetHeader,
+            null,
+            React.createElement(SheetTitle, null, "Nested Sheets"),
+            React.createElement(
+              SheetDescription,
+              null,
+              "Open another sheet from inside this one to stack them."
+            )
+          ),
+          React.createElement(
+            SheetBody,
+            null,
+            React.createElement(
+              "p",
+              { className: "text-muted-foreground mb-4 text-sm" },
+              "Sheets compose naturally — drop a ",
+              React.createElement(
+                "code",
+                { className: "bg-muted rounded px-1 py-0.5 text-xs" },
+                "Sheet"
+              ),
+              " anywhere inside another sheet's body and it will open on top with its own overlay and focus trap."
+            ),
+            React.createElement(
+              Sheet,
+              null,
+              React.createElement(
+                SheetTrigger,
+                { asChild: true },
+                React.createElement(
+                  Button,
+                  { className: "w-full" },
+                  "Open Nested Sheet"
+                )
+              ),
+              React.createElement(
+                SheetContent,
+                { size: "sm" },
+                React.createElement(
+                  SheetHeader,
+                  null,
+                  React.createElement(SheetTitle, null, "This sheet is nested."),
+                  React.createElement(
+                    SheetDescription,
+                    null,
+                    "Closing this sheet returns focus to the trigger in the parent sheet."
+                  )
+                ),
+                React.createElement(
+                  SheetFooter,
+                  null,
+                  React.createElement(
+                    SheetClose,
+                    { asChild: true },
+                    React.createElement(Button, { variant: "outline" }, "Close")
+                  )
+                )
+              )
+            )
+          ),
+          React.createElement(
+            SheetFooter,
+            null,
+            React.createElement(
+              SheetClose,
+              { asChild: true },
+              React.createElement(Button, { variant: "outline" }, "Close")
+            )
+          )
+        )
+      ),
+    },
   ],
 };
