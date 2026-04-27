@@ -2,6 +2,7 @@ import React from "react";
 import { type ComponentDoc } from "@/lib/types";
 import {
   Drawer,
+  DrawerNestedRoot,
   DrawerTrigger,
   DrawerContent,
   DrawerHeader,
@@ -788,6 +789,168 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
           )
         );
       }),
+    },
+    {
+      name: "Nested Drawers",
+      description:
+        "Nesting drawers creates a Sonner-like stacking effect: dragging the inner drawer down a bit scales the outer drawer too. Wrap the inner drawer in `DrawerNestedRoot` instead of `Drawer` so vaul can coordinate the gesture between them.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerNestedRoot,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+export function NestedDrawerDemo() {
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button variant="outline">Open Drawer</Button>
+      </DrawerTrigger>
+      <DrawerContent size="md">
+        <DrawerHeader>
+          <DrawerTitle>Nested Drawers</DrawerTitle>
+          <DrawerDescription>
+            Nesting drawers creates a Sonner-like stacking effect.
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerBody>
+          <p className="text-muted-foreground mb-2 text-sm">
+            You can nest as many drawers as you want. Use{" "}
+            <code className="bg-muted rounded px-1 py-0.5 text-xs">
+              DrawerNestedRoot
+            </code>{" "}
+            instead of{" "}
+            <code className="bg-muted rounded px-1 py-0.5 text-xs">Drawer</code>{" "}
+            for the inner drawer.
+          </p>
+          <DrawerNestedRoot>
+            <DrawerTrigger asChild>
+              <Button className="mt-4 w-full">Open Second Drawer</Button>
+            </DrawerTrigger>
+            <DrawerContent size="md">
+              <DrawerHeader>
+                <DrawerTitle>This drawer is nested.</DrawerTitle>
+                <DrawerDescription>
+                  Pull this drawer down a bit and it&apos;ll scale the drawer
+                  underneath it.
+                </DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter>
+                <DrawerClose asChild>
+                  <Button variant="outline">Close</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </DrawerNestedRoot>
+        </DrawerBody>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button variant="outline">Close</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}`,
+      preview: React.createElement(() =>
+        React.createElement(
+          Drawer,
+          {},
+          React.createElement(
+            DrawerTrigger,
+            { asChild: true },
+            React.createElement(Button, { variant: "outline" }, "Open Drawer")
+          ),
+          React.createElement(
+            DrawerContent,
+            { size: "md" },
+            React.createElement(
+              DrawerHeader,
+              {},
+              React.createElement(DrawerTitle, {}, "Nested Drawers"),
+              React.createElement(
+                DrawerDescription,
+                {},
+                "Nesting drawers creates a Sonner-like stacking effect."
+              )
+            ),
+            React.createElement(
+              DrawerBody,
+              {},
+              React.createElement(
+                "p",
+                { className: "text-muted-foreground mb-2 text-sm" },
+                "You can nest as many drawers as you want. Use ",
+                React.createElement(
+                  "code",
+                  { className: "bg-muted rounded px-1 py-0.5 text-xs" },
+                  "DrawerNestedRoot"
+                ),
+                " instead of ",
+                React.createElement(
+                  "code",
+                  { className: "bg-muted rounded px-1 py-0.5 text-xs" },
+                  "Drawer"
+                ),
+                " for the inner drawer."
+              ),
+              React.createElement(
+                DrawerNestedRoot,
+                {},
+                React.createElement(
+                  DrawerTrigger,
+                  { asChild: true },
+                  React.createElement(
+                    Button,
+                    { className: "mt-4 w-full" },
+                    "Open Second Drawer"
+                  )
+                ),
+                React.createElement(
+                  DrawerContent,
+                  { size: "md" },
+                  React.createElement(
+                    DrawerHeader,
+                    {},
+                    React.createElement(DrawerTitle, {}, "This drawer is nested."),
+                    React.createElement(
+                      DrawerDescription,
+                      {},
+                      "Pull this drawer down a bit and it'll scale the drawer underneath it."
+                    )
+                  ),
+                  React.createElement(
+                    DrawerFooter,
+                    {},
+                    React.createElement(
+                      DrawerClose,
+                      { asChild: true },
+                      React.createElement(Button, { variant: "outline" }, "Close")
+                    )
+                  )
+                )
+              )
+            ),
+            React.createElement(
+              DrawerFooter,
+              {},
+              React.createElement(
+                DrawerClose,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Close")
+              )
+            )
+          )
+        )
+      ),
     },
   ],
   props: [
