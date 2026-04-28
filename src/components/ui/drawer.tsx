@@ -59,9 +59,6 @@ function DrawerOverlay({
     <DrawerPrimitive.Overlay
       data-slot="drawer-overlay"
       className={cn(
-        // Vaul injects its own fadeIn/fadeOut keyframes keyed off data-state
-        // and Radix Presence waits for the animation to finish before
-        // unmounting, so both opening and closing fade naturally.
         "fixed inset-0 z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs",
         className
       )}

@@ -373,11 +373,10 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <Button
                 variant="tertiary"
                 size="lg"
-                className=""
                 onClick={() => setActiveComponent(prevId)}
               >
-              <ChevronLeft className="h-3 w-3" />
-              {componentNames[prevId]}
+                <ChevronLeft data-icon="inline-start" />
+                {componentNames[prevId]}
               </Button>
             )}
           </div>
@@ -386,11 +385,10 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
               <Button
                 variant="tertiary"
                 size="lg"
-                className=""
                 onClick={() => setActiveComponent(nextId)}
               >
-                  {componentNames[nextId]}
-                  <ChevronRight className="h-3 w-3" />
+                {componentNames[nextId]}
+                <ChevronRight data-icon="inline-end" />
               </Button>
             )}
           </div>
