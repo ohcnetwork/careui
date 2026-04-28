@@ -237,11 +237,6 @@ const FilterContext = createContext<FilterContextValue>({
 
 const useFilterContext = () => useContext(FilterContext)
 
-// Signals that any inner mobile Drawer rendered below is nested inside an
-// outer Drawer (the FilterPanel's mobile sheet). When true, inner drawers use
-// `DrawerNestedRoot` so vaul can coordinate the gesture and produce the
-// Sonner-like scale-back stacking effect. Defaults to false so the standalone
-// `Filters` component keeps using top-level drawers.
 const FilterPanelMobileContext = createContext(false)
 
 const MobileDrawerRoot = ({
