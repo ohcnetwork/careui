@@ -925,26 +925,6 @@ export const filtersDoc: ComponentDoc = {
       preview: React.createElement(FiltersCustomControlsDemo),
     },
     {
-      name: "i18n Support",
-      description:
-        "Pass a partial `i18n` config to localize labels, operators, placeholders, and validation messages.",
-      code: `<Filters
-  filters={filters}
-  fields={fields}
-  onChange={setFilters}
-  i18n={{
-    addFilter: "Agregar filtro",
-    clearAll: "Limpiar todo",
-    operators: {
-      is: "es",
-      isNot: "no es",
-      contains: "contiene",
-    },
-  }}
-/>`,
-      preview: React.createElement(FiltersI18nDemo),
-    },
-    {
       name: "Filter Panel (Popover)",
       description:
         "A popover-based filter panel with inline filter chips, AND/OR conjunction, clear, and save. Ideal for ClickUp/Linear-style filter experiences.",
@@ -977,6 +957,26 @@ export function FilterPanelExample() {
   )
 }`,
       preview: React.createElement(FilterPanelDemo),
+    },
+    {
+      name: "i18n Support",
+      description:
+        "Pass a partial `i18n` config to localize labels, operators, placeholders, and validation messages.",
+      code: `<Filters
+  filters={filters}
+  fields={fields}
+  onChange={setFilters}
+  i18n={{
+    addFilter: "Agregar filtro",
+    clearAll: "Limpiar todo",
+    operators: {
+      is: "es",
+      isNot: "no es",
+      contains: "contiene",
+    },
+  }}
+/>`,
+      preview: React.createElement(FiltersI18nDemo),
     },
   ],
 };
