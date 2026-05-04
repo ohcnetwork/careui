@@ -9,16 +9,24 @@ import {
   PaginationNext,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
+import { Field, FieldLabel } from "@/components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export const paginationDoc: ComponentDoc = {
   id: "pagination",
   name: "Pagination",
-  description:
-    "Pagination with page navigation, built using the Button component.",
+  description: "Pagination with page navigation, next and previous links.",
   installation: {
     cli: "npx shadcn@latest add pagination",
     manual:
-      "Install lucide-react dependency and copy the pagination component source code into your project.",
+      "Copy and paste the pagination component source code into your project.",
   },
   usage: `import {
   Pagination,
@@ -72,6 +80,9 @@ export const paginationDoc: ComponentDoc = {
       <PaginationLink href="#">3</PaginationLink>
     </PaginationItem>
     <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
       <PaginationNext href="#" />
     </PaginationItem>
   </PaginationContent>
@@ -95,16 +106,17 @@ export const paginationDoc: ComponentDoc = {
         React.createElement(
           PaginationItem,
           {},
-          React.createElement(
-            PaginationLink,
-            { href: "#", isActive: true },
-            "2"
-          )
+          React.createElement(PaginationLink, { href: "#", isActive: true }, "2")
         ),
         React.createElement(
           PaginationItem,
           {},
           React.createElement(PaginationLink, { href: "#" }, "3")
+        ),
+        React.createElement(
+          PaginationItem,
+          {},
+          React.createElement(PaginationEllipsis, {})
         ),
         React.createElement(
           PaginationItem,
@@ -116,32 +128,26 @@ export const paginationDoc: ComponentDoc = {
   },
   examples: [
     {
-      name: "With Ellipsis",
-      description: "Pagination with ellipsis for large page sets.",
+      name: "Simple",
+      description: "A simple pagination with only page numbers.",
       code: `<Pagination>
   <PaginationContent>
-    <PaginationItem>
-      <PaginationPrevious href="#" />
-    </PaginationItem>
     <PaginationItem>
       <PaginationLink href="#">1</PaginationLink>
     </PaginationItem>
     <PaginationItem>
-      <PaginationEllipsis />
-    </PaginationItem>
-    <PaginationItem>
       <PaginationLink href="#" isActive>
-        5
+        2
       </PaginationLink>
     </PaginationItem>
     <PaginationItem>
-      <PaginationEllipsis />
+      <PaginationLink href="#">3</PaginationLink>
     </PaginationItem>
     <PaginationItem>
-      <PaginationLink href="#">10</PaginationLink>
+      <PaginationLink href="#">4</PaginationLink>
     </PaginationItem>
     <PaginationItem>
-      <PaginationNext href="#" />
+      <PaginationLink href="#">5</PaginationLink>
     </PaginationItem>
   </PaginationContent>
 </Pagination>`,
@@ -151,11 +157,6 @@ export const paginationDoc: ComponentDoc = {
         React.createElement(
           PaginationContent,
           {},
-          React.createElement(
-            PaginationItem,
-            {},
-            React.createElement(PaginationPrevious, { href: "#" })
-          ),
           React.createElement(
             PaginationItem,
             {},
@@ -164,63 +165,107 @@ export const paginationDoc: ComponentDoc = {
           React.createElement(
             PaginationItem,
             {},
-            React.createElement(PaginationEllipsis, {})
+            React.createElement(PaginationLink, { href: "#", isActive: true }, "2")
           ),
           React.createElement(
             PaginationItem,
             {},
-            React.createElement(
-              PaginationLink,
-              { href: "#", isActive: true },
-              "5"
-            )
+            React.createElement(PaginationLink, { href: "#" }, "3")
           ),
           React.createElement(
             PaginationItem,
             {},
-            React.createElement(PaginationEllipsis, {})
+            React.createElement(PaginationLink, { href: "#" }, "4")
           ),
           React.createElement(
             PaginationItem,
             {},
-            React.createElement(PaginationLink, { href: "#" }, "10")
-          ),
-          React.createElement(
-            PaginationItem,
-            {},
-            React.createElement(PaginationNext, { href: "#" })
+            React.createElement(PaginationLink, { href: "#" }, "5")
           )
         )
       ),
     },
     {
-      name: "Minimal",
-      description: "Simple pagination with just previous/next buttons.",
-      code: `<Pagination>
-  <PaginationContent>
-    <PaginationItem>
-      <PaginationPrevious href="#" />
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationNext href="#" />
-    </PaginationItem>
-  </PaginationContent>
-</Pagination>`,
+      name: "Icons Only",
+      description:
+        "Use just the previous and next buttons without page numbers. This is useful for data tables with a rows per page selector.",
+      code: `<div className="flex items-center justify-between gap-4">
+  <Field orientation="horizontal" className="w-fit">
+    <FieldLabel htmlFor="select-rows-per-page">Rows per page</FieldLabel>
+    <Select defaultValue="25">
+      <SelectTrigger className="w-20" id="select-rows-per-page">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent align="start">
+        <SelectGroup>
+          <SelectItem value="10">10</SelectItem>
+          <SelectItem value="25">25</SelectItem>
+          <SelectItem value="50">50</SelectItem>
+          <SelectItem value="100">100</SelectItem>
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  </Field>
+  <Pagination className="mx-0 w-auto">
+    <PaginationContent>
+      <PaginationItem>
+        <PaginationPrevious href="#" />
+      </PaginationItem>
+      <PaginationItem>
+        <PaginationNext href="#" />
+      </PaginationItem>
+    </PaginationContent>
+  </Pagination>
+</div>`,
       preview: React.createElement(
-        Pagination,
-        {},
+        "div",
+        { className: "flex items-center justify-between gap-4" },
         React.createElement(
-          PaginationContent,
-          {},
+          Field,
+          { orientation: "horizontal", className: "w-fit" },
           React.createElement(
-            PaginationItem,
-            {},
-            React.createElement(PaginationPrevious, { href: "#" })
+            FieldLabel,
+            { htmlFor: "select-rows-per-page" },
+            "Rows per page"
           ),
           React.createElement(
-            PaginationItem,
+            Select,
+            { defaultValue: "25" },
+            React.createElement(
+              SelectTrigger,
+              { className: "w-20", id: "select-rows-per-page" },
+              React.createElement(SelectValue, {})
+            ),
+            React.createElement(
+              SelectContent,
+              { align: "start" },
+              React.createElement(
+                SelectGroup,
+                {},
+                React.createElement(SelectItem, { value: "10" }, "10"),
+                React.createElement(SelectItem, { value: "25" }, "25"),
+                React.createElement(SelectItem, { value: "50" }, "50"),
+                React.createElement(SelectItem, { value: "100" }, "100")
+              )
+            )
+          )
+        ),
+        React.createElement(
+          Pagination,
+          { className: "mx-0 w-auto" },
+          React.createElement(
+            PaginationContent,
             {},
-            React.createElement(PaginationNext, { href: "#" })
+            React.createElement(
+              PaginationItem,
+              {},
+              React.createElement(PaginationPrevious, { href: "#" })
+            ),
+            React.createElement(
+              PaginationItem,
+              {},
+              React.createElement(PaginationNext, { href: "#" })
+            )
           )
         )
       ),

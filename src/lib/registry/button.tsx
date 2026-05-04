@@ -1,7 +1,139 @@
 import React from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { Button } from "@/components/ui/button";
+import { RadialSpinner, Spinner } from "@/components/ui/spinner";
 import { type ComponentDoc } from "@/lib/types";
-import { ChevronRight, Mail, Plus, Trash2, X } from "lucide-react";
+import { BadgeCheck, CheckIcon, ChevronRight, Mail, Plus, RefreshCwIcon, Trash2, X } from "lucide-react";
+
+type AsyncButtonState = "idle" | "loading" | "success" | "error"
+
+const BTN_SPRING = { type: "spring" as const, duration: 0.3, bounce: 0 }
+const BTN_FADE_UP   = { initial: { opacity: 0, y:  6 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0 }, transition: { ...BTN_SPRING, exit: { duration: 0 } } }
+const BTN_FADE_DOWN = { initial: { opacity: 0, y: -6 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y:  6 }, transition: BTN_SPRING }
+const BTN_SNAP_IN   = { initial: { opacity: 1, y:  0 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -6 }, transition: BTN_SPRING }
+
+type AsyncButtonProps = Omit<React.ComponentProps<typeof Button>, "onClick"> & {
+  onClick: () => Promise<void>
+  idleContent: React.ReactNode
+  successContent?: React.ReactNode
+  errorContent?: React.ReactNode
+  disableOnSuccess?: boolean
+}
+
+function AsyncButton({
+  onClick,
+  idleContent,
+  successContent,
+  errorContent,
+  disableOnSuccess = true,
+  variant: variantProp = "default",
+  ...props
+}: AsyncButtonProps) {
+  const [state, setState] = React.useState<AsyncButtonState>("idle")
+  const isLoading = state === "loading"
+  const isSuccess = state === "success"
+  const isError   = state === "error"
+
+  async function handleClick() {
+    if (isLoading) return
+    setState("loading")
+    try {
+      await onClick()
+      setState("success")
+    } catch {
+      setState("error")
+    }
+  }
+
+  const variant = isError ? "destructive" : variantProp
+
+  return React.createElement(
+    Button,
+    {
+      ...props,
+      variant,
+      disabled: (disableOnSuccess && isSuccess) || props.disabled,
+      onClick: handleClick,
+      className: "overflow-hidden" + (isLoading ? " pointer-events-none" : "") + (props.className ? " " + props.className : ""),
+    },
+    React.createElement(
+      "span",
+      { className: "grid *:col-start-1 *:row-start-1 *:flex *:items-center *:justify-center *:gap-1.5" },
+      // Invisible sizers for every state → width = max(idle, success, error)
+      React.createElement("span", { className: "invisible", "aria-hidden": "true" }, idleContent),
+      successContent ? React.createElement("span", { className: "invisible", "aria-hidden": "true" }, successContent) : null,
+      errorContent ? React.createElement("span", { className: "invisible", "aria-hidden": "true" }, errorContent) : null,
+      React.createElement(
+        AnimatePresence, { mode: "popLayout", initial: false },
+        isLoading
+          ? React.createElement(
+              motion.span, { key: "loading", ...BTN_SNAP_IN },
+              React.createElement(RadialSpinner, { ["data-icon"]: "inline-start", className: "text-inherit" } as any),
+            )
+          : isSuccess && successContent
+            ? React.createElement(motion.span, { key: "success", ...BTN_FADE_DOWN }, successContent)
+            : isError && errorContent
+              ? React.createElement(motion.span, { key: "error", ...BTN_FADE_DOWN }, errorContent)
+              : React.createElement(motion.span, { key: "idle", ...BTN_FADE_UP }, idleContent),
+      ),
+    ),
+  )
+}
+
+function AsyncButtonDemo() {
+  const [resetKey, setResetKey] = React.useState(0)
+
+  const saveAction = () => new Promise<void>(r => setTimeout(r, 1500))
+  const failAction = () => new Promise<void>((_, reject) => setTimeout(() => reject(new Error("fail")), 1500))
+
+  return React.createElement(
+    "div",
+    { className: "flex flex-col items-center gap-6" },
+    React.createElement(
+      "div",
+      { key: resetKey, className: "flex flex-wrap gap-12 justify-center items-end" },
+      // Success demo
+      React.createElement(
+        "div", { className: "flex flex-col items-center gap-3" },
+        React.createElement(
+          AsyncButton,
+          {
+            onClick: saveAction,
+            idleContent: React.createElement(React.Fragment, null,
+              React.createElement(CheckIcon, { ["data-icon"]: "inline-start" } as any), "Save Changes"),
+            successContent: React.createElement(React.Fragment, null,
+              React.createElement(BadgeCheck, { ["data-icon"]: "inline-start" } as any), "Saved"),
+          },
+        ),
+        React.createElement("span", { className: "text-xs text-muted-foreground" }, "→ success"),
+      ),
+      // Error demo
+      React.createElement(
+        "div", { className: "flex flex-col items-center gap-3" },
+        React.createElement(
+          AsyncButton,
+          {
+            onClick: failAction,
+            disableOnSuccess: false,
+            idleContent: React.createElement(React.Fragment, null,
+              React.createElement(CheckIcon, { ["data-icon"]: "inline-start" } as any), "Update Changes"),
+            errorContent: React.createElement(React.Fragment, null,
+              React.createElement(RefreshCwIcon, { ["data-icon"]: "inline-start" } as any), "Retry"),
+          },
+        ),
+        React.createElement("span", { className: "text-xs text-muted-foreground" }, "→ error / retry"),
+      ),
+    ),
+    React.createElement(
+      "button",
+      {
+        className: "text-xs text-muted-foreground underline underline-offset-2 cursor-pointer",
+        onClick: () => setResetKey(k => k + 1),
+      },
+      "Reset",
+    ),
+  )
+}
 
 export const buttonDoc: ComponentDoc = {
   id: "button",
@@ -18,7 +150,7 @@ export function ButtonDemo() {
   return <Button>Click me</Button>
 }`,
   preview: {
-    code: `<div className="flex gap-2 flex-wrap">
+    code: `<div className="flex gap-8 flex-wrap">
   <Button>Default</Button>
   <Button variant="secondary">Secondary</Button>
   <Button variant="tertiary">Tertiary</Button>
@@ -108,6 +240,26 @@ export function ButtonDemo() {
             ["data-icon"]: "inline-end",
           } as any)
         )
+      ),
+    },
+    {
+      name: "As Child",
+      description:
+        "Use the asChild prop on <Button /> to make another component look like a button. Here's an example of a link that looks like a button.",
+      code: `import Link from "next/link"
+import { Button } from "@/components/ui/button"
+
+export function ButtonAsChild() {
+  return (
+    <Button asChild>
+      <Link href="/login">Login</Link>
+    </Button>
+  )
+}`,
+      preview: React.createElement(
+        Button,
+        { asChild: true },
+        React.createElement("a", { href: "#" }, "Login")
       ),
     },
     {
@@ -587,6 +739,94 @@ export function ButtonDemo() {
       ),
     },
     {
+      name: "Spinner",
+      description:
+        'Render a <Spinner /> component inside the button to show a loading state. Remember to add the `data-icon="inline-start"` or `data-icon="inline-end"` attribute to the spinner for the correct spacing.',
+      code: `import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+
+export function ButtonSpinner() {
+  return (
+    <div className="flex gap-2 flex-wrap">
+      <Button disabled>
+        <Spinner data-icon="inline-start" />
+        Default
+      </Button>
+      <Button variant="secondary" disabled>
+        <Spinner data-icon="inline-start" />
+        Secondary
+      </Button>
+      <Button variant="tertiary" disabled>
+        <Spinner data-icon="inline-start" />
+        Tertiary
+      </Button>
+      <Button variant="outline" disabled>
+        <Spinner data-icon="inline-start" />
+        Outline
+      </Button>
+      <Button variant="ghost" disabled>
+        <Spinner data-icon="inline-start" />
+        Ghost
+      </Button>
+      <Button variant="destructive" disabled>
+        <Spinner data-icon="inline-start" />
+        Destructive
+      </Button>
+      <Button variant="destructive-solid" disabled>
+        <Spinner data-icon="inline-start" />
+        Destructive Solid
+      </Button>
+    </div>
+  )
+}`,
+      preview: React.createElement(
+        "div",
+        { className: "flex gap-2 flex-wrap" },
+        React.createElement(
+          Button,
+          { disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Default"
+        ),
+        React.createElement(
+          Button,
+          { variant: "secondary", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Secondary"
+        ),
+        React.createElement(
+          Button,
+          { variant: "tertiary", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Tertiary"
+        ),
+        React.createElement(
+          Button,
+          { variant: "outline", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Outline"
+        ),
+        React.createElement(
+          Button,
+          { variant: "ghost", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Ghost"
+        ),
+        React.createElement(
+          Button,
+          { variant: "destructive", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Destructive"
+        ),
+        React.createElement(
+          Button,
+          { variant: "destructive-solid", disabled: true },
+          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          "Destructive Solid"
+        )
+      ),
+    },
+    {
       name: "Icon Only",
       description:
         "Icon-only buttons in different sizes and variants. Always include aria-label for accessibility.",
@@ -811,6 +1051,103 @@ export function ButtonDemo() {
           )
         )
       ),
+    },
+    {
+      name: "Button States",
+      description: "A generic AsyncButton that accepts a promise-returning onClick. Shows a RadialSpinner while loading, then animates to success or error content via AnimatePresence. Width stays stable using a CSS grid stack.",
+      code: `import { useState } from "react"
+import { AnimatePresence, motion } from "motion/react"
+import { Button } from "@/components/ui/button"
+import { RadialSpinner } from "@/components/ui/spinner"
+
+type AsyncButtonState = "idle" | "loading" | "success" | "error"
+
+const SPRING = { type: "spring" as const, duration: 0.3, bounce: 0 }
+const FADE_UP   = { initial: { opacity: 0, y:  6 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0 }, transition: { ...SPRING, exit: { duration: 0 } } }
+const FADE_DOWN = { initial: { opacity: 0, y: -6 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y:  6 }, transition: SPRING }
+const SNAP_IN   = { initial: { opacity: 1, y:  0 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -6 }, transition: SPRING }
+
+type AsyncButtonProps = Omit<React.ComponentProps<typeof Button>, "onClick"> & {
+  onClick: () => Promise<void>
+  idleContent: React.ReactNode
+  successContent?: React.ReactNode
+  errorContent?: React.ReactNode
+  disableOnSuccess?: boolean
+}
+
+function AsyncButton({
+  onClick,
+  idleContent,
+  successContent,
+  errorContent,
+  disableOnSuccess = true,
+  variant: variantProp = "default",
+  ...props
+}: AsyncButtonProps) {
+  const [state, setState] = useState<AsyncButtonState>("idle")
+  const isLoading = state === "loading"
+  const isSuccess = state === "success"
+  const isError   = state === "error"
+
+  async function handleClick() {
+    if (isLoading) return
+    setState("loading")
+    try {
+      await onClick()
+      setState("success")
+    } catch {
+      setState("error")
+    }
+  }
+
+  const variant = isError ? "destructive" : variantProp
+
+  return (
+    <Button
+      {...props}
+      variant={variant}
+      disabled={(disableOnSuccess && isSuccess) || props.disabled}
+      onClick={handleClick}
+      className={\`overflow-hidden\${isLoading ? " pointer-events-none" : ""}\${props.className ? " " + props.className : ""}\`}
+    >
+      {/* Grid stack: invisible sizer + animated content share one cell → stable width */}
+      <span className="grid *:col-start-1 *:row-start-1 *:flex *:items-center *:justify-center *:gap-1.5">
+        {/* Invisible sizers for every state → width = max(idle, success, error) */}
+        <span className="invisible" aria-hidden="true">{idleContent}</span>
+        {successContent && <span className="invisible" aria-hidden="true">{successContent}</span>}
+        {errorContent && <span className="invisible" aria-hidden="true">{errorContent}</span>}
+        <AnimatePresence mode="popLayout" initial={false}>
+          {isLoading ? (
+            <motion.span key="loading" {...SNAP_IN}>
+              <RadialSpinner data-icon="inline-start" className="text-inherit" />
+            </motion.span>
+          ) : isSuccess && successContent ? (
+            <motion.span key="success" {...FADE_DOWN}>{successContent}</motion.span>
+          ) : isError && errorContent ? (
+            <motion.span key="error" {...FADE_DOWN}>{errorContent}</motion.span>
+          ) : (
+            <motion.span key="idle" {...FADE_UP}>{idleContent}</motion.span>
+          )}
+        </AnimatePresence>
+      </span>
+    </Button>
+  )
+}
+
+// Usage
+function Demo() {
+  return (
+    <AsyncButton
+      onClick={async () => {
+        await fetch("/api/save", { method: "POST" })
+      }}
+      idleContent={<><SaveIcon data-icon="inline-start" /> Save</>}
+      successContent={<><CheckIcon data-icon="inline-start" /> Saved</>}
+      errorContent={<><RefreshCwIcon data-icon="inline-start" /> Retry</>}
+    />
+  )
+}`,
+      preview: React.createElement(AsyncButtonDemo, {}),
     },
   ],
 };

@@ -26,7 +26,7 @@ const badgeVariants = cva(
         destructive:
           "border-red-500/45 bg-red-100 text-red-900 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
         neutral:
-          "border-neutral-400/40 bg-neutral-100 text-neutral-800 dark:border-neutral-400/35 dark:bg-neutral-400/15 dark:text-neutral-300 [a&]:hover:bg-neutral-400/20 dark:[a&]:hover:bg-neutral-400/25",
+          "border-stronger-border/40 bg-muted-background text-accent-foreground dark:border-strong-border dark:bg-muted-background dark:text-accent-foreground [a&]:hover:bg-muted-background/20 dark:[a&]:hover:bg-muted-background/25",
         red: "border-red-500/40 bg-red-100 text-red-800 dark:border-red-400/35 dark:bg-red-400/15 dark:text-red-300 [a&]:hover:bg-red-500/20 dark:[a&]:hover:bg-red-400/25",
         orange:
           "border-orange-500/40 bg-orange-100 text-orange-900 dark:border-orange-400/35 dark:bg-orange-400/15 dark:text-orange-300 [a&]:hover:bg-orange-500/20 dark:[a&]:hover:bg-orange-400/25",
@@ -54,6 +54,10 @@ const badgeVariants = cva(
       },
       solid: {
         true: "",
+        false: "",
+      },
+      counter: {
+        true: "tabular-nums rounded-sm gap-0",
         false: "",
       },
       size: {
@@ -94,10 +98,15 @@ const badgeVariants = cva(
         className:
           "bg-red-600 border-red-500 text-white dark:bg-red-500 dark:border-red-500 dark:text-white [a&]:hover:bg-red-500",
       },
+      { counter: true, size: "xs", className: "min-w-4 px-1" },
+      { counter: true, size: "sm", className: "min-w-5 px-1" },
+      { counter: true, size: "md", className: "min-w-6 px-1.5" },
+      { counter: true, size: "lg", className: "min-w-7 px-2" },
     ],
     defaultVariants: {
       variant: "primary",
       solid: false,
+      counter: false,
       size: "md",
     },
   }
@@ -131,6 +140,7 @@ function Badge({
   asChild = false,
   dot = false,
   solid = false,
+  counter = false,
   onClose,
   children,
   ...props
@@ -140,6 +150,8 @@ function Badge({
     dot?: boolean;
     /** Solid filled background — only applies to the 5 semantic variants */
     solid?: boolean;
+    /** Counter pill — square at single digit, grows for multi-digit, tabular-nums */
+    counter?: boolean;
     /** Renders a close (×) button; not compatible with asChild */
     onClose?: React.MouseEventHandler<HTMLButtonElement>;
   }) {
@@ -154,7 +166,7 @@ function Badge({
       data-variant={variant}
       data-solid={solid || undefined}
       className={cn(
-        badgeVariants({ variant, size, solid: useSolidPalette }),
+        badgeVariants({ variant, size, solid: useSolidPalette, counter }),
         onClose && "pe-0",
         className
       )}

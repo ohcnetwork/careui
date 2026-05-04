@@ -88,4 +88,4 @@ MIT License - see LICENSE file for details.
 
 - **Website**: [careui.ohc.network](https://careui.ohc.network)
 - **Registry**: [careui.ohc.network/registry.json](https://careui.ohc.network/registry.json)
-- **Repository**: [github.com/vinutv/careui](https://github.com/vinutv/careui)
+- **Repository**: [github.com/ohcnetwork/careui](https://github.com/ohcnetwork/careui)

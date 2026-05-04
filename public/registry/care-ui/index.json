@@ -1,5 +1,15 @@
 [
   {
+    "name": "unicode-spinner",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority"
+    ],
+    "files": [
+      "registry/care-ui/unicode-spinner/unicode-spinner.tsx"
+    ]
+  },
+  {
     "name": "tooltip",
     "type": "registry:ui",
     "dependencies": [
@@ -52,6 +62,9 @@
   {
     "name": "table",
     "type": "registry:ui",
+    "dependencies": [
+      "none"
+    ],
     "files": [
       "registry/care-ui/table/table.tsx"
     ]
@@ -95,7 +108,8 @@
     "type": "registry:ui",
     "dependencies": [
       "sonner",
-      "next-themes"
+      "next-themes",
+      "lucide-react"
     ],
     "files": [
       "registry/care-ui/sonner/sonner.tsx"
@@ -149,7 +163,8 @@
     "name": "separator",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "radix-ui",
+      "class-variance-authority"
     ],
     "files": [
       "registry/care-ui/separator/separator.tsx"
@@ -200,7 +215,6 @@
     "name": "progress",
     "type": "registry:ui",
     "dependencies": [
-      "none",
       "radix-ui"
     ],
     "files": [
@@ -215,6 +229,16 @@
     ],
     "files": [
       "registry/care-ui/popover/popover.tsx"
+    ]
+  },
+  {
+    "name": "pixel-spinner",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority"
+    ],
+    "files": [
+      "registry/care-ui/pixel-spinner/pixel-spinner.tsx"
     ]
   },
   {
@@ -240,6 +264,16 @@
     ]
   },
   {
+    "name": "native-select",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/native-select/native-select.tsx"
+    ]
+  },
+  {
     "name": "menubar",
     "type": "registry:ui",
     "dependencies": [
@@ -248,6 +282,13 @@
     ],
     "files": [
       "registry/care-ui/menubar/menubar.tsx"
+    ]
+  },
+  {
+    "name": "matrix-spinner",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/matrix-spinner/matrix-spinner.tsx"
     ]
   },
   {
@@ -322,10 +363,21 @@
     "name": "input-group",
     "type": "registry:ui",
     "dependencies": [
+      "none",
       "class-variance-authority"
     ],
     "files": [
       "registry/care-ui/input-group/input-group.tsx"
+    ]
+  },
+  {
+    "name": "indicator",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority"
+    ],
+    "files": [
+      "registry/care-ui/indicator/indicator.tsx"
     ]
   },
   {
@@ -342,10 +394,21 @@
     "name": "frame",
     "type": "registry:ui",
     "dependencies": [
-      "(none)"
+      "class-variance-authority"
     ],
     "files": [
       "registry/care-ui/frame/frame.tsx"
+    ]
+  },
+  {
+    "name": "filters",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/filters/filters.tsx"
     ]
   },
   {
@@ -353,7 +416,8 @@
     "type": "registry:ui",
     "dependencies": [
       "radix-ui",
-      "class-variance-authority"
+      "class-variance-authority",
+      "lucide-react"
     ],
     "files": [
       "registry/care-ui/field/field.tsx"
@@ -385,10 +449,19 @@
     "name": "drawer",
     "type": "registry:ui",
     "dependencies": [
-      "vaul"
+      "vaul",
+      "lucide-react",
+      "button"
     ],
     "files": [
       "registry/care-ui/drawer/drawer.tsx"
+    ]
+  },
+  {
+    "name": "dotted-divider",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/dotted-divider/dotted-divider.tsx"
     ]
   },
   {
@@ -430,6 +503,7 @@
     "dependencies": [
       "cmdk",
       "radix-ui",
+      "vaul",
       "lucide-react"
     ],
     "files": [

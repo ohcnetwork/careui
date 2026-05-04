@@ -21,8 +21,8 @@ const SheetContext = React.createContext<{
   setScrolled: (v: boolean) => void;
 } | null>(null);
 
-function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <SheetPrimitive.Root data-slot="sheet" {...props} />;
+function Sheet({ modal = true, ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
+  return <SheetPrimitive.Root data-slot="sheet" modal={modal} {...props} />;
 }
 
 function SheetTrigger({
@@ -76,6 +76,7 @@ function SheetContent({
   side = "right",
   size = "sm",
   dismissible = false,
+  overlay = true,
   containerClassName,
   onOpenAutoFocus,
   onInteractOutside,
@@ -85,22 +86,50 @@ function SheetContent({
   side?: "top" | "right" | "bottom" | "left";
   size?: SheetSize;
   dismissible?: boolean;
+  overlay?: boolean;
   containerClassName?: string;
 }) {
   const isMobile = useIsMobile();
   const [shaking, setShaking] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
+  const contentRef = React.useCallback((el: HTMLDivElement | null) => {
+    const vv = window.visualViewport;
+    if (!el || !vv) return;
+    let rafId: number;
+    const update = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        if (side === "left" || side === "right") {
+          el.style.height = `${vv.height}px`;
+          el.style.top = `${vv.offsetTop}px`;
+        } else if (side === "bottom") {
+          const keyboardHeight = window.innerHeight - vv.offsetTop - vv.height;
+          el.style.bottom = `${keyboardHeight}px`;
+        } else if (side === "top") {
+          el.style.maxHeight = `${vv.height}px`;
+        }
+      });
+    };
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    update();
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+      cancelAnimationFrame(rafId);
+    };
+  }, [side]);
+
   const resolvedContainerClassName =
     containerClassName ??
-    (side === "top" || side === "bottom" ? "mx-auto w-full max-w-3xl px-4" : "px-4");
+    (side === "top" || side === "bottom" ? "mx-auto w-full max-w-2xl px-4" : "px-4");
 
   const onShakeEnd = React.useCallback(() => setShaking(false), []);
   const triggerShake = React.useCallback(() => {
     setShaking(false);
     requestAnimationFrame(() => setShaking(true));
   }, []);
-  const handleAnimationEnd = React.useCallback(() => setShaking(false), []);
 
   const contextValue = React.useMemo(
     () => ({ shaking, onShakeEnd, side, containerClassName: resolvedContainerClassName, scrolled, setScrolled }),
@@ -109,9 +138,9 @@ function SheetContent({
 
   return (
     <SheetPortal>
-      <SheetOverlay />
-      <SheetContext.Provider value={contextValue}>
-        <SheetPrimitive.Content
+      {overlay && <SheetOverlay />}
+      <SheetPrimitive.Content
+        ref={contentRef}
         data-slot="sheet-content"
         data-side={side}
         className={cn(
@@ -148,12 +177,21 @@ function SheetContent({
           onPointerDownOutside?.(e);
         }}
         data-shaking={shaking || undefined}
-        onAnimationEnd={handleAnimationEnd}
+        onAnimationEnd={onShakeEnd}
         {...props}
       >
-        {children}
-        </SheetPrimitive.Content>
-      </SheetContext.Provider>
+        {/*
+         * IMPORTANT: SheetContext.Provider must live INSIDE SheetPrimitive.Content
+         * (not between SheetPortal and SheetPrimitive.Content). Radix Presence
+         * does `cloneElement(child, { ref })` on its direct child; Context
+         * Providers silently drop refs, leaving Presence's stylesRef null. On
+         * close it then reads animation-name as "none" and unmounts the sheet
+         * synchronously, skipping the slide-out animation.
+         */}
+        <SheetContext.Provider value={contextValue}>
+          {children}
+        </SheetContext.Provider>
+      </SheetPrimitive.Content>
     </SheetPortal>
   );
 }
@@ -175,7 +213,7 @@ function SheetHeader({
           <Button
             variant="ghost"
             size="icon"
-            className={cn("-mt-1 -mr-1 shrink-0", ctx?.shaking && "bg-destructive/20 animate-sheet-shake")}
+            className={cn("-mt-1 -mr-1 shrink-0", ctx?.shaking && "bg-destructive/20 will-change-transform animate-sheet-shake")}
             onAnimationEnd={ctx?.onShakeEnd}
           >
             <XIcon />
@@ -188,7 +226,7 @@ function SheetHeader({
   return (
     <div
       data-slot="sheet-header"
-      className={cn("border-b bg-background shrink-0 transition-all duration-200", ctx?.scrolled ? "items-center py-1.5" : "py-2 md:py-3", className)}
+      className={cn("border-b bg-background shrink-0 transition-all duration-200", (ctx?.side === "top" || ctx?.side === "bottom") && "md:pr-4", ctx?.scrolled ? "items-center py-1.5" : "py-2 md:py-3", className)}
       {...props}
     >
       {inner}
@@ -201,7 +239,7 @@ function SheetBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-body"
-      className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain py-4", className)}
+      className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain py-4 [scrollbar-gutter:stable]", className)}
       onScroll={(e) => ctx?.setScrolled((e.currentTarget as HTMLElement).scrollTop > 0)}
     >
       <div className={cn(ctx?.containerClassName)} {...props} />

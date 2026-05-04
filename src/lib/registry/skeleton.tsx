@@ -208,5 +208,50 @@ export function SkeletonTable() {
         )
       ),
     },
+    // ── RTL ───────────────────────────────────────────────────────────────
+    {
+      name: "RTL",
+      description: "Skeleton renders correctly in right-to-left layouts.",
+      code: `"use client"
+
+import * as React from "react"
+
+import {
+  useTranslation,
+  type Translations,
+} from "@/components/language-selector"
+import { Skeleton } from "@/components/ui/skeleton"
+
+const translations: Translations = {
+  en: { dir: "ltr", values: {} },
+  ar: { dir: "rtl", values: {} },
+  he: { dir: "rtl", values: {} },
+}
+
+export function SkeletonRtl() {
+  const { dir } = useTranslation(translations, "ar")
+
+  return (
+    <div className="flex items-center gap-4" dir={dir}>
+      <Skeleton className="h-12 w-12 rounded-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-62.5" />
+        <Skeleton className="h-4 w-50" />
+      </div>
+    </div>
+  )
+}`,
+      preview: React.createElement(
+        "div",
+        { className: "flex items-center gap-4", dir: "rtl" },
+        React.createElement(Skeleton, { className: "h-12 w-12 rounded-full" }),
+        React.createElement(
+          "div",
+          { className: "space-y-2" },
+          React.createElement(Skeleton, { className: "h-4 w-62.5" }),
+          React.createElement(Skeleton, { className: "h-4 w-50" })
+        )
+      ),
+    },
   ],
 };

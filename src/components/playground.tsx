@@ -39,7 +39,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, ChevronDown, Info } from "lucide-react";
-import { AppSidebarDemo } from "@/lib/registry/sidebar";
+import { AppSidebarDemo } from "@/lib/registry/sidebar-01-demo";
 import { LoadingAnimationSvg } from "@/components/ui/loading-animation-svg";
 
 function Section({

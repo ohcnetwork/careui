@@ -547,9 +547,9 @@ export function ContextMenuCheckboxes() {
           ContextMenuContent,
           {},
           React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuCheckboxItem, { checked: true }, "Show Bookmarks Bar"),
+            React.createElement(ContextMenuCheckboxItem, { defaultChecked: true }, "Show Bookmarks Bar"),
             React.createElement(ContextMenuCheckboxItem, {}, "Show Full URLs"),
-            React.createElement(ContextMenuCheckboxItem, { checked: true }, "Show Developer Tools")
+            React.createElement(ContextMenuCheckboxItem, { defaultChecked: true }, "Show Developer Tools")
           )
         )
       ),

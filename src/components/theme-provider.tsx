@@ -1,6 +1,19 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-type Theme = "dark" | "light" | "system";
+export type Theme = "dark" | "light" | "system" | "light-protanopia" | "dark-protanopia" | "light-tritanopia" | "dark-tritanopia";
+
+/** Maps a Theme value to its color-scheme class and optional data-theme attribute value. */
+function resolveTheme(
+  theme: Theme,
+  systemIsDark: boolean
+): { colorScheme: "dark" | "light"; a11yVariant: string | null } {
+  if (theme === "system") {
+    return { colorScheme: systemIsDark ? "dark" : "light", a11yVariant: null };
+  }
+  const [scheme, ...rest] = theme.split("-") as ["dark" | "light", ...string[]];
+  const variant = rest.length > 0 ? rest.join("-") : null;
+  return { colorScheme: scheme, a11yVariant: variant };
+}
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -24,7 +37,6 @@ export function ThemeProvider({
   children,
   defaultTheme = "system",
   storageKey = "vite-ui-theme",
-  ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
@@ -32,36 +44,32 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
+    const systemIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const { colorScheme, a11yVariant } = resolveTheme(theme, systemIsDark);
 
     root.classList.remove("light", "dark");
+    root.classList.add(colorScheme);
 
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
-
-      root.classList.add(systemTheme);
-      return;
+    if (a11yVariant) {
+      root.setAttribute("data-theme", a11yVariant);
+    } else {
+      root.removeAttribute("data-theme");
     }
-
-    root.classList.add(theme);
   }, [theme]);
 
   const value = useMemo(
     () => ({
       theme,
-      setTheme: (theme: Theme) => {
-        localStorage.setItem(storageKey, theme);
-        setTheme(theme);
+      setTheme: (newTheme: Theme) => {
+        localStorage.setItem(storageKey, newTheme);
+        setTheme(newTheme);
       },
     }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [theme]
+    [theme, storageKey]
   );
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={value}>
       {children}
     </ThemeProviderContext.Provider>
   );

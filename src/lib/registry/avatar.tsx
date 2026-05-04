@@ -619,6 +619,7 @@ const users = [
   { initials: "ST", color: "purple" },
   { initials: "UV", color: "pink" },
   { initials: "WX", color: "rose" },
+  { initials: "YZ", color: "neutral" },
 ] as const
 
 export function AvatarColorsExample() {
@@ -648,6 +649,7 @@ export function AvatarColorsExample() {
           { initials: "ST", color: "purple" },
           { initials: "UV", color: "pink" },
           { initials: "WX", color: "rose" },
+          { initials: "YZ", color: "neutral" },
         ].map(({ initials, color }) =>
           React.createElement(
             Avatar,

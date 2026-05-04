@@ -1,5 +1,6 @@
 import React from "react";
 import { Badge } from "@/components/ui/badge";
+import { Indicator } from "@/components/ui/indicator";
 import { type ComponentDoc } from "@/lib/types";
 import {
   CheckCircle2,
@@ -60,9 +61,7 @@ export function BadgeDemo() {
 }`,
 
   preview: {
-    code: `import { Info } from "lucide-react"
-
-<div className="flex items-center gap-2 flex-wrap">
+    code: `<div className="flex items-center gap-2 flex-wrap">
   <Badge variant="primary">Primary</Badge>
   <Badge variant="success">Success</Badge>
   <Badge variant="warning">Warning</Badge>
@@ -106,39 +105,49 @@ export function BadgeDemo() {
       ),
     },
 
-    // ── With Dot ───────────────────────────────────────────────────────────
+    // ── With Indicator ───────────────────────────────────────────────────
     {
-      name: "With Dot",
-      description: "A filled dot that inherits the badge text color.",
-      code: `import { Info } from "lucide-react"
+      name: "With Indicator",
+      description:
+        "Pair the Indicator component with a Badge for color-matched status dots.",
+      code: `import { Indicator } from "@/components/ui/indicator"
 
 <div className="flex items-center gap-2 flex-wrap">
-  <Badge variant="primary" dot>Primary</Badge>
-  <Badge variant="success" dot>Success</Badge>
-  <Badge variant="warning" dot>Warning</Badge>
-  <Badge variant="info" dot>Info</Badge>
-  <Badge variant="destructive" dot>Destructive</Badge>
+  <Badge variant="primary"><Indicator tone="primary" variant="filled" size="xs" />Primary</Badge>
+  <Badge variant="success"><Indicator tone="success" variant="filled" size="xs" />Success</Badge>
+  <Badge variant="warning"><Indicator tone="warning" variant="filled" size="xs" />Warning</Badge>
+  <Badge variant="info"><Indicator tone="info" variant="filled" size="xs" />Info</Badge>
+  <Badge variant="destructive"><Indicator tone="destructive" variant="filled" size="xs" />Destructive</Badge>
 </div>`,
       preview: row(
         React.createElement(
           Badge,
-          { variant: "primary", dot: true },
+          { variant: "primary" },
+          React.createElement(Indicator, { tone: "primary", variant: "filled", size: "xs" }),
           "Primary"
         ),
         React.createElement(
           Badge,
-          { variant: "success", dot: true },
+          { variant: "success" },
+          React.createElement(Indicator, { tone: "success", variant: "filled", size: "xs" }),
           "Success"
         ),
         React.createElement(
           Badge,
-          { variant: "warning", dot: true },
+          { variant: "warning" },
+          React.createElement(Indicator, { tone: "warning", variant: "filled", size: "xs" }),
           "Warning"
         ),
-        React.createElement(Badge, { variant: "info", dot: true }, "Info"),
         React.createElement(
           Badge,
-          { variant: "destructive", dot: true },
+          { variant: "info" },
+          React.createElement(Indicator, { tone: "info", variant: "filled", size: "xs" }),
+          "Info"
+        ),
+        React.createElement(
+          Badge,
+          { variant: "destructive" },
+          React.createElement(Indicator, { tone: "destructive", variant: "filled", size: "xs" }),
           "Destructive"
         )
       ),
@@ -269,7 +278,7 @@ export function BadgeDemo() {
       name: "Solid",
       description:
         "Add the solid prop to the five semantic variants for a fully filled background.",
-      code: `import { Info } from "lucide-react"
+      code: `import { Indicator } from "@/components/ui/indicator"
 
 <div className="flex flex-col gap-3">
   <div className="flex items-center gap-2 flex-wrap">
@@ -280,11 +289,11 @@ export function BadgeDemo() {
     <Badge variant="destructive" solid>Destructive</Badge>
   </div>
   <div className="flex items-center gap-2 flex-wrap">
-    <Badge variant="primary" solid dot>Primary</Badge>
-    <Badge variant="success" solid dot>Success</Badge>
-    <Badge variant="warning" solid dot>Warning</Badge>
-    <Badge variant="info" solid dot>Info</Badge>
-    <Badge variant="destructive" solid dot>Destructive</Badge>
+    <Badge variant="primary" solid><Indicator tone="primary" variant="filled" size="xs" />Primary</Badge>
+    <Badge variant="success" solid><Indicator tone="success" variant="filled" size="xs" />Success</Badge>
+    <Badge variant="warning" solid><Indicator tone="warning" variant="filled" size="xs" />Warning</Badge>
+    <Badge variant="info" solid><Indicator tone="info" variant="filled" size="xs" />Info</Badge>
+    <Badge variant="destructive" solid><Indicator tone="destructive" variant="filled" size="xs" />Destructive</Badge>
   </div>
 </div>`,
       preview: React.createElement(
@@ -321,32 +330,112 @@ export function BadgeDemo() {
           )
         ),
         section(
-          "Solid + Dot",
+          "Solid + Indicator",
           row(
             React.createElement(
               Badge,
-              { variant: "primary", solid: true, dot: true },
+              { variant: "primary", solid: true },
+              React.createElement(Indicator, { tone: "primary", variant: "filled", size: "xs" }),
               "Primary"
             ),
             React.createElement(
               Badge,
-              { variant: "success", solid: true, dot: true },
+              { variant: "success", solid: true },
+              React.createElement(Indicator, { tone: "success", variant: "filled", size: "xs" }),
               "Success"
             ),
             React.createElement(
               Badge,
-              { variant: "warning", solid: true, dot: true },
+              { variant: "warning", solid: true },
+              React.createElement(Indicator, { tone: "warning", variant: "filled", size: "xs" }),
               "Warning"
             ),
             React.createElement(
               Badge,
-              { variant: "info", solid: true, dot: true },
+              { variant: "info", solid: true },
+              React.createElement(Indicator, { tone: "info", variant: "filled", size: "xs" }),
               "Info"
             ),
             React.createElement(
               Badge,
-              { variant: "destructive", solid: true, dot: true },
+              { variant: "destructive", solid: true },
+              React.createElement(Indicator, { tone: "destructive", variant: "filled", size: "xs" }),
               "Destructive"
+            )
+          )
+        )
+      ),
+    },
+
+    // ── Counter ────────────────────────────────────────────────────────────
+    {
+      name: "Counter",
+      description:
+        "Use the counter prop to render a pill-shaped numeric indicator. It stays square for single digits and grows for multi-digit numbers with tabular-nums for consistent widths.",
+      code: `<div className="flex flex-col gap-3">
+  <div className="flex items-center gap-2 flex-wrap">
+    <Badge counter size="xs" variant="neutral">1</Badge>
+    <Badge counter size="sm" variant="neutral">3</Badge>
+    <Badge counter size="md" variant="neutral">7</Badge>
+    <Badge counter size="lg" variant="neutral">9</Badge>
+  </div>
+  <div className="flex items-center gap-2 flex-wrap">
+    <Badge counter size="xs" variant="primary">12</Badge>
+    <Badge counter size="sm" variant="success">24</Badge>
+    <Badge counter size="md" variant="info">99</Badge>
+    <Badge counter size="lg" variant="destructive">128</Badge>
+  </div>
+</div>`,
+      preview: React.createElement(
+        "div",
+        { className: "flex flex-col gap-3" },
+        section(
+          "Single digit",
+          row(
+            React.createElement(
+              Badge,
+              { counter: true, size: "xs", variant: "neutral" },
+              "1"
+            ),
+            React.createElement(
+              Badge,
+              { counter: true, size: "sm", variant: "neutral" },
+              "3"
+            ),
+            React.createElement(
+              Badge,
+              { counter: true, size: "md", variant: "neutral" },
+              "7"
+            ),
+            React.createElement(
+              Badge,
+              { counter: true, size: "lg", variant: "neutral" },
+              "9"
+            )
+          )
+        ),
+        section(
+          "Multi digit",
+          row(
+            React.createElement(
+              Badge,
+              { counter: true, size: "xs", variant: "primary" },
+              "12"
+            ),
+            React.createElement(
+              Badge,
+              { counter: true, size: "sm", variant: "success" },
+              "24"
+            ),
+            React.createElement(
+              Badge,
+              { counter: true, size: "md", variant: "info" },
+              "99"
+            ),
+            React.createElement(
+              Badge,
+              { counter: true, size: "lg", variant: "destructive" },
+              "128"
             )
           )
         )
@@ -358,9 +447,7 @@ export function BadgeDemo() {
       name: "With Close Button",
       description:
         "Pass an onClose handler to render a dismiss button inside the badge.",
-      code: `import { Info } from "lucide-react"
-
-<div className="flex items-center gap-2 flex-wrap">
+      code: `<div className="flex items-center gap-2 flex-wrap">
   <Badge variant="primary" onClose={() => {}}>Primary</Badge>
   <Badge variant="success" onClose={() => {}}>Success</Badge>
   <Badge variant="warning" onClose={() => {}}>Warning</Badge>
@@ -399,32 +486,38 @@ export function BadgeDemo() {
     // ── Combined ──────────────────────────────────────────────────────────
     {
       name: "Combined",
-      description: "Combine dot, icon, and close across sizes.",
-      code: `<div className="flex items-center gap-3 flex-wrap">
-  <Badge size="xs" variant="success" dot onClose={() => {}}>XSmall</Badge>
-  <Badge size="sm" variant="info" dot onClose={() => {}}>Small</Badge>
-  <Badge size="md" variant="warning" dot onClose={() => {}}>Medium</Badge>
-  <Badge size="lg" variant="destructive" dot onClose={() => {}}>Large</Badge>
+      description: "Combine Indicator, icon, and close across sizes.",
+      code: `import { Indicator } from "@/components/ui/indicator"
+
+<div className="flex items-center gap-3 flex-wrap">
+  <Badge size="xs" variant="success" onClose={() => {}}><Indicator tone="success" variant="filled" size="xs" />XSmall</Badge>
+  <Badge size="sm" variant="info" onClose={() => {}}><Indicator tone="info" variant="filled" size="xs" />Small</Badge>
+  <Badge size="md" variant="warning" onClose={() => {}}><Indicator tone="warning" variant="filled" size="xs" />Medium</Badge>
+  <Badge size="lg" variant="destructive" onClose={() => {}}><Indicator tone="destructive" variant="filled" size="xs" />Large</Badge>
 </div>`,
       preview: row(
         React.createElement(
           Badge,
-          { size: "xs", variant: "success", dot: true, onClose: () => {} },
+          { size: "xs", variant: "success", onClose: () => {} },
+          React.createElement(Indicator, { tone: "success", variant: "filled", size: "xs" }),
           "XSmall"
         ),
         React.createElement(
           Badge,
-          { size: "sm", variant: "info", dot: true, onClose: () => {} },
+          { size: "sm", variant: "info", onClose: () => {} },
+          React.createElement(Indicator, { tone: "info", variant: "filled", size: "xs" }),
           "Small"
         ),
         React.createElement(
           Badge,
-          { size: "md", variant: "warning", dot: true, onClose: () => {} },
+          { size: "md", variant: "warning", onClose: () => {} },
+          React.createElement(Indicator, { tone: "warning", variant: "filled", size: "xs" }),
           "Medium"
         ),
         React.createElement(
           Badge,
-          { size: "lg", variant: "destructive", dot: true, onClose: () => {} },
+          { size: "lg", variant: "destructive", onClose: () => {} },
+          React.createElement(Indicator, { tone: "destructive", variant: "filled", size: "xs" }),
           "Large"
         )
       ),
@@ -434,9 +527,7 @@ export function BadgeDemo() {
     {
       name: "Full Palette",
       description: "All variants displayed together.",
-      code: `import { Info } from "lucide-react"
-
-<div className="flex flex-col gap-3">
+      code: `<div className="flex flex-col gap-3">
   <div className="flex items-center gap-2 flex-wrap">
     <Badge variant="primary">Primary</Badge>
     <Badge variant="success">Success</Badge>
@@ -550,6 +641,13 @@ export function BadgeDemo() {
       name: "dot",
       type: "boolean",
       description: "When true, renders a small filled dot before the label.",
+      default: "false",
+    },
+    {
+      name: "counter",
+      type: "boolean",
+      description:
+        "When true, renders a pill-shaped counter with tabular-nums. Square at single digit, grows for multi-digit numbers.",
       default: "false",
     },
     {

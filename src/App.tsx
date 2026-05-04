@@ -4,6 +4,8 @@ import { DynamicMainContent } from "@/components/dynamic-main-content";
 import { DynamicBreadcrumb } from "@/components/dynamic-breadcrumb";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { FontSizeProvider } from "@/components/font-size-provider";
+import { ContrastProvider } from "@/components/contrast-provider";
 import { NavigationProvider, useNavigation } from "@/contexts/navigation-context";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
@@ -12,7 +14,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/studio-sidebar";
-import { BlocksPage, BlockPreviewPage } from "@/components/blocks";
+import { BlocksPage, BlockPreviewPage, BlockCodePage } from "@/components/blocks";
 
 function AppShell() {
   const { activeComponent } = useNavigation();
@@ -24,6 +26,11 @@ function AppShell() {
   if (activeComponent.startsWith("block-preview-")) {
     const id = activeComponent.slice("block-preview-".length);
     return <BlockPreviewPage id={id} />;
+  }
+
+  if (activeComponent.startsWith("block-code-")) {
+    const id = activeComponent.slice("block-code-".length);
+    return <BlockCodePage id={id} />;
   }
 
   return (
@@ -62,11 +69,15 @@ function AppShell() {
 
 export default function Page() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <NavigationProvider>
-        <AppShell />
-      </NavigationProvider>
-      <Toaster />
-    </ThemeProvider>
+    <FontSizeProvider>
+      <ContrastProvider>
+        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+          <NavigationProvider>
+            <AppShell />
+          </NavigationProvider>
+          <Toaster />
+        </ThemeProvider>
+      </ContrastProvider>
+    </FontSizeProvider>
   );
 }

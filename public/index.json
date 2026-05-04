@@ -3,6 +3,6 @@
   "name": "care-ui",
   "description": "A modern React component library built with Tailwind CSS and Radix UI",
   "homepage": "https://careui.ohc.network",
-  "repository": "https://github.com/vinutv/careui.git",
+  "repository": "https://github.com/ohcnetwork/careui",
   "url": "https://careui.ohc.network/registry"
 }

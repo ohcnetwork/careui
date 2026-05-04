@@ -1,7 +1,7 @@
 /**
  * @name context-menu
- * @description Displays a menu of actions triggered by a right click.
- * @dependencies radix-ui
+ * @description Displays a menu to the user triggered by right-click.
+ * @dependencies radix-ui lucide-react
  * @type registry:ui
  */
 import * as React from "react"

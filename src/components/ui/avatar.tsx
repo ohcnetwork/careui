@@ -25,10 +25,10 @@ function Avatar({
       data-size={size}
       data-shape={shape}
       className={cn(
-        "after:border-border group/avatar relative flex size-8 shrink-0 select-none after:absolute after:inset-0 after:border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
+        "after:border-strong-border group/avatar relative flex size-8 shrink-0 select-none after:absolute after:inset-0 after:border after:mix-blend-multiply data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
         shape === "circle" && "rounded-full after:rounded-full",
         shape === "rounded" && "rounded-md after:rounded-md",
-        shape === "squircle" && "rounded-2xl squircle after:rounded-2xl after:squircle",
+        shape === "squircle" && "rounded-2xl rounded-squircle-2xl after:rounded-2xl after:rounded-squircle-2xl",
         className
       )}
       {...props}
@@ -61,7 +61,7 @@ const avatarFallbackVariants = cva(
     "group-data-[size=sm]/avatar:text-xs",
     "group-data-[shape=circle]/avatar:rounded-full",
     "group-data-[shape=rounded]/avatar:rounded-md",
-    "group-data-[shape=squircle]/avatar:rounded-2xl group-data-[shape=squircle]/avatar:squircle",
+    "group-data-[shape=squircle]/avatar:rounded-2xl group-data-[shape=squircle]/avatar:rounded-squircle-2xl",
   ],
   {
     variants: {
@@ -94,7 +94,7 @@ const avatarFallbackVariants = cva(
         pink: "bg-pink-100 text-pink-900 dark:bg-pink-400/15 dark:text-pink-300",
         rose: "bg-rose-100 text-rose-900 dark:bg-rose-400/15 dark:text-rose-300",
         neutral:
-          "bg-neutral-100 text-neutral-800 dark:bg-neutral-400/15 dark:text-neutral-300",
+          "bg-secondary text-secondary-foreground dark:bg-secondary/15 dark:text-secondary-foreground/80",
       },
     },
     defaultVariants: {

@@ -2,11 +2,13 @@ import React from "react";
 import { type ComponentDoc } from "@/lib/types";
 import {
   Drawer,
+  DrawerNestedRoot,
   DrawerTrigger,
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
   DrawerDescription,
+  DrawerBody,
   DrawerFooter,
   DrawerClose,
 } from "@/components/ui/drawer";
@@ -14,6 +16,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -22,9 +25,15 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Minus, Plus } from "lucide-react";
-// import { Bar, BarChart, ResponsiveContainer } from 'recharts'
+import { Bar, BarChart, ResponsiveContainer } from "recharts";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
+
+const chartData = [
+  { goal: 400 }, { goal: 300 }, { goal: 200 }, { goal: 300 }, { goal: 200 },
+  { goal: 278 }, { goal: 189 }, { goal: 239 }, { goal: 300 }, { goal: 200 },
+  { goal: 278 }, { goal: 189 }, { goal: 349 },
+];
 
 export const drawerDoc: ComponentDoc = {
   id: "drawer",
@@ -37,6 +46,7 @@ export const drawerDoc: ComponentDoc = {
   },
   usage: `import {
   Drawer,
+  DrawerBody,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
@@ -53,9 +63,12 @@ export const drawerDoc: ComponentDoc = {
       <DrawerTitle>Are you absolutely sure?</DrawerTitle>
       <DrawerDescription>This action cannot be undone.</DrawerDescription>
     </DrawerHeader>
+    <DrawerBody>
+      <p>Your content goes here.</p>
+    </DrawerBody>
     <DrawerFooter>
       <Button>Submit</Button>
-      <DrawerClose>
+      <DrawerClose asChild>
         <Button variant="outline">Cancel</Button>
       </DrawerClose>
     </DrawerFooter>
@@ -71,6 +84,7 @@ import { Bar, BarChart, ResponsiveContainer } from "recharts"
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
+  DrawerBody,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
@@ -81,45 +95,9 @@ import {
 } from "@/components/ui/drawer"
 
 const data = [
-  {
-    goal: 400,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 239,
-  },
-  {
-    goal: 300,
-  },
-  {
-    goal: 200,
-  },
-  {
-    goal: 278,
-  },
-  {
-    goal: 189,
-  },
-  {
-    goal: 349,
-  },
+  { goal: 400 }, { goal: 300 }, { goal: 200 }, { goal: 300 }, { goal: 200 },
+  { goal: 278 }, { goal: 189 }, { goal: 239 }, { goal: 300 }, { goal: 200 },
+  { goal: 278 }, { goal: 189 }, { goal: 349 },
 ]
 
 export function DrawerDemo() {
@@ -134,65 +112,57 @@ export function DrawerDemo() {
       <DrawerTrigger asChild>
         <Button variant="outline">Open Drawer</Button>
       </DrawerTrigger>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
-          <DrawerHeader>
-            <DrawerTitle>Move Goal</DrawerTitle>
-            <DrawerDescription>Set your daily activity goal.</DrawerDescription>
-          </DrawerHeader>
-          <div className="p-4 pb-0">
-            <div className="flex items-center justify-center space-x-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(-10)}
-                disabled={goal <= 200}
-              >
-                <Minus />
-                <span className="sr-only">Decrease</span>
-              </Button>
-              <div className="flex-1 text-center">
-                <div className="text-7xl font-bold tracking-tighter">
-                  {goal}
-                </div>
-                <div className="text-muted-foreground text-[0.70rem] uppercase">
-                  Calories/day
-                </div>
+      <DrawerContent size="md">
+        <DrawerHeader>
+          <DrawerTitle>Move Goal</DrawerTitle>
+          <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+        </DrawerHeader>
+        <DrawerBody>
+          <div className="flex items-center justify-center space-x-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 shrink-0 rounded-full"
+              onClick={() => onClick(-10)}
+              disabled={goal <= 200}
+            >
+              <Minus />
+              <span className="sr-only">Decrease</span>
+            </Button>
+            <div className="flex-1 text-center">
+              <div className="text-7xl font-bold tracking-tighter">{goal}</div>
+              <div className="text-muted-foreground text-[0.70rem] uppercase">
+                Calories/day
               </div>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 shrink-0 rounded-full"
-                onClick={() => onClick(10)}
-                disabled={goal >= 400}
-              >
-                <Plus />
-                <span className="sr-only">Increase</span>
-              </Button>
             </div>
-            <div className="mt-3 h-[120px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data}>
-                  <Bar
-                    dataKey="goal"
-                    style={
-                      {
-                        fill: "var(--chart-1)",
-                      } as React.CSSProperties
-                    }
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 shrink-0 rounded-full"
+              onClick={() => onClick(10)}
+              disabled={goal >= 400}
+            >
+              <Plus />
+              <span className="sr-only">Increase</span>
+            </Button>
           </div>
-          <DrawerFooter>
-            <Button>Submit</Button>
-            <DrawerClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </div>
+          <div className="mt-3 h-30">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data}>
+                <Bar
+                  dataKey="goal"
+                  style={{ fill: "var(--chart-1)" } as React.CSSProperties}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </DrawerBody>
+        <DrawerFooter>
+          <Button>Submit</Button>
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   )
@@ -214,95 +184,75 @@ export function DrawerDemo() {
         ),
         React.createElement(
           DrawerContent,
-          {},
+          { size: "md" },
           React.createElement(
-            "div",
-            { className: "mx-auto w-full max-w-sm" },
+            DrawerHeader,
+            {},
+            React.createElement(DrawerTitle, {}, "Move Goal"),
+            React.createElement(DrawerDescription, {}, "Set your daily activity goal.")
+          ),
+          React.createElement(
+            DrawerBody,
+            {},
             React.createElement(
-              DrawerHeader,
-              {},
-              React.createElement(DrawerTitle, {}, "Move Goal"),
+              "div",
+              { className: "flex items-center justify-center space-x-2" },
               React.createElement(
-                DrawerDescription,
-                {},
-                "Set your daily activity goal."
+                Button,
+                {
+                  variant: "outline",
+                  size: "icon",
+                  className: "h-8 w-8 shrink-0 rounded-full",
+                  onClick: () => onClick(-10),
+                  disabled: goal <= 200,
+                },
+                React.createElement(Minus, {}),
+                React.createElement("span", { className: "sr-only" }, "Decrease")
+              ),
+              React.createElement(
+                "div",
+                { className: "flex-1 text-center" },
+                React.createElement("div", { className: "text-7xl font-bold tracking-tighter" }, goal),
+                React.createElement("div", { className: "text-muted-foreground text-[0.70rem] uppercase" }, "Calories/day")
+              ),
+              React.createElement(
+                Button,
+                {
+                  variant: "outline",
+                  size: "icon",
+                  className: "h-8 w-8 shrink-0 rounded-full",
+                  onClick: () => onClick(10),
+                  disabled: goal >= 400,
+                },
+                React.createElement(Plus, {}),
+                React.createElement("span", { className: "sr-only" }, "Increase")
               )
             ),
             React.createElement(
               "div",
-              { className: "p-4 pb-0" },
+              { className: "mt-3 h-30" },
               React.createElement(
-                "div",
-                { className: "flex items-center justify-center space-x-2" },
+                ResponsiveContainer as any,
+                { width: "100%", height: "100%" },
                 React.createElement(
-                  Button,
-                  {
-                    variant: "outline",
-                    size: "icon",
-                    className: "h-8 w-8 shrink-0 rounded-full",
-                    onClick: () => onClick(-10),
-                    disabled: goal <= 200,
-                  },
-                  React.createElement(Minus, {}),
-                  React.createElement(
-                    "span",
-                    { className: "sr-only" },
-                    "Decrease"
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "flex-1 text-center" },
-                  React.createElement(
-                    "div",
-                    { className: "text-7xl font-bold tracking-tighter" },
-                    goal
-                  ),
-                  React.createElement(
-                    "div",
-                    {
-                      className:
-                        "text-muted-foreground text-[0.70rem] uppercase",
-                    },
-                    "Calories/day"
-                  )
-                ),
-                React.createElement(
-                  Button,
-                  {
-                    variant: "outline",
-                    size: "icon",
-                    className: "h-8 w-8 shrink-0 rounded-full",
-                    onClick: () => onClick(10),
-                    disabled: goal >= 400,
-                  },
-                  React.createElement(Plus, {}),
-                  React.createElement(
-                    "span",
-                    { className: "sr-only" },
-                    "Increase"
-                  )
-                )
-              ),
-              React.createElement(
-                "div",
-                { className: "mt-3 h-30" },
-                React.createElement(
-                  "div",
-                  { style: { width: "100%", height: "100%" } },
-                  "Chart placeholder (build compatibility)"
+                  BarChart as any,
+                  { data: chartData },
+                  React.createElement(Bar as any, {
+                    dataKey: "goal",
+                    style: { fill: "var(--chart-1)" } as React.CSSProperties,
+                  })
                 )
               )
-            ),
+            )
+          ),
+          React.createElement(
+            DrawerFooter,
+            {},
+            React.createElement(Button, {}, "Submit"),
             React.createElement(
-              DrawerFooter,
-              {},
-              React.createElement(Button, {}, "Submit"),
-              React.createElement(
-                DrawerClose,
-                { asChild: true },
-                React.createElement(Button, { variant: "outline" }, "Cancel")
-              )
+              DrawerClose,
+              { asChild: true },
+              React.createElement(Button, { variant: "outline" }, "Cancel")
             )
           )
         )
@@ -316,6 +266,7 @@ export function DrawerDemo() {
       code: `import { Button } from "@/components/ui/button"
 import {
   Drawer,
+  DrawerBody,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
@@ -336,14 +287,19 @@ export function DrawerScrollableContent() {
           <DrawerTitle>Move Goal</DrawerTitle>
           <DrawerDescription>Set your daily activity goal.</DrawerDescription>
         </DrawerHeader>
-        <div className="no-scrollbar overflow-y-auto px-4">
+        <DrawerBody>
           {Array.from({ length: 10 }).map((_, index) => (
             <p key={index} className="mb-4 leading-normal">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
           ))}
-        </div>
+        </DrawerBody>
         <DrawerFooter>
           <Button>Submit</Button>
           <DrawerClose asChild>
@@ -373,8 +329,8 @@ export function DrawerScrollableContent() {
               React.createElement(DrawerDescription, {}, "Set your daily activity goal.")
             ),
             React.createElement(
-              "div",
-              { className: "no-scrollbar overflow-y-auto px-4" },
+              DrawerBody,
+              {},
               ...Array.from({ length: 10 }, (_, index) =>
                 React.createElement(
                   "p",
@@ -404,6 +360,7 @@ export function DrawerScrollableContent() {
       code: `import { Button } from "@/components/ui/button"
 import {
   Drawer,
+  DrawerBody,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
@@ -430,11 +387,21 @@ export function DrawerWithSides() {
               {side}
             </Button>
           </DrawerTrigger>
-          <DrawerContent className="data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]">
+          <DrawerContent>
             <DrawerHeader>
               <DrawerTitle>Move Goal</DrawerTitle>
               <DrawerDescription>Set your daily activity goal.</DrawerDescription>
             </DrawerHeader>
+            <DrawerBody>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <p key={index} className="mb-4 leading-normal">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+              ))}
+            </DrawerBody>
             <DrawerFooter>
               <Button>Submit</Button>
               <DrawerClose asChild>
@@ -473,18 +440,131 @@ export function DrawerWithSides() {
               ),
               React.createElement(
                 DrawerContent,
-                {
-                  className:
-                    "data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]",
-                },
+                {},
                 React.createElement(
                   DrawerHeader,
                   {},
                   React.createElement(DrawerTitle, {}, "Move Goal"),
+                  React.createElement(DrawerDescription, {}, "Set your daily activity goal.")
+                ),
+                React.createElement(
+                  DrawerBody,
+                  {},
+                  ...Array.from({ length: 10 }, (_, index) =>
+                    React.createElement(
+                      "p",
+                      { key: index, className: "mb-4 leading-normal" },
+                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                    )
+                  )
+                ),
+                React.createElement(
+                  DrawerFooter,
+                  {},
+                  React.createElement(Button, {}, "Submit"),
+                  React.createElement(
+                    DrawerClose,
+                    { asChild: true },
+                    React.createElement(Button, { variant: "outline" }, "Cancel")
+                  )
+                )
+              )
+            )
+          )
+        );
+      }),
+    },
+    {
+      name: "Size Variants",
+      description:
+        "Use the size prop on DrawerContent to constrain the inner content width for bottom and top drawers. Available sizes: md (max-w-lg), lg (max-w-2xl), and full (default).",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerBody,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+const SIZES = ["md", "lg", "full"] as const
+
+export function DrawerSizes() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {SIZES.map((size) => (
+        <Drawer key={size}>
+          <DrawerTrigger asChild>
+            <Button variant="outline" className="capitalize">
+              {size}
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent size={size}>
+            <DrawerHeader>
+              <DrawerTitle>Size: {size}</DrawerTitle>
+              <DrawerDescription>This drawer uses size="{size}".</DrawerDescription>
+            </DrawerHeader>
+            <DrawerBody>
+              <p className="text-muted-foreground text-sm">
+                The header, body, and footer content are constrained to the
+                selected size. Resize the window to see the effect at different
+                breakpoints.
+              </p>
+            </DrawerBody>
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ))}
+    </div>
+  )
+}`,
+      preview: React.createElement(() => {
+        const SIZES = ["md", "lg", "full"] as const;
+        return React.createElement(
+          "div",
+          { className: "flex flex-wrap gap-2" },
+          ...SIZES.map((size) =>
+            React.createElement(
+              Drawer,
+              { key: size },
+              React.createElement(
+                DrawerTrigger,
+                { asChild: true },
+                React.createElement(
+                  Button,
+                  { variant: "outline", className: "capitalize" },
+                  size
+                )
+              ),
+              React.createElement(
+                DrawerContent,
+                { size },
+                React.createElement(
+                  DrawerHeader,
+                  {},
+                  React.createElement(DrawerTitle, {}, `Size: ${size}`),
                   React.createElement(
                     DrawerDescription,
                     {},
-                    "Set your daily activity goal."
+                    `This drawer uses size="${size}".`
+                  )
+                ),
+                React.createElement(
+                  DrawerBody,
+                  {},
+                  React.createElement(
+                    "p",
+                    { className: "text-muted-foreground text-sm" },
+                    "The header, body, and footer content are constrained to the selected size. Resize the window to see the effect at different breakpoints."
                   )
                 ),
                 React.createElement(
@@ -506,29 +586,25 @@ export function DrawerWithSides() {
     {
       name: "Responsive Dialog",
       description:
-        "A responsive component that shows a dialog on desktop and a drawer on mobile.",
+        "You can combine the Dialog and Drawer components to create a responsive dialog. This renders a Dialog component on desktop and a Drawer on mobile.",
       code: `"use client"
 
 import * as React from "react"
+import { cn } from "@/lib/utils"
+import { useMediaQuery } from "@/hooks/use-media-query"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
 import {
   Drawer,
+  DrawerBody,
   DrawerClose,
   DrawerContent,
   DrawerDescription,
@@ -550,7 +626,7 @@ export function DrawerDialogDemo() {
         <DialogTrigger asChild>
           <Button variant="outline">Edit Profile</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-sm">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>
@@ -559,6 +635,10 @@ export function DrawerDialogDemo() {
             </DialogDescription>
           </DialogHeader>
           <ProfileForm />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     )
@@ -570,14 +650,17 @@ export function DrawerDialogDemo() {
         <Button variant="outline">Edit Profile</Button>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerHeader className="text-left">
+        <DrawerHeader>
           <DrawerTitle>Edit profile</DrawerTitle>
           <DrawerDescription>
             Make changes to your profile here. Click save when you&apos;re done.
           </DrawerDescription>
         </DrawerHeader>
-        <ProfileForm className="px-4" />
-        <DrawerFooter className="pt-2">
+        <DrawerBody>
+          <ProfileForm />
+        </DrawerBody>
+        <DrawerFooter>
+          <Button type="submit">Save changes</Button>
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
           </DrawerClose>
@@ -598,7 +681,6 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
         <Label htmlFor="username">Username</Label>
         <Input id="username" defaultValue="@shadcn" />
       </div>
-      <Button type="submit">Save changes</Button>
     </form>
   )
 }`,
@@ -629,7 +711,6 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                 defaultValue: "@shadcn",
               })
             ),
-            React.createElement(Button, { type: "submit" }, "Save changes")
           );
 
         if (isDesktop) {
@@ -658,7 +739,13 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                   "Make changes to your profile here. Click save when you're done."
                 )
               ),
-              React.createElement(ProfileFormComponent, {})
+              React.createElement(ProfileFormComponent, {}),
+              React.createElement(
+                DialogFooter,
+                {},
+                React.createElement(Button, { variant: "outline", onClick: () => setOpen(false) }, "Cancel"),
+                React.createElement(Button, { type: "submit" }, "Save changes")
+              )
             )
           );
         }
@@ -675,32 +762,195 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
             DrawerContent,
             {},
             React.createElement(
-              "div",
-              { className: "mx-auto w-full max-w-sm" },
+              DrawerHeader,
+              {},
+              React.createElement(DrawerTitle, {}, "Edit profile"),
               React.createElement(
-                DrawerHeader,
-                { className: "text-left" },
-                React.createElement(DrawerTitle, {}, "Edit profile"),
-                React.createElement(
-                  DrawerDescription,
-                  {},
-                  "Make changes to your profile here. Click save when you're done."
-                )
-              ),
-              React.createElement(ProfileFormComponent, { className: "px-4" }),
+                DrawerDescription,
+                {},
+                "Make changes to your profile here. Click save when you're done."
+              )
+            ),
+            React.createElement(
+              DrawerBody,
+              {},
+              React.createElement(ProfileFormComponent, {})
+            ),
+            React.createElement(
+              DrawerFooter,
+              {},
+              React.createElement(Button, { type: "submit" }, "Save changes"),
               React.createElement(
-                DrawerFooter,
-                { className: "pt-2" },
-                React.createElement(
-                  DrawerClose,
-                  { asChild: true },
-                  React.createElement(Button, { variant: "outline" }, "Cancel")
-                )
+                DrawerClose,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Cancel")
               )
             )
           )
         );
       }),
+    },
+    {
+      name: "Nested Drawers",
+      description:
+        "Nesting drawers creates a Sonner-like stacking effect: dragging the inner drawer down a bit scales the outer drawer too. Wrap the inner drawer in `DrawerNestedRoot` instead of `Drawer` so vaul can coordinate the gesture between them.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerNestedRoot,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+export function NestedDrawerDemo() {
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button variant="outline">Open Drawer</Button>
+      </DrawerTrigger>
+      <DrawerContent size="md">
+        <DrawerHeader>
+          <DrawerTitle>Nested Drawers</DrawerTitle>
+          <DrawerDescription>
+            Nesting drawers creates a Sonner-like stacking effect.
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerBody>
+          <p className="text-muted-foreground mb-2 text-sm">
+            You can nest as many drawers as you want. Use{" "}
+            <code className="bg-muted rounded px-1 py-0.5 text-xs">
+              DrawerNestedRoot
+            </code>{" "}
+            instead of{" "}
+            <code className="bg-muted rounded px-1 py-0.5 text-xs">Drawer</code>{" "}
+            for the inner drawer.
+          </p>
+          <DrawerNestedRoot>
+            <DrawerTrigger asChild>
+              <Button className="mt-4 w-full">Open Second Drawer</Button>
+            </DrawerTrigger>
+            <DrawerContent size="md">
+              <DrawerHeader>
+                <DrawerTitle>This drawer is nested.</DrawerTitle>
+                <DrawerDescription>
+                  Pull this drawer down a bit and it&apos;ll scale the drawer
+                  underneath it.
+                </DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter>
+                <DrawerClose asChild>
+                  <Button variant="outline">Close</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </DrawerNestedRoot>
+        </DrawerBody>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button variant="outline">Close</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}`,
+      preview: React.createElement(() =>
+        React.createElement(
+          Drawer,
+          {},
+          React.createElement(
+            DrawerTrigger,
+            { asChild: true },
+            React.createElement(Button, { variant: "outline" }, "Open Drawer")
+          ),
+          React.createElement(
+            DrawerContent,
+            { size: "md" },
+            React.createElement(
+              DrawerHeader,
+              {},
+              React.createElement(DrawerTitle, {}, "Nested Drawers"),
+              React.createElement(
+                DrawerDescription,
+                {},
+                "Nesting drawers creates a Sonner-like stacking effect."
+              )
+            ),
+            React.createElement(
+              DrawerBody,
+              {},
+              React.createElement(
+                "p",
+                { className: "text-muted-foreground mb-2 text-sm" },
+                "You can nest as many drawers as you want. Use ",
+                React.createElement(
+                  "code",
+                  { className: "bg-muted rounded px-1 py-0.5 text-xs" },
+                  "DrawerNestedRoot"
+                ),
+                " instead of ",
+                React.createElement(
+                  "code",
+                  { className: "bg-muted rounded px-1 py-0.5 text-xs" },
+                  "Drawer"
+                ),
+                " for the inner drawer."
+              ),
+              React.createElement(
+                DrawerNestedRoot,
+                {},
+                React.createElement(
+                  DrawerTrigger,
+                  { asChild: true },
+                  React.createElement(
+                    Button,
+                    { className: "mt-4 w-full" },
+                    "Open Second Drawer"
+                  )
+                ),
+                React.createElement(
+                  DrawerContent,
+                  { size: "md" },
+                  React.createElement(
+                    DrawerHeader,
+                    {},
+                    React.createElement(DrawerTitle, {}, "This drawer is nested."),
+                    React.createElement(
+                      DrawerDescription,
+                      {},
+                      "Pull this drawer down a bit and it'll scale the drawer underneath it."
+                    )
+                  ),
+                  React.createElement(
+                    DrawerFooter,
+                    {},
+                    React.createElement(
+                      DrawerClose,
+                      { asChild: true },
+                      React.createElement(Button, { variant: "outline" }, "Close")
+                    )
+                  )
+                )
+              )
+            ),
+            React.createElement(
+              DrawerFooter,
+              {},
+              React.createElement(
+                DrawerClose,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Close")
+              )
+            )
+          )
+        )
+      ),
     },
   ],
   props: [

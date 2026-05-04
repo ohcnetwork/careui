@@ -3,6 +3,15 @@ import { type ComponentDoc } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -27,6 +36,12 @@ import {
 import { Kbd } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import {
   Sidebar,
   SidebarContent,
@@ -54,7 +69,10 @@ import {
   Box,
   CalendarDays,
   Check,
+  ChevronLeft,
   ChevronsUpDown,
+  ClipboardList,
+  Clock,
   CreditCard,
   House,
   LogOut,
@@ -63,6 +81,7 @@ import {
   PanelLeft,
   Search,
   Settings2,
+  Syringe,
   UserCog,
   Users,
   X,
@@ -149,7 +168,7 @@ function CareNavGroups() {
     <>
       {careNavGroups.map((group, i) => (
         <React.Fragment key={i}>
-          {i > 0 && <Separator className="mx-3 w-auto" />}
+          {i > 0 && <Separator variant="inset" className="mx-3 w-auto" />}
           <SidebarGroup className={i > 0 ? "pt-0" : undefined}>
             {group.label && (
               <SidebarGroupLabel className="text-[10px] font-semibold tracking-wider uppercase">
@@ -304,8 +323,17 @@ function CareSearchBar() {
 
   return (
     <>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="md:hidden"
+        onClick={() => setOpen(true)}
+      >
+        <Search className="h-4 w-4" />
+        <span className="sr-only">Search</span>
+      </Button>
       <InputGroup
-        className="md:h-9 w-52 cursor-pointer text-sm"
+        className="hidden md:flex md:h-9 w-52 cursor-pointer text-sm"
         onClick={() => setOpen(true)}
       >
         <InputGroupInput
@@ -400,6 +428,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
   // overlayReady becomes true only AFTER the close animation finishes (~210ms).
   // This prevents top/height from snapping while the sidebar is still visible and sliding.
   const [overlayReady, setOverlayReady] = React.useState(false);
+  const [pinningTransition, setPinningTransition] = React.useState(false);
   const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   const menuOpenRef = React.useRef(false);
@@ -441,9 +470,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
   const toggleSidebar = React.useCallback(() => {
     cancelClose();
     if (isOverlay) {
-      setOverlayReady(false);
-      setPinned(true);
-      setOverlayOpen(false);
+      setPinningTransition(true); setOverlayReady(false); setPinned(true); setOverlayOpen(false); setTimeout(() => setPinningTransition(false), 200);
     } else if (pinned) {
       setOverlayReady(false);
       setPinned(false);
@@ -477,20 +504,17 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
         className={cn(
           !fullPage && "rounded-lg border",
           "**:data-[slot=sidebar-container]:h-full!",
-          // Speed up the slide-in/out so hover feels snappy.
-          "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
-          "**:data-[slot=sidebar-container]:duration-150!",
-          "**:data-[slot=sidebar-gap]:duration-150!",
-          // Overlay: zero the gap so it doesn't push content, and restore inset margin.
+          pinningTransition ? "**:data-[slot=sidebar-container]:transition-[left,right,width,top,height,box-shadow,background-color,border-radius]!" : "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
+          "**:data-[slot=sidebar-container]:duration-100!",
+          "**:data-[slot=sidebar-gap]:duration-100!",
+          pinningTransition && "**:data-[slot=sidebar-inset]:transition-[margin]!",
+          pinningTransition && "**:data-[slot=sidebar-inset]:duration-100!",
           isOverlay && "**:data-[slot=sidebar-inset]:ml-2!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
-          // top/height: only applied once off-screen (after settle timer), so the
-          // close slide-out happens from top:0 full-height with no visible snap.
           overlayReady && !pinned && [
             "**:data-[slot=sidebar-container]:top-14!",
             "**:data-[slot=sidebar-container]:h-[calc(100%-3.5rem)]!",
           ],
-          // Overlay appearance: elevation + rounded corner.
           isOverlay && [
             "**:data-[slot=sidebar-container]:bg-sidebar",
             "**:data-[slot=sidebar-container]:border-t",
@@ -542,7 +566,7 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
               />
               <Separator orientation="vertical" />
               <CareFacilitySelector />
-              <div className="ml-auto flex items-center gap-2">
+              <div className="ml-auto flex items-center md:gap-2">
                 <CareSearchBar />
                 <Button variant="ghost" size="icon">
                   <Bell className="h-4 w-4" />
@@ -562,12 +586,543 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
                   <p className="text-sm text-muted-foreground">Welcome back!</p>
                 </div>
               </div>
+              <Tabs defaultValue="overview">
+                <TabsList variant="line" className="w-full border-b border-border">
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="analytics">Analytics</TabsTrigger>
+                  <TabsTrigger value="reports">Reports</TabsTrigger>
+                </TabsList>
+                <TabsContent value="overview" className="flex flex-col gap-4">
+                  <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+                    <div className="aspect-video rounded-xl bg-muted/50" />
+                    <div className="aspect-video rounded-xl bg-muted/50" />
+                    <div className="aspect-video rounded-xl bg-muted/50" />
+                  </div>
+                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                </TabsContent>
+                <TabsContent value="analytics">
+                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                </TabsContent>
+                <TabsContent value="reports">
+                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </SidebarInset>
+        </SidebarProvider>
+      </div>
+    </TooltipProvider>
+  );
+}
+
+// ─── InnerPageLayoutDemo ─────────────────────────────────────────────────────
+
+const innerNavItems = [
+  { title: "Overview", icon: House },
+  { title: "Patients", icon: Users },
+  { title: "Appointments", icon: CalendarDays },
+  { title: "Encounters", icon: Activity },
+  { title: "Settings", icon: Settings2 },
+];
+
+function InnerSidebarContent({ pinned }: { pinned: boolean }) {
+  const { isMobile, setOpenMobile } = useSidebar();
+  const showHeader = pinned || isMobile;
+  return (
+    <>
+      <SidebarHeader
+        className={cn(
+          "overflow-hidden border-b",
+          showHeader ? "border-border min-h-12" : "max-h-0 py-0 border-transparent"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center gap-2 px-2 transition-[opacity,transform] duration-150 ease-linear",
+            showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+          )}
+        >
+          <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground -ml-1">
+              <ChevronLeft className="h-4 w-4" />
+              Back
+            </Button>
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="ml-auto"
+              onClick={() => setOpenMobile(false)}
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close sidebar</span>
+            </Button>
+          )}
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarMenu>
+            {innerNavItems.map((item, i) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  isActive={i === 0}
+                  tooltip={item.title}
+                  className="data-active:bg-strong-background data-active:text-foreground data-active:hover:bg-strong-background data-active:ring-stronger-border data-active:dark:ring-neutral-100/50 data-active:hover:text-foreground data-active:after:bg-neutral-500 data-active:dark:after:bg-neutral-300 data-[active=true]:font-medium"
+                >
+                  <item.icon />
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
+    </>
+  );
+}
+
+function InnerPageBackButton({ pinned }: { pinned: boolean }) {
+  const { isMobile } = useSidebar();
+  if (pinned && !isMobile) return null;
+  return (
+    <>
+      <Separator orientation="vertical" />
+      <Button variant="tertiary" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground">
+        <ChevronLeft className="h-4 w-4" />
+        Back
+      </Button>
+    </>
+  );
+}
+
+export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }) {
+  const [pinned, setPinned] = React.useState(true);
+  const [overlayOpen, setOverlayOpen] = React.useState(false);
+  const [overlayReady, setOverlayReady] = React.useState(false);
+  const [pinningTransition, setPinningTransition] = React.useState(false);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const menuOpenRef = React.useRef(false);
+
+  const cancelClose = React.useCallback(() => {
+    clearTimeout(closeTimerRef.current ?? undefined);
+    clearTimeout(settleTimerRef.current ?? undefined);
+    closeTimerRef.current = null;
+    settleTimerRef.current = null;
+  }, []);
+
+  const startSettle = React.useCallback(() => {
+    clearTimeout(settleTimerRef.current ?? undefined);
+    settleTimerRef.current = setTimeout(() => setOverlayReady(true), 210);
+  }, []);
+
+  const scheduleClose = React.useCallback(() => {
+    if (!pinned && !menuOpenRef.current) {
+      cancelClose();
+      closeTimerRef.current = setTimeout(() => {
+        setOverlayOpen(false);
+        startSettle();
+      }, 300);
+    }
+  }, [pinned, cancelClose, startSettle]);
+
+  const isOverlay = overlayOpen && !pinned;
+
+  const toggleSidebar = React.useCallback(() => {
+    cancelClose();
+    if (isOverlay) {
+      setPinningTransition(true); setOverlayReady(false); setPinned(true); setOverlayOpen(false); setTimeout(() => setPinningTransition(false), 200);
+    } else if (pinned) {
+      setOverlayReady(false); setPinned(false); setOverlayOpen(false); startSettle();
+    } else {
+      setPinned(true); setOverlayOpen(false);
+    }
+  }, [isOverlay, pinned, cancelClose, startSettle]);
+
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "b") { e.preventDefault(); toggleSidebar(); }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [toggleSidebar]);
+
+  return (
+    <TooltipProvider>
+      <div
+        style={{
+          height: fullPage ? "100vh" : "400px",
+          transform: fullPage ? undefined : "translateZ(0)",
+          overflow: "hidden",
+        }}
+        className={cn(
+          !fullPage && "rounded-lg border",
+          "**:data-[slot=sidebar-container]:h-full!",
+          pinningTransition ? "**:data-[slot=sidebar-container]:transition-[left,right,width,top,height,box-shadow,background-color,border-radius]!" : "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
+          "**:data-[slot=sidebar-container]:duration-100!",
+          "**:data-[slot=sidebar-gap]:duration-100!",
+          isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
+          overlayReady && !pinned && [
+            "**:data-[slot=sidebar-container]:top-12!",
+            "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
+          ],
+          isOverlay && [
+            "**:data-[slot=sidebar-container]:bg-sidebar",
+            "**:data-[slot=sidebar-container]:border-t",
+            "**:data-[slot=sidebar-container]:rounded-r-md",
+            "**:data-[slot=sidebar-container]:shadow-xl",
+          ],
+        )}
+      >
+        <SidebarProvider
+          open={pinned || overlayOpen}
+          onOpenChange={(o) => {
+            if (o) { setOverlayReady(false); setPinned(true); setOverlayOpen(false); }
+            else { setOverlayReady(false); setPinned(false); setOverlayOpen(false); startSettle(); }
+          }}
+          className="min-h-0! h-full"
+          style={{ "--sidebar-width": "14rem", height: "100%" } as React.CSSProperties}
+        >
+          <Sidebar
+            variant="sidebar"
+            collapsible="offcanvas"
+            className={isOverlay ? "border-r!" : undefined}
+            onMouseEnter={cancelClose}
+            onMouseLeave={scheduleClose}
+          >
+            <InnerSidebarContent pinned={pinned} />
+          </Sidebar>
+
+          <SidebarInset className="overflow-hidden">
+            <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
+              <SidebarToggleButton
+                onDesktopToggle={toggleSidebar}
+                onMouseEnter={() => {
+                  cancelClose();
+                  if (!pinned) { setOverlayReady(true); setOverlayOpen(true); }
+                }}
+                onMouseLeave={scheduleClose}
+              />
+              <InnerPageBackButton pinned={pinned} />
+              <Separator orientation="vertical" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="sm:hidden">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size="icon-sm" variant="ghost">
+                          <BreadcrumbEllipsis />
+                          <span className="sr-only">Toggle menu</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <DropdownMenuItem>Encounters</DropdownMenuItem>
+                        <DropdownMenuItem>Patients</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="sm:hidden" />
+                  <BreadcrumbItem className="hidden sm:flex">
+                    <BreadcrumbLink>Encounters</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden sm:flex" />
+                  <BreadcrumbItem className="hidden sm:flex">
+                    <BreadcrumbLink>Patients</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden sm:flex" />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>John Doe</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+              <div className="ml-auto flex items-center gap-2">
+                <Button variant="outline" size="icon-sm">
+                  <Bell className="h-3.5 w-3.5" />
+                  <span className="sr-only">Alerts</span>
+                </Button>
+              </div>
+            </header>
+
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
+              {/* Patient summary card */}
               <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                 <div className="aspect-video rounded-xl bg-muted/50" />
                 <div className="aspect-video rounded-xl bg-muted/50" />
                 <div className="aspect-video rounded-xl bg-muted/50" />
               </div>
               <div className="min-h-24 rounded-xl bg-muted/50" />
+            </div>
+          </SidebarInset>
+        </SidebarProvider>
+      </div>
+    </TooltipProvider>
+  );
+}
+
+// ─── InnerPageLayout02Demo data & components ───────────────────────────────────
+
+const innerPage02Locations = [
+  "Pharmacy - Ground Floor",
+  "ICU - Floor 2",
+  "OPD - Block A",
+  "Ward B",
+];
+
+function InnerPage02LocationSelector({ onOpenChange }: { onOpenChange?: (open: boolean) => void }) {
+  const [selected, setSelected] = React.useState(innerPage02Locations[0]);
+  return (
+    <DropdownMenu onOpenChange={onOpenChange}>
+      <DropdownMenuTrigger asChild>
+        <button className="flex w-full items-center justify-between rounded-lg border bg-background px-3 py-2.5 text-left transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <div className="min-w-0">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Chosen Location
+            </p>
+            <p className="truncate text-sm font-semibold">{selected}</p>
+          </div>
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-56">
+        {innerPage02Locations.map((loc) => (
+          <DropdownMenuItem key={loc} onClick={() => setSelected(loc)}>
+            {loc}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+const innerPage02PharmacyItems: { title: string; icon: React.ElementType; isActive?: boolean }[] = [
+  { title: "Prescription Queue", icon: ClipboardList, isActive: true },
+  { title: "Dispense Medicine", icon: Syringe },
+  { title: "Inventory", icon: Package },
+] as { title: string; icon: React.ElementType; isActive?: boolean }[];
+
+const innerPage02PatientItems: { title: string; icon: React.ElementType }[] = [
+  { title: "Schedule", icon: Clock },
+  { title: "Appointments", icon: CalendarDays },
+  { title: "Queues", icon: Users },
+] as const;
+
+function InnerPage02SidebarContent({ pinned, onMenuOpenChange }: { pinned: boolean; onMenuOpenChange?: (open: boolean) => void }) {
+  const { isMobile, setOpenMobile } = useSidebar();
+  const showBackRow = pinned || isMobile;
+  return (
+    <>
+      <SidebarHeader className="border-b">
+        <div className="space-y-2 px-2 py-2">
+          <div
+            className={cn(
+              "flex items-center overflow-hidden transition-opacity duration-150 ease-linear",
+              showBackRow ? "h-8 opacity-100" : "hidden"
+            )}
+          >
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-1.5 text-muted-foreground hover:text-foreground -ml-1"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back
+            </Button>
+            {isMobile && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="ml-auto"
+                onClick={() => setOpenMobile(false)}
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close sidebar</span>
+              </Button>
+            )}
+          </div>
+          <InnerPage02LocationSelector onOpenChange={onMenuOpenChange} />
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Pharmacy</SidebarGroupLabel>
+          <SidebarMenu>
+            {innerPage02PharmacyItems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton isActive={item.isActive} tooltip={item.title}>
+                  <item.icon />
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+        <Separator variant="inset" className="mx-3 w-auto" />
+        <SidebarGroup>
+          <SidebarGroupLabel>Patient Management</SidebarGroupLabel>
+          <SidebarMenu>
+            {innerPage02PatientItems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton tooltip={item.title}>
+                  <item.icon />
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
+    </>
+  );
+}
+
+// ─── InnerPageLayout02Demo ────────────────────────────────────────────────────
+
+export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean }) {
+  const [pinned, setPinned] = React.useState(true);
+  const [overlayOpen, setOverlayOpen] = React.useState(false);
+  const [overlayReady, setOverlayReady] = React.useState(false);
+  const [pinningTransition, setPinningTransition] = React.useState(false);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const menuOpenRef = React.useRef(false);
+
+  const cancelClose = React.useCallback(() => {
+    clearTimeout(closeTimerRef.current ?? undefined);
+    clearTimeout(settleTimerRef.current ?? undefined);
+    closeTimerRef.current = null;
+    settleTimerRef.current = null;
+  }, []);
+
+  const startSettle = React.useCallback(() => {
+    clearTimeout(settleTimerRef.current ?? undefined);
+    settleTimerRef.current = setTimeout(() => setOverlayReady(true), 210);
+  }, []);
+
+  const scheduleClose = React.useCallback(() => {
+    if (!pinned && !menuOpenRef.current) {
+      cancelClose();
+      closeTimerRef.current = setTimeout(() => {
+        setOverlayOpen(false);
+        startSettle();
+      }, 300);
+    }
+  }, [pinned, cancelClose, startSettle]);
+
+  const isOverlay = overlayOpen && !pinned;
+
+  const toggleSidebar = React.useCallback(() => {
+    cancelClose();
+    if (isOverlay) {
+      setPinningTransition(true); setOverlayReady(false); setPinned(true); setOverlayOpen(false); setTimeout(() => setPinningTransition(false), 200);
+    } else if (pinned) {
+      setOverlayReady(false); setPinned(false); setOverlayOpen(false); startSettle();
+    } else {
+      setPinned(true); setOverlayOpen(false);
+    }
+  }, [isOverlay, pinned, cancelClose, startSettle]);
+
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "b") { e.preventDefault(); toggleSidebar(); }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [toggleSidebar]);
+
+  return (
+    <TooltipProvider>
+      <div
+        style={{
+          height: fullPage ? "100vh" : "400px",
+          transform: fullPage ? undefined : "translateZ(0)",
+          overflow: "hidden",
+        }}
+        className={cn(
+          !fullPage && "rounded-lg border",
+          "**:data-[slot=sidebar-container]:h-full!",
+          pinningTransition
+            ? "**:data-[slot=sidebar-container]:transition-[left,right,width,top,height,box-shadow,background-color,border-radius]!"
+            : "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
+          "**:data-[slot=sidebar-container]:duration-150!",
+          "**:data-[slot=sidebar-gap]:duration-150!",
+          isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
+          overlayReady && !pinned && [
+            "**:data-[slot=sidebar-container]:top-12!",
+            "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
+          ],
+          isOverlay && [
+            "**:data-[slot=sidebar-container]:bg-sidebar",
+            "**:data-[slot=sidebar-container]:border-t",
+            "**:data-[slot=sidebar-container]:rounded-r-md",
+            "**:data-[slot=sidebar-container]:shadow-xl",
+          ],
+        )}
+      >
+        <SidebarProvider
+          open={pinned || overlayOpen}
+          onOpenChange={(o) => {
+            if (o) { setOverlayReady(false); setPinned(true); setOverlayOpen(false); }
+            else { setOverlayReady(false); setPinned(false); setOverlayOpen(false); startSettle(); }
+          }}
+          className="min-h-0! h-full"
+          style={{ "--sidebar-width": "14rem", height: "100%" } as React.CSSProperties}
+        >
+          <Sidebar
+            variant="sidebar"
+            collapsible="offcanvas"
+            className={isOverlay ? "border-r!" : undefined}
+            onMouseEnter={cancelClose}
+            onMouseLeave={scheduleClose}
+          >
+            <InnerPage02SidebarContent
+              pinned={pinned}
+              onMenuOpenChange={(open) => {
+                menuOpenRef.current = open;
+                if (open) cancelClose();
+                else scheduleClose();
+              }}
+            />
+          </Sidebar>
+
+          <SidebarInset className="overflow-hidden">
+            <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
+              <SidebarToggleButton
+                onDesktopToggle={toggleSidebar}
+                onMouseEnter={() => {
+                  cancelClose();
+                  if (!pinned) { setOverlayReady(true); setOverlayOpen(true); }
+                }}
+                onMouseLeave={scheduleClose}
+              />
+              <InnerPageBackButton pinned={pinned} />
+              <Separator orientation="vertical" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink>Patients</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>John Doe</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+              <div className="ml-auto flex items-center gap-2">
+                <Button variant="outline" size="icon-sm">
+                  <Bell className="h-3.5 w-3.5" />
+                  <span className="sr-only">Alerts</span>
+                </Button>
+              </div>
+            </header>
+
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
+              <div className="rounded-xl bg-muted/50 h-20" />
+              <div className="grid grid-cols-3 gap-3">
+                <div className="rounded-xl bg-muted/50 aspect-video" />
+                <div className="rounded-xl bg-muted/50 aspect-video" />
+                <div className="rounded-xl bg-muted/50 aspect-video" />
+              </div>
+              <div className="min-h-16 rounded-xl bg-muted/40" />
             </div>
           </SidebarInset>
         </SidebarProvider>

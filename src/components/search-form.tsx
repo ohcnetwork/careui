@@ -67,10 +67,10 @@ export function SearchForm(props: React.ComponentProps<"form">) {
 
   return (
     <form {...props} onSubmit={(e) => e.preventDefault()}>
-      <SidebarGroup className="py-0">
+      <SidebarGroup className="px-0 py-0">
         <SidebarGroupContent>
           <InputGroup
-            className="cursor-pointer"
+            className="cursor-pointer bg-background"
             onClick={() => setOpen(true)}
           >
             <InputGroupInput

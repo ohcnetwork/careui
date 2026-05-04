@@ -27,6 +27,7 @@ export default defineConfig([
       'src/components/ui/**/*.{ts,tsx}',
       'src/components/careui/**/*.{ts,tsx}',
       'src/components/theme-provider.tsx',
+      'src/components/font-size-provider.tsx',
       'src/lib/registry/**/*.{ts,tsx}',
       'src/contexts/**/*.{ts,tsx}',
     ],

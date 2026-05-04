@@ -64,15 +64,20 @@ const componentLoaders: Record<
   "context-menu": () =>
     import("./context-menu").then((m) => ({ default: m.contextMenuDoc })),
   dialog: () => import("./dialog").then((m) => ({ default: m.dialogDoc })),
+  "dotted-divider": () =>
+    import("./dotted-divider").then((m) => ({ default: m.dottedDividerDoc })),
   drawer: () => import("./drawer").then((m) => ({ default: m.drawerDoc })),
   "dropdown-menu": () =>
     import("./dropdown-menu").then((m) => ({ default: m.dropdownMenuDoc })),
   empty: () => import("./empty").then((m) => ({ default: m.emptyDoc })),
   field: () => import("./field").then((m) => ({ default: m.fieldDoc })),
+  filters: () => import("./filters").then((m) => ({ default: m.filtersDoc })),
   frame: () => import("./frame").then((m) => ({ default: m.frameDoc })),
   input: () => import("./input").then((m) => ({ default: m.inputDoc })),
   "hover-card": () =>
     import("./hover-card").then((m) => ({ default: m.hoverCardDoc })),
+  indicator: () =>
+    import("./indicator").then((m) => ({ default: m.indicatorDoc })),
   "input-group": () =>
     import("./input-group").then((m) => ({ default: m.inputGroupDoc })),
   "input-otp": () =>
@@ -83,6 +88,8 @@ const componentLoaders: Record<
   "loading-animation-svg": () =>
     import("./loading-animation-svg").then((m) => ({ default: m.loadingAnimationSvgDoc })),
   menubar: () => import("./menubar").then((m) => ({ default: m.menubarDoc })),
+  "native-select": () =>
+    import("./native-select").then((m) => ({ default: m.nativeSelectDoc })),
   "navigation-menu": () =>
     import("./navigation-menu").then((m) => ({ default: m.navigationMenuDoc })),
   pagination: () =>
@@ -106,6 +113,12 @@ const componentLoaders: Record<
   slider: () => import("./slider").then((m) => ({ default: m.sliderDoc })),
   sonner: () => import("./sonner").then((m) => ({ default: m.sonnerDoc })),
   spinner: () => import("./spinner").then((m) => ({ default: m.spinnerDoc })),
+  "unicode-spinner": () =>
+    import("./unicode-spinner").then((m) => ({ default: m.unicodeSpinnerDoc })),
+  "pixel-spinner": () =>
+    import("./pixel-spinner").then((m) => ({ default: m.pixelSpinnerDoc })),
+  "matrix-spinner": () =>
+    import("./matrix-spinner").then((m) => ({ default: m.matrixSpinnerDoc })),
   switch: () => import("./switch").then((m) => ({ default: m.switchDoc })),
   table: () => import("./table").then((m) => ({ default: m.tableDoc })),
   tabs: () => import("./tabs").then((m) => ({ default: m.tabsDoc })),

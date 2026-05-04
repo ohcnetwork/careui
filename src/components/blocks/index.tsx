@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
@@ -8,55 +8,27 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Copy, Check, ChevronLeft } from "lucide-react";
+import { Copy, Check, ChevronLeft, Code } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { AppSidebarDemo } from "@/lib/registry/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useNavigation } from "@/contexts/navigation-context";
-
-
-
-
-// ─── Block definitions ────────────────────────────────────────────────────────
-
-type BlockCategory = "All" | "Sidebar" | "Authentication" | "Dashboard";
-
-interface BlockDef {
-  id: string;
-  name: string;
-  description: string;
-  category: Exclude<BlockCategory, "All">;
-  preview: (fullPage?: boolean) => React.ReactNode;
-  scale?: number;
-  code: string;
-}
-
-const SIDEBAR_01_CODE = `// See the main-sidebar component in the registry
-// pnpm dlx shadcn@latest add https://careui.ohc.network/registry/care-ui/main-sidebar/main-sidebar.json`;
-
-const BLOCKS: BlockDef[] = [
-  {
-    id: "sidebar-01",
-    name: "sidebar-01",
-    description: "A dashboard with collapsible sidebar navigation and team switcher.",
-    category: "Sidebar",
-    preview: (fullPage) => <AppSidebarDemo fullPage={fullPage} />,
-    scale: 0.68,
-    code: SIDEBAR_01_CODE,
-  },
-];
+import { BLOCKS, type BlockCategory, type BlockDef } from "./registry";
 
 // ─── BlockThumbnail ───────────────────────────────────────────────────────────
 
 function BlockThumbnail({ block }: { block: BlockDef }) {
-  const { copyToClipboard, isCopied } = useCopyToClipboard();
   const scale = block.scale ?? 0.5;
   const containerHeight = Math.round(480 * scale + 10);
+  const { setActiveComponent } = useNavigation();
 
   function openPreview() {
+    setActiveComponent("block-preview-" + block.id);
+  }
+
+  function openCode() {
     const base = window.location.pathname + window.location.search;
-    window.open(base + "#block-preview-" + block.id, "_blank", "noopener,noreferrer");
+    window.open(base + "#block-code-" + block.id, "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -92,15 +64,60 @@ function BlockThumbnail({ block }: { block: BlockDef }) {
           size="sm"
           variant="outline"
           className="shrink-0 gap-1.5 text-xs"
-          onClick={() => copyToClipboard(block.code, block.id)}
+          onClick={openCode}
         >
-          {isCopied(block.id) ? (
-            <Check className="h-3 w-3" />
-          ) : (
-            <Copy className="h-3 w-3" />
-          )}
-          {isCopied(block.id) ? "Copied!" : "Copy code"}
+          <Code className="h-3 w-3" />
+          See code
         </Button>
+      </div>
+    </div>
+  );
+}
+
+// ─── BlockCodePage (rendered in new tab at #block-code-{id}) ─────────────────
+
+export function BlockCodePage({ id }: { id: string }) {
+  const block = BLOCKS.find((b) => b.id === id);
+  const { copyToClipboard, isCopied } = useCopyToClipboard();
+
+  if (typeof window.__removeLoadingScreen === "function") {
+    window.__removeLoadingScreen();
+  }
+
+  if (!block) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-background">
+        <p className="text-muted-foreground">Block not found: {id}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex h-screen flex-col bg-background">
+      <header className="flex h-12 shrink-0 items-center gap-3 border-b px-4">
+        <span className="text-sm font-medium">{block.name}</span>
+        <span className="text-xs text-muted-foreground">{block.description}</span>
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
+          <Button
+            size="sm"
+            variant="outline"
+            className="gap-1.5 text-xs"
+            onClick={() => copyToClipboard(block.code, block.id)}
+          >
+            {isCopied(block.id) ? (
+              <Check className="h-3 w-3" />
+            ) : (
+              <Copy className="h-3 w-3" />
+            )}
+            {isCopied(block.id) ? "Copied!" : "Copy"}
+          </Button>
+        </div>
+      </header>
+      <div className="flex-1 overflow-auto">
+        <pre className="min-h-full bg-muted/30 p-6 text-sm leading-relaxed">
+          <code>{block.code}</code>
+        </pre>
       </div>
     </div>
   );
@@ -110,6 +127,11 @@ function BlockThumbnail({ block }: { block: BlockDef }) {
 
 export function BlockPreviewPage({ id }: { id: string }) {
   const block = BLOCKS.find((b) => b.id === id);
+  const { setActiveComponent } = useNavigation();
+
+  if (typeof window.__removeLoadingScreen === "function") {
+    window.__removeLoadingScreen();
+  }
 
   if (!block) {
     return (
@@ -123,6 +145,17 @@ export function BlockPreviewPage({ id }: { id: string }) {
     <div className="relative bg-background">
       {/* Floating toolbar */}
       <div className="fixed bottom-3 right-4 z-50 flex items-center gap-2 rounded-lg border bg-background/80 px-3 py-1.5 shadow-md backdrop-blur-sm">
+        <Button
+          size="sm"
+          variant="ghost"
+          className="h-7 gap-1.5 px-2 text-xs"
+          onClick={() => setActiveComponent("blocks")}
+          aria-label="Back to blocks"
+        >
+          <ChevronLeft className="h-3.5 w-3.5" />
+          Blocks
+        </Button>
+        <Separator orientation="vertical" />
         <span className="text-xs font-medium text-muted-foreground">{block.name}</span>
         <Separator orientation="vertical" />
         <ThemeToggle />
@@ -140,6 +173,10 @@ const CATEGORIES: BlockCategory[] = ["All", "Sidebar", "Authentication", "Dashbo
 export function BlocksPage() {
   const { setActiveComponent } = useNavigation();
   const [activeCategory, setActiveCategory] = useState<BlockCategory>("All");
+
+  if (typeof window.__removeLoadingScreen === "function") {
+    window.__removeLoadingScreen();
+  }
 
   const filtered =
     activeCategory === "All"

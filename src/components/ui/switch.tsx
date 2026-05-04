@@ -33,7 +33,7 @@ function Switch({
         className="pointer-events-none relative flex items-center justify-center shadow-md rounded-full bg-background ring-0 transition-transform group-data-[size=default]/switch:size-[28px] md:group-data-[size=default]/switch:size-[22px] group-data-[size=sm]/switch:size-4.5 md:group-data-[size=sm]/switch:size-4 group-data-[size=default]/switch:data-checked:translate-x-[calc(100%-5px)] md:group-data-[size=default]/switch:data-checked:translate-x-[calc(100%-4px)] group-data-[size=sm]/switch:data-checked:translate-x-[calc(100%-2px)] dark:data-checked:bg-primary-foreground group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 dark:data-unchecked:bg-foreground/80"
       >
         <CheckIcon className="absolute text-primary-900 transition-opacity duration-100 group-data-[size=default]/switch:size-3.5 group-data-[size=sm]/switch:size-3 group-data-checked/switch:opacity-100 group-data-unchecked/switch:opacity-0 dark:text-primary-400" />
-        <MinusIcon className="absolute text-soft-foreground transition-opacity duration-100 group-data-[size=default]/switch:size-3.5 group-data-[size=sm]/switch:size-3 group-data-checked/switch:opacity-0 group-data-unchecked/switch:opacity-100 dark:text-neutral-500" />
+        <MinusIcon className="absolute text-soft-foreground transition-opacity duration-100 group-data-[size=default]/switch:size-3.5 group-data-[size=sm]/switch:size-3 group-data-checked/switch:opacity-0 group-data-unchecked/switch:opacity-100 dark:text-placeholder-foreground" />
       </SwitchPrimitive.Thumb>
     </SwitchPrimitive.Root>
   )

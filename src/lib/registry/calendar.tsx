@@ -1,6 +1,6 @@
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
-import { Calendar, CalendarWithInput } from "@/components/ui/calendar";
+import { Calendar, CalendarDayButton, CalendarWithInput } from "@/components/ui/calendar";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -10,7 +10,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { addDays } from "date-fns";
-import { type DateRange } from "react-day-picker";
+import { type DateRange, type DayButton } from "react-day-picker";
 import { Clock2Icon } from "lucide-react";
 
 // ─── stateful preview helpers ────────────────────────────────────────────────
@@ -229,6 +229,58 @@ function CalendarBookedDatesPreview() {
         modifiers: { booked: bookedDates },
         modifiersClassNames: {
           booked: "[&>button]:line-through opacity-100",
+        },
+      })
+    )
+  );
+}
+
+function CalendarCustomCellSizePreview() {
+  const [range, setRange] = React.useState<DateRange | undefined>({
+    from: new Date(new Date().getFullYear(), 11, 8),
+    to: addDays(new Date(new Date().getFullYear(), 11, 8), 10),
+  });
+  return React.createElement(
+    Card,
+    { className: "mx-auto w-fit p-0" },
+    React.createElement(
+      CardContent,
+      { className: "p-0" },
+      React.createElement(Calendar, {
+        mode: "range",
+        defaultMonth: range?.from,
+        selected: range,
+        onSelect: setRange,
+        numberOfMonths: 1,
+        captionLayout: "dropdown",
+        className:
+          "[--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]",
+        formatters: {
+          formatMonthDropdown: (date: Date) =>
+            date.toLocaleString("default", { month: "long" }),
+        },
+        components: {
+          DayButton: ({
+            children,
+            modifiers,
+            day,
+            ...props
+          }: React.ComponentProps<typeof DayButton>) => {
+            const isWeekend =
+              day.date.getDay() === 0 || day.date.getDay() === 6;
+            return React.createElement(
+              CalendarDayButton,
+              { day, modifiers, ...props },
+              children,
+              !modifiers.outside
+                ? React.createElement(
+                    "span",
+                    null,
+                    isWeekend ? "$120" : "$100"
+                  )
+                : null
+            );
+          },
         },
       })
     )
@@ -524,6 +576,60 @@ export function CalendarBookedDates() {
   )
 }`,
       preview: React.createElement(CalendarBookedDatesPreview),
+    },
+    {
+      name: "Custom Cell Size",
+      description:
+        "Customize the size of calendar cells using the --cell-size CSS variable. Supports responsive breakpoint-specific values. This example also demonstrates a custom DayButton to show pricing per day.",
+      code: `import * as React from "react"
+import { addDays } from "date-fns"
+import { type DateRange } from "react-day-picker"
+
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar"
+import { Card, CardContent } from "@/components/ui/card"
+
+export function CalendarCustomCellSize() {
+  const [range, setRange] = React.useState<DateRange | undefined>({
+    from: new Date(new Date().getFullYear(), 11, 8),
+    to: addDays(new Date(new Date().getFullYear(), 11, 8), 10),
+  })
+
+  return (
+    <Card className="mx-auto w-fit p-0">
+      <CardContent className="p-0">
+        <Calendar
+          mode="range"
+          defaultMonth={range?.from}
+          selected={range}
+          onSelect={setRange}
+          numberOfMonths={1}
+          captionLayout="dropdown"
+          className="[--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
+          formatters={{
+            formatMonthDropdown: (date) =>
+              date.toLocaleString("default", { month: "long" }),
+          }}
+          components={{
+            DayButton: ({ children, modifiers, day, ...props }) => {
+              const isWeekend =
+                day.date.getDay() === 0 || day.date.getDay() === 6
+
+              return (
+                <CalendarDayButton day={day} modifiers={modifiers} {...props}>
+                  {children}
+                  {!modifiers.outside && (
+                    <span>{isWeekend ? "$120" : "$100"}</span>
+                  )}
+                </CalendarDayButton>
+              )
+            },
+          }}
+        />
+      </CardContent>
+    </Card>
+  )
+}`,
+      preview: React.createElement(CalendarCustomCellSizePreview),
     },
     {
       name: "Week Numbers",

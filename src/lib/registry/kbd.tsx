@@ -108,7 +108,7 @@ export const kbdDoc: ComponentDoc = {
 
 <Button variant="outline">
   Accept{" "}
-  <Kbd data-icon="inline-end" className="translate-x-0.5">
+  <Kbd className="translate-x-0.5">
     <CornerDownLeftIcon className="size-3" />
   </Kbd>
 </Button>`,
@@ -129,10 +129,7 @@ export const kbdDoc: ComponentDoc = {
         "Use the primary Kbd variant inside a default Button variant.",
       code: `<Button>
   Save{" "}
-  <Kbd variant="primary" data-icon="inline-end" className="translate-x-0.5">
-    ⌘
-  </Kbd>
-  <Kbd variant="primary" data-icon="inline-end">S</Kbd>
+  <Kbd variant="primary" className="translate-x-0.5">⌘S</Kbd>
 </Button>`,
       preview: React.createElement(
         Button,

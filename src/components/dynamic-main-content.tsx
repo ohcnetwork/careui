@@ -1,20 +1,28 @@
 import { useState, useEffect } from "react";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { componentNames } from "@/lib/component-names";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useNavigation } from "@/contexts/navigation-context";
-import { loadComponentDoc } from "@/lib/component-registry";
+import { loadComponentDoc, getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
 import { ComponentsOverview } from "@/components/components-overview";
 import { Playground } from "@/components/playground";
+import { SettingsPage } from "@/components/settings-page";
 import {
   DocumentationDisplay,
   NotFoundDocumentation,
 } from "@/components/documentation-display";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { type ComponentDoc } from "@/lib/types";
+import { type ComponentDoc, type ComponentExample } from "@/lib/types";
 import { LoadingAnimationSvg } from "@/components/ui/loading-animation-svg";
 
 interface ComponentDocDisplayProps {
@@ -23,44 +31,108 @@ interface ComponentDocDisplayProps {
 
 interface CliCommandProps {
   command: string;
-  onCopy: () => void;
-  isCopied: boolean;
 }
 
-function CliCommand({ command, onCopy, isCopied }: CliCommandProps) {
+function CliCommand({ command }: CliCommandProps) {
   return (
-    <div className="relative">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="absolute top-2 right-2 z-10 h-8 w-8 text-neutral-300"
-        onClick={onCopy}
-      >
-        {isCopied ? (
-          <Check className="h-4 w-4" />
-        ) : (
-          <Copy className="h-4 w-4" />
-        )}
-      </Button>
-      <SyntaxHighlighter
-        language="bash"
-        style={oneDark}
-        customStyle={{
-          margin: 0,
-          borderRadius: "0.5rem",
-          fontSize: "0.875rem",
-          paddingRight: "3rem",
-        }}
-      >
-        {command}
-      </SyntaxHighlighter>
+    <SyntaxHighlighter
+      language="bash"
+      style={oneDark}
+      customStyle={{
+        margin: 0,
+        borderRadius: "0.5rem",
+        fontSize: "0.875rem",
+      }}
+    >
+      {command}
+    </SyntaxHighlighter>
+  );
+}
+
+const componentNavOrder = Object.keys(componentNames).filter(
+  (id) => id !== "components-overview"
+);
+
+function ExampleItem({ example }: { example: ComponentExample }) {
+  const [tab, setTab] = useState("preview");
+  const { copyToClipboard, isCopied } = useCopyToClipboard();
+
+  return (
+    <div>
+      <h3 className="text-foreground text-lg font-semibold">{example.name}</h3>
+      <p className="text-muted-foreground mt-1 text-sm">{example.description}</p>
+      {example.items && example.items.length > 0 && (
+        <ul className="mt-4 space-y-3">
+          {example.items.map((item, i) => (
+            <li key={i}>
+              <p className="text-foreground text-sm font-semibold">{item.title}</p>
+              <p className="text-muted-foreground mt-0.5 text-sm">{item.description}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+      {(example.preview || example.code) && (
+        <Tabs value={tab} onValueChange={setTab} className="mt-4 w-full">
+          <div className="flex items-center justify-between">
+            <TabsList>
+              <TabsTrigger value="preview">Preview</TabsTrigger>
+              <TabsTrigger value="code">Code</TabsTrigger>
+            </TabsList>
+            {tab === "code" && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => copyToClipboard(example.code ?? "", "code")}
+                    >
+                      {isCopied("code") ? (
+                        <Check className="h-4 w-4" />
+                      ) : (
+                        <Copy className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Copy Code</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
+          <TabsContent value="preview">
+            <div className="border-border bg-card min-h-50 rounded-lg border p-4 md:p-8">
+              <div className="flex min-h-40 items-center justify-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
+                {example.preview}
+              </div>
+            </div>
+          </TabsContent>
+          <TabsContent value="code">
+            <SyntaxHighlighter
+              language="tsx"
+              style={oneDark}
+              customStyle={{ margin: 0, borderRadius: "0.5rem", fontSize: "0.875rem" }}
+            >
+              {example.code ?? ""}
+            </SyntaxHighlighter>
+          </TabsContent>
+        </Tabs>
+      )}
     </div>
   );
 }
 
 function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
   const [activeTab, setActiveTab] = useState("preview");
+  const [activeInstallTab, setActiveInstallTab] = useState("pnpm");
   const { copyToClipboard, isCopied } = useCopyToClipboard();
+  const { setActiveComponent } = useNavigation();
+
+  const currentIndex = componentNavOrder.indexOf(doc.id);
+  const prevId = currentIndex > 0 ? componentNavOrder[currentIndex - 1] : null;
+  const nextId =
+    currentIndex < componentNavOrder.length - 1
+      ? componentNavOrder[currentIndex + 1]
+      : null;
 
   const registryUrl = `https://careui.ohc.network/registry/care-ui/${doc.id}/${doc.id}.json`;
   const installCommands = {
@@ -87,126 +159,149 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList>
-              <TabsTrigger value="preview">Preview</TabsTrigger>
-              <TabsTrigger value="code">Code</TabsTrigger>
-            </TabsList>
-            <TabsContent value="preview" className="mt-4">
+            <div className="flex items-center justify-between">
+              <TabsList>
+                <TabsTrigger value="preview">Preview</TabsTrigger>
+                <TabsTrigger value="code">Code</TabsTrigger>
+              </TabsList>
+              {activeTab === "code" && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() =>
+                          copyToClipboard(
+                            doc.preview?.code || "<Component />",
+                            "main-code"
+                          )
+                        }
+                      >
+                        {isCopied("main-code") ? (
+                          <Check className="h-4 w-4" />
+                        ) : (
+                          <Copy className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Copy Code</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+            </div>
+            <TabsContent value="preview">
               <div className="border-border bg-card min-h-75 rounded-lg border p-4 md:p-8 [&:has(.recharts-responsive-container)]:flex-none [&:has([data-slot=sidebar-wrapper])]:h-full [&:has([data-slot=sidebar-wrapper])]:min-h-0 [&:has([data-slot=sidebar-wrapper])]:translate-x-0 [&:has([data-slot=sidebar-wrapper])]:overflow-hidden [&:has([data-slot=sidebar-wrapper])]:p-0">
                 <div className="flex min-h-40 items-center justify-center [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0 [&:has([data-slot=sidebar-wrapper])]:block [&:has([data-slot=sidebar-wrapper])]:min-h-0">
                   {doc.preview?.component || <div>No preview available</div>}
                 </div>
               </div>
             </TabsContent>
-            <TabsContent value="code" className="mt-4">
-              <div className="relative">
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
-                  onClick={() =>
-                    copyToClipboard(
-                      doc.preview?.code || "<Component />",
-                      "main-code"
-                    )
-                  }
-                >
-                  {isCopied("main-code") ? (
-                    <Check className="h-4 w-4" />
-                  ) : (
-                    <Copy className="h-4 w-4" />
-                  )}
-                </Button>
-                <SyntaxHighlighter
-                  language="tsx"
-                  style={oneDark}
-                  customStyle={{
-                    margin: 0,
-                    borderRadius: "0.5rem",
-                    fontSize: "0.875rem",
-                  }}
-                >
-                  {doc.preview?.code || "<Component />"}
-                </SyntaxHighlighter>
-              </div>
+            <TabsContent value="code">
+              <SyntaxHighlighter
+                language="tsx"
+                style={oneDark}
+                customStyle={{
+                  margin: 0,
+                  borderRadius: "0.5rem",
+                  fontSize: "0.875rem",
+                }}
+              >
+                {doc.preview?.code || "<Component />"}
+              </SyntaxHighlighter>
             </TabsContent>
           </Tabs>
         </div>
         {/* Installation */}
         <section className="space-y-4">
           <h2 className="text-foreground text-2xl font-bold">Installation</h2>
-          <Tabs defaultValue="pnpm" className="w-full">
-            <TabsList>
-              <TabsTrigger value="pnpm">pnpm</TabsTrigger>
-              <TabsTrigger value="npm">npm</TabsTrigger>
-              <TabsTrigger value="yarn">yarn</TabsTrigger>
-              <TabsTrigger value="bun">bun</TabsTrigger>
-            </TabsList>
-            <TabsContent value="pnpm" className="mt-4">
-              <CliCommand
-                command={installCommands.pnpm}
-                onCopy={() => copyToClipboard(installCommands.pnpm, "cli-pnpm")}
-                isCopied={isCopied("cli-pnpm")}
-              />
+          <Tabs value={activeInstallTab} onValueChange={setActiveInstallTab} className="w-full">
+            <div className="flex items-center justify-between">
+              <TabsList>
+                <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+                <TabsTrigger value="npm">npm</TabsTrigger>
+                <TabsTrigger value="yarn">yarn</TabsTrigger>
+                <TabsTrigger value="bun">bun</TabsTrigger>
+              </TabsList>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() =>
+                        copyToClipboard(
+                          installCommands[activeInstallTab as keyof typeof installCommands],
+                          `cli-${activeInstallTab}`
+                        )
+                      }
+                    >
+                      {isCopied(`cli-${activeInstallTab}`) ? (
+                        <Check className="h-4 w-4" />
+                      ) : (
+                        <Copy className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Copy Code</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <TabsContent value="pnpm">
+              <CliCommand command={installCommands.pnpm} />
             </TabsContent>
-            <TabsContent value="npm" className="mt-4">
-              <CliCommand
-                command={installCommands.npm}
-                onCopy={() => copyToClipboard(installCommands.npm, "cli-npm")}
-                isCopied={isCopied("cli-npm")}
-              />
+            <TabsContent value="npm">
+              <CliCommand command={installCommands.npm} />
             </TabsContent>
-            <TabsContent value="yarn" className="mt-4">
-              <CliCommand
-                command={installCommands.yarn}
-                onCopy={() => copyToClipboard(installCommands.yarn, "cli-yarn")}
-                isCopied={isCopied("cli-yarn")}
-              />
+            <TabsContent value="yarn">
+              <CliCommand command={installCommands.yarn} />
             </TabsContent>
-            <TabsContent value="bun" className="mt-4">
-              <CliCommand
-                command={installCommands.bun}
-                onCopy={() => copyToClipboard(installCommands.bun, "cli-bun")}
-                isCopied={isCopied("cli-bun")}
-              />
+            <TabsContent value="bun">
+              <CliCommand command={installCommands.bun} />
             </TabsContent>
           </Tabs>
         </section>
         {/* Usage */}
         <section className="space-y-4">
-          <h2 className="text-foreground text-2xl font-bold">Usage</h2>
-          <div className="relative">
-            <Button
-              size="sm"
-              variant="ghost"
-              className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
-              onClick={() =>
-                copyToClipboard(
-                  doc.usage ||
-                    `import { ${doc.name} } from "@/components/careui/${doc.id}";`,
-                  "usage-code"
-                )
-              }
-            >
-              {isCopied("usage-code") ? (
-                <Check className="h-4 w-4" />
-              ) : (
-                <Copy className="h-4 w-4" />
-              )}
-            </Button>
-            <SyntaxHighlighter
-              language="tsx"
-              style={oneDark}
-              customStyle={{
-                margin: 0,
-                borderRadius: "0.5rem",
-                fontSize: "0.875rem",
-              }}
-            >
-              {doc.usage ||
-                `import { ${doc.name} } from "@/components/careui/${doc.id}";`}
-            </SyntaxHighlighter>
+          <div className="flex items-center justify-between">
+            <h2 className="text-foreground text-2xl font-bold">Usage</h2>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() =>
+                      copyToClipboard(
+                        doc.usage ||
+                          `import { ${doc.name} } from "@/components/careui/${doc.id}";`,
+                        "usage-code"
+                      )
+                    }
+                  >
+                    {isCopied("usage-code") ? (
+                      <Check className="h-4 w-4" />
+                    ) : (
+                      <Copy className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Copy Code</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
+          <SyntaxHighlighter
+            language="tsx"
+            style={oneDark}
+            customStyle={{
+              margin: 0,
+              borderRadius: "0.5rem",
+              fontSize: "0.875rem",
+            }}
+          >
+            {doc.usage ||
+              `import { ${doc.name} } from "@/components/careui/${doc.id}";`}
+          </SyntaxHighlighter>
         </section>{" "}
         {/* Examples */}
         {doc.examples && doc.examples.length > 0 && (
@@ -215,66 +310,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
 
             <div className="space-y-6">
               {doc.examples.map((example, index) => (
-                <div key={index}>
-                  <h3 className="text-foreground text-lg font-semibold">
-                    {example.name}
-                  </h3>
-                  <p className="text-muted-foreground mt-1 text-sm">
-                    {example.description}
-                  </p>
-                  {example.items && example.items.length > 0 && (
-                    <ul className="mt-4 space-y-3">
-                      {example.items.map((item, i) => (
-                        <li key={i}>
-                          <p className="text-foreground text-sm font-semibold">{item.title}</p>
-                          <p className="text-muted-foreground mt-0.5 text-sm">{item.description}</p>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {(example.preview || example.code) && <Tabs defaultValue="preview" className="mt-4 w-full">
-                    <TabsList>
-                      <TabsTrigger value="preview">Preview</TabsTrigger>
-                      <TabsTrigger value="code">Code</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="preview" className="mt-4">
-                      <div className="border-border bg-card min-h-50 rounded-lg border p-4 md:p-8">
-                        <div className="flex min-h-40 items-center justify-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
-                          {example.preview}
-                        </div>
-                      </div>
-                    </TabsContent>
-                    <TabsContent value="code" className="mt-4">
-                      <div className="relative">
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="absolute top-2 right-2 z-10 h-8 w-8 p-0 text-neutral-300"
-                          onClick={() =>
-                            copyToClipboard(example.code ?? "", `example-${index}`)
-                          }
-                        >
-                          {isCopied(`example-${index}`) ? (
-                            <Check className="h-4 w-4" />
-                          ) : (
-                            <Copy className="h-4 w-4" />
-                          )}
-                        </Button>
-                        <SyntaxHighlighter
-                          language="tsx"
-                          style={oneDark}
-                          customStyle={{
-                            margin: 0,
-                            borderRadius: "0.5rem",
-                            fontSize: "0.875rem",
-                          }}
-                        >
-                          {example.code ?? ""}
-                        </SyntaxHighlighter>
-                      </div>
-                    </TabsContent>
-                  </Tabs>}
-                </div>
+                <ExampleItem key={index} example={example} />
               ))}
             </div>
           </section>
@@ -330,6 +366,33 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
             </div>
           </section>
         )}
+        {/* Prev / Next navigation */}
+        <div className="flex items-center justify-between border-t pt-8">
+          <div>
+            {prevId && (
+              <Button
+                variant="tertiary"
+                size="lg"
+                onClick={() => setActiveComponent(prevId)}
+              >
+                <ChevronLeft data-icon="inline-start" />
+                {componentNames[prevId]}
+              </Button>
+            )}
+          </div>
+          <div>
+            {nextId && (
+              <Button
+                variant="tertiary"
+                size="lg"
+                onClick={() => setActiveComponent(nextId)}
+              >
+                {componentNames[nextId]}
+                <ChevronRight data-icon="inline-end" />
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
     </main>
   );
@@ -353,10 +416,28 @@ function NotFoundDisplay({ componentId }: { componentId: string }) {
   );
 }
 
+const knownComponentIds = new Set(getComponentIds());
+
+// Track whether the pre-React HTML loading screen has been dismissed yet.
+// The first time DynamicMainContent renders real content it calls
+// __removeLoadingScreen() so there is never a gap (or overlap) between
+// the two loading animations.
+let htmlScreenDismissed = false;
+function dismissHtmlScreen() {
+  if (!htmlScreenDismissed) {
+    htmlScreenDismissed = true;
+    if (typeof window.__removeLoadingScreen === "function") {
+      window.__removeLoadingScreen();
+    }
+  }
+}
+
 export function DynamicMainContent() {
   const { activeComponent } = useNavigation();
   const [componentDoc, setComponentDoc] = useState<ComponentDoc | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(
+    () => knownComponentIds.has(activeComponent)
+  );
 
   // Load component documentation dynamically
   useEffect(() => {
@@ -388,21 +469,36 @@ export function DynamicMainContent() {
   // Check if it's a documentation page
   const docPage = documentationPages[activeComponent];
   if (docPage) {
+    dismissHtmlScreen();
     return <DocumentationDisplay doc={docPage} />;
   }
 
   // Handle components overview
   if (activeComponent === "components-overview") {
+    dismissHtmlScreen();
     return <ComponentsOverview />;
   }
 
   // Handle playground
   if (activeComponent === "playground") {
+    dismissHtmlScreen();
     return <Playground />;
   }
 
-  // Show loading state
-  if (loading) {
+  // Handle settings
+  if (activeComponent === "settings") {
+    dismissHtmlScreen();
+    return <SettingsPage />;
+  }
+
+  // Show loading state — also covers the gap between navigation and effect firing.
+  // If the HTML loading screen is still up, suppress the React spinner to avoid
+  // showing two animations simultaneously.
+  if (loading || (knownComponentIds.has(activeComponent) && !componentDoc)) {
+    if (!htmlScreenDismissed) {
+      // HTML screen is still visible — render nothing inside root
+      return null;
+    }
     return (
       <main className="flex-1 overflow-y-auto">
         <div className="flex min-h-100 items-center justify-center">
@@ -414,6 +510,7 @@ export function DynamicMainContent() {
 
   // Handle component documentation
   if (componentDoc) {
+    dismissHtmlScreen();
     return <ComponentDocDisplay key={componentDoc.id} doc={componentDoc} />;
   }
 

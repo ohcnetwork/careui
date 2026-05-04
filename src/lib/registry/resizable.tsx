@@ -18,14 +18,22 @@ export const resizableDoc: ComponentDoc = {
   },
   usage: `import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable"`,
   preview: {
-    code: `<ResizablePanelGroup direction="horizontal">
-  <ResizablePanel>Panel 1</ResizablePanel>
+    code: `<ResizablePanelGroup orientation="horizontal" className="max-w-md rounded-lg border">
+  <ResizablePanel defaultSize={50}>
+    <div className="flex h-[200px] items-center justify-center p-6">
+      <span className="font-semibold">Left</span>
+    </div>
+  </ResizablePanel>
   <ResizableHandle />
-  <ResizablePanel>Panel 2</ResizablePanel>
+  <ResizablePanel defaultSize={50}>
+    <div className="flex h-[200px] items-center justify-center p-6">
+      <span className="font-semibold">Right</span>
+    </div>
+  </ResizablePanel>
 </ResizablePanelGroup>`,
     component: React.createElement(
       ResizablePanelGroup,
-      { direction: "horizontal", className: "max-w-md rounded-lg border" },
+      { orientation: "horizontal", className: "max-w-md rounded-lg border" },
       React.createElement(
         ResizablePanel,
         { defaultSize: 50 },
