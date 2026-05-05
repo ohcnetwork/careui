@@ -12,20 +12,19 @@ import { cn } from "@/lib/utils"
 
 /**
  * Marquee container that scrolls its child horizontally only when the content
- * overflows. Cycle: pause at the start with the full text visible, then
- * scroll continuously. Implemented as a duplicated track separated by a gap —
- * the animation translates by exactly one cycle (content + gap), so the
- * second copy lands precisely where the first started. Looping back to 0 is
- * therefore visually identical to the end of the previous cycle, giving a
- * seamless "endless ticker" feel with no snap.
+ * overflows. Cycle: scroll continuously, then pause when the second copy has
+ * arrived in the start slot (so the full text is visible again), then continue
+ * into the next cycle. Implemented as a duplicated track separated by a gap —
+ * translating by exactly one cycle (content + gap) lands copy #2 where copy
+ * #1 started, so the loop seam is invisible.
  */
 function MarqueeText({
   children,
   className,
   /** Pixels per second the text scrolls when active. */
   speed = 50,
-  /** Seconds to hold the full text visible at the start of each cycle. */
-  startPause = 2,
+  /** Seconds to hold at the end of each cycle with the full text visible. */
+  endPause = 2,
   /** Gap (px) between the two copies — i.e. the visible "breath" before the
    *  text re-enters from the right. */
   gap = 80,
@@ -33,7 +32,7 @@ function MarqueeText({
   children: React.ReactNode
   className?: string
   speed?: number
-  startPause?: number
+  endPause?: number
   gap?: number
 }) {
   const containerRef = React.useRef<HTMLSpanElement>(null)
@@ -66,10 +65,11 @@ function MarqueeText({
   // a visual no-op.
   const cycleDistance = copyWidth + gap
   const scrollSeconds = isAnimating ? cycleDistance / speed : 0
-  const totalSeconds = scrollSeconds + startPause
-  // Percentage of the keyframe timeline spent paused at the start, showing
-  // the full text.
-  const pauseStop = isAnimating ? (startPause / totalSeconds) * 100 : 0
+  const totalSeconds = scrollSeconds + endPause
+  // Percentage of the keyframe timeline spent scrolling — the rest is the
+  // pause held at the end of the cycle (full text visible again, courtesy
+  // of the duplicated copy now sitting in the start slot).
+  const scrollStop = isAnimating ? (scrollSeconds / totalSeconds) * 100 : 0
 
   return (
     <span
@@ -115,7 +115,7 @@ function MarqueeText({
       {isAnimating ? (
         <style href={animationName} precedence="tv-display">{`@keyframes ${animationName} {
           0% { transform: translateX(0); }
-          ${pauseStop}% { transform: translateX(0); }
+          ${scrollStop}% { transform: translateX(calc(var(--marquee-cycle) * -1)); }
           100% { transform: translateX(calc(var(--marquee-cycle) * -1)); }
         }`}</style>
       ) : null}
