@@ -128,6 +128,8 @@ const componentLoaders: Record<
   "toggle-group": () =>
     import("./toggle-group").then((m) => ({ default: m.toggleGroupDoc })),
   tooltip: () => import("./tooltip").then((m) => ({ default: m.tooltipDoc })),
+  "tv-display": () =>
+    import("./tv-display").then((m) => ({ default: m.tvDisplayDoc })),
 };
 
 /**

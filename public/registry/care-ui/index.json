@@ -10,6 +10,17 @@
     ]
   },
   {
+    "name": "tv-display",
+    "type": "registry:ui",
+    "dependencies": [
+      "radix-ui",
+      "class-variance-authority"
+    ],
+    "files": [
+      "registry/care-ui/tv-display/tv-display.tsx"
+    ]
+  },
+  {
     "name": "tooltip",
     "type": "registry:ui",
     "dependencies": [

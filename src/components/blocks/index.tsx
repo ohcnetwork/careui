@@ -168,7 +168,13 @@ export function BlockPreviewPage({ id }: { id: string }) {
 
 // ─── BlocksPage ───────────────────────────────────────────────────────────────
 
-const CATEGORIES: BlockCategory[] = ["All", "Sidebar", "Authentication", "Dashboard"];
+const CATEGORIES: BlockCategory[] = [
+  "All",
+  "Sidebar",
+  "Authentication",
+  "Dashboard",
+  "Display",
+];
 
 export function BlocksPage() {
   const { setActiveComponent } = useNavigation();
