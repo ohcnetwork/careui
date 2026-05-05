@@ -205,7 +205,7 @@ function TVDisplayHeader({
         "@max-md:hidden",
         "bg-[#e8ff6b] text-[#1a2540]",
         "px-(--tv-header-px) py-(--tv-header-py)",
-        "text-[clamp(0.875rem,1.3cqw,1.375rem)] font-bold uppercase",
+        "text-[clamp(0.75rem,0.6cqw+0.5rem,1.375rem)] font-bold uppercase",
         className
       )}
       {...props}
@@ -270,11 +270,11 @@ function TVDisplayDoctor({
       )}
       {...props}
     >
-      <span className="min-w-0 text-[clamp(1.5rem,3.2cqw,3.25rem)] font-bold leading-tight text-foreground">
+      <span className="min-w-0 text-[clamp(1.25rem,2.2cqw+0.5rem,3.25rem)] font-bold leading-tight text-foreground">
         <MarqueeText>{name}</MarqueeText>
       </span>
       {specialty ? (
-        <span className="truncate text-[clamp(1.125rem,2cqw,1.875rem)] font-medium text-foreground/80">
+        <span className="truncate text-[clamp(0.875rem,1.4cqw+0.25rem,1.875rem)] font-medium text-foreground/80">
           {specialty}
         </span>
       ) : null}
@@ -304,7 +304,7 @@ function TVDisplayRoom({
       {label ? (
         <span
           aria-hidden
-          className="hidden text-[clamp(1rem,2cqw,1.5rem)] font-semibold uppercase tracking-wide text-foreground/70 @max-md:block"
+          className="hidden text-[clamp(0.875rem,1.5cqw+0.25rem,1.5rem)] font-semibold uppercase tracking-wide text-foreground/70 @max-md:block"
         >
           {label}
         </span>
@@ -312,9 +312,9 @@ function TVDisplayRoom({
       <div
         className={cn(
           "flex aspect-square items-center justify-center",
-          "h-[clamp(4rem,8.5cqw,8rem)]",
+          "h-[clamp(3rem,6cqw+0.75rem,8rem)]",
           "border-2 border-foreground/50 text-foreground",
-          "text-[clamp(2.25rem,5.2cqw,5.5rem)] font-bold leading-none tabular-nums"
+          "text-[clamp(1.75rem,3.8cqw+0.5rem,5.5rem)] font-bold leading-none tabular-nums"
         )}
       >
         {children}
@@ -353,11 +353,11 @@ function TVDisplayToken({
       className={cn("flex min-w-0 flex-col justify-center gap-0.5", className)}
       {...props}
     >
-      <span className="truncate text-[clamp(2rem,4.6cqw,5rem)] font-extrabold leading-none tabular-nums text-[#ffd23f]">
+      <span className="truncate text-[clamp(1.75rem,3.4cqw+0.5rem,5rem)] font-extrabold leading-none tabular-nums text-[#ffd23f]">
         {current}
       </span>
       {visibleNext && visibleNext.length > 0 ? (
-        <div className="flex min-w-0 items-baseline gap-2 text-[clamp(1.125rem,2cqw,1.875rem)] font-semibold uppercase text-foreground/75">
+        <div className="flex min-w-0 items-baseline gap-2 text-[clamp(0.875rem,1.4cqw+0.25rem,1.875rem)] font-semibold uppercase text-foreground/75">
           <span className="shrink-0 font-medium text-foreground/80">{nextLabel}</span>
           <MarqueeText className="min-w-0 flex-1">
             {visibleNext.map((token, idx) => (
