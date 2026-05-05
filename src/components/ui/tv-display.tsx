@@ -23,21 +23,18 @@ function MarqueeText({
   className,
   /** Pixels per second the text scrolls when active. */
   speed = 50,
-  /** Seconds to hold at the start of each cycle before scrolling resumes. */
-  startPause = 2.5,
-  /** Gap (px) between the two copies so adjacent text doesn't collide. */
-  gap = 48,
+  /** Seconds to hold between cycles, with the content parked at the start. */
+  pause = 2,
 }: {
   children: React.ReactNode
   className?: string
   speed?: number
-  startPause?: number
-  gap?: number
+  pause?: number
 }) {
   const containerRef = React.useRef<HTMLSpanElement>(null)
   const innerRef = React.useRef<HTMLSpanElement>(null)
   const [contentWidth, setContentWidth] = React.useState(0)
-  const [isOverflowing, setIsOverflowing] = React.useState(false)
+  const [containerWidth, setContainerWidth] = React.useState(0)
   const reactId = React.useId()
   const animationName = `tv-marquee-${reactId.replace(/[^a-zA-Z0-9]/g, "")}`
 
@@ -47,9 +44,8 @@ function MarqueeText({
     if (!container || !inner) return
 
     const measure = () => {
-      const w = inner.scrollWidth
-      setContentWidth(w)
-      setIsOverflowing(w - container.clientWidth > 1)
+      setContentWidth(inner.scrollWidth)
+      setContainerWidth(container.clientWidth)
     }
 
     measure()
@@ -59,13 +55,16 @@ function MarqueeText({
     return () => ro.disconnect()
   }, [children])
 
-  // Distance to translate per cycle = one copy + the gap, so the second copy
-  // lines up exactly where the first one started.
+  const isOverflowing = contentWidth - containerWidth > 1
+  // Use the container width as the gap so the visible area is *empty* during
+  // the pause — the reader sees a clean break before the name re-enters from
+  // the right, instead of the duplicate sliding in right behind the first.
+  const gap = containerWidth
   const distance = contentWidth + gap
   const scrollSeconds = isOverflowing ? distance / speed : 0
-  const totalSeconds = scrollSeconds + startPause
+  const totalSeconds = scrollSeconds + pause
   // Percentage of the cycle spent paused at the start.
-  const pausePct = totalSeconds > 0 ? (startPause / totalSeconds) * 100 : 0
+  const pausePct = totalSeconds > 0 ? (pause / totalSeconds) * 100 : 0
 
   return (
     <span
