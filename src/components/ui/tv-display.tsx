@@ -24,7 +24,7 @@ function MarqueeText({
   /** Pixels per second the text scrolls when active. */
   speed = 50,
   /** Seconds to hold at the start of each cycle before scrolling resumes. */
-  startPause = 1.5,
+  startPause = 2.5,
   /** Gap (px) between the two copies so adjacent text doesn't collide. */
   gap = 48,
 }: {
