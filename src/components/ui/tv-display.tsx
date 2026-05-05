@@ -12,11 +12,12 @@ import { cn } from "@/lib/utils"
 
 /**
  * Marquee container that scrolls its child horizontally only when the content
- * overflows. Cycle: pause at the start with the full text visible so the
- * reader can begin reading, scroll once to the end, hold briefly so the eye
- * can catch the tail, then snap back to the start and pause again before
- * looping. The dominant resting state shows the full text — the cropped
- * end-frame is intentionally brief so the marquee never feels stuck.
+ * overflows. Cycle: pause at the start with the full text visible, then
+ * scroll continuously. Implemented as a duplicated track separated by a gap —
+ * the animation translates by exactly one cycle (content + gap), so the
+ * second copy lands precisely where the first started. Looping back to 0 is
+ * therefore visually identical to the end of the previous cycle, giving a
+ * seamless "endless ticker" feel with no snap.
  */
 function MarqueeText({
   children,
@@ -25,44 +26,50 @@ function MarqueeText({
   speed = 50,
   /** Seconds to hold the full text visible at the start of each cycle. */
   startPause = 2,
-  /** Brief hold at the end before snapping back. Keep small. */
-  endPause = 0.4,
+  /** Gap (px) between the two copies — i.e. the visible "breath" before the
+   *  text re-enters from the right. */
+  gap = 80,
 }: {
   children: React.ReactNode
   className?: string
   speed?: number
   startPause?: number
-  endPause?: number
+  gap?: number
 }) {
   const containerRef = React.useRef<HTMLSpanElement>(null)
-  const innerRef = React.useRef<HTMLSpanElement>(null)
-  const [overflow, setOverflow] = React.useState(0)
+  const copyRef = React.useRef<HTMLSpanElement>(null)
+  const [copyWidth, setCopyWidth] = React.useState(0)
+  const [containerWidth, setContainerWidth] = React.useState(0)
   const reactId = React.useId()
   const animationName = `tv-marquee-${reactId.replace(/[^a-zA-Z0-9]/g, "")}`
 
   React.useEffect(() => {
     const container = containerRef.current
-    const inner = innerRef.current
-    if (!container || !inner) return
+    const copy = copyRef.current
+    if (!container || !copy) return
 
     const measure = () => {
-      const diff = inner.scrollWidth - container.clientWidth
-      setOverflow(diff > 1 ? diff : 0)
+      setCopyWidth(copy.scrollWidth)
+      setContainerWidth(container.clientWidth)
     }
 
     measure()
     const ro = new ResizeObserver(measure)
     ro.observe(container)
-    ro.observe(inner)
+    ro.observe(copy)
     return () => ro.disconnect()
   }, [children])
 
-  const isAnimating = overflow > 0
-  const scrollSeconds = isAnimating ? overflow / speed : 0
-  const totalSeconds = scrollSeconds + startPause + endPause
-  // Keyframe stops as percentages of the total duration.
-  const t1 = (startPause / totalSeconds) * 100 // start of scroll
-  const t2 = ((startPause + scrollSeconds) / totalSeconds) * 100 // end of scroll
+  const isAnimating = copyWidth - containerWidth > 1
+  // One full cycle = first copy's width + the gap. After translating by this
+  // distance, copy #2 occupies copy #1's original slot, so wrapping to 0 is
+  // a visual no-op.
+  const cycleDistance = copyWidth + gap
+  const scrollSeconds = isAnimating ? cycleDistance / speed : 0
+  const totalSeconds = scrollSeconds + startPause
+  // Percentage of the keyframe timeline spent paused at the start, showing
+  // the full text.
+  const pauseStop = isAnimating ? (startPause / totalSeconds) * 100 : 0
 
   return (
     <span
@@ -76,15 +83,18 @@ function MarqueeText({
       style={
         isAnimating
           ? ({
-              "--marquee-overflow": `${overflow}px`,
+              "--marquee-cycle": `${cycleDistance}px`,
               "--marquee-duration": `${totalSeconds}s`,
+              "--marquee-gap": `${gap}px`,
             } as React.CSSProperties)
           : undefined
       }
     >
       <span
-        ref={innerRef}
-        className={cn("inline-block will-change-transform")}
+        className={cn(
+          "inline-flex items-baseline will-change-transform",
+          isAnimating && "gap-(--marquee-gap)"
+        )}
         style={
           isAnimating
             ? {
@@ -93,14 +103,20 @@ function MarqueeText({
             : undefined
         }
       >
-        {children}
+        <span ref={copyRef} className="inline-block">
+          {children}
+        </span>
+        {isAnimating ? (
+          <span aria-hidden className="inline-block">
+            {children}
+          </span>
+        ) : null}
       </span>
       {isAnimating ? (
         <style href={animationName} precedence="tv-display">{`@keyframes ${animationName} {
           0% { transform: translateX(0); }
-          ${t1}% { transform: translateX(0); }
-          ${t2}% { transform: translateX(calc(var(--marquee-overflow) * -1)); }
-          100% { transform: translateX(calc(var(--marquee-overflow) * -1)); }
+          ${pauseStop}% { transform: translateX(0); }
+          100% { transform: translateX(calc(var(--marquee-cycle) * -1)); }
         }`}</style>
       ) : null}
     </span>
