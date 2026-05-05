@@ -25,8 +25,8 @@ function MarqueeText({
   speed = 50,
   /** Seconds to hold at the start before scrolling. */
   startPause = 1.5,
-  /** Seconds to hold at the end after scrolling. */
-  endPause = 2,
+  /** Seconds to hold at the end after scrolling, before snapping back. */
+  endPause = 0.6,
 }: {
   children: React.ReactNode
   className?: string
