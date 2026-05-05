@@ -27,6 +27,16 @@ function RotatingText({
   stagger?: number;
   duration?: number;
 }) {
+  // Split by grapheme clusters (not UTF-16 code units) so complex scripts
+  // like Malayalam, Devanagari, or emoji stay intact. `String#split("")`
+  // breaks combining vowel signs and renders them as dotted-circle glyphs.
+  const graphemes = React.useMemo(() => {
+    if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
+      const seg = new Intl.Segmenter(undefined, { granularity: "grapheme" });
+      return Array.from(seg.segment(value), (s) => s.segment);
+    }
+    return Array.from(value);
+  }, [value]);
   return (
     <span
       className="relative inline-block overflow-hidden align-baseline"
@@ -34,7 +44,7 @@ function RotatingText({
       aria-label={value}
     >
       <span key={value} className="inline-flex" style={{ lineHeight: 1 }}>
-        {value.split("").map((ch, i) => (
+        {graphemes.map((ch, i) => (
           <span
             key={`${value}-${i}`}
             className="inline-block tabular-nums"
@@ -56,13 +66,6 @@ function RotatingText({
   );
 }
 
-const ANIMATED_SEQUENCES: string[][] = [
-  ["OP-025", "OP-026", "OP-027", "OP-028", "OP-029", "OP-030", "OP-031"],
-  ["OP-009", "OP-010", "OP-011", "OP-012", "OP-013"],
-  ["OP-134", "OP-135", "OP-136", "OP-137"],
-  ["OP-012", "OP-013", "OP-014", "OP-015", "OP-016", "OP-017"],
-];
-
 // Per-row tick interval (ms). Different intervals so each row's token rotates
 // at its own cadence — staggered, never in lockstep.
 const ANIMATED_INTERVALS = [9000, 7500, 11000, 6500];
@@ -82,12 +85,16 @@ function AnimatedTokenRow({
   room,
   sequence,
   intervalMs,
+  nextLabel,
+  roomLabel,
 }: {
   doctor: string;
   specialty: string;
   room: string;
   sequence: string[];
   intervalMs: number;
+  nextLabel?: string;
+  roomLabel?: string;
 }) {
   const idx = useRotatingIndex(sequence.length, intervalMs);
   const current = sequence[idx];
@@ -102,10 +109,11 @@ function AnimatedTokenRow({
   return (
     <TVDisplayRow className="relative overflow-hidden">
       <TVDisplayDoctor name={doctor} specialty={specialty} />
-      <TVDisplayRoom>{room}</TVDisplayRoom>
+      <TVDisplayRoom label={roomLabel}>{room}</TVDisplayRoom>
       <TVDisplayToken
         current={<RotatingText value={current} />}
         next={next}
+        nextLabel={nextLabel}
       />
       <span
         key={idx}
@@ -123,54 +131,6 @@ function AnimatedTokenRow({
         100% { transform: translateX(300%); opacity: 0; }
       }`}</style>
     </TVDisplayRow>
-  );
-}
-
-function AnimatedTokenExample() {
-  const rows = [
-    {
-      doctor: "Dr. Arjun Radhakrishnan",
-      specialty: "General",
-      room: "1",
-    },
-    {
-      doctor: "Dr. Meera Das",
-      specialty: "Pediatrics",
-      room: "2",
-    },
-    {
-      doctor: "Dr. Rahul Sen",
-      specialty: "Orthopedics",
-      room: "3",
-    },
-    {
-      doctor: "Dr. Neha Roy",
-      specialty: "ENT",
-      room: "12",
-    },
-  ];
-  return (
-    <div className="w-full max-w-4xl">
-      <TVDisplay aspectRatio="16/9">
-        <TVDisplayHeader>
-          <span>Doctor</span>
-          <span>Room</span>
-          <span>Token</span>
-        </TVDisplayHeader>
-        <TVDisplayBody>
-          {rows.map((row, i) => (
-            <AnimatedTokenRow
-              key={row.doctor}
-              doctor={row.doctor}
-              specialty={row.specialty}
-              room={row.room}
-              sequence={ANIMATED_SEQUENCES[i]}
-              intervalMs={ANIMATED_INTERVALS[i]}
-            />
-          ))}
-        </TVDisplayBody>
-      </TVDisplay>
-    </div>
   );
 }
 
@@ -213,23 +173,28 @@ const SAMPLE_QUEUE: QueueRow[] = [
   },
 ];
 
-function renderQueueRows(rows: QueueRow[], nextLabel?: string) {
-  return rows.map((row) =>
-    React.createElement(
-      TVDisplayRow,
-      { key: row.doctor },
-      React.createElement(TVDisplayDoctor, {
-        name: row.doctor,
-        specialty: row.specialty,
-      }),
-      React.createElement(TVDisplayRoom, null, row.room),
-      React.createElement(TVDisplayToken, {
-        current: row.current,
-        next: row.next,
-        nextLabel,
-      })
-    )
-  );
+function renderQueueRows(
+  rows: QueueRow[],
+  nextLabel?: string,
+  roomLabel?: string
+) {
+  return rows.map((row, i) => {
+    // Build a rotation sequence per row from current + upcoming tokens. Dedup
+    // and require at least 2 entries so the animation has something to swap
+    // between.
+    const seq = Array.from(new Set([row.current, ...row.next])).filter(Boolean);
+    const sequence = seq.length > 1 ? seq : [row.current];
+    return React.createElement(AnimatedTokenRow, {
+      key: row.doctor,
+      doctor: row.doctor,
+      specialty: row.specialty,
+      room: row.room,
+      sequence,
+      intervalMs: ANIMATED_INTERVALS[i % ANIMATED_INTERVALS.length],
+      nextLabel,
+      roomLabel,
+    });
+  });
 }
 
 function renderQueueBoard(
@@ -263,7 +228,7 @@ function renderQueueBoard(
       React.createElement(
         TVDisplayBody,
         null,
-        ...renderQueueRows(rows, labels.next)
+        ...renderQueueRows(rows, labels.next, labels.room)
       )
     )
   );
@@ -355,51 +320,6 @@ export const tvDisplayDoc: ComponentDoc = {
   },
   examples: [
     {
-      name: "Rotating text token",
-      description:
-        "When the queue advances, the whole token slides up and fades in (reactbits rotating-text style) with a per-character stagger so each digit lands a beat apart. Each row in this example rotates on its own cadence (6.5s–11s) so they never tick in lockstep — in production you'd swap the value when the next patient is called.",
-      code: `function RotatingText({ value, stagger = 0.025, duration = 0.5 }: {
-  value: string
-  stagger?: number
-  duration?: number
-}) {
-  return (
-    <span
-      className="relative inline-block overflow-hidden align-baseline"
-      style={{ height: "1em", lineHeight: 1 }}
-      aria-label={value}
-    >
-      <span key={value} className="inline-flex" style={{ lineHeight: 1 }}>
-        {value.split("").map((ch, i) => (
-          <span
-            key={\`\${value}-\${i}\`}
-            className="inline-block tabular-nums"
-            style={{
-              animation: \`tv-rotating-text-in \${duration}s cubic-bezier(0.22,1,0.36,1) both\`,
-              animationDelay: \`\${i * stagger}s\`,
-              lineHeight: 1,
-            }}
-          >
-            {ch === " " ? "\\u00A0" : ch}
-          </span>
-        ))}
-      </span>
-      <style>{\`@keyframes tv-rotating-text-in {
-        0% { transform: translateY(100%); opacity: 0; }
-        100% { transform: translateY(0); opacity: 1; }
-      }\`}</style>
-    </span>
-  )
-}
-
-// Pass the rotating value as the \`current\` prop on TVDisplayToken.
-<TVDisplayToken
-  current={<RotatingText value={currentToken} />}
-  next={["OP-026", "OP-027", "OP-028"]}
-/>`,
-      preview: React.createElement(AnimatedTokenExample),
-    },
-    {
       name: "Compact density",
       description:
         "Use density=\"compact\" to fit more rows on the same canvas — ideal for busy clinics with many concurrent doctors.",
@@ -486,7 +406,7 @@ export const tvDisplayDoc: ComponentDoc = {
           React.createElement(
             TVDisplayBody,
             null,
-            ...renderQueueRows(SAMPLE_QUEUE)
+            ...renderQueueRows(SAMPLE_QUEUE.slice(0, 3))
           )
         )
       ),
@@ -576,6 +496,13 @@ export const tvDisplayDoc: ComponentDoc = {
       description: "Optional specialty / department label below the name.",
     },
     {
+      name: "TVDisplayRoom.label",
+      type: "ReactNode",
+      description:
+        "Label rendered above the room number on narrow (portrait) layouts. Hidden on wide layouts where the column header already covers it.",
+      default: '"Room"',
+    },
+    {
       name: "TVDisplayToken.current",
       type: "ReactNode",
       description: "Token currently being served.",
@@ -584,6 +511,13 @@ export const tvDisplayDoc: ComponentDoc = {
       name: "TVDisplayToken.next",
       type: "ReactNode[]",
       description: "Optional list of upcoming tokens shown after the current one.",
+    },
+    {
+      name: "TVDisplayToken.nextLabel",
+      type: "ReactNode",
+      description:
+        "Label shown before the upcoming tokens. Override for localization.",
+      default: '"Next:"',
     },
   ],
 };

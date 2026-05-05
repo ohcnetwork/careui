@@ -130,8 +130,11 @@ const tvDisplayVariants = cva(
     "dark relative isolate grid h-full w-full overflow-hidden @container",
     // Root is a 2-row grid (header / body) and defines the shared column
     // tracks. Header and body both opt-in via `subgrid` so the columns line
-    // up perfectly across the whole display.
+    // up perfectly across the whole display. On narrow canvases (portrait /
+    // small kiosks) the tracks collapse to a single column and rows reflow
+    // into a stacked layout below.
     "grid-rows-[auto_1fr] grid-cols-[minmax(0,1fr)_auto_minmax(min(22cqw,18rem),auto)]",
+    "@max-md:grid-cols-[minmax(0,1fr)]",
     "bg-[#1a2540] text-foreground",
     "rounded-(--tv-radius) [--tv-radius:var(--radius-xl)]",
     "font-sans",
@@ -140,7 +143,7 @@ const tvDisplayVariants = cva(
     variants: {
       density: {
         default:
-          "[--tv-row-px:--spacing(8)] [--tv-header-py:--spacing(3)] [--tv-header-px:--spacing(8)]",
+          "[--tv-row-px:--spacing(6)] [--tv-header-py:--spacing(3)] [--tv-header-px:--spacing(6)]",
         compact:
           "[--tv-row-px:--spacing(5)] [--tv-header-py:--spacing(2)] [--tv-header-px:--spacing(5)]",
       },
@@ -197,6 +200,9 @@ function TVDisplayHeader({
       data-slot="tv-display-header"
       className={cn(
         "col-span-full grid grid-cols-subgrid items-center gap-x-8",
+        // Header labels are redundant once rows stack vertically, so hide
+        // the strip in narrow containers.
+        "@max-md:hidden",
         "bg-[#e8ff6b] text-[#1a2540]",
         "px-(--tv-header-px) py-(--tv-header-py)",
         "text-[clamp(0.875rem,1.3cqw,1.375rem)] font-bold uppercase",
@@ -233,13 +239,9 @@ function TVDisplayRow({
     <div
       data-slot="tv-display-row"
       className={cn(
-        // Span all 3 columns of the parent body and inherit its column tracks.
-        // No vertical padding — row height is driven by the body's
-        // `auto-rows-fr` so every row fluidly splits the available canvas
-        // height evenly. Horizontal padding still applies.
         "col-span-full grid min-h-0 grid-cols-subgrid items-center gap-x-8",
+        "@max-md:items-end @max-md:grid-cols-[auto_minmax(0,1fr)] @max-md:grid-rows-[auto_1fr] @max-md:gap-x-4 @max-md:gap-y-[1cqh] @max-md:py-[2.5cqh]",
         "px-(--tv-row-px)",
-        // Alternating row tint between siblings.
         "even:bg-[#22335a]",
         className
       )}
@@ -260,7 +262,12 @@ function TVDisplayDoctor({
   return (
     <div
       data-slot="tv-display-doctor"
-      className={cn("flex min-w-0 flex-col justify-center", className)}
+      className={cn(
+        "flex min-w-0 flex-col justify-center",
+        // Span both columns on narrow layouts so the name gets the full row.
+        "@max-md:col-span-2",
+        className
+      )}
       {...props}
     >
       <span className="min-w-0 text-[clamp(1.5rem,3.2cqw,3.25rem)] font-bold leading-tight text-foreground">
@@ -278,21 +285,40 @@ function TVDisplayDoctor({
 function TVDisplayRoom({
   className,
   children,
+  label = "Room",
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & {
+  /** Label rendered above the room number on narrow (portrait) layouts.
+   *  Hidden on wide layouts where the column header already covers it. */
+  label?: React.ReactNode
+}) {
   return (
     <div
       data-slot="tv-display-room"
       className={cn(
-        "flex aspect-square items-center justify-center self-center",
-        "h-[clamp(3.5rem,7cqw,6.5rem)]",
-        "border-2 border-foreground text-foreground",
-        "text-[clamp(1.75rem,4cqw,4rem)] font-bold leading-none tabular-nums",
+        "flex flex-col items-start justify-center self-center gap-0.5",
         className
       )}
       {...props}
     >
-      {children}
+      {label ? (
+        <span
+          aria-hidden
+          className="hidden text-[clamp(1rem,2cqw,1.5rem)] font-semibold uppercase tracking-wide text-foreground/70 @max-md:block"
+        >
+          {label}
+        </span>
+      ) : null}
+      <div
+        className={cn(
+          "flex aspect-square items-center justify-center",
+          "h-[clamp(4rem,8.5cqw,8rem)]",
+          "border-2 border-foreground/50 text-foreground",
+          "text-[clamp(2.25rem,5.2cqw,5.5rem)] font-bold leading-none tabular-nums"
+        )}
+      >
+        {children}
+      </div>
     </div>
   )
 }
@@ -306,6 +332,11 @@ type TVDisplayTokenProps = React.ComponentProps<"div"> & {
   nextLabel?: React.ReactNode
 }
 
+/**
+ * Token cell — shows the token currently being served (large, accent-colored)
+ * and a marquee strip of upcoming tokens. The marquee scrolls only when the
+ * upcoming list overflows; the `nextLabel` stays static for readability.
+ */
 function TVDisplayToken({
   className,
   current,
@@ -322,15 +353,13 @@ function TVDisplayToken({
       className={cn("flex min-w-0 flex-col justify-center gap-0.5", className)}
       {...props}
     >
-      <div className="flex items-center gap-2 leading-none">
-        <span className="truncate text-[clamp(2rem,4.6cqw,5rem)] font-extrabold leading-none tabular-nums text-[#ffd23f]">
-          {current}
-        </span>
-      </div>
+      <span className="truncate text-[clamp(2rem,4.6cqw,5rem)] font-extrabold leading-none tabular-nums text-[#ffd23f]">
+        {current}
+      </span>
       {visibleNext && visibleNext.length > 0 ? (
-        <div className="min-w-0 text-[clamp(1.125rem,2cqw,1.875rem)] font-semibold uppercase text-foreground/75">
-          <MarqueeText>
-            <span className="text-foreground/80 font-medium">{nextLabel}&nbsp;</span>
+        <div className="flex min-w-0 items-baseline gap-2 text-[clamp(1.125rem,2cqw,1.875rem)] font-semibold uppercase text-foreground/75">
+          <span className="shrink-0 font-medium text-foreground/80">{nextLabel}</span>
+          <MarqueeText className="min-w-0 flex-1">
             {visibleNext.map((token, idx) => (
               <React.Fragment key={idx}>
                 {idx > 0 ? (
