@@ -60,4 +60,5 @@ export const componentNames: Record<string, string> = {
   toggle: "Toggle",
   "toggle-group": "Toggle Group",
   tooltip: "Tooltip",
+  "tv-display": "TV Display",
 };
