@@ -12,31 +12,32 @@ import { cn } from "@/lib/utils"
 
 /**
  * Marquee container that scrolls its child horizontally only when the content
- * overflows. Follows accessible signage conventions: pause at the start so the
- * reader can begin reading, scroll **once** in a single direction, pause at
- * the end so the reader can finish, then snap (instantly, not animated) back
- * to the start. This avoids the disorienting reverse-scroll that would force
- * the eye to track text backwards.
+ * overflows. The content is duplicated and translated by exactly one copy's
+ * width so the loop is seamless — when the keyframe wraps, the second copy
+ * is sitting where the first one started, so the eye sees a continuous left-
+ * ward scroll instead of a snap-back. A short pause at the top of each cycle
+ * gives the reader a beat to start reading.
  */
 function MarqueeText({
   children,
   className,
   /** Pixels per second the text scrolls when active. */
   speed = 50,
-  /** Seconds to hold at the start before scrolling. */
+  /** Seconds to hold at the start of each cycle before scrolling resumes. */
   startPause = 1.5,
-  /** Seconds to hold at the end after scrolling, before snapping back. */
-  endPause = 0.6,
+  /** Gap (px) between the two copies so adjacent text doesn't collide. */
+  gap = 48,
 }: {
   children: React.ReactNode
   className?: string
   speed?: number
   startPause?: number
-  endPause?: number
+  gap?: number
 }) {
   const containerRef = React.useRef<HTMLSpanElement>(null)
   const innerRef = React.useRef<HTMLSpanElement>(null)
-  const [overflow, setOverflow] = React.useState(0)
+  const [contentWidth, setContentWidth] = React.useState(0)
+  const [isOverflowing, setIsOverflowing] = React.useState(false)
   const reactId = React.useId()
   const animationName = `tv-marquee-${reactId.replace(/[^a-zA-Z0-9]/g, "")}`
 
@@ -46,8 +47,9 @@ function MarqueeText({
     if (!container || !inner) return
 
     const measure = () => {
-      const diff = inner.scrollWidth - container.clientWidth
-      setOverflow(diff > 1 ? diff : 0)
+      const w = inner.scrollWidth
+      setContentWidth(w)
+      setIsOverflowing(w - container.clientWidth > 1)
     }
 
     measure()
@@ -57,50 +59,57 @@ function MarqueeText({
     return () => ro.disconnect()
   }, [children])
 
-  const isAnimating = overflow > 0
-  const scrollSeconds = isAnimating ? overflow / speed : 0
-  const totalSeconds = scrollSeconds + startPause + endPause
-  // Keyframe stops as percentages of the total duration.
-  const t1 = (startPause / totalSeconds) * 100 // start of scroll
-  const t2 = ((startPause + scrollSeconds) / totalSeconds) * 100 // end of scroll
+  // Distance to translate per cycle = one copy + the gap, so the second copy
+  // lines up exactly where the first one started.
+  const distance = contentWidth + gap
+  const scrollSeconds = isOverflowing ? distance / speed : 0
+  const totalSeconds = scrollSeconds + startPause
+  // Percentage of the cycle spent paused at the start.
+  const pausePct = totalSeconds > 0 ? (startPause / totalSeconds) * 100 : 0
 
   return (
     <span
       ref={containerRef}
       data-slot="tv-display-marquee"
-      data-overflow={isAnimating ? "true" : "false"}
+      data-overflow={isOverflowing ? "true" : "false"}
       className={cn(
         "relative block min-w-0 overflow-hidden whitespace-nowrap",
         className
       )}
       style={
-        isAnimating
+        isOverflowing
           ? ({
-              "--marquee-overflow": `${overflow}px`,
+              "--marquee-distance": `${distance}px`,
               "--marquee-duration": `${totalSeconds}s`,
             } as React.CSSProperties)
           : undefined
       }
     >
       <span
-        ref={innerRef}
-        className={cn("inline-block will-change-transform")}
+        className={cn("inline-flex will-change-transform")}
         style={
-          isAnimating
+          isOverflowing
             ? {
+                gap: `${gap}px`,
                 animation: `${animationName} var(--marquee-duration) linear infinite`,
               }
             : undefined
         }
       >
-        {children}
+        <span ref={innerRef} className="inline-block">
+          {children}
+        </span>
+        {isOverflowing ? (
+          <span aria-hidden className="inline-block">
+            {children}
+          </span>
+        ) : null}
       </span>
-      {isAnimating ? (
+      {isOverflowing ? (
         <style href={animationName} precedence="tv-display">{`@keyframes ${animationName} {
           0% { transform: translateX(0); }
-          ${t1}% { transform: translateX(0); }
-          ${t2}% { transform: translateX(calc(var(--marquee-overflow) * -1)); }
-          100% { transform: translateX(calc(var(--marquee-overflow) * -1)); }
+          ${pausePct}% { transform: translateX(0); }
+          100% { transform: translateX(calc(var(--marquee-distance) * -1)); }
         }`}</style>
       ) : null}
     </span>
