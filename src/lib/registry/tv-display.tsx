@@ -676,5 +676,11 @@ export const tvDisplayDoc: ComponentDoc = {
         "Label shown before the upcoming tokens. Override for localization.",
       default: '"Next:"',
     },
+    {
+      name: "TVDisplayToken.nextRestartKey",
+      type: "string | number",
+      description:
+        "When this value changes, the upcoming-tokens marquee remounts and restarts from its initial hold. Pass the same key you use to drive the current-token rotation so the next-strip never overlaps the rotation transition.",
+    },
   ],
 };
