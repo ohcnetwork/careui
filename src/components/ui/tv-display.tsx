@@ -11,29 +11,30 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 /**
- * Marquee container that scrolls its child horizontally only when the content
- * overflows. Cycle: scroll continuously, then pause when the second copy has
- * arrived in the start slot (so the full text is visible again), then continue
- * into the next cycle. Implemented as a duplicated track separated by a gap —
- * translating by exactly one cycle (content + gap) lands copy #2 where copy
- * #1 started, so the loop seam is invisible.
+ * Marquee container that reveals its child horizontally only when the content
+ * overflows. Cycle: hold at start → scroll until the end of the text is
+ * flush-right → hold at end → fade out → snap back to start → fade in.
+ * Single copy (no looping seam): the text always reads in natural order and
+ * the reset is hidden by the fade.
  */
 function MarqueeText({
   children,
   className,
   /** Pixels per second the text scrolls when active. */
-  speed = 50,
-  /** Seconds to hold at the end of each cycle with the full text visible. */
-  endPause = 2,
-  /** Gap (px) between the two copies — i.e. the visible "breath" before the
-   *  text re-enters from the right. */
-  gap = 80,
+  speed = 60,
+  /** Seconds to hold at the start of each cycle (beginning of name visible). */
+  startPause = 1.5,
+  /** Seconds to hold at the end of the scroll (end of name visible). */
+  endPause = 1.5,
+  /** Seconds for the fade-out / fade-in transition that hides the reset. */
+  fadeDuration = 0.6,
 }: {
   children: React.ReactNode
   className?: string
   speed?: number
+  startPause?: number
   endPause?: number
-  gap?: number
+  fadeDuration?: number
 }) {
   const containerRef = React.useRef<HTMLSpanElement>(null)
   const copyRef = React.useRef<HTMLSpanElement>(null)
@@ -59,17 +60,26 @@ function MarqueeText({
     return () => ro.disconnect()
   }, [children])
 
-  const isAnimating = copyWidth - containerWidth > 1
-  // One full cycle = first copy's width + the gap. After translating by this
-  // distance, copy #2 occupies copy #1's original slot, so wrapping to 0 is
-  // a visual no-op.
-  const cycleDistance = copyWidth + gap
-  const scrollSeconds = isAnimating ? cycleDistance / speed : 0
-  const totalSeconds = scrollSeconds + endPause
-  // Percentage of the keyframe timeline spent scrolling — the rest is the
-  // pause held at the end of the cycle (full text visible again, courtesy
-  // of the duplicated copy now sitting in the start slot).
-  const scrollStop = isAnimating ? (scrollSeconds / totalSeconds) * 100 : 0
+  const overflowDistance = Math.max(0, copyWidth - containerWidth)
+  const isAnimating = overflowDistance > 1
+  const scrollSeconds = isAnimating ? overflowDistance / speed : 0
+  // Fade transition is split into two equal halves: fade-out at the end
+  // position, then fade-in at the start position. The transform snaps back
+  // between them while opacity is 0, so the rewind is invisible.
+  const halfFade = fadeDuration / 2
+  const totalSeconds =
+    scrollSeconds + startPause + endPause + fadeDuration
+
+  const pct = (s: number) =>
+    isAnimating ? (s / totalSeconds) * 100 : 0
+
+  const startStop = pct(startPause)
+  const scrollStop = pct(startPause + scrollSeconds)
+  const fadeOutStart = pct(startPause + scrollSeconds + endPause)
+  const fadeOutEnd = pct(startPause + scrollSeconds + endPause + halfFade)
+  // Tiny epsilon after fadeOutEnd to snap transform back to 0 while opacity
+  // is still 0, then fade in the rest of the way to 100.
+  const snapStop = Math.min(fadeOutEnd + 0.01, 99.99)
 
   return (
     <span
@@ -83,18 +93,15 @@ function MarqueeText({
       style={
         isAnimating
           ? ({
-              "--marquee-cycle": `${cycleDistance}px`,
+              "--marquee-distance": `${overflowDistance}px`,
               "--marquee-duration": `${totalSeconds}s`,
-              "--marquee-gap": `${gap}px`,
             } as React.CSSProperties)
           : undefined
       }
     >
       <span
-        className={cn(
-          "inline-flex items-baseline will-change-transform",
-          isAnimating && "gap-(--marquee-gap)"
-        )}
+        ref={copyRef}
+        className={cn("inline-block will-change-[transform,opacity]")}
         style={
           isAnimating
             ? {
@@ -103,20 +110,17 @@ function MarqueeText({
             : undefined
         }
       >
-        <span ref={copyRef} className="inline-block">
-          {children}
-        </span>
-        {isAnimating ? (
-          <span aria-hidden className="inline-block">
-            {children}
-          </span>
-        ) : null}
+        {children}
       </span>
       {isAnimating ? (
         <style href={animationName} precedence="tv-display">{`@keyframes ${animationName} {
-          0% { transform: translateX(0); }
-          ${scrollStop}% { transform: translateX(calc(var(--marquee-cycle) * -1)); }
-          100% { transform: translateX(calc(var(--marquee-cycle) * -1)); }
+          0% { transform: translateX(0); opacity: 1; }
+          ${startStop}% { transform: translateX(0); opacity: 1; }
+          ${scrollStop}% { transform: translateX(calc(var(--marquee-distance) * -1)); opacity: 1; }
+          ${fadeOutStart}% { transform: translateX(calc(var(--marquee-distance) * -1)); opacity: 1; }
+          ${fadeOutEnd}% { transform: translateX(calc(var(--marquee-distance) * -1)); opacity: 0; }
+          ${snapStop}% { transform: translateX(0); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
         }`}</style>
       ) : null}
     </span>
@@ -197,7 +201,141 @@ function TVDisplay({
       >
         {children}
       </div>
+      <TVDisplayFallbackStyles />
     </AspectRatioPrimitive.Root>
+  )
+}
+
+function TVDisplayFallbackStyles() {
+  return (
+    <style
+      href="tv-display-fallbacks"
+      precedence="tv-display-base"
+    >{`
+      [data-slot="tv-display"] {
+        /* Explicit, widely-supported colors. Override the inherited
+           --foreground so text-foreground utilities resolve to plain
+           white instead of an oklch() value the engine may not parse. */
+        color: #ffffff;
+        --foreground: #ffffff;
+        --tv-radius: 1rem;
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          "Noto Sans",
+          "Noto Sans Malayalam",
+          "Noto Sans Devanagari",
+          "Noto Color Emoji",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        background-color: #1a2540;
+      }
+
+      /* Avoid color-mix() (Tailwind alpha modifiers) blowing up on old
+         engines: provide rgba fallbacks for the common alpha steps. */
+      @supports not (color: color-mix(in srgb, white, black)) {
+        [data-slot="tv-display"] .text-foreground\\/80,
+        [data-slot="tv-display"] [class*="text-foreground/80"] {
+          color: rgba(255, 255, 255, 0.8);
+        }
+        [data-slot="tv-display"] .text-foreground\\/75,
+        [data-slot="tv-display"] [class*="text-foreground/75"] {
+          color: rgba(255, 255, 255, 0.75);
+        }
+        [data-slot="tv-display"] .text-foreground\\/70,
+        [data-slot="tv-display"] [class*="text-foreground/70"] {
+          color: rgba(255, 255, 255, 0.7);
+        }
+        [data-slot="tv-display"] .border-foreground\\/50,
+        [data-slot="tv-display"] [class*="border-foreground/50"] {
+          border-color: rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      /* Container-query fallback. cqw is undefined on older WebKit / Blink;
+         clamp() with an invalid unit drops the whole declaration, so we
+         replace it via @supports negation. vw is supported since IE9 and
+         visually equivalent for fullscreen TV signage. */
+      @supports not (container-type: inline-size) {
+        [data-slot="tv-display-doctor"] > span:first-child {
+          font-size: clamp(1.25rem, 2.2vw + 0.5rem, 3.25rem);
+        }
+        [data-slot="tv-display-doctor"] > span:nth-child(2) {
+          font-size: clamp(0.875rem, 1.4vw + 0.25rem, 1.875rem);
+        }
+        [data-slot="tv-display-header"] {
+          font-size: clamp(0.75rem, 0.6vw + 0.5rem, 1.375rem);
+        }
+        [data-slot="tv-display-room"] > div {
+          height: clamp(3rem, 6vw + 0.75rem, 8rem);
+          min-width: clamp(3rem, 6vw + 0.75rem, 8rem);
+          padding-left: clamp(0.5rem, 1.2vw, 1.25rem);
+          padding-right: clamp(0.5rem, 1.2vw, 1.25rem);
+          font-size: clamp(1.5rem, 3.2vw + 0.5rem, 5rem);
+        }
+        [data-slot="tv-display-token"] > span:first-child {
+          font-size: clamp(1.75rem, 3.4vw + 0.5rem, 5rem);
+        }
+        [data-slot="tv-display-token"] > div {
+          font-size: clamp(0.875rem, 1.4vw + 0.25rem, 1.875rem);
+        }
+      }
+
+      /* Last-resort fallback for engines that don't even understand clamp()
+         (very old Tizen / WebOS): pin to mid-range rem values. */
+      @supports not (font-size: clamp(1rem, 1vw, 2rem)) {
+        [data-slot="tv-display-doctor"] > span:first-child { font-size: 2rem; }
+        [data-slot="tv-display-doctor"] > span:nth-child(2) { font-size: 1.125rem; }
+        [data-slot="tv-display-header"] { font-size: 1rem; }
+        [data-slot="tv-display-room"] > div {
+          height: 4.5rem;
+          min-width: 4.5rem;
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
+          font-size: 2rem;
+        }
+        [data-slot="tv-display-token"] > span:first-child { font-size: 2.75rem; }
+        [data-slot="tv-display-token"] > div { font-size: 1.125rem; }
+      }
+
+      /* Subgrid fallback. Without subgrid the children can't inherit the
+         parent's column tracks, so we replicate the default 3-column layout
+         here. Custom layouts opt in via [data-layout="..."] on the root. */
+      @supports not (grid-template-columns: subgrid) {
+        [data-slot="tv-display-header"],
+        [data-slot="tv-display-body"],
+        [data-slot="tv-display-row"] {
+          grid-template-columns: minmax(0, 1fr) auto minmax(18rem, auto);
+        }
+        [data-layout="pharmacy"] [data-slot="tv-display-header"],
+        [data-layout="pharmacy"] [data-slot="tv-display-body"],
+        [data-layout="pharmacy"] [data-slot="tv-display-row"] {
+          grid-template-columns: auto auto;
+        }
+      }
+
+      /* Respect reduced motion / disable GPU-heavy effects on low-end TVs. */
+      @media (prefers-reduced-motion: reduce) {
+        [data-slot="tv-display"] *,
+        [data-slot="tv-display"] *::before,
+        [data-slot="tv-display"] *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+        [data-slot="tv-display-marquee"][data-overflow="true"] > span:first-child {
+          transform: none !important;
+          opacity: 1 !important;
+        }
+      }
+    `}</style>
   )
 }
 
@@ -312,7 +450,10 @@ function TVDisplayRoom({
     <div
       data-slot="tv-display-room"
       className={cn(
-        "flex flex-col items-start justify-center self-center gap-0.5",
+        // `items-stretch` lets the inner box fill the room-column track,
+        // and since that track is auto-sized to the widest box across all
+        // rows, every box ends up matching the widest one.
+        "flex flex-col items-stretch justify-center self-center gap-0.5",
         className
       )}
       {...props}
@@ -327,10 +468,11 @@ function TVDisplayRoom({
       ) : null}
       <div
         className={cn(
-          "flex aspect-square items-center justify-center",
-          "h-[clamp(3rem,6cqw+0.75rem,8rem)]",
+          "flex w-full items-center justify-center self-start",
+          "h-[clamp(3rem,6cqw+0.75rem,8rem)] min-w-[clamp(3rem,6cqw+0.75rem,8rem)]",
+          "px-[clamp(0.5rem,1.2cqw,1.25rem)]",
           "border-2 border-foreground/50 text-foreground",
-          "text-[clamp(1.75rem,3.8cqw+0.5rem,5.5rem)] font-bold leading-none tabular-nums"
+          "text-[clamp(1.5rem,3.2cqw+0.5rem,5rem)] font-bold leading-none tabular-nums whitespace-nowrap"
         )}
       >
         {children}
@@ -346,6 +488,14 @@ type TVDisplayTokenProps = React.ComponentProps<"div"> & {
   next?: React.ReactNode[]
   /** Label shown before the upcoming tokens. Override for localization. */
   nextLabel?: React.ReactNode
+  /**
+   * Optional key that, when changed, restarts the upcoming-tokens marquee
+   * from the beginning. Pass the same value you use to drive the `current`
+   * token rotation so the next-strip pauses (held at start) while the new
+   * current token animates in, then begins scrolling — never overlapping
+   * the rotation transition.
+   */
+  nextRestartKey?: string | number
 }
 
 /**
@@ -358,6 +508,7 @@ function TVDisplayToken({
   current,
   next,
   nextLabel = "Next:",
+  nextRestartKey,
   ...props
 }: TVDisplayTokenProps) {
   // Limit to the first 3 upcoming tokens — beyond that the line gets noisy
@@ -375,7 +526,12 @@ function TVDisplayToken({
       {visibleNext && visibleNext.length > 0 ? (
         <div className="flex min-w-0 items-baseline gap-2 text-[clamp(0.875rem,1.4cqw+0.25rem,1.875rem)] font-semibold uppercase text-foreground/75">
           <span className="shrink-0 font-medium text-foreground/80">{nextLabel}</span>
-          <MarqueeText className="min-w-0 flex-1">
+          {/* Remount on `nextRestartKey` change so the marquee restarts from
+              its initial hold whenever the current token rotates. */}
+          <MarqueeText
+            key={nextRestartKey ?? "static"}
+            className="min-w-0 flex-1"
+          >
             {visibleNext.map((token, idx) => (
               <React.Fragment key={idx}>
                 {idx > 0 ? (

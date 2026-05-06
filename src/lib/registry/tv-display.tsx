@@ -114,6 +114,7 @@ function AnimatedTokenRow({
         current={<RotatingText value={current} />}
         next={next}
         nextLabel={nextLabel}
+        nextRestartKey={idx}
       />
       <span
         key={idx}
@@ -142,32 +143,80 @@ interface QueueRow {
   next: string[];
 }
 
+interface PharmacyRow {
+  counter: string;
+  current: string;
+  next: string[];
+}
+
+function AnimatedPharmacyRow({
+  counter,
+  sequence,
+  intervalMs,
+  counterLabel = "Counter",
+}: {
+  counter: string;
+  sequence: string[];
+  intervalMs: number;
+  counterLabel?: string;
+}) {
+  const idx = useRotatingIndex(sequence.length, intervalMs);
+  const current = sequence[idx];
+  const next = [
+    sequence[(idx + 1) % sequence.length],
+    sequence[(idx + 2) % sequence.length],
+    sequence[(idx + 3) % sequence.length],
+  ];
+  return (
+    <TVDisplayRow className="relative overflow-hidden">
+      <TVDisplayRoom label={counterLabel}>{counter}</TVDisplayRoom>
+      <TVDisplayToken
+        current={<RotatingText value={current} />}
+        next={next}
+        nextRestartKey={idx}
+      />
+      <span
+        key={idx}
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 animate-[tv-display-glare_1.25s_ease-in-out_both]"
+        style={{
+          background:
+            "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.07) 50%, transparent 100%)",
+        }}
+      />
+    </TVDisplayRow>
+  );
+}
+
+// Room codes follow a service-point convention so patients can quickly
+// identify where to go: C = Consultation, V = Vitals, I = Injection,
+// E = ECG, B = Billing, P = Pharmacy, S = Sample Collection, PR = Procedure.
 const SAMPLE_QUEUE: QueueRow[] = [
   {
     doctor: "Dr. Arjun Radhakrishnan",
     specialty: "General",
-    room: "1",
+    room: "C 01",
     current: "OP-025",
     next: ["OP-026", "OP-027", "OP-024"],
   },
   {
     doctor: "Dr. Meera Das",
     specialty: "Pediatrics",
-    room: "2",
+    room: "C 02",
     current: "OP-009",
     next: ["OP-010", "OP-011", "OP-012"],
   },
   {
     doctor: "Dr. Rahul Sen",
     specialty: "Orthopedics",
-    room: "3",
+    room: "PR 01",
     current: "OP-134",
     next: ["OP-135"],
   },
   {
     doctor: "Dr. Neha Roy",
     specialty: "ENT",
-    room: "12",
+    room: "E 01",
     current: "OP-012",
     next: ["OP-013", "OP-014"],
   },
@@ -234,6 +283,59 @@ function renderQueueBoard(
   );
 }
 
+// Pharmacy / billing counters need a 2-column layout (token + counter).
+// Override the default 3-column track via `className` so the underlying
+// `grid-cols-subgrid` in header/rows collapses to the same 2 tracks.
+function renderPharmacyBoard(
+  aspectRatio: "16/9" | "21/9" | "4/3" | "9/16",
+  rows: PharmacyRow[],
+  wrapperClass: string,
+  labels: { token: string; counter: string } = {
+    token: "Token",
+    counter: "Counter",
+  }
+) {
+  return React.createElement(
+    "div",
+    { className: wrapperClass },
+    React.createElement(
+      TVDisplay,
+      {
+        aspectRatio,
+        ...({ "data-layout": "pharmacy" } as Record<string, string>),
+        // Both columns hug their content (`auto` tracks) so the token cell
+        // doesn't stretch across the full row. Leftover space sits on the
+        // right of the row, keeping counter + token visually grouped.
+        className:
+          "grid-cols-[auto_auto] @max-md:grid-cols-[minmax(0,1fr)]",
+      },
+      React.createElement(
+        TVDisplayHeader,
+        null,
+        React.createElement("span", null, labels.counter),
+        React.createElement("span", null, labels.token)
+      ),
+      React.createElement(
+        TVDisplayBody,
+        null,
+        ...rows.map((row, i) => {
+          const seq = Array.from(new Set([row.current, ...row.next])).filter(
+            Boolean
+          );
+          const sequence = seq.length > 1 ? seq : [row.current];
+          return React.createElement(AnimatedPharmacyRow, {
+            key: row.counter,
+            counter: row.counter,
+            sequence,
+            intervalMs: ANIMATED_INTERVALS[i % ANIMATED_INTERVALS.length],
+            counterLabel: labels.counter,
+          });
+        })
+      )
+    )
+  );
+}
+
 const PREVIEW_CODE = `import {
   TVDisplay,
   TVDisplayBody,
@@ -256,22 +358,22 @@ export function TVDisplayDemo() {
         <TVDisplayBody>
           <TVDisplayRow>
             <TVDisplayDoctor name="Dr. Arjun Radhakrishnan" specialty="General" />
-            <TVDisplayRoom>1</TVDisplayRoom>
+            <TVDisplayRoom>C 01</TVDisplayRoom>
             <TVDisplayToken current="OP-025" next={["OP-026", "OP-027", "OP-024"]} />
           </TVDisplayRow>
           <TVDisplayRow>
             <TVDisplayDoctor name="Dr. Meera Das" specialty="Pediatrics" />
-            <TVDisplayRoom>2</TVDisplayRoom>
+            <TVDisplayRoom>C 02</TVDisplayRoom>
             <TVDisplayToken current="OP-009" next={["OP-010", "OP-011", "OP-012"]} />
           </TVDisplayRow>
           <TVDisplayRow>
             <TVDisplayDoctor name="Dr. Rahul Sen" specialty="Orthopedics" />
-            <TVDisplayRoom>3</TVDisplayRoom>
+            <TVDisplayRoom>PR 01</TVDisplayRoom>
             <TVDisplayToken current="OP-134" next={["OP-135"]} />
           </TVDisplayRow>
           <TVDisplayRow>
             <TVDisplayDoctor name="Dr. Neha Roy" specialty="ENT" />
-            <TVDisplayRoom>12</TVDisplayRoom>
+            <TVDisplayRoom>E 01</TVDisplayRoom>
             <TVDisplayToken current="OP-012" next={["OP-013", "OP-014"]} />
           </TVDisplayRow>
         </TVDisplayBody>
@@ -309,7 +411,7 @@ export const tvDisplayDoc: ComponentDoc = {
   <TVDisplayBody>
     <TVDisplayRow>
       <TVDisplayDoctor name="Dr. Arjun Radhakrishnan" specialty="General" />
-      <TVDisplayRoom>1</TVDisplayRoom>
+      <TVDisplayRoom>C 01</TVDisplayRoom>
       <TVDisplayToken current="OP-025" next={["OP-026", "OP-027"]} />
     </TVDisplayRow>
   </TVDisplayBody>
@@ -352,7 +454,7 @@ export const tvDisplayDoc: ComponentDoc = {
               {
                 doctor: "Dr. Priya Menon",
                 specialty: "Dermatology",
-                room: "5",
+                room: "V 03",
                 current: "OP-042",
                 next: ["OP-043", "OP-044"],
               },
@@ -424,7 +526,7 @@ export const tvDisplayDoc: ComponentDoc = {
   <TVDisplayBody>
     <TVDisplayRow>
       <TVDisplayDoctor name="ഡോ. അർജുൻ രാധാകൃഷ്ണൻ" specialty="ജനറൽ" />
-      <TVDisplayRoom>1</TVDisplayRoom>
+      <TVDisplayRoom>C 01</TVDisplayRoom>
       <TVDisplayToken current="ഒപി-025" next={["ഒപി-026", "ഒപി-027"]} />
     </TVDisplayRow>
     {/* ... */}
@@ -436,28 +538,28 @@ export const tvDisplayDoc: ComponentDoc = {
           {
             doctor: "ഡോ. അർജുൻ രാധാകൃഷ്ണൻ മേലേപ്പറമ്പിൽ",
             specialty: "ജനറൽ",
-            room: "1",
+            room: "C 01",
             current: "ഒപി-025",
             next: ["ഒപി-026", "ഒപി-027", "ഒപി-024"],
           },
           {
             doctor: "ഡോ. മീര ദാസ്",
             specialty: "ശിശുരോഗം",
-            room: "2",
+            room: "C 02",
             current: "ഒപി-009",
             next: ["ഒപി-010", "ഒപി-011", "ഒപി-012"],
           },
           {
             doctor: "ഡോ. രാഹുൽ സെൻ",
             specialty: "അസ്ഥിരോഗം",
-            room: "3",
+            room: "PR 01",
             current: "ഒപി-134",
             next: ["ഒപി-135"],
           },
           {
             doctor: "ഡോ. നേഹ റോയ്",
             specialty: "ചെവി-മൂക്ക്-തൊണ്ട",
-            room: "12",
+            room: "E 01",
             current: "ഒപി-012",
             next: ["ഒപി-013", "ഒപി-014"],
           },
@@ -469,6 +571,61 @@ export const tvDisplayDoc: ComponentDoc = {
           token: "ടോക്കൺ",
           next: "അടുത്തത്:",
         }
+      ),
+    },
+    {
+      name: "Pharmacy / billing counter",
+      description:
+        "Two-column layout for pharmacy or billing counters: counter code on the left, token on the right. Drops the doctor column entirely by overriding the grid tracks via `className` — the underlying subgrid in header and rows automatically follows.",
+      code: `<TVDisplay
+  aspectRatio="16/9"
+  data-layout="pharmacy"
+  className="grid-cols-[auto_auto]"
+>
+  <TVDisplayHeader>
+    <span>Counter</span>
+    <span>Token</span>
+  </TVDisplayHeader>
+  <TVDisplayBody>
+    <TVDisplayRow>
+      <TVDisplayRoom label="Counter">P 01</TVDisplayRoom>
+      <TVDisplayToken current="RX-128" next={["RX-129", "RX-130", "RX-131"]} />
+    </TVDisplayRow>
+    <TVDisplayRow>
+      <TVDisplayRoom label="Counter">P 02</TVDisplayRoom>
+      <TVDisplayToken current="RX-045" next={["RX-046", "RX-047"]} />
+    </TVDisplayRow>
+    <TVDisplayRow>
+      <TVDisplayRoom label="Counter">B 01</TVDisplayRoom>
+      <TVDisplayToken current="BL-018" next={["BL-019", "BL-020"]} />
+    </TVDisplayRow>
+  </TVDisplayBody>
+</TVDisplay>`,
+      preview: renderPharmacyBoard(
+        "16/9",
+        [
+          {
+            counter: "P 01",
+            current: "RX-128",
+            next: ["RX-129", "RX-130", "RX-131"],
+          },
+          {
+            counter: "P 02",
+            current: "RX-045",
+            next: ["RX-046", "RX-047"],
+          },
+          {
+            counter: "P 03",
+            current: "RX-211",
+            next: ["RX-212"],
+          },
+          {
+            counter: "B 01",
+            current: "BL-018",
+            next: ["BL-019", "BL-020"],
+          },
+        ],
+        "w-full max-w-4xl"
       ),
     },
   ],

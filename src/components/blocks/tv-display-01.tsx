@@ -21,28 +21,28 @@ const QUEUE: QueueRow[] = [
   {
     doctor: "Dr. Arjun Radhakrishnan",
     specialty: "General",
-    room: "1",
+    room: "C 01",
     current: "OP-025",
     next: ["OP-026", "OP-027", "OP-024"],
   },
   {
     doctor: "Dr. Meera Das",
     specialty: "Pediatrics",
-    room: "2",
+    room: "C 02",
     current: "OP-009",
     next: ["OP-010", "OP-011", "OP-012"],
   },
   {
     doctor: "Dr. Rahul Sen",
     specialty: "Orthopedics",
-    room: "3",
+    room: "PR 01",
     current: "OP-134",
     next: ["OP-135"],
   },
   {
     doctor: "Dr. Neha Roy",
     specialty: "ENT",
-    room: "12",
+    room: "E 01",
     current: "OP-012",
     next: ["OP-013", "OP-014"],
   },
@@ -134,6 +134,7 @@ function AnimatedRow({
       <TVDisplayToken
         current={<RotatingText value={current} />}
         next={next}
+        nextRestartKey={idx}
       />
       {/* Glare sweep replays each tick via key={idx}. */}
       <span
