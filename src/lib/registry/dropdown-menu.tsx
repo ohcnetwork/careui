@@ -54,7 +54,7 @@ import {
 
 export function DropdownMenuDemo() {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">Open</Button>
       </DropdownMenuTrigger>
@@ -76,7 +76,7 @@ export function DropdownMenuDemo() {
   preview: {
     code: `import { ChevronDown } from "lucide-react"
 
-<DropdownMenu>
+<DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
     <Button variant="outline" size="default">
       Open Menu
@@ -103,7 +103,7 @@ export function DropdownMenuDemo() {
 </DropdownMenu>`,
     component: React.createElement(
       DropdownMenu,
-      {},
+      { modal: false },
       React.createElement(
         DropdownMenuTrigger,
         { asChild: true },
@@ -151,7 +151,7 @@ export function DropdownMenuDemo() {
       description: "A basic dropdown menu with groups, labels, and separators.",
       code: `import { ChevronDown } from "lucide-react"
 
-<DropdownMenu>
+<DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">
       Open
@@ -173,7 +173,7 @@ export function DropdownMenuDemo() {
 </DropdownMenu>`,
       preview: React.createElement(
         DropdownMenu,
-        {},
+        { modal: false },
         React.createElement(
           DropdownMenuTrigger,
           { asChild: true },
@@ -203,11 +203,58 @@ export function DropdownMenuDemo() {
       ),
     },
     {
+      name: "Modal",
+      description:
+        "Pass `modal={true}` (Radix default) to block interaction with the page behind the menu. Useful for destructive flows where users should explicitly confirm or dismiss. The rest of the examples on this page use `modal={false}` so scrolling and other UI stay responsive while the menu is open — recommended for dashboards and data-dense surfaces.",
+      code: `import { ChevronDown } from "lucide-react"
+
+<DropdownMenu modal={true}>
+  <DropdownMenuTrigger asChild>
+    <Button variant="outline">
+      Open
+      <ChevronDown className="size-4" />
+    </Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Danger zone</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Archive patient</DropdownMenuItem>
+    <DropdownMenuItem variant="destructive">Delete record</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+      preview: React.createElement(
+        DropdownMenu,
+        { modal: true },
+        React.createElement(
+          DropdownMenuTrigger,
+          { asChild: true },
+          React.createElement(
+            Button,
+            { variant: "outline" },
+            "Open",
+            React.createElement(ChevronDown, { className: "size-4" })
+          )
+        ),
+        React.createElement(
+          DropdownMenuContent,
+          {},
+          React.createElement(DropdownMenuLabel, {}, "Danger zone"),
+          React.createElement(DropdownMenuSeparator, {}),
+          React.createElement(DropdownMenuItem, {}, "Archive patient"),
+          React.createElement(
+            DropdownMenuItem,
+            { variant: "destructive" },
+            "Delete record"
+          )
+        )
+      ),
+    },
+    {
       name: "With Submenu",
       description: "A dropdown menu with nested submenu actions.",
       code: `import { ChevronDown } from "lucide-react"
 
-<DropdownMenu>
+<DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">
       Open
@@ -231,7 +278,7 @@ export function DropdownMenuDemo() {
 </DropdownMenu>`,
       preview: React.createElement(
         DropdownMenu,
-        {},
+        { modal: false },
         React.createElement(
           DropdownMenuTrigger,
           { asChild: true },
@@ -279,7 +326,7 @@ export function DropdownMenuCheckboxes() {
   const [showActivityBar, setShowActivityBar] = React.useState(false)
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           View
@@ -312,7 +359,7 @@ export function DropdownMenuCheckboxes() {
 
           return React.createElement(
             DropdownMenu,
-            {},
+            { modal: false },
             React.createElement(
               DropdownMenuTrigger,
               { asChild: true },
@@ -542,7 +589,7 @@ export function DropdownMenuRadioGroupComponent() {
   const [position, setPosition] = React.useState("top")
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           Position
@@ -612,7 +659,7 @@ export function DropdownMenuRadioGroupComponent() {
 
           return React.createElement(
             DropdownMenu,
-            {},
+            { modal: false },
             React.createElement(
               DropdownMenuTrigger,
               { asChild: true },
@@ -706,7 +753,7 @@ export function DropdownMenuTheme() {
   const [theme, setTheme] = React.useState("light")
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           Theme
@@ -731,7 +778,7 @@ export function DropdownMenuTheme() {
 
           return React.createElement(
             DropdownMenu,
-            {},
+            { modal: false },
             React.createElement(
               DropdownMenuTrigger,
               { asChild: true },
@@ -776,7 +823,7 @@ export function DropdownMenuTheme() {
       description: "Use the destructive variant for irreversible actions.",
       code: `import { ChevronDown } from "lucide-react"
 
-<DropdownMenu>
+<DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">
       Actions
@@ -792,7 +839,7 @@ export function DropdownMenuTheme() {
 </DropdownMenu>`,
       preview: React.createElement(
         DropdownMenu,
-        {},
+        { modal: false },
         React.createElement(
           DropdownMenuTrigger,
           { asChild: true },
@@ -819,7 +866,7 @@ export function DropdownMenuTheme() {
         "Use an icon-only trigger with a vertical three-dots menu button.",
       code: `import { EllipsisVertical } from "lucide-react"
 
-<DropdownMenu>
+<DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
     <Button variant="outline" size="icon" aria-label="Open menu">
       <EllipsisVertical className="size-4" />
@@ -833,7 +880,7 @@ export function DropdownMenuTheme() {
 </DropdownMenu>`,
       preview: React.createElement(
         DropdownMenu,
-        {},
+        { modal: false },
         React.createElement(
           DropdownMenuTrigger,
           { asChild: true },
@@ -897,7 +944,7 @@ export function DropdownMenuComplex() {
   const [theme, setTheme] = React.useState("light")
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           Complex Menu
@@ -985,7 +1032,7 @@ export function DropdownMenuComplex() {
 
           return React.createElement(
             DropdownMenu,
-            {},
+            { modal: false },
             React.createElement(
               DropdownMenuTrigger,
               { asChild: true },
@@ -1105,7 +1152,7 @@ export function DropdownMenuComplex() {
       description: "Combine icons with labels for faster scanning.",
       code: `import { ChevronDown, CreditCardIcon, SettingsIcon, UserIcon } from "lucide-react"
 
-<DropdownMenu>
+<DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
     <Button variant="outline">
       Open
@@ -1129,7 +1176,7 @@ export function DropdownMenuComplex() {
 </DropdownMenu>`,
       preview: React.createElement(
         DropdownMenu,
-        {},
+        { modal: false },
         React.createElement(
           DropdownMenuTrigger,
           { asChild: true },
