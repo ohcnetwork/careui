@@ -5,6 +5,12 @@ import { useContrast } from "@/components/contrast-provider";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
+import {
+  PageTitle,
+  SubsectionTitle,
+  Lead,
+  Muted,
+} from "@/components/ui/typography";
 
 const themeOptions: {
   value: Theme;
@@ -205,19 +211,17 @@ export function SettingsPage() {
       <div className="mx-auto max-w-2xl space-y-10 p-4 md:p-8">
         {/* Page header */}
         <div>
-          <h1 className="text-foreground text-4xl font-bold">Settings</h1>
-          <p className="text-muted-foreground mt-2 text-base">
-            Manage your display preferences.
-          </p>
+          <PageTitle>Settings</PageTitle>
+          <Lead className="mt-2">Manage your display preferences.</Lead>
         </div>
 
         {/* Appearance section */}
         <section className="space-y-6">
           <div>
-            <h2 className="text-foreground text-xl font-semibold">Appearance</h2>
-            <p className="text-muted-foreground mt-1 text-sm">
+            <SubsectionTitle>Appearance</SubsectionTitle>
+            <Muted className="mt-1">
               Customize how the app looks and feels.
-            </p>
+            </Muted>
           </div>
 
           <Separator />

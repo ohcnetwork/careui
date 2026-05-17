@@ -1,5 +1,7 @@
 # Project Guidelines
 
+> For baseline HTML/CSS/JS craft standards, follow the `frontend-guidelines` skill in [.agents/skills/frontend-guidelines/SKILL.md](.agents/skills/frontend-guidelines/SKILL.md). Rules below take precedence on conflicts.
+
 ## Code Style
 - Language stack is React 19 + TypeScript + Tailwind v4; follow existing patterns in `src/components/ui/button.tsx` and `src/index.css`.
 - Use `@/` import aliases (`tsconfig.json`), and import Radix primitives from the `radix-ui` barrel.

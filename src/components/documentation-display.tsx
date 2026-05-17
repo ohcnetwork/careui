@@ -2,6 +2,12 @@ import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { type DocumentationPage } from "@/lib/types";
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  PageTitle,
+  SectionTitle,
+  Lead,
+  Muted,
+} from "@/components/ui/typography";
 
 interface DocumentationDisplayProps {
   doc: DocumentationPage;
@@ -14,17 +20,15 @@ export function DocumentationDisplay({ doc }: DocumentationDisplayProps) {
     <div className="max-w-4xl space-y-8 p-4 md:p-8">
       {/* Page Header */}
       <div>
-        <h1 className="text-foreground text-4xl font-bold">{doc.title}</h1>
-        <p className="text-muted-foreground mt-2 text-lg">{doc.description}</p>
+        <PageTitle>{doc.title}</PageTitle>
+        <Lead className="mt-2">{doc.description}</Lead>
       </div>
 
       {/* Content Sections */}
       <div className="space-y-12">
         {doc.content.sections.map((section, index) => (
           <section key={index} className="space-y-4">
-            <h2 className="text-foreground text-2xl font-semibold">
-              {section.title}
-            </h2>
+            <SectionTitle>{section.title}</SectionTitle>
 
             <div className="prose prose-slate dark:prose-invert max-w-none">
               <p className="text-muted-foreground leading-relaxed">
@@ -69,7 +73,7 @@ export function DocumentationDisplay({ doc }: DocumentationDisplayProps) {
           </a>{" "}
           or browse the{" "}
           <a
-            href="https://github.com/care-ui/registry"
+            href="https://github.com/ohcnetwork/careui"
             className="text-primary hover:underline"
           >
             source code
@@ -89,13 +93,11 @@ export function NotFoundDocumentation({ pageId }: NotFoundDocumentationProps) {
   return (
     <div className="flex h-full items-center justify-center">
       <div className="space-y-4 text-center">
-        <h1 className="text-foreground text-2xl font-bold">
-          Documentation Not Found
-        </h1>
-        <p className="text-muted-foreground">
+        <PageTitle>Documentation Not Found</PageTitle>
+        <Muted>
           The documentation page "{pageId}" could not be found. Please check the
           navigation or select a different page.
-        </p>
+        </Muted>
       </div>
     </div>
   );

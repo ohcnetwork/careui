@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { PageTitle, Muted } from "@/components/ui/typography";
 import { Progress } from "@/components/ui/progress";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -68,10 +69,10 @@ export function Playground() {
   return (
     <main className="mx-auto max-w-4xl space-y-10 px-8 py-8">
       <div>
-        <h1 className="text-2xl font-semibold">Component Playground</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <PageTitle>Component Playground</PageTitle>
+        <Muted className="mt-1">
           Quick visual verification of installed components.
-        </p>
+        </Muted>
       </div>
 
       <Separator />

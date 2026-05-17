@@ -17,6 +17,11 @@ import { documentationPages } from "@/lib/documentation";
 import { ComponentsOverview } from "@/components/components-overview";
 import { Playground } from "@/components/playground";
 import { SettingsPage } from "@/components/settings-page";
+import { TypographyPage } from "@/components/typography-page";
+import { ColorsPage } from "@/components/colors-page";
+import { FoundationsPage } from "@/components/foundations-page";
+import { AccessibilityPage } from "@/components/accessibility-page";
+import { ContributingPage } from "@/components/contributing-page";
 import {
   DocumentationDisplay,
   NotFoundDocumentation,
@@ -24,6 +29,13 @@ import {
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { type ComponentDoc, type ComponentExample } from "@/lib/types";
 import { LoadingAnimationSvg } from "@/components/ui/loading-animation-svg";
+import {
+  PageTitle,
+  SectionTitle,
+  SubsectionTitle,
+  Lead,
+  Muted,
+} from "@/components/ui/typography";
 
 interface ComponentDocDisplayProps {
   doc: ComponentDoc;
@@ -59,14 +71,14 @@ function ExampleItem({ example }: { example: ComponentExample }) {
 
   return (
     <div>
-      <h3 className="text-foreground text-lg font-semibold">{example.name}</h3>
-      <p className="text-muted-foreground mt-1 text-sm">{example.description}</p>
+      <SubsectionTitle>{example.name}</SubsectionTitle>
+      <Muted className="mt-1">{example.description}</Muted>
       {example.items && example.items.length > 0 && (
         <ul className="mt-4 space-y-3">
           {example.items.map((item, i) => (
             <li key={i}>
               <p className="text-foreground text-sm font-semibold">{item.title}</p>
-              <p className="text-muted-foreground mt-0.5 text-sm">{item.description}</p>
+              <Muted className="mt-0.5">{item.description}</Muted>
             </li>
           ))}
         </ul>
@@ -147,10 +159,8 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
       <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-8">
         {/* Component Header */}
         <div>
-          <h1 className="text-foreground text-4xl font-bold">{doc.name}</h1>
-          <p className="text-muted-foreground mt-2 text-base">
-            {doc.description}
-          </p>
+          <PageTitle>{doc.name}</PageTitle>
+          <Lead className="mt-2">{doc.description}</Lead>
         </div>
         {/* Preview and Code Tabs */}
         <div className="space-y-4">
@@ -214,7 +224,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
         </div>
         {/* Installation */}
         <section className="space-y-4">
-          <h2 className="text-foreground text-2xl font-bold">Installation</h2>
+          <SectionTitle>Installation</SectionTitle>
           <Tabs value={activeInstallTab} onValueChange={setActiveInstallTab} className="w-full">
             <div className="flex items-center justify-between">
               <TabsList>
@@ -264,7 +274,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
         {/* Usage */}
         <section className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-foreground text-2xl font-bold">Usage</h2>
+            <SectionTitle>Usage</SectionTitle>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -306,7 +316,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
         {/* Examples */}
         {doc.examples && doc.examples.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-foreground text-2xl font-bold">Examples</h2>
+            <SectionTitle>Examples</SectionTitle>
 
             <div className="space-y-6">
               {doc.examples.map((example, index) => (
@@ -318,7 +328,7 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
         {/* Props */}
         {doc.props && doc.props.length > 0 && (
           <section className="space-y-4">
-            <h2 className="text-foreground text-2xl font-bold">Props</h2>
+            <SectionTitle>Props</SectionTitle>
             <div className="border-border rounded-lg border">
               <table className="w-full">
                 <thead>
@@ -403,13 +413,11 @@ function NotFoundDisplay({ componentId }: { componentId: string }) {
     <main className="flex-1 overflow-y-auto">
       <div className="max-w-2xl space-y-8 p-4 md:p-8">
         <div>
-          <h1 className="text-foreground text-4xl font-bold">
-            Component Not Found
-          </h1>
-          <p className="text-muted-foreground mt-2 text-base">
+          <PageTitle>Component Not Found</PageTitle>
+          <Lead className="mt-2">
             The component "{componentId}" could not be found. Please check the
             navigation or select a different component.
-          </p>
+          </Lead>
         </div>
       </div>
     </main>
@@ -470,6 +478,21 @@ export function DynamicMainContent() {
   const docPage = documentationPages[activeComponent];
   if (docPage) {
     dismissHtmlScreen();
+    if (activeComponent === "docs-typography") {
+      return <TypographyPage />;
+    }
+    if (activeComponent === "colors") {
+      return <ColorsPage />;
+    }
+    if (activeComponent === "foundations") {
+      return <FoundationsPage />;
+    }
+    if (activeComponent === "accessibility") {
+      return <AccessibilityPage />;
+    }
+    if (activeComponent === "contributing") {
+      return <ContributingPage />;
+    }
     return <DocumentationDisplay doc={docPage} />;
   }
 

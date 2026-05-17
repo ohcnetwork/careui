@@ -130,6 +130,8 @@ const componentLoaders: Record<
   tooltip: () => import("./tooltip").then((m) => ({ default: m.tooltipDoc })),
   "tv-display": () =>
     import("./tv-display").then((m) => ({ default: m.tvDisplayDoc })),
+  typography: () =>
+    import("./typography").then((m) => ({ default: m.typographyDoc })),
 };
 
 /**

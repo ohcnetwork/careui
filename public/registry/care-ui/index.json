@@ -10,6 +10,13 @@
     ]
   },
   {
+    "name": "typography",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/typography/typography.tsx"
+    ]
+  },
+  {
     "name": "tv-display",
     "type": "registry:ui",
     "dependencies": [

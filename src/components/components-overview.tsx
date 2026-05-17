@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { PageTitle, Lead } from "@/components/ui/typography";
 
 // Component metadata for display
 const componentMetadata: Record<
@@ -305,12 +306,12 @@ export function ComponentsOverview() {
       <div className="space-y-8 p-4 md:p-12">
         {/* Header */}
         <div className="space-y-4">
-          <h1 className="text-foreground text-4xl font-bold">Components</h1>
-          <p className="text-muted-foreground max-w-3xl text-lg">
+          <PageTitle>Components</PageTitle>
+          <Lead className="max-w-3xl">
             Beautiful UI components built with Tailwind CSS and React. An
             open-source collection of copy-and-paste components for quickly
             building care application UIs.
-          </p>
+          </Lead>
         </div>
 
         {/* Components Grid */}
