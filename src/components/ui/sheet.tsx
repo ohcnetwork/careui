@@ -21,8 +21,14 @@ const SheetContext = React.createContext<{
   setScrolled: (v: boolean) => void;
 } | null>(null);
 
+const SheetRootContext = React.createContext<{ modal: boolean }>({ modal: true });
+
 function Sheet({ modal = true, ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <SheetPrimitive.Root data-slot="sheet" modal={modal} {...props} />;
+  return (
+    <SheetRootContext.Provider value={React.useMemo(() => ({ modal }), [modal])}>
+      <SheetPrimitive.Root data-slot="sheet" modal={modal} {...props} />
+    </SheetRootContext.Provider>
+  );
 }
 
 function SheetTrigger({
@@ -90,6 +96,7 @@ function SheetContent({
   containerClassName?: string;
 }) {
   const isMobile = useIsMobile();
+  const { modal } = React.useContext(SheetRootContext);
   const [shaking, setShaking] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
@@ -168,7 +175,10 @@ function SheetContent({
         onInteractOutside={(e) => {
           if (!dismissible) {
             e.preventDefault();
-            triggerShake();
+            // Only shake when the sheet is modal — a non-modal sheet has no
+            // "trapped" affordance to signal, and a shake would feel jarring
+            // against the still-interactive page behind it.
+            if (modal) triggerShake();
           }
           onInteractOutside?.(e);
         }}

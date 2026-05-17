@@ -988,7 +988,7 @@ export function SheetNonModal() {
         ),
         React.createElement(
           SheetContent,
-          { dismissible: true, overlay: false, size: "md" } as React.ComponentProps<typeof SheetContent>,
+          { overlay: false, size: "md" } as React.ComponentProps<typeof SheetContent>,
           React.createElement(
             SheetHeader,
             {},
