@@ -85,7 +85,7 @@ export function EmptyDemo() {
           your first project.
         </EmptyDescription>
       </EmptyHeader>
-      <EmptyContent className="flex-row justify-center gap-2">
+      <EmptyContent className="flex-row justify-center gap-4">
         <Button>Create Project</Button>
         <Button variant="outline">Import Project</Button>
       </EmptyContent>

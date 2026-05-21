@@ -534,4 +534,4 @@ function CalendarWithInput({
   )
 }
 
-export { Calendar, CalendarDayButton, CalendarWithInput }
+export { Calendar, CalendarDayButton, CalendarWithInput, SegmentedDateInput }

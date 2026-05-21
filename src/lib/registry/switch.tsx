@@ -37,8 +37,8 @@ export function SwitchDemo() {
     component: React.createElement(
       Field,
       { orientation: "horizontal" },
-      React.createElement(Switch, { id: "switch-demo" }),
-      React.createElement(FieldLabel, { htmlFor: "switch-demo" }, "Airplane Mode")
+      React.createElement(Switch, { id: "airplane-mode" }),
+      React.createElement(FieldLabel, { htmlFor: "airplane-mode" }, "Airplane Mode")
     ),
   },
   examples: [

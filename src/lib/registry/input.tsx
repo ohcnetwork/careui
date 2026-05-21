@@ -335,9 +335,9 @@ export const inputDoc: ComponentDoc = {
       name: "Badge",
       description: "Use Badge in the label to highlight a recommended field.",
       code: `<Field>
-  <FieldLabel htmlFor="input-badge">
+  <FieldLabel htmlFor="input-badge" className="flex items-center gap-2">
     Webhook URL
-    <Badge variant="secondary" className="ml-auto">Beta</Badge>
+    <Badge variant="neutral" className="ml-auto">Beta</Badge>
   </FieldLabel>
   <Input id="input-badge" type="url" placeholder="https://api.example.com/webhook" />
 </Field>`,
@@ -364,7 +364,13 @@ export const inputDoc: ComponentDoc = {
     {
       name: "Input Group",
       description: "Use InputGroup to place text or icons inside an input.",
-      code: `import { InputGroupAddon, InputGroupInput, InputGroupText } from "lucide-react"
+      code: `import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group"
+import { InfoIcon } from "lucide-react"
 
 <Field>
   <FieldLabel htmlFor="input-group-url">Website URL</FieldLabel>
@@ -507,7 +513,13 @@ export const inputDoc: ComponentDoc = {
     {
       name: "Form",
       description: "A full form example with inputs, a select, and actions.",
-      code: `import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "lucide-react"
+      code: `import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 <form className="w-full max-w-sm">
   <FieldGroup>
@@ -542,7 +554,7 @@ export const inputDoc: ComponentDoc = {
       <Input id="form-address" type="text" placeholder="123 Main St" />
     </Field>
     <Field orientation="horizontal">
-      <div className="flex gap-4">
+      <div className="flex w-full flex-row-reverse gap-4">
         <Button type="submit">Submit</Button>
         <Button type="button" variant="outline">Cancel</Button>
       </div>

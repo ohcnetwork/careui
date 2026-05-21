@@ -68,6 +68,11 @@ const componentMetadata: Record<
     description: "A date picker component with a calendar view.",
     examples: 2,
   },
+  "date-picker": {
+    name: "Date Picker",
+    description: "A date picker with single, range, and input variants.",
+    examples: 3,
+  },
   card: {
     name: "Card",
     description: "Displays a card with header, content, and footer.",

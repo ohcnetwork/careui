@@ -70,7 +70,7 @@ export function PixelSpinnerPresets() {
     <div className="flex flex-wrap items-start gap-6">
       {presets.map((name) => (
         <div key={name} className="flex flex-col items-center gap-2">
-          <PixelSpinner name={name} size="md" />
+          <PixelSpinner name={name} size="19" />
           <span className="text-xs text-muted-foreground">{name}</span>
         </div>
       ))}

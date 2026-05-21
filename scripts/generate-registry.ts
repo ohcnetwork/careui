@@ -56,7 +56,9 @@ const CONFIG: RegistryConfig = {
     'recharts': ['recharts'],
     '@tanstack/react-table': ['@tanstack/react-table'],
     'lucide-react': ['lucide-react'],
-    '@base-ui/react': ['@base-ui/react']
+    '@base-ui/react': ['@base-ui/react'],
+    'date-fns': ['date-fns'],
+    'react-day-picker': ['react-day-picker']
   }
 }
 

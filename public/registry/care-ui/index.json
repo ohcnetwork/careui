@@ -494,6 +494,18 @@
     ]
   },
   {
+    "name": "date-picker",
+    "type": "registry:ui",
+    "dependencies": [
+      "date-fns",
+      "react-day-picker",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/date-picker/date-picker.tsx"
+    ]
+  },
+  {
     "name": "data-table",
     "type": "registry:ui",
     "dependencies": [

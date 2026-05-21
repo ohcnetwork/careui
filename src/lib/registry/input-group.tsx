@@ -343,7 +343,7 @@ export function InputGroupButtonExample() {
         <Popover>
           <PopoverTrigger asChild>
             <InputGroupAddon>
-              <InputGroupButton variant="secondary" size="icon-xs">
+              <InputGroupButton variant="tertiary" size="icon-xs">
                 <InfoIcon />
               </InputGroupButton>
             </InputGroupAddon>
@@ -375,7 +375,7 @@ export function InputGroupButtonExample() {
       <InputGroup>
         <InputGroupInput placeholder="Type to search..." />
         <InputGroupAddon align="inline-end">
-          <InputGroupButton variant="secondary"><SearchIcon />Search</InputGroupButton>
+          <InputGroupButton variant="tertiary" size="xs"><SearchIcon />Search</InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
     </div>

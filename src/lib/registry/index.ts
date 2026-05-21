@@ -58,6 +58,8 @@ const componentLoaders: Record<
     import("./collapsible").then((m) => ({ default: m.collapsibleDoc })),
   "data-table": () =>
     import("./data-table").then((m) => ({ default: m.dataTableDoc })),
+  "date-picker": () =>
+    import("./date-picker").then((m) => ({ default: m.datePickerDoc })),
   combobox: () =>
     import("./combobox").then((m) => ({ default: m.comboboxDoc })),
   command: () => import("./command").then((m) => ({ default: m.commandDoc })),

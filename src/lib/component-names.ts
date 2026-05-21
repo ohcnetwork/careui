@@ -17,6 +17,7 @@ export const componentNames: Record<string, string> = {
   collapsible: "Collapsible",
   command: "Command",
   "context-menu": "Context Menu",
+  "date-picker": "Date Picker",
   dialog: "Dialog",
   drawer: "Drawer",
   "dotted-divider": "Dotted Divider",

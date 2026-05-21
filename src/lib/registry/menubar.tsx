@@ -211,7 +211,7 @@ export function MenubarDemo() {
           <MenubarRadioGroup value="benoit">
             <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
             <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-            <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
+            <MenubarRadioItem value="luis">Luis</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
           <MenubarGroup>
