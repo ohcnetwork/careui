@@ -153,7 +153,7 @@ const tvDisplayVariants = cva(
     // up perfectly across the whole display. On narrow canvases (portrait /
     // small kiosks) the tracks collapse to a single column and rows reflow
     // into a stacked layout below.
-    "grid-rows-[auto_1fr] grid-cols-[minmax(0,1fr)_auto_minmax(min(22cqw,18rem),auto)]",
+    "grid-rows-[auto_1fr] grid-cols-[minmax(0,1fr)_auto_auto]",
     "@max-md:grid-cols-[minmax(0,1fr)]",
     "bg-[#1a2540] text-foreground",
     "rounded-(--tv-radius) [--tv-radius:var(--radius-xl)]",
@@ -312,7 +312,7 @@ function TVDisplayFallbackStyles() {
         [data-slot="tv-display-header"],
         [data-slot="tv-display-body"],
         [data-slot="tv-display-row"] {
-          grid-template-columns: minmax(0, 1fr) auto minmax(18rem, auto);
+          grid-template-columns: minmax(0, 1fr) auto auto;
         }
         [data-layout="pharmacy"] [data-slot="tv-display-header"],
         [data-layout="pharmacy"] [data-slot="tv-display-body"],
@@ -511,16 +511,16 @@ function TVDisplayToken({
   nextRestartKey,
   ...props
 }: TVDisplayTokenProps) {
-  // Limit to the first 3 upcoming tokens — beyond that the line gets noisy
+  // Limit to the first 2 upcoming tokens — beyond that the line gets noisy
   // and is hard to read at signage distance.
-  const visibleNext = next?.slice(0, 3)
+  const visibleNext = next?.slice(0, 2)
   return (
     <div
       data-slot="tv-display-token"
       className={cn("flex min-w-0 flex-col justify-center gap-0.5", className)}
       {...props}
     >
-      <span className="truncate text-[clamp(1.75rem,3.4cqw+0.5rem,5rem)] font-extrabold leading-none tabular-nums text-[#ffd23f]">
+      <span className="truncate text-[clamp(2.25rem,4.6cqw+0.5rem,6.5rem)] font-extrabold leading-none tabular-nums text-[#ffd23f]">
         {current}
       </span>
       {visibleNext && visibleNext.length > 0 ? (

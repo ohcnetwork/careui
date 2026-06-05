@@ -306,8 +306,12 @@ function renderPharmacyBoard(
         // Both columns hug their content (`auto` tracks) so the token cell
         // doesn't stretch across the full row. Leftover space sits on the
         // right of the row, keeping counter + token visually grouped.
+        // The `[&_[data-slot=...]]:w-fit` override stops the room/counter
+        // box from stretching to the full track width — without it the box
+        // inherits `w-full` from the component and grows wider than its
+        // square footprint demands.
         className:
-          "grid-cols-[auto_auto] @max-md:grid-cols-[minmax(0,1fr)]",
+          "grid-cols-[auto_auto] @max-md:grid-cols-[minmax(0,1fr)] [&_[data-slot=tv-display-room]>div]:w-fit",
       },
       React.createElement(
         TVDisplayHeader,
@@ -418,9 +422,57 @@ export const tvDisplayDoc: ComponentDoc = {
 </TVDisplay>`,
   preview: {
     code: PREVIEW_CODE,
-    component: renderQueueBoard("16/9", SAMPLE_QUEUE, "w-full max-w-4xl"),
+    component: renderQueueBoard(
+      "16/9",
+      SAMPLE_QUEUE.slice(0, 3),
+      "w-full max-w-4xl"
+    ),
   },
   examples: [
+    {
+      name: "Two doctors",
+      description:
+        "Minimal board for small clinics with only two active doctors. Demonstrates how the layout absorbs longer token IDs (e.g. OP-20913) without breaking the row.",
+      code: `<TVDisplay aspectRatio="16/9">
+  <TVDisplayHeader>
+    <span>Doctor</span>
+    <span>Room</span>
+    <span>Token</span>
+  </TVDisplayHeader>
+  <TVDisplayBody>
+    <TVDisplayRow>
+      <TVDisplayDoctor name="Dr. Arjun Radhakrishnan" specialty="General" />
+      <TVDisplayRoom>C 01</TVDisplayRoom>
+      <TVDisplayToken current="OP-20913" next={["OP-20914", "OP-20915"]} />
+    </TVDisplayRow>
+    <TVDisplayRow>
+      <TVDisplayDoctor name="Dr. Meera Das" specialty="Pediatrics" />
+      <TVDisplayRoom>C 02</TVDisplayRoom>
+      <TVDisplayToken current="OP-20908" next={["OP-20909", "OP-20910"]} />
+    </TVDisplayRow>
+  </TVDisplayBody>
+</TVDisplay>`,
+      preview: renderQueueBoard(
+        "16/9",
+        [
+          {
+            doctor: "Dr. Arjun Radhakrishnan",
+            specialty: "General",
+            room: "C 01",
+            current: "OP-20913",
+            next: ["OP-20914", "OP-20915", "OP-20916"],
+          },
+          {
+            doctor: "Dr. Meera Das",
+            specialty: "Pediatrics",
+            room: "C 02",
+            current: "OP-20908",
+            next: ["OP-20909", "OP-20910", "OP-20911"],
+          },
+        ],
+        "w-full max-w-4xl"
+      ),
+    },
     {
       name: "Compact density",
       description:
@@ -449,16 +501,7 @@ export const tvDisplayDoc: ComponentDoc = {
           React.createElement(
             TVDisplayBody,
             null,
-            ...renderQueueRows([
-              ...SAMPLE_QUEUE,
-              {
-                doctor: "Dr. Priya Menon",
-                specialty: "Dermatology",
-                room: "V 03",
-                current: "OP-042",
-                next: ["OP-043", "OP-044"],
-              },
-            ])
+            ...renderQueueRows(SAMPLE_QUEUE)
           )
         )
       ),
