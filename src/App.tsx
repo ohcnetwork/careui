@@ -6,7 +6,10 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { FontSizeProvider } from "@/components/font-size-provider";
 import { ContrastProvider } from "@/components/contrast-provider";
-import { NavigationProvider, useNavigation } from "@/contexts/navigation-context";
+import {
+  NavigationProvider,
+  useNavigation,
+} from "@/contexts/navigation-context";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import {
@@ -14,14 +17,11 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/studio-sidebar";
-import { BlocksPage, BlockPreviewPage, BlockCodePage } from "@/components/blocks";
+import { BlockPreviewPage, BlockCodePage } from "@/components/blocks";
+import { ErrorPagePreview } from "@/components/error-pages";
 
 function AppShell() {
   const { activeComponent } = useNavigation();
-
-  if (activeComponent === "blocks") {
-    return <BlocksPage />;
-  }
 
   if (activeComponent.startsWith("block-preview-")) {
     const id = activeComponent.slice("block-preview-".length);
@@ -31,6 +31,10 @@ function AppShell() {
   if (activeComponent.startsWith("block-code-")) {
     const id = activeComponent.slice("block-code-".length);
     return <BlockCodePage id={id} />;
+  }
+
+  if (activeComponent.startsWith("error-page-")) {
+    return <ErrorPagePreview id={activeComponent} />;
   }
 
   return (

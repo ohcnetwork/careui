@@ -1,13 +1,5 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { Copy, Check, ChevronLeft, Code } from "lucide-react";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { Separator } from "@/components/ui/separator";
@@ -28,15 +20,19 @@ function BlockThumbnail({ block }: { block: BlockDef }) {
 
   function openCode() {
     const base = window.location.pathname + window.location.search;
-    window.open(base + "#block-code-" + block.id, "_blank", "noopener,noreferrer");
+    window.open(
+      base + "#block-code-" + block.id,
+      "_blank",
+      "noopener,noreferrer"
+    );
   }
 
   return (
-    <div className="group flex flex-col overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md">
+    <div className="group bg-card flex flex-col overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-md">
       <div
         role="button"
         tabIndex={0}
-        className="relative overflow-hidden bg-muted/20 w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="bg-muted/20 focus-visible:ring-ring relative w-full cursor-pointer overflow-hidden focus-visible:ring-2 focus-visible:outline-none"
         style={{ height: containerHeight }}
         onClick={openPreview}
         onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && openPreview()}
@@ -58,7 +54,9 @@ function BlockThumbnail({ block }: { block: BlockDef }) {
       <div className="flex items-center gap-3 border-t px-4 py-3">
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium">{block.name}</p>
-          <p className="truncate text-xs text-muted-foreground">{block.description}</p>
+          <p className="text-muted-foreground truncate text-xs">
+            {block.description}
+          </p>
         </div>
         <Button
           size="sm"
@@ -86,17 +84,19 @@ export function BlockCodePage({ id }: { id: string }) {
 
   if (!block) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
+      <div className="bg-background flex h-screen items-center justify-center">
         <p className="text-muted-foreground">Block not found: {id}</p>
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen flex-col bg-background">
+    <div className="bg-background flex h-screen flex-col">
       <header className="flex h-12 shrink-0 items-center gap-3 border-b px-4">
         <span className="text-sm font-medium">{block.name}</span>
-        <span className="text-xs text-muted-foreground">{block.description}</span>
+        <span className="text-muted-foreground text-xs">
+          {block.description}
+        </span>
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
           <Button
@@ -115,7 +115,7 @@ export function BlockCodePage({ id }: { id: string }) {
         </div>
       </header>
       <div className="flex-1 overflow-auto">
-        <pre className="min-h-full bg-muted/30 p-6 text-sm leading-relaxed">
+        <pre className="bg-muted/30 min-h-full p-6 text-sm leading-relaxed">
           <code>{block.code}</code>
         </pre>
       </div>
@@ -135,16 +135,16 @@ export function BlockPreviewPage({ id }: { id: string }) {
 
   if (!block) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
+      <div className="bg-background flex h-screen items-center justify-center">
         <p className="text-muted-foreground">Block not found: {id}</p>
       </div>
     );
   }
 
   return (
-    <div className="relative bg-background">
+    <div className="bg-background relative">
       {/* Floating toolbar */}
-      <div className="fixed bottom-3 right-4 z-50 flex items-center gap-2 rounded-lg border bg-background/80 px-3 py-1.5 shadow-md backdrop-blur-sm">
+      <div className="bg-background/80 fixed right-4 bottom-3 z-50 flex items-center gap-2 rounded-lg border px-3 py-1.5 shadow-md backdrop-blur-sm">
         <Button
           size="sm"
           variant="ghost"
@@ -156,7 +156,9 @@ export function BlockPreviewPage({ id }: { id: string }) {
           Blocks
         </Button>
         <Separator orientation="vertical" />
-        <span className="text-xs font-medium text-muted-foreground">{block.name}</span>
+        <span className="text-muted-foreground text-xs font-medium">
+          {block.name}
+        </span>
         <Separator orientation="vertical" />
         <ThemeToggle />
       </div>
@@ -177,12 +179,7 @@ const CATEGORIES: BlockCategory[] = [
 ];
 
 export function BlocksPage() {
-  const { setActiveComponent } = useNavigation();
   const [activeCategory, setActiveCategory] = useState<BlockCategory>("All");
-
-  if (typeof window.__removeLoadingScreen === "function") {
-    window.__removeLoadingScreen();
-  }
 
   const filtered =
     activeCategory === "All"
@@ -190,66 +187,40 @@ export function BlocksPage() {
       : BLOCKS.filter((b) => b.category === activeCategory);
 
   return (
-    <div className="flex h-screen flex-col bg-background">
-      {/* Top navbar */}
-      <header className="flex h-14 shrink-0 items-center gap-4 border-b px-6">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink
-                className="inline-flex cursor-pointer items-center gap-1"
-                onClick={() => setActiveComponent("get-started")}
-              >
-                <ChevronLeft className="h-3.5 w-3.5" />
-                Care UI
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Blocks</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <div className="ml-auto">
-          <ThemeToggle />
+    <main className="flex-1 overflow-y-auto">
+      <div className="mx-auto max-w-6xl space-y-8 p-4 md:p-8">
+        <header className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight">
+            Building Blocks for the Web
+          </h1>
+          <p className="text-muted-foreground max-w-2xl">
+            Clean, modern building blocks. Copy and paste into your apps. Works
+            with all React frameworks. Open Source. Free forever.
+          </p>
+        </header>
+        <Separator />
+        <div className="flex items-center gap-1">
+          {CATEGORIES.map((cat) => (
+            <Button
+              key={cat}
+              variant={activeCategory === cat ? "secondary" : "ghost"}
+              size="sm"
+              className="rounded-full px-4"
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </Button>
+          ))}
+          <span className="text-muted-foreground ml-auto text-xs">
+            {filtered.length} block{filtered.length !== 1 ? "s" : ""}
+          </span>
         </div>
-      </header>
-
-      <main className="flex-1 overflow-y-auto">
-        <div className="mx-auto max-w-6xl space-y-8 p-6 md:p-8">
-          <div className="space-y-2 pt-2">
-            <h1 className="text-3xl font-bold tracking-tight">
-              Building Blocks for the Web
-            </h1>
-            <p className="max-w-2xl text-muted-foreground">
-              Clean, modern building blocks. Copy and paste into your apps.
-              Works with all React frameworks. Open Source. Free forever.
-            </p>
-          </div>
-          <Separator />
-          <div className="flex items-center gap-1">
-            {CATEGORIES.map((cat) => (
-              <Button
-                key={cat}
-                variant={activeCategory === cat ? "secondary" : "ghost"}
-                size="sm"
-                className="rounded-full px-4"
-                onClick={() => setActiveCategory(cat)}
-              >
-                {cat}
-              </Button>
-            ))}
-            <span className="ml-auto text-xs text-muted-foreground">
-              {filtered.length} block{filtered.length !== 1 ? "s" : ""}
-            </span>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {filtered.map((block) => (
-              <BlockThumbnail key={block.id} block={block} />
-            ))}
-          </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((block) => (
+            <BlockThumbnail key={block.id} block={block} />
+          ))}
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

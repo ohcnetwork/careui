@@ -161,14 +161,26 @@ export function TVDisplay01Demo({ fullPage = false }: { fullPage?: boolean }) {
   return (
     <div
       className={cn(
-        "flex w-full items-center justify-center bg-neutral-950",
-        fullPage ? "min-h-screen" : ""
+        "flex w-full items-center justify-center overflow-hidden bg-neutral-950",
+        fullPage ? "h-screen p-4" : ""
       )}
       style={{
         height: fullPage ? "100vh" : "480px",
       }}
     >
-      <div className="w-full max-w-400">
+      <div
+        className={cn(fullPage ? "" : "w-full max-w-400")}
+        style={
+          fullPage
+            ? {
+                // Largest 16:9 box that fits within the viewport (minus the
+                // p-4 padding), so the whole board is always visible and
+                // scaled up as far as the screen allows.
+                width: "min(calc(100vw - 2rem), calc((100vh - 2rem) * 16 / 9))",
+              }
+            : undefined
+        }
+      >
         <TVDisplay aspectRatio="16/9">
           <TVDisplayHeader>
             <span>Doctor</span>

@@ -24,6 +24,7 @@ import {
 import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
+import { ERROR_PAGES } from "@/components/error-pages/registry";
 
 const navSections = [
   {
@@ -39,6 +40,13 @@ const navSections = [
       id: page.id,
       title: page.title,
     })),
+  },
+  {
+    title: "Error Pages",
+    items: [
+      { id: "error-pages", title: "Examples" },
+      ...ERROR_PAGES.map((page) => ({ id: page.id, title: page.title })),
+    ],
   },
   {
     title: "Components",
@@ -70,7 +78,7 @@ export function SearchForm(props: React.ComponentProps<"form">) {
       <SidebarGroup className="px-0 py-0">
         <SidebarGroupContent>
           <InputGroup
-            className="cursor-pointer bg-background"
+            className="bg-background cursor-pointer"
             onClick={() => setOpen(true)}
           >
             <InputGroupInput

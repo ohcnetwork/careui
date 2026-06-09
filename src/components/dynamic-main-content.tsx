@@ -16,12 +16,14 @@ import { loadComponentDoc, getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
 import { ComponentsOverview } from "@/components/components-overview";
 import { Playground } from "@/components/playground";
+import { BlocksPage } from "@/components/blocks";
 import { SettingsPage } from "@/components/settings-page";
 import { TypographyPage } from "@/components/typography-page";
 import { ColorsPage } from "@/components/colors-page";
 import { FoundationsPage } from "@/components/foundations-page";
 import { AccessibilityPage } from "@/components/accessibility-page";
 import { ContributingPage } from "@/components/contributing-page";
+import { ErrorPagesPage } from "@/components/error-pages";
 import {
   DocumentationDisplay,
   NotFoundDocumentation,
@@ -77,7 +79,9 @@ function ExampleItem({ example }: { example: ComponentExample }) {
         <ul className="mt-4 space-y-3">
           {example.items.map((item, i) => (
             <li key={i}>
-              <p className="text-foreground text-sm font-semibold">{item.title}</p>
+              <p className="text-foreground text-sm font-semibold">
+                {item.title}
+              </p>
               <Muted className="mt-0.5">{item.description}</Muted>
             </li>
           ))}
@@ -97,7 +101,9 @@ function ExampleItem({ example }: { example: ComponentExample }) {
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => copyToClipboard(example.code ?? "", "code")}
+                      onClick={() =>
+                        copyToClipboard(example.code ?? "", "code")
+                      }
                     >
                       {isCopied("code") ? (
                         <Check className="h-4 w-4" />
@@ -122,7 +128,11 @@ function ExampleItem({ example }: { example: ComponentExample }) {
             <SyntaxHighlighter
               language="tsx"
               style={oneDark}
-              customStyle={{ margin: 0, borderRadius: "0.5rem", fontSize: "0.875rem" }}
+              customStyle={{
+                margin: 0,
+                borderRadius: "0.5rem",
+                fontSize: "0.875rem",
+              }}
             >
               {example.code ?? ""}
             </SyntaxHighlighter>
@@ -225,7 +235,11 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
         {/* Installation */}
         <section className="space-y-4">
           <SectionTitle>Installation</SectionTitle>
-          <Tabs value={activeInstallTab} onValueChange={setActiveInstallTab} className="w-full">
+          <Tabs
+            value={activeInstallTab}
+            onValueChange={setActiveInstallTab}
+            className="w-full"
+          >
             <div className="flex items-center justify-between">
               <TabsList>
                 <TabsTrigger value="pnpm">pnpm</TabsTrigger>
@@ -241,7 +255,9 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
                       size="icon"
                       onClick={() =>
                         copyToClipboard(
-                          installCommands[activeInstallTab as keyof typeof installCommands],
+                          installCommands[
+                            activeInstallTab as keyof typeof installCommands
+                          ],
                           `cli-${activeInstallTab}`
                         )
                       }
@@ -443,8 +459,8 @@ function dismissHtmlScreen() {
 export function DynamicMainContent() {
   const { activeComponent } = useNavigation();
   const [componentDoc, setComponentDoc] = useState<ComponentDoc | null>(null);
-  const [loading, setLoading] = useState(
-    () => knownComponentIds.has(activeComponent)
+  const [loading, setLoading] = useState(() =>
+    knownComponentIds.has(activeComponent)
   );
 
   // Load component documentation dynamically
@@ -453,7 +469,10 @@ export function DynamicMainContent() {
       // Skip loading for special cases
       if (
         documentationPages[activeComponent] ||
-        activeComponent === "components-overview"
+        activeComponent === "components-overview" ||
+        activeComponent === "blocks" ||
+        activeComponent === "error-pages" ||
+        activeComponent.startsWith("error-page-")
       ) {
         setComponentDoc(null);
         return;
@@ -508,10 +527,22 @@ export function DynamicMainContent() {
     return <Playground />;
   }
 
+  // Handle blocks overview
+  if (activeComponent === "blocks") {
+    dismissHtmlScreen();
+    return <BlocksPage />;
+  }
+
   // Handle settings
   if (activeComponent === "settings") {
     dismissHtmlScreen();
     return <SettingsPage />;
+  }
+
+  // Handle error pages overview
+  if (activeComponent === "error-pages") {
+    dismissHtmlScreen();
+    return <ErrorPagesPage />;
   }
 
   // Show loading state — also covers the gap between navigation and effect firing.

@@ -46,6 +46,10 @@ const data = {
         title: componentNames[id] || id,
       })),
     },
+    {
+      title: "Error Pages",
+      items: [{ id: "error-pages", title: "Examples" }],
+    },
   ],
 };
 
@@ -155,14 +159,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Context Menu */}
       {contextMenu.show && (
         <div
-          className="fixed z-50 w-40 max-w-fit rounded-md border bg-popover py-1 shadow-lg"
+          className="bg-popover fixed z-50 w-40 max-w-fit rounded-md border py-1 shadow-lg"
           style={{
             left: contextMenu.x,
             top: contextMenu.y,
           }}
         >
           <button
-            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-accent"
+            className="hover:bg-accent w-full px-3 py-2 text-left text-sm transition-colors"
             onClick={() =>
               downloadAsset("care-ui-logo.svg", "/care-ui-logo.svg")
             }
@@ -170,7 +174,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             Download Logo (SVG)
           </button>
           <button
-            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-accent"
+            className="hover:bg-accent w-full px-3 py-2 text-left text-sm transition-colors"
             onClick={() =>
               downloadAsset("care-ui-logo.png", "/care-ui-logo.png")
             }
@@ -179,7 +183,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </button>
           <div className="my-1 border-t" />
           <button
-            className="w-full px-3 py-2 text-left text-sm transition-colors hover:bg-accent"
+            className="hover:bg-accent w-full px-3 py-2 text-left text-sm transition-colors"
             onClick={() => {
               navigator.clipboard.writeText("Care UI");
               setContextMenu((prev) => ({ ...prev, show: false }));

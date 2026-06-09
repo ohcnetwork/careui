@@ -158,8 +158,15 @@ function AnimatedRow({
 
 export default function TVDisplay01() {
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-neutral-950 p-6">
-      <div className="w-full max-w-400">
+    <div className="flex h-screen w-screen items-center justify-center overflow-hidden bg-neutral-950 p-4">
+      <div
+        style={{
+          // Largest 16:9 box that fits within the viewport (minus the p-4
+          // padding), so the whole board is always visible and scaled up as
+          // far as the screen allows.
+          width: "min(calc(100vw - 2rem), calc((100vh - 2rem) * 16 / 9))",
+        }}
+      >
         <TVDisplay aspectRatio="16/9">
           <TVDisplayHeader>
             <span>Doctor</span>

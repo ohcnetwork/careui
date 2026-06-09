@@ -2,6 +2,7 @@ import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
 import { componentNames } from "@/lib/component-names";
 import { documentationPages } from "@/lib/documentation";
+import { getErrorPageById } from "@/components/error-pages/registry";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -37,11 +38,30 @@ function getBreadcrumbPath(activeComponent: string): BreadcrumbPath {
     };
   }
 
+  if (activeComponent === "error-pages") {
+    return {
+      section: "Error Pages",
+      sectionTarget: null,
+      page: "Examples",
+    };
+  }
+
+  const errorPage = getErrorPageById(activeComponent);
+  if (errorPage) {
+    return {
+      section: "Error Pages",
+      sectionTarget: "error-pages",
+      page: errorPage.title,
+    };
+  }
+
   switch (activeComponent) {
     case "components-overview":
       return { section: "Components", sectionTarget: null, page: "Overview" };
     case "playground":
       return { section: "Tools", sectionTarget: null, page: "Playground" };
+    case "blocks":
+      return { section: "Tools", sectionTarget: null, page: "Blocks" };
     default:
       return { section: "Care UI", sectionTarget: null, page: activeComponent };
   }
