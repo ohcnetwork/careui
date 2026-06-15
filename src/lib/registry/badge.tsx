@@ -123,31 +123,51 @@ export function BadgeDemo() {
         React.createElement(
           Badge,
           { variant: "primary" },
-          React.createElement(Indicator, { tone: "primary", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "primary",
+            variant: "filled",
+            size: "xs",
+          }),
           "Primary"
         ),
         React.createElement(
           Badge,
           { variant: "success" },
-          React.createElement(Indicator, { tone: "success", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "success",
+            variant: "filled",
+            size: "xs",
+          }),
           "Success"
         ),
         React.createElement(
           Badge,
           { variant: "warning" },
-          React.createElement(Indicator, { tone: "warning", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "warning",
+            variant: "filled",
+            size: "xs",
+          }),
           "Warning"
         ),
         React.createElement(
           Badge,
           { variant: "info" },
-          React.createElement(Indicator, { tone: "info", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "info",
+            variant: "filled",
+            size: "xs",
+          }),
           "Info"
         ),
         React.createElement(
           Badge,
           { variant: "destructive" },
-          React.createElement(Indicator, { tone: "destructive", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "destructive",
+            variant: "filled",
+            size: "xs",
+          }),
           "Destructive"
         )
       ),
@@ -335,31 +355,51 @@ export function BadgeDemo() {
             React.createElement(
               Badge,
               { variant: "primary", solid: true },
-              React.createElement(Indicator, { tone: "primary", variant: "filled", size: "xs" }),
+              React.createElement(Indicator, {
+                tone: "primary",
+                variant: "filled",
+                size: "xs",
+              }),
               "Primary"
             ),
             React.createElement(
               Badge,
               { variant: "success", solid: true },
-              React.createElement(Indicator, { tone: "success", variant: "filled", size: "xs" }),
+              React.createElement(Indicator, {
+                tone: "success",
+                variant: "filled",
+                size: "xs",
+              }),
               "Success"
             ),
             React.createElement(
               Badge,
               { variant: "warning", solid: true },
-              React.createElement(Indicator, { tone: "warning", variant: "filled", size: "xs" }),
+              React.createElement(Indicator, {
+                tone: "warning",
+                variant: "filled",
+                size: "xs",
+              }),
               "Warning"
             ),
             React.createElement(
               Badge,
               { variant: "info", solid: true },
-              React.createElement(Indicator, { tone: "info", variant: "filled", size: "xs" }),
+              React.createElement(Indicator, {
+                tone: "info",
+                variant: "filled",
+                size: "xs",
+              }),
               "Info"
             ),
             React.createElement(
               Badge,
               { variant: "destructive", solid: true },
-              React.createElement(Indicator, { tone: "destructive", variant: "filled", size: "xs" }),
+              React.createElement(Indicator, {
+                tone: "destructive",
+                variant: "filled",
+                size: "xs",
+              }),
               "Destructive"
             )
           )
@@ -499,25 +539,41 @@ export function BadgeDemo() {
         React.createElement(
           Badge,
           { size: "xs", variant: "success", onClose: () => {} },
-          React.createElement(Indicator, { tone: "success", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "success",
+            variant: "filled",
+            size: "xs",
+          }),
           "XSmall"
         ),
         React.createElement(
           Badge,
           { size: "sm", variant: "info", onClose: () => {} },
-          React.createElement(Indicator, { tone: "info", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "info",
+            variant: "filled",
+            size: "xs",
+          }),
           "Small"
         ),
         React.createElement(
           Badge,
           { size: "md", variant: "warning", onClose: () => {} },
-          React.createElement(Indicator, { tone: "warning", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "warning",
+            variant: "filled",
+            size: "xs",
+          }),
           "Medium"
         ),
         React.createElement(
           Badge,
           { size: "lg", variant: "destructive", onClose: () => {} },
-          React.createElement(Indicator, { tone: "destructive", variant: "filled", size: "xs" }),
+          React.createElement(Indicator, {
+            tone: "destructive",
+            variant: "filled",
+            size: "xs",
+          }),
           "Large"
         )
       ),

@@ -3,10 +3,10 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 export type FontSize = "small" | "default" | "large" | "larger";
 
 const FONT_SIZE_SCALE: Record<FontSize, number> = {
-  small: 0.875,     // 0.875× → 14px at default
-  default: 1,       // 1×     → 16px at default
-  large: 1.125,     // 1.125× → 18px at default
-  larger: 1.25,     // 1.25×  → 20px at default
+  small: 0.875, // 0.875× → 14px at default
+  default: 1, // 1×     → 16px at default
+  large: 1.125, // 1.125× → 18px at default
+  larger: 1.25, // 1.25×  → 20px at default
 };
 
 const STORAGE_KEY = "careui-font-size";

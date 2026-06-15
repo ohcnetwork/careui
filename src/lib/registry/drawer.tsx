@@ -30,9 +30,19 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
 const chartData = [
-  { goal: 400 }, { goal: 300 }, { goal: 200 }, { goal: 300 }, { goal: 200 },
-  { goal: 278 }, { goal: 189 }, { goal: 239 }, { goal: 300 }, { goal: 200 },
-  { goal: 278 }, { goal: 189 }, { goal: 349 },
+  { goal: 400 },
+  { goal: 300 },
+  { goal: 200 },
+  { goal: 300 },
+  { goal: 200 },
+  { goal: 278 },
+  { goal: 189 },
+  { goal: 239 },
+  { goal: 300 },
+  { goal: 200 },
+  { goal: 278 },
+  { goal: 189 },
+  { goal: 349 },
 ];
 
 export const drawerDoc: ComponentDoc = {
@@ -189,7 +199,11 @@ export function DrawerDemo() {
             DrawerHeader,
             {},
             React.createElement(DrawerTitle, {}, "Move Goal"),
-            React.createElement(DrawerDescription, {}, "Set your daily activity goal.")
+            React.createElement(
+              DrawerDescription,
+              {},
+              "Set your daily activity goal."
+            )
           ),
           React.createElement(
             DrawerBody,
@@ -207,13 +221,27 @@ export function DrawerDemo() {
                   disabled: goal <= 200,
                 },
                 React.createElement(Minus, {}),
-                React.createElement("span", { className: "sr-only" }, "Decrease")
+                React.createElement(
+                  "span",
+                  { className: "sr-only" },
+                  "Decrease"
+                )
               ),
               React.createElement(
                 "div",
                 { className: "flex-1 text-center" },
-                React.createElement("div", { className: "text-7xl font-bold tracking-tighter" }, goal),
-                React.createElement("div", { className: "text-muted-foreground text-[0.70rem] uppercase" }, "Calories/day")
+                React.createElement(
+                  "div",
+                  { className: "text-7xl font-bold tracking-tighter" },
+                  goal
+                ),
+                React.createElement(
+                  "div",
+                  {
+                    className: "text-muted-foreground text-[0.70rem] uppercase",
+                  },
+                  "Calories/day"
+                )
               ),
               React.createElement(
                 Button,
@@ -225,7 +253,11 @@ export function DrawerDemo() {
                   disabled: goal >= 400,
                 },
                 React.createElement(Plus, {}),
-                React.createElement("span", { className: "sr-only" }, "Increase")
+                React.createElement(
+                  "span",
+                  { className: "sr-only" },
+                  "Increase"
+                )
               )
             ),
             React.createElement(
@@ -317,7 +349,11 @@ export function DrawerScrollableContent() {
           React.createElement(
             DrawerTrigger,
             { asChild: true },
-            React.createElement(Button, { variant: "outline" }, "Scrollable Content")
+            React.createElement(
+              Button,
+              { variant: "outline" },
+              "Scrollable Content"
+            )
           ),
           React.createElement(
             DrawerContent,
@@ -326,7 +362,11 @@ export function DrawerScrollableContent() {
               DrawerHeader,
               {},
               React.createElement(DrawerTitle, {}, "Move Goal"),
-              React.createElement(DrawerDescription, {}, "Set your daily activity goal.")
+              React.createElement(
+                DrawerDescription,
+                {},
+                "Set your daily activity goal."
+              )
             ),
             React.createElement(
               DrawerBody,
@@ -445,7 +485,11 @@ export function DrawerWithSides() {
                   DrawerHeader,
                   {},
                   React.createElement(DrawerTitle, {}, "Move Goal"),
-                  React.createElement(DrawerDescription, {}, "Set your daily activity goal.")
+                  React.createElement(
+                    DrawerDescription,
+                    {},
+                    "Set your daily activity goal."
+                  )
                 ),
                 React.createElement(
                   DrawerBody,
@@ -465,7 +509,11 @@ export function DrawerWithSides() {
                   React.createElement(
                     DrawerClose,
                     { asChild: true },
-                    React.createElement(Button, { variant: "outline" }, "Cancel")
+                    React.createElement(
+                      Button,
+                      { variant: "outline" },
+                      "Cancel"
+                    )
                   )
                 )
               )
@@ -574,7 +622,11 @@ export function DrawerSizes() {
                   React.createElement(
                     DrawerClose,
                     { asChild: true },
-                    React.createElement(Button, { variant: "outline" }, "Cancel")
+                    React.createElement(
+                      Button,
+                      { variant: "outline" },
+                      "Cancel"
+                    )
                   )
                 )
               )
@@ -710,7 +762,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
                 id: "username",
                 defaultValue: "@shadcn",
               })
-            ),
+            )
           );
 
         if (isDesktop) {
@@ -743,7 +795,11 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
               React.createElement(
                 DialogFooter,
                 {},
-                React.createElement(Button, { variant: "outline", onClick: () => setOpen(false) }, "Cancel"),
+                React.createElement(
+                  Button,
+                  { variant: "outline", onClick: () => setOpen(false) },
+                  "Cancel"
+                ),
                 React.createElement(Button, { type: "submit" }, "Save changes")
               )
             )
@@ -920,7 +976,11 @@ export function NestedDrawerDemo() {
                   React.createElement(
                     DrawerHeader,
                     {},
-                    React.createElement(DrawerTitle, {}, "This drawer is nested."),
+                    React.createElement(
+                      DrawerTitle,
+                      {},
+                      "This drawer is nested."
+                    ),
                     React.createElement(
                       DrawerDescription,
                       {},
@@ -933,7 +993,11 @@ export function NestedDrawerDemo() {
                     React.createElement(
                       DrawerClose,
                       { asChild: true },
-                      React.createElement(Button, { variant: "outline" }, "Close")
+                      React.createElement(
+                        Button,
+                        { variant: "outline" },
+                        "Close"
+                      )
                     )
                   )
                 )

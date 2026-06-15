@@ -87,7 +87,11 @@ export function InputGroupDemo() {
       { className: "max-w-xs" },
       React.createElement(InputGroupInput, { placeholder: "Search..." }),
       React.createElement(InputGroupAddon, {}, React.createElement(Search)),
-      React.createElement(InputGroupAddon, { align: "inline-end" }, "12 results")
+      React.createElement(
+        InputGroupAddon,
+        { align: "inline-end" },
+        "12 results"
+      )
     ),
   },
   examples: [
@@ -149,20 +153,39 @@ export function InputGroupIcon() {
           InputGroup,
           {},
           React.createElement(InputGroupInput, { placeholder: "Search..." }),
-          React.createElement(InputGroupAddon, {}, React.createElement(SearchIcon))
+          React.createElement(
+            InputGroupAddon,
+            {},
+            React.createElement(SearchIcon)
+          )
         ),
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupInput, { type: "email", placeholder: "Enter your email" }),
-          React.createElement(InputGroupAddon, {}, React.createElement(MailIcon))
+          React.createElement(InputGroupInput, {
+            type: "email",
+            placeholder: "Enter your email",
+          }),
+          React.createElement(
+            InputGroupAddon,
+            {},
+            React.createElement(MailIcon)
+          )
         ),
         React.createElement(
           InputGroup,
           {},
           React.createElement(InputGroupInput, { placeholder: "Card number" }),
-          React.createElement(InputGroupAddon, {}, React.createElement(CreditCardIcon)),
-          React.createElement(InputGroupAddon, { align: "inline-end" }, React.createElement(CheckIcon))
+          React.createElement(
+            InputGroupAddon,
+            {},
+            React.createElement(CreditCardIcon)
+          ),
+          React.createElement(
+            InputGroupAddon,
+            { align: "inline-end" },
+            React.createElement(CheckIcon)
+          )
         ),
         React.createElement(
           InputGroup,
@@ -179,7 +202,8 @@ export function InputGroupIcon() {
     },
     {
       name: "Text",
-      description: "Use text addons for prefixes and suffixes like currency symbols or domains.",
+      description:
+        "Use text addons for prefixes and suffixes like currency symbols or domains.",
       code: `import {
   InputGroup,
   InputGroupAddon,
@@ -232,27 +256,54 @@ export function InputGroupTextExample() {
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupAddon, {}, React.createElement(InputGroupText, {}, "$")),
+          React.createElement(
+            InputGroupAddon,
+            {},
+            React.createElement(InputGroupText, {}, "$")
+          ),
           React.createElement(InputGroupInput, { placeholder: "0.00" }),
-          React.createElement(InputGroupAddon, { align: "inline-end" }, React.createElement(InputGroupText, {}, "USD"))
+          React.createElement(
+            InputGroupAddon,
+            { align: "inline-end" },
+            React.createElement(InputGroupText, {}, "USD")
+          )
         ),
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupAddon, {}, React.createElement(InputGroupText, {}, "https://")),
-          React.createElement(InputGroupInput, { placeholder: "example.com", className: "pl-0.5!" }),
-          React.createElement(InputGroupAddon, { align: "inline-end" }, React.createElement(InputGroupText, {}, ".com"))
+          React.createElement(
+            InputGroupAddon,
+            {},
+            React.createElement(InputGroupText, {}, "https://")
+          ),
+          React.createElement(InputGroupInput, {
+            placeholder: "example.com",
+            className: "pl-0.5!",
+          }),
+          React.createElement(
+            InputGroupAddon,
+            { align: "inline-end" },
+            React.createElement(InputGroupText, {}, ".com")
+          )
         ),
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupInput, { placeholder: "Enter your username" }),
-          React.createElement(InputGroupAddon, { align: "inline-end" }, React.createElement(InputGroupText, {}, "@company.com"))
+          React.createElement(InputGroupInput, {
+            placeholder: "Enter your username",
+          }),
+          React.createElement(
+            InputGroupAddon,
+            { align: "inline-end" },
+            React.createElement(InputGroupText, {}, "@company.com")
+          )
         ),
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupTextarea, { placeholder: "Enter your message" }),
+          React.createElement(InputGroupTextarea, {
+            placeholder: "Enter your message",
+          }),
           React.createElement(
             InputGroupAddon,
             { align: "block-end" },
@@ -293,8 +344,18 @@ export function InputGroupKbd() {
         InputGroup,
         { className: "max-w-sm" },
         React.createElement(InputGroupInput, { placeholder: "Search..." }),
-        React.createElement(InputGroupAddon, {}, React.createElement(SearchIcon, { className: "text-muted-foreground" })),
-        React.createElement(InputGroupAddon, { align: "inline-end" }, React.createElement(Kbd, {}, "⌘K"))
+        React.createElement(
+          InputGroupAddon,
+          {},
+          React.createElement(SearchIcon, {
+            className: "text-muted-foreground",
+          })
+        ),
+        React.createElement(
+          InputGroupAddon,
+          { align: "inline-end" },
+          React.createElement(Kbd, {}, "⌘K")
+        )
       ),
     },
     {
@@ -390,7 +451,10 @@ export function InputGroupButtonExample() {
           React.createElement(
             InputGroup,
             {},
-            React.createElement(InputGroupInput, { placeholder: "https://x.com/shadcn", readOnly: true }),
+            React.createElement(InputGroupInput, {
+              placeholder: "https://x.com/shadcn",
+              readOnly: true,
+            }),
             React.createElement(
               InputGroupAddon,
               { align: "inline-end" },
@@ -406,7 +470,9 @@ export function InputGroupButtonExample() {
                     setTimeout(() => setCopied(false), 2000);
                   },
                 },
-                copied ? React.createElement(CheckIcon) : React.createElement(CopyIcon)
+                copied
+                  ? React.createElement(CheckIcon)
+                  : React.createElement(CopyIcon)
               )
             )
           ),
@@ -422,16 +488,29 @@ export function InputGroupButtonExample() {
                 React.createElement(
                   InputGroupAddon,
                   {},
-                  React.createElement(InputGroupButton, { variant: "tertiary", size: "icon-xs" },
+                  React.createElement(
+                    InputGroupButton,
+                    { variant: "tertiary", size: "icon-xs" },
                     React.createElement(InfoIcon)
                   )
                 )
               ),
               React.createElement(
                 PopoverContent,
-                { align: "start", className: "flex flex-col gap-1 rounded-xl text-sm" },
-                React.createElement("p", { className: "font-medium" }, "Your connection is not secure."),
-                React.createElement("p", {}, "You should not enter any sensitive information on this site.")
+                {
+                  align: "start",
+                  className: "flex flex-col gap-1 rounded-xl text-sm",
+                },
+                React.createElement(
+                  "p",
+                  { className: "font-medium" },
+                  "Your connection is not secure."
+                ),
+                React.createElement(
+                  "p",
+                  {},
+                  "You should not enter any sensitive information on this site."
+                )
               )
             ),
             React.createElement(
@@ -457,11 +536,15 @@ export function InputGroupButtonExample() {
           React.createElement(
             InputGroup,
             {},
-            React.createElement(InputGroupInput, { placeholder: "Type to search..." }),
+            React.createElement(InputGroupInput, {
+              placeholder: "Type to search...",
+            }),
             React.createElement(
               InputGroupAddon,
               { align: "inline-end" },
-              React.createElement(InputGroupButton, { variant: "tertiary", size: "xs" },
+              React.createElement(
+                InputGroupButton,
+                { variant: "tertiary", size: "xs" },
                 React.createElement(SearchIcon),
                 "Search"
               )
@@ -542,7 +625,9 @@ export function InputGroupDropdown() {
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupInput, { placeholder: "Enter file name" }),
+          React.createElement(InputGroupInput, {
+            placeholder: "Enter file name",
+          }),
           React.createElement(
             InputGroupAddon,
             { align: "inline-end" },
@@ -552,7 +637,9 @@ export function InputGroupDropdown() {
               React.createElement(
                 DropdownMenuTrigger,
                 { asChild: true },
-                React.createElement(InputGroupButton, { variant: "ghost", "aria-label": "More", size: "icon-xs" },
+                React.createElement(
+                  InputGroupButton,
+                  { variant: "ghost", "aria-label": "More", size: "icon-xs" },
                   React.createElement(MoreHorizontal)
                 )
               ),
@@ -573,7 +660,9 @@ export function InputGroupDropdown() {
         React.createElement(
           InputGroup,
           { className: "" },
-          React.createElement(InputGroupInput, { placeholder: "Enter search query" }),
+          React.createElement(InputGroupInput, {
+            placeholder: "Enter search query",
+          }),
           React.createElement(
             InputGroupAddon,
             { align: "inline-end" },
@@ -583,9 +672,17 @@ export function InputGroupDropdown() {
               React.createElement(
                 DropdownMenuTrigger,
                 { asChild: true },
-                React.createElement(InputGroupButton, { variant: "tertiary", size: "xs", className: "no-underline" },
+                React.createElement(
+                  InputGroupButton,
+                  {
+                    variant: "tertiary",
+                    size: "xs",
+                    className: "no-underline",
+                  },
                   "Search In ",
-                  React.createElement(ChevronDownIcon, { className: "size-4.5" })
+                  React.createElement(ChevronDownIcon, {
+                    className: "size-4.5",
+                  })
                 )
               ),
               React.createElement(
@@ -606,7 +703,8 @@ export function InputGroupDropdown() {
     },
     {
       name: "Spinner",
-      description: "Show loading spinners inside the input group to indicate async activity.",
+      description:
+        "Show loading spinners inside the input group to indicate async activity.",
       code: `import {
   InputGroup,
   InputGroupAddon,
@@ -659,18 +757,26 @@ export function InputGroupSpinner() {
           InputGroup,
           {},
           React.createElement(InputGroupInput, { placeholder: "Searching..." }),
-          React.createElement(InputGroupAddon, { align: "inline-end" }, React.createElement(Spinner))
+          React.createElement(
+            InputGroupAddon,
+            { align: "inline-end" },
+            React.createElement(Spinner)
+          )
         ),
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupInput, { placeholder: "Processing..." }),
+          React.createElement(InputGroupInput, {
+            placeholder: "Processing...",
+          }),
           React.createElement(InputGroupAddon, {}, React.createElement(Spinner))
         ),
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupInput, { placeholder: "Saving changes..." }),
+          React.createElement(InputGroupInput, {
+            placeholder: "Saving changes...",
+          }),
           React.createElement(
             InputGroupAddon,
             { align: "inline-end" },
@@ -681,8 +787,14 @@ export function InputGroupSpinner() {
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupInput, { placeholder: "Refreshing data..." }),
-          React.createElement(InputGroupAddon, {}, React.createElement(LoaderIcon, { className: "animate-spin" })),
+          React.createElement(InputGroupInput, {
+            placeholder: "Refreshing data...",
+          }),
+          React.createElement(
+            InputGroupAddon,
+            {},
+            React.createElement(LoaderIcon, { className: "animate-spin" })
+          ),
           React.createElement(
             InputGroupAddon,
             { align: "inline-end" },
@@ -697,7 +809,8 @@ export function InputGroupSpinner() {
     },
     {
       name: "Textarea",
-      description: "Use block addons with a textarea for headers, footers, and action toolbars.",
+      description:
+        "Use block addons with a textarea for headers, footers, and action toolbars.",
       code: `import {
   InputGroup,
   InputGroupAddon,
@@ -788,7 +901,8 @@ export function InputGroupTextareaExample() {
     },
     {
       name: "inline-start",
-      description: 'Use align="inline-start" to position the addon at the start of the input. This is the default.',
+      description:
+        'Use align="inline-start" to position the addon at the start of the input. This is the default.',
       code: `import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import {
   InputGroup,
@@ -814,23 +928,37 @@ export function InputGroupInlineStart() {
       preview: React.createElement(
         Field,
         { className: "max-w-sm" },
-        React.createElement(FieldLabel, { htmlFor: "inline-start-input" }, "Input"),
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "inline-start-input" },
+          "Input"
+        ),
         React.createElement(
           InputGroup,
           {},
-          React.createElement(InputGroupInput, { id: "inline-start-input", placeholder: "Search..." }),
+          React.createElement(InputGroupInput, {
+            id: "inline-start-input",
+            placeholder: "Search...",
+          }),
           React.createElement(
             InputGroupAddon,
             { align: "inline-start" },
-            React.createElement(SearchIcon, { className: "text-muted-foreground" })
+            React.createElement(SearchIcon, {
+              className: "text-muted-foreground",
+            })
           )
         ),
-        React.createElement(FieldDescription, {}, "Icon positioned at the start.")
+        React.createElement(
+          FieldDescription,
+          {},
+          "Icon positioned at the start."
+        )
       ),
     },
     {
       name: "inline-end",
-      description: 'Use align="inline-end" to position the addon at the end of the input.',
+      description:
+        'Use align="inline-end" to position the addon at the end of the input.',
       code: `import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import {
   InputGroup,
@@ -860,7 +988,11 @@ export function InputGroupInlineEnd() {
       preview: React.createElement(
         Field,
         { className: "max-w-sm" },
-        React.createElement(FieldLabel, { htmlFor: "inline-end-input" }, "Input"),
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "inline-end-input" },
+          "Input"
+        ),
         React.createElement(
           InputGroup,
           {},
@@ -880,7 +1012,8 @@ export function InputGroupInlineEnd() {
     },
     {
       name: "block-start",
-      description: 'Use align="block-start" to position the addon above the input.',
+      description:
+        'Use align="block-start" to position the addon above the input.',
       code: `import {
   Field,
   FieldDescription,
@@ -941,23 +1074,38 @@ export function InputGroupBlockStart() {
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "block-start-input" }, "Input"),
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "block-start-input" },
+            "Input"
+          ),
           React.createElement(
             InputGroup,
             { className: "h-auto" },
-            React.createElement(InputGroupInput, { id: "block-start-input", placeholder: "Enter your name" }),
+            React.createElement(InputGroupInput, {
+              id: "block-start-input",
+              placeholder: "Enter your name",
+            }),
             React.createElement(
               InputGroupAddon,
               { align: "block-start" },
               React.createElement(InputGroupText, {}, "Full Name")
             )
           ),
-          React.createElement(FieldDescription, {}, "Header positioned above the input.")
+          React.createElement(
+            FieldDescription,
+            {},
+            "Header positioned above the input."
+          )
         ),
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "block-start-textarea" }, "Textarea"),
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "block-start-textarea" },
+            "Textarea"
+          ),
           React.createElement(
             InputGroup,
             {},
@@ -969,8 +1117,14 @@ export function InputGroupBlockStart() {
             React.createElement(
               InputGroupAddon,
               { align: "block-start" },
-              React.createElement(FileCode2Icon, { className: "text-muted-foreground" }),
-              React.createElement(InputGroupText, { className: "font-mono" }, "script.js"),
+              React.createElement(FileCode2Icon, {
+                className: "text-muted-foreground",
+              }),
+              React.createElement(
+                InputGroupText,
+                { className: "font-mono" },
+                "script.js"
+              ),
               React.createElement(
                 InputGroupButton,
                 { size: "icon-xs", className: "ml-auto" },
@@ -979,13 +1133,18 @@ export function InputGroupBlockStart() {
               )
             )
           ),
-          React.createElement(FieldDescription, {}, "Header positioned above the textarea.")
+          React.createElement(
+            FieldDescription,
+            {},
+            "Header positioned above the textarea."
+          )
         )
       ),
     },
     {
       name: "block-end",
-      description: 'Use align="block-end" to position the addon below the input.',
+      description:
+        'Use align="block-end" to position the addon below the input.',
       code: `import {
   Field,
   FieldDescription,
@@ -1039,23 +1198,38 @@ export function InputGroupBlockEnd() {
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "block-end-input" }, "Input"),
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "block-end-input" },
+            "Input"
+          ),
           React.createElement(
             InputGroup,
             { className: "h-auto" },
-            React.createElement(InputGroupInput, { id: "block-end-input", placeholder: "Enter amount" }),
+            React.createElement(InputGroupInput, {
+              id: "block-end-input",
+              placeholder: "Enter amount",
+            }),
             React.createElement(
               InputGroupAddon,
               { align: "block-end" },
               React.createElement(InputGroupText, {}, "USD")
             )
           ),
-          React.createElement(FieldDescription, {}, "Footer positioned below the input.")
+          React.createElement(
+            FieldDescription,
+            {},
+            "Footer positioned below the input."
+          )
         ),
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "block-end-textarea" }, "Textarea"),
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "block-end-textarea" },
+            "Textarea"
+          ),
           React.createElement(
             InputGroup,
             {},
@@ -1074,7 +1248,11 @@ export function InputGroupBlockEnd() {
               )
             )
           ),
-          React.createElement(FieldDescription, {}, "Footer positioned below the textarea.")
+          React.createElement(
+            FieldDescription,
+            {},
+            "Footer positioned below the textarea."
+          )
         )
       ),
     },
@@ -1083,7 +1261,8 @@ export function InputGroupBlockEnd() {
     {
       name: "align",
       type: '"inline-start" | "inline-end" | "block-start" | "block-end"',
-      description: "Position of the addon relative to the input (InputGroupAddon).",
+      description:
+        "Position of the addon relative to the input (InputGroupAddon).",
       default: '"inline-start"',
     },
     {

@@ -30,7 +30,7 @@ const PUNCT = new Set([".", ",", "!", "?", ";", ":"]);
  *   and never enable on structured clinical or code fields.
  */
 export function useAutoSpace(
-  enabled: boolean,
+  enabled: boolean
 ): React.FormEventHandler<HTMLInputElement | HTMLTextAreaElement> {
   return React.useCallback(
     (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -77,6 +77,6 @@ export function useAutoSpace(
       event.preventDefault();
       document.execCommand("insertText", false, " " + char);
     },
-    [enabled],
+    [enabled]
   );
 }

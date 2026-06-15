@@ -154,13 +154,19 @@ export const navigationMenuDoc: ComponentDoc = {
             React.createElement(
               "ul",
               { className: "w-96" },
-              React.createElement(ListItem, { href: "/docs", title: "Introduction" },
+              React.createElement(
+                ListItem,
+                { href: "/docs", title: "Introduction" },
                 "Re-usable components built with Tailwind CSS."
               ),
-              React.createElement(ListItem, { href: "/docs/installation", title: "Installation" },
+              React.createElement(
+                ListItem,
+                { href: "/docs/installation", title: "Installation" },
                 "How to install dependencies and structure your app."
               ),
-              React.createElement(ListItem, { href: "/docs/primitives/typography", title: "Typography" },
+              React.createElement(
+                ListItem,
+                { href: "/docs/primitives/typography", title: "Typography" },
                 "Styles for headings, paragraphs, lists...etc"
               )
             )
@@ -177,8 +183,7 @@ export const navigationMenuDoc: ComponentDoc = {
             React.createElement(
               "ul",
               {
-                className:
-                  "grid w-100 gap-2 md:w-125 md:grid-cols-2 lg:w-150",
+                className: "grid w-100 gap-2 md:w-125 md:grid-cols-2 lg:w-150",
               },
               ...components.map((component) =>
                 React.createElement(

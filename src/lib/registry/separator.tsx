@@ -11,7 +11,10 @@ function SeparatorDemo() {
       { className: "flex flex-col gap-3" },
       React.createElement(
         "p",
-        { className: "text-xs font-medium uppercase tracking-wider text-muted-foreground" },
+        {
+          className:
+            "text-xs font-medium uppercase tracking-wider text-muted-foreground",
+        },
         "Solid"
       ),
       React.createElement(
@@ -20,7 +23,11 @@ function SeparatorDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col gap-1.5" },
-          React.createElement("div", { className: "leading-none font-medium" }, "shadcn/ui"),
+          React.createElement(
+            "div",
+            { className: "leading-none font-medium" },
+            "shadcn/ui"
+          ),
           React.createElement(
             "div",
             { className: "text-muted-foreground" },
@@ -40,7 +47,10 @@ function SeparatorDemo() {
       { className: "flex flex-col gap-3" },
       React.createElement(
         "p",
-        { className: "text-xs font-medium uppercase tracking-wider text-muted-foreground" },
+        {
+          className:
+            "text-xs font-medium uppercase tracking-wider text-muted-foreground",
+        },
         "Dashed"
       ),
       React.createElement(
@@ -49,7 +59,11 @@ function SeparatorDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col gap-1.5" },
-          React.createElement("div", { className: "leading-none font-medium" }, "shadcn/ui"),
+          React.createElement(
+            "div",
+            { className: "leading-none font-medium" },
+            "shadcn/ui"
+          ),
           React.createElement(
             "div",
             { className: "text-muted-foreground" },
@@ -69,7 +83,10 @@ function SeparatorDemo() {
       { className: "flex flex-col gap-3" },
       React.createElement(
         "p",
-        { className: "text-xs font-medium uppercase tracking-wider text-muted-foreground" },
+        {
+          className:
+            "text-xs font-medium uppercase tracking-wider text-muted-foreground",
+        },
         "Inset"
       ),
       React.createElement(
@@ -78,7 +95,11 @@ function SeparatorDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col gap-1.5" },
-          React.createElement("div", { className: "leading-none font-medium" }, "shadcn/ui"),
+          React.createElement(
+            "div",
+            { className: "leading-none font-medium" },
+            "shadcn/ui"
+          ),
           React.createElement(
             "div",
             { className: "text-muted-foreground" },
@@ -98,7 +119,10 @@ function SeparatorDemo() {
       { className: "flex flex-col gap-3" },
       React.createElement(
         "p",
-        { className: "text-xs font-medium uppercase tracking-wider text-muted-foreground" },
+        {
+          className:
+            "text-xs font-medium uppercase tracking-wider text-muted-foreground",
+        },
         "Dotted"
       ),
       React.createElement(
@@ -107,7 +131,11 @@ function SeparatorDemo() {
         React.createElement(
           "div",
           { className: "flex flex-col gap-1.5" },
-          React.createElement("div", { className: "leading-none font-medium" }, "shadcn/ui"),
+          React.createElement(
+            "div",
+            { className: "leading-none font-medium" },
+            "shadcn/ui"
+          ),
           React.createElement(
             "div",
             { className: "text-muted-foreground" },
@@ -132,7 +160,11 @@ function SeparatorDashed() {
     React.createElement(
       "div",
       { className: "flex flex-col gap-1.5" },
-      React.createElement("div", { className: "leading-none font-medium" }, "shadcn/ui"),
+      React.createElement(
+        "div",
+        { className: "leading-none font-medium" },
+        "shadcn/ui"
+      ),
       React.createElement(
         "div",
         { className: "text-muted-foreground" },
@@ -185,7 +217,10 @@ function SeparatorMenu() {
         "Profile & security"
       )
     ),
-    React.createElement(Separator, { orientation: "vertical", className: "hidden md:block" }),
+    React.createElement(Separator, {
+      orientation: "vertical",
+      className: "hidden md:block",
+    }),
     React.createElement(
       "div",
       { className: "hidden flex-col gap-1 md:flex" },
@@ -207,21 +242,33 @@ function SeparatorList() {
       "dl",
       { className: "flex items-center justify-between" },
       React.createElement("dt", {}, "Item 1"),
-      React.createElement("dd", { className: "text-muted-foreground" }, "Value 1")
+      React.createElement(
+        "dd",
+        { className: "text-muted-foreground" },
+        "Value 1"
+      )
     ),
     React.createElement(Separator, {}),
     React.createElement(
       "dl",
       { className: "flex items-center justify-between" },
       React.createElement("dt", {}, "Item 2"),
-      React.createElement("dd", { className: "text-muted-foreground" }, "Value 2")
+      React.createElement(
+        "dd",
+        { className: "text-muted-foreground" },
+        "Value 2"
+      )
     ),
     React.createElement(Separator, {}),
     React.createElement(
       "dl",
       { className: "flex items-center justify-between" },
       React.createElement("dt", {}, "Item 3"),
-      React.createElement("dd", { className: "text-muted-foreground" }, "Value 3")
+      React.createElement(
+        "dd",
+        { className: "text-muted-foreground" },
+        "Value 3"
+      )
     )
   );
 }
@@ -233,7 +280,11 @@ function SeparatorDotted() {
     React.createElement(
       "div",
       { className: "flex flex-col gap-1.5" },
-      React.createElement("div", { className: "leading-none font-medium" }, "shadcn/ui"),
+      React.createElement(
+        "div",
+        { className: "leading-none font-medium" },
+        "shadcn/ui"
+      ),
       React.createElement(
         "div",
         { className: "text-muted-foreground" },
@@ -252,11 +303,18 @@ function SeparatorDotted() {
 function SeparatorInset() {
   return React.createElement(
     "div",
-    { className: "flex max-w-sm flex-col gap-4 text-sm rounded-lg bg-muted/50 p-4" },
+    {
+      className:
+        "flex max-w-sm flex-col gap-4 text-sm rounded-lg bg-muted/50 p-4",
+    },
     React.createElement(
       "div",
       { className: "flex flex-col gap-1.5" },
-      React.createElement("div", { className: "leading-none font-medium" }, "shadcn/ui"),
+      React.createElement(
+        "div",
+        { className: "leading-none font-medium" },
+        "shadcn/ui"
+      ),
       React.createElement(
         "div",
         { className: "text-muted-foreground" },
@@ -278,7 +336,8 @@ export const separatorDoc: ComponentDoc = {
   description: "Visually or semantically separates content.",
   installation: {
     cli: "npx shadcn@latest add separator",
-    manual: "Install radix-ui and copy the separator component source code into your project.",
+    manual:
+      "Install radix-ui and copy the separator component source code into your project.",
   },
   usage: `import { Separator } from "@/components/ui/separator"
 
@@ -389,7 +448,8 @@ export function SeparatorDashed() {
     },
     {
       name: "Inset",
-      description: 'Use variant="inset" for a sunken inset separator — dark top border with a 1px light highlight below.',
+      description:
+        'Use variant="inset" for a sunken inset separator — dark top border with a 1px light highlight below.',
       code: `import { Separator } from "@/components/ui/separator"
 
 export function SeparatorInset() {
@@ -413,7 +473,8 @@ export function SeparatorInset() {
     },
     {
       name: "Dotted",
-      description: 'Use variant="dotted" for a dot-matrix separator rendered via CSS background pattern.',
+      description:
+        'Use variant="dotted" for a dot-matrix separator rendered via CSS background pattern.',
       code: `import { Separator } from "@/components/ui/separator"
 
 export function SeparatorDotted() {
@@ -437,7 +498,7 @@ export function SeparatorDotted() {
     },
     {
       name: "Vertical",
-      description: "Use orientation=\"vertical\" for a vertical separator.",
+      description: 'Use orientation="vertical" for a vertical separator.',
       code: `import { Separator } from "@/components/ui/separator"
 
 export function SeparatorVertical() {

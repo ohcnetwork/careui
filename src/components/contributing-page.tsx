@@ -39,7 +39,7 @@ function SectionHeading({
   return (
     <h2
       id={id}
-      className="scroll-m-20 border-b border-border pb-2 text-3xl font-semibold tracking-tight"
+      className="border-border scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
     >
       {children}
     </h2>
@@ -122,7 +122,7 @@ const QUALITY: { area: string; rules: string[] }[] = [
     area: "API surface",
     rules: [
       "Component is a function component with named export.",
-      "Props extend the native HTML element type (React.ComponentProps<\"div\">).",
+      'Props extend the native HTML element type (React.ComponentProps<"div">).',
       "className is merged with cn() — never overwritten.",
       "data-slot is set on the root, and any subcomponents preserve their data-slot.",
       "Variants use class-variance-authority (CVA) with VariantProps<typeof …>.",
@@ -142,7 +142,7 @@ const QUALITY: { area: string; rules: string[] }[] = [
     rules: [
       "Use the semantic HTML element first; reach for ARIA only if no native fits.",
       "Every interactive element has a visible focus-visible ring (the Care default is focus-visible:ring-ring/50 focus-visible:ring-[3px]).",
-      "Icon-only buttons include aria-label or a <span className=\"sr-only\">.",
+      'Icon-only buttons include aria-label or a <span className="sr-only">.',
       "State changes wire to ARIA — aria-pressed, aria-expanded, aria-invalid, data-state.",
       "Any animation honours prefers-reduced-motion.",
       "Touch target meets 24×24 (WCAG 2.5.8). Use hit-area-* on smaller icon controls.",
@@ -177,7 +177,7 @@ export function ContributingPage() {
           <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
             Documentation
           </div>
-          <h1 className="scroll-m-20 mt-3 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
+          <h1 className="mt-3 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
             Contributing
           </h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-xl leading-7">
@@ -191,8 +191,8 @@ export function ContributingPage() {
         <section>
           <SectionHeading id="prerequisites">Prerequisites</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Care UI pins its toolchain so every contributor and the
-            Cloudflare Pages build run on the same versions.
+            Care UI pins its toolchain so every contributor and the Cloudflare
+            Pages build run on the same versions.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -231,13 +231,11 @@ pnpm dev`}</CodeBlock>
 
         {/* Three-file workflow */}
         <section>
-          <SectionHeading id="workflow">
-            The three-file workflow
-          </SectionHeading>
+          <SectionHeading id="workflow">The three-file workflow</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Every component touches exactly three hand-written files. The
-            JSON under <InlineCode>public/registry/care-ui/</InlineCode> is
-            generated — never edit it.
+            Every component touches exactly three hand-written files. The JSON
+            under <InlineCode>public/registry/care-ui/</InlineCode> is generated
+            — never edit it.
           </p>
 
           <ol className="text-foreground mt-6 ml-5 list-decimal space-y-2 leading-7">
@@ -255,7 +253,7 @@ pnpm dev`}</CodeBlock>
             </li>
           </ol>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             1. Implementation
           </h3>
           <p className="text-foreground mt-4 leading-7">
@@ -285,12 +283,12 @@ export function MyComponent({
   );
 }`}</CodeBlock>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             2. Documentation
           </h3>
           <p className="text-foreground mt-4 leading-7">
-            Authoring docs use <InlineCode>React.createElement</InlineCode>{" "}
-            (not JSX) so the file can be evaluated in non-JSX contexts when
+            Authoring docs use <InlineCode>React.createElement</InlineCode> (not
+            JSX) so the file can be evaluated in non-JSX contexts when
             generating the registry payload.
           </p>
           <CodeBlock>{`// src/lib/registry/my-component.tsx
@@ -323,12 +321,12 @@ export const myComponentDoc: ComponentDoc = {
   ],
 };`}</CodeBlock>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             3. Registration
           </h3>
           <p className="text-foreground mt-4 leading-7">
-            Register the component in the lazy-loader map so the docs SPA
-            and the sidebar pick it up automatically.
+            Register the component in the lazy-loader map so the docs SPA and
+            the sidebar pick it up automatically.
           </p>
           <CodeBlock>{`// src/lib/registry/index.ts
 const componentLoaders = {
@@ -337,7 +335,7 @@ const componentLoaders = {
     import("./my-component").then((m) => ({ default: m.myComponentDoc })),
 };`}</CodeBlock>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             4. Generate &amp; verify
           </h3>
           <CodeBlock>{`pnpm build:registry   # writes public/registry/care-ui/<name>/<name>.json
@@ -349,9 +347,8 @@ pnpm dev              # http://localhost:5173 → component appears in the sideb
           <SectionHeading id="commands">Commands</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
             Every script is defined in <InlineCode>package.json</InlineCode>.
-            Prefer the named scripts over invoking{" "}
-            <InlineCode>tsx</InlineCode> or{" "}
-            <InlineCode>vite</InlineCode> directly.
+            Prefer the named scripts over invoking <InlineCode>tsx</InlineCode>{" "}
+            or <InlineCode>vite</InlineCode> directly.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -430,13 +427,13 @@ pnpm dev              # http://localhost:5173 → component appears in the sideb
                   <code className="font-mono">pnpm build:registry</code>.
                 </li>
                 <li>
-                  <code className="font-mono">public/registry.json</code>{" "}
-                  and <code className="font-mono">public/index.json</code> —
-                  also generated.
+                  <code className="font-mono">public/registry.json</code> and{" "}
+                  <code className="font-mono">public/index.json</code> — also
+                  generated.
                 </li>
                 <li>
-                  <code className="font-mono">pnpm-lock.yaml</code> — let
-                  pnpm manage it; commit only after{" "}
+                  <code className="font-mono">pnpm-lock.yaml</code> — let pnpm
+                  manage it; commit only after{" "}
                   <code className="font-mono">pnpm install</code>.
                 </li>
               </ul>
@@ -448,9 +445,9 @@ pnpm dev              # http://localhost:5173 → component appears in the sideb
         <section>
           <SectionHeading id="quality">Quality checklist</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Before opening a pull request, walk every component change
-            through this list. Each group cross-references the foundations
-            documented elsewhere in this site.
+            Before opening a pull request, walk every component change through
+            this list. Each group cross-references the foundations documented
+            elsewhere in this site.
           </p>
 
           <div className="mt-8 space-y-8">
@@ -478,10 +475,10 @@ pnpm dev              # http://localhost:5173 → component appears in the sideb
             Adding a new dependency
           </SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Adding an external package to a UI component requires two
-            steps: install it, then teach the registry generator about it
-            so downstream <InlineCode>shadcn</InlineCode> consumers get the
-            right install command.
+            Adding an external package to a UI component requires two steps:
+            install it, then teach the registry generator about it so downstream{" "}
+            <InlineCode>shadcn</InlineCode> consumers get the right install
+            command.
           </p>
 
           <CodeBlock>{`# 1. Install
@@ -504,25 +501,23 @@ pnpm build:registry`}</CodeBlock>
           </SectionHeading>
           <ol className="text-foreground mt-6 ml-5 list-decimal space-y-2 leading-7">
             <li>
-              Edit{" "}
-              <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>.
+              Edit <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>.
             </li>
             <li>
-              Update{" "}
-              <InlineCode>src/lib/registry/&lt;name&gt;.tsx</InlineCode> if
-              the public API, examples, or props changed.
+              Update <InlineCode>src/lib/registry/&lt;name&gt;.tsx</InlineCode>{" "}
+              if the public API, examples, or props changed.
             </li>
             <li>
-              Run <InlineCode>pnpm build:registry</InlineCode> to refresh
-              the JSON.
+              Run <InlineCode>pnpm build:registry</InlineCode> to refresh the
+              JSON.
             </li>
             <li>
               Run <InlineCode>pnpm lint</InlineCode> and{" "}
               <InlineCode>pnpm format:check</InlineCode>.
             </li>
             <li>
-              Verify the component in the docs SPA — light, dark,
-              high-contrast, and at the 18px+ font scale.
+              Verify the component in the docs SPA — light, dark, high-contrast,
+              and at the 18px+ font scale.
             </li>
           </ol>
 
@@ -532,13 +527,11 @@ pnpm build:registry && pnpm lint && pnpm format:check`}</CodeBlock>
 
         {/* PR conventions */}
         <section>
-          <SectionHeading id="pr">
-            Pull request conventions
-          </SectionHeading>
+          <SectionHeading id="pr">Pull request conventions</SectionHeading>
           <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
             <li>
-              One logical change per PR — a new component, a single fix, or
-              one cross-cutting refactor.
+              One logical change per PR — a new component, a single fix, or one
+              cross-cutting refactor.
             </li>
             <li>
               Commit messages: short imperative summary (
@@ -546,8 +539,8 @@ pnpm build:registry && pnpm lint && pnpm format:check`}</CodeBlock>
               ).
             </li>
             <li>
-              Include before/after screenshots for any visual change.
-              Capture both light and dark.
+              Include before/after screenshots for any visual change. Capture
+              both light and dark.
             </li>
             <li>
               Note any new design tokens or utilities introduced in{" "}
@@ -569,22 +562,24 @@ pnpm build:registry && pnpm lint && pnpm format:check`}</CodeBlock>
                 Do
               </div>
               <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>Run the named pnpm scripts — don&apos;t invoke tools directly.</li>
                 <li>
-                  Keep the JSDoc header on every UI file — the generator
-                  depends on it.
+                  Run the named pnpm scripts — don&apos;t invoke tools directly.
                 </li>
                 <li>
-                  Use Care UI semantic tokens for color, spacing, radius,
-                  and elevation.
+                  Keep the JSDoc header on every UI file — the generator depends
+                  on it.
                 </li>
                 <li>
-                  Cross-reference the Typography, Foundations, and
-                  Accessibility pages when designing the API.
+                  Use Care UI semantic tokens for color, spacing, radius, and
+                  elevation.
                 </li>
                 <li>
-                  Regenerate the registry before pushing anything that
-                  touches a UI file.
+                  Cross-reference the Typography, Foundations, and Accessibility
+                  pages when designing the API.
+                </li>
+                <li>
+                  Regenerate the registry before pushing anything that touches a
+                  UI file.
                 </li>
               </ul>
             </div>
@@ -611,9 +606,10 @@ pnpm build:registry && pnpm lint && pnpm format:check`}</CodeBlock>
                   <code className="font-mono">data-slot</code> on the root.
                 </li>
                 <li>
-                  Skip the quality gates — <code className="font-mono">pnpm lint</code>{" "}
-                  and <code className="font-mono">pnpm format:check</code>{" "}
-                  must pass.
+                  Skip the quality gates —{" "}
+                  <code className="font-mono">pnpm lint</code> and{" "}
+                  <code className="font-mono">pnpm format:check</code> must
+                  pass.
                 </li>
               </ul>
             </div>

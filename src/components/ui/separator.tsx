@@ -4,19 +4,18 @@
  * @dependencies radix-ui class-variance-authority
  * @type registry:ui
  */
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { Separator as SeparatorPrimitive } from "radix-ui"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Separator as SeparatorPrimitive } from "radix-ui";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 const separatorVariants = cva(
   "shrink-0 data-horizontal:w-full data-vertical:self-stretch",
   {
     variants: {
       variant: {
-        solid:
-          "bg-border data-horizontal:h-px data-vertical:w-px",
+        solid: "bg-border data-horizontal:h-px data-vertical:w-px",
         dashed:
           "border-border border-dashed data-horizontal:h-0 data-horizontal:border-t data-vertical:w-0 data-vertical:border-l",
         inset:
@@ -29,7 +28,7 @@ const separatorVariants = cva(
       variant: "solid",
     },
   }
-)
+);
 
 function Separator({
   className,
@@ -47,7 +46,7 @@ function Separator({
       className={cn(separatorVariants({ variant }), className)}
       {...props}
     />
-  )
+  );
 }
 
-export { Separator, separatorVariants }
+export { Separator, separatorVariants };

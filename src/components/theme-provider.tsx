@@ -1,6 +1,13 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-export type Theme = "dark" | "light" | "system" | "light-protanopia" | "dark-protanopia" | "light-tritanopia" | "dark-tritanopia";
+export type Theme =
+  | "dark"
+  | "light"
+  | "system"
+  | "light-protanopia"
+  | "dark-protanopia"
+  | "light-tritanopia"
+  | "dark-tritanopia";
 
 /** Maps a Theme value to its color-scheme class and optional data-theme attribute value. */
 function resolveTheme(
@@ -44,7 +51,9 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
-    const systemIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const systemIsDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
     const { colorScheme, a11yVariant } = resolveTheme(theme, systemIsDark);
 
     root.classList.remove("light", "dark");

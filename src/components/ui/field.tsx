@@ -222,7 +222,10 @@ function FieldError({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn("text-destructive bg-destructive/10 px-1.5 rounded inline-flex items-start gap-1 max-w-fit text-sm font-normal", className)}
+      className={cn(
+        "text-destructive bg-destructive/10 inline-flex max-w-fit items-start gap-1 rounded px-1.5 text-sm font-normal",
+        className
+      )}
       {...props}
     >
       <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />

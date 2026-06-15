@@ -23,10 +23,30 @@ import {
 
 // ── Interactive Table preview ─────────────────────────────────────────────────
 const tableData = [
-  { id: "1", name: "Sarah Chen", email: "sarah.chen@example.com", role: "Admin" },
-  { id: "2", name: "Marcus Rodriguez", email: "marcus.rodriguez@example.com", role: "User" },
-  { id: "3", name: "Priya Patel", email: "priya.patel@example.com", role: "User" },
-  { id: "4", name: "David Kim", email: "david.kim@example.com", role: "Editor" },
+  {
+    id: "1",
+    name: "Sarah Chen",
+    email: "sarah.chen@example.com",
+    role: "Admin",
+  },
+  {
+    id: "2",
+    name: "Marcus Rodriguez",
+    email: "marcus.rodriguez@example.com",
+    role: "User",
+  },
+  {
+    id: "3",
+    name: "Priya Patel",
+    email: "priya.patel@example.com",
+    role: "User",
+  },
+  {
+    id: "4",
+    name: "David Kim",
+    email: "david.kim@example.com",
+    role: "Editor",
+  },
 ];
 
 function CheckboxInTablePreview() {
@@ -41,7 +61,11 @@ function CheckboxInTablePreview() {
 
   const handleSelectRow = (id: string, checked: boolean) => {
     const next = new Set(selectedRows);
-    if (checked) { next.add(id); } else { next.delete(id); }
+    if (checked) {
+      next.add(id);
+    } else {
+      next.delete(id);
+    }
     setSelectedRows(next);
   };
 
@@ -75,7 +99,10 @@ function CheckboxInTablePreview() {
       ...tableData.map((row) =>
         React.createElement(
           TableRow,
-          Object.assign({ key: row.id }, selectedRows.has(row.id) ? { "data-state": "selected" } : {}) as React.ComponentPropsWithoutRef<typeof TableRow>,
+          Object.assign(
+            { key: row.id },
+            selectedRows.has(row.id) ? { "data-state": "selected" } : {}
+          ) as React.ComponentPropsWithoutRef<typeof TableRow>,
           React.createElement(
             TableCell,
             {},
@@ -87,7 +114,11 @@ function CheckboxInTablePreview() {
                 handleSelectRow(row.id, checked === true),
             })
           ),
-          React.createElement(TableCell, { className: "font-medium" }, row.name),
+          React.createElement(
+            TableCell,
+            { className: "font-medium" },
+            row.name
+          ),
           React.createElement(TableCell, {}, row.email),
           React.createElement(TableCell, {}, row.role)
         )
@@ -168,8 +199,15 @@ export function CheckboxDemo() {
       React.createElement(
         Field,
         { orientation: "horizontal" },
-        React.createElement(Checkbox, { id: "terms-checkbox", name: "terms-checkbox" }),
-        React.createElement(Label, { htmlFor: "terms-checkbox" }, "Accept terms and conditions")
+        React.createElement(Checkbox, {
+          id: "terms-checkbox",
+          name: "terms-checkbox",
+        }),
+        React.createElement(
+          Label,
+          { htmlFor: "terms-checkbox" },
+          "Accept terms and conditions"
+        )
       ),
       // Row 2: checked + description
       React.createElement(
@@ -198,7 +236,10 @@ export function CheckboxDemo() {
       // Row 3: disabled
       React.createElement(
         Field,
-        Object.assign({ orientation: "horizontal" }, { "data-disabled": "" }) as React.ComponentPropsWithoutRef<typeof Field>,
+        Object.assign(
+          { orientation: "horizontal" },
+          { "data-disabled": "" }
+        ) as React.ComponentPropsWithoutRef<typeof Field>,
         React.createElement(Checkbox, {
           id: "toggle-checkbox",
           name: "toggle-checkbox",
@@ -367,7 +408,10 @@ export function CheckboxDisabled() {
         { className: "mx-auto w-56" },
         React.createElement(
           Field,
-          Object.assign({ orientation: "horizontal" }, { "data-disabled": "" }) as React.ComponentPropsWithoutRef<typeof Field>,
+          Object.assign(
+            { orientation: "horizontal" },
+            { "data-disabled": "" }
+          ) as React.ComponentPropsWithoutRef<typeof Field>,
           React.createElement(Checkbox, {
             id: "toggle-checkbox-disabled",
             name: "toggle-checkbox-disabled",
@@ -411,7 +455,10 @@ export function CheckboxInvalid() {
         { className: "mx-auto w-56" },
         React.createElement(
           Field,
-          Object.assign({ orientation: "horizontal" }, { "data-invalid": "" }) as React.ComponentPropsWithoutRef<typeof Field>,
+          Object.assign(
+            { orientation: "horizontal" },
+            { "data-invalid": "" }
+          ) as React.ComponentPropsWithoutRef<typeof Field>,
           React.createElement(Checkbox, {
             id: "terms-checkbox-invalid",
             name: "terms-checkbox-invalid",
@@ -491,7 +538,11 @@ export function CheckboxGroup() {
           { className: "gap-3" },
           ...[
             { id: "hard-disks", label: "Hard disks", defaultChecked: true },
-            { id: "external-disks", label: "External disks", defaultChecked: true },
+            {
+              id: "external-disks",
+              label: "External disks",
+              defaultChecked: true,
+            },
             { id: "cds-dvds", label: "CDs, DVDs, and iPods" },
             { id: "connected-servers", label: "Connected servers" },
           ].map((item) =>
@@ -604,7 +655,8 @@ export function CheckboxInTable() {
     {
       name: "size",
       type: '"default" | "md"',
-      description: 'Controls the size of the checkbox. `"default"` is 20 px; `"md"` is 16 px.',
+      description:
+        'Controls the size of the checkbox. `"default"` is 20 px; `"md"` is 16 px.',
       default: '"default"',
     },
     {

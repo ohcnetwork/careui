@@ -1,10 +1,6 @@
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const skeletonDoc: ComponentDoc = {
@@ -139,7 +135,8 @@ export function SkeletonText() {
     // ── Form ──────────────────────────────────────────────────────────────
     {
       name: "Form",
-      description: "A skeleton placeholder for a form with fields and a submit button.",
+      description:
+        "A skeleton placeholder for a form with fields and a submit button.",
       code: `import { Skeleton } from "@/components/ui/skeleton"
 
 export function SkeletonForm() {

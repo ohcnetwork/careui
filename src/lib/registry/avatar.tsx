@@ -252,8 +252,7 @@ export function AvatarBadgeIconExample() {
     // ── Avatar Group ───────────────────────────────────────────────────────
     {
       name: "Avatar Group",
-      description:
-        "Use the AvatarGroup component to add a group of avatars.",
+      description: "Use the AvatarGroup component to add a group of avatars.",
       code: `import {
   Avatar,
   AvatarFallback,
@@ -318,8 +317,7 @@ export function AvatarGroupExample() {
     // ── Avatar Group Count ─────────────────────────────────────────────────
     {
       name: "Avatar Group Count",
-      description:
-        "Use AvatarGroupCount to add a count to the group.",
+      description: "Use AvatarGroupCount to add a count to the group.",
       code: `import {
   Avatar,
   AvatarFallback,
@@ -387,8 +385,7 @@ export function AvatarGroupCountExample() {
     // ── Avatar Group with Icon ─────────────────────────────────────────────
     {
       name: "Avatar Group with Icon",
-      description:
-        "You can also use an icon inside AvatarGroupCount.",
+      description: "You can also use an icon inside AvatarGroupCount.",
       code: `import {
   Avatar,
   AvatarFallback,
@@ -459,8 +456,7 @@ export function AvatarGroupCountIconExample() {
     // ── Sizes ──────────────────────────────────────────────────────────────
     {
       name: "Sizes",
-      description:
-        "Use the size prop to change the size of the avatar.",
+      description: "Use the size prop to change the size of the avatar.",
       code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export function AvatarSizeExample() {
@@ -654,7 +650,11 @@ export function AvatarColorsExample() {
           React.createElement(
             Avatar,
             { key: color },
-            React.createElement(AvatarFallback, { color: color as AvatarColor }, initials)
+            React.createElement(
+              AvatarFallback,
+              { color: color as AvatarColor },
+              initials
+            )
           )
         )
       ),

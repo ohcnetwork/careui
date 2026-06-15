@@ -25,7 +25,18 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, ArrowUpDown, Check, ChevronDown, MoreHorizontal, Pin, PinOff } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+  ArrowUpDown,
+  Check,
+  ChevronDown,
+  MoreHorizontal,
+  Pin,
+  PinOff,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -175,9 +186,10 @@ function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     ...(movableColumns && { onColumnOrderChange: setColumnOrder }),
-    ...(pinnable && initialPinning && {
-      initialState: { columnPinning: initialPinning },
-    }),
+    ...(pinnable &&
+      initialPinning && {
+        initialState: { columnPinning: initialPinning },
+      }),
     state: {
       sorting,
       columnFilters,
@@ -209,9 +221,10 @@ function DataTable<TData, TValue>({
       left: pinned === "left" ? col.getStart("left") : undefined,
       right: pinned === "right" ? col.getAfter("right") : undefined,
       zIndex: 1,
-      boxShadow: pinned === "left"
-        ? "inset -1px 0 0 0 var(--border)"
-        : "inset 1px 0 0 0 var(--border)",
+      boxShadow:
+        pinned === "left"
+          ? "inset -1px 0 0 0 var(--border)"
+          : "inset 1px 0 0 0 var(--border)",
     };
   };
 
@@ -221,209 +234,254 @@ function DataTable<TData, TValue>({
 
   const tableContent = (
     <DataTableMoveContext.Provider value={moveCtxValue}>
-    <div data-slot="data-table" className={cn("w-full", className)}>
-      {/* Toolbar */}
-      {!hideToolbar && (
-      <div className="flex items-center gap-2 py-4">
-        {activeFilterColumn && (
-          <Input
-            placeholder={filterPlaceholder}
-            value={
-              (table
-                .getColumn(activeFilterColumn)
-                ?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table
-                .getColumn(activeFilterColumn)
-                ?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
-        )}
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) =>
-                    column.toggleVisibility(!!value)
-                  }
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      )}
-
-      {/* Table */}
-      <div className={cn(
-        "rounded-md border",
-        pinnable ? "overflow-x-auto" : "overflow-hidden",
-        "[&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1",
-        "[&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
-        cellBorder && "[&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r",
-        pinnable && !cellBorder && "[&_td:not(:last-child):not([data-pinned])]:border-r [&_th:not(:last-child):not([data-pinned])]:border-r",
-        dense && "[&_td]:py-1.5 [&_th]:h-8 [&_th]:py-0",
-        autoWidth && "w-fit [&_table]:w-auto",
-      )}>
-        <Table style={pinTableMinWidth ? { minWidth: pinTableMinWidth } : undefined}>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    style={pinCellStyle(header.column)}
-                    data-pinned={pinnable && header.column.getIsPinned() ? header.column.getIsPinned() : undefined}
-                    className={cn(
-                      header.column.columnDef.meta?.className,
-                      pinnable && header.column.getIsPinned() && "bg-soft-background",
-                    )}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <React.Fragment key={row.id}>
-                  <TableRow
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        style={pinCellStyle(cell.column)}
-                        data-pinned={pinnable && cell.column.getIsPinned() ? cell.column.getIsPinned() : undefined}
-                        className={cn(
-                          cell.column.columnDef.meta?.className,
-                          pinnable && cell.column.getIsPinned() && "bg-background",
-                        )}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                  {row.getIsExpanded() && renderExpandedRow && (
-                    <TableRow className="hover:bg-transparent">
-                      <TableCell colSpan={row.getVisibleCells().length} className="p-0">
-                        {renderExpandedRow(row)}
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </React.Fragment>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
+      <div data-slot="data-table" className={cn("w-full", className)}>
+        {/* Toolbar */}
+        {!hideToolbar && (
+          <div className="flex items-center gap-2 py-4">
+            {activeFilterColumn && (
+              <Input
+                placeholder={filterPlaceholder}
+                value={
+                  (table
+                    .getColumn(activeFilterColumn)
+                    ?.getFilterValue() as string) ?? ""
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn(activeFilterColumn)
+                    ?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
             )}
-          </TableBody>
-          {table.getFooterGroups().some((fg) =>
-            fg.headers.some((h) => h.column.columnDef.footer)
-          ) && (
-            <TableFooter>
-              {table.getFooterGroups().map((footerGroup) => (
-                <TableRow key={footerGroup.id}>
-                  {footerGroup.headers.map((footer) => (
-                    <TableCell
-                      key={footer.id}
-                      colSpan={footer.colSpan}
-                      className={cn(footer.column.columnDef.meta?.className)}
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto">
+                  Columns <ChevronDown />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
                     >
-                      {footer.isPlaceholder
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
+
+        {/* Table */}
+        <div
+          className={cn(
+            "rounded-md border",
+            pinnable ? "overflow-x-auto" : "overflow-hidden",
+            "[&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1",
+            "[&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+            cellBorder &&
+              "[&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r",
+            pinnable &&
+              !cellBorder &&
+              "[&_td:not(:last-child):not([data-pinned])]:border-r [&_th:not(:last-child):not([data-pinned])]:border-r",
+            dense && "[&_td]:py-1.5 [&_th]:h-8 [&_th]:py-0",
+            autoWidth && "w-fit [&_table]:w-auto"
+          )}
+        >
+          <Table
+            style={
+              pinTableMinWidth ? { minWidth: pinTableMinWidth } : undefined
+            }
+          >
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      style={pinCellStyle(header.column)}
+                      data-pinned={
+                        pinnable && header.column.getIsPinned()
+                          ? header.column.getIsPinned()
+                          : undefined
+                      }
+                      className={cn(
+                        header.column.columnDef.meta?.className,
+                        pinnable &&
+                          header.column.getIsPinned() &&
+                          "bg-soft-background"
+                      )}
+                    >
+                      {header.isPlaceholder
                         ? null
                         : flexRender(
-                            footer.column.columnDef.footer,
-                            footer.getContext()
+                            header.column.columnDef.header,
+                            header.getContext()
                           )}
-                    </TableCell>
+                    </TableHead>
                   ))}
                 </TableRow>
               ))}
-            </TableFooter>
-          )}
-        </Table>
-      </div>
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <React.Fragment key={row.id}>
+                    <TableRow data-state={row.getIsSelected() && "selected"}>
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                          style={pinCellStyle(cell.column)}
+                          data-pinned={
+                            pinnable && cell.column.getIsPinned()
+                              ? cell.column.getIsPinned()
+                              : undefined
+                          }
+                          className={cn(
+                            cell.column.columnDef.meta?.className,
+                            pinnable &&
+                              cell.column.getIsPinned() &&
+                              "bg-background"
+                          )}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                    {row.getIsExpanded() && renderExpandedRow && (
+                      <TableRow className="hover:bg-transparent">
+                        <TableCell
+                          colSpan={row.getVisibleCells().length}
+                          className="p-0"
+                        >
+                          {renderExpandedRow(row)}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </React.Fragment>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+            {table
+              .getFooterGroups()
+              .some((fg) =>
+                fg.headers.some((h) => h.column.columnDef.footer)
+              ) && (
+              <TableFooter>
+                {table.getFooterGroups().map((footerGroup) => (
+                  <TableRow key={footerGroup.id}>
+                    {footerGroup.headers.map((footer) => (
+                      <TableCell
+                        key={footer.id}
+                        colSpan={footer.colSpan}
+                        className={cn(footer.column.columnDef.meta?.className)}
+                      >
+                        {footer.isPlaceholder
+                          ? null
+                          : flexRender(
+                              footer.column.columnDef.footer,
+                              footer.getContext()
+                            )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableFooter>
+            )}
+          </Table>
+        </div>
 
-      {/* Footer */}
-      {table.getPageCount() > 1 && (
-      <div className="flex items-center justify-between py-4">
-        <p className="text-sm text-muted-foreground">
-          {(() => {
-            const { pageIndex, pageSize } = table.getState().pagination;
-            const total = table.getFilteredRowModel().rows.length;
-            const start = total === 0 ? 0 : pageIndex * pageSize + 1;
-            const end = Math.min((pageIndex + 1) * pageSize, total);
-            return `${start} - ${end} of ${total}`;
-          })()}
-        </p>
-        <Pagination className="w-auto mx-0">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={(e) => { e.preventDefault(); table.previousPage(); }}
-                aria-disabled={!table.getCanPreviousPage()}
-                className={!table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined}
-              />
-            </PaginationItem>
-            {Array.from({ length: table.getPageCount() }, (_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  isActive={i === table.getState().pagination.pageIndex}
-                  onClick={(e) => { e.preventDefault(); table.setPageIndex(i); }}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            <PaginationItem>
-              <PaginationNext
-                onClick={(e) => { e.preventDefault(); table.nextPage(); }}
-                aria-disabled={!table.getCanNextPage()}
-                className={!table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        {/* Footer */}
+        {table.getPageCount() > 1 && (
+          <div className="flex items-center justify-between py-4">
+            <p className="text-muted-foreground text-sm">
+              {(() => {
+                const { pageIndex, pageSize } = table.getState().pagination;
+                const total = table.getFilteredRowModel().rows.length;
+                const start = total === 0 ? 0 : pageIndex * pageSize + 1;
+                const end = Math.min((pageIndex + 1) * pageSize, total);
+                return `${start} - ${end} of ${total}`;
+              })()}
+            </p>
+            <Pagination className="mx-0 w-auto">
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={(e) => {
+                      e.preventDefault();
+                      table.previousPage();
+                    }}
+                    aria-disabled={!table.getCanPreviousPage()}
+                    className={
+                      !table.getCanPreviousPage()
+                        ? "pointer-events-none opacity-50"
+                        : undefined
+                    }
+                  />
+                </PaginationItem>
+                {Array.from({ length: table.getPageCount() }, (_, i) => (
+                  <PaginationItem key={i}>
+                    <PaginationLink
+                      isActive={i === table.getState().pagination.pageIndex}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        table.setPageIndex(i);
+                      }}
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={(e) => {
+                      e.preventDefault();
+                      table.nextPage();
+                    }}
+                    aria-disabled={!table.getCanNextPage()}
+                    className={
+                      !table.getCanNextPage()
+                        ? "pointer-events-none opacity-50"
+                        : undefined
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
+        )}
       </div>
-      )}
-    </div>
     </DataTableMoveContext.Provider>
   );
 
-  return pinnable
-    ? <DataTablePinContext.Provider value={true}>{tableContent}</DataTablePinContext.Provider>
-    : tableContent;
+  return pinnable ? (
+    <DataTablePinContext.Provider value={true}>
+      {tableContent}
+    </DataTablePinContext.Provider>
+  ) : (
+    tableContent
+  );
 }
 
 // ─── DataTableColumnHeader ────────────────────────────────────────────────────
@@ -457,7 +515,7 @@ function DataTableColumnHeader<TValue>({
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm" className={cn(className)}>
             {icon && (
-              <span className="shrink-0 text-muted-foreground [&_svg]:size-3.5">
+              <span className="text-muted-foreground shrink-0 [&_svg]:size-3.5">
                 {icon}
               </span>
             )}
@@ -469,12 +527,12 @@ function DataTableColumnHeader<TValue>({
           {canSort && (
             <>
               <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                <ArrowUp className="size-3.5 text-muted-foreground" />
+                <ArrowUp className="text-muted-foreground size-3.5" />
                 Asc
                 {sorted === "asc" && <Check className="ml-auto size-3.5" />}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                <ArrowDown className="size-3.5 text-muted-foreground" />
+                <ArrowDown className="text-muted-foreground size-3.5" />
                 Desc
                 {sorted === "desc" && <Check className="ml-auto size-3.5" />}
               </DropdownMenuItem>
@@ -485,14 +543,14 @@ function DataTableColumnHeader<TValue>({
             onClick={() => moveColumn(column.id, "left")}
             disabled={isFirst}
           >
-            <ArrowLeft className="size-3.5 text-muted-foreground" />
+            <ArrowLeft className="text-muted-foreground size-3.5" />
             Move to Left
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => moveColumn(column.id, "right")}
             disabled={isLast}
           >
-            <ArrowRight className="size-3.5 text-muted-foreground" />
+            <ArrowRight className="text-muted-foreground size-3.5" />
             Move to Right
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -502,18 +560,19 @@ function DataTableColumnHeader<TValue>({
 
   if (pinCtx) {
     const isPinned = column.getIsPinned();
-    const SortIcon = sorted === "asc" ? ArrowUp : sorted === "desc" ? ArrowDown : ArrowUpDown;
-    const TrailingIcon = isPinned
-      ? <Pin className="ml-2 size-3 text-primary" />
-      : canSort
-        ? <SortIcon className="ml-2" />
-        : null;
+    const SortIcon =
+      sorted === "asc" ? ArrowUp : sorted === "desc" ? ArrowDown : ArrowUpDown;
+    const TrailingIcon = isPinned ? (
+      <Pin className="text-primary ml-2 size-3" />
+    ) : canSort ? (
+      <SortIcon className="ml-2" />
+    ) : null;
     return (
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm" className={cn(className)}>
             {icon && (
-              <span className="shrink-0 text-muted-foreground [&_svg]:size-3.5">
+              <span className="text-muted-foreground shrink-0 [&_svg]:size-3.5">
                 {icon}
               </span>
             )}
@@ -525,12 +584,12 @@ function DataTableColumnHeader<TValue>({
           {canSort && (
             <>
               <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                <ArrowUp className="size-3.5 text-muted-foreground" />
+                <ArrowUp className="text-muted-foreground size-3.5" />
                 Asc
                 {sorted === "asc" && <Check className="ml-auto size-3.5" />}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                <ArrowDown className="size-3.5 text-muted-foreground" />
+                <ArrowDown className="text-muted-foreground size-3.5" />
                 Desc
                 {sorted === "desc" && <Check className="ml-auto size-3.5" />}
               </DropdownMenuItem>
@@ -541,19 +600,19 @@ function DataTableColumnHeader<TValue>({
             onClick={() => column.pin("left")}
             disabled={isPinned === "left"}
           >
-            <Pin className="size-3.5 text-muted-foreground" />
+            <Pin className="text-muted-foreground size-3.5" />
             Pin to Left
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => column.pin("right")}
             disabled={isPinned === "right"}
           >
-            <Pin className="size-3.5 text-muted-foreground -scale-x-100" />
+            <Pin className="text-muted-foreground size-3.5 -scale-x-100" />
             Pin to Right
           </DropdownMenuItem>
           {isPinned && (
             <DropdownMenuItem onClick={() => column.pin(false)}>
-              <PinOff className="size-3.5 text-muted-foreground" />
+              <PinOff className="text-muted-foreground size-3.5" />
               Unpin
             </DropdownMenuItem>
           )}
@@ -565,7 +624,11 @@ function DataTableColumnHeader<TValue>({
   if (!canSort) {
     return (
       <div className={cn("flex items-center gap-1.5", className)}>
-        {icon && <span className="shrink-0 text-muted-foreground [&_svg]:size-3.5">{icon}</span>}
+        {icon && (
+          <span className="text-muted-foreground shrink-0 [&_svg]:size-3.5">
+            {icon}
+          </span>
+        )}
         {title}
       </div>
     );
@@ -578,7 +641,11 @@ function DataTableColumnHeader<TValue>({
       className={cn(className)}
       onClick={() => column.toggleSorting(sorted === "asc")}
     >
-      {icon && <span className="shrink-0 text-muted-foreground [&_svg]:size-3.5">{icon}</span>}
+      {icon && (
+        <span className="text-muted-foreground shrink-0 [&_svg]:size-3.5">
+          {icon}
+        </span>
+      )}
       {title}
       <ArrowUpDown className="ml-2" />
     </Button>

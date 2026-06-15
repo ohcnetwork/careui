@@ -234,8 +234,7 @@ export function DialogStickyFooter() {
           React.createElement(
             "div",
             {
-              className:
-                "-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4",
+              className: "-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4",
             },
             ...Array.from({ length: 10 }, (_, i) =>
               React.createElement(
@@ -325,8 +324,7 @@ export function DialogScrollableContent() {
           React.createElement(
             "div",
             {
-              className:
-                "-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4",
+              className: "-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4",
             },
             ...Array.from({ length: 10 }, (_, i) =>
               React.createElement(

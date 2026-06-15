@@ -9,7 +9,11 @@ function DottedDividerDemo() {
     React.createElement(
       "div",
       { className: "flex flex-col gap-1.5" },
-      React.createElement("div", { className: "leading-none font-medium" }, "Section Title"),
+      React.createElement(
+        "div",
+        { className: "leading-none font-medium" },
+        "Section Title"
+      ),
       React.createElement(
         "div",
         { className: "text-muted-foreground" },
@@ -32,7 +36,11 @@ function DottedDividerColored() {
     React.createElement(
       "div",
       { className: "flex flex-col gap-1.5" },
-      React.createElement("div", { className: "leading-none font-medium" }, "Accent divider"),
+      React.createElement(
+        "div",
+        { className: "leading-none font-medium" },
+        "Accent divider"
+      ),
       React.createElement(
         "div",
         { className: "text-muted-foreground" },
@@ -51,7 +59,8 @@ function DottedDividerColored() {
 export const dottedDividerDoc: ComponentDoc = {
   id: "dotted-divider",
   name: "Dotted Divider",
-  description: "A decorative divider rendered as a staggered dot-matrix SVG pattern.",
+  description:
+    "A decorative divider rendered as a staggered dot-matrix SVG pattern.",
   installation: {
     cli: "npx shadcn@latest add https://careui.ohc.network/registry/care-ui/dotted-divider/dotted-divider.json",
     manual: "Copy the dotted-divider component source code into your project.",
@@ -107,7 +116,8 @@ export function DottedDividerColored() {
     {
       name: "className",
       type: "string",
-      description: "Extra classes applied to the wrapper div. Use Tailwind text-color utilities to change dot color.",
+      description:
+        "Extra classes applied to the wrapper div. Use Tailwind text-color utilities to change dot color.",
     },
   ],
 };

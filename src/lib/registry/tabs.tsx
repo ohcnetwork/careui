@@ -139,13 +139,27 @@ function TabsBrowserPreview() {
     ),
     React.createElement(
       TabsContent,
-      { value: "medication", className: "border border-border rounded-b-lg p-4 mt-0" },
-      React.createElement("p", { className: "text-sm text-muted-foreground" }, "Medication request details go here.")
+      {
+        value: "medication",
+        className: "border border-border rounded-b-lg p-4 mt-0",
+      },
+      React.createElement(
+        "p",
+        { className: "text-sm text-muted-foreground" },
+        "Medication request details go here."
+      )
     ),
     React.createElement(
       TabsContent,
-      { value: "history", className: "border border-border rounded-b-lg p-4 mt-0" },
-      React.createElement("p", { className: "text-sm text-muted-foreground" }, "Patient clinical history goes here.")
+      {
+        value: "history",
+        className: "border border-border rounded-b-lg p-4 mt-0",
+      },
+      React.createElement(
+        "p",
+        { className: "text-sm text-muted-foreground" },
+        "Patient clinical history goes here."
+      )
     )
   );
 }
@@ -353,8 +367,7 @@ export function TabsBrowser() {
     },
     {
       name: "Line",
-      description:
-        'Use the variant="line" prop on TabsList for a line style.',
+      description: 'Use the variant="line" prop on TabsList for a line style.',
       code: `import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function TabsLine() {

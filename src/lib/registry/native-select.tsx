@@ -120,11 +120,7 @@ export function NativeSelectGroups() {
             { value: "backend" },
             "Backend"
           ),
-          React.createElement(
-            NativeSelectOption,
-            { value: "devops" },
-            "DevOps"
-          )
+          React.createElement(NativeSelectOption, { value: "devops" }, "DevOps")
         ),
         React.createElement(
           NativeSelectOptGroup,
@@ -200,8 +196,7 @@ export function NativeSelectDisabled() {
     },
     {
       name: "Invalid",
-      description:
-        "Use aria-invalid to show validation errors.",
+      description: "Use aria-invalid to show validation errors.",
       code: `import {
   NativeSelect,
   NativeSelectOption,

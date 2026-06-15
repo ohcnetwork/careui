@@ -58,7 +58,10 @@ function RotatingText({
           </span>
         ))}
       </span>
-      <style href="tv-rotating-text-in" precedence="tv-display">{`@keyframes tv-rotating-text-in {
+      <style
+        href="tv-rotating-text-in"
+        precedence="tv-display"
+      >{`@keyframes tv-rotating-text-in {
         0% { transform: translateY(100%); opacity: 0; }
         100% { transform: translateY(0); opacity: 1; }
       }`}</style>
@@ -125,7 +128,10 @@ function AnimatedTokenRow({
             "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.07) 50%, transparent 100%)",
         }}
       />
-      <style href="tv-display-glare" precedence="tv-display">{`@keyframes tv-display-glare {
+      <style
+        href="tv-display-glare"
+        precedence="tv-display"
+      >{`@keyframes tv-display-glare {
         0% { transform: translateX(0); opacity: 0; }
         25% { opacity: 1; }
         75% { opacity: 1; }
@@ -476,7 +482,7 @@ export const tvDisplayDoc: ComponentDoc = {
     {
       name: "Compact density",
       description:
-        "Use density=\"compact\" to fit more rows on the same canvas — ideal for busy clinics with many concurrent doctors.",
+        'Use density="compact" to fit more rows on the same canvas — ideal for busy clinics with many concurrent doctors.',
       code: `<TVDisplay aspectRatio="16/9" density="compact">
   <TVDisplayHeader>
     <span>Doctor</span>
@@ -518,7 +524,11 @@ export const tvDisplayDoc: ComponentDoc = {
   </TVDisplayHeader>
   <TVDisplayBody>{/* rows */}</TVDisplayBody>
 </TVDisplay>`,
-      preview: renderQueueBoard("21/9", SAMPLE_QUEUE.slice(0, 3), "w-full max-w-5xl"),
+      preview: renderQueueBoard(
+        "21/9",
+        SAMPLE_QUEUE.slice(0, 3),
+        "w-full max-w-5xl"
+      ),
     },
     {
       name: "Legacy (4:3)",
@@ -710,7 +720,8 @@ export const tvDisplayDoc: ComponentDoc = {
     {
       name: "TVDisplayToken.next",
       type: "ReactNode[]",
-      description: "Optional list of upcoming tokens shown after the current one.",
+      description:
+        "Optional list of upcoming tokens shown after the current one.",
     },
     {
       name: "TVDisplayToken.nextLabel",

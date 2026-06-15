@@ -96,7 +96,8 @@ export const scrollAreaDoc: ComponentDoc = {
     "Augments native scroll functionality for custom, cross-browser styling.",
   installation: {
     cli: "npx shadcn@latest add scroll-area",
-    manual: "Install `radix-ui`, then copy the scroll-area component into your project.",
+    manual:
+      "Install `radix-ui`, then copy the scroll-area component into your project.",
   },
   usage: `import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
@@ -133,7 +134,7 @@ export function ScrollAreaDemo() {
     {
       name: "Horizontal",
       description:
-        "Use ScrollBar with orientation=\"horizontal\" for horizontal scrolling.",
+        'Use ScrollBar with orientation="horizontal" for horizontal scrolling.',
       code: `import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 
 interface Artwork {

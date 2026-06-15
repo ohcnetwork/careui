@@ -126,8 +126,7 @@
     "type": "registry:ui",
     "dependencies": [
       "sonner",
-      "next-themes",
-      "lucide-react"
+      "next-themes"
     ],
     "files": [
       "registry/care-ui/sonner/sonner.tsx"
@@ -607,8 +606,7 @@
     "type": "registry:ui",
     "dependencies": [
       "react-day-picker",
-      "date-fns",
-      "lucide-react"
+      "date-fns"
     ],
     "files": [
       "registry/care-ui/calendar/calendar.tsx"

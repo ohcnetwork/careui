@@ -30,111 +30,259 @@ const loremParagraph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 const longFormSheetPreview = React.createElement(
-    Sheet,
-    null,
+  Sheet,
+  null,
+  React.createElement(
+    SheetTrigger,
+    { asChild: true },
     React.createElement(
-      SheetTrigger,
-      { asChild: true },
-      React.createElement(Button, { variant: "outline" }, "Open Registration Form")
+      Button,
+      { variant: "outline" },
+      "Open Registration Form"
+    )
+  ),
+  React.createElement(
+    SheetContent,
+    { size: "md" },
+    React.createElement(
+      SheetHeader,
+      null,
+      React.createElement(SheetTitle, null, "Patient Registration"),
+      React.createElement(
+        SheetDescription,
+        null,
+        "Fill in the details below. All fields marked with * are required."
+      )
     ),
     React.createElement(
-      SheetContent,
-      { size: "md" },
+      SheetBody,
+      null,
       React.createElement(
-        SheetHeader,
-        null,
-        React.createElement(SheetTitle, null, "Patient Registration"),
-        React.createElement(SheetDescription, null, "Fill in the details below. All fields marked with * are required.")
-      ),
-      React.createElement(
-        SheetBody,
+        FieldGroup,
         null,
         React.createElement(
-          FieldGroup,
+          Field,
           null,
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-firstname" }, "First name *"),
-            React.createElement(Input, { id: "lf-firstname", placeholder: "John" })
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-firstname" },
+            "First name *"
           ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-lastname" }, "Last name *"),
-            React.createElement(Input, { id: "lf-lastname", placeholder: "Doe" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-dob" }, "Date of birth *"),
-            React.createElement(Input, { id: "lf-dob", type: "date" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-email" }, "Email address *"),
-            React.createElement(Input, { id: "lf-email", type: "email", placeholder: "john@example.com" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-phone" }, "Phone number"),
-            React.createElement(Input, { id: "lf-phone", type: "tel", placeholder: "+1 (555) 000-0000" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-age" }, "Age"),
-            React.createElement(Input, { id: "lf-age", type: "number", placeholder: "30", min: "0", max: "120" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-address" }, "Street address"),
-            React.createElement(Input, { id: "lf-address", placeholder: "123 Main St" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-city" }, "City"),
-            React.createElement(Input, { id: "lf-city", placeholder: "San Francisco" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-zip" }, "ZIP / Postal code"),
-            React.createElement(Input, { id: "lf-zip", placeholder: "94103" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-ec-name" }, "Emergency contact name"),
-            React.createElement(Input, { id: "lf-ec-name", placeholder: "Jane Doe" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-ec-phone" }, "Emergency contact phone"),
-            React.createElement(Input, { id: "lf-ec-phone", type: "tel", placeholder: "+1 (555) 000-0001" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-website" }, "Personal website"),
-            React.createElement(Input, { id: "lf-website", type: "url", placeholder: "https://example.com" })
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-allergies" }, "Known allergies"),
-            React.createElement(Textarea, { id: "lf-allergies", placeholder: "List any known allergies…", rows: 3 }),
-            React.createElement(FieldDescription, null, "Separate multiple entries with commas.")
-          ),
-          React.createElement(Field, null,
-            React.createElement(FieldLabel, { htmlFor: "lf-meds" }, "Current medications"),
-            React.createElement(Textarea, { id: "lf-meds", placeholder: "List any current medications…", rows: 3 })
-          ),
-          React.createElement("div", { className: "flex items-center gap-3 py-1" },
-            React.createElement(Checkbox, { id: "lf-newsletter" }),
-            React.createElement("label", { htmlFor: "lf-newsletter", className: "text-sm cursor-pointer" }, "Subscribe to health tips newsletter")
-          ),
-          React.createElement("div", { className: "flex items-center gap-3 py-1" },
-            React.createElement(Checkbox, { id: "lf-terms" }),
-            React.createElement("label", { htmlFor: "lf-terms", className: "text-sm cursor-pointer" }, "I agree to the terms and conditions *")
-          ),
-          React.createElement("div", { className: "flex items-center justify-between py-1" },
-            React.createElement("label", { htmlFor: "lf-sms", className: "text-sm cursor-pointer" }, "Enable SMS appointment reminders"),
-            React.createElement(Switch, { id: "lf-sms" })
-          )
-        )
-      ),
-      React.createElement(
-        SheetFooter,
-        null,
-        React.createElement(Button, { type: "submit" }, "Submit registration"),
+          React.createElement(Input, {
+            id: "lf-firstname",
+            placeholder: "John",
+          })
+        ),
         React.createElement(
-          SheetClose,
-          { asChild: true },
-          React.createElement(Button, { variant: "outline" }, "Cancel")
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-lastname" },
+            "Last name *"
+          ),
+          React.createElement(Input, { id: "lf-lastname", placeholder: "Doe" })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-dob" },
+            "Date of birth *"
+          ),
+          React.createElement(Input, { id: "lf-dob", type: "date" })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-email" },
+            "Email address *"
+          ),
+          React.createElement(Input, {
+            id: "lf-email",
+            type: "email",
+            placeholder: "john@example.com",
+          })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-phone" },
+            "Phone number"
+          ),
+          React.createElement(Input, {
+            id: "lf-phone",
+            type: "tel",
+            placeholder: "+1 (555) 000-0000",
+          })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(FieldLabel, { htmlFor: "lf-age" }, "Age"),
+          React.createElement(Input, {
+            id: "lf-age",
+            type: "number",
+            placeholder: "30",
+            min: "0",
+            max: "120",
+          })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-address" },
+            "Street address"
+          ),
+          React.createElement(Input, {
+            id: "lf-address",
+            placeholder: "123 Main St",
+          })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(FieldLabel, { htmlFor: "lf-city" }, "City"),
+          React.createElement(Input, {
+            id: "lf-city",
+            placeholder: "San Francisco",
+          })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-zip" },
+            "ZIP / Postal code"
+          ),
+          React.createElement(Input, { id: "lf-zip", placeholder: "94103" })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-ec-name" },
+            "Emergency contact name"
+          ),
+          React.createElement(Input, {
+            id: "lf-ec-name",
+            placeholder: "Jane Doe",
+          })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-ec-phone" },
+            "Emergency contact phone"
+          ),
+          React.createElement(Input, {
+            id: "lf-ec-phone",
+            type: "tel",
+            placeholder: "+1 (555) 000-0001",
+          })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-website" },
+            "Personal website"
+          ),
+          React.createElement(Input, {
+            id: "lf-website",
+            type: "url",
+            placeholder: "https://example.com",
+          })
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-allergies" },
+            "Known allergies"
+          ),
+          React.createElement(Textarea, {
+            id: "lf-allergies",
+            placeholder: "List any known allergies…",
+            rows: 3,
+          }),
+          React.createElement(
+            FieldDescription,
+            null,
+            "Separate multiple entries with commas."
+          )
+        ),
+        React.createElement(
+          Field,
+          null,
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "lf-meds" },
+            "Current medications"
+          ),
+          React.createElement(Textarea, {
+            id: "lf-meds",
+            placeholder: "List any current medications…",
+            rows: 3,
+          })
+        ),
+        React.createElement(
+          "div",
+          { className: "flex items-center gap-3 py-1" },
+          React.createElement(Checkbox, { id: "lf-newsletter" }),
+          React.createElement(
+            "label",
+            { htmlFor: "lf-newsletter", className: "text-sm cursor-pointer" },
+            "Subscribe to health tips newsletter"
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "flex items-center gap-3 py-1" },
+          React.createElement(Checkbox, { id: "lf-terms" }),
+          React.createElement(
+            "label",
+            { htmlFor: "lf-terms", className: "text-sm cursor-pointer" },
+            "I agree to the terms and conditions *"
+          )
+        ),
+        React.createElement(
+          "div",
+          { className: "flex items-center justify-between py-1" },
+          React.createElement(
+            "label",
+            { htmlFor: "lf-sms", className: "text-sm cursor-pointer" },
+            "Enable SMS appointment reminders"
+          ),
+          React.createElement(Switch, { id: "lf-sms" })
         )
       )
+    ),
+    React.createElement(
+      SheetFooter,
+      null,
+      React.createElement(Button, { type: "submit" }, "Submit registration"),
+      React.createElement(
+        SheetClose,
+        { asChild: true },
+        React.createElement(Button, { variant: "outline" }, "Cancel")
+      )
     )
-  );
+  )
+);
 
 export const sheetDoc: ComponentDoc = {
   id: "sheet",
@@ -270,22 +418,52 @@ export function SheetDemo() {
             React.createElement(
               Field,
               {},
-              React.createElement(FieldLabel, { htmlFor: "sheet-demo-name" }, "Full name"),
-              React.createElement(Input, { id: "sheet-demo-name", defaultValue: "Pedro Duarte" })
+              React.createElement(
+                FieldLabel,
+                { htmlFor: "sheet-demo-name" },
+                "Full name"
+              ),
+              React.createElement(Input, {
+                id: "sheet-demo-name",
+                defaultValue: "Pedro Duarte",
+              })
             ),
             React.createElement(
               Field,
               {},
-              React.createElement(FieldLabel, { htmlFor: "sheet-demo-username" }, "Username"),
-              React.createElement(Input, { id: "sheet-demo-username", defaultValue: "@peduarte" }),
-              React.createElement(FieldDescription, {}, "This is your public display name.")
+              React.createElement(
+                FieldLabel,
+                { htmlFor: "sheet-demo-username" },
+                "Username"
+              ),
+              React.createElement(Input, {
+                id: "sheet-demo-username",
+                defaultValue: "@peduarte",
+              }),
+              React.createElement(
+                FieldDescription,
+                {},
+                "This is your public display name."
+              )
             ),
             React.createElement(
               Field,
               {},
-              React.createElement(FieldLabel, { htmlFor: "sheet-demo-email" }, "Email"),
-              React.createElement(Input, { id: "sheet-demo-email", type: "email", defaultValue: "pedro@example.com" }),
-              React.createElement(FieldDescription, {}, "Used for notifications and account recovery.")
+              React.createElement(
+                FieldLabel,
+                { htmlFor: "sheet-demo-email" },
+                "Email"
+              ),
+              React.createElement(Input, {
+                id: "sheet-demo-email",
+                type: "email",
+                defaultValue: "pedro@example.com",
+              }),
+              React.createElement(
+                FieldDescription,
+                {},
+                "Used for notifications and account recovery."
+              )
             )
           )
         ),
@@ -401,73 +579,236 @@ export function SheetSide() {
                 React.createElement(
                   FieldGroup,
                   null,
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-firstname" }, "First name *"),
-                    React.createElement(Input, { id: "lf-firstname", placeholder: "John" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-firstname" },
+                      "First name *"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-firstname",
+                      placeholder: "John",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-lastname" }, "Last name *"),
-                    React.createElement(Input, { id: "lf-lastname", placeholder: "Doe" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-lastname" },
+                      "Last name *"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-lastname",
+                      placeholder: "Doe",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-dob" }, "Date of birth *"),
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-dob" },
+                      "Date of birth *"
+                    ),
                     React.createElement(Input, { id: "lf-dob", type: "date" })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-email" }, "Email address *"),
-                    React.createElement(Input, { id: "lf-email", type: "email", placeholder: "john@example.com" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-email" },
+                      "Email address *"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-email",
+                      type: "email",
+                      placeholder: "john@example.com",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-phone" }, "Phone number"),
-                    React.createElement(Input, { id: "lf-phone", type: "tel", placeholder: "+1 (555) 000-0000" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-phone" },
+                      "Phone number"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-phone",
+                      type: "tel",
+                      placeholder: "+1 (555) 000-0000",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-age" }, "Age"),
-                    React.createElement(Input, { id: "lf-age", type: "number", placeholder: "30", min: "0", max: "120" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-age" },
+                      "Age"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-age",
+                      type: "number",
+                      placeholder: "30",
+                      min: "0",
+                      max: "120",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-address" }, "Street address"),
-                    React.createElement(Input, { id: "lf-address", placeholder: "123 Main St" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-address" },
+                      "Street address"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-address",
+                      placeholder: "123 Main St",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-city" }, "City"),
-                    React.createElement(Input, { id: "lf-city", placeholder: "San Francisco" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-city" },
+                      "City"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-city",
+                      placeholder: "San Francisco",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-zip" }, "ZIP / Postal code"),
-                    React.createElement(Input, { id: "lf-zip", placeholder: "94103" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-zip" },
+                      "ZIP / Postal code"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-zip",
+                      placeholder: "94103",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-ec-name" }, "Emergency contact name"),
-                    React.createElement(Input, { id: "lf-ec-name", placeholder: "Jane Doe" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-ec-name" },
+                      "Emergency contact name"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-ec-name",
+                      placeholder: "Jane Doe",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-ec-phone" }, "Emergency contact phone"),
-                    React.createElement(Input, { id: "lf-ec-phone", type: "tel", placeholder: "+1 (555) 000-0001" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-ec-phone" },
+                      "Emergency contact phone"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-ec-phone",
+                      type: "tel",
+                      placeholder: "+1 (555) 000-0001",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-website" }, "Personal website"),
-                    React.createElement(Input, { id: "lf-website", type: "url", placeholder: "https://example.com" })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-website" },
+                      "Personal website"
+                    ),
+                    React.createElement(Input, {
+                      id: "lf-website",
+                      type: "url",
+                      placeholder: "https://example.com",
+                    })
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-allergies" }, "Known allergies"),
-                    React.createElement(Textarea, { id: "lf-allergies", placeholder: "List any known allergies…", rows: 3 }),
-                    React.createElement(FieldDescription, null, "Separate multiple entries with commas.")
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-allergies" },
+                      "Known allergies"
+                    ),
+                    React.createElement(Textarea, {
+                      id: "lf-allergies",
+                      placeholder: "List any known allergies…",
+                      rows: 3,
+                    }),
+                    React.createElement(
+                      FieldDescription,
+                      null,
+                      "Separate multiple entries with commas."
+                    )
                   ),
-                  React.createElement(Field, null,
-                    React.createElement(FieldLabel, { htmlFor: "lf-meds" }, "Current medications"),
-                    React.createElement(Textarea, { id: "lf-meds", placeholder: "List any current medications…", rows: 3 })
+                  React.createElement(
+                    Field,
+                    null,
+                    React.createElement(
+                      FieldLabel,
+                      { htmlFor: "lf-meds" },
+                      "Current medications"
+                    ),
+                    React.createElement(Textarea, {
+                      id: "lf-meds",
+                      placeholder: "List any current medications…",
+                      rows: 3,
+                    })
                   ),
-                  React.createElement("div", { className: "flex items-center gap-3 py-1" },
+                  React.createElement(
+                    "div",
+                    { className: "flex items-center gap-3 py-1" },
                     React.createElement(Checkbox, { id: "lf-newsletter" }),
-                    React.createElement("label", { htmlFor: "lf-newsletter", className: "text-sm cursor-pointer" }, "Subscribe to health tips newsletter")
+                    React.createElement(
+                      "label",
+                      {
+                        htmlFor: "lf-newsletter",
+                        className: "text-sm cursor-pointer",
+                      },
+                      "Subscribe to health tips newsletter"
+                    )
                   ),
-                  React.createElement("div", { className: "flex items-center gap-3 py-1" },
+                  React.createElement(
+                    "div",
+                    { className: "flex items-center gap-3 py-1" },
                     React.createElement(Checkbox, { id: "lf-terms" }),
-                    React.createElement("label", { htmlFor: "lf-terms", className: "text-sm cursor-pointer" }, "I agree to the terms and conditions *")
+                    React.createElement(
+                      "label",
+                      {
+                        htmlFor: "lf-terms",
+                        className: "text-sm cursor-pointer",
+                      },
+                      "I agree to the terms and conditions *"
+                    )
                   ),
-                  React.createElement("div", { className: "flex items-center justify-between py-1" },
-                    React.createElement("label", { htmlFor: "lf-sms", className: "text-sm cursor-pointer" }, "Enable SMS appointment reminders"),
+                  React.createElement(
+                    "div",
+                    { className: "flex items-center justify-between py-1" },
+                    React.createElement(
+                      "label",
+                      {
+                        htmlFor: "lf-sms",
+                        className: "text-sm cursor-pointer",
+                      },
+                      "Enable SMS appointment reminders"
+                    ),
                     React.createElement(Switch, { id: "lf-sms" })
                   )
                 )
@@ -550,7 +891,11 @@ export function SheetSizes() {
               React.createElement(
                 SheetHeader,
                 {},
-                React.createElement(SheetTitle, {}, `Sheet — ${size.toUpperCase()}`),
+                React.createElement(
+                  SheetTitle,
+                  {},
+                  `Sheet — ${size.toUpperCase()}`
+                ),
                 React.createElement(
                   SheetDescription,
                   {},
@@ -709,16 +1054,26 @@ export function SheetDismissible() {
         React.createElement(
           SheetTrigger,
           { asChild: true },
-          React.createElement(Button, { variant: "outline" }, "Open (dismissible)")
+          React.createElement(
+            Button,
+            { variant: "outline" },
+            "Open (dismissible)"
+          )
         ),
         React.createElement(
           SheetContent,
-          { dismissible: true, size: "md" } as React.ComponentProps<typeof SheetContent>,
+          { dismissible: true, size: "md" } as React.ComponentProps<
+            typeof SheetContent
+          >,
           React.createElement(
             SheetHeader,
             {},
             React.createElement(SheetTitle, {}, "Patient Registration"),
-            React.createElement(SheetDescription, {}, "Click outside to close. All fields marked with * are required.")
+            React.createElement(
+              SheetDescription,
+              {},
+              "Click outside to close. All fields marked with * are required."
+            )
           ),
           React.createElement(
             SheetBody,
@@ -726,73 +1081,220 @@ export function SheetDismissible() {
             React.createElement(
               FieldGroup,
               {},
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-firstname" }, "First name *"),
-                React.createElement(Input, { id: "dis-firstname", placeholder: "John" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-firstname" },
+                  "First name *"
+                ),
+                React.createElement(Input, {
+                  id: "dis-firstname",
+                  placeholder: "John",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-lastname" }, "Last name *"),
-                React.createElement(Input, { id: "dis-lastname", placeholder: "Doe" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-lastname" },
+                  "Last name *"
+                ),
+                React.createElement(Input, {
+                  id: "dis-lastname",
+                  placeholder: "Doe",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-dob" }, "Date of birth *"),
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-dob" },
+                  "Date of birth *"
+                ),
                 React.createElement(Input, { id: "dis-dob", type: "date" })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-email" }, "Email address *"),
-                React.createElement(Input, { id: "dis-email", type: "email", placeholder: "john@example.com" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-email" },
+                  "Email address *"
+                ),
+                React.createElement(Input, {
+                  id: "dis-email",
+                  type: "email",
+                  placeholder: "john@example.com",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-phone" }, "Phone number"),
-                React.createElement(Input, { id: "dis-phone", type: "tel", placeholder: "+1 (555) 000-0000" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-phone" },
+                  "Phone number"
+                ),
+                React.createElement(Input, {
+                  id: "dis-phone",
+                  type: "tel",
+                  placeholder: "+1 (555) 000-0000",
+                })
               ),
-              React.createElement(Field, {},
+              React.createElement(
+                Field,
+                {},
                 React.createElement(FieldLabel, { htmlFor: "dis-age" }, "Age"),
-                React.createElement(Input, { id: "dis-age", type: "number", placeholder: "30", min: "0", max: "120" })
+                React.createElement(Input, {
+                  id: "dis-age",
+                  type: "number",
+                  placeholder: "30",
+                  min: "0",
+                  max: "120",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-address" }, "Street address"),
-                React.createElement(Input, { id: "dis-address", placeholder: "123 Main St" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-address" },
+                  "Street address"
+                ),
+                React.createElement(Input, {
+                  id: "dis-address",
+                  placeholder: "123 Main St",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-city" }, "City"),
-                React.createElement(Input, { id: "dis-city", placeholder: "San Francisco" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-city" },
+                  "City"
+                ),
+                React.createElement(Input, {
+                  id: "dis-city",
+                  placeholder: "San Francisco",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-zip" }, "ZIP / Postal code"),
-                React.createElement(Input, { id: "dis-zip", placeholder: "94103" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-zip" },
+                  "ZIP / Postal code"
+                ),
+                React.createElement(Input, {
+                  id: "dis-zip",
+                  placeholder: "94103",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-ec-name" }, "Emergency contact name"),
-                React.createElement(Input, { id: "dis-ec-name", placeholder: "Jane Doe" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-ec-name" },
+                  "Emergency contact name"
+                ),
+                React.createElement(Input, {
+                  id: "dis-ec-name",
+                  placeholder: "Jane Doe",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-ec-phone" }, "Emergency contact phone"),
-                React.createElement(Input, { id: "dis-ec-phone", type: "tel", placeholder: "+1 (555) 000-0001" })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-ec-phone" },
+                  "Emergency contact phone"
+                ),
+                React.createElement(Input, {
+                  id: "dis-ec-phone",
+                  type: "tel",
+                  placeholder: "+1 (555) 000-0001",
+                })
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-allergies" }, "Known allergies"),
-                React.createElement(Textarea, { id: "dis-allergies", placeholder: "List any known allergies\u2026", rows: 3 }),
-                React.createElement(FieldDescription, {}, "Separate multiple entries with commas.")
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-allergies" },
+                  "Known allergies"
+                ),
+                React.createElement(Textarea, {
+                  id: "dis-allergies",
+                  placeholder: "List any known allergies\u2026",
+                  rows: 3,
+                }),
+                React.createElement(
+                  FieldDescription,
+                  {},
+                  "Separate multiple entries with commas."
+                )
               ),
-              React.createElement(Field, {},
-                React.createElement(FieldLabel, { htmlFor: "dis-meds" }, "Current medications"),
-                React.createElement(Textarea, { id: "dis-meds", placeholder: "List any current medications\u2026", rows: 3 })
+              React.createElement(
+                Field,
+                {},
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "dis-meds" },
+                  "Current medications"
+                ),
+                React.createElement(Textarea, {
+                  id: "dis-meds",
+                  placeholder: "List any current medications\u2026",
+                  rows: 3,
+                })
               ),
-              React.createElement("div", { className: "flex items-center gap-3 py-1" },
+              React.createElement(
+                "div",
+                { className: "flex items-center gap-3 py-1" },
                 React.createElement(Checkbox, { id: "dis-terms" }),
-                React.createElement("label", { htmlFor: "dis-terms", className: "text-sm cursor-pointer" }, "I agree to the terms and conditions *")
+                React.createElement(
+                  "label",
+                  { htmlFor: "dis-terms", className: "text-sm cursor-pointer" },
+                  "I agree to the terms and conditions *"
+                )
               ),
-              React.createElement("div", { className: "flex items-center justify-between py-1" },
-                React.createElement("label", { htmlFor: "dis-sms", className: "text-sm cursor-pointer" }, "Enable SMS appointment reminders"),
+              React.createElement(
+                "div",
+                { className: "flex items-center justify-between py-1" },
+                React.createElement(
+                  "label",
+                  { htmlFor: "dis-sms", className: "text-sm cursor-pointer" },
+                  "Enable SMS appointment reminders"
+                ),
                 React.createElement(Switch, { id: "dis-sms" })
               ),
-              React.createElement("div", { className: "flex flex-row-reverse py-4 border-t bg-background gap-4 items-end" },
-                React.createElement(Button, { type: "submit" }, "Submit registration"),
-                React.createElement(SheetClose, { asChild: true }, React.createElement(Button, { variant: "outline" }, "Cancel"))
+              React.createElement(
+                "div",
+                {
+                  className:
+                    "flex flex-row-reverse py-4 border-t bg-background gap-4 items-end",
+                },
+                React.createElement(
+                  Button,
+                  { type: "submit" },
+                  "Submit registration"
+                ),
+                React.createElement(
+                  SheetClose,
+                  { asChild: true },
+                  React.createElement(Button, { variant: "outline" }, "Cancel")
+                )
               )
             )
-          ),
+          )
         )
       ),
     },
@@ -984,11 +1486,17 @@ export function SheetNonModal() {
         React.createElement(
           SheetTrigger,
           { asChild: true },
-          React.createElement(Button, { variant: "outline" }, "Open non-modal sheet")
+          React.createElement(
+            Button,
+            { variant: "outline" },
+            "Open non-modal sheet"
+          )
         ),
         React.createElement(
           SheetContent,
-          { overlay: false, size: "md" } as React.ComponentProps<typeof SheetContent>,
+          { overlay: false, size: "md" } as React.ComponentProps<
+            typeof SheetContent
+          >,
           React.createElement(
             SheetHeader,
             {},
@@ -1141,7 +1649,11 @@ export function NestedSheetDemo() {
                 React.createElement(
                   SheetHeader,
                   null,
-                  React.createElement(SheetTitle, null, "This sheet is nested."),
+                  React.createElement(
+                    SheetTitle,
+                    null,
+                    "This sheet is nested."
+                  ),
                   React.createElement(
                     SheetDescription,
                     null,

@@ -64,37 +64,47 @@ const ALL_PRESETS: MatrixSpinnerName[] = [
 ];
 
 function SpinCheckPreview() {
-  const [key, setKey] = React.useState(0)
+  const [key, setKey] = React.useState(0);
   return React.createElement(
     "div",
     { className: "flex flex-col items-center gap-4" },
-    React.createElement(MatrixSpinner, { key, name: "spin-check" as MatrixSpinnerName, size: "16" }),
+    React.createElement(MatrixSpinner, {
+      key,
+      name: "spin-check" as MatrixSpinnerName,
+      size: "16",
+    }),
     React.createElement(
       "button",
       {
-        className: "text-xs text-muted-foreground underline underline-offset-2 cursor-pointer",
-        onClick: () => setKey(k => k + 1),
+        className:
+          "text-xs text-muted-foreground underline underline-offset-2 cursor-pointer",
+        onClick: () => setKey((k) => k + 1),
       },
-      "Replay",
-    ),
-  )
+      "Replay"
+    )
+  );
 }
 
 function SpinFallPreview() {
-  const [key, setKey] = React.useState(0)
+  const [key, setKey] = React.useState(0);
   return React.createElement(
     "div",
     { className: "flex flex-col items-center gap-4" },
-    React.createElement(MatrixSpinner, { key, name: "spin-fall" as MatrixSpinnerName, size: "16" }),
+    React.createElement(MatrixSpinner, {
+      key,
+      name: "spin-fall" as MatrixSpinnerName,
+      size: "16",
+    }),
     React.createElement(
       "button",
       {
-        className: "text-xs text-muted-foreground underline underline-offset-2 cursor-pointer",
-        onClick: () => setKey(k => k + 1),
+        className:
+          "text-xs text-muted-foreground underline underline-offset-2 cursor-pointer",
+        onClick: () => setKey((k) => k + 1),
       },
-      "Replay",
-    ),
-  )
+      "Replay"
+    )
+  );
 }
 
 export const matrixSpinnerDoc: ComponentDoc = {
@@ -152,10 +162,10 @@ export function MatrixSpinnerDemo() {
           React.createElement(
             "span",
             { className: "text-xs text-muted-foreground font-mono" },
-            name,
-          ),
-        ),
-      ),
+            name
+          )
+        )
+      )
     ),
   },
   examples: [
@@ -188,10 +198,10 @@ export function MatrixSpinnerSizes() {
             React.createElement(
               "span",
               { className: "text-xs text-muted-foreground" },
-              s,
-            ),
-          ),
-        ),
+              s
+            )
+          )
+        )
       ),
     },
     {
@@ -218,7 +228,7 @@ export function MatrixSpinnerColors() {
         React.createElement(MatrixSpinner, { className: "text-primary" }),
         React.createElement(MatrixSpinner, { className: "text-emerald-500" }),
         React.createElement(MatrixSpinner, { className: "text-rose-500" }),
-        React.createElement(MatrixSpinner, { className: "text-amber-400" }),
+        React.createElement(MatrixSpinner, { className: "text-amber-400" })
       ),
     },
     {

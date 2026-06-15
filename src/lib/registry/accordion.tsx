@@ -81,11 +81,20 @@ export function AccordionDemo() {
 }`,
     component: React.createElement(
       Accordion,
-      { type: "single", collapsible: true, defaultValue: "shipping", className: "max-w-lg" },
+      {
+        type: "single",
+        collapsible: true,
+        defaultValue: "shipping",
+        className: "max-w-lg",
+      },
       React.createElement(
         AccordionItem,
         { value: "shipping" },
-        React.createElement(AccordionTrigger, {}, "What are your shipping options?"),
+        React.createElement(
+          AccordionTrigger,
+          {},
+          "What are your shipping options?"
+        ),
         React.createElement(
           AccordionContent,
           {},
@@ -95,7 +104,11 @@ export function AccordionDemo() {
       React.createElement(
         AccordionItem,
         { value: "returns" },
-        React.createElement(AccordionTrigger, {}, "What is your return policy?"),
+        React.createElement(
+          AccordionTrigger,
+          {},
+          "What is your return policy?"
+        ),
         React.createElement(
           AccordionContent,
           {},
@@ -105,7 +118,11 @@ export function AccordionDemo() {
       React.createElement(
         AccordionItem,
         { value: "support" },
-        React.createElement(AccordionTrigger, {}, "How can I contact customer support?"),
+        React.createElement(
+          AccordionTrigger,
+          {},
+          "How can I contact customer support?"
+        ),
         React.createElement(
           AccordionContent,
           {},
@@ -163,7 +180,12 @@ export function AccordionBasic() {
 }`,
       preview: React.createElement(
         Accordion,
-        { type: "single", collapsible: true, defaultValue: "item-1", className: "max-w-lg" },
+        {
+          type: "single",
+          collapsible: true,
+          defaultValue: "item-1",
+          className: "max-w-lg",
+        },
         ...[
           {
             value: "item-1",
@@ -241,7 +263,11 @@ export function AccordionMultiple() {
 }`,
       preview: React.createElement(
         Accordion,
-        { type: "multiple", className: "max-w-lg", defaultValue: ["notifications"] },
+        {
+          type: "multiple",
+          className: "max-w-lg",
+          defaultValue: ["notifications"],
+        },
         ...[
           {
             value: "notifications",
@@ -318,7 +344,11 @@ export function AccordionDisabled() {
         React.createElement(
           AccordionItem,
           { value: "item-1" },
-          React.createElement(AccordionTrigger, {}, "Can I access my account history?"),
+          React.createElement(
+            AccordionTrigger,
+            {},
+            "Can I access my account history?"
+          ),
           React.createElement(
             AccordionContent,
             {},
@@ -328,7 +358,11 @@ export function AccordionDisabled() {
         React.createElement(
           AccordionItem,
           { value: "item-2", disabled: true },
-          React.createElement(AccordionTrigger, {}, "Premium feature information"),
+          React.createElement(
+            AccordionTrigger,
+            {},
+            "Premium feature information"
+          ),
           React.createElement(
             AccordionContent,
             {},
@@ -338,7 +372,11 @@ export function AccordionDisabled() {
         React.createElement(
           AccordionItem,
           { value: "item-3" },
-          React.createElement(AccordionTrigger, {}, "How do I update my email address?"),
+          React.createElement(
+            AccordionTrigger,
+            {},
+            "How do I update my email address?"
+          ),
           React.createElement(
             AccordionContent,
             {},
@@ -432,7 +470,11 @@ export function AccordionBorders() {
         ].map((item) =>
           React.createElement(
             AccordionItem,
-            { key: item.value, value: item.value, className: "border-b px-4 last:border-b-0" },
+            {
+              key: item.value,
+              value: item.value,
+              className: "border-b px-4 last:border-b-0",
+            },
             React.createElement(AccordionTrigger, {}, item.trigger),
             React.createElement(AccordionContent, {}, item.content)
           )

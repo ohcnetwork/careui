@@ -8,7 +8,12 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/data-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Avatar, AvatarBadge, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -28,8 +33,31 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Card, CardAction, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronDown, ChevronUp, Filter, GripVertical, HeartPulse, MapPin, MoreHorizontal, Pin, PinOff, Search, Settings2, Stethoscope, User, UserPlus, X } from "lucide-react";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChevronDown,
+  ChevronUp,
+  Filter,
+  GripVertical,
+  HeartPulse,
+  MapPin,
+  MoreHorizontal,
+  Pin,
+  PinOff,
+  Search,
+  Settings2,
+  Stethoscope,
+  User,
+  UserPlus,
+  X,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -58,7 +86,12 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove, horizontalListSortingStrategy, useSortable } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  arrayMove,
+  horizontalListSortingStrategy,
+  useSortable,
+} from "@dnd-kit/sortable";
 import {
   Table,
   TableBody,
@@ -91,24 +124,135 @@ type Patient = {
 };
 
 const patients: Patient[] = [
-  { id: "OHC-0041", name: "Ravi Kumar",      age: 45, gender: "M", ward: "General",    bed: "G-12",  diagnosis: "Hypertension",             status: "stable"     },
-  { id: "OHC-0042", name: "Priya Sharma",    age: 32, gender: "F", ward: "Maternity",  bed: "M-03",  diagnosis: "Post-op recovery",          status: "admitted"   },
-  { id: "OHC-0043", name: "Arjun Mehta",     age: 67, gender: "M", ward: "ICU",        bed: "I-01",  diagnosis: "Cardiac arrest",            status: "critical"   },
-  { id: "OHC-0044", name: "Sunita Rao",      age: 28, gender: "F", ward: "Surgical",   bed: "S-07",  diagnosis: "Appendicitis",              status: "admitted"   },
-  { id: "OHC-0045", name: "Mohammed Ali",    age: 55, gender: "M", ward: "General",    bed: "G-05",  diagnosis: "Diabetes mellitus",         status: "stable"     },
-  { id: "OHC-0046", name: "Lakshmi Nair",    age: 73, gender: "F", ward: "Geriatric",  bed: "GR-02", diagnosis: "COPD",                      status: "stable"     },
-  { id: "OHC-0047", name: "Vivek Patel",     age: 41, gender: "M", ward: "Surgical",   bed: "S-11",  diagnosis: "Cholecystectomy",           status: "admitted"   },
-  { id: "OHC-0048", name: "Ananya Singh",    age: 19, gender: "F", ward: "General",    bed: "G-18",  diagnosis: "Typhoid fever",             status: "admitted"   },
-  { id: "OHC-0049", name: "Deepak Verma",    age: 60, gender: "M", ward: "ICU",        bed: "I-03",  diagnosis: "Stroke",                    status: "critical"   },
-  { id: "OHC-0050", name: "Meera Krishnan",  age: 36, gender: "F", ward: "Maternity",  bed: "M-07",  diagnosis: "Normal delivery",           status: "discharged" },
-  { id: "OHC-0051", name: "Rajesh Nambiar",  age: 50, gender: "M", ward: "Orthopedic", bed: "O-04",  diagnosis: "Hip replacement",           status: "admitted"   },
-  { id: "OHC-0052", name: "Fatima Begum",    age: 48, gender: "F", ward: "General",    bed: "G-22",  diagnosis: "Urinary tract infection",   status: "stable"     },
+  {
+    id: "OHC-0041",
+    name: "Ravi Kumar",
+    age: 45,
+    gender: "M",
+    ward: "General",
+    bed: "G-12",
+    diagnosis: "Hypertension",
+    status: "stable",
+  },
+  {
+    id: "OHC-0042",
+    name: "Priya Sharma",
+    age: 32,
+    gender: "F",
+    ward: "Maternity",
+    bed: "M-03",
+    diagnosis: "Post-op recovery",
+    status: "admitted",
+  },
+  {
+    id: "OHC-0043",
+    name: "Arjun Mehta",
+    age: 67,
+    gender: "M",
+    ward: "ICU",
+    bed: "I-01",
+    diagnosis: "Cardiac arrest",
+    status: "critical",
+  },
+  {
+    id: "OHC-0044",
+    name: "Sunita Rao",
+    age: 28,
+    gender: "F",
+    ward: "Surgical",
+    bed: "S-07",
+    diagnosis: "Appendicitis",
+    status: "admitted",
+  },
+  {
+    id: "OHC-0045",
+    name: "Mohammed Ali",
+    age: 55,
+    gender: "M",
+    ward: "General",
+    bed: "G-05",
+    diagnosis: "Diabetes mellitus",
+    status: "stable",
+  },
+  {
+    id: "OHC-0046",
+    name: "Lakshmi Nair",
+    age: 73,
+    gender: "F",
+    ward: "Geriatric",
+    bed: "GR-02",
+    diagnosis: "COPD",
+    status: "stable",
+  },
+  {
+    id: "OHC-0047",
+    name: "Vivek Patel",
+    age: 41,
+    gender: "M",
+    ward: "Surgical",
+    bed: "S-11",
+    diagnosis: "Cholecystectomy",
+    status: "admitted",
+  },
+  {
+    id: "OHC-0048",
+    name: "Ananya Singh",
+    age: 19,
+    gender: "F",
+    ward: "General",
+    bed: "G-18",
+    diagnosis: "Typhoid fever",
+    status: "admitted",
+  },
+  {
+    id: "OHC-0049",
+    name: "Deepak Verma",
+    age: 60,
+    gender: "M",
+    ward: "ICU",
+    bed: "I-03",
+    diagnosis: "Stroke",
+    status: "critical",
+  },
+  {
+    id: "OHC-0050",
+    name: "Meera Krishnan",
+    age: 36,
+    gender: "F",
+    ward: "Maternity",
+    bed: "M-07",
+    diagnosis: "Normal delivery",
+    status: "discharged",
+  },
+  {
+    id: "OHC-0051",
+    name: "Rajesh Nambiar",
+    age: 50,
+    gender: "M",
+    ward: "Orthopedic",
+    bed: "O-04",
+    diagnosis: "Hip replacement",
+    status: "admitted",
+  },
+  {
+    id: "OHC-0052",
+    name: "Fatima Begum",
+    age: 48,
+    gender: "F",
+    ward: "General",
+    bed: "G-22",
+    diagnosis: "Urinary tract infection",
+    status: "stable",
+  },
 ];
 
-const patientStatusVariant: Record<Patient["status"], "success" | "neutral" | "info" | "destructive"> = {
-  stable:     "success",
-  admitted:   "info",
-  critical:   "destructive",
+const patientStatusVariant: Record<
+  Patient["status"],
+  "success" | "neutral" | "info" | "destructive"
+> = {
+  stable: "success",
+  admitted: "info",
+  critical: "destructive",
   discharged: "neutral",
 };
 
@@ -126,22 +270,115 @@ type MedLog = {
 };
 
 const medLogs: MedLog[] = [
-  { id: "ML-01", patientId: "OHC-0043", patientName: "Arjun Mehta",    medication: "Aspirin 75mg",         dose: "1 tab",   route: "Oral",    scheduledAt: "06:00 AM", status: "given"   },
-  { id: "ML-02", patientId: "OHC-0041", patientName: "Ravi Kumar",     medication: "Amlodipine 5mg",       dose: "1 tab",   route: "Oral",    scheduledAt: "08:00 AM", status: "given"   },
-  { id: "ML-03", patientId: "OHC-0049", patientName: "Deepak Verma",   medication: "Heparin 5000 IU",      dose: "5000 IU", route: "IV",      scheduledAt: "08:00 AM", status: "given"   },
-  { id: "ML-04", patientId: "OHC-0044", patientName: "Sunita Rao",     medication: "Metronidazole 500mg",  dose: "500 mg",  route: "IV",      scheduledAt: "10:00 AM", status: "pending" },
-  { id: "ML-05", patientId: "OHC-0045", patientName: "Mohammed Ali",   medication: "Metformin 500mg",      dose: "1 tab",   route: "Oral",    scheduledAt: "02:00 PM", status: "pending" },
-  { id: "ML-06", patientId: "OHC-0048", patientName: "Ananya Singh",   medication: "Azithromycin 500mg",   dose: "1 cap",   route: "Oral",    scheduledAt: "08:00 AM", status: "missed"  },
-  { id: "ML-07", patientId: "OHC-0046", patientName: "Lakshmi Nair",   medication: "Salbutamol 2.5mg",     dose: "2.5 mg",  route: "Inhaled", scheduledAt: "12:00 PM", status: "pending" },
-  { id: "ML-08", patientId: "OHC-0043", patientName: "Arjun Mehta",    medication: "Atorvastatin 40mg",    dose: "1 tab",   route: "Oral",    scheduledAt: "10:00 PM", status: "pending" },
-  { id: "ML-09", patientId: "OHC-0051", patientName: "Rajesh Nambiar", medication: "Tramadol 50mg",        dose: "50 mg",   route: "IM",      scheduledAt: "06:00 PM", status: "given"   },
-  { id: "ML-10", patientId: "OHC-0052", patientName: "Fatima Begum",   medication: "Ciprofloxacin 500mg",  dose: "1 tab",   route: "Oral",    scheduledAt: "08:00 AM", status: "given"   },
+  {
+    id: "ML-01",
+    patientId: "OHC-0043",
+    patientName: "Arjun Mehta",
+    medication: "Aspirin 75mg",
+    dose: "1 tab",
+    route: "Oral",
+    scheduledAt: "06:00 AM",
+    status: "given",
+  },
+  {
+    id: "ML-02",
+    patientId: "OHC-0041",
+    patientName: "Ravi Kumar",
+    medication: "Amlodipine 5mg",
+    dose: "1 tab",
+    route: "Oral",
+    scheduledAt: "08:00 AM",
+    status: "given",
+  },
+  {
+    id: "ML-03",
+    patientId: "OHC-0049",
+    patientName: "Deepak Verma",
+    medication: "Heparin 5000 IU",
+    dose: "5000 IU",
+    route: "IV",
+    scheduledAt: "08:00 AM",
+    status: "given",
+  },
+  {
+    id: "ML-04",
+    patientId: "OHC-0044",
+    patientName: "Sunita Rao",
+    medication: "Metronidazole 500mg",
+    dose: "500 mg",
+    route: "IV",
+    scheduledAt: "10:00 AM",
+    status: "pending",
+  },
+  {
+    id: "ML-05",
+    patientId: "OHC-0045",
+    patientName: "Mohammed Ali",
+    medication: "Metformin 500mg",
+    dose: "1 tab",
+    route: "Oral",
+    scheduledAt: "02:00 PM",
+    status: "pending",
+  },
+  {
+    id: "ML-06",
+    patientId: "OHC-0048",
+    patientName: "Ananya Singh",
+    medication: "Azithromycin 500mg",
+    dose: "1 cap",
+    route: "Oral",
+    scheduledAt: "08:00 AM",
+    status: "missed",
+  },
+  {
+    id: "ML-07",
+    patientId: "OHC-0046",
+    patientName: "Lakshmi Nair",
+    medication: "Salbutamol 2.5mg",
+    dose: "2.5 mg",
+    route: "Inhaled",
+    scheduledAt: "12:00 PM",
+    status: "pending",
+  },
+  {
+    id: "ML-08",
+    patientId: "OHC-0043",
+    patientName: "Arjun Mehta",
+    medication: "Atorvastatin 40mg",
+    dose: "1 tab",
+    route: "Oral",
+    scheduledAt: "10:00 PM",
+    status: "pending",
+  },
+  {
+    id: "ML-09",
+    patientId: "OHC-0051",
+    patientName: "Rajesh Nambiar",
+    medication: "Tramadol 50mg",
+    dose: "50 mg",
+    route: "IM",
+    scheduledAt: "06:00 PM",
+    status: "given",
+  },
+  {
+    id: "ML-10",
+    patientId: "OHC-0052",
+    patientName: "Fatima Begum",
+    medication: "Ciprofloxacin 500mg",
+    dose: "1 tab",
+    route: "Oral",
+    scheduledAt: "08:00 AM",
+    status: "given",
+  },
 ];
 
-const medStatusVariant: Record<MedLog["status"], "success" | "warning" | "destructive"> = {
-  given:   "success",
+const medStatusVariant: Record<
+  MedLog["status"],
+  "success" | "warning" | "destructive"
+> = {
+  given: "success",
   pending: "warning",
-  missed:  "destructive",
+  missed: "destructive",
 };
 
 // ─── Invoice data ─────────────────────────────────────────────────────────────
@@ -157,20 +394,103 @@ type Invoice = {
 };
 
 const invoices: Invoice[] = [
-  { id: "INV-2026-0041", patientName: "Ravi Kumar",      patientId: "OHC-0041", date: "10 Apr 2026", category: "Consultation", amount: 500,   status: "paid"    },
-  { id: "INV-2026-0042", patientName: "Priya Sharma",    patientId: "OHC-0042", date: "12 Apr 2026", category: "Maternity",    amount: 18500, status: "pending" },
-  { id: "INV-2026-0043", patientName: "Arjun Mehta",     patientId: "OHC-0043", date: "13 Apr 2026", category: "ICU",          amount: 24000, status: "pending" },
-  { id: "INV-2026-0044", patientName: "Sunita Rao",      patientId: "OHC-0044", date: "14 Apr 2026", category: "Surgery",      amount: 32000, status: "pending" },
-  { id: "INV-2026-0045", patientName: "Mohammed Ali",    patientId: "OHC-0045", date: "09 Apr 2026", category: "Consultation", amount: 750,   status: "paid"    },
-  { id: "INV-2026-0046", patientName: "Lakshmi Nair",    patientId: "OHC-0046", date: "08 Apr 2026", category: "Pharmacy",     amount: 2340,  status: "overdue" },
-  { id: "INV-2026-0047", patientName: "Vivek Patel",     patientId: "OHC-0047", date: "14 Apr 2026", category: "Surgery",      amount: 28000, status: "pending" },
-  { id: "INV-2026-0048", patientName: "Ananya Singh",    patientId: "OHC-0048", date: "11 Apr 2026", category: "Laboratory",   amount: 1200,  status: "paid"    },
-  { id: "INV-2026-0049", patientName: "Deepak Verma",    patientId: "OHC-0049", date: "13 Apr 2026", category: "ICU",          amount: 18000, status: "pending" },
-  { id: "INV-2026-0050", patientName: "Meera Krishnan",  patientId: "OHC-0050", date: "10 Apr 2026", category: "Maternity",    amount: 14500, status: "paid"    },
+  {
+    id: "INV-2026-0041",
+    patientName: "Ravi Kumar",
+    patientId: "OHC-0041",
+    date: "10 Apr 2026",
+    category: "Consultation",
+    amount: 500,
+    status: "paid",
+  },
+  {
+    id: "INV-2026-0042",
+    patientName: "Priya Sharma",
+    patientId: "OHC-0042",
+    date: "12 Apr 2026",
+    category: "Maternity",
+    amount: 18500,
+    status: "pending",
+  },
+  {
+    id: "INV-2026-0043",
+    patientName: "Arjun Mehta",
+    patientId: "OHC-0043",
+    date: "13 Apr 2026",
+    category: "ICU",
+    amount: 24000,
+    status: "pending",
+  },
+  {
+    id: "INV-2026-0044",
+    patientName: "Sunita Rao",
+    patientId: "OHC-0044",
+    date: "14 Apr 2026",
+    category: "Surgery",
+    amount: 32000,
+    status: "pending",
+  },
+  {
+    id: "INV-2026-0045",
+    patientName: "Mohammed Ali",
+    patientId: "OHC-0045",
+    date: "09 Apr 2026",
+    category: "Consultation",
+    amount: 750,
+    status: "paid",
+  },
+  {
+    id: "INV-2026-0046",
+    patientName: "Lakshmi Nair",
+    patientId: "OHC-0046",
+    date: "08 Apr 2026",
+    category: "Pharmacy",
+    amount: 2340,
+    status: "overdue",
+  },
+  {
+    id: "INV-2026-0047",
+    patientName: "Vivek Patel",
+    patientId: "OHC-0047",
+    date: "14 Apr 2026",
+    category: "Surgery",
+    amount: 28000,
+    status: "pending",
+  },
+  {
+    id: "INV-2026-0048",
+    patientName: "Ananya Singh",
+    patientId: "OHC-0048",
+    date: "11 Apr 2026",
+    category: "Laboratory",
+    amount: 1200,
+    status: "paid",
+  },
+  {
+    id: "INV-2026-0049",
+    patientName: "Deepak Verma",
+    patientId: "OHC-0049",
+    date: "13 Apr 2026",
+    category: "ICU",
+    amount: 18000,
+    status: "pending",
+  },
+  {
+    id: "INV-2026-0050",
+    patientName: "Meera Krishnan",
+    patientId: "OHC-0050",
+    date: "10 Apr 2026",
+    category: "Maternity",
+    amount: 14500,
+    status: "paid",
+  },
 ];
 
-const invoiceStatusVariant: Record<Invoice["status"], "success" | "warning" | "destructive"> = {
-  paid:    "success",
+const invoiceStatusVariant: Record<
+  Invoice["status"],
+  "success" | "warning" | "destructive"
+> = {
+  paid: "success",
   pending: "warning",
   overdue: "destructive",
 };
@@ -189,24 +509,137 @@ type StaffMember = {
 };
 
 const staffMembers: StaffMember[] = [
-  { id: "STAFF-001", name: "Dr. Kiran Reddy",       email: "kiran.reddy@ohc.in",    department: "Cardiology",       designation: "Senior Consultant",  joined: "Jan 2018", experience: 12, status: "active"   },
-  { id: "STAFF-002", name: "Dr. Anita Menon",        email: "anita.menon@ohc.in",    department: "Pediatrics",       designation: "Consultant",          joined: "Mar 2020", experience:  8, status: "active"   },
-  { id: "STAFF-003", name: "Dr. Suresh Pillai",      email: "suresh.pillai@ohc.in",  department: "Surgery",          designation: "Head of Department",  joined: "Jun 2015", experience: 15, status: "active"   },
-  { id: "STAFF-004", name: "Nurse Rekha Thomas",     email: "rekha.thomas@ohc.in",   department: "ICU",              designation: "Senior Nurse",        joined: "Sep 2019", experience:  6, status: "inactive" },
-  { id: "STAFF-005", name: "Dr. Imran Sheikh",       email: "imran.sheikh@ohc.in",   department: "Orthopedics",      designation: "Consultant",          joined: "Nov 2017", experience: 10, status: "active"   },
-  { id: "STAFF-006", name: "Nurse Preethi Sajan",    email: "preethi.sajan@ohc.in",  department: "General Medicine", designation: "Staff Nurse",         joined: "Feb 2022", experience:  3, status: "active"   },
-  { id: "STAFF-007", name: "Dr. Kavitha Nair",       email: "kavitha.nair@ohc.in",   department: "Neurology",        designation: "Senior Consultant",  joined: "Aug 2016", experience: 14, status: "active"   },
-  { id: "STAFF-008", name: "Dr. Rajiv Kapoor",       email: "rajiv.kapoor@ohc.in",   department: "Radiology",        designation: "Consultant",          joined: "Dec 2021", experience:  5, status: "inactive" },
-  { id: "STAFF-009", name: "Nurse Sumathi Krishnan", email: "sumathi.k@ohc.in",      department: "Maternity",        designation: "Senior Nurse",        joined: "Apr 2018", experience:  9, status: "active"   },
-  { id: "STAFF-010", name: "Dr. Farhan Hossain",     email: "farhan.hossain@ohc.in", department: "Oncology",         designation: "Consultant",          joined: "Jul 2020", experience:  7, status: "active"   },
-  { id: "STAFF-011", name: "Dr. Pooja Iyer",         email: "pooja.iyer@ohc.in",     department: "Dermatology",      designation: "Consultant",          joined: "May 2023", experience:  4, status: "active"   },
-  { id: "STAFF-012", name: "Nurse Arun Mathew",      email: "arun.mathew@ohc.in",    department: "Emergency",        designation: "Charge Nurse",        joined: "Oct 2019", experience:  6, status: "inactive" },
+  {
+    id: "STAFF-001",
+    name: "Dr. Kiran Reddy",
+    email: "kiran.reddy@ohc.in",
+    department: "Cardiology",
+    designation: "Senior Consultant",
+    joined: "Jan 2018",
+    experience: 12,
+    status: "active",
+  },
+  {
+    id: "STAFF-002",
+    name: "Dr. Anita Menon",
+    email: "anita.menon@ohc.in",
+    department: "Pediatrics",
+    designation: "Consultant",
+    joined: "Mar 2020",
+    experience: 8,
+    status: "active",
+  },
+  {
+    id: "STAFF-003",
+    name: "Dr. Suresh Pillai",
+    email: "suresh.pillai@ohc.in",
+    department: "Surgery",
+    designation: "Head of Department",
+    joined: "Jun 2015",
+    experience: 15,
+    status: "active",
+  },
+  {
+    id: "STAFF-004",
+    name: "Nurse Rekha Thomas",
+    email: "rekha.thomas@ohc.in",
+    department: "ICU",
+    designation: "Senior Nurse",
+    joined: "Sep 2019",
+    experience: 6,
+    status: "inactive",
+  },
+  {
+    id: "STAFF-005",
+    name: "Dr. Imran Sheikh",
+    email: "imran.sheikh@ohc.in",
+    department: "Orthopedics",
+    designation: "Consultant",
+    joined: "Nov 2017",
+    experience: 10,
+    status: "active",
+  },
+  {
+    id: "STAFF-006",
+    name: "Nurse Preethi Sajan",
+    email: "preethi.sajan@ohc.in",
+    department: "General Medicine",
+    designation: "Staff Nurse",
+    joined: "Feb 2022",
+    experience: 3,
+    status: "active",
+  },
+  {
+    id: "STAFF-007",
+    name: "Dr. Kavitha Nair",
+    email: "kavitha.nair@ohc.in",
+    department: "Neurology",
+    designation: "Senior Consultant",
+    joined: "Aug 2016",
+    experience: 14,
+    status: "active",
+  },
+  {
+    id: "STAFF-008",
+    name: "Dr. Rajiv Kapoor",
+    email: "rajiv.kapoor@ohc.in",
+    department: "Radiology",
+    designation: "Consultant",
+    joined: "Dec 2021",
+    experience: 5,
+    status: "inactive",
+  },
+  {
+    id: "STAFF-009",
+    name: "Nurse Sumathi Krishnan",
+    email: "sumathi.k@ohc.in",
+    department: "Maternity",
+    designation: "Senior Nurse",
+    joined: "Apr 2018",
+    experience: 9,
+    status: "active",
+  },
+  {
+    id: "STAFF-010",
+    name: "Dr. Farhan Hossain",
+    email: "farhan.hossain@ohc.in",
+    department: "Oncology",
+    designation: "Consultant",
+    joined: "Jul 2020",
+    experience: 7,
+    status: "active",
+  },
+  {
+    id: "STAFF-011",
+    name: "Dr. Pooja Iyer",
+    email: "pooja.iyer@ohc.in",
+    department: "Dermatology",
+    designation: "Consultant",
+    joined: "May 2023",
+    experience: 4,
+    status: "active",
+  },
+  {
+    id: "STAFF-012",
+    name: "Nurse Arun Mathew",
+    email: "arun.mathew@ohc.in",
+    department: "Emergency",
+    designation: "Charge Nurse",
+    joined: "Oct 2019",
+    experience: 6,
+    status: "inactive",
+  },
 ];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const getInitials = (name: string) =>
-  name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+  name
+    .split(" ")
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
 
 const formatINR = (amount: number) =>
   new Intl.NumberFormat("en-IN", {
@@ -219,14 +652,24 @@ const patientCell = (name: string, id: string) =>
   React.createElement(
     "div",
     { className: "flex items-center gap-3" },
-    React.createElement(Avatar, { shape: "rounded" },
-      React.createElement(AvatarFallback, { color: "primary" }, getInitials(name))
+    React.createElement(
+      Avatar,
+      { shape: "rounded" },
+      React.createElement(
+        AvatarFallback,
+        { color: "primary" },
+        getInitials(name)
+      )
     ),
     React.createElement(
       "div",
       { className: "flex flex-col" },
       React.createElement("span", { className: "font-medium" }, name),
-      React.createElement("span", { className: "text-muted-foreground text-xs" }, id)
+      React.createElement(
+        "span",
+        { className: "text-muted-foreground text-xs" },
+        id
+      )
     )
   );
 
@@ -237,7 +680,8 @@ const medColumns: ColumnDef<MedLog>[] = [
     id: "patient",
     accessorKey: "patientName",
     header: "Patient",
-    cell: ({ row }) => patientCell(row.original.patientName, row.original.patientId),
+    cell: ({ row }) =>
+      patientCell(row.original.patientName, row.original.patientId),
   },
   {
     id: "medication",
@@ -247,7 +691,11 @@ const medColumns: ColumnDef<MedLog>[] = [
       React.createElement(
         "div",
         { className: "flex flex-col" },
-        React.createElement("span", { className: "font-medium text-sm" }, row.original.medication),
+        React.createElement(
+          "span",
+          { className: "font-medium text-sm" },
+          row.original.medication
+        ),
         React.createElement(
           "span",
           { className: "text-muted-foreground text-xs" },
@@ -271,7 +719,9 @@ const medColumns: ColumnDef<MedLog>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: medStatusVariant[row.getValue("status") as MedLog["status"]] },
+        {
+          variant: medStatusVariant[row.getValue("status") as MedLog["status"]],
+        },
         row.getValue("status")
       ),
   },
@@ -298,7 +748,8 @@ const invoiceColumns: ColumnDef<Invoice>[] = [
     id: "patient",
     accessorKey: "patientName",
     header: "Patient",
-    cell: ({ row }) => patientCell(row.original.patientName, row.original.patientId),
+    cell: ({ row }) =>
+      patientCell(row.original.patientName, row.original.patientId),
   },
   {
     accessorKey: "date",
@@ -312,7 +763,11 @@ const invoiceColumns: ColumnDef<Invoice>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) =>
-      React.createElement(Badge, { variant: "neutral" }, row.getValue("category")),
+      React.createElement(
+        Badge,
+        { variant: "neutral" },
+        row.getValue("category")
+      ),
   },
   {
     accessorKey: "amount",
@@ -335,7 +790,10 @@ const invoiceColumns: ColumnDef<Invoice>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: invoiceStatusVariant[row.getValue("status") as Invoice["status"]] },
+        {
+          variant:
+            invoiceStatusVariant[row.getValue("status") as Invoice["status"]],
+        },
         row.getValue("status")
       ),
   },
@@ -372,14 +830,24 @@ const staffCell = (name: string, email: string) =>
   React.createElement(
     "div",
     { className: "flex items-center gap-3" },
-    React.createElement(Avatar, { shape: "circle" },
-      React.createElement(AvatarFallback, { color: "primary" }, getInitials(name))
+    React.createElement(
+      Avatar,
+      { shape: "circle" },
+      React.createElement(
+        AvatarFallback,
+        { color: "primary" },
+        getInitials(name)
+      )
     ),
     React.createElement(
       "div",
       { className: "flex flex-col" },
       React.createElement("span", { className: "font-medium" }, name),
-      React.createElement("span", { className: "text-muted-foreground text-xs" }, email)
+      React.createElement(
+        "span",
+        { className: "text-muted-foreground text-xs" },
+        email
+      )
     )
   );
 
@@ -434,7 +902,9 @@ const sortableStaffColumns: ColumnDef<StaffMember>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: row.getValue("status") === "active" ? "success" : "neutral" },
+        {
+          variant: row.getValue("status") === "active" ? "success" : "neutral",
+        },
         row.getValue("status")
       ),
   },
@@ -454,18 +924,138 @@ type SelectionMember = {
 };
 
 const selectionMembers: SelectionMember[] = [
-  { id: "1",  name: "Dr. Anika Sharma",     availability: "online",  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in",     location: "India",          joined: "Mar, 2021" },
-  { id: "2",  name: "Dr. Sarah Mitchell",   availability: "away",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in",   location: "United Kingdom", joined: "Jul, 2020" },
-  { id: "3",  name: "Dr. David Okafor",     availability: "busy",    avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in",     location: "Nigeria",        joined: "Mar, 2019" },
-  { id: "4",  name: "Nurse Elena Fischer",  availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in",    location: "Germany",        joined: "Jan, 2022" },
-  { id: "5",  name: "Dr. Hiroshi Tanaka",   availability: "online",  avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in",   location: "Japan",          joined: "May, 2023" },
-  { id: "6",  name: "Dr. Ravi Menon",       availability: "away",    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in",       location: "India",          joined: "Nov, 2018" },
-  { id: "7",  name: "Dr. Carlos Rivera",    availability: "busy",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in",    location: "Spain",          joined: "Jun, 2021" },
-  { id: "8",  name: "Nurse Mei Lin Wong",   availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in",         location: "Singapore",      joined: "Oct, 2020" },
-  { id: "9",  name: "Dr. Siddharth Patel",  availability: "online",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in",  location: "India",          joined: "Sep, 2019" },
-  { id: "10", name: "Dr. Amara Diallo",     availability: "away",    avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in",     location: "Senegal",        joined: "Feb, 2023" },
-  { id: "11", name: "Dr. Priya Krishnan",   availability: "busy",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in",   location: "India",          joined: "Dec, 2022" },
-  { id: "12", name: "Nurse Rekha Thomas",   availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in",     location: "India",          joined: "Mar, 2020" },
+  {
+    id: "1",
+    name: "Dr. Anika Sharma",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "anika.sharma@ohc.in",
+    location: "India",
+    joined: "Mar, 2021",
+  },
+  {
+    id: "2",
+    name: "Dr. Sarah Mitchell",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    flag: "gb",
+    email: "sarah.mitchell@ohc.in",
+    location: "United Kingdom",
+    joined: "Jul, 2020",
+  },
+  {
+    id: "3",
+    name: "Dr. David Okafor",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    flag: "ng",
+    email: "david.okafor@ohc.in",
+    location: "Nigeria",
+    joined: "Mar, 2019",
+  },
+  {
+    id: "4",
+    name: "Nurse Elena Fischer",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    flag: "de",
+    email: "elena.fischer@ohc.in",
+    location: "Germany",
+    joined: "Jan, 2022",
+  },
+  {
+    id: "5",
+    name: "Dr. Hiroshi Tanaka",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    flag: "jp",
+    email: "hiroshi.tanaka@ohc.in",
+    location: "Japan",
+    joined: "May, 2023",
+  },
+  {
+    id: "6",
+    name: "Dr. Ravi Menon",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "ravi.menon@ohc.in",
+    location: "India",
+    joined: "Nov, 2018",
+  },
+  {
+    id: "7",
+    name: "Dr. Carlos Rivera",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    flag: "es",
+    email: "carlos.rivera@ohc.in",
+    location: "Spain",
+    joined: "Jun, 2021",
+  },
+  {
+    id: "8",
+    name: "Nurse Mei Lin Wong",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    flag: "sg",
+    email: "mei.wong@ohc.in",
+    location: "Singapore",
+    joined: "Oct, 2020",
+  },
+  {
+    id: "9",
+    name: "Dr. Siddharth Patel",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "siddharth.patel@ohc.in",
+    location: "India",
+    joined: "Sep, 2019",
+  },
+  {
+    id: "10",
+    name: "Dr. Amara Diallo",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    flag: "sn",
+    email: "amara.diallo@ohc.in",
+    location: "Senegal",
+    joined: "Feb, 2023",
+  },
+  {
+    id: "11",
+    name: "Dr. Priya Krishnan",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "priya.krishnan@ohc.in",
+    location: "India",
+    joined: "Dec, 2022",
+  },
+  {
+    id: "12",
+    name: "Nurse Rekha Thomas",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "rekha.thomas@ohc.in",
+    location: "India",
+    joined: "Mar, 2020",
+  },
 ];
 
 const availabilityColor: Record<SelectionMember["availability"], string> = {
@@ -483,7 +1073,8 @@ const selectionColumns: ColumnDef<SelectionMember>[] = [
         checked:
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() ? "indeterminate" : false),
-        onCheckedChange: (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+        onCheckedChange: (value: boolean) =>
+          table.toggleAllPageRowsSelected(!!value),
         "aria-label": "Select all",
       }),
     cell: ({ row }) =>
@@ -504,17 +1095,44 @@ const selectionColumns: ColumnDef<SelectionMember>[] = [
     enableSorting: true,
     enableHiding: false,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-3" },
-        React.createElement(Avatar, { className: "size-8" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join("")),
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
+        React.createElement(
+          Avatar,
+          { className: "size-8" },
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            row.original.name
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+          ),
           React.createElement(AvatarBadge, {
-            className: "size-1.5! p-0 " + (availabilityColor[row.original.availability] || availabilityColor.offline),
+            className:
+              "size-1.5! p-0 " +
+              (availabilityColor[row.original.availability] ||
+                availabilityColor.offline),
           })
         ),
-        React.createElement("div", { className: "space-y-px" },
-          React.createElement("div", { className: "text-foreground font-medium" }, row.original.name),
-          React.createElement("div", { className: "text-muted-foreground" }, row.original.email)
+        React.createElement(
+          "div",
+          { className: "space-y-px" },
+          React.createElement(
+            "div",
+            { className: "text-foreground font-medium" },
+            row.original.name
+          ),
+          React.createElement(
+            "div",
+            { className: "text-muted-foreground" },
+            row.original.email
+          )
         )
       ),
   },
@@ -523,13 +1141,20 @@ const selectionColumns: ColumnDef<SelectionMember>[] = [
     header: "Location",
     size: 180,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-1.5" },
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-1.5" },
         React.createElement("img", {
-          src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+          src:
+            "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
           alt: row.original.flag,
           className: "size-4 rounded-full object-cover",
         }),
-        React.createElement("div", { className: "text-foreground font-medium" }, row.original.location)
+        React.createElement(
+          "div",
+          { className: "text-foreground font-medium" },
+          row.original.location
+        )
       ),
   },
   {
@@ -537,7 +1162,11 @@ const selectionColumns: ColumnDef<SelectionMember>[] = [
     header: "Joined",
     size: 120,
     cell: ({ row }) =>
-      React.createElement("span", { className: "font-medium" }, row.original.joined),
+      React.createElement(
+        "span",
+        { className: "font-medium" },
+        row.original.joined
+      ),
   },
 ];
 
@@ -598,17 +1227,127 @@ type DndMember = {
 };
 
 const dndMembers: DndMember[] = [
-  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", email: "kiran.reddy@ohc.in",     company: "Cardiology",       role: "Senior Consultant",   location: "Hyderabad",  status: "active"   },
-  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", email: "anita.menon@ohc.in",     company: "Pediatrics",       role: "Consultant",          location: "Kochi",      status: "inactive" },
-  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", email: "suresh.pillai@ohc.in",   company: "General Surgery",  role: "Head of Department",  location: "Trivandrum", status: "active"   },
-  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", email: "rekha.thomas@ohc.in",    company: "ICU",              role: "Senior Nurse",        location: "Bangalore",  status: "inactive" },
-  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", email: "imran.sheikh@ohc.in",    company: "Orthopedics",      role: "Consultant",          location: "Mumbai",     status: "inactive" },
-  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", email: "kavitha.nair@ohc.in",    company: "Neurology",        role: "Senior Consultant",   location: "Chennai",    status: "active"   },
-  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", email: "rajiv.kapoor@ohc.in",    company: "Radiology",        role: "Consultant",          location: "Delhi",      status: "inactive" },
-  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", email: "sumathi.k@ohc.in",       company: "Maternity",        role: "Senior Nurse",        location: "Coimbatore", status: "inactive" },
-  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", email: "farhan.hossain@ohc.in",  company: "Oncology",         role: "Consultant",          location: "Kolkata",    status: "inactive" },
-  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", email: "pooja.iyer@ohc.in",      company: "Dermatology",      role: "Consultant",          location: "Pune",       status: "inactive" },
-  { id: "11", name: "Nurse Arun Mathew",     avatar: "https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=96&h=96&dpr=2&q=80", email: "arun.mathew@ohc.in",     company: "Emergency",        role: "Charge Nurse",        location: "Mangalore",  status: "active"   },
+  {
+    id: "1",
+    name: "Dr. Kiran Reddy",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    email: "kiran.reddy@ohc.in",
+    company: "Cardiology",
+    role: "Senior Consultant",
+    location: "Hyderabad",
+    status: "active",
+  },
+  {
+    id: "2",
+    name: "Dr. Anita Menon",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    email: "anita.menon@ohc.in",
+    company: "Pediatrics",
+    role: "Consultant",
+    location: "Kochi",
+    status: "inactive",
+  },
+  {
+    id: "3",
+    name: "Dr. Suresh Pillai",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    email: "suresh.pillai@ohc.in",
+    company: "General Surgery",
+    role: "Head of Department",
+    location: "Trivandrum",
+    status: "active",
+  },
+  {
+    id: "4",
+    name: "Nurse Rekha Thomas",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    email: "rekha.thomas@ohc.in",
+    company: "ICU",
+    role: "Senior Nurse",
+    location: "Bangalore",
+    status: "inactive",
+  },
+  {
+    id: "5",
+    name: "Dr. Imran Sheikh",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    email: "imran.sheikh@ohc.in",
+    company: "Orthopedics",
+    role: "Consultant",
+    location: "Mumbai",
+    status: "inactive",
+  },
+  {
+    id: "6",
+    name: "Dr. Kavitha Nair",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    email: "kavitha.nair@ohc.in",
+    company: "Neurology",
+    role: "Senior Consultant",
+    location: "Chennai",
+    status: "active",
+  },
+  {
+    id: "7",
+    name: "Dr. Rajiv Kapoor",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    email: "rajiv.kapoor@ohc.in",
+    company: "Radiology",
+    role: "Consultant",
+    location: "Delhi",
+    status: "inactive",
+  },
+  {
+    id: "8",
+    name: "Nurse Sumathi K.",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    email: "sumathi.k@ohc.in",
+    company: "Maternity",
+    role: "Senior Nurse",
+    location: "Coimbatore",
+    status: "inactive",
+  },
+  {
+    id: "9",
+    name: "Dr. Farhan Hossain",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    email: "farhan.hossain@ohc.in",
+    company: "Oncology",
+    role: "Consultant",
+    location: "Kolkata",
+    status: "inactive",
+  },
+  {
+    id: "10",
+    name: "Dr. Pooja Iyer",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    email: "pooja.iyer@ohc.in",
+    company: "Dermatology",
+    role: "Consultant",
+    location: "Pune",
+    status: "inactive",
+  },
+  {
+    id: "11",
+    name: "Nurse Arun Mathew",
+    avatar:
+      "https://images.unsplash.com/photo-1619946794135-5bc917a27793?w=96&h=96&dpr=2&q=80",
+    email: "arun.mathew@ohc.in",
+    company: "Emergency",
+    role: "Charge Nurse",
+    location: "Mangalore",
+    status: "active",
+  },
 ];
 
 function DndSortableHeader({
@@ -628,21 +1367,25 @@ function DndSortableHeader({
 
   return (
     <TableHead
-      ref={(el) => { setNodeRef(el); onRef(el); }}
+      ref={(el) => {
+        setNodeRef(el);
+        onRef(el);
+      }}
       colSpan={header.colSpan}
       style={{
         opacity: isDragging ? 0.4 : 1,
         transform: transform !== 0 ? `translateX(${transform}px)` : undefined,
         position: transform !== 0 || isDragging ? "relative" : undefined,
         zIndex: isDragging ? 10 : undefined,
-        transition: (isDragging || noTransition) ? "none" : "transform 100ms ease",
+        transition:
+          isDragging || noTransition ? "none" : "transform 100ms ease",
       }}
     >
       <div className="flex items-center gap-1">
         <button
           {...attributes}
           {...listeners}
-          className="cursor-grab touch-none text-muted-foreground/50 hover:text-muted-foreground active:cursor-grabbing"
+          className="text-muted-foreground/50 hover:text-muted-foreground cursor-grab touch-none active:cursor-grabbing"
           aria-label="Drag to reorder column"
         >
           <GripVertical className="size-3.5" />
@@ -666,7 +1409,7 @@ const dndMemberColumns: ColumnDef<DndMember>[] = [
           <AvatarImage src={row.original.avatar} alt={row.original.name} />
           <AvatarFallback>{getInitials(row.original.name)}</AvatarFallback>
         </Avatar>
-        <span className="font-medium text-sm">{row.original.name}</span>
+        <span className="text-sm font-medium">{row.original.name}</span>
       </div>
     ),
   },
@@ -675,7 +1418,9 @@ const dndMemberColumns: ColumnDef<DndMember>[] = [
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => (
-      <span className="text-muted-foreground text-sm">{row.original.email}</span>
+      <span className="text-muted-foreground text-sm">
+        {row.original.email}
+      </span>
     ),
   },
   {
@@ -683,16 +1428,14 @@ const dndMemberColumns: ColumnDef<DndMember>[] = [
     accessorKey: "company",
     header: "Department",
     cell: ({ row }) => (
-      <span className="font-medium text-sm">{row.original.company}</span>
+      <span className="text-sm font-medium">{row.original.company}</span>
     ),
   },
   {
     id: "role",
     accessorKey: "role",
     header: "Designation",
-    cell: ({ row }) => (
-      <span className="text-sm">{row.original.role}</span>
-    ),
+    cell: ({ row }) => <span className="text-sm">{row.original.role}</span>,
   },
   {
     id: "status",
@@ -768,13 +1511,23 @@ function DraggableColumnsDemo() {
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      onDragStart={({ active }) => { setActiveId(active.id as string); setOverId(active.id as string); setActiveDelta(0); }}
+      onDragStart={({ active }) => {
+        setActiveId(active.id as string);
+        setOverId(active.id as string);
+        setActiveDelta(0);
+      }}
       onDragMove={({ delta }) => setActiveDelta(delta.x)}
-      onDragOver={({ over }) => setOverId(over?.id as string ?? null)}
+      onDragOver={({ over }) => setOverId((over?.id as string) ?? null)}
       onDragEnd={handleDragEnd}
-      onDragCancel={() => { setNoTransition(true); setActiveId(null); setOverId(null); setActiveDelta(0); requestAnimationFrame(() => setNoTransition(false)); }}
+      onDragCancel={() => {
+        setNoTransition(true);
+        setActiveId(null);
+        setOverId(null);
+        setActiveDelta(0);
+        requestAnimationFrame(() => setNoTransition(false));
+      }}
     >
-      <div className="overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3 [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
+      <div className="overflow-hidden rounded-md border [&_td:not(:last-child)]:border-r [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3 [&_th:not(:last-child)]:border-r">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -787,10 +1540,16 @@ function DraggableColumnsDemo() {
                     <DndSortableHeader
                       key={header.id}
                       header={header}
-                      transform={activeId === header.id ? activeDelta : (displacements[header.id] ?? 0)}
+                      transform={
+                        activeId === header.id
+                          ? activeDelta
+                          : (displacements[header.id] ?? 0)
+                      }
                       isDragging={activeId === header.id}
                       noTransition={noTransition}
-                      onRef={(el) => { headerRefs.current[header.id] = el; }}
+                      onRef={(el) => {
+                        headerRefs.current[header.id] = el;
+                      }}
                     />
                   ))}
                 </SortableContext>
@@ -802,19 +1561,31 @@ function DraggableColumnsDemo() {
               <TableRow key={row.id}>
                 {row.getVisibleCells().map((cell) => {
                   const dragging = activeId === cell.column.id;
-                  const tx = dragging ? activeDelta : (displacements[cell.column.id] ?? 0);
+                  const tx = dragging
+                    ? activeDelta
+                    : (displacements[cell.column.id] ?? 0);
                   return (
                     <TableCell
                       key={cell.id}
-                      style={tx !== 0 || dragging ? {
-                        transform: `translateX(${tx}px)`,
-                        position: "relative",
-                        zIndex: dragging ? 10 : undefined,
-                        opacity: dragging ? 0.6 : 1,
-                        transition: (dragging || noTransition) ? "none" : "transform 100ms ease",
-                      } : undefined}
+                      style={
+                        tx !== 0 || dragging
+                          ? {
+                              transform: `translateX(${tx}px)`,
+                              position: "relative",
+                              zIndex: dragging ? 10 : undefined,
+                              opacity: dragging ? 0.6 : 1,
+                              transition:
+                                dragging || noTransition
+                                  ? "none"
+                                  : "transform 100ms ease",
+                            }
+                          : undefined
+                      }
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   );
                 })}
@@ -842,8 +1613,10 @@ const resizableColumns: ColumnDef<DndMember>[] = [
           <AvatarFallback>{getInitials(row.original.name)}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <span className="font-medium text-sm">{row.original.name}</span>
-          <span className="text-muted-foreground text-xs">{row.original.email}</span>
+          <span className="text-sm font-medium">{row.original.name}</span>
+          <span className="text-muted-foreground text-xs">
+            {row.original.email}
+          </span>
         </div>
       </div>
     ),
@@ -853,7 +1626,9 @@ const resizableColumns: ColumnDef<DndMember>[] = [
     accessorKey: "company",
     header: "Company",
     size: 160,
-    cell: ({ row }) => <span className="font-medium text-sm">{row.original.company}</span>,
+    cell: ({ row }) => (
+      <span className="text-sm font-medium">{row.original.company}</span>
+    ),
   },
   {
     id: "role",
@@ -869,9 +1644,11 @@ const resizableColumns: ColumnDef<DndMember>[] = [
     size: 120,
     enableResizing: false,
     cell: ({ row }) =>
-      row.original.status === "active"
-        ? <Badge variant="success">Approved</Badge>
-        : <Badge variant="warning">Pending</Badge>,
+      row.original.status === "active" ? (
+        <Badge variant="success">Approved</Badge>
+      ) : (
+        <Badge variant="warning">Pending</Badge>
+      ),
   },
 ];
 
@@ -884,7 +1661,7 @@ function ResizableColumnsDemo() {
   });
 
   return (
-    <div className="overflow-x-auto overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3 [&_td:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r">
+    <div className="overflow-hidden overflow-x-auto rounded-md border [&_td:not(:last-child)]:border-r [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3 [&_th:not(:last-child)]:border-r">
       <Table style={{ width: table.getTotalSize() }}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -895,13 +1672,20 @@ function ResizableColumnsDemo() {
                   style={{ width: header.getSize() }}
                   className="relative overflow-hidden"
                 >
-                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   {header.column.getCanResize() && (
                     <div
                       onMouseDown={header.getResizeHandler()}
                       onTouchStart={header.getResizeHandler()}
-                      className={`absolute top-0 right-0 h-full w-1 cursor-col-resize touch-none select-none transition-colors ${
-                        header.column.getIsResizing() ? "bg-primary" : "bg-transparent hover:bg-border"
+                      className={`absolute top-0 right-0 h-full w-1 cursor-col-resize touch-none transition-colors select-none ${
+                        header.column.getIsResizing()
+                          ? "bg-primary"
+                          : "hover:bg-border bg-transparent"
                       }`}
                     />
                   )}
@@ -914,7 +1698,10 @@ function ResizableColumnsDemo() {
           {table.getRowModel().rows.map((row) => (
             <TableRow key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+                <TableCell
+                  key={cell.id}
+                  style={{ width: cell.column.getSize() }}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </TableCell>
               ))}
@@ -943,18 +1730,174 @@ type PinnableMember = {
 };
 
 const pinnableMembers: PinnableMember[] = [
-  { id: "1",  name: "Dr. Kiran Reddy",       availability: "online",  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "kiran.reddy@ohc.in",      company: "Cardiology",       role: "Senior Consultant",   joined: "Jan, 2018", location: "India"          },
-  { id: "2",  name: "Dr. Anita Menon",       availability: "away",    avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "anita.menon@ohc.in",      company: "Pediatrics",       role: "Consultant",          joined: "Mar, 2020", location: "India"          },
-  { id: "3",  name: "Dr. Suresh Pillai",     availability: "busy",    avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "suresh.pillai@ohc.in",    company: "General Surgery",  role: "Head of Department",  joined: "Jun, 2015", location: "India"          },
-  { id: "4",  name: "Nurse Rekha Thomas",    availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "rekha.thomas@ohc.in",     company: "ICU",              role: "Senior Nurse",        joined: "Sep, 2019", location: "India"          },
-  { id: "5",  name: "Dr. Imran Sheikh",      availability: "online",  avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "imran.sheikh@ohc.in",     company: "Orthopedics",      role: "Consultant",          joined: "Nov, 2017", location: "India"          },
-  { id: "6",  name: "Dr. Kavitha Nair",      availability: "away",    avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "kavitha.nair@ohc.in",     company: "Neurology",        role: "Senior Consultant",   joined: "Aug, 2016", location: "India"          },
-  { id: "7",  name: "Dr. Rajiv Kapoor",      availability: "busy",    avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "rajiv.kapoor@ohc.in",     company: "Radiology",        role: "Consultant",          joined: "Dec, 2021", location: "India"          },
-  { id: "8",  name: "Nurse Sumathi K.",      availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "sumathi.k@ohc.in",        company: "Maternity",        role: "Senior Nurse",        joined: "Apr, 2018", location: "India"          },
-  { id: "9",  name: "Dr. Farhan Hossain",    availability: "online",  avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "farhan.hossain@ohc.in",   company: "Oncology",         role: "Consultant",          joined: "Jul, 2020", location: "India"          },
-  { id: "10", name: "Dr. Pooja Iyer",        availability: "away",    avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "in", email: "pooja.iyer@ohc.in",       company: "Dermatology",      role: "Consultant",          joined: "May, 2023", location: "India"          },
-  { id: "11", name: "Nurse Arun Mathew",     availability: "busy",    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "arun.mathew@ohc.in",      company: "Emergency",        role: "Charge Nurse",        joined: "Oct, 2019", location: "India"          },
-  { id: "12", name: "Dr. Preethi Sajan",     availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active",   flag: "in", email: "preethi.sajan@ohc.in",    company: "General Medicine", role: "Staff Physician",     joined: "Feb, 2022", location: "India"          },
+  {
+    id: "1",
+    name: "Dr. Kiran Reddy",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "kiran.reddy@ohc.in",
+    company: "Cardiology",
+    role: "Senior Consultant",
+    joined: "Jan, 2018",
+    location: "India",
+  },
+  {
+    id: "2",
+    name: "Dr. Anita Menon",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "in",
+    email: "anita.menon@ohc.in",
+    company: "Pediatrics",
+    role: "Consultant",
+    joined: "Mar, 2020",
+    location: "India",
+  },
+  {
+    id: "3",
+    name: "Dr. Suresh Pillai",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "suresh.pillai@ohc.in",
+    company: "General Surgery",
+    role: "Head of Department",
+    joined: "Jun, 2015",
+    location: "India",
+  },
+  {
+    id: "4",
+    name: "Nurse Rekha Thomas",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "in",
+    email: "rekha.thomas@ohc.in",
+    company: "ICU",
+    role: "Senior Nurse",
+    joined: "Sep, 2019",
+    location: "India",
+  },
+  {
+    id: "5",
+    name: "Dr. Imran Sheikh",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "imran.sheikh@ohc.in",
+    company: "Orthopedics",
+    role: "Consultant",
+    joined: "Nov, 2017",
+    location: "India",
+  },
+  {
+    id: "6",
+    name: "Dr. Kavitha Nair",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "kavitha.nair@ohc.in",
+    company: "Neurology",
+    role: "Senior Consultant",
+    joined: "Aug, 2016",
+    location: "India",
+  },
+  {
+    id: "7",
+    name: "Dr. Rajiv Kapoor",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "in",
+    email: "rajiv.kapoor@ohc.in",
+    company: "Radiology",
+    role: "Consultant",
+    joined: "Dec, 2021",
+    location: "India",
+  },
+  {
+    id: "8",
+    name: "Nurse Sumathi K.",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "sumathi.k@ohc.in",
+    company: "Maternity",
+    role: "Senior Nurse",
+    joined: "Apr, 2018",
+    location: "India",
+  },
+  {
+    id: "9",
+    name: "Dr. Farhan Hossain",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "in",
+    email: "farhan.hossain@ohc.in",
+    company: "Oncology",
+    role: "Consultant",
+    joined: "Jul, 2020",
+    location: "India",
+  },
+  {
+    id: "10",
+    name: "Dr. Pooja Iyer",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "in",
+    email: "pooja.iyer@ohc.in",
+    company: "Dermatology",
+    role: "Consultant",
+    joined: "May, 2023",
+    location: "India",
+  },
+  {
+    id: "11",
+    name: "Nurse Arun Mathew",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "arun.mathew@ohc.in",
+    company: "Emergency",
+    role: "Charge Nurse",
+    joined: "Oct, 2019",
+    location: "India",
+  },
+  {
+    id: "12",
+    name: "Dr. Preethi Sajan",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "preethi.sajan@ohc.in",
+    company: "General Medicine",
+    role: "Staff Physician",
+    joined: "Feb, 2022",
+    location: "India",
+  },
 ];
 
 const pinnableColumns: ColumnDef<PinnableMember>[] = [
@@ -964,14 +1907,18 @@ const pinnableColumns: ColumnDef<PinnableMember>[] = [
     size: 220,
     enableSorting: true,
     enableHiding: false,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Name" />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column as any} title="Name" />
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <Avatar className="size-6" shape="circle">
           <AvatarImage src={row.original.avatar} alt={row.original.name} />
           <AvatarFallback>{getInitials(row.original.name)}</AvatarFallback>
         </Avatar>
-        <span className="text-foreground font-medium whitespace-nowrap">{row.original.name}</span>
+        <span className="text-foreground font-medium whitespace-nowrap">
+          {row.original.name}
+        </span>
       </div>
     ),
   },
@@ -980,15 +1927,23 @@ const pinnableColumns: ColumnDef<PinnableMember>[] = [
     accessorKey: "email",
     size: 220,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Email" />,
-    cell: ({ row }) => <span className="text-muted-foreground text-sm whitespace-nowrap">{row.original.email}</span>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column as any} title="Email" />
+    ),
+    cell: ({ row }) => (
+      <span className="text-muted-foreground text-sm whitespace-nowrap">
+        {row.original.email}
+      </span>
+    ),
   },
   {
     id: "location",
     accessorKey: "location",
     size: 180,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Location" />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column as any} title="Location" />
+    ),
     cell: ({ row }) => (
       <div className="flex items-center gap-1.5">
         <img
@@ -996,7 +1951,9 @@ const pinnableColumns: ColumnDef<PinnableMember>[] = [
           alt={row.original.flag}
           className="size-4 rounded-full object-cover"
         />
-        <span className="text-foreground font-medium whitespace-nowrap">{row.original.location}</span>
+        <span className="text-foreground font-medium whitespace-nowrap">
+          {row.original.location}
+        </span>
       </div>
     ),
   },
@@ -1005,35 +1962,55 @@ const pinnableColumns: ColumnDef<PinnableMember>[] = [
     accessorKey: "company",
     size: 160,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Department" />,
-    cell: ({ row }) => <span className="font-medium text-sm whitespace-nowrap">{row.original.company}</span>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column as any} title="Department" />
+    ),
+    cell: ({ row }) => (
+      <span className="text-sm font-medium whitespace-nowrap">
+        {row.original.company}
+      </span>
+    ),
   },
   {
     id: "role",
     accessorKey: "role",
     size: 180,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Designation" />,
-    cell: ({ row }) => <span className="text-sm whitespace-nowrap">{row.original.role}</span>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column as any} title="Designation" />
+    ),
+    cell: ({ row }) => (
+      <span className="text-sm whitespace-nowrap">{row.original.role}</span>
+    ),
   },
   {
     id: "joined",
     accessorKey: "joined",
     size: 120,
     enableSorting: true,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Joined" />,
-    cell: ({ row }) => <span className="font-medium text-sm whitespace-nowrap">{row.original.joined}</span>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column as any} title="Joined" />
+    ),
+    cell: ({ row }) => (
+      <span className="text-sm font-medium whitespace-nowrap">
+        {row.original.joined}
+      </span>
+    ),
   },
   {
     id: "status",
     accessorKey: "status",
     size: 140,
     enableSorting: false,
-    header: ({ column }) => <DataTableColumnHeader column={column as any} title="Status" />,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column as any} title="Status" />
+    ),
     cell: ({ row }) =>
-      row.original.status === "active"
-        ? <Badge variant="success">Approved</Badge>
-        : <Badge variant="warning">Pending</Badge>,
+      row.original.status === "active" ? (
+        <Badge variant="success">Approved</Badge>
+      ) : (
+        <Badge variant="warning">Pending</Badge>
+      ),
   },
 ];
 
@@ -1067,8 +2044,16 @@ const cellBorderColumns: ColumnDef<Patient>[] = [
       React.createElement(
         "div",
         { className: "flex flex-col" },
-        React.createElement("span", { className: "font-medium text-sm" }, row.original.ward),
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, row.original.bed)
+        React.createElement(
+          "span",
+          { className: "font-medium text-sm" },
+          row.original.ward
+        ),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          row.original.bed
+        )
       ),
   },
   {
@@ -1083,7 +2068,9 @@ const cellBorderColumns: ColumnDef<Patient>[] = [
       React.createElement(
         "span",
         { className: "font-semibold tabular-nums" },
-        formatINR(invoices.find((i) => i.patientId === row.original.id)?.amount ?? 0)
+        formatINR(
+          invoices.find((i) => i.patientId === row.original.id)?.amount ?? 0
+        )
       ),
   },
 ];
@@ -1113,8 +2100,16 @@ const denseColumns: ColumnDef<Patient>[] = [
       React.createElement(
         "div",
         { className: "flex flex-col" },
-        React.createElement("span", { className: "font-medium text-sm" }, row.original.ward),
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, row.original.bed)
+        React.createElement(
+          "span",
+          { className: "font-medium text-sm" },
+          row.original.ward
+        ),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          row.original.bed
+        )
       ),
   },
   {
@@ -1137,7 +2132,10 @@ const denseColumns: ColumnDef<Patient>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: patientStatusVariant[row.getValue("status") as Patient["status"]] },
+        {
+          variant:
+            patientStatusVariant[row.getValue("status") as Patient["status"]],
+        },
         row.getValue("status")
       ),
   },
@@ -1165,18 +2163,126 @@ interface AutoWidthRow {
 }
 
 const autoWidthData: AutoWidthRow[] = [
-  { id: "1", name: "Dr. Anika Sharma", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in", location: "India", joined: "Mar, 2021" },
-  { id: "2", name: "Dr. Sarah Mitchell", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom", joined: "Jul, 2020" },
-  { id: "3", name: "Dr. David Okafor", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria", joined: "Mar, 2019" },
-  { id: "4", name: "Nurse Elena Fischer", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in", location: "Germany", joined: "Jan, 2022" },
-  { id: "5", name: "Dr. Hiroshi Tanaka", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan", joined: "May, 2023" },
-  { id: "6", name: "Dr. Ravi Menon", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in", location: "India", joined: "Nov, 2018" },
-  { id: "7", name: "Dr. Carlos Rivera", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain", joined: "Jun, 2021" },
-  { id: "8", name: "Nurse Mei Lin Wong", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore", joined: "Oct, 2020" },
-  { id: "9", name: "Dr. Siddharth Patel", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in", location: "India", joined: "Sep, 2019" },
-  { id: "10", name: "Dr. Amara Diallo", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal", joined: "Feb, 2023" },
-  { id: "11", name: "Dr. Priya Krishnan", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in", location: "India", joined: "Dec, 2022" },
-  { id: "12", name: "Nurse Rekha Thomas", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in", location: "India", joined: "Mar, 2020" },
+  {
+    id: "1",
+    name: "Dr. Anika Sharma",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "anika.sharma@ohc.in",
+    location: "India",
+    joined: "Mar, 2021",
+  },
+  {
+    id: "2",
+    name: "Dr. Sarah Mitchell",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    flag: "gb",
+    email: "sarah.mitchell@ohc.in",
+    location: "United Kingdom",
+    joined: "Jul, 2020",
+  },
+  {
+    id: "3",
+    name: "Dr. David Okafor",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    flag: "ng",
+    email: "david.okafor@ohc.in",
+    location: "Nigeria",
+    joined: "Mar, 2019",
+  },
+  {
+    id: "4",
+    name: "Nurse Elena Fischer",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    flag: "de",
+    email: "elena.fischer@ohc.in",
+    location: "Germany",
+    joined: "Jan, 2022",
+  },
+  {
+    id: "5",
+    name: "Dr. Hiroshi Tanaka",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    flag: "jp",
+    email: "hiroshi.tanaka@ohc.in",
+    location: "Japan",
+    joined: "May, 2023",
+  },
+  {
+    id: "6",
+    name: "Dr. Ravi Menon",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "ravi.menon@ohc.in",
+    location: "India",
+    joined: "Nov, 2018",
+  },
+  {
+    id: "7",
+    name: "Dr. Carlos Rivera",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    flag: "es",
+    email: "carlos.rivera@ohc.in",
+    location: "Spain",
+    joined: "Jun, 2021",
+  },
+  {
+    id: "8",
+    name: "Nurse Mei Lin Wong",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    flag: "sg",
+    email: "mei.wong@ohc.in",
+    location: "Singapore",
+    joined: "Oct, 2020",
+  },
+  {
+    id: "9",
+    name: "Dr. Siddharth Patel",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "siddharth.patel@ohc.in",
+    location: "India",
+    joined: "Sep, 2019",
+  },
+  {
+    id: "10",
+    name: "Dr. Amara Diallo",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    flag: "sn",
+    email: "amara.diallo@ohc.in",
+    location: "Senegal",
+    joined: "Feb, 2023",
+  },
+  {
+    id: "11",
+    name: "Dr. Priya Krishnan",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "priya.krishnan@ohc.in",
+    location: "India",
+    joined: "Dec, 2022",
+  },
+  {
+    id: "12",
+    name: "Nurse Rekha Thomas",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "rekha.thomas@ohc.in",
+    location: "India",
+    joined: "Mar, 2020",
+  },
 ];
 
 const autoWidthColumns: ColumnDef<AutoWidthRow>[] = [
@@ -1185,12 +2291,34 @@ const autoWidthColumns: ColumnDef<AutoWidthRow>[] = [
     header: "Name",
     size: 225,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-2" },
-        React.createElement(Avatar, { className: "size-6" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join(""))
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-2" },
+        React.createElement(
+          Avatar,
+          { className: "size-6" },
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            row.original.name
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+          )
         ),
-        React.createElement("a", { href: "#", className: "text-foreground hover:text-primary font-medium whitespace-nowrap" }, row.original.name)
+        React.createElement(
+          "a",
+          {
+            href: "#",
+            className:
+              "text-foreground hover:text-primary font-medium whitespace-nowrap",
+          },
+          row.original.name
+        )
       ),
   },
   {
@@ -1198,23 +2326,34 @@ const autoWidthColumns: ColumnDef<AutoWidthRow>[] = [
     header: "Email",
     size: 200,
     cell: ({ row }) =>
-      React.createElement("a", {
-        href: "mailto:" + row.original.email,
-        className: "hover:text-primary hover:underline whitespace-nowrap",
-      }, row.original.email),
+      React.createElement(
+        "a",
+        {
+          href: "mailto:" + row.original.email,
+          className: "hover:text-primary hover:underline whitespace-nowrap",
+        },
+        row.original.email
+      ),
   },
   {
     accessorKey: "location",
     header: "Location",
     size: 175,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-1.5" },
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-1.5" },
         React.createElement("img", {
-          src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+          src:
+            "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
           alt: row.original.flag,
           className: "size-4 rounded-full object-cover",
         }),
-        React.createElement("span", { className: "text-foreground font-medium whitespace-nowrap" }, row.original.location)
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium whitespace-nowrap" },
+          row.original.location
+        )
       ),
   },
   {
@@ -1222,7 +2361,11 @@ const autoWidthColumns: ColumnDef<AutoWidthRow>[] = [
     header: "Joined",
     size: 120,
     cell: ({ row }) =>
-      React.createElement("span", { className: "font-medium whitespace-nowrap" }, row.original.joined),
+      React.createElement(
+        "span",
+        { className: "font-medium whitespace-nowrap" },
+        row.original.joined
+      ),
   },
 ];
 
@@ -1250,62 +2393,119 @@ function AutoWidthDemo() {
   });
 
   const total = table.getFilteredRowModel().rows.length;
-  const start = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
+  const start =
+    total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
-  return React.createElement("div", { className: "w-full space-y-2.5" },
-    React.createElement("div", { className: "w-fit overflow-x-auto rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
-      React.createElement(Table, { className: "w-auto" },
-        React.createElement(TableHeader, null,
+  return React.createElement(
+    "div",
+    { className: "w-full space-y-2.5" },
+    React.createElement(
+      "div",
+      {
+        className:
+          "w-fit overflow-x-auto rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
+      React.createElement(
+        Table,
+        { className: "w-auto" },
+        React.createElement(
+          TableHeader,
+          null,
           table.getHeaderGroups().map((hg) =>
-            React.createElement(TableRow, { key: hg.id },
+            React.createElement(
+              TableRow,
+              { key: hg.id },
               hg.headers.map((h) =>
-                React.createElement(TableHead, { key: h.id, style: { width: h.getSize() } },
-                  h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext())
+                React.createElement(
+                  TableHead,
+                  { key: h.id, style: { width: h.getSize() } },
+                  h.isPlaceholder
+                    ? null
+                    : flexRender(h.column.columnDef.header, h.getContext())
                 )
               )
             )
           )
         ),
-        React.createElement(TableBody, null,
+        React.createElement(
+          TableBody,
+          null,
           table.getRowModel().rows.map((row) =>
-            React.createElement(TableRow, { key: row.id },
-              row.getVisibleCells().map((cell) =>
-                React.createElement(TableCell, { key: cell.id, style: { width: cell.column.getSize() } },
-                  flexRender(cell.column.columnDef.cell, cell.getContext())
+            React.createElement(
+              TableRow,
+              { key: row.id },
+              row
+                .getVisibleCells()
+                .map((cell) =>
+                  React.createElement(
+                    TableCell,
+                    { key: cell.id, style: { width: cell.column.getSize() } },
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )
                 )
-              )
             )
           )
         )
       )
     ),
-    React.createElement("div", { className: "flex items-center justify-between" },
-      React.createElement("p", { className: "text-sm text-muted-foreground" },
+    React.createElement(
+      "div",
+      { className: "flex items-center justify-between" },
+      React.createElement(
+        "p",
+        { className: "text-sm text-muted-foreground" },
         `${start} - ${end} of ${total}`
       ),
-      React.createElement(Pagination, { className: "w-auto mx-0" },
-        React.createElement(PaginationContent, null,
-          React.createElement(PaginationItem, null,
+      React.createElement(
+        Pagination,
+        { className: "w-auto mx-0" },
+        React.createElement(
+          PaginationContent,
+          null,
+          React.createElement(
+            PaginationItem,
+            null,
             React.createElement(PaginationPrevious, {
-              onClick: (e: React.MouseEvent) => { e.preventDefault(); table.previousPage(); },
+              onClick: (e: React.MouseEvent) => {
+                e.preventDefault();
+                table.previousPage();
+              },
               "aria-disabled": !table.getCanPreviousPage(),
-              className: !table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined,
+              className: !table.getCanPreviousPage()
+                ? "pointer-events-none opacity-50"
+                : undefined,
             })
           ),
           Array.from({ length: table.getPageCount() }, (_, i) =>
-            React.createElement(PaginationItem, { key: i },
-              React.createElement(PaginationLink, {
-                isActive: i === table.getState().pagination.pageIndex,
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.setPageIndex(i); },
-              }, i + 1)
+            React.createElement(
+              PaginationItem,
+              { key: i },
+              React.createElement(
+                PaginationLink,
+                {
+                  isActive: i === table.getState().pagination.pageIndex,
+                  onClick: (e: React.MouseEvent) => {
+                    e.preventDefault();
+                    table.setPageIndex(i);
+                  },
+                },
+                i + 1
+              )
             )
           ),
-          React.createElement(PaginationItem, null,
+          React.createElement(
+            PaginationItem,
+            null,
             React.createElement(PaginationNext, {
-              onClick: (e: React.MouseEvent) => { e.preventDefault(); table.nextPage(); },
+              onClick: (e: React.MouseEvent) => {
+                e.preventDefault();
+                table.nextPage();
+              },
               "aria-disabled": !table.getCanNextPage(),
-              className: !table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined,
+              className: !table.getCanNextPage()
+                ? "pointer-events-none opacity-50"
+                : undefined,
             })
           )
         )
@@ -1334,7 +2534,8 @@ function RowSelectionDemo() {
           checked:
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() ? "indeterminate" : false),
-          onCheckedChange: (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+          onCheckedChange: (value: boolean) =>
+            table.toggleAllPageRowsSelected(!!value),
           "aria-label": "Select all",
         }),
       cell: ({ row }) =>
@@ -1353,17 +2554,44 @@ function RowSelectionDemo() {
       size: 200,
       enableSorting: true,
       cell: ({ row }) =>
-        React.createElement("div", { className: "flex items-center gap-3" },
-          React.createElement(Avatar, { className: "size-8" },
-            React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-            React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join("")),
+        React.createElement(
+          "div",
+          { className: "flex items-center gap-3" },
+          React.createElement(
+            Avatar,
+            { className: "size-8" },
+            React.createElement(AvatarImage, {
+              src: row.original.avatar,
+              alt: row.original.name,
+            }),
+            React.createElement(
+              AvatarFallback,
+              null,
+              row.original.name
+                .split(" ")
+                .map((n: string) => n[0])
+                .join("")
+            ),
             React.createElement(AvatarBadge, {
-              className: "size-1.5! p-0 " + (availabilityColor[row.original.availability] || availabilityColor.offline),
+              className:
+                "size-1.5! p-0 " +
+                (availabilityColor[row.original.availability] ||
+                  availabilityColor.offline),
             })
           ),
-          React.createElement("div", { className: "space-y-px" },
-            React.createElement("div", { className: "text-foreground font-medium" }, row.original.name),
-            React.createElement("div", { className: "text-muted-foreground" }, row.original.email)
+          React.createElement(
+            "div",
+            { className: "space-y-px" },
+            React.createElement(
+              "div",
+              { className: "text-foreground font-medium" },
+              row.original.name
+            ),
+            React.createElement(
+              "div",
+              { className: "text-muted-foreground" },
+              row.original.email
+            )
           )
         ),
     },
@@ -1372,13 +2600,20 @@ function RowSelectionDemo() {
       header: "Location",
       size: 180,
       cell: ({ row }) =>
-        React.createElement("div", { className: "flex items-center gap-1.5" },
+        React.createElement(
+          "div",
+          { className: "flex items-center gap-1.5" },
           React.createElement("img", {
-            src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+            src:
+              "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
             alt: row.original.flag,
             className: "size-4 rounded-full object-cover",
           }),
-          React.createElement("div", { className: "text-foreground font-medium" }, row.original.location)
+          React.createElement(
+            "div",
+            { className: "text-foreground font-medium" },
+            row.original.location
+          )
         ),
     },
     {
@@ -1386,7 +2621,11 @@ function RowSelectionDemo() {
       header: "Joined",
       size: 120,
       cell: ({ row }) =>
-        React.createElement("span", { className: "font-medium" }, row.original.joined),
+        React.createElement(
+          "span",
+          { className: "font-medium" },
+          row.original.joined
+        ),
     },
   ];
 
@@ -1407,62 +2646,122 @@ function RowSelectionDemo() {
   });
 
   const total = table.getFilteredRowModel().rows.length;
-  const start = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
+  const start =
+    total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
-  return React.createElement("div", { className: "w-full space-y-2.5" },
-    React.createElement("div", { className: "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
-      React.createElement(Table, null,
-        React.createElement(TableHeader, null,
+  return React.createElement(
+    "div",
+    { className: "w-full space-y-2.5" },
+    React.createElement(
+      "div",
+      {
+        className:
+          "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
+      React.createElement(
+        Table,
+        null,
+        React.createElement(
+          TableHeader,
+          null,
           table.getHeaderGroups().map((hg) =>
-            React.createElement(TableRow, { key: hg.id },
+            React.createElement(
+              TableRow,
+              { key: hg.id },
               hg.headers.map((h) =>
-                React.createElement(TableHead, { key: h.id, style: { width: h.getSize() } },
-                  h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext())
+                React.createElement(
+                  TableHead,
+                  { key: h.id, style: { width: h.getSize() } },
+                  h.isPlaceholder
+                    ? null
+                    : flexRender(h.column.columnDef.header, h.getContext())
                 )
               )
             )
           )
         ),
-        React.createElement(TableBody, null,
+        React.createElement(
+          TableBody,
+          null,
           table.getRowModel().rows.map((row) =>
-            React.createElement(TableRow, { key: row.id, "data-state": row.getIsSelected() ? "selected" : undefined } as any,
-              row.getVisibleCells().map((cell) =>
-                React.createElement(TableCell, { key: cell.id, style: { width: cell.column.getSize() } },
-                  flexRender(cell.column.columnDef.cell, cell.getContext())
+            React.createElement(
+              TableRow,
+              {
+                key: row.id,
+                "data-state": row.getIsSelected() ? "selected" : undefined,
+              } as any,
+              row
+                .getVisibleCells()
+                .map((cell) =>
+                  React.createElement(
+                    TableCell,
+                    { key: cell.id, style: { width: cell.column.getSize() } },
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )
                 )
-              )
             )
           )
         )
       )
     ),
-    React.createElement("div", { className: "flex items-center justify-between" },
-      React.createElement("p", { className: "text-sm text-muted-foreground" },
+    React.createElement(
+      "div",
+      { className: "flex items-center justify-between" },
+      React.createElement(
+        "p",
+        { className: "text-sm text-muted-foreground" },
         `${start} - ${end} of ${total}`
       ),
-      React.createElement(Pagination, { className: "w-auto mx-0" },
-        React.createElement(PaginationContent, null,
-          React.createElement(PaginationItem, null,
+      React.createElement(
+        Pagination,
+        { className: "w-auto mx-0" },
+        React.createElement(
+          PaginationContent,
+          null,
+          React.createElement(
+            PaginationItem,
+            null,
             React.createElement(PaginationPrevious, {
-              onClick: (e: React.MouseEvent) => { e.preventDefault(); table.previousPage(); },
+              onClick: (e: React.MouseEvent) => {
+                e.preventDefault();
+                table.previousPage();
+              },
               "aria-disabled": !table.getCanPreviousPage(),
-              className: !table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined,
+              className: !table.getCanPreviousPage()
+                ? "pointer-events-none opacity-50"
+                : undefined,
             })
           ),
           Array.from({ length: table.getPageCount() }, (_, i) =>
-            React.createElement(PaginationItem, { key: i },
-              React.createElement(PaginationLink, {
-                isActive: i === table.getState().pagination.pageIndex,
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.setPageIndex(i); },
-              }, i + 1)
+            React.createElement(
+              PaginationItem,
+              { key: i },
+              React.createElement(
+                PaginationLink,
+                {
+                  isActive: i === table.getState().pagination.pageIndex,
+                  onClick: (e: React.MouseEvent) => {
+                    e.preventDefault();
+                    table.setPageIndex(i);
+                  },
+                },
+                i + 1
+              )
             )
           ),
-          React.createElement(PaginationItem, null,
+          React.createElement(
+            PaginationItem,
+            null,
             React.createElement(PaginationNext, {
-              onClick: (e: React.MouseEvent) => { e.preventDefault(); table.nextPage(); },
+              onClick: (e: React.MouseEvent) => {
+                e.preventDefault();
+                table.nextPage();
+              },
               "aria-disabled": !table.getCanNextPage(),
-              className: !table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined,
+              className: !table.getCanNextPage()
+                ? "pointer-events-none opacity-50"
+                : undefined,
             })
           )
         )
@@ -1476,18 +2775,66 @@ function RowSelectionDemo() {
 type ExpandablePatient = Patient & { notes: string };
 
 const expandablePatients: ExpandablePatient[] = [
-  { ...patients[0], notes: "BP well-controlled on current regime. Review amlodipine dose at next visit. Low-sodium diet advised." },
-  { ...patients[1], notes: "Post-caesarean recovery progressing normally. Wound site clean. Mobilising with support. Breastfeeding established." },
-  { ...patients[2], notes: "Cardiac monitoring in progress. Troponin trending down. Echocardiogram scheduled for tomorrow. Family counselled." },
-  { ...patients[3], notes: "Post-appendicectomy Day 2. Bowel sounds present. IV antibiotics continuing. Drain output minimal." },
-  { ...patients[4], notes: "HbA1c 8.4% on admission. Metformin dose adjusted. Dietician referral placed. Foot exam normal." },
-  { ...patients[5], notes: "COPD exacerbation responding to nebulisation. Sputum sent for culture. SpO₂ stable at 94% on 2L O₂." },
-  { ...patients[6], notes: "Laparoscopic cholecystectomy completed without complications. Tolerating clear fluids. Discharge planned for Day 3." },
-  { ...patients[7], notes: "Typhoid confirmed on Widal test. Ceftriaxone IV initiated. Fever settling. Oral intake improving gradually." },
-  { ...patients[8], notes: "Large ischaemic stroke confirmed on MRI. Thrombolysis given within window. Physio and SALT assessment ongoing." },
-  { ...patients[9], notes: "Normal vaginal delivery at 39 weeks. Mother and baby well. Discharged on day 2 post-partum." },
-  { ...patients[10], notes: "Total hip replacement Day 3. Physio commenced. DVT prophylaxis in place. Wound dry and intact." },
-  { ...patients[11], notes: "UTI responding to oral ciprofloxacin. Urine culture sensitivity confirmed. Symptoms improving." },
+  {
+    ...patients[0],
+    notes:
+      "BP well-controlled on current regime. Review amlodipine dose at next visit. Low-sodium diet advised.",
+  },
+  {
+    ...patients[1],
+    notes:
+      "Post-caesarean recovery progressing normally. Wound site clean. Mobilising with support. Breastfeeding established.",
+  },
+  {
+    ...patients[2],
+    notes:
+      "Cardiac monitoring in progress. Troponin trending down. Echocardiogram scheduled for tomorrow. Family counselled.",
+  },
+  {
+    ...patients[3],
+    notes:
+      "Post-appendicectomy Day 2. Bowel sounds present. IV antibiotics continuing. Drain output minimal.",
+  },
+  {
+    ...patients[4],
+    notes:
+      "HbA1c 8.4% on admission. Metformin dose adjusted. Dietician referral placed. Foot exam normal.",
+  },
+  {
+    ...patients[5],
+    notes:
+      "COPD exacerbation responding to nebulisation. Sputum sent for culture. SpO₂ stable at 94% on 2L O₂.",
+  },
+  {
+    ...patients[6],
+    notes:
+      "Laparoscopic cholecystectomy completed without complications. Tolerating clear fluids. Discharge planned for Day 3.",
+  },
+  {
+    ...patients[7],
+    notes:
+      "Typhoid confirmed on Widal test. Ceftriaxone IV initiated. Fever settling. Oral intake improving gradually.",
+  },
+  {
+    ...patients[8],
+    notes:
+      "Large ischaemic stroke confirmed on MRI. Thrombolysis given within window. Physio and SALT assessment ongoing.",
+  },
+  {
+    ...patients[9],
+    notes:
+      "Normal vaginal delivery at 39 weeks. Mother and baby well. Discharged on day 2 post-partum.",
+  },
+  {
+    ...patients[10],
+    notes:
+      "Total hip replacement Day 3. Physio commenced. DVT prophylaxis in place. Wound dry and intact.",
+  },
+  {
+    ...patients[11],
+    notes:
+      "UTI responding to oral ciprofloxacin. Urine culture sensitivity confirmed. Symptoms improving.",
+  },
 ];
 
 const expandableColumns: ColumnDef<ExpandablePatient>[] = [
@@ -1524,8 +2871,16 @@ const expandableColumns: ColumnDef<ExpandablePatient>[] = [
       React.createElement(
         "div",
         { className: "flex flex-col" },
-        React.createElement("span", { className: "font-medium text-sm" }, row.original.ward),
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, row.original.bed)
+        React.createElement(
+          "span",
+          { className: "font-medium text-sm" },
+          row.original.ward
+        ),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          row.original.bed
+        )
       ),
   },
   {
@@ -1538,7 +2893,10 @@ const expandableColumns: ColumnDef<ExpandablePatient>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: patientStatusVariant[row.getValue("status") as Patient["status"]] },
+        {
+          variant:
+            patientStatusVariant[row.getValue("status") as Patient["status"]],
+        },
         row.getValue("status")
       ),
   },
@@ -1548,8 +2906,19 @@ const renderExpandedPatientRow = (row: Row<ExpandablePatient>) =>
   React.createElement(
     "div",
     { className: "flex items-start gap-2 border-t bg-muted/30 px-4 py-3" },
-    React.createElement("span", { className: "mt-0.5 shrink-0 text-xs font-medium text-muted-foreground uppercase tracking-wide" }, "Clinical Notes:"),
-    React.createElement("p", { className: "text-sm text-foreground" }, row.original.notes)
+    React.createElement(
+      "span",
+      {
+        className:
+          "mt-0.5 shrink-0 text-xs font-medium text-muted-foreground uppercase tracking-wide",
+      },
+      "Clinical Notes:"
+    ),
+    React.createElement(
+      "p",
+      { className: "text-sm text-foreground" },
+      row.original.notes
+    )
   );
 
 const ExpandableRowDemo = () =>
@@ -1583,69 +2952,256 @@ type PatientEncounter = {
   investigations: Investigation[];
 };
 
-const investigationStatusVariant: Record<Investigation["status"], "success" | "warning" | "destructive"> = {
-  normal:   "success",
+const investigationStatusVariant: Record<
+  Investigation["status"],
+  "success" | "warning" | "destructive"
+> = {
+  normal: "success",
   abnormal: "warning",
   critical: "destructive",
 };
 
 const patientEncounters: PatientEncounter[] = [
   {
-    id: "ENC-001", patientId: "OHC-0041", patientName: "Ravi Kumar",
-    ward: "General", diagnosis: "Hypertension", admittedOn: "10 Apr 2026", encounterStatus: "stable",
+    id: "ENC-001",
+    patientId: "OHC-0041",
+    patientName: "Ravi Kumar",
+    ward: "General",
+    diagnosis: "Hypertension",
+    admittedOn: "10 Apr 2026",
+    encounterStatus: "stable",
     investigations: [
-      { id: "E1-I1", test: "Complete Blood Count",  category: "Haematology",  result: "Normal",        referenceRange: "Varies",             status: "normal"   },
-      { id: "E1-I2", test: "Serum Creatinine",      category: "Biochemistry", result: "98 µmol/L",     referenceRange: "62–115 µmol/L",      status: "normal"   },
-      { id: "E1-I3", test: "Fasting Blood Glucose", category: "Biochemistry", result: "6.2 mmol/L",    referenceRange: "3.9–6.1 mmol/L",     status: "abnormal" },
+      {
+        id: "E1-I1",
+        test: "Complete Blood Count",
+        category: "Haematology",
+        result: "Normal",
+        referenceRange: "Varies",
+        status: "normal",
+      },
+      {
+        id: "E1-I2",
+        test: "Serum Creatinine",
+        category: "Biochemistry",
+        result: "98 µmol/L",
+        referenceRange: "62–115 µmol/L",
+        status: "normal",
+      },
+      {
+        id: "E1-I3",
+        test: "Fasting Blood Glucose",
+        category: "Biochemistry",
+        result: "6.2 mmol/L",
+        referenceRange: "3.9–6.1 mmol/L",
+        status: "abnormal",
+      },
     ],
   },
   {
-    id: "ENC-002", patientId: "OHC-0043", patientName: "Arjun Mehta",
-    ward: "ICU", diagnosis: "Cardiac arrest", admittedOn: "13 Apr 2026", encounterStatus: "critical",
+    id: "ENC-002",
+    patientId: "OHC-0043",
+    patientName: "Arjun Mehta",
+    ward: "ICU",
+    diagnosis: "Cardiac arrest",
+    admittedOn: "13 Apr 2026",
+    encounterStatus: "critical",
     investigations: [
-      { id: "E2-I1", test: "Troponin I",            category: "Biochemistry", result: "4.8 µg/L",           referenceRange: "< 0.04 µg/L",        status: "critical" },
-      { id: "E2-I2", test: "ECG",                   category: "Imaging",      result: "ST elevation V1–V4", referenceRange: "Normal sinus rhythm", status: "critical" },
-      { id: "E2-I3", test: "CK-MB",                 category: "Biochemistry", result: "62 U/L",             referenceRange: "< 25 U/L",           status: "critical" },
-      { id: "E2-I4", test: "INR",                   category: "Haematology",  result: "1.1",                referenceRange: "0.8–1.2",            status: "normal"   },
-      { id: "E2-I5", test: "Echocardiogram",        category: "Imaging",      result: "EF 35%",             referenceRange: "EF ≥ 55%",           status: "abnormal" },
+      {
+        id: "E2-I1",
+        test: "Troponin I",
+        category: "Biochemistry",
+        result: "4.8 µg/L",
+        referenceRange: "< 0.04 µg/L",
+        status: "critical",
+      },
+      {
+        id: "E2-I2",
+        test: "ECG",
+        category: "Imaging",
+        result: "ST elevation V1–V4",
+        referenceRange: "Normal sinus rhythm",
+        status: "critical",
+      },
+      {
+        id: "E2-I3",
+        test: "CK-MB",
+        category: "Biochemistry",
+        result: "62 U/L",
+        referenceRange: "< 25 U/L",
+        status: "critical",
+      },
+      {
+        id: "E2-I4",
+        test: "INR",
+        category: "Haematology",
+        result: "1.1",
+        referenceRange: "0.8–1.2",
+        status: "normal",
+      },
+      {
+        id: "E2-I5",
+        test: "Echocardiogram",
+        category: "Imaging",
+        result: "EF 35%",
+        referenceRange: "EF ≥ 55%",
+        status: "abnormal",
+      },
     ],
   },
   {
-    id: "ENC-003", patientId: "OHC-0044", patientName: "Sunita Rao",
-    ward: "Surgical", diagnosis: "Appendicitis", admittedOn: "14 Apr 2026", encounterStatus: "admitted",
+    id: "ENC-003",
+    patientId: "OHC-0044",
+    patientName: "Sunita Rao",
+    ward: "Surgical",
+    diagnosis: "Appendicitis",
+    admittedOn: "14 Apr 2026",
+    encounterStatus: "admitted",
     investigations: [
-      { id: "E3-I1", test: "WBC Count",             category: "Haematology",  result: "14.2 × 10⁹/L",  referenceRange: "4–11 × 10⁹/L",       status: "abnormal" },
-      { id: "E3-I2", test: "C-Reactive Protein",    category: "Biochemistry", result: "88 mg/L",         referenceRange: "< 10 mg/L",          status: "critical" },
-      { id: "E3-I3", test: "Ultrasound Abdomen",    category: "Imaging",      result: "Appendix 9mm",    referenceRange: "< 6 mm",             status: "abnormal" },
-      { id: "E3-I4", test: "Urine Culture",         category: "Microbiology", result: "No growth",       referenceRange: "No growth",          status: "normal"   },
+      {
+        id: "E3-I1",
+        test: "WBC Count",
+        category: "Haematology",
+        result: "14.2 × 10⁹/L",
+        referenceRange: "4–11 × 10⁹/L",
+        status: "abnormal",
+      },
+      {
+        id: "E3-I2",
+        test: "C-Reactive Protein",
+        category: "Biochemistry",
+        result: "88 mg/L",
+        referenceRange: "< 10 mg/L",
+        status: "critical",
+      },
+      {
+        id: "E3-I3",
+        test: "Ultrasound Abdomen",
+        category: "Imaging",
+        result: "Appendix 9mm",
+        referenceRange: "< 6 mm",
+        status: "abnormal",
+      },
+      {
+        id: "E3-I4",
+        test: "Urine Culture",
+        category: "Microbiology",
+        result: "No growth",
+        referenceRange: "No growth",
+        status: "normal",
+      },
     ],
   },
   {
-    id: "ENC-004", patientId: "OHC-0045", patientName: "Mohammed Ali",
-    ward: "General", diagnosis: "Diabetes mellitus", admittedOn: "09 Apr 2026", encounterStatus: "stable",
+    id: "ENC-004",
+    patientId: "OHC-0045",
+    patientName: "Mohammed Ali",
+    ward: "General",
+    diagnosis: "Diabetes mellitus",
+    admittedOn: "09 Apr 2026",
+    encounterStatus: "stable",
     investigations: [
-      { id: "E4-I1", test: "HbA1c",                 category: "Biochemistry", result: "8.4%",           referenceRange: "< 6.5%",             status: "abnormal" },
-      { id: "E4-I2", test: "Fasting Blood Glucose", category: "Biochemistry", result: "9.8 mmol/L",     referenceRange: "3.9–6.1 mmol/L",     status: "critical" },
-      { id: "E4-I3", test: "Urine Microalbumin",    category: "Biochemistry", result: "28 mg/L",        referenceRange: "< 20 mg/L",          status: "abnormal" },
+      {
+        id: "E4-I1",
+        test: "HbA1c",
+        category: "Biochemistry",
+        result: "8.4%",
+        referenceRange: "< 6.5%",
+        status: "abnormal",
+      },
+      {
+        id: "E4-I2",
+        test: "Fasting Blood Glucose",
+        category: "Biochemistry",
+        result: "9.8 mmol/L",
+        referenceRange: "3.9–6.1 mmol/L",
+        status: "critical",
+      },
+      {
+        id: "E4-I3",
+        test: "Urine Microalbumin",
+        category: "Biochemistry",
+        result: "28 mg/L",
+        referenceRange: "< 20 mg/L",
+        status: "abnormal",
+      },
     ],
   },
   {
-    id: "ENC-005", patientId: "OHC-0049", patientName: "Deepak Verma",
-    ward: "ICU", diagnosis: "Stroke", admittedOn: "13 Apr 2026", encounterStatus: "critical",
+    id: "ENC-005",
+    patientId: "OHC-0049",
+    patientName: "Deepak Verma",
+    ward: "ICU",
+    diagnosis: "Stroke",
+    admittedOn: "13 Apr 2026",
+    encounterStatus: "critical",
     investigations: [
-      { id: "E5-I1", test: "CT Brain (plain)",      category: "Imaging",      result: "Ischaemic L MCA", referenceRange: "Normal",            status: "critical" },
-      { id: "E5-I2", test: "INR",                   category: "Haematology",  result: "1.0",             referenceRange: "0.8–1.2",           status: "normal"   },
-      { id: "E5-I3", test: "Serum Glucose",         category: "Biochemistry", result: "7.2 mmol/L",      referenceRange: "3.9–7.8 mmol/L",   status: "normal"   },
-      { id: "E5-I4", test: "Blood Culture",         category: "Microbiology", result: "No growth",       referenceRange: "No growth",         status: "normal"   },
+      {
+        id: "E5-I1",
+        test: "CT Brain (plain)",
+        category: "Imaging",
+        result: "Ischaemic L MCA",
+        referenceRange: "Normal",
+        status: "critical",
+      },
+      {
+        id: "E5-I2",
+        test: "INR",
+        category: "Haematology",
+        result: "1.0",
+        referenceRange: "0.8–1.2",
+        status: "normal",
+      },
+      {
+        id: "E5-I3",
+        test: "Serum Glucose",
+        category: "Biochemistry",
+        result: "7.2 mmol/L",
+        referenceRange: "3.9–7.8 mmol/L",
+        status: "normal",
+      },
+      {
+        id: "E5-I4",
+        test: "Blood Culture",
+        category: "Microbiology",
+        result: "No growth",
+        referenceRange: "No growth",
+        status: "normal",
+      },
     ],
   },
   {
-    id: "ENC-006", patientId: "OHC-0051", patientName: "Rajesh Nambiar",
-    ward: "Orthopedic", diagnosis: "Hip replacement", admittedOn: "14 Apr 2026", encounterStatus: "admitted",
+    id: "ENC-006",
+    patientId: "OHC-0051",
+    patientName: "Rajesh Nambiar",
+    ward: "Orthopedic",
+    diagnosis: "Hip replacement",
+    admittedOn: "14 Apr 2026",
+    encounterStatus: "admitted",
     investigations: [
-      { id: "E6-I1", test: "X-Ray Hip (AP)",        category: "Imaging",      result: "Prosthesis in situ", referenceRange: "Post-op normal",  status: "normal"   },
-      { id: "E6-I2", test: "Haemoglobin",           category: "Haematology",  result: "10.2 g/dL",       referenceRange: "13–17 g/dL",        status: "abnormal" },
-      { id: "E6-I3", test: "D-Dimer",               category: "Haematology",  result: "0.6 mg/L FEU",    referenceRange: "< 0.5 mg/L FEU",   status: "abnormal" },
+      {
+        id: "E6-I1",
+        test: "X-Ray Hip (AP)",
+        category: "Imaging",
+        result: "Prosthesis in situ",
+        referenceRange: "Post-op normal",
+        status: "normal",
+      },
+      {
+        id: "E6-I2",
+        test: "Haemoglobin",
+        category: "Haematology",
+        result: "10.2 g/dL",
+        referenceRange: "13–17 g/dL",
+        status: "abnormal",
+      },
+      {
+        id: "E6-I3",
+        test: "D-Dimer",
+        category: "Haematology",
+        result: "0.6 mg/L FEU",
+        referenceRange: "< 0.5 mg/L FEU",
+        status: "abnormal",
+      },
     ],
   },
 ];
@@ -1656,22 +3212,42 @@ const investigationColumns: ColumnDef<Investigation>[] = [
   {
     accessorKey: "test",
     header: "Test",
-    cell: ({ row }) => React.createElement("span", { className: "font-medium text-sm" }, row.getValue("test")),
+    cell: ({ row }) =>
+      React.createElement(
+        "span",
+        { className: "font-medium text-sm" },
+        row.getValue("test")
+      ),
   },
   {
     accessorKey: "category",
     header: "Category",
-    cell: ({ row }) => React.createElement(Badge, { variant: "neutral" }, row.getValue("category")),
+    cell: ({ row }) =>
+      React.createElement(
+        Badge,
+        { variant: "neutral" },
+        row.getValue("category")
+      ),
   },
   {
     accessorKey: "result",
     header: "Result",
-    cell: ({ row }) => React.createElement("span", { className: "tabular-nums text-sm font-medium" }, row.getValue("result")),
+    cell: ({ row }) =>
+      React.createElement(
+        "span",
+        { className: "tabular-nums text-sm font-medium" },
+        row.getValue("result")
+      ),
   },
   {
     accessorKey: "referenceRange",
     header: "Reference Range",
-    cell: ({ row }) => React.createElement("span", { className: "text-muted-foreground text-sm" }, row.getValue("referenceRange")),
+    cell: ({ row }) =>
+      React.createElement(
+        "span",
+        { className: "text-muted-foreground text-sm" },
+        row.getValue("referenceRange")
+      ),
   },
   {
     accessorKey: "status",
@@ -1679,13 +3255,22 @@ const investigationColumns: ColumnDef<Investigation>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: investigationStatusVariant[row.getValue("status") as Investigation["status"]] },
+        {
+          variant:
+            investigationStatusVariant[
+              row.getValue("status") as Investigation["status"]
+            ],
+        },
         row.getValue("status")
       ),
   },
 ];
 
-const InvestigationSubTable = ({ investigations }: { investigations: Investigation[] }) =>
+const InvestigationSubTable = ({
+  investigations,
+}: {
+  investigations: Investigation[];
+}) =>
   React.createElement(DataTable as any, {
     columns: investigationColumns,
     data: investigations,
@@ -1717,20 +3302,30 @@ const encounterColumns: ColumnDef<PatientEncounter>[] = [
     id: "patient",
     accessorKey: "patientName",
     header: "Patient",
-    cell: ({ row }) => patientCell(row.original.patientName, row.original.patientId),
+    cell: ({ row }) =>
+      patientCell(row.original.patientName, row.original.patientId),
   },
   { accessorKey: "ward", header: "Ward" },
   { accessorKey: "diagnosis", header: "Diagnosis" },
   {
     accessorKey: "admittedOn",
     header: "Admitted",
-    cell: ({ row }) => React.createElement("span", { className: "tabular-nums text-sm" }, row.getValue("admittedOn")),
+    cell: ({ row }) =>
+      React.createElement(
+        "span",
+        { className: "tabular-nums text-sm" },
+        row.getValue("admittedOn")
+      ),
   },
   {
     id: "investigations",
     header: "Tests",
     cell: ({ row }) =>
-      React.createElement(Badge, { variant: "neutral" }, `${row.original.investigations.length} tests`),
+      React.createElement(
+        Badge,
+        { variant: "neutral" },
+        `${row.original.investigations.length} tests`
+      ),
   },
   {
     accessorKey: "encounterStatus",
@@ -1738,7 +3333,12 @@ const encounterColumns: ColumnDef<PatientEncounter>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: patientStatusVariant[row.getValue("encounterStatus") as Patient["status"]] },
+        {
+          variant:
+            patientStatusVariant[
+              row.getValue("encounterStatus") as Patient["status"]
+            ],
+        },
         row.getValue("encounterStatus")
       ),
   },
@@ -1750,10 +3350,15 @@ const renderInvestigationSubTable = (row: Row<PatientEncounter>) =>
     { className: "border-t bg-muted/20 px-4 py-4" },
     React.createElement(
       "p",
-      { className: "mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground" },
+      {
+        className:
+          "mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground",
+      },
       `Investigations — ${row.original.patientName}`
     ),
-    React.createElement(InvestigationSubTable, { investigations: row.original.investigations })
+    React.createElement(InvestigationSubTable, {
+      investigations: row.original.investigations,
+    })
   );
 
 const SubDataGridDemo = () =>
@@ -1772,8 +3377,10 @@ const footerInvoiceColumns: ColumnDef<Invoice>[] = [
     id: "patient",
     accessorKey: "patientName",
     header: "Patient",
-    footer: () => React.createElement("span", { className: "font-semibold" }, "Total"),
-    cell: ({ row }) => patientCell(row.original.patientName, row.original.patientId),
+    footer: () =>
+      React.createElement("span", { className: "font-semibold" }, "Total"),
+    cell: ({ row }) =>
+      patientCell(row.original.patientName, row.original.patientId),
   },
   {
     accessorKey: "date",
@@ -1784,12 +3391,20 @@ const footerInvoiceColumns: ColumnDef<Invoice>[] = [
     accessorKey: "category",
     header: "Category",
     footer: () => null,
-    cell: ({ row }) => React.createElement(Badge, { variant: "neutral" }, row.getValue("category")),
+    cell: ({ row }) =>
+      React.createElement(
+        Badge,
+        { variant: "neutral" },
+        row.getValue("category")
+      ),
   },
   {
     accessorKey: "amount",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Amount" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Amount",
+      }),
     footer: ({ table }) => {
       const total = table
         .getFilteredRowModel()
@@ -1815,7 +3430,10 @@ const footerInvoiceColumns: ColumnDef<Invoice>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: invoiceStatusVariant[row.getValue("status") as Invoice["status"]] },
+        {
+          variant:
+            invoiceStatusVariant[row.getValue("status") as Invoice["status"]],
+        },
         row.getValue("status")
       ),
   },
@@ -1855,8 +3473,16 @@ const columnIconColumns: ColumnDef<Patient>[] = [
       React.createElement(
         "div",
         { className: "flex flex-col" },
-        React.createElement("span", { className: "font-medium text-sm" }, row.original.ward),
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, row.original.bed)
+        React.createElement(
+          "span",
+          { className: "font-medium text-sm" },
+          row.original.ward
+        ),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          row.original.bed
+        )
       ),
   },
   {
@@ -1879,7 +3505,10 @@ const columnIconColumns: ColumnDef<Patient>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: patientStatusVariant[row.getValue("status") as Patient["status"]] },
+        {
+          variant:
+            patientStatusVariant[row.getValue("status") as Patient["status"]],
+        },
         row.getValue("status")
       ),
   },
@@ -1932,14 +3561,20 @@ const rowPinColumns: ColumnDef<Patient>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: patientStatusVariant[row.getValue("status") as Patient["status"]] },
+        {
+          variant:
+            patientStatusVariant[row.getValue("status") as Patient["status"]],
+        },
         row.getValue("status")
       ),
   },
 ];
 
 function RowPinningDemo() {
-  const [rowPinning, setRowPinning] = React.useState<RowPinningState>({ top: [], bottom: [] });
+  const [rowPinning, setRowPinning] = React.useState<RowPinningState>({
+    top: [],
+    bottom: [],
+  });
   const [globalFilter, setGlobalFilter] = React.useState("");
 
   // eslint-disable-next-line react-hooks/incompatible-library
@@ -1968,13 +3603,18 @@ function RowPinningDemo() {
       React.createElement("input", {
         placeholder: "Search patients...",
         value: globalFilter,
-        onChange: (e: React.ChangeEvent<HTMLInputElement>) => setGlobalFilter(e.target.value),
-        className: "max-w-sm h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+          setGlobalFilter(e.target.value),
+        className:
+          "max-w-sm h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
       })
     ),
     React.createElement(
       "div",
-      { className: "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
+      {
+        className:
+          "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
       React.createElement(
         Table,
         null,
@@ -1988,10 +3628,16 @@ function RowPinningDemo() {
               hg.headers.map((header) =>
                 React.createElement(
                   TableHead,
-                  { key: header.id, className: header.column.columnDef.meta?.className },
+                  {
+                    key: header.id,
+                    className: header.column.columnDef.meta?.className,
+                  },
                   header.isPlaceholder
                     ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )
                 )
               )
             )
@@ -2004,11 +3650,17 @@ function RowPinningDemo() {
             pinnedRows.map((row) =>
               React.createElement(
                 TableRow,
-                { key: row.id, className: "bg-primary/5 font-medium sticky top-0 z-10" },
+                {
+                  key: row.id,
+                  className: "bg-primary/5 font-medium sticky top-0 z-10",
+                },
                 row.getVisibleCells().map((cell) =>
                   React.createElement(
                     TableCell,
-                    { key: cell.id, className: cell.column.columnDef.meta?.className },
+                    {
+                      key: cell.id,
+                      className: cell.column.columnDef.meta?.className,
+                    },
                     flexRender(cell.column.columnDef.cell, cell.getContext())
                   )
                 )
@@ -2022,7 +3674,10 @@ function RowPinningDemo() {
                   row.getVisibleCells().map((cell) =>
                     React.createElement(
                       TableCell,
-                      { key: cell.id, className: cell.column.columnDef.meta?.className },
+                      {
+                        key: cell.id,
+                        className: cell.column.columnDef.meta?.className,
+                      },
                       flexRender(cell.column.columnDef.cell, cell.getContext())
                     )
                   )
@@ -2033,7 +3688,10 @@ function RowPinningDemo() {
                 null,
                 React.createElement(
                   TableCell,
-                  { colSpan: rowPinColumns.length, className: "h-24 text-center" },
+                  {
+                    colSpan: rowPinColumns.length,
+                    className: "h-24 text-center",
+                  },
                   "No results."
                 )
               )
@@ -2057,18 +3715,138 @@ interface LightTableRow {
 }
 
 const lightTableData: LightTableRow[] = [
-  { id: "1", name: "Dr. Anika Sharma", availability: "online", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "anika.sharma@ohc.in", location: "India" },
-  { id: "2", name: "Dr. Sarah Mitchell", availability: "away", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom" },
-  { id: "3", name: "Dr. David Okafor", availability: "busy", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "active", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria" },
-  { id: "4", name: "Nurse Elena Fischer", availability: "offline", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "de", email: "elena.fischer@ohc.in", location: "Germany" },
-  { id: "5", name: "Dr. Hiroshi Tanaka", availability: "online", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "active", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan" },
-  { id: "6", name: "Dr. Ravi Menon", availability: "away", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "ravi.menon@ohc.in", location: "India" },
-  { id: "7", name: "Dr. Carlos Rivera", availability: "busy", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain" },
-  { id: "8", name: "Nurse Mei Lin Wong", availability: "offline", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "active", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore" },
-  { id: "9", name: "Dr. Siddharth Patel", availability: "online", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "siddharth.patel@ohc.in", location: "India" },
-  { id: "10", name: "Dr. Amara Diallo", availability: "away", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "inactive", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal" },
-  { id: "11", name: "Dr. Priya Krishnan", availability: "busy", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "priya.krishnan@ohc.in", location: "India" },
-  { id: "12", name: "Nurse Rekha Thomas", availability: "offline", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "active", flag: "in", email: "rekha.thomas@ohc.in", location: "India" },
+  {
+    id: "1",
+    name: "Dr. Anika Sharma",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "anika.sharma@ohc.in",
+    location: "India",
+  },
+  {
+    id: "2",
+    name: "Dr. Sarah Mitchell",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "gb",
+    email: "sarah.mitchell@ohc.in",
+    location: "United Kingdom",
+  },
+  {
+    id: "3",
+    name: "Dr. David Okafor",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "ng",
+    email: "david.okafor@ohc.in",
+    location: "Nigeria",
+  },
+  {
+    id: "4",
+    name: "Nurse Elena Fischer",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "de",
+    email: "elena.fischer@ohc.in",
+    location: "Germany",
+  },
+  {
+    id: "5",
+    name: "Dr. Hiroshi Tanaka",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "jp",
+    email: "hiroshi.tanaka@ohc.in",
+    location: "Japan",
+  },
+  {
+    id: "6",
+    name: "Dr. Ravi Menon",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "ravi.menon@ohc.in",
+    location: "India",
+  },
+  {
+    id: "7",
+    name: "Dr. Carlos Rivera",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "es",
+    email: "carlos.rivera@ohc.in",
+    location: "Spain",
+  },
+  {
+    id: "8",
+    name: "Nurse Mei Lin Wong",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "sg",
+    email: "mei.wong@ohc.in",
+    location: "Singapore",
+  },
+  {
+    id: "9",
+    name: "Dr. Siddharth Patel",
+    availability: "online",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "siddharth.patel@ohc.in",
+    location: "India",
+  },
+  {
+    id: "10",
+    name: "Dr. Amara Diallo",
+    availability: "away",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    status: "inactive",
+    flag: "sn",
+    email: "amara.diallo@ohc.in",
+    location: "Senegal",
+  },
+  {
+    id: "11",
+    name: "Dr. Priya Krishnan",
+    availability: "busy",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "priya.krishnan@ohc.in",
+    location: "India",
+  },
+  {
+    id: "12",
+    name: "Nurse Rekha Thomas",
+    availability: "offline",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    status: "active",
+    flag: "in",
+    email: "rekha.thomas@ohc.in",
+    location: "India",
+  },
 ];
 
 const availabilityColors: Record<string, string> = {
@@ -2083,15 +3861,41 @@ const lightTableColumns: ColumnDef<LightTableRow>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-3" },
-        React.createElement(Avatar, { className: "size-8" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join("")),
-          React.createElement(AvatarBadge, { className: `size-1.5! p-0 ${availabilityColors[row.original.availability] || "bg-gray-400"}` })
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
+        React.createElement(
+          Avatar,
+          { className: "size-8" },
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            row.original.name
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+          ),
+          React.createElement(AvatarBadge, {
+            className: `size-1.5! p-0 ${availabilityColors[row.original.availability] || "bg-gray-400"}`,
+          })
         ),
-        React.createElement("div", { className: "space-y-px" },
-          React.createElement("div", { className: "text-foreground font-medium" }, row.original.name),
-          React.createElement("div", { className: "text-muted-foreground text-xs" }, row.original.email)
+        React.createElement(
+          "div",
+          { className: "space-y-px" },
+          React.createElement(
+            "div",
+            { className: "text-foreground font-medium" },
+            row.original.name
+          ),
+          React.createElement(
+            "div",
+            { className: "text-muted-foreground text-xs" },
+            row.original.email
+          )
         )
       ),
     size: 225,
@@ -2100,13 +3904,20 @@ const lightTableColumns: ColumnDef<LightTableRow>[] = [
     accessorKey: "location",
     header: "Location",
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-1.5" },
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-1.5" },
         React.createElement("img", {
-          src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+          src:
+            "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
           alt: row.original.flag,
           className: "size-4 rounded-full object-cover",
         }),
-        React.createElement("span", { className: "text-foreground font-medium" }, row.original.location)
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium" },
+          row.original.location
+        )
       ),
     size: 160,
   },
@@ -2144,62 +3955,119 @@ function LightTableDemo() {
   });
 
   const total = table.getFilteredRowModel().rows.length;
-  const start = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
+  const start =
+    total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
-  return React.createElement("div", { className: "w-full space-y-2.5" },
-    React.createElement("div", { className: "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
-      React.createElement(Table, null,
-        React.createElement(TableHeader, null,
+  return React.createElement(
+    "div",
+    { className: "w-full space-y-2.5" },
+    React.createElement(
+      "div",
+      {
+        className:
+          "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
+      React.createElement(
+        Table,
+        null,
+        React.createElement(
+          TableHeader,
+          null,
           table.getHeaderGroups().map((hg) =>
-            React.createElement(TableRow, { key: hg.id, className: "border-none hover:bg-transparent" },
+            React.createElement(
+              TableRow,
+              { key: hg.id, className: "border-none hover:bg-transparent" },
               hg.headers.map((h) =>
-                React.createElement(TableHead, { key: h.id },
-                  h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext())
+                React.createElement(
+                  TableHead,
+                  { key: h.id },
+                  h.isPlaceholder
+                    ? null
+                    : flexRender(h.column.columnDef.header, h.getContext())
                 )
               )
             )
           )
         ),
-        React.createElement(TableBody, null,
+        React.createElement(
+          TableBody,
+          null,
           table.getRowModel().rows.map((row) =>
-            React.createElement(TableRow, { key: row.id, className: "border-none" },
-              row.getVisibleCells().map((cell) =>
-                React.createElement(TableCell, { key: cell.id },
-                  flexRender(cell.column.columnDef.cell, cell.getContext())
+            React.createElement(
+              TableRow,
+              { key: row.id, className: "border-none" },
+              row
+                .getVisibleCells()
+                .map((cell) =>
+                  React.createElement(
+                    TableCell,
+                    { key: cell.id },
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )
                 )
-              )
             )
           )
         )
       )
     ),
-    React.createElement("div", { className: "flex items-center justify-between" },
-      React.createElement("p", { className: "text-sm text-muted-foreground" },
+    React.createElement(
+      "div",
+      { className: "flex items-center justify-between" },
+      React.createElement(
+        "p",
+        { className: "text-sm text-muted-foreground" },
         `${start} - ${end} of ${total}`
       ),
-      React.createElement(Pagination, { className: "w-auto mx-0" },
-        React.createElement(PaginationContent, null,
-          React.createElement(PaginationItem, null,
+      React.createElement(
+        Pagination,
+        { className: "w-auto mx-0" },
+        React.createElement(
+          PaginationContent,
+          null,
+          React.createElement(
+            PaginationItem,
+            null,
             React.createElement(PaginationPrevious, {
-              onClick: (e: React.MouseEvent) => { e.preventDefault(); table.previousPage(); },
+              onClick: (e: React.MouseEvent) => {
+                e.preventDefault();
+                table.previousPage();
+              },
               "aria-disabled": !table.getCanPreviousPage(),
-              className: !table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined,
+              className: !table.getCanPreviousPage()
+                ? "pointer-events-none opacity-50"
+                : undefined,
             })
           ),
           Array.from({ length: table.getPageCount() }, (_, i) =>
-            React.createElement(PaginationItem, { key: i },
-              React.createElement(PaginationLink, {
-                isActive: i === table.getState().pagination.pageIndex,
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.setPageIndex(i); },
-              }, i + 1)
+            React.createElement(
+              PaginationItem,
+              { key: i },
+              React.createElement(
+                PaginationLink,
+                {
+                  isActive: i === table.getState().pagination.pageIndex,
+                  onClick: (e: React.MouseEvent) => {
+                    e.preventDefault();
+                    table.setPageIndex(i);
+                  },
+                },
+                i + 1
+              )
             )
           ),
-          React.createElement(PaginationItem, null,
+          React.createElement(
+            PaginationItem,
+            null,
             React.createElement(PaginationNext, {
-              onClick: (e: React.MouseEvent) => { e.preventDefault(); table.nextPage(); },
+              onClick: (e: React.MouseEvent) => {
+                e.preventDefault();
+                table.nextPage();
+              },
               "aria-disabled": !table.getCanNextPage(),
-              className: !table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined,
+              className: !table.getCanNextPage()
+                ? "pointer-events-none opacity-50"
+                : undefined,
             })
           )
         )
@@ -2221,18 +4089,126 @@ interface StripedTableRow {
 }
 
 const stripedTableData: StripedTableRow[] = [
-  { id: "1", name: "Dr. Anika Sharma", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "anika.sharma@ohc.in", location: "India", balance: 5143.03 },
-  { id: "2", name: "Dr. Sarah Mitchell", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "gb", email: "sarah.mitchell@ohc.in", location: "United Kingdom", balance: 4321.87 },
-  { id: "3", name: "Dr. David Okafor", avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", flag: "ng", email: "david.okafor@ohc.in", location: "Nigeria", balance: 7654.98 },
-  { id: "4", name: "Nurse Elena Fischer", avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", flag: "de", email: "elena.fischer@ohc.in", location: "Germany", balance: 3456.45 },
-  { id: "5", name: "Dr. Hiroshi Tanaka", avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", flag: "jp", email: "hiroshi.tanaka@ohc.in", location: "Japan", balance: 9876.54 },
-  { id: "6", name: "Dr. Ravi Menon", avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", flag: "in", email: "ravi.menon@ohc.in", location: "India", balance: 6214.22 },
-  { id: "7", name: "Dr. Carlos Rivera", avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", flag: "es", email: "carlos.rivera@ohc.in", location: "Spain", balance: 5321.77 },
-  { id: "8", name: "Nurse Mei Lin Wong", avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", flag: "sg", email: "mei.wong@ohc.in", location: "Singapore", balance: 8452.39 },
-  { id: "9", name: "Dr. Siddharth Patel", avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", flag: "in", email: "siddharth.patel@ohc.in", location: "India", balance: 7345.10 },
-  { id: "10", name: "Dr. Amara Diallo", avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", flag: "sn", email: "amara.diallo@ohc.in", location: "Senegal", balance: 5214.88 },
-  { id: "11", name: "Dr. Priya Krishnan", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", flag: "in", email: "priya.krishnan@ohc.in", location: "India", balance: 9421.50 },
-  { id: "12", name: "Nurse Rekha Thomas", avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", flag: "in", email: "rekha.thomas@ohc.in", location: "India", balance: 4521.67 },
+  {
+    id: "1",
+    name: "Dr. Anika Sharma",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "anika.sharma@ohc.in",
+    location: "India",
+    balance: 5143.03,
+  },
+  {
+    id: "2",
+    name: "Dr. Sarah Mitchell",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    flag: "gb",
+    email: "sarah.mitchell@ohc.in",
+    location: "United Kingdom",
+    balance: 4321.87,
+  },
+  {
+    id: "3",
+    name: "Dr. David Okafor",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    flag: "ng",
+    email: "david.okafor@ohc.in",
+    location: "Nigeria",
+    balance: 7654.98,
+  },
+  {
+    id: "4",
+    name: "Nurse Elena Fischer",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    flag: "de",
+    email: "elena.fischer@ohc.in",
+    location: "Germany",
+    balance: 3456.45,
+  },
+  {
+    id: "5",
+    name: "Dr. Hiroshi Tanaka",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    flag: "jp",
+    email: "hiroshi.tanaka@ohc.in",
+    location: "Japan",
+    balance: 9876.54,
+  },
+  {
+    id: "6",
+    name: "Dr. Ravi Menon",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "ravi.menon@ohc.in",
+    location: "India",
+    balance: 6214.22,
+  },
+  {
+    id: "7",
+    name: "Dr. Carlos Rivera",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    flag: "es",
+    email: "carlos.rivera@ohc.in",
+    location: "Spain",
+    balance: 5321.77,
+  },
+  {
+    id: "8",
+    name: "Nurse Mei Lin Wong",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    flag: "sg",
+    email: "mei.wong@ohc.in",
+    location: "Singapore",
+    balance: 8452.39,
+  },
+  {
+    id: "9",
+    name: "Dr. Siddharth Patel",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "siddharth.patel@ohc.in",
+    location: "India",
+    balance: 7345.1,
+  },
+  {
+    id: "10",
+    name: "Dr. Amara Diallo",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    flag: "sn",
+    email: "amara.diallo@ohc.in",
+    location: "Senegal",
+    balance: 5214.88,
+  },
+  {
+    id: "11",
+    name: "Dr. Priya Krishnan",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "priya.krishnan@ohc.in",
+    location: "India",
+    balance: 9421.5,
+  },
+  {
+    id: "12",
+    name: "Nurse Rekha Thomas",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    flag: "in",
+    email: "rekha.thomas@ohc.in",
+    location: "India",
+    balance: 4521.67,
+  },
 ];
 
 const stripedTableColumns: ColumnDef<StripedTableRow>[] = [
@@ -2240,12 +4216,30 @@ const stripedTableColumns: ColumnDef<StripedTableRow>[] = [
     accessorKey: "name",
     header: "Name",
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-2" },
-        React.createElement(Avatar, { className: "size-6" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join(""))
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-2" },
+        React.createElement(
+          Avatar,
+          { className: "size-6" },
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            row.original.name
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+          )
         ),
-        React.createElement("span", { className: "text-foreground font-medium" }, row.original.name)
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium" },
+          row.original.name
+        )
       ),
     size: 175,
   },
@@ -2253,32 +4247,46 @@ const stripedTableColumns: ColumnDef<StripedTableRow>[] = [
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) =>
-      React.createElement("a", {
-        href: "mailto:" + row.original.email,
-        className: "hover:text-primary hover:underline",
-      }, row.original.email),
+      React.createElement(
+        "a",
+        {
+          href: "mailto:" + row.original.email,
+          className: "hover:text-primary hover:underline",
+        },
+        row.original.email
+      ),
     size: 180,
   },
   {
     accessorKey: "location",
     header: "Location",
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-1.5" },
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-1.5" },
         React.createElement("img", {
-          src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+          src:
+            "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
           alt: row.original.flag,
           className: "size-4 rounded-full object-cover",
         }),
-        React.createElement("span", { className: "text-foreground font-medium" }, row.original.location)
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium" },
+          row.original.location
+        )
       ),
     size: 170,
   },
   {
     accessorKey: "balance",
-    header: () => React.createElement("div", { className: "text-right" }, "Balance ($)"),
+    header: () =>
+      React.createElement("div", { className: "text-right" }, "Balance ($)"),
     cell: ({ row }) =>
-      React.createElement("span", { className: "font-semibold" },
-        "$" + (row.original.balance).toFixed(2)
+      React.createElement(
+        "span",
+        { className: "font-semibold" },
+        "$" + row.original.balance.toFixed(2)
       ),
     meta: { className: "text-right" },
     size: 120,
@@ -2308,31 +4316,58 @@ function StripedTableDemo() {
   });
 
   const total = table.getFilteredRowModel().rows.length;
-  const start = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
+  const start =
+    total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
-  return React.createElement("div", { className: "w-full space-y-2.5" },
-    React.createElement("div", { className: "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
-      React.createElement(Table, null,
-        React.createElement(TableHeader, null,
+  return React.createElement(
+    "div",
+    { className: "w-full space-y-2.5" },
+    React.createElement(
+      "div",
+      {
+        className:
+          "overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
+      React.createElement(
+        Table,
+        null,
+        React.createElement(
+          TableHeader,
+          null,
           table.getHeaderGroups().map((hg) =>
-            React.createElement(TableRow, { key: hg.id },
+            React.createElement(
+              TableRow,
+              { key: hg.id },
               hg.headers.map((h) =>
-                React.createElement(TableHead, { key: h.id, className: h.column.columnDef.meta?.className },
-                  h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext())
+                React.createElement(
+                  TableHead,
+                  { key: h.id, className: h.column.columnDef.meta?.className },
+                  h.isPlaceholder
+                    ? null
+                    : flexRender(h.column.columnDef.header, h.getContext())
                 )
               )
             )
           )
         ),
-        React.createElement(TableBody, null,
+        React.createElement(
+          TableBody,
+          null,
           table.getRowModel().rows.map((row) =>
-            React.createElement(TableRow, {
-              key: row.id,
-              className: "even:bg-muted/50",
-            },
+            React.createElement(
+              TableRow,
+              {
+                key: row.id,
+                className: "even:bg-muted/50",
+              },
               row.getVisibleCells().map((cell) =>
-                React.createElement(TableCell, { key: cell.id, className: cell.column.columnDef.meta?.className },
+                React.createElement(
+                  TableCell,
+                  {
+                    key: cell.id,
+                    className: cell.column.columnDef.meta?.className,
+                  },
                   flexRender(cell.column.columnDef.cell, cell.getContext())
                 )
               )
@@ -2341,32 +4376,63 @@ function StripedTableDemo() {
         )
       )
     ),
-    React.createElement("div", { className: "flex items-center justify-between" },
-      React.createElement("p", { className: "text-sm text-muted-foreground" },
+    React.createElement(
+      "div",
+      { className: "flex items-center justify-between" },
+      React.createElement(
+        "p",
+        { className: "text-sm text-muted-foreground" },
         `${start} - ${end} of ${total}`
       ),
-      React.createElement(Pagination, { className: "w-auto mx-0" },
-        React.createElement(PaginationContent, null,
-          React.createElement(PaginationItem, null,
+      React.createElement(
+        Pagination,
+        { className: "w-auto mx-0" },
+        React.createElement(
+          PaginationContent,
+          null,
+          React.createElement(
+            PaginationItem,
+            null,
             React.createElement(PaginationPrevious, {
-              onClick: (e: React.MouseEvent) => { e.preventDefault(); table.previousPage(); },
+              onClick: (e: React.MouseEvent) => {
+                e.preventDefault();
+                table.previousPage();
+              },
               "aria-disabled": !table.getCanPreviousPage(),
-              className: !table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined,
+              className: !table.getCanPreviousPage()
+                ? "pointer-events-none opacity-50"
+                : undefined,
             })
           ),
           Array.from({ length: table.getPageCount() }, (_, i) =>
-            React.createElement(PaginationItem, { key: i },
-              React.createElement(PaginationLink, {
-                isActive: i === table.getState().pagination.pageIndex,
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.setPageIndex(i); },
-              }, i + 1)
+            React.createElement(
+              PaginationItem,
+              { key: i },
+              React.createElement(
+                PaginationLink,
+                {
+                  isActive: i === table.getState().pagination.pageIndex,
+                  onClick: (e: React.MouseEvent) => {
+                    e.preventDefault();
+                    table.setPageIndex(i);
+                  },
+                },
+                i + 1
+              )
             )
           ),
-          React.createElement(PaginationItem, null,
+          React.createElement(
+            PaginationItem,
+            null,
             React.createElement(PaginationNext, {
-              onClick: (e: React.MouseEvent) => { e.preventDefault(); table.nextPage(); },
+              onClick: (e: React.MouseEvent) => {
+                e.preventDefault();
+                table.nextPage();
+              },
               "aria-disabled": !table.getCanNextPage(),
-              className: !table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined,
+              className: !table.getCanNextPage()
+                ? "pointer-events-none opacity-50"
+                : undefined,
             })
           )
         )
@@ -2383,7 +4449,10 @@ const stickyHeaderColumns: ColumnDef<Patient>[] = [
     accessorKey: "name",
     enableSorting: true,
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Patient" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Patient",
+      }),
     cell: ({ row }) => patientCell(row.original.name, row.original.id),
   },
   {
@@ -2393,8 +4462,16 @@ const stickyHeaderColumns: ColumnDef<Patient>[] = [
       React.createElement(
         "div",
         { className: "flex flex-col" },
-        React.createElement("span", { className: "font-medium text-sm" }, row.original.ward),
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, row.original.bed)
+        React.createElement(
+          "span",
+          { className: "font-medium text-sm" },
+          row.original.ward
+        ),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          row.original.bed
+        )
       ),
   },
   { accessorKey: "diagnosis", header: "Diagnosis" },
@@ -2404,7 +4481,10 @@ const stickyHeaderColumns: ColumnDef<Patient>[] = [
     cell: ({ row }) =>
       React.createElement(
         Badge,
-        { variant: patientStatusVariant[row.getValue("status") as Patient["status"]] },
+        {
+          variant:
+            patientStatusVariant[row.getValue("status") as Patient["status"]],
+        },
         row.getValue("status")
       ),
   },
@@ -2424,13 +4504,19 @@ function StickyHeaderDemo() {
 
   return React.createElement(
     ScrollArea,
-    { className: "h-80 overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
+    {
+      className:
+        "h-80 overflow-hidden rounded-md border [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+    },
     React.createElement(
       "table",
       { className: "w-full caption-bottom text-sm" },
       React.createElement(
         TableHeader,
-        { className: "sticky top-0 z-10 bg-soft-background shadow-[0_0.5px_0_0_var(--border)]" },
+        {
+          className:
+            "sticky top-0 z-10 bg-soft-background shadow-[0_0.5px_0_0_var(--border)]",
+        },
         table.getHeaderGroups().map((hg) =>
           React.createElement(
             TableRow,
@@ -2441,7 +4527,10 @@ function StickyHeaderDemo() {
                 { key: header.id },
                 header.isPlaceholder
                   ? null
-                  : flexRender(header.column.columnDef.header, header.getContext())
+                  : flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )
               )
             )
           )
@@ -2454,13 +4543,15 @@ function StickyHeaderDemo() {
           React.createElement(
             TableRow,
             { key: row.id },
-            row.getVisibleCells().map((cell) =>
-              React.createElement(
-                TableCell,
-                { key: cell.id },
-                flexRender(cell.column.columnDef.cell, cell.getContext())
+            row
+              .getVisibleCells()
+              .map((cell) =>
+                React.createElement(
+                  TableCell,
+                  { key: cell.id },
+                  flexRender(cell.column.columnDef.cell, cell.getContext())
+                )
               )
-            )
           )
         )
       )
@@ -2475,19 +4566,46 @@ const cardColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "name",
     id: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Practitioner",
+      }),
     size: 480,
     enableSorting: true,
     enableHiding: false,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-3" },
-        React.createElement(Avatar, { className: "size-8" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join(""))
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
+        React.createElement(
+          Avatar,
+          { className: "size-8" },
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            row.original.name
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+          )
         ),
-        React.createElement("div", { className: "space-y-px" },
-          React.createElement("div", { className: "text-foreground font-medium" }, row.original.name),
-          React.createElement("div", { className: "text-muted-foreground" }, row.original.email)
+        React.createElement(
+          "div",
+          { className: "space-y-px" },
+          React.createElement(
+            "div",
+            { className: "text-foreground font-medium" },
+            row.original.name
+          ),
+          React.createElement(
+            "div",
+            { className: "text-muted-foreground" },
+            row.original.email
+          )
         )
       ),
   },
@@ -2495,28 +4613,45 @@ const cardColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "location",
     id: "location",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Location" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Location",
+      }),
     size: 360,
     enableSorting: true,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-1.5" },
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-1.5" },
         React.createElement("img", {
-          src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+          src:
+            "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
           alt: row.original.flag,
           className: "size-4 rounded-full object-cover",
         }),
-        React.createElement("div", { className: "text-foreground font-medium" }, row.original.location)
+        React.createElement(
+          "div",
+          { className: "text-foreground font-medium" },
+          row.original.location
+        )
       ),
   },
   {
     accessorKey: "joined",
     id: "joined",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Joined" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Joined",
+      }),
     size: 200,
     enableSorting: true,
     cell: ({ row }) =>
-      React.createElement("span", { className: "font-medium" }, row.original.joined),
+      React.createElement(
+        "span",
+        { className: "font-medium" },
+        row.original.joined
+      ),
   },
 ];
 
@@ -2543,72 +4678,137 @@ function CardContainerDemo() {
   });
 
   const total = table.getFilteredRowModel().rows.length;
-  const start = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
+  const start =
+    total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
-  return React.createElement(Card, { className: "w-full gap-3 py-3.5" },
-    React.createElement(CardHeader, { className: "flex items-center justify-between px-3.5" },
+  return React.createElement(
+    Card,
+    { className: "w-full gap-3 py-3.5" },
+    React.createElement(
+      CardHeader,
+      { className: "flex items-center justify-between px-3.5" },
       React.createElement(CardTitle, null, "Users"),
-      React.createElement(CardAction, null,
-        React.createElement(Button, { size: "sm" },
+      React.createElement(
+        CardAction,
+        null,
+        React.createElement(
+          Button,
+          { size: "sm" },
           React.createElement(UserPlus, { "aria-hidden": true }),
           "Add User"
         )
       )
     ),
-    React.createElement("div", { className: "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
-      React.createElement(Table, null,
-        React.createElement(TableHeader, null,
+    React.createElement(
+      "div",
+      {
+        className:
+          "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
+      React.createElement(
+        Table,
+        null,
+        React.createElement(
+          TableHeader,
+          null,
           table.getHeaderGroups().map((hg) =>
-            React.createElement(TableRow, { key: hg.id },
+            React.createElement(
+              TableRow,
+              { key: hg.id },
               hg.headers.map((h) =>
-                React.createElement(TableHead, { key: h.id, style: { width: h.getSize() } },
-                  h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext())
+                React.createElement(
+                  TableHead,
+                  { key: h.id, style: { width: h.getSize() } },
+                  h.isPlaceholder
+                    ? null
+                    : flexRender(h.column.columnDef.header, h.getContext())
                 )
               )
             )
           )
         ),
-        React.createElement(TableBody, null,
+        React.createElement(
+          TableBody,
+          null,
           table.getRowModel().rows.map((row) =>
-            React.createElement(TableRow, { key: row.id },
-              row.getVisibleCells().map((cell) =>
-                React.createElement(TableCell, { key: cell.id, style: { width: cell.column.getSize() } },
-                  flexRender(cell.column.columnDef.cell, cell.getContext())
+            React.createElement(
+              TableRow,
+              { key: row.id },
+              row
+                .getVisibleCells()
+                .map((cell) =>
+                  React.createElement(
+                    TableCell,
+                    { key: cell.id, style: { width: cell.column.getSize() } },
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )
                 )
-              )
             )
           )
         )
       )
     ),
-    React.createElement(CardFooter, { className: "border-none bg-transparent! px-3.5 py-0" },
-      React.createElement("div", { className: "flex w-full items-center justify-between" },
-        React.createElement("p", { className: "text-sm text-muted-foreground" },
+    React.createElement(
+      CardFooter,
+      { className: "border-none bg-transparent! px-3.5 py-0" },
+      React.createElement(
+        "div",
+        { className: "flex w-full items-center justify-between" },
+        React.createElement(
+          "p",
+          { className: "text-sm text-muted-foreground" },
           `${start} - ${end} of ${total}`
         ),
-        React.createElement(Pagination, { className: "w-auto mx-0" },
-          React.createElement(PaginationContent, null,
-            React.createElement(PaginationItem, null,
+        React.createElement(
+          Pagination,
+          { className: "w-auto mx-0" },
+          React.createElement(
+            PaginationContent,
+            null,
+            React.createElement(
+              PaginationItem,
+              null,
               React.createElement(PaginationPrevious, {
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.previousPage(); },
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  table.previousPage();
+                },
                 "aria-disabled": !table.getCanPreviousPage(),
-                className: !table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined,
+                className: !table.getCanPreviousPage()
+                  ? "pointer-events-none opacity-50"
+                  : undefined,
               })
             ),
             Array.from({ length: table.getPageCount() }, (_, i) =>
-              React.createElement(PaginationItem, { key: i },
-                React.createElement(PaginationLink, {
-                  isActive: i === table.getState().pagination.pageIndex,
-                  onClick: (e: React.MouseEvent) => { e.preventDefault(); table.setPageIndex(i); },
-                }, i + 1)
+              React.createElement(
+                PaginationItem,
+                { key: i },
+                React.createElement(
+                  PaginationLink,
+                  {
+                    isActive: i === table.getState().pagination.pageIndex,
+                    onClick: (e: React.MouseEvent) => {
+                      e.preventDefault();
+                      table.setPageIndex(i);
+                    },
+                  },
+                  i + 1
+                )
               )
             ),
-            React.createElement(PaginationItem, null,
+            React.createElement(
+              PaginationItem,
+              null,
               React.createElement(PaginationNext, {
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.nextPage(); },
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  table.nextPage();
+                },
                 "aria-disabled": !table.getCanNextPage(),
-                className: !table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined,
+                className: !table.getCanNextPage()
+                  ? "pointer-events-none opacity-50"
+                  : undefined,
               })
             )
           )
@@ -2625,19 +4825,46 @@ const visibilityColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "name",
     id: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Practitioner",
+      }),
     size: 200,
     enableSorting: true,
     enableHiding: false,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-3" },
-        React.createElement(Avatar, { className: "size-8" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join(""))
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
+        React.createElement(
+          Avatar,
+          { className: "size-8" },
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            row.original.name
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+          )
         ),
-        React.createElement("div", { className: "space-y-px" },
-          React.createElement("div", { className: "text-foreground font-medium" }, row.original.name),
-          React.createElement("div", { className: "text-muted-foreground" }, row.original.email)
+        React.createElement(
+          "div",
+          { className: "space-y-px" },
+          React.createElement(
+            "div",
+            { className: "text-foreground font-medium" },
+            row.original.name
+          ),
+          React.createElement(
+            "div",
+            { className: "text-muted-foreground" },
+            row.original.email
+          )
         )
       ),
   },
@@ -2645,30 +4872,47 @@ const visibilityColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "location",
     id: "location",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Location" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Location",
+      }),
     size: 160,
     enableSorting: true,
     enableHiding: true,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-1.5" },
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-1.5" },
         React.createElement("img", {
-          src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+          src:
+            "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
           alt: row.original.flag,
           className: "size-4 rounded-full object-cover",
         }),
-        React.createElement("div", { className: "text-foreground font-medium" }, row.original.location)
+        React.createElement(
+          "div",
+          { className: "text-foreground font-medium" },
+          row.original.location
+        )
       ),
   },
   {
     accessorKey: "joined",
     id: "joined",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Joined" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Joined",
+      }),
     size: 120,
     enableSorting: true,
     enableHiding: true,
     cell: ({ row }) =>
-      React.createElement("span", { className: "font-medium" }, row.original.joined),
+      React.createElement(
+        "span",
+        { className: "font-medium" },
+        row.original.joined
+      ),
   },
   {
     accessorKey: "availability",
@@ -2694,7 +4938,8 @@ function ColumnVisibilityDemo() {
   const [sorting, setSorting] = React.useState<SortingState>([
     { id: "name", desc: true },
   ]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -2712,89 +4957,165 @@ function ColumnVisibilityDemo() {
   });
 
   const total = table.getFilteredRowModel().rows.length;
-  const start = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
+  const start =
+    total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
-  return React.createElement(Card, { className: "w-full gap-3 py-3.5" },
-    React.createElement(CardHeader, { className: "flex items-center justify-between px-3.5" },
+  return React.createElement(
+    Card,
+    { className: "w-full gap-3 py-3.5" },
+    React.createElement(
+      CardHeader,
+      { className: "flex items-center justify-between px-3.5" },
       React.createElement(CardTitle, null, "Users"),
-      React.createElement(CardAction, null,
-        React.createElement(DropdownMenu, { modal: false },
-          React.createElement(DropdownMenuTrigger, { asChild: true },
-            React.createElement(Button, { variant: "outline", size: "sm" },
+      React.createElement(
+        CardAction,
+        null,
+        React.createElement(
+          DropdownMenu,
+          { modal: false },
+          React.createElement(
+            DropdownMenuTrigger,
+            { asChild: true },
+            React.createElement(
+              Button,
+              { variant: "outline", size: "sm" },
               React.createElement(Settings2, { "aria-hidden": true }),
               "Columns"
             )
           ),
-          React.createElement(DropdownMenuContent, { align: "end" },
+          React.createElement(
+            DropdownMenuContent,
+            { align: "end" },
             table
               .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) =>
-                React.createElement(DropdownMenuCheckboxItem, {
-                  key: column.id,
-                  className: "capitalize",
-                  checked: column.getIsVisible(),
-                  onCheckedChange: (value: boolean) => column.toggleVisibility(!!value),
-                }, column.id)
+                React.createElement(
+                  DropdownMenuCheckboxItem,
+                  {
+                    key: column.id,
+                    className: "capitalize",
+                    checked: column.getIsVisible(),
+                    onCheckedChange: (value: boolean) =>
+                      column.toggleVisibility(!!value),
+                  },
+                  column.id
+                )
               )
           )
         )
       )
     ),
-    React.createElement("div", { className: "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
-      React.createElement(Table, null,
-        React.createElement(TableHeader, null,
+    React.createElement(
+      "div",
+      {
+        className:
+          "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
+      React.createElement(
+        Table,
+        null,
+        React.createElement(
+          TableHeader,
+          null,
           table.getHeaderGroups().map((hg) =>
-            React.createElement(TableRow, { key: hg.id },
+            React.createElement(
+              TableRow,
+              { key: hg.id },
               hg.headers.map((h) =>
-                React.createElement(TableHead, { key: h.id, style: { width: h.getSize() } },
-                  h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext())
+                React.createElement(
+                  TableHead,
+                  { key: h.id, style: { width: h.getSize() } },
+                  h.isPlaceholder
+                    ? null
+                    : flexRender(h.column.columnDef.header, h.getContext())
                 )
               )
             )
           )
         ),
-        React.createElement(TableBody, null,
+        React.createElement(
+          TableBody,
+          null,
           table.getRowModel().rows.map((row) =>
-            React.createElement(TableRow, { key: row.id },
-              row.getVisibleCells().map((cell) =>
-                React.createElement(TableCell, { key: cell.id, style: { width: cell.column.getSize() } },
-                  flexRender(cell.column.columnDef.cell, cell.getContext())
+            React.createElement(
+              TableRow,
+              { key: row.id },
+              row
+                .getVisibleCells()
+                .map((cell) =>
+                  React.createElement(
+                    TableCell,
+                    { key: cell.id, style: { width: cell.column.getSize() } },
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )
                 )
-              )
             )
           )
         )
       )
     ),
-    React.createElement(CardFooter, { className: "border-none bg-transparent! px-3.5 py-0" },
-      React.createElement("div", { className: "flex w-full items-center justify-between" },
-        React.createElement("p", { className: "text-sm text-muted-foreground" },
+    React.createElement(
+      CardFooter,
+      { className: "border-none bg-transparent! px-3.5 py-0" },
+      React.createElement(
+        "div",
+        { className: "flex w-full items-center justify-between" },
+        React.createElement(
+          "p",
+          { className: "text-sm text-muted-foreground" },
           `${start} - ${end} of ${total}`
         ),
-        React.createElement(Pagination, { className: "w-auto mx-0" },
-          React.createElement(PaginationContent, null,
-            React.createElement(PaginationItem, null,
+        React.createElement(
+          Pagination,
+          { className: "w-auto mx-0" },
+          React.createElement(
+            PaginationContent,
+            null,
+            React.createElement(
+              PaginationItem,
+              null,
               React.createElement(PaginationPrevious, {
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.previousPage(); },
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  table.previousPage();
+                },
                 "aria-disabled": !table.getCanPreviousPage(),
-                className: !table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined,
+                className: !table.getCanPreviousPage()
+                  ? "pointer-events-none opacity-50"
+                  : undefined,
               })
             ),
             Array.from({ length: table.getPageCount() }, (_, i) =>
-              React.createElement(PaginationItem, { key: i },
-                React.createElement(PaginationLink, {
-                  isActive: i === table.getState().pagination.pageIndex,
-                  onClick: (e: React.MouseEvent) => { e.preventDefault(); table.setPageIndex(i); },
-                }, i + 1)
+              React.createElement(
+                PaginationItem,
+                { key: i },
+                React.createElement(
+                  PaginationLink,
+                  {
+                    isActive: i === table.getState().pagination.pageIndex,
+                    onClick: (e: React.MouseEvent) => {
+                      e.preventDefault();
+                      table.setPageIndex(i);
+                    },
+                  },
+                  i + 1
+                )
               )
             ),
-            React.createElement(PaginationItem, null,
+            React.createElement(
+              PaginationItem,
+              null,
               React.createElement(PaginationNext, {
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.nextPage(); },
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  table.nextPage();
+                },
                 "aria-disabled": !table.getCanNextPage(),
-                className: !table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined,
+                className: !table.getCanNextPage()
+                  ? "pointer-events-none opacity-50"
+                  : undefined,
               })
             )
           )
@@ -2811,25 +5132,56 @@ const skeletonColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "name",
     id: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Practitioner",
+      }),
     size: 200,
     enableSorting: true,
     enableHiding: false,
     cell: ({ row }) =>
-      React.createElement("div", { className: "flex items-center gap-3" },
-        React.createElement(Avatar, { className: "size-8" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join(""))
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
+        React.createElement(
+          Avatar,
+          { className: "size-8" },
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            row.original.name
+              .split(" ")
+              .map((n: string) => n[0])
+              .join("")
+          )
         ),
-        React.createElement("div", { className: "space-y-px" },
-          React.createElement("div", { className: "text-foreground font-medium" }, row.original.name),
-          React.createElement("div", { className: "text-muted-foreground" }, row.original.email)
+        React.createElement(
+          "div",
+          { className: "space-y-px" },
+          React.createElement(
+            "div",
+            { className: "text-foreground font-medium" },
+            row.original.name
+          ),
+          React.createElement(
+            "div",
+            { className: "text-muted-foreground" },
+            row.original.email
+          )
         )
       ),
     meta: {
-      skeleton: React.createElement("div", { className: "flex items-center gap-3" },
+      skeleton: React.createElement(
+        "div",
+        { className: "flex items-center gap-3" },
         React.createElement(Skeleton, { className: "size-8 rounded-full" }),
-        React.createElement("div", { className: "space-y-1.5" },
+        React.createElement(
+          "div",
+          { className: "space-y-1.5" },
           React.createElement(Skeleton, { className: "h-4 w-24" }),
           React.createElement(Skeleton, { className: "h-3.5 w-16" })
         )
@@ -2840,11 +5192,18 @@ const skeletonColumns: ColumnDef<SelectionMember>[] = [
     accessorKey: "email",
     id: "email",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Email" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Email",
+      }),
     size: 150,
     enableSorting: true,
     cell: ({ row }) =>
-      React.createElement("span", { className: "text-muted-foreground" }, row.original.email),
+      React.createElement(
+        "span",
+        { className: "text-muted-foreground" },
+        row.original.email
+      ),
     meta: {
       skeleton: React.createElement(Skeleton, { className: "h-4 w-28" }),
     },
@@ -2862,7 +5221,9 @@ const skeletonColumns: ColumnDef<SelectionMember>[] = [
         : React.createElement(Badge, { variant: "warning" }, "Pending");
     },
     meta: {
-      skeleton: React.createElement(Skeleton, { className: "h-5 w-16 rounded-full" }),
+      skeleton: React.createElement(Skeleton, {
+        className: "h-5 w-16 rounded-full",
+      }),
     },
   },
 ];
@@ -2892,49 +5253,91 @@ function LoadingSkeletonDemo() {
   });
 
   const total = table.getFilteredRowModel().rows.length;
-  const start = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
+  const start =
+    total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
   const skeletonRows = Array.from({ length: pagination.pageSize });
 
-  return React.createElement(Card, { className: "w-full gap-3 py-3.5" },
-    React.createElement(CardHeader, { className: "flex items-center justify-between px-3.5" },
+  return React.createElement(
+    Card,
+    { className: "w-full gap-3 py-3.5" },
+    React.createElement(
+      CardHeader,
+      { className: "flex items-center justify-between px-3.5" },
       React.createElement(CardTitle, null, "Employees"),
-      React.createElement(CardAction, null,
-        React.createElement(Button, {
-          variant: "outline",
-          size: "sm",
-          onClick: () => setIsLoading((p) => !p),
-        }, isLoading ? "Disable Loading" : "Enable Loading")
+      React.createElement(
+        CardAction,
+        null,
+        React.createElement(
+          Button,
+          {
+            variant: "outline",
+            size: "sm",
+            onClick: () => setIsLoading((p) => !p),
+          },
+          isLoading ? "Disable Loading" : "Enable Loading"
+        )
       )
     ),
-    React.createElement("div", { className: "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
-      React.createElement(Table, null,
-        React.createElement(TableHeader, null,
+    React.createElement(
+      "div",
+      {
+        className:
+          "overflow-hidden w-full border-y [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
+      React.createElement(
+        Table,
+        null,
+        React.createElement(
+          TableHeader,
+          null,
           table.getHeaderGroups().map((hg) =>
-            React.createElement(TableRow, { key: hg.id },
+            React.createElement(
+              TableRow,
+              { key: hg.id },
               hg.headers.map((h) =>
-                React.createElement(TableHead, { key: h.id, style: { width: h.getSize() } },
-                  h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext())
+                React.createElement(
+                  TableHead,
+                  { key: h.id, style: { width: h.getSize() } },
+                  h.isPlaceholder
+                    ? null
+                    : flexRender(h.column.columnDef.header, h.getContext())
                 )
               )
             )
           )
         ),
-        React.createElement(TableBody, null,
+        React.createElement(
+          TableBody,
+          null,
           isLoading
             ? skeletonRows.map((_, i) =>
-                React.createElement(TableRow, { key: `skeleton-${i}` },
+                React.createElement(
+                  TableRow,
+                  { key: `skeleton-${i}` },
                   table.getAllLeafColumns().map((col) =>
-                    React.createElement(TableCell, { key: col.id, style: { width: col.getSize() } },
-                      (col.columnDef.meta as any)?.skeleton ?? React.createElement(Skeleton, { className: "h-4 w-full" })
+                    React.createElement(
+                      TableCell,
+                      { key: col.id, style: { width: col.getSize() } },
+                      (col.columnDef.meta as any)?.skeleton ??
+                        React.createElement(Skeleton, {
+                          className: "h-4 w-full",
+                        })
                     )
                   )
                 )
               )
             : table.getRowModel().rows.map((row) =>
-                React.createElement(TableRow, { key: row.id },
+                React.createElement(
+                  TableRow,
+                  { key: row.id },
                   row.getVisibleCells().map((cell) =>
-                    React.createElement(TableCell, { key: cell.id, style: { width: cell.column.getSize() } },
+                    React.createElement(
+                      TableCell,
+                      {
+                        key: cell.id,
+                        style: { width: cell.column.getSize() },
+                      },
                       flexRender(cell.column.columnDef.cell, cell.getContext())
                     )
                   )
@@ -2943,44 +5346,91 @@ function LoadingSkeletonDemo() {
         )
       )
     ),
-    React.createElement(CardFooter, { className: "border-none bg-transparent! px-3.5 py-0" },
-      React.createElement("div", { className: "flex w-full items-center justify-between" },
+    React.createElement(
+      CardFooter,
+      { className: "border-none bg-transparent! px-3.5 py-0" },
+      React.createElement(
+        "div",
+        { className: "flex w-full items-center justify-between" },
         isLoading
-          ? React.createElement("div", { className: "flex w-full items-center justify-between" },
+          ? React.createElement(
+              "div",
+              { className: "flex w-full items-center justify-between" },
               React.createElement(Skeleton, { className: "h-4 w-32" }),
-              React.createElement("div", { className: "flex gap-1" },
-                React.createElement(Skeleton, { className: "size-8 rounded-md" }),
-                React.createElement(Skeleton, { className: "size-8 rounded-md" }),
-                React.createElement(Skeleton, { className: "size-8 rounded-md" }),
-                React.createElement(Skeleton, { className: "size-8 rounded-md" })
+              React.createElement(
+                "div",
+                { className: "flex gap-1" },
+                React.createElement(Skeleton, {
+                  className: "size-8 rounded-md",
+                }),
+                React.createElement(Skeleton, {
+                  className: "size-8 rounded-md",
+                }),
+                React.createElement(Skeleton, {
+                  className: "size-8 rounded-md",
+                }),
+                React.createElement(Skeleton, {
+                  className: "size-8 rounded-md",
+                })
               )
             )
-          : React.createElement(React.Fragment, null,
-              React.createElement("p", { className: "text-sm text-muted-foreground" },
+          : React.createElement(
+              React.Fragment,
+              null,
+              React.createElement(
+                "p",
+                { className: "text-sm text-muted-foreground" },
                 `${start} - ${end} of ${total}`
               ),
-              React.createElement(Pagination, { className: "w-auto mx-0" },
-                React.createElement(PaginationContent, null,
-                  React.createElement(PaginationItem, null,
+              React.createElement(
+                Pagination,
+                { className: "w-auto mx-0" },
+                React.createElement(
+                  PaginationContent,
+                  null,
+                  React.createElement(
+                    PaginationItem,
+                    null,
                     React.createElement(PaginationPrevious, {
-                      onClick: (e: React.MouseEvent) => { e.preventDefault(); table.previousPage(); },
+                      onClick: (e: React.MouseEvent) => {
+                        e.preventDefault();
+                        table.previousPage();
+                      },
                       "aria-disabled": !table.getCanPreviousPage(),
-                      className: !table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined,
+                      className: !table.getCanPreviousPage()
+                        ? "pointer-events-none opacity-50"
+                        : undefined,
                     })
                   ),
                   Array.from({ length: table.getPageCount() }, (_, i) =>
-                    React.createElement(PaginationItem, { key: i },
-                      React.createElement(PaginationLink, {
-                        isActive: i === table.getState().pagination.pageIndex,
-                        onClick: (e: React.MouseEvent) => { e.preventDefault(); table.setPageIndex(i); },
-                      }, i + 1)
+                    React.createElement(
+                      PaginationItem,
+                      { key: i },
+                      React.createElement(
+                        PaginationLink,
+                        {
+                          isActive: i === table.getState().pagination.pageIndex,
+                          onClick: (e: React.MouseEvent) => {
+                            e.preventDefault();
+                            table.setPageIndex(i);
+                          },
+                        },
+                        i + 1
+                      )
                     )
                   ),
-                  React.createElement(PaginationItem, null,
+                  React.createElement(
+                    PaginationItem,
+                    null,
                     React.createElement(PaginationNext, {
-                      onClick: (e: React.MouseEvent) => { e.preventDefault(); table.nextPage(); },
+                      onClick: (e: React.MouseEvent) => {
+                        e.preventDefault();
+                        table.nextPage();
+                      },
                       "aria-disabled": !table.getCanNextPage(),
-                      className: !table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined,
+                      className: !table.getCanNextPage()
+                        ? "pointer-events-none opacity-50"
+                        : undefined,
                     })
                   )
                 )
@@ -3006,65 +5456,227 @@ interface CrudMember {
 }
 
 const crudData: CrudMember[] = [
-  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "kiran.reddy@ohc.in",      role: "Senior Consultant",   joined: "Jan, 2018", location: "India" },
-  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "in", email: "anita.menon@ohc.in",      role: "Consultant",          joined: "Mar, 2020", location: "India" },
-  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "in", email: "suresh.pillai@ohc.in",    role: "Head of Department",  joined: "Jun, 2015", location: "India" },
-  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "in", email: "rekha.thomas@ohc.in",     role: "Senior Nurse",        joined: "Sep, 2019", location: "India" },
-  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "imran.sheikh@ohc.in",     role: "Consultant",          joined: "Nov, 2017", location: "India" },
-  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "in", email: "kavitha.nair@ohc.in",     role: "Senior Consultant",   joined: "Aug, 2016", location: "India" },
-  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "in", email: "rajiv.kapoor@ohc.in",     role: "Consultant",          joined: "Dec, 2021", location: "India" },
-  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "in", email: "sumathi.k@ohc.in",        role: "Senior Nurse",        joined: "Apr, 2018", location: "India" },
-  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "Pending",  flag: "in", email: "farhan.hossain@ohc.in",   role: "Consultant",          joined: "Jul, 2020", location: "India" },
-  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "Inactive", flag: "in", email: "pooja.iyer@ohc.in",       role: "Consultant",          joined: "May, 2023", location: "India" },
-  { id: "11", name: "Nurse Arun Mathew",     avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Blocked",  flag: "in", email: "arun.mathew@ohc.in",      role: "Charge Nurse",        joined: "Oct, 2019", location: "India" },
-  { id: "12", name: "Dr. Preethi Sajan",     avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Active",   flag: "in", email: "preethi.sajan@ohc.in",    role: "Staff Physician",     joined: "Feb, 2022", location: "India" },
+  {
+    id: "1",
+    name: "Dr. Kiran Reddy",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    status: "Active",
+    flag: "in",
+    email: "kiran.reddy@ohc.in",
+    role: "Senior Consultant",
+    joined: "Jan, 2018",
+    location: "India",
+  },
+  {
+    id: "2",
+    name: "Dr. Anita Menon",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    status: "Inactive",
+    flag: "in",
+    email: "anita.menon@ohc.in",
+    role: "Consultant",
+    joined: "Mar, 2020",
+    location: "India",
+  },
+  {
+    id: "3",
+    name: "Dr. Suresh Pillai",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    status: "Blocked",
+    flag: "in",
+    email: "suresh.pillai@ohc.in",
+    role: "Head of Department",
+    joined: "Jun, 2015",
+    location: "India",
+  },
+  {
+    id: "4",
+    name: "Nurse Rekha Thomas",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    status: "Inactive",
+    flag: "in",
+    email: "rekha.thomas@ohc.in",
+    role: "Senior Nurse",
+    joined: "Sep, 2019",
+    location: "India",
+  },
+  {
+    id: "5",
+    name: "Dr. Imran Sheikh",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    status: "Active",
+    flag: "in",
+    email: "imran.sheikh@ohc.in",
+    role: "Consultant",
+    joined: "Nov, 2017",
+    location: "India",
+  },
+  {
+    id: "6",
+    name: "Dr. Kavitha Nair",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    status: "Pending",
+    flag: "in",
+    email: "kavitha.nair@ohc.in",
+    role: "Senior Consultant",
+    joined: "Aug, 2016",
+    location: "India",
+  },
+  {
+    id: "7",
+    name: "Dr. Rajiv Kapoor",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    status: "Inactive",
+    flag: "in",
+    email: "rajiv.kapoor@ohc.in",
+    role: "Consultant",
+    joined: "Dec, 2021",
+    location: "India",
+  },
+  {
+    id: "8",
+    name: "Nurse Sumathi K.",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    status: "Blocked",
+    flag: "in",
+    email: "sumathi.k@ohc.in",
+    role: "Senior Nurse",
+    joined: "Apr, 2018",
+    location: "India",
+  },
+  {
+    id: "9",
+    name: "Dr. Farhan Hossain",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    status: "Pending",
+    flag: "in",
+    email: "farhan.hossain@ohc.in",
+    role: "Consultant",
+    joined: "Jul, 2020",
+    location: "India",
+  },
+  {
+    id: "10",
+    name: "Dr. Pooja Iyer",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    status: "Inactive",
+    flag: "in",
+    email: "pooja.iyer@ohc.in",
+    role: "Consultant",
+    joined: "May, 2023",
+    location: "India",
+  },
+  {
+    id: "11",
+    name: "Nurse Arun Mathew",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    status: "Blocked",
+    flag: "in",
+    email: "arun.mathew@ohc.in",
+    role: "Charge Nurse",
+    joined: "Oct, 2019",
+    location: "India",
+  },
+  {
+    id: "12",
+    name: "Dr. Preethi Sajan",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    status: "Active",
+    flag: "in",
+    email: "preethi.sajan@ohc.in",
+    role: "Staff Physician",
+    joined: "Feb, 2022",
+    location: "India",
+  },
 ];
 
 function CrudActionsCell({ row }: { row: Row<CrudMember> }) {
   return React.createElement(
-    DropdownMenu, { modal: false },
+    DropdownMenu,
+    { modal: false },
     React.createElement(
-      "div", null,
-      React.createElement(Button, { className: "size-7", size: "icon", variant: "ghost", asChild: true },
-        React.createElement(DropdownMenuTrigger, null, React.createElement(MoreHorizontal))
+      "div",
+      null,
+      React.createElement(
+        Button,
+        { className: "size-7", size: "icon", variant: "ghost", asChild: true },
+        React.createElement(
+          DropdownMenuTrigger,
+          null,
+          React.createElement(MoreHorizontal)
+        )
       )
     ),
     React.createElement(
-      DropdownMenuContent, { side: "bottom", align: "start" },
+      DropdownMenuContent,
+      { side: "bottom", align: "start" },
       React.createElement(DropdownMenuItem, { onClick: () => {} }, "Edit"),
-      React.createElement(DropdownMenuItem, {
-        onClick: () => {
-          navigator.clipboard.writeText(row.original.id);
-          toast.success("Practitioner ID copied", { description: row.original.id });
+      React.createElement(
+        DropdownMenuItem,
+        {
+          onClick: () => {
+            navigator.clipboard.writeText(row.original.id);
+            toast.success("Practitioner ID copied", {
+              description: row.original.id,
+            });
+          },
         },
-      }, "Copy ID"),
+        "Copy ID"
+      ),
       React.createElement(DropdownMenuSeparator),
-      React.createElement(DropdownMenuItem, { variant: "destructive", onClick: () => {} }, "Delete"),
-    ),
+      React.createElement(
+        DropdownMenuItem,
+        { variant: "destructive", onClick: () => {} },
+        "Delete"
+      )
+    )
   );
 }
 
 function CrudDemo() {
-  const [pagination, setPagination] = React.useState<PaginationState>({ pageIndex: 0, pageSize: 5 });
-  const [sorting, setSorting] = React.useState<SortingState>([{ id: "name", desc: true }]);
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 5,
+  });
+  const [sorting, setSorting] = React.useState<SortingState>([
+    { id: "name", desc: true },
+  ]);
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [searchQuery, setSearchQuery] = React.useState("");
   const [selectedStatuses, setSelectedStatuses] = React.useState<string[]>([]);
 
   const filteredData = React.useMemo(() => {
     return crudData.filter((item) => {
-      const matchesStatus = !selectedStatuses.length || selectedStatuses.includes(item.status);
+      const matchesStatus =
+        !selectedStatuses.length || selectedStatuses.includes(item.status);
       const searchLower = searchQuery.toLowerCase();
-      const matchesSearch = !searchQuery || Object.values(item).join(" ").toLowerCase().includes(searchLower);
+      const matchesSearch =
+        !searchQuery ||
+        Object.values(item).join(" ").toLowerCase().includes(searchLower);
       return matchesStatus && matchesSearch;
     });
   }, [searchQuery, selectedStatuses]);
 
   const statusCounts = React.useMemo(() => {
-    return crudData.reduce((acc, item) => {
-      acc[item.status] = (acc[item.status] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
+    return crudData.reduce(
+      (acc, item) => {
+        acc[item.status] = (acc[item.status] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
   }, []);
 
   const handleStatusChange = (checked: boolean, value: string) => {
@@ -3073,97 +5685,174 @@ function CrudDemo() {
     );
   };
 
-  const columns = React.useMemo<ColumnDef<CrudMember>[]>(() => [
-    {
-      accessorKey: "id",
-      id: "id",
-      header: ({ table: t }) =>
-        React.createElement(Checkbox, {
-          checked: t.getIsAllPageRowsSelected() || (t.getIsSomePageRowsSelected() && "indeterminate"),
-          onCheckedChange: (value: boolean) => t.toggleAllPageRowsSelected(!!value),
-          "aria-label": "Select all",
-        }),
-      cell: ({ row }) =>
-        React.createElement(Checkbox, {
-          checked: row.getIsSelected(),
-          onCheckedChange: (value: boolean) => row.toggleSelected(!!value),
-          "aria-label": "Select row",
-        }),
-      enableSorting: false,
-      size: 35,
-    },
-    {
-      accessorKey: "name",
-      id: "name",
-      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "Practitioner" }),
-      cell: ({ row }) =>
-        React.createElement("div", { className: "flex items-center gap-3" },
-          React.createElement(Avatar, { className: "size-8" },
-            React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-            React.createElement(AvatarFallback, null, row.original.name.split(" ").map((n: string) => n[0]).join("")),
-          ),
-          React.createElement("div", { className: "space-y-px" },
-            React.createElement("div", { className: "text-foreground font-medium" }, row.original.name),
-            React.createElement("div", { className: "text-muted-foreground" }, row.original.email),
-          ),
-        ),
-      size: 200,
-      enableSorting: true,
-    },
-    {
-      accessorKey: "location",
-      id: "location",
-      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "Location" }),
-      cell: ({ row }) =>
-        React.createElement("div", { className: "flex items-center gap-1.5" },
-          React.createElement("img", {
-            src: `https://flagcdn.com/${row.original.flag.toLowerCase()}.svg`,
-            alt: row.original.flag,
-            className: "size-4 rounded-full object-cover",
+  const columns = React.useMemo<ColumnDef<CrudMember>[]>(
+    () => [
+      {
+        accessorKey: "id",
+        id: "id",
+        header: ({ table: t }) =>
+          React.createElement(Checkbox, {
+            checked:
+              t.getIsAllPageRowsSelected() ||
+              (t.getIsSomePageRowsSelected() && "indeterminate"),
+            onCheckedChange: (value: boolean) =>
+              t.toggleAllPageRowsSelected(!!value),
+            "aria-label": "Select all",
           }),
-          React.createElement("div", { className: "text-foreground font-medium" }, row.original.location),
-        ),
-      size: 150,
-      enableSorting: true,
-    },
-    {
-      accessorKey: "role",
-      id: "role",
-      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "Designation" }),
-      cell: ({ row }) => React.createElement("div", { className: "text-foreground font-medium" }, row.original.role),
-      size: 150,
-      enableSorting: true,
-    },
-    {
-      accessorKey: "joined",
-      id: "joined",
-      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "Joined" }),
-      cell: ({ row }) => React.createElement("div", { className: "text-foreground font-medium" }, row.original.joined),
-      size: 150,
-      enableSorting: true,
-    },
-    {
-      accessorKey: "status",
-      id: "status",
-      header: ({ column }) => React.createElement(DataTableColumnHeader, { column, title: "Status" }),
-      cell: ({ row }) => {
-        const s = row.original.status;
-        if (s === "Active") return React.createElement(Badge, { variant: "success" }, "Approved");
-        if (s === "Blocked") return React.createElement(Badge, { variant: "destructive" }, "Blocked");
-        if (s === "Inactive") return React.createElement(Badge, { variant: "info" }, "Inactive");
-        return React.createElement(Badge, { variant: "warning" }, "Pending");
+        cell: ({ row }) =>
+          React.createElement(Checkbox, {
+            checked: row.getIsSelected(),
+            onCheckedChange: (value: boolean) => row.toggleSelected(!!value),
+            "aria-label": "Select row",
+          }),
+        enableSorting: false,
+        size: 35,
       },
-      size: 100,
-      enableSorting: true,
-    },
-    {
-      id: "actions",
-      header: "",
-      cell: ({ row }) => React.createElement(CrudActionsCell, { row }),
-      size: 60,
-      enableSorting: false,
-    },
-  ], []);
+      {
+        accessorKey: "name",
+        id: "name",
+        header: ({ column }) =>
+          React.createElement(DataTableColumnHeader, {
+            column,
+            title: "Practitioner",
+          }),
+        cell: ({ row }) =>
+          React.createElement(
+            "div",
+            { className: "flex items-center gap-3" },
+            React.createElement(
+              Avatar,
+              { className: "size-8" },
+              React.createElement(AvatarImage, {
+                src: row.original.avatar,
+                alt: row.original.name,
+              }),
+              React.createElement(
+                AvatarFallback,
+                null,
+                row.original.name
+                  .split(" ")
+                  .map((n: string) => n[0])
+                  .join("")
+              )
+            ),
+            React.createElement(
+              "div",
+              { className: "space-y-px" },
+              React.createElement(
+                "div",
+                { className: "text-foreground font-medium" },
+                row.original.name
+              ),
+              React.createElement(
+                "div",
+                { className: "text-muted-foreground" },
+                row.original.email
+              )
+            )
+          ),
+        size: 200,
+        enableSorting: true,
+      },
+      {
+        accessorKey: "location",
+        id: "location",
+        header: ({ column }) =>
+          React.createElement(DataTableColumnHeader, {
+            column,
+            title: "Location",
+          }),
+        cell: ({ row }) =>
+          React.createElement(
+            "div",
+            { className: "flex items-center gap-1.5" },
+            React.createElement("img", {
+              src: `https://flagcdn.com/${row.original.flag.toLowerCase()}.svg`,
+              alt: row.original.flag,
+              className: "size-4 rounded-full object-cover",
+            }),
+            React.createElement(
+              "div",
+              { className: "text-foreground font-medium" },
+              row.original.location
+            )
+          ),
+        size: 150,
+        enableSorting: true,
+      },
+      {
+        accessorKey: "role",
+        id: "role",
+        header: ({ column }) =>
+          React.createElement(DataTableColumnHeader, {
+            column,
+            title: "Designation",
+          }),
+        cell: ({ row }) =>
+          React.createElement(
+            "div",
+            { className: "text-foreground font-medium" },
+            row.original.role
+          ),
+        size: 150,
+        enableSorting: true,
+      },
+      {
+        accessorKey: "joined",
+        id: "joined",
+        header: ({ column }) =>
+          React.createElement(DataTableColumnHeader, {
+            column,
+            title: "Joined",
+          }),
+        cell: ({ row }) =>
+          React.createElement(
+            "div",
+            { className: "text-foreground font-medium" },
+            row.original.joined
+          ),
+        size: 150,
+        enableSorting: true,
+      },
+      {
+        accessorKey: "status",
+        id: "status",
+        header: ({ column }) =>
+          React.createElement(DataTableColumnHeader, {
+            column,
+            title: "Status",
+          }),
+        cell: ({ row }) => {
+          const s = row.original.status;
+          if (s === "Active")
+            return React.createElement(
+              Badge,
+              { variant: "success" },
+              "Approved"
+            );
+          if (s === "Blocked")
+            return React.createElement(
+              Badge,
+              { variant: "destructive" },
+              "Blocked"
+            );
+          if (s === "Inactive")
+            return React.createElement(Badge, { variant: "info" }, "Inactive");
+          return React.createElement(Badge, { variant: "warning" }, "Pending");
+        },
+        size: 100,
+        enableSorting: true,
+      },
+      {
+        id: "actions",
+        header: "",
+        cell: ({ row }) => React.createElement(CrudActionsCell, { row }),
+        size: 60,
+        enableSorting: false,
+      },
+    ],
+    []
+  );
 
   const table = useReactTable({
     columns,
@@ -3180,129 +5869,250 @@ function CrudDemo() {
   });
 
   const total = table.getFilteredRowModel().rows.length;
-  const start = total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
+  const start =
+    total === 0 ? 0 : pagination.pageIndex * pagination.pageSize + 1;
   const end = Math.min((pagination.pageIndex + 1) * pagination.pageSize, total);
 
-  return React.createElement(Card, { className: "w-full gap-3 py-0" },
-    React.createElement(CardHeader, { className: "flex items-center justify-between px-3 pt-3" },
-      React.createElement("div", { className: "flex items-center gap-2.5" },
+  return React.createElement(
+    Card,
+    { className: "w-full gap-3 py-0" },
+    React.createElement(
+      CardHeader,
+      { className: "flex items-center justify-between px-3 pt-3" },
+      React.createElement(
+        "div",
+        { className: "flex items-center gap-2.5" },
         // Search input
-        React.createElement(InputGroup, { className: "w-48" },
-          React.createElement(InputGroupAddon, { align: "inline-start" }, React.createElement(Search)),
+        React.createElement(
+          InputGroup,
+          { className: "w-48" },
+          React.createElement(
+            InputGroupAddon,
+            { align: "inline-start" },
+            React.createElement(Search)
+          ),
           React.createElement(InputGroupInput, {
             placeholder: "Search...",
             value: searchQuery,
-            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value),
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchQuery(e.target.value),
           }),
-          searchQuery.length > 0 && React.createElement(InputGroupAddon, { align: "inline-end" },
-            React.createElement(InputGroupButton, {
-              "aria-label": "Clear",
-              size: "icon-xs",
-              onClick: () => setSearchQuery(""),
-            }, React.createElement(X)),
-          ),
+          searchQuery.length > 0 &&
+            React.createElement(
+              InputGroupAddon,
+              { align: "inline-end" },
+              React.createElement(
+                InputGroupButton,
+                {
+                  "aria-label": "Clear",
+                  size: "icon-xs",
+                  onClick: () => setSearchQuery(""),
+                },
+                React.createElement(X)
+              )
+            )
         ),
         // Status filter popover
-        React.createElement(Popover, null,
-          React.createElement(PopoverTrigger, { asChild: true },
-            React.createElement(Button, { variant: "outline" },
+        React.createElement(
+          Popover,
+          null,
+          React.createElement(
+            PopoverTrigger,
+            { asChild: true },
+            React.createElement(
+              Button,
+              { variant: "outline" },
               React.createElement(Filter),
               "Status",
               selectedStatuses.length > 0 &&
-                React.createElement(Badge, { size: "sm", variant: "info" }, selectedStatuses.length),
-            ),
+                React.createElement(
+                  Badge,
+                  { size: "sm", variant: "info" },
+                  selectedStatuses.length
+                )
+            )
           ),
-          React.createElement(PopoverContent, { className: "w-40", align: "start" },
-            React.createElement("div", { className: "space-y-3" },
-              React.createElement("div", { className: "text-muted-foreground text-xs font-medium" }, "Filters"),
-              React.createElement("div", { className: "space-y-3" },
+          React.createElement(
+            PopoverContent,
+            { className: "w-40", align: "start" },
+            React.createElement(
+              "div",
+              { className: "space-y-3" },
+              React.createElement(
+                "div",
+                { className: "text-muted-foreground text-xs font-medium" },
+                "Filters"
+              ),
+              React.createElement(
+                "div",
+                { className: "space-y-3" },
                 ...Object.keys(statusCounts).map((status) =>
-                  React.createElement("div", { key: status, className: "flex items-center gap-2.5" },
+                  React.createElement(
+                    "div",
+                    { key: status, className: "flex items-center gap-2.5" },
                     React.createElement(Checkbox, {
                       id: `crud-${status}`,
                       checked: selectedStatuses.includes(status),
-                      onCheckedChange: (checked: boolean) => handleStatusChange(checked === true, status),
+                      onCheckedChange: (checked: boolean) =>
+                        handleStatusChange(checked === true, status),
                     }),
-                    React.createElement(Label, {
-                      htmlFor: `crud-${status}`,
-                      className: "flex grow items-center justify-between gap-1.5 font-normal",
-                    },
+                    React.createElement(
+                      Label,
+                      {
+                        htmlFor: `crud-${status}`,
+                        className:
+                          "flex grow items-center justify-between gap-1.5 font-normal",
+                      },
                       status,
-                      React.createElement("span", { className: "text-muted-foreground" }, statusCounts[status]),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+                      React.createElement(
+                        "span",
+                        { className: "text-muted-foreground" },
+                        statusCounts[status]
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
       ),
-      React.createElement(CardAction, null,
-        React.createElement(Button, null,
+      React.createElement(
+        CardAction,
+        null,
+        React.createElement(
+          Button,
+          null,
           React.createElement(UserPlus),
-          "Add new",
-        ),
-      ),
+          "Add new"
+        )
+      )
     ),
-    React.createElement(CardContent, { className: "overflow-hidden border-y px-0 [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3" },
-      React.createElement(ScrollArea, null,
-        React.createElement(Table, null,
-          React.createElement(TableHeader, null,
-            ...table.getHeaderGroups().map((hg) =>
-              React.createElement(TableRow, { key: hg.id },
-                ...hg.headers.map((h) =>
-                  React.createElement(TableHead, { key: h.id, style: { width: h.getSize() } },
-                    h.isPlaceholder ? null : flexRender(h.column.columnDef.header, h.getContext()),
-                  ),
-                ),
-              ),
-            ),
+    React.createElement(
+      CardContent,
+      {
+        className:
+          "overflow-hidden border-y px-0 [&_th:first-child:not(:has([data-slot=checkbox])):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-1 [&_th:not(:first-child):is(:has([data-slot=button]),:has([data-slot=dropdown-menu-trigger]))_:is([data-slot=button],[data-slot=dropdown-menu-trigger])]:-ms-3",
+      },
+      React.createElement(
+        ScrollArea,
+        null,
+        React.createElement(
+          Table,
+          null,
+          React.createElement(
+            TableHeader,
+            null,
+            ...table
+              .getHeaderGroups()
+              .map((hg) =>
+                React.createElement(
+                  TableRow,
+                  { key: hg.id },
+                  ...hg.headers.map((h) =>
+                    React.createElement(
+                      TableHead,
+                      { key: h.id, style: { width: h.getSize() } },
+                      h.isPlaceholder
+                        ? null
+                        : flexRender(h.column.columnDef.header, h.getContext())
+                    )
+                  )
+                )
+              )
           ),
-          React.createElement(TableBody, null,
+          React.createElement(
+            TableBody,
+            null,
             ...table.getRowModel().rows.map((row) =>
-              React.createElement(TableRow, Object.assign({ key: row.id }, row.getIsSelected() ? { "data-state": "selected" } : {}),
-                ...row.getVisibleCells().map((cell) =>
-                  React.createElement(TableCell, { key: cell.id, style: { width: cell.column.getSize() } },
-                    flexRender(cell.column.columnDef.cell, cell.getContext()),
-                  ),
+              React.createElement(
+                TableRow,
+                Object.assign(
+                  { key: row.id },
+                  row.getIsSelected() ? { "data-state": "selected" } : {}
                 ),
-              ),
-            ),
-          ),
-        ),
-      ),
+                ...row.getVisibleCells().map((cell) =>
+                  React.createElement(
+                    TableCell,
+                    {
+                      key: cell.id,
+                      style: { width: cell.column.getSize() },
+                    },
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
     ),
-    React.createElement(CardFooter, { className: "border-none bg-transparent! px-3.5 py-2" },
-      React.createElement("div", { className: "flex w-full items-center justify-between" },
-        React.createElement("p", { className: "text-sm text-muted-foreground" }, `${start} - ${end} of ${total}`),
-        React.createElement(Pagination, { className: "w-auto mx-0" },
-          React.createElement(PaginationContent, null,
-            React.createElement(PaginationItem, null,
+    React.createElement(
+      CardFooter,
+      { className: "border-none bg-transparent! px-3.5 py-2" },
+      React.createElement(
+        "div",
+        { className: "flex w-full items-center justify-between" },
+        React.createElement(
+          "p",
+          { className: "text-sm text-muted-foreground" },
+          `${start} - ${end} of ${total}`
+        ),
+        React.createElement(
+          Pagination,
+          { className: "w-auto mx-0" },
+          React.createElement(
+            PaginationContent,
+            null,
+            React.createElement(
+              PaginationItem,
+              null,
               React.createElement(PaginationPrevious, {
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.previousPage(); },
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  table.previousPage();
+                },
                 "aria-disabled": !table.getCanPreviousPage(),
-                className: !table.getCanPreviousPage() ? "pointer-events-none opacity-50" : undefined,
-              }),
+                className: !table.getCanPreviousPage()
+                  ? "pointer-events-none opacity-50"
+                  : undefined,
+              })
             ),
             ...Array.from({ length: table.getPageCount() }, (_, i) =>
-              React.createElement(PaginationItem, { key: i },
-                React.createElement(PaginationLink, {
-                  isActive: i === table.getState().pagination.pageIndex,
-                  onClick: (e: React.MouseEvent) => { e.preventDefault(); table.setPageIndex(i); },
-                }, i + 1),
-              ),
+              React.createElement(
+                PaginationItem,
+                { key: i },
+                React.createElement(
+                  PaginationLink,
+                  {
+                    isActive: i === table.getState().pagination.pageIndex,
+                    onClick: (e: React.MouseEvent) => {
+                      e.preventDefault();
+                      table.setPageIndex(i);
+                    },
+                  },
+                  i + 1
+                )
+              )
             ),
-            React.createElement(PaginationItem, null,
+            React.createElement(
+              PaginationItem,
+              null,
               React.createElement(PaginationNext, {
-                onClick: (e: React.MouseEvent) => { e.preventDefault(); table.nextPage(); },
+                onClick: (e: React.MouseEvent) => {
+                  e.preventDefault();
+                  table.nextPage();
+                },
                 "aria-disabled": !table.getCanNextPage(),
-                className: !table.getCanNextPage() ? "pointer-events-none opacity-50" : undefined,
-              }),
-            ),
-          ),
-        ),
-      ),
-    ),
+                className: !table.getCanNextPage()
+                  ? "pointer-events-none opacity-50"
+                  : undefined,
+              })
+            )
+          )
+        )
+      )
+    )
   );
 }
 
@@ -3318,23 +6128,106 @@ type Employee = {
 };
 
 const employees: Employee[] = [
-  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", role: "Senior Consultant",   status: "Active",   balance: 5143.03 },
-  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Inactive", balance: 4321.87 },
-  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", role: "Head of Department",  status: "Blocked",  balance: 7654.98 },
-  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", role: "Senior Nurse",        status: "Inactive", balance: 3456.45 },
-  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Active",   balance: 9876.54 },
-  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", role: "Senior Consultant",   status: "Pending",  balance: 6214.22 },
-  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Inactive", balance: 5321.77 },
-  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", role: "Senior Nurse",        status: "Blocked",  balance: 8452.39 },
-  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Pending",  balance: 7345.10 },
-  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", role: "Consultant",          status: "Inactive", balance: 5214.88 },
+  {
+    id: "1",
+    name: "Dr. Kiran Reddy",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    role: "Senior Consultant",
+    status: "Active",
+    balance: 5143.03,
+  },
+  {
+    id: "2",
+    name: "Dr. Anita Menon",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    role: "Consultant",
+    status: "Inactive",
+    balance: 4321.87,
+  },
+  {
+    id: "3",
+    name: "Dr. Suresh Pillai",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    role: "Head of Department",
+    status: "Blocked",
+    balance: 7654.98,
+  },
+  {
+    id: "4",
+    name: "Nurse Rekha Thomas",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    role: "Senior Nurse",
+    status: "Inactive",
+    balance: 3456.45,
+  },
+  {
+    id: "5",
+    name: "Dr. Imran Sheikh",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    role: "Consultant",
+    status: "Active",
+    balance: 9876.54,
+  },
+  {
+    id: "6",
+    name: "Dr. Kavitha Nair",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    role: "Senior Consultant",
+    status: "Pending",
+    balance: 6214.22,
+  },
+  {
+    id: "7",
+    name: "Dr. Rajiv Kapoor",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    role: "Consultant",
+    status: "Inactive",
+    balance: 5321.77,
+  },
+  {
+    id: "8",
+    name: "Nurse Sumathi K.",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    role: "Senior Nurse",
+    status: "Blocked",
+    balance: 8452.39,
+  },
+  {
+    id: "9",
+    name: "Dr. Farhan Hossain",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    role: "Consultant",
+    status: "Pending",
+    balance: 7345.1,
+  },
+  {
+    id: "10",
+    name: "Dr. Pooja Iyer",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    role: "Consultant",
+    status: "Inactive",
+    balance: 5214.88,
+  },
 ];
 
-const employeeStatusVariant: Record<Employee["status"], "success" | "destructive" | "info" | "warning"> = {
-  Active:   "success",
-  Blocked:  "destructive",
+const employeeStatusVariant: Record<
+  Employee["status"],
+  "success" | "destructive" | "info" | "warning"
+> = {
+  Active: "success",
+  Blocked: "destructive",
   Inactive: "info",
-  Pending:  "warning",
+  Pending: "warning",
 };
 
 const formatUSD = (amount: number) =>
@@ -3348,7 +6241,8 @@ const footerTotalsColumns: ColumnDef<Employee>[] = [
         checked:
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() ? "indeterminate" : false),
-        onCheckedChange: (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+        onCheckedChange: (value: boolean) =>
+          table.toggleAllPageRowsSelected(!!value),
         "aria-label": "Select all",
       }),
     cell: ({ row }) =>
@@ -3366,8 +6260,16 @@ const footerTotalsColumns: ColumnDef<Employee>[] = [
     id: "name",
     accessorKey: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
-    footer: () => React.createElement("span", { className: "text-muted-foreground text-xs" }, "Total balance"),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Practitioner",
+      }),
+    footer: () =>
+      React.createElement(
+        "span",
+        { className: "text-muted-foreground text-xs" },
+        "Total balance"
+      ),
     cell: ({ row }) =>
       React.createElement(
         "div",
@@ -3375,10 +6277,21 @@ const footerTotalsColumns: ColumnDef<Employee>[] = [
         React.createElement(
           Avatar,
           { className: "size-8" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, getInitials(row.original.name)),
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            getInitials(row.original.name)
+          )
         ),
-        React.createElement("span", { className: "text-foreground font-medium" }, row.original.name),
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium" },
+          row.original.name
+        )
       ),
     size: 200,
     enableSorting: true,
@@ -3387,10 +6300,17 @@ const footerTotalsColumns: ColumnDef<Employee>[] = [
     id: "role",
     accessorKey: "role",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Designation" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Designation",
+      }),
     footer: () => null,
     cell: ({ row }) =>
-      React.createElement("span", { className: "text-foreground font-medium" }, row.original.role),
+      React.createElement(
+        "span",
+        { className: "text-foreground font-medium" },
+        row.original.role
+      ),
     size: 150,
     enableSorting: true,
   },
@@ -3398,13 +6318,16 @@ const footerTotalsColumns: ColumnDef<Employee>[] = [
     id: "status",
     accessorKey: "status",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Status" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Status",
+      }),
     footer: () => null,
     cell: ({ row }) =>
       React.createElement(
         Badge,
         { variant: employeeStatusVariant[row.original.status] },
-        row.original.status,
+        row.original.status
       ),
     size: 110,
     enableSorting: true,
@@ -3413,22 +6336,28 @@ const footerTotalsColumns: ColumnDef<Employee>[] = [
     id: "balance",
     accessorKey: "balance",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Balance" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Balance",
+      }),
     footer: ({ table }) => {
       const total = table
         .getFilteredRowModel()
-        .rows.reduce((sum, row) => sum + (row.getValue("balance") as number), 0);
+        .rows.reduce(
+          (sum, row) => sum + (row.getValue("balance") as number),
+          0
+        );
       return React.createElement(
         "span",
         { className: "font-bold tabular-nums" },
-        formatUSD(total),
+        formatUSD(total)
       );
     },
     cell: ({ row }) =>
       React.createElement(
         "span",
         { className: "text-foreground font-medium tabular-nums" },
-        formatUSD(row.original.balance),
+        formatUSD(row.original.balance)
       ),
     size: 130,
     enableSorting: true,
@@ -3445,15 +6374,15 @@ const footerTotalsColumns: ColumnDef<Employee>[] = [
         React.createElement(
           DropdownMenuItem,
           { onClick: () => navigator.clipboard.writeText(row.original.id) },
-          "Copy ID",
+          "Copy ID"
         ),
         React.createElement(DropdownMenuSeparator, {}),
         React.createElement(DropdownMenuItem, {}, "Edit"),
         React.createElement(
           DropdownMenuItem,
           { className: "text-destructive" },
-          "Delete",
-        ),
+          "Delete"
+        )
       ),
   },
 ];
@@ -3479,23 +6408,116 @@ type SummaryMember = {
 };
 
 const summaryMembers: SummaryMember[] = [
-  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Active",   balance: 5143.03 },
-  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Inactive", balance: 4321.87 },
-  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Blocked",  balance: 7654.98 },
-  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Inactive", balance: 3456.45 },
-  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", location: "United Kingdom", flag: "gb", status: "Active",   balance: 9876.54 },
-  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", location: "Singapore",      flag: "sg", status: "Pending",  balance: 6214.22 },
-  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", location: "Canada",         flag: "ca", status: "Inactive", balance: 5321.77 },
-  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Blocked",  balance: 8452.39 },
-  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Pending",  balance: 7345.10 },
-  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", location: "India",          flag: "in", status: "Inactive", balance: 5214.88 },
+  {
+    id: "1",
+    name: "Dr. Kiran Reddy",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    location: "India",
+    flag: "in",
+    status: "Active",
+    balance: 5143.03,
+  },
+  {
+    id: "2",
+    name: "Dr. Anita Menon",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    location: "India",
+    flag: "in",
+    status: "Inactive",
+    balance: 4321.87,
+  },
+  {
+    id: "3",
+    name: "Dr. Suresh Pillai",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    location: "India",
+    flag: "in",
+    status: "Blocked",
+    balance: 7654.98,
+  },
+  {
+    id: "4",
+    name: "Nurse Rekha Thomas",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    location: "India",
+    flag: "in",
+    status: "Inactive",
+    balance: 3456.45,
+  },
+  {
+    id: "5",
+    name: "Dr. Imran Sheikh",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    location: "United Kingdom",
+    flag: "gb",
+    status: "Active",
+    balance: 9876.54,
+  },
+  {
+    id: "6",
+    name: "Dr. Kavitha Nair",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    location: "Singapore",
+    flag: "sg",
+    status: "Pending",
+    balance: 6214.22,
+  },
+  {
+    id: "7",
+    name: "Dr. Rajiv Kapoor",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    location: "Canada",
+    flag: "ca",
+    status: "Inactive",
+    balance: 5321.77,
+  },
+  {
+    id: "8",
+    name: "Nurse Sumathi K.",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    location: "India",
+    flag: "in",
+    status: "Blocked",
+    balance: 8452.39,
+  },
+  {
+    id: "9",
+    name: "Dr. Farhan Hossain",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    location: "India",
+    flag: "in",
+    status: "Pending",
+    balance: 7345.1,
+  },
+  {
+    id: "10",
+    name: "Dr. Pooja Iyer",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    location: "India",
+    flag: "in",
+    status: "Inactive",
+    balance: 5214.88,
+  },
 ];
 
-const summaryStatusVariant: Record<SummaryMember["status"], "success" | "destructive" | "info" | "warning"> = {
-  Active:   "success",
-  Blocked:  "destructive",
+const summaryStatusVariant: Record<
+  SummaryMember["status"],
+  "success" | "destructive" | "info" | "warning"
+> = {
+  Active: "success",
+  Blocked: "destructive",
   Inactive: "info",
-  Pending:  "warning",
+  Pending: "warning",
 };
 
 const fmtUSD = (n: number) =>
@@ -3506,14 +6528,25 @@ const footerSummaryColumns: ColumnDef<SummaryMember>[] = [
     id: "name",
     accessorKey: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Practitioner",
+      }),
     footer: ({ table }) => {
       const count = table.getFilteredRowModel().rows.length;
       return React.createElement(
         "div",
         { className: "flex flex-col gap-0.5" },
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Practitioners"),
-        React.createElement("span", { className: "font-medium tabular-nums" }, String(count)),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          "Practitioners"
+        ),
+        React.createElement(
+          "span",
+          { className: "font-medium tabular-nums" },
+          String(count)
+        )
       );
     },
     cell: ({ row }) =>
@@ -3523,10 +6556,21 @@ const footerSummaryColumns: ColumnDef<SummaryMember>[] = [
         React.createElement(
           Avatar,
           { className: "size-8" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, getInitials(row.original.name)),
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            getInitials(row.original.name)
+          )
         ),
-        React.createElement("span", { className: "text-foreground font-medium" }, row.original.name),
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium" },
+          row.original.name
+        )
       ),
     size: 150,
     enableSorting: true,
@@ -3535,16 +6579,25 @@ const footerSummaryColumns: ColumnDef<SummaryMember>[] = [
     id: "location",
     accessorKey: "location",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Location" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Location",
+      }),
     footer: ({ table }) => {
       const activeCount = table
         .getFilteredRowModel()
-        .rows.filter((r) => (r.getValue("status") as string) === "Active").length;
+        .rows.filter(
+          (r) => (r.getValue("status") as string) === "Active"
+        ).length;
       return React.createElement(
         "div",
         { className: "flex items-center gap-1.5" },
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Active"),
-        React.createElement(Badge, { variant: "success" }, String(activeCount)),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          "Active"
+        ),
+        React.createElement(Badge, { variant: "success" }, String(activeCount))
       );
     },
     cell: ({ row }) =>
@@ -3552,11 +6605,16 @@ const footerSummaryColumns: ColumnDef<SummaryMember>[] = [
         "div",
         { className: "flex items-center gap-1.5" },
         React.createElement("img", {
-          src: "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
+          src:
+            "https://flagcdn.com/" + row.original.flag.toLowerCase() + ".svg",
           alt: row.original.flag,
           className: "size-4 rounded-full object-cover",
         }),
-        React.createElement("span", { className: "text-foreground font-medium" }, row.original.location),
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium" },
+          row.original.location
+        )
       ),
     size: 150,
     enableSorting: true,
@@ -3565,24 +6623,36 @@ const footerSummaryColumns: ColumnDef<SummaryMember>[] = [
     id: "status",
     accessorKey: "status",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Status" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Status",
+      }),
     footer: ({ table }) => {
       const rows = table.getFilteredRowModel().rows;
       const avg = rows.length
-        ? rows.reduce((sum, r) => sum + (r.getValue("balance") as number), 0) / rows.length
+        ? rows.reduce((sum, r) => sum + (r.getValue("balance") as number), 0) /
+          rows.length
         : 0;
       return React.createElement(
         "div",
         { className: "flex flex-col gap-0.5" },
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Avg balance"),
-        React.createElement("span", { className: "font-medium tabular-nums" }, fmtUSD(avg)),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          "Avg balance"
+        ),
+        React.createElement(
+          "span",
+          { className: "font-medium tabular-nums" },
+          fmtUSD(avg)
+        )
       );
     },
     cell: ({ row }) =>
       React.createElement(
         Badge,
         { variant: summaryStatusVariant[row.original.status] },
-        row.original.status,
+        row.original.status
       ),
     size: 110,
     enableSorting: true,
@@ -3591,27 +6661,36 @@ const footerSummaryColumns: ColumnDef<SummaryMember>[] = [
     id: "balance",
     accessorKey: "balance",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Balance" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Balance",
+      }),
     footer: ({ table }) => {
-      const balances = table.getFilteredRowModel().rows.map((r) => r.getValue("balance") as number);
+      const balances = table
+        .getFilteredRowModel()
+        .rows.map((r) => r.getValue("balance") as number);
       const min = balances.length ? Math.min(...balances) : 0;
       const max = balances.length ? Math.max(...balances) : 0;
       return React.createElement(
         "div",
         { className: "flex flex-col gap-0.5" },
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Min / Max"),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          "Min / Max"
+        ),
         React.createElement(
           "span",
           { className: "font-medium tabular-nums" },
-          fmtUSD(min) + " – " + fmtUSD(max),
-        ),
+          fmtUSD(min) + " – " + fmtUSD(max)
+        )
       );
     },
     cell: ({ row }) =>
       React.createElement(
         "span",
         { className: "text-foreground font-medium tabular-nums" },
-        fmtUSD(row.original.balance),
+        fmtUSD(row.original.balance)
       ),
     size: 130,
     enableSorting: true,
@@ -3638,23 +6717,106 @@ type AggregateMember = {
 };
 
 const aggregateMembers: AggregateMember[] = [
-  { id: "1",  name: "Dr. Kiran Reddy",       avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80", status: "Active",   balance: 5143.03, transactions: 48 },
-  { id: "2",  name: "Dr. Anita Menon",       avatar: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80", status: "Inactive", balance: 4321.87, transactions: 31 },
-  { id: "3",  name: "Dr. Suresh Pillai",     avatar: "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80", status: "Blocked",  balance: 7654.98, transactions: 67 },
-  { id: "4",  name: "Nurse Rekha Thomas",    avatar: "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80", status: "Inactive", balance: 3456.45, transactions: 22 },
-  { id: "5",  name: "Dr. Imran Sheikh",      avatar: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80", status: "Active",   balance: 9876.54, transactions: 93 },
-  { id: "6",  name: "Dr. Kavitha Nair",      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80", status: "Pending",  balance: 6214.22, transactions: 55 },
-  { id: "7",  name: "Dr. Rajiv Kapoor",      avatar: "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80", status: "Inactive", balance: 5321.77, transactions: 40 },
-  { id: "8",  name: "Nurse Sumathi K.",      avatar: "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80", status: "Blocked",  balance: 8452.39, transactions: 74 },
-  { id: "9",  name: "Dr. Farhan Hossain",    avatar: "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80", status: "Pending",  balance: 7345.10, transactions: 61 },
-  { id: "10", name: "Dr. Pooja Iyer",        avatar: "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80", status: "Inactive", balance: 5214.88, transactions: 37 },
+  {
+    id: "1",
+    name: "Dr. Kiran Reddy",
+    avatar:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=96&h=96&dpr=2&q=80",
+    status: "Active",
+    balance: 5143.03,
+    transactions: 48,
+  },
+  {
+    id: "2",
+    name: "Dr. Anita Menon",
+    avatar:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=96&h=96&dpr=2&q=80",
+    status: "Inactive",
+    balance: 4321.87,
+    transactions: 31,
+  },
+  {
+    id: "3",
+    name: "Dr. Suresh Pillai",
+    avatar:
+      "https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=96&h=96&dpr=2&q=80",
+    status: "Blocked",
+    balance: 7654.98,
+    transactions: 67,
+  },
+  {
+    id: "4",
+    name: "Nurse Rekha Thomas",
+    avatar:
+      "https://images.unsplash.com/photo-1485893086445-ed75865251e0?w=96&h=96&dpr=2&q=80",
+    status: "Inactive",
+    balance: 3456.45,
+    transactions: 22,
+  },
+  {
+    id: "5",
+    name: "Dr. Imran Sheikh",
+    avatar:
+      "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=96&h=96&dpr=2&q=80",
+    status: "Active",
+    balance: 9876.54,
+    transactions: 93,
+  },
+  {
+    id: "6",
+    name: "Dr. Kavitha Nair",
+    avatar:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=96&h=96&dpr=2&q=80",
+    status: "Pending",
+    balance: 6214.22,
+    transactions: 55,
+  },
+  {
+    id: "7",
+    name: "Dr. Rajiv Kapoor",
+    avatar:
+      "https://images.unsplash.com/photo-1543299750-19d1d6297053?w=96&h=96&dpr=2&q=80",
+    status: "Inactive",
+    balance: 5321.77,
+    transactions: 40,
+  },
+  {
+    id: "8",
+    name: "Nurse Sumathi K.",
+    avatar:
+      "https://images.unsplash.com/photo-1620075225255-8c2051b6c015?w=96&h=96&dpr=2&q=80",
+    status: "Blocked",
+    balance: 8452.39,
+    transactions: 74,
+  },
+  {
+    id: "9",
+    name: "Dr. Farhan Hossain",
+    avatar:
+      "https://images.unsplash.com/photo-1485206412256-701ccc5b93ca?w=96&h=96&dpr=2&q=80",
+    status: "Pending",
+    balance: 7345.1,
+    transactions: 61,
+  },
+  {
+    id: "10",
+    name: "Dr. Pooja Iyer",
+    avatar:
+      "https://images.unsplash.com/photo-1542595913-85d69b0edbaf?w=96&h=96&dpr=2&q=80",
+    status: "Inactive",
+    balance: 5214.88,
+    transactions: 37,
+  },
 ];
 
-const aggregateStatusVariant: Record<AggregateMember["status"], "success" | "destructive" | "info" | "warning"> = {
-  Active:   "success",
-  Blocked:  "destructive",
+const aggregateStatusVariant: Record<
+  AggregateMember["status"],
+  "success" | "destructive" | "info" | "warning"
+> = {
+  Active: "success",
+  Blocked: "destructive",
   Inactive: "info",
-  Pending:  "warning",
+  Pending: "warning",
 };
 
 const fmtAggUSD = (n: number) =>
@@ -3665,15 +6827,30 @@ const footerAggregateColumns: ColumnDef<AggregateMember>[] = [
     id: "name",
     accessorKey: "name",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Practitioner" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Practitioner",
+      }),
     footer: ({ table }) => {
       const count = table.getFilteredRowModel().rows.length;
       return React.createElement(
         "div",
         { className: "flex flex-col gap-0.5" },
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Summary"),
-        React.createElement("span", { className: "text-foreground font-medium" }, "Across all practitioners"),
-        React.createElement("span", { className: "text-muted-foreground text-xs tabular-nums" }, count + " practitioners"),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          "Summary"
+        ),
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium" },
+          "Across all practitioners"
+        ),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs tabular-nums" },
+          count + " practitioners"
+        )
       );
     },
     cell: ({ row }) =>
@@ -3683,10 +6860,21 @@ const footerAggregateColumns: ColumnDef<AggregateMember>[] = [
         React.createElement(
           Avatar,
           { className: "size-8" },
-          React.createElement(AvatarImage, { src: row.original.avatar, alt: row.original.name }),
-          React.createElement(AvatarFallback, null, getInitials(row.original.name)),
+          React.createElement(AvatarImage, {
+            src: row.original.avatar,
+            alt: row.original.name,
+          }),
+          React.createElement(
+            AvatarFallback,
+            null,
+            getInitials(row.original.name)
+          )
         ),
-        React.createElement("span", { className: "text-foreground font-medium" }, row.original.name),
+        React.createElement(
+          "span",
+          { className: "text-foreground font-medium" },
+          row.original.name
+        )
       ),
     size: 200,
     enableSorting: true,
@@ -3695,13 +6883,16 @@ const footerAggregateColumns: ColumnDef<AggregateMember>[] = [
     id: "status",
     accessorKey: "status",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Status" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Status",
+      }),
     footer: () => null,
     cell: ({ row }) =>
       React.createElement(
         Badge,
         { variant: aggregateStatusVariant[row.original.status] },
-        row.original.status,
+        row.original.status
       ),
     size: 110,
     enableSorting: true,
@@ -3710,26 +6901,43 @@ const footerAggregateColumns: ColumnDef<AggregateMember>[] = [
     id: "balance",
     accessorKey: "balance",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Balance" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Balance",
+      }),
     footer: ({ table }) => {
       const rows = table.getFilteredRowModel().rows;
       const balances = rows.map((r) => r.getValue("balance") as number);
-      const avg = balances.length ? balances.reduce((a, b) => a + b, 0) / balances.length : 0;
+      const avg = balances.length
+        ? balances.reduce((a, b) => a + b, 0) / balances.length
+        : 0;
       const min = balances.length ? Math.min(...balances) : 0;
       const max = balances.length ? Math.max(...balances) : 0;
       return React.createElement(
         "div",
         { className: "flex flex-col gap-0.5" },
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Avg"),
-        React.createElement("span", { className: "tabular-nums" }, fmtAggUSD(avg)),
-        React.createElement("span", { className: "text-muted-foreground text-xs tabular-nums" }, fmtAggUSD(min) + " – " + fmtAggUSD(max)),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          "Avg"
+        ),
+        React.createElement(
+          "span",
+          { className: "tabular-nums" },
+          fmtAggUSD(avg)
+        ),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs tabular-nums" },
+          fmtAggUSD(min) + " – " + fmtAggUSD(max)
+        )
       );
     },
     cell: ({ row }) =>
       React.createElement(
         "span",
         { className: "text-foreground font-medium tabular-nums" },
-        fmtAggUSD(row.original.balance),
+        fmtAggUSD(row.original.balance)
       ),
     size: 130,
     enableSorting: true,
@@ -3738,26 +6946,39 @@ const footerAggregateColumns: ColumnDef<AggregateMember>[] = [
     id: "transactions",
     accessorKey: "transactions",
     header: ({ column }) =>
-      React.createElement(DataTableColumnHeader, { column: column as any, title: "Encounters" }),
+      React.createElement(DataTableColumnHeader, {
+        column: column as any,
+        title: "Encounters",
+      }),
     footer: ({ table }) => {
       const rows = table.getFilteredRowModel().rows;
       const txns = rows.map((r) => r.getValue("transactions") as number);
-      const avg = txns.length ? Math.round(txns.reduce((a, b) => a + b, 0) / txns.length) : 0;
+      const avg = txns.length
+        ? Math.round(txns.reduce((a, b) => a + b, 0) / txns.length)
+        : 0;
       const min = txns.length ? Math.min(...txns) : 0;
       const max = txns.length ? Math.max(...txns) : 0;
       return React.createElement(
         "div",
         { className: "flex flex-col gap-0.5" },
-        React.createElement("span", { className: "text-muted-foreground text-xs" }, "Avg"),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs" },
+          "Avg"
+        ),
         React.createElement("span", { className: "tabular-nums" }, String(avg)),
-        React.createElement("span", { className: "text-muted-foreground text-xs tabular-nums" }, min + " – " + max),
+        React.createElement(
+          "span",
+          { className: "text-muted-foreground text-xs tabular-nums" },
+          min + " – " + max
+        )
       );
     },
     cell: ({ row }) =>
       React.createElement(
         "span",
         { className: "text-foreground font-medium tabular-nums" },
-        String(row.original.transactions),
+        String(row.original.transactions)
       ),
     size: 120,
     enableSorting: true,
@@ -4597,7 +7818,7 @@ export function DraggableColumnsTable() {
     {
       name: "Resizable Columns",
       description:
-        "Drag the edge of any column header to resize it. Set `enableResizing: false` on a column to lock its width. Uses TanStack Table's built-in `columnResizeMode: \"onChange\"` — no extra dependencies required.",
+        'Drag the edge of any column header to resize it. Set `enableResizing: false` on a column to lock its width. Uses TanStack Table\'s built-in `columnResizeMode: "onChange"` — no extra dependencies required.',
       code: `"use client"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -8417,36 +11638,42 @@ export function AggregateTable() {
     {
       name: "cellBorder",
       type: "boolean",
-      description: "Adds vertical borders between columns for a spreadsheet-like grid appearance.",
+      description:
+        "Adds vertical borders between columns for a spreadsheet-like grid appearance.",
       default: "false",
     },
     {
       name: "dense",
       type: "boolean",
-      description: "Reduces cell padding for a compact, high-density table layout.",
+      description:
+        "Reduces cell padding for a compact, high-density table layout.",
       default: "false",
     },
     {
       name: "autoWidth",
       type: "boolean",
-      description: "Lets columns size to their content instead of stretching to fill the container width.",
+      description:
+        "Lets columns size to their content instead of stretching to fill the container width.",
       default: "false",
     },
     {
       name: "renderExpandedRow",
       type: "(row: Row<TData>) => React.ReactNode",
-      description: "Renders expanded content below a row when it is toggled open. Pair with a column that calls row.getToggleExpandedHandler().",
+      description:
+        "Renders expanded content below a row when it is toggled open. Pair with a column that calls row.getToggleExpandedHandler().",
     },
     {
       name: "hideToolbar",
       type: "boolean",
-      description: "Hides the filter input and column visibility toolbar. Useful for nested sub-tables inside expanded rows.",
+      description:
+        "Hides the filter input and column visibility toolbar. Useful for nested sub-tables inside expanded rows.",
       default: "false",
     },
     {
       name: "movableColumns",
       type: "boolean",
-      description: "Enables column reordering via a header dropdown menu. Each `DataTableColumnHeader` exposes Asc / Desc sort options and Move to Left / Move to Right actions.",
+      description:
+        "Enables column reordering via a header dropdown menu. Each `DataTableColumnHeader` exposes Asc / Desc sort options and Move to Left / Move to Right actions.",
       default: "false",
     },
     {

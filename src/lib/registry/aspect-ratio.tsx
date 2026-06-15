@@ -114,7 +114,8 @@ Update the import paths to match your project setup.`,
     {
       name: "className",
       type: "string",
-      description: "Additional CSS classes to apply to the aspect ratio container.",
+      description:
+        "Additional CSS classes to apply to the aspect ratio container.",
       default: undefined,
     },
   ],

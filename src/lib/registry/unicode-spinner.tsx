@@ -142,11 +142,26 @@ export function UnicodeSpinnerColor() {
       preview: React.createElement(
         "div",
         { className: "flex items-center gap-6" },
-        React.createElement(Spinner, { name: "braille", className: "text-primary" }),
-        React.createElement(Spinner, { name: "braille", className: "text-destructive" }),
-        React.createElement(Spinner, { name: "braille", className: "text-muted-foreground" }),
-        React.createElement(Spinner, { name: "braille", className: "text-green-500" }),
-        React.createElement(Spinner, { name: "braille", className: "text-amber-500" })
+        React.createElement(Spinner, {
+          name: "braille",
+          className: "text-primary",
+        }),
+        React.createElement(Spinner, {
+          name: "braille",
+          className: "text-destructive",
+        }),
+        React.createElement(Spinner, {
+          name: "braille",
+          className: "text-muted-foreground",
+        }),
+        React.createElement(Spinner, {
+          name: "braille",
+          className: "text-green-500",
+        }),
+        React.createElement(Spinner, {
+          name: "braille",
+          className: "text-amber-500",
+        })
       ),
     },
     // ── Inline with text ──────────────────────────────────────────────────
@@ -175,19 +190,25 @@ export function UnicodeSpinnerInline() {
         { className: "flex flex-col gap-3" },
         React.createElement(
           "p",
-          { className: "flex items-center gap-2 text-sm text-muted-foreground" },
+          {
+            className: "flex items-center gap-2 text-sm text-muted-foreground",
+          },
           React.createElement(Spinner, { name: "orbit" }),
           "Processing payment…"
         ),
         React.createElement(
           "p",
-          { className: "flex items-center gap-2 text-sm text-muted-foreground" },
+          {
+            className: "flex items-center gap-2 text-sm text-muted-foreground",
+          },
           React.createElement(Spinner, { name: "breathe" }),
           "Syncing records…"
         ),
         React.createElement(
           "p",
-          { className: "flex items-center gap-2 text-sm text-muted-foreground" },
+          {
+            className: "flex items-center gap-2 text-sm text-muted-foreground",
+          },
           React.createElement(Spinner, { name: "dna" }),
           "Generating report…"
         )

@@ -39,8 +39,12 @@ export function usePinnableSidebar(): UsePinnableSidebarReturn {
   // This prevents top/height from snapping while the sidebar is still visible.
   const [overlayReady, setOverlayReady] = React.useState(false);
   const [pinningTransition, setPinningTransition] = React.useState(false);
-  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
+  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const menuOpenRef = React.useRef(false);
 
   const cancelClose = React.useCallback(() => {
@@ -100,7 +104,7 @@ export function usePinnableSidebar(): UsePinnableSidebarReturn {
       if (open) cancelClose();
       else scheduleClose();
     },
-    [cancelClose, scheduleClose],
+    [cancelClose, scheduleClose]
   );
 
   const handleSidebarProviderOpenChange = React.useCallback(
@@ -116,7 +120,7 @@ export function usePinnableSidebar(): UsePinnableSidebarReturn {
         startSettle();
       }
     },
-    [startSettle],
+    [startSettle]
   );
 
   // Clean up pending timers on unmount to avoid state updates on a dead component.
@@ -160,7 +164,7 @@ export function SidebarToggleButton({
     <Button
       variant="ghost"
       size="icon"
-      className="relative h-7 w-7 -ml-1 after:absolute after:-inset-3 after:content-['']"
+      className="relative -ml-1 h-7 w-7 after:absolute after:-inset-3 after:content-['']"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={() => {
@@ -200,7 +204,7 @@ export function InnerPageBackButton({ pinned }: { pinned: boolean }) {
       <Button
         variant="tertiary"
         size="sm"
-        className="gap-1.5 text-muted-foreground hover:text-foreground"
+        className="text-muted-foreground hover:text-foreground gap-1.5"
       >
         <ChevronLeft className="h-4 w-4" />
         Back

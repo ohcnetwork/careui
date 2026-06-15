@@ -52,7 +52,11 @@ const CollapsibleDemo = () => {
           Button,
           { variant: "ghost", size: "icon", className: "size-8" },
           React.createElement(ChevronsUpDown, {}),
-          React.createElement("span", { className: "sr-only" }, "Toggle details")
+          React.createElement(
+            "span",
+            { className: "sr-only" },
+            "Toggle details"
+          )
         )
       )
     ),
@@ -75,7 +79,11 @@ const CollapsibleDemo = () => {
       React.createElement(
         "div",
         { className: "rounded-md border px-4 py-2 text-sm" },
-        React.createElement("p", { className: "font-medium" }, "Shipping address"),
+        React.createElement(
+          "p",
+          { className: "font-medium" },
+          "Shipping address"
+        ),
         React.createElement(
           "p",
           { className: "text-muted-foreground" },
@@ -170,13 +178,21 @@ const CollapsibleSettings = () => {
           React.createElement(
             Field,
             {},
-            React.createElement(FieldLabel, { className: "sr-only" }, "Radius X"),
+            React.createElement(
+              FieldLabel,
+              { className: "sr-only" },
+              "Radius X"
+            ),
             React.createElement(Input, { placeholder: "0", defaultValue: "0" })
           ),
           React.createElement(
             Field,
             {},
-            React.createElement(FieldLabel, { className: "sr-only" }, "Radius Y"),
+            React.createElement(
+              FieldLabel,
+              { className: "sr-only" },
+              "Radius Y"
+            ),
             React.createElement(Input, { placeholder: "0", defaultValue: "0" })
           ),
           React.createElement(
@@ -190,7 +206,10 @@ const CollapsibleSettings = () => {
                 { className: "sr-only" },
                 "Radius X"
               ),
-              React.createElement(Input, { placeholder: "0", defaultValue: "0" })
+              React.createElement(Input, {
+                placeholder: "0",
+                defaultValue: "0",
+              })
             ),
             React.createElement(
               Field,
@@ -200,7 +219,10 @@ const CollapsibleSettings = () => {
                 { className: "sr-only" },
                 "Radius Y"
               ),
-              React.createElement(Input, { placeholder: "0", defaultValue: "0" })
+              React.createElement(Input, {
+                placeholder: "0",
+                defaultValue: "0",
+              })
             )
           )
         ),
@@ -241,8 +263,7 @@ const renderFileTreeItem = (fileItem: FileTreeItem): React.ReactNode => {
               "group w-full justify-start transition-none hover:bg-accent hover:text-accent-foreground",
           },
           React.createElement(ChevronRight, {
-            className:
-              "transition-transform group-data-[state=open]:rotate-90",
+            className: "transition-transform group-data-[state=open]:rotate-90",
           }),
           React.createElement(FolderIcon, {}),
           fileItem.name

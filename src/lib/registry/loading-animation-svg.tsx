@@ -25,7 +25,6 @@ export const loadingAnimationSvgDoc: ComponentDoc = {
       code: `<LoadingAnimationSvg />`,
       preview: React.createElement(LoadingAnimationSvg),
     },
-
   ],
   props: [
     {

@@ -1,6 +1,10 @@
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
-import { Calendar, CalendarDayButton, CalendarWithInput } from "@/components/ui/calendar";
+import {
+  Calendar,
+  CalendarDayButton,
+  CalendarWithInput,
+} from "@/components/ui/calendar";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -156,7 +160,11 @@ function CalendarWithTimePreview() {
         React.createElement(
           Field,
           {},
-          React.createElement(FieldLabel, { htmlFor: "time-from" }, "Start Time"),
+          React.createElement(
+            FieldLabel,
+            { htmlFor: "time-from" },
+            "Start Time"
+          ),
           React.createElement(
             InputGroup,
             {},
@@ -253,8 +261,7 @@ function CalendarCustomCellSizePreview() {
         onSelect: setRange,
         numberOfMonths: 1,
         captionLayout: "dropdown",
-        className:
-          "[--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]",
+        className: "[--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]",
         formatters: {
           formatMonthDropdown: (date: Date) =>
             date.toLocaleString("default", { month: "long" }),
@@ -273,11 +280,7 @@ function CalendarCustomCellSizePreview() {
               { day, modifiers, ...props },
               children,
               !modifiers.outside
-                ? React.createElement(
-                    "span",
-                    null,
-                    isWeekend ? "$120" : "$100"
-                  )
+                ? React.createElement("span", null, isWeekend ? "$120" : "$100")
                 : null
             );
           },
@@ -542,8 +545,7 @@ export function CalendarWithTime() {
     },
     {
       name: "Booked Dates",
-      description:
-        "Disable and visually mark booked dates using modifiers.",
+      description: "Disable and visually mark booked dates using modifiers.",
       code: `import * as React from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent } from "@/components/ui/card"

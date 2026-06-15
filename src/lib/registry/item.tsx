@@ -10,11 +10,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -177,12 +173,20 @@ export function ItemDemo() {
           ItemContent,
           {},
           React.createElement(ItemTitle, {}, "Basic Item"),
-          React.createElement(ItemDescription, {}, "A simple item with title and description.")
+          React.createElement(
+            ItemDescription,
+            {},
+            "A simple item with title and description."
+          )
         ),
         React.createElement(
           ItemActions,
           {},
-          React.createElement(Button, { variant: "outline", size: "sm" }, "Action")
+          React.createElement(
+            Button,
+            { variant: "outline", size: "sm" },
+            "Action"
+          )
         )
       ),
       React.createElement(
@@ -199,7 +203,11 @@ export function ItemDemo() {
           React.createElement(
             ItemContent,
             {},
-            React.createElement(ItemTitle, {}, "Your profile has been verified.")
+            React.createElement(
+              ItemTitle,
+              {},
+              "Your profile has been verified."
+            )
           ),
           React.createElement(
             ItemActions,
@@ -213,7 +221,8 @@ export function ItemDemo() {
   examples: [
     {
       name: "Variant",
-      description: "Use the variant prop to change the visual style of the item.",
+      description:
+        "Use the variant prop to change the visual style of the item.",
       code: `import {
   Item,
   ItemContent,
@@ -268,41 +277,66 @@ export function ItemVariant() {
         React.createElement(
           Item,
           {},
-          React.createElement(ItemMedia, { variant: "icon" }, React.createElement(InboxIcon)),
+          React.createElement(
+            ItemMedia,
+            { variant: "icon" },
+            React.createElement(InboxIcon)
+          ),
           React.createElement(
             ItemContent,
             {},
             React.createElement(ItemTitle, {}, "Default Variant"),
-            React.createElement(ItemDescription, {}, "Transparent background with no border.")
+            React.createElement(
+              ItemDescription,
+              {},
+              "Transparent background with no border."
+            )
           )
         ),
         React.createElement(
           Item,
           { variant: "outline" },
-          React.createElement(ItemMedia, { variant: "icon" }, React.createElement(InboxIcon)),
+          React.createElement(
+            ItemMedia,
+            { variant: "icon" },
+            React.createElement(InboxIcon)
+          ),
           React.createElement(
             ItemContent,
             {},
             React.createElement(ItemTitle, {}, "Outline Variant"),
-            React.createElement(ItemDescription, {}, "Outlined style with a visible border.")
+            React.createElement(
+              ItemDescription,
+              {},
+              "Outlined style with a visible border."
+            )
           )
         ),
         React.createElement(
           Item,
           { variant: "muted" },
-          React.createElement(ItemMedia, { variant: "icon" }, React.createElement(InboxIcon)),
+          React.createElement(
+            ItemMedia,
+            { variant: "icon" },
+            React.createElement(InboxIcon)
+          ),
           React.createElement(
             ItemContent,
             {},
             React.createElement(ItemTitle, {}, "Muted Variant"),
-            React.createElement(ItemDescription, {}, "Muted background for secondary content.")
+            React.createElement(
+              ItemDescription,
+              {},
+              "Muted background for secondary content."
+            )
           )
         )
       ),
     },
     {
       name: "Size",
-      description: 'Use the size prop to change the size of the item. Available sizes are "default", "sm", and "xs".',
+      description:
+        'Use the size prop to change the size of the item. Available sizes are "default", "sm", and "xs".',
       code: `import {
   Item,
   ItemContent,
@@ -353,34 +387,58 @@ export function ItemSizeDemo() {
         React.createElement(
           Item,
           { variant: "outline" },
-          React.createElement(ItemMedia, { variant: "icon" }, React.createElement(InboxIcon)),
+          React.createElement(
+            ItemMedia,
+            { variant: "icon" },
+            React.createElement(InboxIcon)
+          ),
           React.createElement(
             ItemContent,
             {},
             React.createElement(ItemTitle, {}, "Default Size"),
-            React.createElement(ItemDescription, {}, "The standard size for most use cases.")
+            React.createElement(
+              ItemDescription,
+              {},
+              "The standard size for most use cases."
+            )
           )
         ),
         React.createElement(
           Item,
           { variant: "outline", size: "sm" },
-          React.createElement(ItemMedia, { variant: "icon" }, React.createElement(InboxIcon)),
+          React.createElement(
+            ItemMedia,
+            { variant: "icon" },
+            React.createElement(InboxIcon)
+          ),
           React.createElement(
             ItemContent,
             {},
             React.createElement(ItemTitle, {}, "Small Size"),
-            React.createElement(ItemDescription, {}, "A compact size for dense layouts.")
+            React.createElement(
+              ItemDescription,
+              {},
+              "A compact size for dense layouts."
+            )
           )
         ),
         React.createElement(
           Item,
           { variant: "outline", size: "xs" },
-          React.createElement(ItemMedia, { variant: "icon" }, React.createElement(InboxIcon)),
+          React.createElement(
+            ItemMedia,
+            { variant: "icon" },
+            React.createElement(InboxIcon)
+          ),
           React.createElement(
             ItemContent,
             {},
             React.createElement(ItemTitle, {}, "Extra Small Size"),
-            React.createElement(ItemDescription, {}, "The most compact size available.")
+            React.createElement(
+              ItemDescription,
+              {},
+              "The most compact size available."
+            )
           )
         )
       ),
@@ -427,17 +485,29 @@ export function ItemIcon() {
         React.createElement(
           Item,
           { variant: "outline" },
-          React.createElement(ItemMedia, { variant: "icon" }, React.createElement(ShieldAlertIcon)),
+          React.createElement(
+            ItemMedia,
+            { variant: "icon" },
+            React.createElement(ShieldAlertIcon)
+          ),
           React.createElement(
             ItemContent,
             {},
             React.createElement(ItemTitle, {}, "Security Alert"),
-            React.createElement(ItemDescription, {}, "New login detected from unknown device.")
+            React.createElement(
+              ItemDescription,
+              {},
+              "New login detected from unknown device."
+            )
           ),
           React.createElement(
             ItemActions,
             {},
-            React.createElement(Button, { size: "sm", variant: "outline" }, "Review")
+            React.createElement(
+              Button,
+              { size: "sm", variant: "outline" },
+              "Review"
+            )
           )
         )
       ),
@@ -497,7 +567,9 @@ export function ItemAvatar() {
             React.createElement(
               Avatar,
               { className: "size-10" },
-              React.createElement(AvatarImage, { src: "https://github.com/evilrabbit.png" }),
+              React.createElement(AvatarImage, {
+                src: "https://github.com/evilrabbit.png",
+              }),
               React.createElement(AvatarFallback, {}, "ER")
             )
           ),
@@ -512,7 +584,12 @@ export function ItemAvatar() {
             {},
             React.createElement(
               Button,
-              { size: "icon-sm" as any, variant: "outline", className: "rounded-full", "aria-label": "Invite" },
+              {
+                size: "icon-sm" as any,
+                variant: "outline",
+                className: "rounded-full",
+                "aria-label": "Invite",
+              },
               React.createElement(PlusIcon)
             )
           )
@@ -525,23 +602,35 @@ export function ItemAvatar() {
             {},
             React.createElement(
               "div",
-              { className: "flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale" },
+              {
+                className:
+                  "flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale",
+              },
               React.createElement(
                 Avatar,
                 { className: "hidden sm:flex" },
-                React.createElement(AvatarImage, { src: "https://github.com/shadcn.png", alt: "@shadcn" }),
+                React.createElement(AvatarImage, {
+                  src: "https://github.com/shadcn.png",
+                  alt: "@shadcn",
+                }),
                 React.createElement(AvatarFallback, {}, "CN")
               ),
               React.createElement(
                 Avatar,
                 { className: "hidden sm:flex" },
-                React.createElement(AvatarImage, { src: "https://github.com/maxleiter.png", alt: "@maxleiter" }),
+                React.createElement(AvatarImage, {
+                  src: "https://github.com/maxleiter.png",
+                  alt: "@maxleiter",
+                }),
                 React.createElement(AvatarFallback, {}, "LR")
               ),
               React.createElement(
                 Avatar,
                 {},
-                React.createElement(AvatarImage, { src: "https://github.com/evilrabbit.png", alt: "@evilrabbit" }),
+                React.createElement(AvatarImage, {
+                  src: "https://github.com/evilrabbit.png",
+                  alt: "@evilrabbit",
+                }),
                 React.createElement(AvatarFallback, {}, "ER")
               )
             )
@@ -550,12 +639,20 @@ export function ItemAvatar() {
             ItemContent,
             {},
             React.createElement(ItemTitle, {}, "No Team Members"),
-            React.createElement(ItemDescription, {}, "Invite your team to collaborate on this project.")
+            React.createElement(
+              ItemDescription,
+              {},
+              "Invite your team to collaborate on this project."
+            )
           ),
           React.createElement(
             ItemActions,
             {},
-            React.createElement(Button, { size: "sm", variant: "outline" }, "Invite")
+            React.createElement(
+              Button,
+              { size: "sm", variant: "outline" },
+              "Invite"
+            )
           )
         )
       ),
@@ -620,8 +717,15 @@ export function ItemGroupExample() {
               React.createElement(
                 Avatar,
                 {},
-                React.createElement(AvatarImage, { src: person.avatar, className: "grayscale" }),
-                React.createElement(AvatarFallback, {}, person.username.charAt(0))
+                React.createElement(AvatarImage, {
+                  src: person.avatar,
+                  className: "grayscale",
+                }),
+                React.createElement(
+                  AvatarFallback,
+                  {},
+                  person.username.charAt(0)
+                )
               )
             ),
             React.createElement(
@@ -635,7 +739,11 @@ export function ItemGroupExample() {
               {},
               React.createElement(
                 Button,
-                { variant: "ghost", size: "icon" as any, className: "rounded-full" },
+                {
+                  variant: "ghost",
+                  size: "icon" as any,
+                  className: "rounded-full",
+                },
                 React.createElement(PlusIcon)
               )
             )
@@ -771,7 +879,11 @@ export function ItemLink() {
               ItemContent,
               {},
               React.createElement(ItemTitle, {}, "Visit our documentation"),
-              React.createElement(ItemDescription, {}, "Learn how to get started with our components.")
+              React.createElement(
+                ItemDescription,
+                {},
+                "Learn how to get started with our components."
+              )
             ),
             React.createElement(
               ItemActions,
@@ -790,7 +902,11 @@ export function ItemLink() {
               ItemContent,
               {},
               React.createElement(ItemTitle, {}, "External resource"),
-              React.createElement(ItemDescription, {}, "Opens in a new tab with security attributes.")
+              React.createElement(
+                ItemDescription,
+                {},
+                "Opens in a new tab with security attributes."
+              )
             ),
             React.createElement(
               ItemActions,
@@ -895,15 +1011,26 @@ export function ItemDropdown() {
                     React.createElement(
                       Avatar,
                       { className: "size-6.5" },
-                      React.createElement(AvatarImage, { src: person.avatar, className: "grayscale" }),
-                      React.createElement(AvatarFallback, {}, person.username.charAt(0))
+                      React.createElement(AvatarImage, {
+                        src: person.avatar,
+                        className: "grayscale",
+                      }),
+                      React.createElement(
+                        AvatarFallback,
+                        {},
+                        person.username.charAt(0)
+                      )
                     )
                   ),
                   React.createElement(
                     ItemContent,
                     { className: "gap-0" },
                     React.createElement(ItemTitle, {}, person.username),
-                    React.createElement(ItemDescription, { className: "leading-none" }, person.email)
+                    React.createElement(
+                      ItemDescription,
+                      { className: "leading-none" },
+                      person.email
+                    )
                   )
                 )
               )
@@ -914,7 +1041,8 @@ export function ItemDropdown() {
     },
     {
       name: "Music List",
-      description: "Use ItemGroup with ItemMedia variant='image' to build a music list.",
+      description:
+        "Use ItemGroup with ItemMedia variant='image' to build a music list.",
       code: `import {
   Item,
   ItemContent,
@@ -990,7 +1118,11 @@ export function ItemImage() {
                     ItemTitle,
                     { className: "line-clamp-1" },
                     `${song.title} - `,
-                    React.createElement("span", { className: "text-muted-foreground" }, song.album)
+                    React.createElement(
+                      "span",
+                      { className: "text-muted-foreground" },
+                      song.album
+                    )
                   ),
                   React.createElement(ItemDescription, {}, song.artist)
                 ),

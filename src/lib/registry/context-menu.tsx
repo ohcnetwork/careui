@@ -32,8 +32,16 @@ const TriggerArea = () =>
       className:
         "flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm",
     },
-    React.createElement("span", { className: "hidden pointer-fine:inline-block" }, "Right click here"),
-    React.createElement("span", { className: "hidden pointer-coarse:inline-block" }, "Long press here")
+    React.createElement(
+      "span",
+      { className: "hidden pointer-fine:inline-block" },
+      "Right click here"
+    ),
+    React.createElement(
+      "span",
+      { className: "hidden pointer-coarse:inline-block" },
+      "Long press here"
+    )
   );
 
 export const contextMenuDoc: ComponentDoc = {
@@ -145,9 +153,24 @@ export function ContextMenuDemo() {
         React.createElement(
           ContextMenuGroup,
           {},
-          React.createElement(ContextMenuItem, {}, "Back", React.createElement(ContextMenuShortcut, {}, "⌘[")),
-          React.createElement(ContextMenuItem, { disabled: true }, "Forward", React.createElement(ContextMenuShortcut, {}, "⌘]")),
-          React.createElement(ContextMenuItem, {}, "Reload", React.createElement(ContextMenuShortcut, {}, "⌘R")),
+          React.createElement(
+            ContextMenuItem,
+            {},
+            "Back",
+            React.createElement(ContextMenuShortcut, {}, "⌘[")
+          ),
+          React.createElement(
+            ContextMenuItem,
+            { disabled: true },
+            "Forward",
+            React.createElement(ContextMenuShortcut, {}, "⌘]")
+          ),
+          React.createElement(
+            ContextMenuItem,
+            {},
+            "Reload",
+            React.createElement(ContextMenuShortcut, {}, "⌘R")
+          ),
           React.createElement(
             ContextMenuSub,
             {},
@@ -155,15 +178,29 @@ export function ContextMenuDemo() {
             React.createElement(
               ContextMenuSubContent,
               { className: "w-44" },
-              React.createElement(ContextMenuGroup, {},
+              React.createElement(
+                ContextMenuGroup,
+                {},
                 React.createElement(ContextMenuItem, {}, "Save Page..."),
                 React.createElement(ContextMenuItem, {}, "Create Shortcut..."),
                 React.createElement(ContextMenuItem, {}, "Name Window...")
               ),
               React.createElement(ContextMenuSeparator),
-              React.createElement(ContextMenuGroup, {}, React.createElement(ContextMenuItem, {}, "Developer Tools")),
+              React.createElement(
+                ContextMenuGroup,
+                {},
+                React.createElement(ContextMenuItem, {}, "Developer Tools")
+              ),
               React.createElement(ContextMenuSeparator),
-              React.createElement(ContextMenuGroup, {}, React.createElement(ContextMenuItem, { variant: "destructive" }, "Delete"))
+              React.createElement(
+                ContextMenuGroup,
+                {},
+                React.createElement(
+                  ContextMenuItem,
+                  { variant: "destructive" },
+                  "Delete"
+                )
+              )
             )
           )
         ),
@@ -171,7 +208,11 @@ export function ContextMenuDemo() {
         React.createElement(
           ContextMenuGroup,
           {},
-          React.createElement(ContextMenuCheckboxItem, { checked: true }, "Show Bookmarks"),
+          React.createElement(
+            ContextMenuCheckboxItem,
+            { checked: true },
+            "Show Bookmarks"
+          ),
           React.createElement(ContextMenuCheckboxItem, {}, "Show Full URLs")
         ),
         React.createElement(ContextMenuSeparator),
@@ -182,8 +223,16 @@ export function ContextMenuDemo() {
             ContextMenuRadioGroup,
             { value: "pedro" },
             React.createElement(ContextMenuLabel, {}, "People"),
-            React.createElement(ContextMenuRadioItem, { value: "pedro" }, "Pedro Duarte"),
-            React.createElement(ContextMenuRadioItem, { value: "colm" }, "Colm Tuite")
+            React.createElement(
+              ContextMenuRadioItem,
+              { value: "pedro" },
+              "Pedro Duarte"
+            ),
+            React.createElement(
+              ContextMenuRadioItem,
+              { value: "colm" },
+              "Colm Tuite"
+            )
           )
         )
       )
@@ -295,8 +344,18 @@ export function ContextMenuSubmenu() {
           React.createElement(
             ContextMenuGroup,
             {},
-            React.createElement(ContextMenuItem, {}, "Copy", React.createElement(ContextMenuShortcut, {}, "⌘C")),
-            React.createElement(ContextMenuItem, {}, "Cut", React.createElement(ContextMenuShortcut, {}, "⌘X"))
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Copy",
+              React.createElement(ContextMenuShortcut, {}, "⌘C")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Cut",
+              React.createElement(ContextMenuShortcut, {}, "⌘X")
+            )
           ),
           React.createElement(
             ContextMenuSub,
@@ -305,15 +364,29 @@ export function ContextMenuSubmenu() {
             React.createElement(
               ContextMenuSubContent,
               {},
-              React.createElement(ContextMenuGroup, {},
+              React.createElement(
+                ContextMenuGroup,
+                {},
                 React.createElement(ContextMenuItem, {}, "Save Page..."),
                 React.createElement(ContextMenuItem, {}, "Create Shortcut..."),
                 React.createElement(ContextMenuItem, {}, "Name Window...")
               ),
               React.createElement(ContextMenuSeparator),
-              React.createElement(ContextMenuGroup, {}, React.createElement(ContextMenuItem, {}, "Developer Tools")),
+              React.createElement(
+                ContextMenuGroup,
+                {},
+                React.createElement(ContextMenuItem, {}, "Developer Tools")
+              ),
               React.createElement(ContextMenuSeparator),
-              React.createElement(ContextMenuGroup, {}, React.createElement(ContextMenuItem, { variant: "destructive" }, "Delete"))
+              React.createElement(
+                ContextMenuGroup,
+                {},
+                React.createElement(
+                  ContextMenuItem,
+                  { variant: "destructive" },
+                  "Delete"
+                )
+              )
             )
           )
         )
@@ -364,16 +437,41 @@ export function ContextMenuShortcuts() {
           React.createElement(
             ContextMenuGroup,
             {},
-            React.createElement(ContextMenuItem, {}, "Back", React.createElement(ContextMenuShortcut, {}, "⌘[")),
-            React.createElement(ContextMenuItem, { disabled: true }, "Forward", React.createElement(ContextMenuShortcut, {}, "⌘]")),
-            React.createElement(ContextMenuItem, {}, "Reload", React.createElement(ContextMenuShortcut, {}, "⌘R"))
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Back",
+              React.createElement(ContextMenuShortcut, {}, "⌘[")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              { disabled: true },
+              "Forward",
+              React.createElement(ContextMenuShortcut, {}, "⌘]")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Reload",
+              React.createElement(ContextMenuShortcut, {}, "⌘R")
+            )
           ),
           React.createElement(ContextMenuSeparator),
           React.createElement(
             ContextMenuGroup,
             {},
-            React.createElement(ContextMenuItem, {}, "Save", React.createElement(ContextMenuShortcut, {}, "⌘S")),
-            React.createElement(ContextMenuItem, {}, "Save As...", React.createElement(ContextMenuShortcut, {}, "⇧⌘S"))
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Save",
+              React.createElement(ContextMenuShortcut, {}, "⌘S")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Save As...",
+              React.createElement(ContextMenuShortcut, {}, "⇧⌘S")
+            )
           )
         )
       ),
@@ -433,27 +531,80 @@ export function ContextMenuGroups() {
         React.createElement(
           ContextMenuContent,
           {},
-          React.createElement(ContextMenuGroup, {},
+          React.createElement(
+            ContextMenuGroup,
+            {},
             React.createElement(ContextMenuLabel, {}, "File"),
-            React.createElement(ContextMenuItem, {}, "New File", React.createElement(ContextMenuShortcut, {}, "⌘N")),
-            React.createElement(ContextMenuItem, {}, "Open File", React.createElement(ContextMenuShortcut, {}, "⌘O")),
-            React.createElement(ContextMenuItem, {}, "Save", React.createElement(ContextMenuShortcut, {}, "⌘S"))
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "New File",
+              React.createElement(ContextMenuShortcut, {}, "⌘N")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Open File",
+              React.createElement(ContextMenuShortcut, {}, "⌘O")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Save",
+              React.createElement(ContextMenuShortcut, {}, "⌘S")
+            )
           ),
           React.createElement(ContextMenuSeparator),
-          React.createElement(ContextMenuGroup, {},
+          React.createElement(
+            ContextMenuGroup,
+            {},
             React.createElement(ContextMenuLabel, {}, "Edit"),
-            React.createElement(ContextMenuItem, {}, "Undo", React.createElement(ContextMenuShortcut, {}, "⌘Z")),
-            React.createElement(ContextMenuItem, {}, "Redo", React.createElement(ContextMenuShortcut, {}, "⇧⌘Z"))
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Undo",
+              React.createElement(ContextMenuShortcut, {}, "⌘Z")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Redo",
+              React.createElement(ContextMenuShortcut, {}, "⇧⌘Z")
+            )
           ),
           React.createElement(ContextMenuSeparator),
-          React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, {}, "Cut", React.createElement(ContextMenuShortcut, {}, "⌘X")),
-            React.createElement(ContextMenuItem, {}, "Copy", React.createElement(ContextMenuShortcut, {}, "⌘C")),
-            React.createElement(ContextMenuItem, {}, "Paste", React.createElement(ContextMenuShortcut, {}, "⌘V"))
+          React.createElement(
+            ContextMenuGroup,
+            {},
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Cut",
+              React.createElement(ContextMenuShortcut, {}, "⌘X")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Copy",
+              React.createElement(ContextMenuShortcut, {}, "⌘C")
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              "Paste",
+              React.createElement(ContextMenuShortcut, {}, "⌘V")
+            )
           ),
           React.createElement(ContextMenuSeparator),
-          React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, { variant: "destructive" }, "Delete", React.createElement(ContextMenuShortcut, {}, "⌫"))
+          React.createElement(
+            ContextMenuGroup,
+            {},
+            React.createElement(
+              ContextMenuItem,
+              { variant: "destructive" },
+              "Delete",
+              React.createElement(ContextMenuShortcut, {}, "⌫")
+            )
           )
         )
       ),
@@ -499,14 +650,38 @@ export function ContextMenuIcons() {
         React.createElement(
           ContextMenuContent,
           {},
-          React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, {}, React.createElement(CopyIcon, {}), "Copy"),
-            React.createElement(ContextMenuItem, {}, React.createElement(ScissorsIcon, {}), "Cut"),
-            React.createElement(ContextMenuItem, {}, React.createElement(ClipboardPasteIcon, {}), "Paste")
+          React.createElement(
+            ContextMenuGroup,
+            {},
+            React.createElement(
+              ContextMenuItem,
+              {},
+              React.createElement(CopyIcon, {}),
+              "Copy"
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              React.createElement(ScissorsIcon, {}),
+              "Cut"
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              React.createElement(ClipboardPasteIcon, {}),
+              "Paste"
+            )
           ),
           React.createElement(ContextMenuSeparator),
-          React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, { variant: "destructive" }, React.createElement(TrashIcon, {}), "Delete")
+          React.createElement(
+            ContextMenuGroup,
+            {},
+            React.createElement(
+              ContextMenuItem,
+              { variant: "destructive" },
+              React.createElement(TrashIcon, {}),
+              "Delete"
+            )
           )
         )
       ),
@@ -546,10 +721,20 @@ export function ContextMenuCheckboxes() {
         React.createElement(
           ContextMenuContent,
           {},
-          React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuCheckboxItem, { defaultChecked: true }, "Show Bookmarks Bar"),
+          React.createElement(
+            ContextMenuGroup,
+            {},
+            React.createElement(
+              ContextMenuCheckboxItem,
+              { defaultChecked: true },
+              "Show Bookmarks Bar"
+            ),
             React.createElement(ContextMenuCheckboxItem, {}, "Show Full URLs"),
-            React.createElement(ContextMenuCheckboxItem, { defaultChecked: true }, "Show Developer Tools")
+            React.createElement(
+              ContextMenuCheckboxItem,
+              { defaultChecked: true },
+              "Show Developer Tools"
+            )
           )
         )
       ),
@@ -612,24 +797,48 @@ export function ContextMenuRadio() {
           React.createElement(
             ContextMenuContent,
             {},
-            React.createElement(ContextMenuGroup, {},
+            React.createElement(
+              ContextMenuGroup,
+              {},
               React.createElement(ContextMenuLabel, {}, "People"),
               React.createElement(
                 ContextMenuRadioGroup,
                 { value: user, onValueChange: setUser },
-                React.createElement(ContextMenuRadioItem, { value: "pedro" }, "Pedro Duarte"),
-                React.createElement(ContextMenuRadioItem, { value: "colm" }, "Colm Tuite")
+                React.createElement(
+                  ContextMenuRadioItem,
+                  { value: "pedro" },
+                  "Pedro Duarte"
+                ),
+                React.createElement(
+                  ContextMenuRadioItem,
+                  { value: "colm" },
+                  "Colm Tuite"
+                )
               )
             ),
             React.createElement(ContextMenuSeparator),
-            React.createElement(ContextMenuGroup, {},
+            React.createElement(
+              ContextMenuGroup,
+              {},
               React.createElement(ContextMenuLabel, {}, "Theme"),
               React.createElement(
                 ContextMenuRadioGroup,
                 { value: theme, onValueChange: setTheme },
-                React.createElement(ContextMenuRadioItem, { value: "light" }, "Light"),
-                React.createElement(ContextMenuRadioItem, { value: "dark" }, "Dark"),
-                React.createElement(ContextMenuRadioItem, { value: "system" }, "System")
+                React.createElement(
+                  ContextMenuRadioItem,
+                  { value: "light" },
+                  "Light"
+                ),
+                React.createElement(
+                  ContextMenuRadioItem,
+                  { value: "dark" },
+                  "Dark"
+                ),
+                React.createElement(
+                  ContextMenuRadioItem,
+                  { value: "system" },
+                  "System"
+                )
               )
             )
           )
@@ -638,7 +847,8 @@ export function ContextMenuRadio() {
     },
     {
       name: "Destructive",
-      description: 'Use variant="destructive" to style the menu item as destructive.',
+      description:
+        'Use variant="destructive" to style the menu item as destructive.',
       code: `import {
   ContextMenu,
   ContextMenuContent,
@@ -676,13 +886,32 @@ export function ContextMenuDestructive() {
         React.createElement(
           ContextMenuContent,
           {},
-          React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, {}, React.createElement(PencilIcon, {}), "Edit"),
-            React.createElement(ContextMenuItem, {}, React.createElement(ShareIcon, {}), "Share")
+          React.createElement(
+            ContextMenuGroup,
+            {},
+            React.createElement(
+              ContextMenuItem,
+              {},
+              React.createElement(PencilIcon, {}),
+              "Edit"
+            ),
+            React.createElement(
+              ContextMenuItem,
+              {},
+              React.createElement(ShareIcon, {}),
+              "Share"
+            )
           ),
           React.createElement(ContextMenuSeparator),
-          React.createElement(ContextMenuGroup, {},
-            React.createElement(ContextMenuItem, { variant: "destructive" }, React.createElement(TrashIcon, {}), "Delete")
+          React.createElement(
+            ContextMenuGroup,
+            {},
+            React.createElement(
+              ContextMenuItem,
+              { variant: "destructive" },
+              React.createElement(TrashIcon, {}),
+              "Delete"
+            )
           )
         )
       ),
@@ -697,7 +926,8 @@ export function ContextMenuDestructive() {
     {
       name: "disabled",
       type: "boolean",
-      description: "When true, prevents the user from interacting with the item.",
+      description:
+        "When true, prevents the user from interacting with the item.",
       default: "false",
     },
     {
@@ -709,7 +939,8 @@ export function ContextMenuDestructive() {
     {
       name: "inset",
       type: "boolean",
-      description: "When true, adds left padding to align with items that have an icon or indicator.",
+      description:
+        "When true, adds left padding to align with items that have an icon or indicator.",
       default: "false",
     },
   ],

@@ -4,11 +4,11 @@
  * @dependencies class-variance-authority radix-ui
  * @type registry:ui
  */
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { Avatar as AvatarPrimitive } from "radix-ui"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Avatar as AvatarPrimitive } from "radix-ui";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Avatar({
   className,
@@ -16,8 +16,8 @@ function Avatar({
   shape = "circle",
   ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Root> & {
-  size?: "default" | "sm" | "lg"
-  shape?: "circle" | "rounded" | "squircle"
+  size?: "default" | "sm" | "lg";
+  shape?: "circle" | "rounded" | "squircle";
 }) {
   return (
     <AvatarPrimitive.Root
@@ -28,12 +28,13 @@ function Avatar({
         "after:border-strong-border group/avatar relative flex size-8 shrink-0 select-none after:absolute after:inset-0 after:border after:mix-blend-multiply data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
         shape === "circle" && "rounded-full after:rounded-full",
         shape === "rounded" && "rounded-md after:rounded-md",
-        shape === "squircle" && "rounded-2xl rounded-squircle-2xl after:rounded-2xl after:rounded-squircle-2xl",
+        shape === "squircle" &&
+          "rounded-squircle-2xl after:rounded-squircle-2xl rounded-2xl after:rounded-2xl",
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 function AvatarImage({
@@ -52,7 +53,7 @@ function AvatarImage({
       )}
       {...props}
     />
-  )
+  );
 }
 
 const avatarFallbackVariants = cva(
@@ -101,18 +102,18 @@ const avatarFallbackVariants = cva(
       color: "default",
     },
   }
-)
+);
 
 export type AvatarColor = NonNullable<
   VariantProps<typeof avatarFallbackVariants>["color"]
->
+>;
 
 function AvatarFallback({
   className,
   color = "default",
   ...props
 }: React.ComponentProps<typeof AvatarPrimitive.Fallback> & {
-  color?: AvatarColor
+  color?: AvatarColor;
 }) {
   return (
     <AvatarPrimitive.Fallback
@@ -120,7 +121,7 @@ function AvatarFallback({
       className={cn(avatarFallbackVariants({ color }), className)}
       {...props}
     />
-  )
+  );
 }
 
 function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
@@ -136,7 +137,7 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
       )}
       {...props}
     />
-  )
+  );
 }
 
 function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
@@ -149,7 +150,7 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  )
+  );
 }
 
 function AvatarGroupCount({
@@ -165,7 +166,7 @@ function AvatarGroupCount({
       )}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -175,4 +176,4 @@ export {
   AvatarGroup,
   AvatarGroupCount,
   AvatarBadge,
-}
+};

@@ -1,10 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Textarea } from "@/components/ui/textarea";
 import { type ComponentDoc } from "@/lib/types";
 
@@ -52,11 +48,7 @@ export function TextareaField() {
           { htmlFor: "textarea-field-message" },
           "Message"
         ),
-        React.createElement(
-          FieldDescription,
-          {},
-          "Enter your message below."
-        ),
+        React.createElement(FieldDescription, {}, "Enter your message below."),
         React.createElement(Textarea, {
           id: "textarea-field-message",
           placeholder: "Type your message here.",

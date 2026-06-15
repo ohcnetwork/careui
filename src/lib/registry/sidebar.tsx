@@ -36,12 +36,7 @@ import {
 import { Kbd } from "@/components/ui/kbd";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Sidebar,
   SidebarContent,
@@ -89,7 +84,11 @@ import {
 
 // ─── Care Navigation Data ─────────────────────────────────────────────────────
 
-type CareNavItem = { title: string; icon: React.ElementType; isActive?: boolean };
+type CareNavItem = {
+  title: string;
+  icon: React.ElementType;
+  isActive?: boolean;
+};
 type CareNavGroup = { label: string | null; items: CareNavItem[] };
 
 const careNavGroups: CareNavGroup[] = [
@@ -140,18 +139,26 @@ function CareFacilitySelector() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2 font-normal shadow-sm">
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2 font-normal shadow-sm"
+        >
           {selected}
           <ChevronsUpDown className="h-3.5 w-3.5 opacity-60" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="min-w-44">
         {careFacilities.map((f) => (
-          <DropdownMenuItem key={f} onClick={() => setSelected(f)} className="gap-2">
+          <DropdownMenuItem
+            key={f}
+            onClick={() => setSelected(f)}
+            className="gap-2"
+          >
             {f === selected ? (
-              <Check className="h-4 w-4 text-primary" />
+              <Check className="text-primary h-4 w-4" />
             ) : (
-              <span className="h-4 w-4 inline-block" />
+              <span className="inline-block h-4 w-4" />
             )}
             {f}
           </DropdownMenuItem>
@@ -178,7 +185,10 @@ function CareNavGroups() {
             <SidebarMenu>
               {group.items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton isActive={!!item.isActive} tooltip={item.title}>
+                  <SidebarMenuButton
+                    isActive={!!item.isActive}
+                    tooltip={item.title}
+                  >
                     <item.icon />
                     <span>{item.title}</span>
                   </SidebarMenuButton>
@@ -194,22 +204,31 @@ function CareNavGroups() {
 
 // ─── CareNavUserCard ──────────────────────────────────────────────────────────
 
-function CareNavUserCard({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean) => void }) {
+function CareNavUserCard({
+  onMenuOpenChange,
+}: {
+  onMenuOpenChange?: (open: boolean) => void;
+}) {
   const { isMobile } = useSidebar();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu onOpenChange={onMenuOpenChange}>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent bg-strong-background/60 data-[state=open]:text-sidebar-accent-foreground">
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent bg-strong-background/60 data-[state=open]:text-sidebar-accent-foreground"
+            >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold dark:bg-green-900 dark:text-green-200">
+                <AvatarFallback className="rounded-lg bg-green-100 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
                   {careUser.initials}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{careUser.name}</span>
-                <span className="truncate text-xs text-muted-foreground">{careUser.role}</span>
+                <span className="text-muted-foreground truncate text-xs">
+                  {careUser.role}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4 opacity-60" />
             </SidebarMenuButton>
@@ -223,13 +242,15 @@ function CareNavUserCard({ onMenuOpenChange }: { onMenuOpenChange?: (open: boole
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold dark:bg-green-900 dark:text-green-200">
+                  <AvatarFallback className="rounded-lg bg-green-100 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
                     {careUser.initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{careUser.name}</span>
-                  <span className="truncate text-xs text-muted-foreground">{careUser.role}</span>
+                  <span className="text-muted-foreground truncate text-xs">
+                    {careUser.role}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -270,18 +291,29 @@ function CareSidebarInner({
       <SidebarHeader
         className={cn(
           "overflow-hidden border-b",
-          showHeader ? "py-2 border-border min-h-14" : "max-h-0 py-0 border-transparent"
+          showHeader
+            ? "border-border min-h-14 py-2"
+            : "max-h-0 border-transparent py-0"
         )}
       >
         <div
           className={cn(
             "flex items-center gap-2 px-2 transition-[opacity,transform] duration-150 ease-linear",
-            showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+            showHeader
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-2 opacity-0"
           )}
         >
-
-          <img src="/Care-logo-in-light.svg" alt="Care" className="h-9 w-auto dark:hidden" />
-          <img src="/Care-logo-in-dark.svg" alt="Care" className="h-9 w-auto hidden dark:block" />
+          <img
+            src="/Care-logo-in-light.svg"
+            alt="Care"
+            className="h-9 w-auto dark:hidden"
+          />
+          <img
+            src="/Care-logo-in-dark.svg"
+            alt="Care"
+            className="hidden h-9 w-auto dark:block"
+          />
           {isMobile && (
             <Button
               variant="ghost"
@@ -333,7 +365,7 @@ function CareSearchBar() {
         <span className="sr-only">Search</span>
       </Button>
       <InputGroup
-        className="hidden md:flex md:h-9 w-52 cursor-pointer text-sm"
+        className="hidden w-52 cursor-pointer text-sm md:flex md:h-9"
         onClick={() => setOpen(true)}
       >
         <InputGroupInput
@@ -391,7 +423,7 @@ function SidebarToggleButton({
     <Button
       variant="ghost"
       size="icon"
-      className="relative h-7 w-7 -ml-1 after:absolute after:-inset-3 after:content-['']"
+      className="relative -ml-1 h-7 w-7 after:absolute after:-inset-3 after:content-['']"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={() => {
@@ -429,8 +461,12 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
   // This prevents top/height from snapping while the sidebar is still visible and sliding.
   const [overlayReady, setOverlayReady] = React.useState(false);
   const [pinningTransition, setPinningTransition] = React.useState(false);
-  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
+  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const menuOpenRef = React.useRef(false);
 
   const cancelClose = React.useCallback(() => {
@@ -470,7 +506,11 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
   const toggleSidebar = React.useCallback(() => {
     cancelClose();
     if (isOverlay) {
-      setPinningTransition(true); setOverlayReady(false); setPinned(true); setOverlayOpen(false); setTimeout(() => setPinningTransition(false), 200);
+      setPinningTransition(true);
+      setOverlayReady(false);
+      setPinned(true);
+      setOverlayOpen(false);
+      setTimeout(() => setPinningTransition(false), 200);
     } else if (pinned) {
       setOverlayReady(false);
       setPinned(false);
@@ -504,23 +544,27 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
         className={cn(
           !fullPage && "rounded-lg border",
           "**:data-[slot=sidebar-container]:h-full!",
-          pinningTransition ? "**:data-[slot=sidebar-container]:transition-[left,right,width,top,height,box-shadow,background-color,border-radius]!" : "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
+          pinningTransition
+            ? "**:data-[slot=sidebar-container]:transition-[left,right,width,top,height,box-shadow,background-color,border-radius]!"
+            : "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
           "**:data-[slot=sidebar-container]:duration-100!",
           "**:data-[slot=sidebar-gap]:duration-100!",
-          pinningTransition && "**:data-[slot=sidebar-inset]:transition-[margin]!",
+          pinningTransition &&
+            "**:data-[slot=sidebar-inset]:transition-[margin]!",
           pinningTransition && "**:data-[slot=sidebar-inset]:duration-100!",
           isOverlay && "**:data-[slot=sidebar-inset]:ml-2!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
-          overlayReady && !pinned && [
-            "**:data-[slot=sidebar-container]:top-14!",
-            "**:data-[slot=sidebar-container]:h-[calc(100%-3.5rem)]!",
-          ],
+          overlayReady &&
+            !pinned && [
+              "**:data-[slot=sidebar-container]:top-14!",
+              "**:data-[slot=sidebar-container]:h-[calc(100%-3.5rem)]!",
+            ],
           isOverlay && [
             "**:data-[slot=sidebar-container]:bg-sidebar",
             "**:data-[slot=sidebar-container]:border-t",
             "**:data-[slot=sidebar-container]:rounded-r-md",
             "**:data-[slot=sidebar-container]:shadow-xl",
-          ],
+          ]
         )}
       >
         <SidebarProvider
@@ -537,8 +581,13 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
               startSettle();
             }
           }}
-          className="min-h-0! h-full"
-          style={{ "--sidebar-width": "15rem", height: "100%" } as React.CSSProperties}
+          className="h-full min-h-0!"
+          style={
+            {
+              "--sidebar-width": "15rem",
+              height: "100%",
+            } as React.CSSProperties
+          }
         >
           <Sidebar
             variant="inset"
@@ -577,34 +626,40 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
             {/* Main content */}
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
               {/* Good Morning banner */}
-              <div className="flex items-center justify-between border border-sky-100 dark:border-sky-900/20 rounded-xl bg-linear-to-r from-sky-50 to-primary-100 p-5 dark:from-sky-950/20 dark:to-primary-950/20">
+              <div className="to-primary-100 dark:to-primary-950/20 flex items-center justify-between rounded-xl border border-sky-100 bg-linear-to-r from-sky-50 p-5 dark:border-sky-900/20 dark:from-sky-950/20">
                 <div className="space-y-0.5">
-                  <h1 className="text-base md:text-xl font-normal text-soft-foreground">
+                  <h1 className="text-soft-foreground text-base font-normal md:text-xl">
                     Good Morning,{" "}
-                    <span className="font-semibold text-foreground">Prabha Narendran</span> 👋
+                    <span className="text-foreground font-semibold">
+                      Prabha Narendran
+                    </span>{" "}
+                    👋
                   </h1>
-                  <p className="text-sm text-muted-foreground">Welcome back!</p>
+                  <p className="text-muted-foreground text-sm">Welcome back!</p>
                 </div>
               </div>
               <Tabs defaultValue="overview">
-                <TabsList variant="line" className="w-full border-b border-border">
+                <TabsList
+                  variant="line"
+                  className="border-border w-full border-b"
+                >
                   <TabsTrigger value="overview">Overview</TabsTrigger>
                   <TabsTrigger value="analytics">Analytics</TabsTrigger>
                   <TabsTrigger value="reports">Reports</TabsTrigger>
                 </TabsList>
                 <TabsContent value="overview" className="flex flex-col gap-4">
                   <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                    <div className="aspect-video rounded-xl bg-muted/50" />
+                    <div className="bg-muted/50 aspect-video rounded-xl" />
+                    <div className="bg-muted/50 aspect-video rounded-xl" />
+                    <div className="bg-muted/50 aspect-video rounded-xl" />
                   </div>
-                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                  <div className="bg-muted/50 min-h-24 rounded-xl" />
                 </TabsContent>
                 <TabsContent value="analytics">
-                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                  <div className="bg-muted/50 min-h-24 rounded-xl" />
                 </TabsContent>
                 <TabsContent value="reports">
-                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                  <div className="bg-muted/50 min-h-24 rounded-xl" />
                 </TabsContent>
               </Tabs>
             </div>
@@ -633,19 +688,27 @@ function InnerSidebarContent({ pinned }: { pinned: boolean }) {
       <SidebarHeader
         className={cn(
           "overflow-hidden border-b",
-          showHeader ? "border-border min-h-12" : "max-h-0 py-0 border-transparent"
+          showHeader
+            ? "border-border min-h-12"
+            : "max-h-0 border-transparent py-0"
         )}
       >
         <div
           className={cn(
             "flex items-center gap-2 px-2 transition-[opacity,transform] duration-150 ease-linear",
-            showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
+            showHeader
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-2 opacity-0"
           )}
         >
-          <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground -ml-1">
-              <ChevronLeft className="h-4 w-4" />
-              Back
-            </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-muted-foreground hover:text-foreground -ml-1 gap-1.5"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Back
+          </Button>
           {isMobile && (
             <Button
               variant="ghost"
@@ -667,7 +730,7 @@ function InnerSidebarContent({ pinned }: { pinned: boolean }) {
                 <SidebarMenuButton
                   isActive={i === 0}
                   tooltip={item.title}
-                  className="data-active:bg-strong-background data-active:text-foreground data-active:hover:bg-strong-background data-active:ring-stronger-border data-active:dark:ring-neutral-100/50 data-active:hover:text-foreground data-active:after:bg-neutral-500 data-active:dark:after:bg-neutral-300 data-[active=true]:font-medium"
+                  className="data-active:bg-strong-background data-active:text-foreground data-active:hover:bg-strong-background data-active:ring-stronger-border data-active:hover:text-foreground data-active:after:bg-neutral-500 data-[active=true]:font-medium data-active:dark:ring-neutral-100/50 data-active:dark:after:bg-neutral-300"
                 >
                   <item.icon />
                   <span>{item.title}</span>
@@ -687,7 +750,11 @@ function InnerPageBackButton({ pinned }: { pinned: boolean }) {
   return (
     <>
       <Separator orientation="vertical" />
-      <Button variant="tertiary" size="sm" className="gap-1.5 text-muted-foreground hover:text-foreground">
+      <Button
+        variant="tertiary"
+        size="sm"
+        className="text-muted-foreground hover:text-foreground gap-1.5"
+      >
         <ChevronLeft className="h-4 w-4" />
         Back
       </Button>
@@ -695,13 +762,21 @@ function InnerPageBackButton({ pinned }: { pinned: boolean }) {
   );
 }
 
-export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }) {
+export function InnerPageLayoutDemo({
+  fullPage = false,
+}: {
+  fullPage?: boolean;
+}) {
   const [pinned, setPinned] = React.useState(true);
   const [overlayOpen, setOverlayOpen] = React.useState(false);
   const [overlayReady, setOverlayReady] = React.useState(false);
   const [pinningTransition, setPinningTransition] = React.useState(false);
-  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
+  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const menuOpenRef = React.useRef(false);
 
   const cancelClose = React.useCallback(() => {
@@ -731,17 +806,28 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
   const toggleSidebar = React.useCallback(() => {
     cancelClose();
     if (isOverlay) {
-      setPinningTransition(true); setOverlayReady(false); setPinned(true); setOverlayOpen(false); setTimeout(() => setPinningTransition(false), 200);
+      setPinningTransition(true);
+      setOverlayReady(false);
+      setPinned(true);
+      setOverlayOpen(false);
+      setTimeout(() => setPinningTransition(false), 200);
     } else if (pinned) {
-      setOverlayReady(false); setPinned(false); setOverlayOpen(false); startSettle();
+      setOverlayReady(false);
+      setPinned(false);
+      setOverlayOpen(false);
+      startSettle();
     } else {
-      setPinned(true); setOverlayOpen(false);
+      setPinned(true);
+      setOverlayOpen(false);
     }
   }, [isOverlay, pinned, cancelClose, startSettle]);
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "b") { e.preventDefault(); toggleSidebar(); }
+      if ((e.metaKey || e.ctrlKey) && e.key === "b") {
+        e.preventDefault();
+        toggleSidebar();
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -758,30 +844,46 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
         className={cn(
           !fullPage && "rounded-lg border",
           "**:data-[slot=sidebar-container]:h-full!",
-          pinningTransition ? "**:data-[slot=sidebar-container]:transition-[left,right,width,top,height,box-shadow,background-color,border-radius]!" : "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
+          pinningTransition
+            ? "**:data-[slot=sidebar-container]:transition-[left,right,width,top,height,box-shadow,background-color,border-radius]!"
+            : "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
           "**:data-[slot=sidebar-container]:duration-100!",
           "**:data-[slot=sidebar-gap]:duration-100!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
-          overlayReady && !pinned && [
-            "**:data-[slot=sidebar-container]:top-12!",
-            "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
-          ],
+          overlayReady &&
+            !pinned && [
+              "**:data-[slot=sidebar-container]:top-12!",
+              "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
+            ],
           isOverlay && [
             "**:data-[slot=sidebar-container]:bg-sidebar",
             "**:data-[slot=sidebar-container]:border-t",
             "**:data-[slot=sidebar-container]:rounded-r-md",
             "**:data-[slot=sidebar-container]:shadow-xl",
-          ],
+          ]
         )}
       >
         <SidebarProvider
           open={pinned || overlayOpen}
           onOpenChange={(o) => {
-            if (o) { setOverlayReady(false); setPinned(true); setOverlayOpen(false); }
-            else { setOverlayReady(false); setPinned(false); setOverlayOpen(false); startSettle(); }
+            if (o) {
+              setOverlayReady(false);
+              setPinned(true);
+              setOverlayOpen(false);
+            } else {
+              setOverlayReady(false);
+              setPinned(false);
+              setOverlayOpen(false);
+              startSettle();
+            }
           }}
-          className="min-h-0! h-full"
-          style={{ "--sidebar-width": "14rem", height: "100%" } as React.CSSProperties}
+          className="h-full min-h-0!"
+          style={
+            {
+              "--sidebar-width": "14rem",
+              height: "100%",
+            } as React.CSSProperties
+          }
         >
           <Sidebar
             variant="sidebar"
@@ -794,12 +896,15 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
           </Sidebar>
 
           <SidebarInset className="overflow-hidden">
-            <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
+            <header className="bg-background flex h-12 shrink-0 items-center gap-3 border-b px-4">
               <SidebarToggleButton
                 onDesktopToggle={toggleSidebar}
                 onMouseEnter={() => {
                   cancelClose();
-                  if (!pinned) { setOverlayReady(true); setOverlayOpen(true); }
+                  if (!pinned) {
+                    setOverlayReady(true);
+                    setOverlayOpen(true);
+                  }
                 }}
                 onMouseLeave={scheduleClose}
               />
@@ -846,11 +951,11 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
               {/* Patient summary card */}
               <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
               </div>
-              <div className="min-h-24 rounded-xl bg-muted/50" />
+              <div className="bg-muted/50 min-h-24 rounded-xl" />
             </div>
           </SidebarInset>
         </SidebarProvider>
@@ -868,19 +973,23 @@ const innerPage02Locations = [
   "Ward B",
 ];
 
-function InnerPage02LocationSelector({ onOpenChange }: { onOpenChange?: (open: boolean) => void }) {
+function InnerPage02LocationSelector({
+  onOpenChange,
+}: {
+  onOpenChange?: (open: boolean) => void;
+}) {
   const [selected, setSelected] = React.useState(innerPage02Locations[0]);
   return (
     <DropdownMenu onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
-        <button className="flex w-full items-center justify-between rounded-lg border bg-background px-3 py-2.5 text-left transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <button className="bg-background hover:bg-muted focus-visible:ring-ring flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none">
           <div className="min-w-0">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <p className="text-muted-foreground text-[10px] font-semibold tracking-wider uppercase">
               Chosen Location
             </p>
             <p className="truncate text-sm font-semibold">{selected}</p>
           </div>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+          <ChevronsUpDown className="text-muted-foreground ml-2 h-4 w-4 shrink-0" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
@@ -894,7 +1003,11 @@ function InnerPage02LocationSelector({ onOpenChange }: { onOpenChange?: (open: b
   );
 }
 
-const innerPage02PharmacyItems: { title: string; icon: React.ElementType; isActive?: boolean }[] = [
+const innerPage02PharmacyItems: {
+  title: string;
+  icon: React.ElementType;
+  isActive?: boolean;
+}[] = [
   { title: "Prescription Queue", icon: ClipboardList, isActive: true },
   { title: "Dispense Medicine", icon: Syringe },
   { title: "Inventory", icon: Package },
@@ -906,7 +1019,13 @@ const innerPage02PatientItems: { title: string; icon: React.ElementType }[] = [
   { title: "Queues", icon: Users },
 ] as const;
 
-function InnerPage02SidebarContent({ pinned, onMenuOpenChange }: { pinned: boolean; onMenuOpenChange?: (open: boolean) => void }) {
+function InnerPage02SidebarContent({
+  pinned,
+  onMenuOpenChange,
+}: {
+  pinned: boolean;
+  onMenuOpenChange?: (open: boolean) => void;
+}) {
   const { isMobile, setOpenMobile } = useSidebar();
   const showBackRow = pinned || isMobile;
   return (
@@ -922,7 +1041,7 @@ function InnerPage02SidebarContent({ pinned, onMenuOpenChange }: { pinned: boole
             <Button
               variant="ghost"
               size="sm"
-              className="gap-1.5 text-muted-foreground hover:text-foreground -ml-1"
+              className="text-muted-foreground hover:text-foreground -ml-1 gap-1.5"
             >
               <ChevronLeft className="h-4 w-4" />
               Back
@@ -948,7 +1067,10 @@ function InnerPage02SidebarContent({ pinned, onMenuOpenChange }: { pinned: boole
           <SidebarMenu>
             {innerPage02PharmacyItems.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton isActive={item.isActive} tooltip={item.title}>
+                <SidebarMenuButton
+                  isActive={item.isActive}
+                  tooltip={item.title}
+                >
                   <item.icon />
                   <span>{item.title}</span>
                 </SidebarMenuButton>
@@ -977,13 +1099,21 @@ function InnerPage02SidebarContent({ pinned, onMenuOpenChange }: { pinned: boole
 
 // ─── InnerPageLayout02Demo ────────────────────────────────────────────────────
 
-export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean }) {
+export function InnerPageLayout02Demo({
+  fullPage = false,
+}: {
+  fullPage?: boolean;
+}) {
   const [pinned, setPinned] = React.useState(true);
   const [overlayOpen, setOverlayOpen] = React.useState(false);
   const [overlayReady, setOverlayReady] = React.useState(false);
   const [pinningTransition, setPinningTransition] = React.useState(false);
-  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
+  const settleTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const menuOpenRef = React.useRef(false);
 
   const cancelClose = React.useCallback(() => {
@@ -1013,17 +1143,28 @@ export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean
   const toggleSidebar = React.useCallback(() => {
     cancelClose();
     if (isOverlay) {
-      setPinningTransition(true); setOverlayReady(false); setPinned(true); setOverlayOpen(false); setTimeout(() => setPinningTransition(false), 200);
+      setPinningTransition(true);
+      setOverlayReady(false);
+      setPinned(true);
+      setOverlayOpen(false);
+      setTimeout(() => setPinningTransition(false), 200);
     } else if (pinned) {
-      setOverlayReady(false); setPinned(false); setOverlayOpen(false); startSettle();
+      setOverlayReady(false);
+      setPinned(false);
+      setOverlayOpen(false);
+      startSettle();
     } else {
-      setPinned(true); setOverlayOpen(false);
+      setPinned(true);
+      setOverlayOpen(false);
     }
   }, [isOverlay, pinned, cancelClose, startSettle]);
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "b") { e.preventDefault(); toggleSidebar(); }
+      if ((e.metaKey || e.ctrlKey) && e.key === "b") {
+        e.preventDefault();
+        toggleSidebar();
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -1046,26 +1187,40 @@ export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean
           "**:data-[slot=sidebar-container]:duration-150!",
           "**:data-[slot=sidebar-gap]:duration-150!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
-          overlayReady && !pinned && [
-            "**:data-[slot=sidebar-container]:top-12!",
-            "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
-          ],
+          overlayReady &&
+            !pinned && [
+              "**:data-[slot=sidebar-container]:top-12!",
+              "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
+            ],
           isOverlay && [
             "**:data-[slot=sidebar-container]:bg-sidebar",
             "**:data-[slot=sidebar-container]:border-t",
             "**:data-[slot=sidebar-container]:rounded-r-md",
             "**:data-[slot=sidebar-container]:shadow-xl",
-          ],
+          ]
         )}
       >
         <SidebarProvider
           open={pinned || overlayOpen}
           onOpenChange={(o) => {
-            if (o) { setOverlayReady(false); setPinned(true); setOverlayOpen(false); }
-            else { setOverlayReady(false); setPinned(false); setOverlayOpen(false); startSettle(); }
+            if (o) {
+              setOverlayReady(false);
+              setPinned(true);
+              setOverlayOpen(false);
+            } else {
+              setOverlayReady(false);
+              setPinned(false);
+              setOverlayOpen(false);
+              startSettle();
+            }
           }}
-          className="min-h-0! h-full"
-          style={{ "--sidebar-width": "14rem", height: "100%" } as React.CSSProperties}
+          className="h-full min-h-0!"
+          style={
+            {
+              "--sidebar-width": "14rem",
+              height: "100%",
+            } as React.CSSProperties
+          }
         >
           <Sidebar
             variant="sidebar"
@@ -1085,12 +1240,15 @@ export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean
           </Sidebar>
 
           <SidebarInset className="overflow-hidden">
-            <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
+            <header className="bg-background flex h-12 shrink-0 items-center gap-3 border-b px-4">
               <SidebarToggleButton
                 onDesktopToggle={toggleSidebar}
                 onMouseEnter={() => {
                   cancelClose();
-                  if (!pinned) { setOverlayReady(true); setOverlayOpen(true); }
+                  if (!pinned) {
+                    setOverlayReady(true);
+                    setOverlayOpen(true);
+                  }
                 }}
                 onMouseLeave={scheduleClose}
               />
@@ -1116,13 +1274,13 @@ export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean
             </header>
 
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
-              <div className="rounded-xl bg-muted/50 h-20" />
+              <div className="bg-muted/50 h-20 rounded-xl" />
               <div className="grid grid-cols-3 gap-3">
-                <div className="rounded-xl bg-muted/50 aspect-video" />
-                <div className="rounded-xl bg-muted/50 aspect-video" />
-                <div className="rounded-xl bg-muted/50 aspect-video" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
               </div>
-              <div className="min-h-16 rounded-xl bg-muted/40" />
+              <div className="bg-muted/40 min-h-16 rounded-xl" />
             </div>
           </SidebarInset>
         </SidebarProvider>
@@ -1136,8 +1294,7 @@ export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean
 export const sidebarDoc: ComponentDoc = {
   id: "sidebar",
   name: "Sidebar",
-  description:
-    "A composable, themeable and customizable sidebar component.",
+  description: "A composable, themeable and customizable sidebar component.",
   installation: {
     cli: "npx shadcn@latest add sidebar",
     manual:
@@ -1667,9 +1824,7 @@ export function AppSidebar({
 }`,
     component: React.createElement(AppSidebarDemo),
   },
-  examples: [
-
-  ],
+  examples: [],
   props: [
     // SidebarProvider
     {
@@ -1704,7 +1859,7 @@ export function AppSidebar({
       name: "collapsible",
       type: '"offcanvas" | "icon" | "none"',
       description:
-        'Collapsible behaviour: offcanvas slides in/out, icon collapses to icons, none is always visible.',
+        "Collapsible behaviour: offcanvas slides in/out, icon collapses to icons, none is always visible.",
       default: '"offcanvas"',
     },
     // useSidebar
@@ -1736,7 +1891,8 @@ export function AppSidebar({
     {
       name: "toggleSidebar",
       type: "() => void",
-      description: "Toggles the sidebar open/closed on desktop and mobile (useSidebar).",
+      description:
+        "Toggles the sidebar open/closed on desktop and mobile (useSidebar).",
     },
   ],
 };

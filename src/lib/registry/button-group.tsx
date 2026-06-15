@@ -41,11 +41,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import {
   Tooltip,
   TooltipContent,
@@ -343,7 +339,8 @@ export function ButtonGroupDemo() {
   examples: [
     {
       name: "Orientation",
-      description: "Set the `orientation` prop to change the button group layout.",
+      description:
+        "Set the `orientation` prop to change the button group layout.",
       code: `import { Button } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import { MinusIcon, PlusIcon } from "lucide-react"
@@ -423,9 +420,21 @@ export function ButtonGroupSize() {
         React.createElement(
           ButtonGroup,
           {},
-          React.createElement(Button, { variant: "outline", size: "sm" }, "Small"),
-          React.createElement(Button, { variant: "outline", size: "sm" }, "Button"),
-          React.createElement(Button, { variant: "outline", size: "sm" }, "Group"),
+          React.createElement(
+            Button,
+            { variant: "outline", size: "sm" },
+            "Small"
+          ),
+          React.createElement(
+            Button,
+            { variant: "outline", size: "sm" },
+            "Button"
+          ),
+          React.createElement(
+            Button,
+            { variant: "outline", size: "sm" },
+            "Group"
+          ),
           React.createElement(
             Button,
             { variant: "outline", size: "icon-sm" },
@@ -447,9 +456,21 @@ export function ButtonGroupSize() {
         React.createElement(
           ButtonGroup,
           {},
-          React.createElement(Button, { variant: "outline", size: "lg" }, "Large"),
-          React.createElement(Button, { variant: "outline", size: "lg" }, "Button"),
-          React.createElement(Button, { variant: "outline", size: "lg" }, "Group"),
+          React.createElement(
+            Button,
+            { variant: "outline", size: "lg" },
+            "Large"
+          ),
+          React.createElement(
+            Button,
+            { variant: "outline", size: "lg" },
+            "Button"
+          ),
+          React.createElement(
+            Button,
+            { variant: "outline", size: "lg" },
+            "Group"
+          ),
           React.createElement(
             Button,
             { variant: "outline", size: "icon-lg" },
@@ -519,7 +540,9 @@ export function ButtonGroupNested() {
             }),
             React.createElement(
               TooltipProvider,
-              { delayDuration: 0 } as React.ComponentProps<typeof TooltipProvider>,
+              { delayDuration: 0 } as React.ComponentProps<
+                typeof TooltipProvider
+              >,
               React.createElement(
                 Tooltip,
                 {},
@@ -562,9 +585,17 @@ export function ButtonGroupSeparatorDemo() {
       preview: React.createElement(
         ButtonGroup,
         {},
-        React.createElement(Button, { variant: "tertiary", size: "sm" }, "Copy"),
+        React.createElement(
+          Button,
+          { variant: "tertiary", size: "sm" },
+          "Copy"
+        ),
         React.createElement(ButtonGroupSeparator),
-        React.createElement(Button, { variant: "tertiary", size: "sm" }, "Paste")
+        React.createElement(
+          Button,
+          { variant: "tertiary", size: "sm" },
+          "Paste"
+        )
       ),
     },
     {
@@ -621,14 +652,19 @@ export function ButtonGroupInput() {
         React.createElement(Input, { placeholder: "Search..." }),
         React.createElement(
           Button,
-          { className: "shadow-sm border-strong-border", variant: "outline", "aria-label": "Search" },
+          {
+            className: "shadow-sm border-strong-border",
+            variant: "outline",
+            "aria-label": "Search",
+          },
           React.createElement(SearchIcon)
         )
       ),
     },
     {
       name: "Input Group",
-      description: "Wrap an `InputGroup` component to create complex input layouts.",
+      description:
+        "Wrap an `InputGroup` component to create complex input layouts.",
       code: `"use client"
 
 import * as React from "react"
@@ -711,7 +747,9 @@ export function ButtonGroupInputGroup() {
                 { align: "inline-end" },
                 React.createElement(
                   TooltipProvider,
-                  { delayDuration: 0 } as React.ComponentProps<typeof TooltipProvider>,
+                  { delayDuration: 0 } as React.ComponentProps<
+                    typeof TooltipProvider
+                  >,
                   React.createElement(
                     Tooltip,
                     {},
@@ -744,7 +782,8 @@ export function ButtonGroupInputGroup() {
     },
     {
       name: "Dropdown Menu",
-      description: "Create a split button group with a `DropdownMenu` component.",
+      description:
+        "Create a split button group with a `DropdownMenu` component.",
       code: `"use client"
 
 import { Button } from "@/components/ui/button"

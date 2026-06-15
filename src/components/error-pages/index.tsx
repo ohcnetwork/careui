@@ -124,7 +124,7 @@ export function ErrorPagePreview({ id }: { id: string }) {
 
   return (
     <div className="bg-background relative">
-      <div className="bg-background/80 fixed bottom-3 right-3 z-50 flex items-center gap-2 rounded-lg border px-3 py-1.5 shadow-md backdrop-blur-sm">
+      <div className="bg-background/80 fixed right-3 bottom-3 z-50 flex items-center gap-2 rounded-lg border px-3 py-1.5 shadow-md backdrop-blur-sm">
         <Button
           size="sm"
           variant="ghost"

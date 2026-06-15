@@ -88,7 +88,9 @@ const componentLoaders: Record<
   kbd: () => import("./kbd").then((m) => ({ default: m.kbdDoc })),
   label: () => import("./label").then((m) => ({ default: m.labelDoc })),
   "loading-animation-svg": () =>
-    import("./loading-animation-svg").then((m) => ({ default: m.loadingAnimationSvgDoc })),
+    import("./loading-animation-svg").then((m) => ({
+      default: m.loadingAnimationSvgDoc,
+    })),
   menubar: () => import("./menubar").then((m) => ({ default: m.menubarDoc })),
   "native-select": () =>
     import("./native-select").then((m) => ({ default: m.nativeSelectDoc })),

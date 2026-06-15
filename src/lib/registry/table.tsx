@@ -23,13 +23,48 @@ import { MoreHorizontal } from "lucide-react";
 // ─── shared data ─────────────────────────────────────────────────────────────
 
 const invoices = [
-  { invoice: "INV001", paymentStatus: "Paid",    totalAmount: "$250.00", paymentMethod: "Credit Card"   },
-  { invoice: "INV002", paymentStatus: "Pending", totalAmount: "$150.00", paymentMethod: "PayPal"        },
-  { invoice: "INV003", paymentStatus: "Unpaid",  totalAmount: "$350.00", paymentMethod: "Bank Transfer" },
-  { invoice: "INV004", paymentStatus: "Paid",    totalAmount: "$450.00", paymentMethod: "Credit Card"   },
-  { invoice: "INV005", paymentStatus: "Paid",    totalAmount: "$550.00", paymentMethod: "PayPal"        },
-  { invoice: "INV006", paymentStatus: "Pending", totalAmount: "$200.00", paymentMethod: "Bank Transfer" },
-  { invoice: "INV007", paymentStatus: "Unpaid",  totalAmount: "$300.00", paymentMethod: "Credit Card"   },
+  {
+    invoice: "INV001",
+    paymentStatus: "Paid",
+    totalAmount: "$250.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV002",
+    paymentStatus: "Pending",
+    totalAmount: "$150.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV003",
+    paymentStatus: "Unpaid",
+    totalAmount: "$350.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV004",
+    paymentStatus: "Paid",
+    totalAmount: "$450.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV005",
+    paymentStatus: "Paid",
+    totalAmount: "$550.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV006",
+    paymentStatus: "Pending",
+    totalAmount: "$200.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV007",
+    paymentStatus: "Unpaid",
+    totalAmount: "$300.00",
+    paymentMethod: "Credit Card",
+  },
 ];
 
 // ─── preview component ────────────────────────────────────────────────────────
@@ -58,10 +93,18 @@ function TableDemo() {
         React.createElement(
           TableRow,
           { key: inv.invoice },
-          React.createElement(TableCell, { className: "font-medium" }, inv.invoice),
+          React.createElement(
+            TableCell,
+            { className: "font-medium" },
+            inv.invoice
+          ),
           React.createElement(TableCell, {}, inv.paymentStatus),
           React.createElement(TableCell, {}, inv.paymentMethod),
-          React.createElement(TableCell, { className: "text-right" }, inv.totalAmount)
+          React.createElement(
+            TableCell,
+            { className: "text-right" },
+            inv.totalAmount
+          )
         )
       )
     ),
@@ -81,9 +124,9 @@ function TableDemo() {
 // ─── Actions example ─────────────────────────────────────────────────────────
 
 const products = [
-  { name: "Wireless Mouse",      price: "$29.99"  },
+  { name: "Wireless Mouse", price: "$29.99" },
   { name: "Mechanical Keyboard", price: "$129.99" },
-  { name: "USB-C Hub",           price: "$49.99"  },
+  { name: "USB-C Hub", price: "$49.99" },
 ];
 
 function TableActionsDemo() {
@@ -107,7 +150,11 @@ function TableActionsDemo() {
         React.createElement(DropdownMenuItem, {}, "Edit"),
         React.createElement(DropdownMenuItem, {}, "Duplicate"),
         React.createElement(DropdownMenuSeparator, {}),
-        React.createElement(DropdownMenuItem, { className: "text-destructive" }, "Delete")
+        React.createElement(
+          DropdownMenuItem,
+          { className: "text-destructive" },
+          "Delete"
+        )
       )
     );
 
@@ -134,7 +181,11 @@ function TableActionsDemo() {
           { key: p.name },
           React.createElement(TableCell, { className: "font-medium" }, p.name),
           React.createElement(TableCell, {}, p.price),
-          React.createElement(TableCell, { className: "text-right" }, actionMenu())
+          React.createElement(
+            TableCell,
+            { className: "text-right" },
+            actionMenu()
+          )
         )
       )
     )
@@ -225,7 +276,8 @@ export function TableDemo() {
   examples: [
     {
       name: "Footer",
-      description: "Use the <TableFooter /> component to add a footer to the table.",
+      description:
+        "Use the <TableFooter /> component to add a footer to the table.",
       code: `import {
   Table,
   TableBody,
@@ -278,7 +330,8 @@ export function TableFooterExample() {
     },
     {
       name: "Actions",
-      description: "A table showing actions for each row using a <DropdownMenu /> component.",
+      description:
+        "A table showing actions for each row using a <DropdownMenu /> component.",
       code: `import { MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {

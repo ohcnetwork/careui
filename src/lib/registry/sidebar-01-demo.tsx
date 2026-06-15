@@ -65,7 +65,11 @@ import { usePinnableSidebar, SidebarToggleButton } from "./sidebar-shared";
 
 // ─── Navigation data ──────────────────────────────────────────────────────────
 
-type CareNavItem = { title: string; icon: React.ElementType; isActive?: boolean };
+type CareNavItem = {
+  title: string;
+  icon: React.ElementType;
+  isActive?: boolean;
+};
 type CareNavGroup = { label: string | null; items: CareNavItem[] };
 
 const careNavGroups: CareNavGroup[] = [
@@ -116,18 +120,26 @@ function CareFacilitySelector() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2 font-normal shadow-sm">
+        <Button
+          variant="outline"
+          size="sm"
+          className="gap-2 font-normal shadow-sm"
+        >
           {selected}
           <ChevronsUpDown className="h-3.5 w-3.5 opacity-60" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="min-w-44">
         {careFacilities.map((f) => (
-          <DropdownMenuItem key={f} onClick={() => setSelected(f)} className="gap-2">
+          <DropdownMenuItem
+            key={f}
+            onClick={() => setSelected(f)}
+            className="gap-2"
+          >
             {f === selected ? (
-              <Check className="h-4 w-4 text-primary" />
+              <Check className="text-primary h-4 w-4" />
             ) : (
-              <span className="h-4 w-4 inline-block" />
+              <span className="inline-block h-4 w-4" />
             )}
             {f}
           </DropdownMenuItem>
@@ -154,7 +166,10 @@ function CareNavGroups() {
             <SidebarMenu>
               {group.items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton isActive={!!item.isActive} tooltip={item.title}>
+                  <SidebarMenuButton
+                    isActive={!!item.isActive}
+                    tooltip={item.title}
+                  >
                     <item.icon />
                     <span>{item.title}</span>
                   </SidebarMenuButton>
@@ -170,7 +185,11 @@ function CareNavGroups() {
 
 // ─── CareNavUserCard ──────────────────────────────────────────────────────────
 
-function CareNavUserCard({ onMenuOpenChange }: { onMenuOpenChange?: (open: boolean) => void }) {
+function CareNavUserCard({
+  onMenuOpenChange,
+}: {
+  onMenuOpenChange?: (open: boolean) => void;
+}) {
   const { isMobile } = useSidebar();
   return (
     <SidebarMenu>
@@ -182,13 +201,15 @@ function CareNavUserCard({ onMenuOpenChange }: { onMenuOpenChange?: (open: boole
               className="data-[state=open]:bg-sidebar-accent bg-strong-background/60 data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold dark:bg-green-900 dark:text-green-200">
+                <AvatarFallback className="rounded-lg bg-green-100 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
                   {careUser.initials}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{careUser.name}</span>
-                <span className="truncate text-xs text-muted-foreground">{careUser.role}</span>
+                <span className="text-muted-foreground truncate text-xs">
+                  {careUser.role}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4 opacity-60" />
             </SidebarMenuButton>
@@ -202,13 +223,15 @@ function CareNavUserCard({ onMenuOpenChange }: { onMenuOpenChange?: (open: boole
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold dark:bg-green-900 dark:text-green-200">
+                  <AvatarFallback className="rounded-lg bg-green-100 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
                     {careUser.initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{careUser.name}</span>
-                  <span className="truncate text-xs text-muted-foreground">{careUser.role}</span>
+                  <span className="text-muted-foreground truncate text-xs">
+                    {careUser.role}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -249,17 +272,29 @@ function CareSidebarInner({
       <SidebarHeader
         className={cn(
           "overflow-hidden border-b",
-          showHeader ? "py-2 border-border min-h-14" : "max-h-0 py-0 border-transparent",
+          showHeader
+            ? "border-border min-h-14 py-2"
+            : "max-h-0 border-transparent py-0"
         )}
       >
         <div
           className={cn(
             "flex items-center gap-2 px-2 transition-[opacity,transform] duration-150 ease-linear",
-            showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2",
+            showHeader
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-2 opacity-0"
           )}
         >
-          <img src="/Care-logo-in-light.svg" alt="Care" className="h-9 w-auto dark:hidden" />
-          <img src="/Care-logo-in-dark.svg" alt="Care" className="h-9 w-auto hidden dark:block" />
+          <img
+            src="/Care-logo-in-light.svg"
+            alt="Care"
+            className="h-9 w-auto dark:hidden"
+          />
+          <img
+            src="/Care-logo-in-dark.svg"
+            alt="Care"
+            className="hidden h-9 w-auto dark:block"
+          />
           {isMobile && (
             <Button
               variant="ghost"
@@ -311,7 +346,7 @@ function CareSearchBar() {
         <span className="sr-only">Search</span>
       </Button>
       <InputGroup
-        className="hidden md:flex md:h-9 w-52 cursor-pointer text-sm"
+        className="hidden w-52 cursor-pointer text-sm md:flex md:h-9"
         onClick={() => setOpen(true)}
       >
         <InputGroupInput
@@ -396,27 +431,34 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
             : "**:data-[slot=sidebar-container]:transition-[left,right,width]!",
           "**:data-[slot=sidebar-container]:duration-100!",
           "**:data-[slot=sidebar-gap]:duration-100!",
-          pinningTransition && "**:data-[slot=sidebar-inset]:transition-[margin]!",
+          pinningTransition &&
+            "**:data-[slot=sidebar-inset]:transition-[margin]!",
           pinningTransition && "**:data-[slot=sidebar-inset]:duration-100!",
           isOverlay && "**:data-[slot=sidebar-inset]:ml-2!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
-          overlayReady && !pinned && [
-            "**:data-[slot=sidebar-container]:top-14!",
-            "**:data-[slot=sidebar-container]:h-[calc(100%-3.5rem)]!",
-          ],
+          overlayReady &&
+            !pinned && [
+              "**:data-[slot=sidebar-container]:top-14!",
+              "**:data-[slot=sidebar-container]:h-[calc(100%-3.5rem)]!",
+            ],
           isOverlay && [
             "**:data-[slot=sidebar-container]:bg-sidebar",
             "**:data-[slot=sidebar-container]:border-t",
             "**:data-[slot=sidebar-container]:rounded-r-md",
             "**:data-[slot=sidebar-container]:shadow-xl",
-          ],
+          ]
         )}
       >
         <SidebarProvider
           open={pinned || overlayOpen}
           onOpenChange={handleSidebarProviderOpenChange}
-          className="min-h-0! h-full"
-          style={{ "--sidebar-width": "15rem", height: "100%" } as React.CSSProperties}
+          className="h-full min-h-0!"
+          style={
+            {
+              "--sidebar-width": "15rem",
+              height: "100%",
+            } as React.CSSProperties
+          }
         >
           <Sidebar
             variant="inset"
@@ -425,7 +467,10 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
             onMouseEnter={cancelClose}
             onMouseLeave={scheduleClose}
           >
-            <CareSidebarInner pinned={pinned} onMenuOpenChange={handleMenuOpenChange} />
+            <CareSidebarInner
+              pinned={pinned}
+              onMenuOpenChange={handleMenuOpenChange}
+            />
           </Sidebar>
 
           <SidebarInset className="overflow-hidden">
@@ -447,34 +492,40 @@ export function AppSidebarDemo({ fullPage = false }: { fullPage?: boolean }) {
 
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
               {/* Good Morning banner */}
-              <div className="flex items-center justify-between border border-sky-100 dark:border-sky-900/20 rounded-xl bg-linear-to-r from-sky-50 to-primary-100 p-5 dark:from-sky-950/20 dark:to-primary-950/20">
+              <div className="to-primary-100 dark:to-primary-950/20 flex items-center justify-between rounded-xl border border-sky-100 bg-linear-to-r from-sky-50 p-5 dark:border-sky-900/20 dark:from-sky-950/20">
                 <div className="space-y-0.5">
-                  <h1 className="text-base md:text-xl font-normal text-soft-foreground">
+                  <h1 className="text-soft-foreground text-base font-normal md:text-xl">
                     Good Morning,{" "}
-                    <span className="font-semibold text-foreground">Prabha Narendran</span> 👋
+                    <span className="text-foreground font-semibold">
+                      Prabha Narendran
+                    </span>{" "}
+                    👋
                   </h1>
-                  <p className="text-sm text-muted-foreground">Welcome back!</p>
+                  <p className="text-muted-foreground text-sm">Welcome back!</p>
                 </div>
               </div>
               <Tabs defaultValue="overview">
-                <TabsList variant="line" className="w-full border-b border-border">
+                <TabsList
+                  variant="line"
+                  className="border-border w-full border-b"
+                >
                   <TabsTrigger value="overview">Overview</TabsTrigger>
                   <TabsTrigger value="analytics">Analytics</TabsTrigger>
                   <TabsTrigger value="reports">Reports</TabsTrigger>
                 </TabsList>
                 <TabsContent value="overview" className="flex flex-col gap-4">
                   <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                    <div className="aspect-video rounded-xl bg-muted/50" />
-                    <div className="aspect-video rounded-xl bg-muted/50" />
+                    <div className="bg-muted/50 aspect-video rounded-xl" />
+                    <div className="bg-muted/50 aspect-video rounded-xl" />
+                    <div className="bg-muted/50 aspect-video rounded-xl" />
                   </div>
-                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                  <div className="bg-muted/50 min-h-24 rounded-xl" />
                 </TabsContent>
                 <TabsContent value="analytics">
-                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                  <div className="bg-muted/50 min-h-24 rounded-xl" />
                 </TabsContent>
                 <TabsContent value="reports">
-                  <div className="min-h-24 rounded-xl bg-muted/50" />
+                  <div className="bg-muted/50 min-h-24 rounded-xl" />
                 </TabsContent>
               </Tabs>
             </div>

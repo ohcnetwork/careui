@@ -352,53 +352,51 @@ export function DropdownMenuCheckboxes() {
     </DropdownMenu>
   )
 }`,
-      preview: React.createElement(
-        function DropdownMenuCheckboxesPreview() {
-          const [showStatusBar, setShowStatusBar] = React.useState(true);
-          const [showActivityBar, setShowActivityBar] = React.useState(false);
+      preview: React.createElement(function DropdownMenuCheckboxesPreview() {
+        const [showStatusBar, setShowStatusBar] = React.useState(true);
+        const [showActivityBar, setShowActivityBar] = React.useState(false);
 
-          return React.createElement(
-            DropdownMenu,
-            { modal: false },
+        return React.createElement(
+          DropdownMenu,
+          { modal: false },
+          React.createElement(
+            DropdownMenuTrigger,
+            { asChild: true },
             React.createElement(
-              DropdownMenuTrigger,
-              { asChild: true },
-              React.createElement(
-                Button,
-                { variant: "outline" },
-                "View",
-                React.createElement(ChevronDown, { className: "size-4" })
-              )
+              Button,
+              { variant: "outline" },
+              "View",
+              React.createElement(ChevronDown, { className: "size-4" })
+            )
+          ),
+          React.createElement(
+            DropdownMenuContent,
+            {},
+            React.createElement(DropdownMenuLabel, {}, "Appearance"),
+            React.createElement(DropdownMenuSeparator, {}),
+            React.createElement(
+              DropdownMenuCheckboxItem,
+              {
+                checked: showStatusBar,
+                onCheckedChange: (checked) =>
+                  setShowStatusBar(checked === true),
+                onSelect: (event) => event.preventDefault(),
+              },
+              "Status Bar"
             ),
             React.createElement(
-              DropdownMenuContent,
-              {},
-              React.createElement(DropdownMenuLabel, {}, "Appearance"),
-              React.createElement(DropdownMenuSeparator, {}),
-              React.createElement(
-                DropdownMenuCheckboxItem,
-                {
-                  checked: showStatusBar,
-                  onCheckedChange: (checked) =>
-                    setShowStatusBar(checked === true),
-                  onSelect: (event) => event.preventDefault(),
-                },
-                "Status Bar"
-              ),
-              React.createElement(
-                DropdownMenuCheckboxItem,
-                {
-                  checked: showActivityBar,
-                  onCheckedChange: (checked) =>
-                    setShowActivityBar(checked === true),
-                  onSelect: (event) => event.preventDefault(),
-                },
-                "Activity Bar"
-              )
+              DropdownMenuCheckboxItem,
+              {
+                checked: showActivityBar,
+                onCheckedChange: (checked) =>
+                  setShowActivityBar(checked === true),
+                onSelect: (event) => event.preventDefault(),
+              },
+              "Activity Bar"
             )
-          );
-        }
-      ),
+          )
+        );
+      }),
     },
     {
       name: "With Checkboxes Component",
@@ -772,51 +770,49 @@ export function DropdownMenuTheme() {
     </DropdownMenu>
   )
 }`,
-      preview: React.createElement(
-        function DropdownMenuRadioPreview() {
-          const [theme, setTheme] = React.useState("light");
+      preview: React.createElement(function DropdownMenuRadioPreview() {
+        const [theme, setTheme] = React.useState("light");
 
-          return React.createElement(
-            DropdownMenu,
-            { modal: false },
+        return React.createElement(
+          DropdownMenu,
+          { modal: false },
+          React.createElement(
+            DropdownMenuTrigger,
+            { asChild: true },
             React.createElement(
-              DropdownMenuTrigger,
-              { asChild: true },
-              React.createElement(
-                Button,
-                { variant: "outline" },
-                "Theme",
-                React.createElement(ChevronDown, { className: "size-4" })
-              )
-            ),
+              Button,
+              { variant: "outline" },
+              "Theme",
+              React.createElement(ChevronDown, { className: "size-4" })
+            )
+          ),
+          React.createElement(
+            DropdownMenuContent,
+            {},
+            React.createElement(DropdownMenuLabel, {}, "Theme"),
+            React.createElement(DropdownMenuSeparator, {}),
             React.createElement(
-              DropdownMenuContent,
-              {},
-              React.createElement(DropdownMenuLabel, {}, "Theme"),
-              React.createElement(DropdownMenuSeparator, {}),
+              DropdownMenuRadioGroup,
+              { value: theme, onValueChange: setTheme },
               React.createElement(
-                DropdownMenuRadioGroup,
-                { value: theme, onValueChange: setTheme },
-                React.createElement(
-                  DropdownMenuRadioItem,
-                  { value: "light" },
-                  "Light"
-                ),
-                React.createElement(
-                  DropdownMenuRadioItem,
-                  { value: "dark" },
-                  "Dark"
-                ),
-                React.createElement(
-                  DropdownMenuRadioItem,
-                  { value: "system" },
-                  "System"
-                )
+                DropdownMenuRadioItem,
+                { value: "light" },
+                "Light"
+              ),
+              React.createElement(
+                DropdownMenuRadioItem,
+                { value: "dark" },
+                "Dark"
+              ),
+              React.createElement(
+                DropdownMenuRadioItem,
+                { value: "system" },
+                "System"
               )
             )
-          );
-        }
-      ),
+          )
+        );
+      }),
     },
     {
       name: "Destructive Action",
@@ -856,7 +852,11 @@ export function DropdownMenuTheme() {
           React.createElement(DropdownMenuItem, {}, "Edit"),
           React.createElement(DropdownMenuItem, {}, "Duplicate"),
           React.createElement(DropdownMenuSeparator, {}),
-          React.createElement(DropdownMenuItem, { variant: "destructive" }, "Delete")
+          React.createElement(
+            DropdownMenuItem,
+            { variant: "destructive" },
+            "Delete"
+          )
         )
       ),
     },
@@ -1024,128 +1024,126 @@ export function DropdownMenuComplex() {
     </DropdownMenu>
   )
 }`,
-      preview: React.createElement(
-        function DropdownMenuComplexPreview() {
-          const [showStatusBar, setShowStatusBar] = React.useState(true);
-          const [showActivityBar, setShowActivityBar] = React.useState(false);
-          const [theme, setTheme] = React.useState("light");
+      preview: React.createElement(function DropdownMenuComplexPreview() {
+        const [showStatusBar, setShowStatusBar] = React.useState(true);
+        const [showActivityBar, setShowActivityBar] = React.useState(false);
+        const [theme, setTheme] = React.useState("light");
 
-          return React.createElement(
-            DropdownMenu,
-            { modal: false },
+        return React.createElement(
+          DropdownMenu,
+          { modal: false },
+          React.createElement(
+            DropdownMenuTrigger,
+            { asChild: true },
             React.createElement(
-              DropdownMenuTrigger,
-              { asChild: true },
-              React.createElement(
-                Button,
-                { variant: "outline" },
-                "Complex Menu",
-                React.createElement(ChevronDown, { className: "size-4" })
-              )
-            ),
+              Button,
+              { variant: "outline" },
+              "Complex Menu",
+              React.createElement(ChevronDown, { className: "size-4" })
+            )
+          ),
+          React.createElement(
+            DropdownMenuContent,
+            { className: "w-52", align: "start" },
             React.createElement(
-              DropdownMenuContent,
-              { className: "w-52", align: "start" },
-              React.createElement(
-                DropdownMenuGroup,
-                {},
-                React.createElement(DropdownMenuLabel, {}, "My Account"),
-                React.createElement(
-                  DropdownMenuItem,
-                  {},
-                  React.createElement(UserIcon, {}),
-                  "Profile",
-                  React.createElement(DropdownMenuShortcut, {}, "⇧⌘P")
-                ),
-                React.createElement(
-                  DropdownMenuItem,
-                  {},
-                  React.createElement(CreditCardIcon, {}),
-                  "Billing",
-                  React.createElement(DropdownMenuShortcut, {}, "⌘B")
-                ),
-                React.createElement(
-                  DropdownMenuSub,
-                  {},
-                  React.createElement(
-                    DropdownMenuSubTrigger,
-                    {},
-                    React.createElement(SettingsIcon, {}),
-                    "Settings"
-                  ),
-                  React.createElement(
-                    DropdownMenuPortal,
-                    {},
-                    React.createElement(
-                      DropdownMenuSubContent,
-                      {},
-                      React.createElement(DropdownMenuItem, {}, "General"),
-                      React.createElement(DropdownMenuItem, {}, "Security"),
-                      React.createElement(DropdownMenuItem, {}, "Integrations")
-                    )
-                  )
-                )
-              ),
-              React.createElement(DropdownMenuSeparator, {}),
-              React.createElement(
-                DropdownMenuGroup,
-                {},
-                React.createElement(DropdownMenuLabel, {}, "View"),
-                React.createElement(
-                  DropdownMenuCheckboxItem,
-                  {
-                    checked: showStatusBar,
-                    onCheckedChange: (checked) =>
-                      setShowStatusBar(checked === true),
-                    onSelect: (event) => event.preventDefault(),
-                  },
-                  "Status Bar"
-                ),
-                React.createElement(
-                  DropdownMenuCheckboxItem,
-                  {
-                    checked: showActivityBar,
-                    onCheckedChange: (checked) =>
-                      setShowActivityBar(checked === true),
-                    onSelect: (event) => event.preventDefault(),
-                  },
-                  "Activity Bar"
-                )
-              ),
-              React.createElement(DropdownMenuSeparator, {}),
-              React.createElement(
-                DropdownMenuGroup,
-                {},
-                React.createElement(DropdownMenuLabel, {}, "Theme"),
-                React.createElement(
-                  DropdownMenuRadioGroup,
-                  { value: theme, onValueChange: setTheme },
-                  React.createElement(
-                    DropdownMenuRadioItem,
-                    { value: "light" },
-                    React.createElement(SunIcon, {}),
-                    "Light"
-                  ),
-                  React.createElement(
-                    DropdownMenuRadioItem,
-                    { value: "dark" },
-                    React.createElement(MoonIcon, {}),
-                    "Dark"
-                  )
-                )
-              ),
-              React.createElement(DropdownMenuSeparator, {}),
+              DropdownMenuGroup,
+              {},
+              React.createElement(DropdownMenuLabel, {}, "My Account"),
               React.createElement(
                 DropdownMenuItem,
-                { variant: "destructive" },
-                React.createElement(LogOutIcon, {}),
-                "Log out",
-                React.createElement(DropdownMenuShortcut, {}, "⇧⌘Q")
+                {},
+                React.createElement(UserIcon, {}),
+                "Profile",
+                React.createElement(DropdownMenuShortcut, {}, "⇧⌘P")
+              ),
+              React.createElement(
+                DropdownMenuItem,
+                {},
+                React.createElement(CreditCardIcon, {}),
+                "Billing",
+                React.createElement(DropdownMenuShortcut, {}, "⌘B")
+              ),
+              React.createElement(
+                DropdownMenuSub,
+                {},
+                React.createElement(
+                  DropdownMenuSubTrigger,
+                  {},
+                  React.createElement(SettingsIcon, {}),
+                  "Settings"
+                ),
+                React.createElement(
+                  DropdownMenuPortal,
+                  {},
+                  React.createElement(
+                    DropdownMenuSubContent,
+                    {},
+                    React.createElement(DropdownMenuItem, {}, "General"),
+                    React.createElement(DropdownMenuItem, {}, "Security"),
+                    React.createElement(DropdownMenuItem, {}, "Integrations")
+                  )
+                )
               )
+            ),
+            React.createElement(DropdownMenuSeparator, {}),
+            React.createElement(
+              DropdownMenuGroup,
+              {},
+              React.createElement(DropdownMenuLabel, {}, "View"),
+              React.createElement(
+                DropdownMenuCheckboxItem,
+                {
+                  checked: showStatusBar,
+                  onCheckedChange: (checked) =>
+                    setShowStatusBar(checked === true),
+                  onSelect: (event) => event.preventDefault(),
+                },
+                "Status Bar"
+              ),
+              React.createElement(
+                DropdownMenuCheckboxItem,
+                {
+                  checked: showActivityBar,
+                  onCheckedChange: (checked) =>
+                    setShowActivityBar(checked === true),
+                  onSelect: (event) => event.preventDefault(),
+                },
+                "Activity Bar"
+              )
+            ),
+            React.createElement(DropdownMenuSeparator, {}),
+            React.createElement(
+              DropdownMenuGroup,
+              {},
+              React.createElement(DropdownMenuLabel, {}, "Theme"),
+              React.createElement(
+                DropdownMenuRadioGroup,
+                { value: theme, onValueChange: setTheme },
+                React.createElement(
+                  DropdownMenuRadioItem,
+                  { value: "light" },
+                  React.createElement(SunIcon, {}),
+                  "Light"
+                ),
+                React.createElement(
+                  DropdownMenuRadioItem,
+                  { value: "dark" },
+                  React.createElement(MoonIcon, {}),
+                  "Dark"
+                )
+              )
+            ),
+            React.createElement(DropdownMenuSeparator, {}),
+            React.createElement(
+              DropdownMenuItem,
+              { variant: "destructive" },
+              React.createElement(LogOutIcon, {}),
+              "Log out",
+              React.createElement(DropdownMenuShortcut, {}, "⇧⌘Q")
             )
-          );
-        }
-      ),
+          )
+        );
+      }),
     },
     {
       name: "Icon Items",

@@ -43,8 +43,10 @@ const buttonVariants = cva(
           "size-8 md:size-8 rounded-[min(var(--radius-md),8px)] [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:stroke-2 in-data-[slot=button-group]:rounded-md",
         "icon-sm":
           "size-9 md:size-9 rounded-[min(var(--radius-md),10px)] [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-2 in-data-[slot=button-group]:rounded-md",
-        "icon-lg": "size-11 md:size-11 [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75] in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
-        "icon-xl": "size-12 md:size-12 [&_svg:not([class*='size-'])]:size-6 in-data-[slot=button-group]:rounded-[min(var(--radius-md),12px)]",
+        "icon-lg":
+          "size-11 md:size-11 [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75] in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
+        "icon-xl":
+          "size-12 md:size-12 [&_svg:not([class*='size-'])]:size-6 in-data-[slot=button-group]:rounded-[min(var(--radius-md),12px)]",
       },
     },
     defaultVariants: {

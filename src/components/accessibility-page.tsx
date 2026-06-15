@@ -46,7 +46,7 @@ function SectionHeading({
   return (
     <h2
       id={id}
-      className="scroll-m-20 border-b border-border pb-2 text-3xl font-semibold tracking-tight"
+      className="border-border scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
     >
       {children}
     </h2>
@@ -131,10 +131,14 @@ const CHECKLIST: ChecklistGroup[] = [
     id: "semantic-html",
     title: "Semantic HTML",
     items: [
-      { rule: "Use the right element. <button> for actions, <a> / <Link> for navigation. Never a <div> with onClick." },
-      { rule: "Headings are hierarchical (<h1> → <h6>). Don't skip levels for styling — change the class instead." },
+      {
+        rule: "Use the right element. <button> for actions, <a> / <Link> for navigation. Never a <div> with onClick.",
+      },
+      {
+        rule: "Headings are hierarchical (<h1> → <h6>). Don't skip levels for styling — change the class instead.",
+      },
       { rule: "Wrap related controls in <fieldset> with a <legend>." },
-      { rule: "Tables use <th scope=\"col\"|\"row\">, lists use <ul>/<ol>/<dl>." },
+      { rule: 'Tables use <th scope="col"|"row">, lists use <ul>/<ol>/<dl>.' },
       { rule: "Reach for ARIA only when no native element fits." },
     ],
   },
@@ -142,8 +146,12 @@ const CHECKLIST: ChecklistGroup[] = [
     id: "labels-names",
     title: "Labels & accessible names",
     items: [
-      { rule: "Every form control needs a visible <Label htmlFor>, an aria-label, or aria-labelledby." },
-      { rule: "Icon-only buttons need aria-label or a <span className=\"sr-only\">." },
+      {
+        rule: "Every form control needs a visible <Label htmlFor>, an aria-label, or aria-labelledby.",
+      },
+      {
+        rule: 'Icon-only buttons need aria-label or a <span className="sr-only">.',
+      },
       {
         rule: "Example: icon-only theme toggle (theme-toggle.tsx)",
         example: `<Button size="icon" variant="ghost" onClick={toggle}>
@@ -151,8 +159,12 @@ const CHECKLIST: ChecklistGroup[] = [
   <span className="sr-only">Toggle theme</span>
 </Button>`,
       },
-      { rule: "Decorative icons get aria-hidden=\"true\" (the sibling text is the name)." },
-      { rule: "Group label + control share a single hit target — wrap or use htmlFor; never leave dead zones." },
+      {
+        rule: 'Decorative icons get aria-hidden="true" (the sibling text is the name).',
+      },
+      {
+        rule: "Group label + control share a single hit target — wrap or use htmlFor; never leave dead zones.",
+      },
     ],
   },
   {
@@ -160,81 +172,145 @@ const CHECKLIST: ChecklistGroup[] = [
     title: "Keyboard support",
     items: [
       { rule: "Every interactive element reachable with Tab, in DOM order." },
-      { rule: "Tab / Shift+Tab to move, Enter / Space to activate, Escape to dismiss overlays, arrow keys inside composite widgets (menu, tabs, listbox, slider)." },
-      { rule: "Trap focus inside dialogs and sheets; restore focus to the trigger on close (Radix handles this — don't disable it)." },
-      { rule: "Never set tabIndex={-1} on something a user needs to reach. Never use positive tabIndex." },
-      { rule: "Custom keyboard shortcuts must not collide with browser/assistive-tech shortcuts; document them in <Kbd>." },
+      {
+        rule: "Tab / Shift+Tab to move, Enter / Space to activate, Escape to dismiss overlays, arrow keys inside composite widgets (menu, tabs, listbox, slider).",
+      },
+      {
+        rule: "Trap focus inside dialogs and sheets; restore focus to the trigger on close (Radix handles this — don't disable it).",
+      },
+      {
+        rule: "Never set tabIndex={-1} on something a user needs to reach. Never use positive tabIndex.",
+      },
+      {
+        rule: "Custom keyboard shortcuts must not collide with browser/assistive-tech shortcuts; document them in <Kbd>.",
+      },
     ],
   },
   {
     id: "focus",
     title: "Focus states",
     items: [
-      { rule: "Every interactive element has a visible :focus-visible ring. The Care UI default is focus-visible:ring-ring/50 focus-visible:ring-[3px]." },
-      { rule: "Never outline-none / outline: none without a focus-visible replacement." },
-      { rule: "Use :focus-visible (not :focus) so the ring doesn't appear on mouse click." },
-      { rule: "Compound controls (input + adornment) use :focus-within on the wrapper." },
+      {
+        rule: "Every interactive element has a visible :focus-visible ring. The Care UI default is focus-visible:ring-ring/50 focus-visible:ring-[3px].",
+      },
+      {
+        rule: "Never outline-none / outline: none without a focus-visible replacement.",
+      },
+      {
+        rule: "Use :focus-visible (not :focus) so the ring doesn't appear on mouse click.",
+      },
+      {
+        rule: "Compound controls (input + adornment) use :focus-within on the wrapper.",
+      },
     ],
   },
   {
     id: "aria-state",
     title: "ARIA & state",
     items: [
-      { rule: "Use aria-invalid on form fields with errors — Care UI inputs and buttons style this automatically." },
-      { rule: "Use aria-pressed on toggle buttons, aria-expanded on disclosure triggers, aria-current on the active nav item." },
-      { rule: "Async updates (toasts, validation, save status) live in a region with aria-live=\"polite\" — Sonner does this for you." },
-      { rule: "role=\"status\" for non-urgent updates, role=\"alert\" for errors that demand attention." },
-      { rule: "Don't duplicate the accessible name (aria-label + same visible text = repeats in a screen reader)." },
+      {
+        rule: "Use aria-invalid on form fields with errors — Care UI inputs and buttons style this automatically.",
+      },
+      {
+        rule: "Use aria-pressed on toggle buttons, aria-expanded on disclosure triggers, aria-current on the active nav item.",
+      },
+      {
+        rule: 'Async updates (toasts, validation, save status) live in a region with aria-live="polite" — Sonner does this for you.',
+      },
+      {
+        rule: 'role="status" for non-urgent updates, role="alert" for errors that demand attention.',
+      },
+      {
+        rule: "Don't duplicate the accessible name (aria-label + same visible text = repeats in a screen reader).",
+      },
     ],
   },
   {
     id: "color-contrast",
     title: "Color & contrast",
     items: [
-      { rule: "Use semantic color tokens only (text-foreground, text-muted-foreground, bg-card …). They guarantee AA in every theme." },
-      { rule: "Body text ≥ 4.5:1. Large text (18.66px+ bold or 24px+) ≥ 3:1. UI components and graphical objects ≥ 3:1 (WCAG 2.2 SC 1.4.11)." },
-      { rule: "Never communicate state by color alone — pair with an icon, label, or shape (status badges, chart series)." },
-      { rule: "Test under the high-contrast and color-blind themes before shipping any new color combination." },
+      {
+        rule: "Use semantic color tokens only (text-foreground, text-muted-foreground, bg-card …). They guarantee AA in every theme.",
+      },
+      {
+        rule: "Body text ≥ 4.5:1. Large text (18.66px+ bold or 24px+) ≥ 3:1. UI components and graphical objects ≥ 3:1 (WCAG 2.2 SC 1.4.11).",
+      },
+      {
+        rule: "Never communicate state by color alone — pair with an icon, label, or shape (status badges, chart series).",
+      },
+      {
+        rule: "Test under the high-contrast and color-blind themes before shipping any new color combination.",
+      },
     ],
   },
   {
     id: "motion",
     title: "Motion",
     items: [
-      { rule: "Honor prefers-reduced-motion. Either disable the animation or provide a reduced variant." },
-      { rule: "Animate transform and opacity only (compositor-friendly). Never transition: all." },
-      { rule: "Animations must be interruptible — respond to user input mid-animation." },
-      { rule: "Avoid parallax, autoplay, or anything that flashes more than 3 times per second (WCAG 2.3.1)." },
+      {
+        rule: "Honor prefers-reduced-motion. Either disable the animation or provide a reduced variant.",
+      },
+      {
+        rule: "Animate transform and opacity only (compositor-friendly). Never transition: all.",
+      },
+      {
+        rule: "Animations must be interruptible — respond to user input mid-animation.",
+      },
+      {
+        rule: "Avoid parallax, autoplay, or anything that flashes more than 3 times per second (WCAG 2.3.1).",
+      },
     ],
   },
   {
     id: "touch",
     title: "Touch & pointer",
     items: [
-      { rule: "Minimum 24×24 hit target (WCAG 2.5.8 AA), prefer 44×44. Use the hit-area-* utility on small icon buttons." },
-      { rule: "Default form controls are h-12 md:h-10 — touch-friendly on mobile, dense on desktop." },
-      { rule: "Add touch-action: manipulation on tappable elements to remove the 300ms double-tap delay." },
-      { rule: "Never block paste (onPaste + preventDefault) — assistive tech relies on it." },
+      {
+        rule: "Minimum 24×24 hit target (WCAG 2.5.8 AA), prefer 44×44. Use the hit-area-* utility on small icon buttons.",
+      },
+      {
+        rule: "Default form controls are h-12 md:h-10 — touch-friendly on mobile, dense on desktop.",
+      },
+      {
+        rule: "Add touch-action: manipulation on tappable elements to remove the 300ms double-tap delay.",
+      },
+      {
+        rule: "Never block paste (onPaste + preventDefault) — assistive tech relies on it.",
+      },
     ],
   },
   {
     id: "media",
     title: "Images, video, icons",
     items: [
-      { rule: "<img> needs meaningful alt — or alt=\"\" if purely decorative. Never omit the attribute." },
+      {
+        rule: '<img> needs meaningful alt — or alt="" if purely decorative. Never omit the attribute.',
+      },
       { rule: "Set explicit width and height to prevent layout shift." },
-      { rule: "Decorative SVGs: aria-hidden=\"true\" + focusable=\"false\". Meaningful SVGs: <title> as the accessible name." },
-      { rule: "Video / audio needs captions (WCAG 1.2.2) and a transcript for long content." },
+      {
+        rule: 'Decorative SVGs: aria-hidden="true" + focusable="false". Meaningful SVGs: <title> as the accessible name.',
+      },
+      {
+        rule: "Video / audio needs captions (WCAG 1.2.2) and a transcript for long content.",
+      },
     ],
   },
   {
     id: "language-i18n",
     title: "Language & internationalisation",
     items: [
-      { rule: "Set <html lang=\"…\"> and update it when the user switches language." },
-      { rule: "Use Intl.DateTimeFormat and Intl.NumberFormat — never hardcode date or number formats." },
-      { rule: "Wrap brand names, identifiers, and code tokens with translate=\"no\" so auto-translate doesn't mangle them." },
-      { rule: "Prefer logical CSS properties (margin-inline, padding-block) so layouts mirror under RTL." },
+      {
+        rule: 'Set <html lang="…"> and update it when the user switches language.',
+      },
+      {
+        rule: "Use Intl.DateTimeFormat and Intl.NumberFormat — never hardcode date or number formats.",
+      },
+      {
+        rule: 'Wrap brand names, identifiers, and code tokens with translate="no" so auto-translate doesn\'t mangle them.',
+      },
+      {
+        rule: "Prefer logical CSS properties (margin-inline, padding-block) so layouts mirror under RTL.",
+      },
     ],
   },
 ];
@@ -255,12 +331,30 @@ const ANTI_PATTERNS: string[] = [
 ];
 
 const TOOLS: { name: string; use: string }[] = [
-  { name: "Keyboard only", use: "Unplug the mouse. Tab through every flow. If you can't reach or activate something, it's broken." },
-  { name: "Screen reader", use: "macOS VoiceOver (⌘F5), Windows NVDA, JAWS, or iOS / Android TalkBack — verify the accessible name announces correctly." },
-  { name: "Axe DevTools", use: "Browser extension for automated WCAG checks. Catches 30–40% of issues; the rest still need manual review." },
-  { name: "High-contrast + color-blind themes", use: "Toggle them in the docs settings page to sanity-check every new color combo." },
-  { name: "Prefers-reduced-motion", use: "macOS: System Settings → Accessibility → Display → Reduce motion. Windows: Settings → Accessibility → Visual effects." },
-  { name: "Zoom to 200%", use: "WCAG 1.4.10 — content must reflow without horizontal scroll at 320 CSS px wide." },
+  {
+    name: "Keyboard only",
+    use: "Unplug the mouse. Tab through every flow. If you can't reach or activate something, it's broken.",
+  },
+  {
+    name: "Screen reader",
+    use: "macOS VoiceOver (⌘F5), Windows NVDA, JAWS, or iOS / Android TalkBack — verify the accessible name announces correctly.",
+  },
+  {
+    name: "Axe DevTools",
+    use: "Browser extension for automated WCAG checks. Catches 30–40% of issues; the rest still need manual review.",
+  },
+  {
+    name: "High-contrast + color-blind themes",
+    use: "Toggle them in the docs settings page to sanity-check every new color combo.",
+  },
+  {
+    name: "Prefers-reduced-motion",
+    use: "macOS: System Settings → Accessibility → Display → Reduce motion. Windows: Settings → Accessibility → Visual effects.",
+  },
+  {
+    name: "Zoom to 200%",
+    use: "WCAG 1.4.10 — content must reflow without horizontal scroll at 320 CSS px wide.",
+  },
 ];
 
 export function AccessibilityPage() {
@@ -272,14 +366,13 @@ export function AccessibilityPage() {
           <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
             Documentation
           </div>
-          <h1 className="scroll-m-20 mt-3 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
+          <h1 className="mt-3 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
             Accessibility
           </h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-xl leading-7">
             Care UI targets <strong>WCAG 2.2 AA</strong> across every theme.
-            Half of the work is built into the design tokens and
-            primitives; the other half is a short checklist every
-            contributor must apply.
+            Half of the work is built into the design tokens and primitives; the
+            other half is a short checklist every contributor must apply.
           </p>
         </header>
 
@@ -289,23 +382,22 @@ export function AccessibilityPage() {
           <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
             <li>
               <strong>WCAG 2.2 AA</strong> — the legal baseline in most
-              jurisdictions and the level every Care UI component is
-              tested against.
+              jurisdictions and the level every Care UI component is tested
+              against.
             </li>
             <li>
               <strong>WAI-ARIA Authoring Practices 1.2</strong> — Care UI
-              composes Radix primitives, which follow APG patterns for
-              dialogs, menus, listboxes, tabs, and combobox.
+              composes Radix primitives, which follow APG patterns for dialogs,
+              menus, listboxes, tabs, and combobox.
             </li>
             <li>
-              <strong>EN 301 549</strong> &amp; <strong>Section 508</strong>{" "}
-              — both reference WCAG 2.x; passing WCAG AA satisfies the
-              technical requirements of each.
+              <strong>EN 301 549</strong> &amp; <strong>Section 508</strong> —
+              both reference WCAG 2.x; passing WCAG AA satisfies the technical
+              requirements of each.
             </li>
             <li>
-              <strong>Vercel Web Interface Guidelines</strong> — the
-              practical rule-set this page&apos;s checklist is derived
-              from.
+              <strong>Vercel Web Interface Guidelines</strong> — the practical
+              rule-set this page&apos;s checklist is derived from.
             </li>
           </ul>
         </section>
@@ -316,9 +408,8 @@ export function AccessibilityPage() {
             What Care UI gives you for free
           </SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Before you write a single attribute, the design tokens and
-            providers below are already doing accessibility work on your
-            behalf.
+            Before you write a single attribute, the design tokens and providers
+            below are already doing accessibility work on your behalf.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -353,9 +444,9 @@ export function AccessibilityPage() {
         <section>
           <SectionHeading id="checklist">Author checklist</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Apply every rule below when authoring a new component or
-            composing existing ones. Each group maps to one WCAG outcome
-            and one place reviewers will look during code review.
+            Apply every rule below when authoring a new component or composing
+            existing ones. Each group maps to one WCAG outcome and one place
+            reviewers will look during code review.
           </p>
 
           <div className="mt-8 space-y-10">
@@ -390,8 +481,8 @@ export function AccessibilityPage() {
         <section>
           <SectionHeading id="anti-patterns">Anti-patterns</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Reviewers will flag any of these on sight. They are the most
-            common ways an otherwise good component becomes inaccessible.
+            Reviewers will flag any of these on sight. They are the most common
+            ways an otherwise good component becomes inaccessible.
           </p>
           <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
             {ANTI_PATTERNS.map((p) => (
@@ -404,9 +495,9 @@ export function AccessibilityPage() {
         <section>
           <SectionHeading id="testing">Testing &amp; tooling</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Automated tools catch a fraction of accessibility issues.
-            Combine them with the manual passes below before any
-            non-trivial change ships.
+            Automated tools catch a fraction of accessibility issues. Combine
+            them with the manual passes below before any non-trivial change
+            ships.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -455,8 +546,8 @@ export function AccessibilityPage() {
                   <InlineCode>aria-expanded</InlineCode>).
                 </li>
                 <li>
-                  Use Care UI tokens — they ship the right contrast in
-                  every theme.
+                  Use Care UI tokens — they ship the right contrast in every
+                  theme.
                 </li>
                 <li>
                   Guard every animation with{" "}
@@ -483,8 +574,8 @@ export function AccessibilityPage() {
                   Use raw hex / OKLCH values that bypass the theme system.
                 </li>
                 <li>
-                  Set positive <InlineCode>tabIndex</InlineCode> or
-                  override Radix focus-trap behavior.
+                  Set positive <InlineCode>tabIndex</InlineCode> or override
+                  Radix focus-trap behavior.
                 </li>
               </ul>
             </div>

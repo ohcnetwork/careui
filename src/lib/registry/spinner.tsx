@@ -18,12 +18,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import {
-  Item,
-  ItemContent,
-  ItemMedia,
-  ItemTitle,
-} from "@/components/ui/item";
+import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 import { cn } from "@/lib/utils";
 import { ArrowUpIcon, LoaderIcon } from "lucide-react";
 
@@ -89,7 +84,8 @@ export function SpinnerDemo() {
   examples: [
     {
       name: "Size",
-      description: "Use the size-* utility class to change the size of the spinner.",
+      description:
+        "Use the size-* utility class to change the size of the spinner.",
       code: `import { Spinner } from "@/components/ui/spinner"
 
 export function SpinnerSize() {
@@ -142,19 +138,25 @@ export function SpinnerButton() {
         React.createElement(
           Button,
           { disabled: true, size: "sm" },
-          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          React.createElement(Spinner, {
+            ["data-icon"]: "inline-start",
+          } as any),
           "Loading..."
         ),
         React.createElement(
           Button,
           { variant: "outline", disabled: true, size: "sm" },
-          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          React.createElement(Spinner, {
+            ["data-icon"]: "inline-start",
+          } as any),
           "Please wait"
         ),
         React.createElement(
           Button,
           { variant: "secondary", disabled: true, size: "sm" },
-          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          React.createElement(Spinner, {
+            ["data-icon"]: "inline-start",
+          } as any),
           "Processing"
         )
       ),
@@ -190,26 +192,33 @@ export function SpinnerBadge() {
         React.createElement(
           Badge,
           {},
-          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          React.createElement(Spinner, {
+            ["data-icon"]: "inline-start",
+          } as any),
           "Syncing"
         ),
         React.createElement(
           Badge,
           { variant: "secondary" } as any,
-          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          React.createElement(Spinner, {
+            ["data-icon"]: "inline-start",
+          } as any),
           "Updating"
         ),
         React.createElement(
           Badge,
           { variant: "outline" } as any,
-          React.createElement(Spinner, { ["data-icon"]: "inline-start" } as any),
+          React.createElement(Spinner, {
+            ["data-icon"]: "inline-start",
+          } as any),
           "Processing"
         )
       ),
     },
     {
       name: "Input Group",
-      description: "Add a spinner to an input group to indicate a loading or validation state.",
+      description:
+        "Add a spinner to an input group to indicate a loading or validation state.",
       code: `import {
   InputGroup,
   InputGroupAddon,
@@ -282,7 +291,8 @@ export function SpinnerInputGroup() {
     },
     {
       name: "Empty",
-      description: "Use a spinner in an empty state to indicate a loading or processing state.",
+      description:
+        "Use a spinner in an empty state to indicate a loading or processing state.",
       code: `import { Button } from "@/components/ui/button"
 import {
   Empty,
@@ -346,7 +356,8 @@ export function SpinnerEmpty() {
     // ── Customization ─────────────────────────────────────────────────────
     {
       name: "Customization",
-      description: "Replace the default spinner icon with any icon by editing the Spinner component.",
+      description:
+        "Replace the default spinner icon with any icon by editing the Spinner component.",
       code: `import { LoaderIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -447,7 +458,10 @@ export function SpinnerRtl() {
 }`,
       preview: React.createElement(
         "div",
-        { className: "flex w-full max-w-xs flex-col gap-4 [--radius:1rem]", dir: "rtl" },
+        {
+          className: "flex w-full max-w-xs flex-col gap-4 [--radius:1rem]",
+          dir: "rtl",
+        },
         React.createElement(
           Item,
           { variant: "muted" } as any,
@@ -475,7 +489,8 @@ export function SpinnerRtl() {
     },
     {
       name: "Radial Spinner",
-      description: "A 12-bar radial spinner — the classic iOS/macOS activity indicator. Use size-* utilities to scale; inherits currentColor.",
+      description:
+        "A 12-bar radial spinner — the classic iOS/macOS activity indicator. Use size-* utilities to scale; inherits currentColor.",
       code: `import { RadialSpinner } from "@/components/ui/spinner"
 
 export function RadialSpinnerDemo() {
@@ -494,7 +509,7 @@ export function RadialSpinnerDemo() {
         React.createElement(RadialSpinner, { className: "size-3" }),
         React.createElement(RadialSpinner, { className: "size-4" }),
         React.createElement(RadialSpinner, { className: "size-6" }),
-        React.createElement(RadialSpinner, { className: "size-8" }),
+        React.createElement(RadialSpinner, { className: "size-8" })
       ),
     },
   ],

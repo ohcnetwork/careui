@@ -4,12 +4,12 @@
  * @dependencies radix-ui
  * @type registry:ui
  */
-import * as React from "react"
-import { Checkbox as CheckboxPrimitive } from "radix-ui"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { Checkbox as CheckboxPrimitive } from "radix-ui";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
-import { CheckIcon } from "lucide-react"
+import { cn } from "@/lib/utils";
+import { CheckIcon } from "lucide-react";
 
 const checkboxVariants = cva(
   "peer relative flex shrink-0 items-center justify-center rounded-[4px] border border-input shadow-xs transition-shadow outline-none group-has-disabled/field:opacity-50 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary",
@@ -24,7 +24,7 @@ const checkboxVariants = cva(
       size: "default",
     },
   }
-)
+);
 
 function Checkbox({
   className,
@@ -45,7 +45,7 @@ function Checkbox({
         <CheckIcon />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
-  )
+  );
 }
 
-export { Checkbox, checkboxVariants }
+export { Checkbox, checkboxVariants };

@@ -76,7 +76,7 @@ function DatePicker({
           data-empty={!selected}
           disabled={disabled}
           className={cn(
-            "w-full justify-between font-normal data-[empty=true]:text-muted-foreground",
+            "data-[empty=true]:text-muted-foreground w-full justify-between font-normal",
             className
           )}
         >
@@ -150,7 +150,7 @@ function DatePickerRange({
           data-empty={!selected?.from}
           disabled={disabled}
           className={cn(
-            "w-full justify-start gap-2 px-2.5 font-normal data-[empty=true]:text-muted-foreground",
+            "data-[empty=true]:text-muted-foreground w-full justify-start gap-2 px-2.5 font-normal",
             className
           )}
         >
@@ -320,7 +320,7 @@ function DatePickerSegmentedInput({
       data-slot="date-picker-segmented-input"
       aria-disabled={disabled || undefined}
       className={cn(
-        "group/date-input relative flex h-12 md:h-10 w-full min-w-0 items-center rounded-md border border-input bg-transparent shadow-xs transition-[color,box-shadow] outline-none focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 aria-disabled:opacity-50 dark:bg-input/30",
+        "group/date-input border-input focus-within:border-ring focus-within:ring-ring/50 dark:bg-input/30 relative flex h-12 w-full min-w-0 items-center rounded-md border bg-transparent shadow-xs transition-[color,box-shadow] outline-none focus-within:ring-3 aria-disabled:opacity-50 md:h-10",
         className
       )}
     >
@@ -342,7 +342,7 @@ function DatePickerSegmentedInput({
             id={id}
             disabled={disabled}
             aria-label={ariaLabel ?? "Open calendar"}
-            className="mr-1 size-10 md:size-8 shrink-0 rounded-[calc(var(--radius)-5px)]"
+            className="mr-1 size-10 shrink-0 rounded-[calc(var(--radius)-5px)] md:size-8"
           >
             <CalendarIcon className="size-4" />
           </Button>

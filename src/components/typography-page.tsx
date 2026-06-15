@@ -280,12 +280,42 @@ const APP_HEADINGS: AppHeadingRow[] = [
 ];
 
 const WEIGHTS: WeightRow[] = [
-  { token: "light", weight: 300, className: "font-light", usage: "Decorative display copy only." },
-  { token: "normal", weight: 400, className: "font-normal", usage: "Body text default." },
-  { token: "medium", weight: 500, className: "font-medium", usage: "Labels, buttons, table headers." },
-  { token: "semibold", weight: 600, className: "font-semibold", usage: "Headings h2–h6, emphasis." },
-  { token: "bold", weight: 700, className: "font-bold", usage: "Strong emphasis inline." },
-  { token: "extrabold", weight: 800, className: "font-extrabold", usage: "Page title (h1) only." },
+  {
+    token: "light",
+    weight: 300,
+    className: "font-light",
+    usage: "Decorative display copy only.",
+  },
+  {
+    token: "normal",
+    weight: 400,
+    className: "font-normal",
+    usage: "Body text default.",
+  },
+  {
+    token: "medium",
+    weight: 500,
+    className: "font-medium",
+    usage: "Labels, buttons, table headers.",
+  },
+  {
+    token: "semibold",
+    weight: 600,
+    className: "font-semibold",
+    usage: "Headings h2–h6, emphasis.",
+  },
+  {
+    token: "bold",
+    weight: 700,
+    className: "font-bold",
+    usage: "Strong emphasis inline.",
+  },
+  {
+    token: "extrabold",
+    weight: 800,
+    className: "font-extrabold",
+    usage: "Page title (h1) only.",
+  },
 ];
 
 type SpacingRow = {
@@ -465,17 +495,83 @@ const FEATURES: FeatureRow[] = [
 ];
 
 const SPACING: SpacingRow[] = [
-  { pair: "h1 → following block", className: "mt-0 (header) / content mt-6", rem: "1.5rem", px: "24px", note: "Lead/intro paragraph follows h1." },
-  { pair: "block → h2", className: "mt-10", rem: "2.5rem", px: "40px", note: "Major section break." },
-  { pair: "h2 → following content", className: "mt-6", rem: "1.5rem", px: "24px", note: "h2 itself has pb-2 underline." },
-  { pair: "block → h3", className: "mt-8", rem: "2rem", px: "32px", note: "Subsection break." },
-  { pair: "h3 → following content", className: "mt-4", rem: "1rem", px: "16px", note: "Tighter than h2 rhythm." },
-  { pair: "block → h4 / h5", className: "mt-6", rem: "1.5rem", px: "24px", note: "Local grouping." },
-  { pair: "p → p", className: "[&:not(:first-child)]:mt-6", rem: "1.5rem", px: "24px", note: "Default body rhythm." },
-  { pair: "p → ul / ol", className: "my-6", rem: "1.5rem", px: "24px", note: "Lists breathe top & bottom." },
-  { pair: "li → li", className: "[&>li]:mt-2", rem: "0.5rem", px: "8px", note: "Compact list rhythm." },
-  { pair: "block → blockquote", className: "mt-6", rem: "1.5rem", px: "24px", note: "Border-left, italic." },
-  { pair: "block → code block", className: "my-6", rem: "1.5rem", px: "24px", note: "Symmetric spacing around code." },
+  {
+    pair: "h1 → following block",
+    className: "mt-0 (header) / content mt-6",
+    rem: "1.5rem",
+    px: "24px",
+    note: "Lead/intro paragraph follows h1.",
+  },
+  {
+    pair: "block → h2",
+    className: "mt-10",
+    rem: "2.5rem",
+    px: "40px",
+    note: "Major section break.",
+  },
+  {
+    pair: "h2 → following content",
+    className: "mt-6",
+    rem: "1.5rem",
+    px: "24px",
+    note: "h2 itself has pb-2 underline.",
+  },
+  {
+    pair: "block → h3",
+    className: "mt-8",
+    rem: "2rem",
+    px: "32px",
+    note: "Subsection break.",
+  },
+  {
+    pair: "h3 → following content",
+    className: "mt-4",
+    rem: "1rem",
+    px: "16px",
+    note: "Tighter than h2 rhythm.",
+  },
+  {
+    pair: "block → h4 / h5",
+    className: "mt-6",
+    rem: "1.5rem",
+    px: "24px",
+    note: "Local grouping.",
+  },
+  {
+    pair: "p → p",
+    className: "[&:not(:first-child)]:mt-6",
+    rem: "1.5rem",
+    px: "24px",
+    note: "Default body rhythm.",
+  },
+  {
+    pair: "p → ul / ol",
+    className: "my-6",
+    rem: "1.5rem",
+    px: "24px",
+    note: "Lists breathe top & bottom.",
+  },
+  {
+    pair: "li → li",
+    className: "[&>li]:mt-2",
+    rem: "0.5rem",
+    px: "8px",
+    note: "Compact list rhythm.",
+  },
+  {
+    pair: "block → blockquote",
+    className: "mt-6",
+    rem: "1.5rem",
+    px: "24px",
+    note: "Border-left, italic.",
+  },
+  {
+    pair: "block → code block",
+    className: "my-6",
+    rem: "1.5rem",
+    px: "24px",
+    note: "Symmetric spacing around code.",
+  },
 ];
 
 function InlineCode({ children }: { children: React.ReactNode }) {
@@ -498,7 +594,7 @@ function SpecRow({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-1 gap-4 border-b border-border px-5 py-6 last:border-b-0 md:grid-cols-[200px_1fr] md:items-start md:gap-8">
+    <div className="border-border grid grid-cols-1 gap-4 border-b px-5 py-6 last:border-b-0 md:grid-cols-[200px_1fr] md:items-start md:gap-8">
       <div className="space-y-1.5">
         <div className="text-foreground text-sm font-medium">{label}</div>
         <code className="text-muted-foreground block font-mono text-xs break-all">
@@ -521,7 +617,7 @@ function SectionHeading({
   return (
     <h2
       id={id}
-      className="scroll-m-20 border-b border-border pb-2 text-3xl font-semibold tracking-tight"
+      className="border-border scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
     >
       {children}
     </h2>
@@ -537,15 +633,15 @@ export function TypographyPage() {
           <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
             Documentation
           </div>
-          <h1 className="scroll-m-20 mt-3 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
+          <h1 className="mt-3 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
             Typography
           </h1>
-            <p className="text-muted-foreground mt-6 max-w-2xl text-xl leading-7">
-              The Care UI type system for healthcare interfaces. Sizes, line
-              heights, letter spacing, and vertical rhythm — tuned for the
-              clarity clinicians need at the bedside and aligned to
-              Tailwind&nbsp;v4 and shadcn/ui conventions.
-            </p>
+          <p className="text-muted-foreground mt-6 max-w-2xl text-xl leading-7">
+            The Care UI type system for healthcare interfaces. Sizes, line
+            heights, letter spacing, and vertical rhythm — tuned for the clarity
+            clinicians need at the bedside and aligned to Tailwind&nbsp;v4 and
+            shadcn/ui conventions.
+          </p>
         </header>
 
         {/* Foundations */}
@@ -636,14 +732,13 @@ export function TypographyPage() {
         <section>
           <SectionHeading id="app-headings">App heading scale</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            The scale used inside the Care product surfaces — patient
-            records, encounter forms, dashboards, dialogs. It is intentionally
-            compressed so clinical data stays above the fold and hierarchy is
-            carried by <strong>weight and rhythm</strong>, not visual drama.
-            Use the components from{" "}
-            <InlineCode>@/components/ui/typography</InlineCode> in product
-            code; the larger docs scale below is for this documentation site,
-            marketing pages, and empty / sign-in screens.
+            The scale used inside the Care product surfaces — patient records,
+            encounter forms, dashboards, dialogs. It is intentionally compressed
+            so clinical data stays above the fold and hierarchy is carried by{" "}
+            <strong>weight and rhythm</strong>, not visual drama. Use the
+            components from <InlineCode>@/components/ui/typography</InlineCode>{" "}
+            in product code; the larger docs scale below is for this
+            documentation site, marketing pages, and empty / sign-in screens.
           </p>
 
           {/* Live preview */}
@@ -651,7 +746,9 @@ export function TypographyPage() {
             <EyebrowTitle className="text-muted-foreground">
               Patient · MRN-00231
             </EyebrowTitle>
-            <PageTitle className="mt-1">Rao, Anitha — admitted 16 May</PageTitle>
+            <PageTitle className="mt-1">
+              Rao, Anitha — admitted 16 May
+            </PageTitle>
             <p className="text-muted-foreground mt-2 text-sm leading-6">
               Female · 47 yrs · Ward 4B · Bed 12 · Dr.&nbsp;Mehta
             </p>
@@ -666,7 +763,8 @@ export function TypographyPage() {
               Medications
             </SubsectionTitle>
             <p className="text-foreground mt-1 text-sm leading-6">
-              Atorvastatin 20&nbsp;mg, Metoprolol 25&nbsp;mg, Aspirin 75&nbsp;mg.
+              Atorvastatin 20&nbsp;mg, Metoprolol 25&nbsp;mg, Aspirin
+              75&nbsp;mg.
             </p>
 
             <GroupTitle className="mt-3 sm:mt-5">Dosage notes</GroupTitle>
@@ -746,33 +844,34 @@ export function TypographyPage() {
               label.
             </p>
             <p className="text-foreground mt-3 text-sm leading-6">
-              <strong>Spacing is intentionally not baked in</strong> so the
-              same heading works flush inside a dialog, generous on a page,
-              and tight in a side panel. The recommended rhythm above is
-              tuned for HMIS density — one notch tighter than shadcn’s docs
-              defaults so stacked dashboard panels and encounter forms keep
-              data above the fold.
+              <strong>Spacing is intentionally not baked in</strong> so the same
+              heading works flush inside a dialog, generous on a page, and tight
+              in a side panel. The recommended rhythm above is tuned for HMIS
+              density — one notch tighter than shadcn’s docs defaults so stacked
+              dashboard panels and encounter forms keep data above the fold.
             </p>
             <p className="text-foreground mt-3 text-sm leading-6">
               <strong>Mobile.</strong> Use the mobile-first pattern{" "}
-              <InlineCode>mt-N sm:mt-M</InlineCode> where{" "}
-              <em>N</em> is one notch tighter than <em>M</em> (e.g.{" "}
+              <InlineCode>mt-N sm:mt-M</InlineCode> where <em>N</em> is one
+              notch tighter than <em>M</em> (e.g.{" "}
               <InlineCode>mt-6 sm:mt-8</InlineCode> on a SectionTitle). Cards,
               dialogs, popovers, and side panels stay on the tight values at
-              every breakpoint. Heading <em>sizes</em> do not need to change
-              on mobile — the scale tops out at 30&nbsp;px and is mobile-safe.
+              every breakpoint. Heading <em>sizes</em> do not need to change on
+              mobile — the scale tops out at 30&nbsp;px and is mobile-safe.
             </p>
           </div>
         </section>
 
         {/* Headings */}
         <section>
-          <SectionHeading id="headings">Documentation heading scale</SectionHeading>
+          <SectionHeading id="headings">
+            Documentation heading scale
+          </SectionHeading>
           <p className="text-foreground mt-6 leading-7">
             The larger shadcn-aligned scale used by this docs site, marketing
             pages, sign-in, and empty states. Use one{" "}
-            <InlineCode>h1</InlineCode> per page. Headings cascade
-            down and never skip levels. All headings use{" "}
+            <InlineCode>h1</InlineCode> per page. Headings cascade down and
+            never skip levels. All headings use{" "}
             <InlineCode>tracking-tight</InlineCode> and{" "}
             <InlineCode>text-balance</InlineCode> (configured globally in{" "}
             <InlineCode>src/index.css</InlineCode>).
@@ -788,24 +887,24 @@ export function TypographyPage() {
               assessments, and the care plan agreed with the clinician.
             </p>
 
-            <h2 className="scroll-m-20 mt-10 border-b border-border pb-2 text-3xl font-semibold tracking-tight">
+            <h2 className="border-border mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
               Presenting Complaint
             </h2>
             <p className="text-foreground mt-6 leading-7">
               The patient reports persistent chest discomfort over the last
-              forty-eight hours, worsening on exertion and partially relieved
-              by rest.
+              forty-eight hours, worsening on exertion and partially relieved by
+              rest.
             </p>
 
-            <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+            <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
               Vitals on Arrival
             </h3>
             <p className="text-foreground mt-4 leading-7">
-              Blood pressure 138/86&nbsp;mmHg, heart rate 92&nbsp;bpm, SpO₂
-              97% on room air, temperature 37.1&nbsp;°C.
+              Blood pressure 138/86&nbsp;mmHg, heart rate 92&nbsp;bpm, SpO₂ 97%
+              on room air, temperature 37.1&nbsp;°C.
             </p>
 
-            <h4 className="scroll-m-20 mt-6 text-xl font-semibold tracking-tight">
+            <h4 className="mt-6 scroll-m-20 text-xl font-semibold tracking-tight">
               Differential Diagnosis
             </h4>
             <p className="text-foreground mt-4 leading-7">
@@ -814,10 +913,10 @@ export function TypographyPage() {
               further workup.
             </p>
 
-            <h5 className="scroll-m-20 mt-6 text-lg font-semibold tracking-tight">
+            <h5 className="mt-6 scroll-m-20 text-lg font-semibold tracking-tight">
               Investigations ordered
             </h5>
-            <h6 className="scroll-m-20 mt-4 text-base font-semibold tracking-tight">
+            <h6 className="mt-4 scroll-m-20 text-base font-semibold tracking-tight">
               Follow-up in 48 hours
             </h6>
           </article>
@@ -866,7 +965,7 @@ export function TypographyPage() {
           <div className="border-border mt-6 rounded-lg border">
             <SpecRow
               label="Lead"
-              className="text-xl text-muted-foreground leading-7"
+              className="text-muted-foreground text-xl leading-7"
               meta="20px / 28px · For intros under an h1"
             >
               <p className="text-muted-foreground text-xl leading-7">
@@ -924,8 +1023,8 @@ export function TypographyPage() {
           <SectionHeading id="inline">Inline Elements</SectionHeading>
           <div className="border-border bg-card mt-6 space-y-4 rounded-lg border p-6">
             <p className="text-foreground leading-7">
-              Use <strong>strong</strong> for strong importance, <em>em</em>{" "}
-              for stress emphasis, and <InlineCode>inline code</InlineCode> for
+              Use <strong>strong</strong> for strong importance, <em>em</em> for
+              stress emphasis, and <InlineCode>inline code</InlineCode> for
               short identifiers. Long-form code belongs in a{" "}
               <InlineCode>&lt;pre&gt;</InlineCode> block.
             </p>
@@ -993,17 +1092,28 @@ export function TypographyPage() {
 
         {/* Lists / blockquote */}
         <section>
-          <SectionHeading id="lists">Lists, Quote &amp; Code Block</SectionHeading>
+          <SectionHeading id="lists">
+            Lists, Quote &amp; Code Block
+          </SectionHeading>
 
           <div className="border-border bg-card mt-6 space-y-6 rounded-lg border p-6 md:p-8">
             <div>
               <p className="text-muted-foreground mb-2 text-xs font-medium tracking-wide uppercase">
-                Unordered list — <code className="font-mono">my-6 ml-6 list-disc [&amp;&gt;li]:mt-2</code>
+                Unordered list —{" "}
+                <code className="font-mono">
+                  my-6 ml-6 list-disc [&amp;&gt;li]:mt-2
+                </code>
               </p>
               <ul className="text-foreground my-6 ml-6 list-disc leading-7 [&>li]:mt-2">
-                <li>Record vitals every four hours during the first 24 hours.</li>
-                <li>Continue intravenous fluids until oral intake is established.</li>
-                <li>Escalate to the on-call physician for any acute changes.</li>
+                <li>
+                  Record vitals every four hours during the first 24 hours.
+                </li>
+                <li>
+                  Continue intravenous fluids until oral intake is established.
+                </li>
+                <li>
+                  Escalate to the on-call physician for any acute changes.
+                </li>
               </ul>
             </div>
 
@@ -1011,12 +1121,13 @@ export function TypographyPage() {
 
             <div>
               <p className="text-muted-foreground mb-2 text-xs font-medium tracking-wide uppercase">
-                Blockquote — <code className="font-mono">mt-6 border-l-2 pl-6 italic</code>
+                Blockquote —{" "}
+                <code className="font-mono">mt-6 border-l-2 pl-6 italic</code>
               </p>
-              <blockquote className="text-foreground mt-6 border-l-2 border-border pl-6 italic">
+              <blockquote className="text-foreground border-border mt-6 border-l-2 pl-6 italic">
                 &ldquo;The patient should remain nil by mouth until reviewed by
-                the anaesthetic team in the morning,&rdquo; noted the
-                attending physician.
+                the anaesthetic team in the morning,&rdquo; noted the attending
+                physician.
               </blockquote>
             </div>
 
@@ -1024,7 +1135,8 @@ export function TypographyPage() {
 
             <div>
               <p className="text-muted-foreground mb-2 text-xs font-medium tracking-wide uppercase">
-                Code block — <code className="font-mono">my-6 rounded-lg bg-muted p-4</code>
+                Code block —{" "}
+                <code className="font-mono">my-6 rounded-lg bg-muted p-4</code>
               </p>
               <pre className="bg-muted my-6 overflow-x-auto rounded-lg p-4">
                 <code className="font-mono text-sm">{`function calculateBmi(weightKg, heightM) {
@@ -1062,7 +1174,9 @@ export function TypographyPage() {
                       {w.className}
                     </TableCell>
                     <TableCell>
-                      <span className={`${w.className} text-foreground text-base`}>
+                      <span
+                        className={`${w.className} text-foreground text-base`}
+                      >
                         Care UI
                       </span>
                     </TableCell>
@@ -1118,7 +1232,7 @@ export function TypographyPage() {
 
           {/* Visual rhythm */}
           <div className="border-border bg-card relative mt-6 rounded-lg border p-6 md:p-8">
-            <div className="relative border-l border-dashed border-border pl-6">
+            <div className="border-border relative border-l border-dashed pl-6">
               <RhythmTag offset="0px" label="h1" />
               <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight">
                 Encounter summary
@@ -1126,12 +1240,12 @@ export function TypographyPage() {
 
               <RhythmTag offset="24px" label="mt-6" />
               <p className="text-muted-foreground mt-6 text-xl leading-7">
-                An overview of the patient&apos;s admission, ongoing orders,
-                and care team.
+                An overview of the patient&apos;s admission, ongoing orders, and
+                care team.
               </p>
 
               <RhythmTag offset="40px" label="mt-10" />
-              <h2 className="scroll-m-20 mt-10 border-b border-border pb-2 text-3xl font-semibold tracking-tight">
+              <h2 className="border-border mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
                 Active medications
               </h2>
 
@@ -1148,7 +1262,7 @@ export function TypographyPage() {
               </p>
 
               <RhythmTag offset="32px" label="mt-8" />
-              <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+              <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
                 Pending tasks
               </h3>
 
@@ -1164,11 +1278,10 @@ export function TypographyPage() {
         <section>
           <SectionHeading id="roles">Roles — when to use what</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            The scale answers <em>how big</em>; this table answers <em>which
-            one</em>. Match the role to the job before reaching for a size
-            — most UI text is <InlineCode>text-sm</InlineCode> or{" "}
-            <InlineCode>text-base</InlineCode>; the larger sizes are
-            structural.
+            The scale answers <em>how big</em>; this table answers{" "}
+            <em>which one</em>. Match the role to the job before reaching for a
+            size — most UI text is <InlineCode>text-sm</InlineCode> or{" "}
+            <InlineCode>text-base</InlineCode>; the larger sizes are structural.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -1210,10 +1323,10 @@ export function TypographyPage() {
           <SectionHeading id="case">Case &amp; tracking</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
             Care UI uses <strong>sentence case</strong> almost everywhere.
-            Sentence case scans faster, translates cleanly, and stays
-            readable across the type scale. The exceptions — UPPERCASE
-            eyebrows, badges, and identifiers — are small and always
-            tracked out so the letterforms breathe.
+            Sentence case scans faster, translates cleanly, and stays readable
+            across the type scale. The exceptions — UPPERCASE eyebrows, badges,
+            and identifiers — are small and always tracked out so the
+            letterforms breathe.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -1281,20 +1394,22 @@ export function TypographyPage() {
               </div>
             </div>
             <p className="text-muted-foreground text-sm leading-6">
-              All-caps removes the x-height differences that help the eye
-              parse words. Tracking out (positive letter-spacing) restores
-              the rhythm. The smaller the size, the more tracking you need.
+              All-caps removes the x-height differences that help the eye parse
+              words. Tracking out (positive letter-spacing) restores the rhythm.
+              The smaller the size, the more tracking you need.
             </p>
           </div>
         </section>
 
         {/* Numerics & features */}
         <section>
-          <SectionHeading id="numerics">Numerics &amp; font features</SectionHeading>
+          <SectionHeading id="numerics">
+            Numerics &amp; font features
+          </SectionHeading>
           <p className="text-foreground mt-6 leading-7">
             Clinical UIs are full of numbers. Switch on the right OpenType
-            feature so columns align, identifiers are unambiguous, and
-            prose still reads naturally.
+            feature so columns align, identifiers are unambiguous, and prose
+            still reads naturally.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -1334,9 +1449,9 @@ export function TypographyPage() {
               <p className="text-muted-foreground mt-2 text-sm leading-6">
                 Without <InlineCode>tabular-nums</InlineCode> the digit{" "}
                 <strong>1</strong> is narrower than <strong>0</strong> or{" "}
-                <strong>8</strong>, so the decimal points and right edges
-                drift. Tabular figures lock every digit to the same advance
-                width and the column locks up.
+                <strong>8</strong>, so the decimal points and right edges drift.
+                Tabular figures lock every digit to the same advance width and
+                the column locks up.
               </p>
               <div className="mt-5 grid grid-cols-2 gap-8">
                 <div>
@@ -1400,10 +1515,10 @@ export function TypographyPage() {
                 Use case · numbers inside a sentence
               </div>
               <p className="text-muted-foreground mt-2 text-sm leading-6">
-                In running prose, proportional figures (the default) read
-                more naturally because the <strong>1</strong> doesn&apos;t
-                sit inside its own oversized box. Only switch to tabular
-                when columns or live values need alignment.
+                In running prose, proportional figures (the default) read more
+                naturally because the <strong>1</strong> doesn&apos;t sit inside
+                its own oversized box. Only switch to tabular when columns or
+                live values need alignment.
               </p>
               <div className="mt-5 space-y-3">
                 <div>
@@ -1411,8 +1526,8 @@ export function TypographyPage() {
                     Proportional — natural rhythm
                   </div>
                   <p className="text-foreground text-base leading-7">
-                    Patient admitted on 11 April 2025, discharged after 18
-                    days with 1,118 units of medication administered.
+                    Patient admitted on 11 April 2025, discharged after 18 days
+                    with 1,118 units of medication administered.
                   </p>
                 </div>
                 <div>
@@ -1420,8 +1535,8 @@ export function TypographyPage() {
                     <InlineCode>tabular-nums</InlineCode> — gappy in prose
                   </div>
                   <p className="text-foreground text-base leading-7 tabular-nums">
-                    Patient admitted on 11 April 2025, discharged after 18
-                    days with 1,118 units of medication administered.
+                    Patient admitted on 11 April 2025, discharged after 18 days
+                    with 1,118 units of medication administered.
                   </p>
                 </div>
               </div>
@@ -1431,22 +1546,24 @@ export function TypographyPage() {
 
         {/* Punctuation */}
         <section>
-          <SectionHeading id="punctuation">Punctuation &amp; characters</SectionHeading>
+          <SectionHeading id="punctuation">
+            Punctuation &amp; characters
+          </SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Small character choices add up. Use the correct glyph in copy
-            — they render better, translate cleanly, and signal care.
+            Small character choices add up. Use the correct glyph in copy — they
+            render better, translate cleanly, and signal care.
           </p>
           <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
             <li>
-              Use a single ellipsis character (…) — never three dots
-              (<InlineCode>...</InlineCode>).
+              Use a single ellipsis character (…) — never three dots (
+              <InlineCode>...</InlineCode>).
             </li>
             <li>
               Curly quotes (“” ‘’), not straight (<InlineCode>" '</InlineCode>).
             </li>
             <li>
-              Non-breaking space (<InlineCode>&amp;nbsp;</InlineCode>)
-              between value and unit: <InlineCode>10&nbsp;mg</InlineCode>,{" "}
+              Non-breaking space (<InlineCode>&amp;nbsp;</InlineCode>) between
+              value and unit: <InlineCode>10&nbsp;mg</InlineCode>,{" "}
               <InlineCode>37.1&nbsp;°C</InlineCode>,{" "}
               <InlineCode>⌘&nbsp;K</InlineCode>.
             </li>
@@ -1456,14 +1573,14 @@ export function TypographyPage() {
               <InlineCode>Loading…</InlineCode>.
             </li>
             <li>
-              En dash (–) for ranges (<InlineCode>9–17</InlineCode>),
-              em dash (—) for parenthetical breaks.
+              En dash (–) for ranges (<InlineCode>9–17</InlineCode>), em dash
+              (—) for parenthetical breaks.
             </li>
             <li>
-              Use <InlineCode>text-wrap: balance</InlineCode>{" "}
-              (<InlineCode>text-balance</InlineCode>) on headings and{" "}
-              <InlineCode>text-pretty</InlineCode> on long paragraphs to
-              prevent widows.
+              Use <InlineCode>text-wrap: balance</InlineCode> (
+              <InlineCode>text-balance</InlineCode>) on headings and{" "}
+              <InlineCode>text-pretty</InlineCode> on long paragraphs to prevent
+              widows.
             </li>
           </ul>
         </section>
@@ -1477,14 +1594,42 @@ export function TypographyPage() {
                 Do
               </div>
               <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>Use a single <code className="font-mono">h1</code> per page.</li>
-                <li>Default to <strong>sentence case</strong> for every label, button, heading, and toast.</li>
-                <li>Apply <code className="font-mono">tracking-tight</code> on headings ≥ <code className="font-mono">text-2xl</code>.</li>
-                <li>Pair UPPERCASE with <code className="font-mono">tracking-widest</code> (0.1em) at ≤12px, <code className="font-mono">tracking-wide</code> (0.025em) at 13–14px.</li>
-                <li>Use <code className="font-mono">tabular-nums</code> on any column of numbers; add <code className="font-mono">slashed-zero</code> for IDs.</li>
-                <li>Use <code className="font-mono">leading-7</code> for any multi-line prose.</li>
-                <li>Use <code className="font-mono">text-muted-foreground</code> for secondary text, never opacity.</li>
-                <li>Use semantic tags — <code className="font-mono">h1–h6</code>, <code className="font-mono">p</code>, <code className="font-mono">ul</code>, <code className="font-mono">code</code>.</li>
+                <li>
+                  Use a single <code className="font-mono">h1</code> per page.
+                </li>
+                <li>
+                  Default to <strong>sentence case</strong> for every label,
+                  button, heading, and toast.
+                </li>
+                <li>
+                  Apply <code className="font-mono">tracking-tight</code> on
+                  headings ≥ <code className="font-mono">text-2xl</code>.
+                </li>
+                <li>
+                  Pair UPPERCASE with{" "}
+                  <code className="font-mono">tracking-widest</code> (0.1em) at
+                  ≤12px, <code className="font-mono">tracking-wide</code>{" "}
+                  (0.025em) at 13–14px.
+                </li>
+                <li>
+                  Use <code className="font-mono">tabular-nums</code> on any
+                  column of numbers; add{" "}
+                  <code className="font-mono">slashed-zero</code> for IDs.
+                </li>
+                <li>
+                  Use <code className="font-mono">leading-7</code> for any
+                  multi-line prose.
+                </li>
+                <li>
+                  Use <code className="font-mono">text-muted-foreground</code>{" "}
+                  for secondary text, never opacity.
+                </li>
+                <li>
+                  Use semantic tags — <code className="font-mono">h1–h6</code>,{" "}
+                  <code className="font-mono">p</code>,{" "}
+                  <code className="font-mono">ul</code>,{" "}
+                  <code className="font-mono">code</code>.
+                </li>
               </ul>
             </div>
             <div className="border-border bg-card space-y-3 rounded-lg border p-6">
@@ -1492,14 +1637,37 @@ export function TypographyPage() {
                 Don&apos;t
               </div>
               <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>Skip heading levels (<code className="font-mono">h2 → h4</code>).</li>
-                <li>Set arbitrary <code className="font-mono">font-size</code> or <code className="font-mono">line-height</code> values inline.</li>
-                <li>Use <code className="font-mono">font-light</code> below <code className="font-mono">text-xl</code> — legibility drops.</li>
-                <li>Mix <code className="font-mono">tracking-tight</code> on body copy — reserved for headings.</li>
-                <li>Apply Title Case or UPPERCASE to button labels or full sentences — it slows reading and breaks translation.</li>
-                <li>Use UPPERCASE without tracking — the word loses its shape.</li>
-                <li>Use three dots (<code className="font-mono">...</code>) or straight quotes in copy — use … and curly quotes.</li>
-                <li>Use <code className="font-mono">text-{`{color}`}-500</code> directly — always go through semantic tokens.</li>
+                <li>
+                  Skip heading levels (
+                  <code className="font-mono">h2 → h4</code>).
+                </li>
+                <li>
+                  Set arbitrary <code className="font-mono">font-size</code> or{" "}
+                  <code className="font-mono">line-height</code> values inline.
+                </li>
+                <li>
+                  Use <code className="font-mono">font-light</code> below{" "}
+                  <code className="font-mono">text-xl</code> — legibility drops.
+                </li>
+                <li>
+                  Mix <code className="font-mono">tracking-tight</code> on body
+                  copy — reserved for headings.
+                </li>
+                <li>
+                  Apply Title Case or UPPERCASE to button labels or full
+                  sentences — it slows reading and breaks translation.
+                </li>
+                <li>
+                  Use UPPERCASE without tracking — the word loses its shape.
+                </li>
+                <li>
+                  Use three dots (<code className="font-mono">...</code>) or
+                  straight quotes in copy — use … and curly quotes.
+                </li>
+                <li>
+                  Use <code className="font-mono">text-{`{color}`}-500</code>{" "}
+                  directly — always go through semantic tokens.
+                </li>
               </ul>
             </div>
           </div>

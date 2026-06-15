@@ -52,7 +52,7 @@ function Section({
 }) {
   return (
     <div className="space-y-3">
-      <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+      <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
         {title}
       </p>
       <div className="flex flex-wrap items-center gap-2">{children}</div>
@@ -100,12 +100,15 @@ export function Playground() {
         <Badge variant="info">Info</Badge>
         <Badge variant="destructive">Destructive</Badge>
         <Badge variant="neutral">Neutral</Badge>
-        <Badge variant="primary" solid>Primary Solid</Badge>
-        <Badge variant="success" solid>Success Solid</Badge>
+        <Badge variant="primary" solid>
+          Primary Solid
+        </Badge>
+        <Badge variant="success" solid>
+          Success Solid
+        </Badge>
       </Section>
 
       <Separator />
-
 
       {/* Loading Animation */}
       <Section title="Loading Animation">
@@ -114,7 +117,7 @@ export function Playground() {
 
       {/* Alerts */}
       <div className="space-y-3">
-        <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+        <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
           Alerts
         </p>
         <div className="space-y-2">
@@ -137,7 +140,7 @@ export function Playground() {
 
       {/* Inputs */}
       <div className="space-y-3">
-        <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+        <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
           Inputs
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -183,13 +186,13 @@ export function Playground() {
 
       {/* Progress & Slider */}
       <div className="space-y-3">
-        <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+        <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
           Progress & Slider
         </p>
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <Progress value={progress} className="flex-1" />
-            <span className="w-10 text-right text-sm tabular-nums text-muted-foreground">
+            <span className="text-muted-foreground w-10 text-right text-sm tabular-nums">
               {progress}%
             </span>
           </div>
@@ -266,7 +269,7 @@ export function Playground() {
 
       {/* Tabs */}
       <div className="space-y-3">
-        <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+        <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
           Tabs
         </p>
         <Tabs defaultValue="tab1">
@@ -281,7 +284,7 @@ export function Playground() {
                 <CardTitle>Tab One Content</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Content for the first tab.
                 </p>
               </CardContent>
@@ -293,7 +296,7 @@ export function Playground() {
                 <CardTitle>Tab Two Content</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Content for the second tab.
                 </p>
               </CardContent>
@@ -305,7 +308,7 @@ export function Playground() {
                 <CardTitle>Tab Three Content</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Content for the third tab.
                 </p>
               </CardContent>
@@ -338,14 +341,11 @@ export function Playground() {
 
       {/* Sidebar */}
       <div className="space-y-3">
-        <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+        <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase">
           Sidebar
         </p>
         <AppSidebarDemo />
       </div>
-
-
-
     </main>
   );
 }

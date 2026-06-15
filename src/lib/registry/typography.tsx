@@ -154,24 +154,24 @@ function SpacingReferenceTables() {
         <p>
           <strong className="text-foreground">How to read.</strong> Pick the
           heading's top margin from Table A — it is constant per level, the
-          element directly above does not change it. Body text sits close to
-          its heading (Table B); the breathing room comes from the heading's
-          own top margin, not from a gap below it.
+          element directly above does not change it. Body text sits close to its
+          heading (Table B); the breathing room comes from the heading's own top
+          margin, not from a gap below it.
         </p>
         <p>
-          <strong className="text-foreground">Mobile rule (HMIS).</strong>{" "}
-          Use the <span className="font-mono">Tight / Mobile</span> column as
-          the base class, and step up with <span className="font-mono">sm:</span>{" "}
+          <strong className="text-foreground">Mobile rule (HMIS).</strong> Use
+          the <span className="font-mono">Tight / Mobile</span> column as the
+          base class, and step up with <span className="font-mono">sm:</span>{" "}
           (≥640&nbsp;px) for the default rhythm — e.g.{" "}
           <span className="font-mono">mt-6 sm:mt-8</span> on a SectionTitle.
-          Cards, dialogs, sheets, popovers, and side panels stay on the
-          Tight column at every breakpoint.
+          Cards, dialogs, sheets, popovers, and side panels stay on the Tight
+          column at every breakpoint.
         </p>
         <p>
           <strong className="text-foreground">Heading sizes on mobile.</strong>{" "}
           The Care UI app scale tops out at 30&nbsp;px (H1) and is already
-          mobile-safe — no responsive shrinking required. If a long patient
-          name on a very narrow viewport wraps to three lines, drop{" "}
+          mobile-safe — no responsive shrinking required. If a long patient name
+          on a very narrow viewport wraps to three lines, drop{" "}
           <span className="font-mono">text-balance</span> with{" "}
           <span className="font-mono">[text-wrap:pretty]</span> or omit it on
           that one heading.
@@ -227,7 +227,7 @@ export function PatientHeader() {
       React.createElement(SubsectionTitle, null, "Subsection title"),
       React.createElement(GroupTitle, null, "Group title"),
       React.createElement(DenseTitle, null, "Dense title"),
-      React.createElement(EyebrowTitle, null, "Eyebrow title"),
+      React.createElement(EyebrowTitle, null, "Eyebrow title")
     ),
   },
   examples: [
@@ -252,18 +252,18 @@ export function PatientHeader() {
         React.createElement(
           EyebrowTitle,
           { className: "text-muted-foreground" },
-          "Patient · MRN-00231",
+          "Patient · MRN-00231"
         ),
         React.createElement(
           PageTitle,
           { className: "mt-1" },
-          "Rao, Anitha — admitted 16 May",
+          "Rao, Anitha — admitted 16 May"
         ),
         React.createElement(
           "p",
           { className: "text-muted-foreground mt-2 text-sm" },
-          "Female · 47 yrs · Ward 4B · Bed 12 · Dr. Mehta",
-        ),
+          "Female · 47 yrs · Ward 4B · Bed 12 · Dr. Mehta"
+        )
       ),
     },
     {
@@ -283,8 +283,8 @@ export function PatientHeader() {
         React.createElement(
           "p",
           { className: "text-foreground mt-1 text-sm leading-6" },
-          "Atorvastatin 20 mg, Metoprolol 25 mg, Aspirin 75 mg.",
-        ),
+          "Atorvastatin 20 mg, Metoprolol 25 mg, Aspirin 75 mg."
+        )
       ),
     },
     {
@@ -308,18 +308,14 @@ export function PatientHeader() {
         React.createElement(
           "p",
           { className: "text-foreground mt-1 text-sm leading-6" },
-          "Atorvastatin 20 mg, Metoprolol 25 mg, Aspirin 75 mg.",
+          "Atorvastatin 20 mg, Metoprolol 25 mg, Aspirin 75 mg."
         ),
-        React.createElement(
-          GroupTitle,
-          { className: "mt-6" },
-          "Dosage notes",
-        ),
+        React.createElement(GroupTitle, { className: "mt-6" }, "Dosage notes"),
         React.createElement(
           "p",
           { className: "text-foreground mt-1 text-sm leading-6" },
-          "Hold metoprolol if heart rate falls below 55 bpm.",
-        ),
+          "Hold metoprolol if heart rate falls below 55 bpm."
+        )
       ),
     },
     {
@@ -340,8 +336,8 @@ export function PatientHeader() {
         React.createElement(
           "p",
           { className: "text-muted-foreground mt-1 text-sm leading-6" },
-          "This will close the encounter and notify the on-call physician. Pending orders must be reviewed first.",
-        ),
+          "This will close the encounter and notify the on-call physician. Pending orders must be reviewed first."
+        )
       ),
     },
     {
@@ -362,7 +358,7 @@ export function PatientHeader() {
         React.createElement(
           "p",
           { className: "text-muted-foreground text-sm" },
-          "We will reach this person if we cannot reach the patient.",
+          "We will reach this person if we cannot reach the patient."
         ),
         React.createElement(
           "div",
@@ -370,8 +366,8 @@ export function PatientHeader() {
             className:
               "text-muted-foreground/70 mt-3 rounded-md border border-dashed p-4 text-xs",
           },
-          "form fields go here",
-        ),
+          "form fields go here"
+        )
       ),
     },
     {
@@ -395,14 +391,14 @@ export function PatientHeader() {
         React.createElement(
           "p",
           { className: "text-foreground mt-1 text-sm leading-6" },
-          "Penicillin (rash, 2019).",
+          "Penicillin (rash, 2019)."
         ),
         React.createElement(DenseTitle, { className: "mt-4" }, "Next of kin"),
         React.createElement(
           "p",
           { className: "text-foreground mt-1 text-sm leading-6" },
-          "Suresh Rao (spouse) · +91 98765 43210",
-        ),
+          "Suresh Rao (spouse) · +91 98765 43210"
+        )
       ),
     },
     {
@@ -423,13 +419,13 @@ export function PatientHeader() {
         React.createElement(
           EyebrowTitle,
           { className: "text-muted-foreground" },
-          "Last reviewed",
+          "Last reviewed"
         ),
         React.createElement(
           "p",
           { className: "text-foreground mt-1 text-sm" },
-          "Dr. Mehta · 14 minutes ago",
-        ),
+          "Dr. Mehta · 14 minutes ago"
+        )
       ),
     },
     {
@@ -453,18 +449,18 @@ export function PatientHeader() {
         React.createElement(
           DenseTitle,
           { className: "text-destructive" },
-          "Critical · Action required",
+          "Critical · Action required"
         ),
         React.createElement(
           DenseTitle,
           { className: "text-amber-600 dark:text-amber-400" },
-          "Pending review",
+          "Pending review"
         ),
         React.createElement(
           DenseTitle,
           { className: "text-emerald-600 dark:text-emerald-400" },
-          "Cleared",
-        ),
+          "Cleared"
+        )
       ),
     },
     {
@@ -493,43 +489,43 @@ export function PatientHeader() {
         React.createElement(
           EyebrowTitle,
           { className: "text-muted-foreground" },
-          "Encounter · 4421",
+          "Encounter · 4421"
         ),
         React.createElement(
           PageTitle,
           { className: "mt-1" },
-          "Inpatient admission summary",
+          "Inpatient admission summary"
         ),
         React.createElement(
           SectionTitle,
           { className: "mt-6 sm:mt-8" },
-          "Active orders",
+          "Active orders"
         ),
         React.createElement(
           "p",
           { className: "text-foreground mt-1 text-sm leading-6" },
-          "Three medications and two investigations are active.",
+          "Three medications and two investigations are active."
         ),
         React.createElement(
           SubsectionTitle,
           { className: "mt-4 sm:mt-6" },
-          "Medications",
+          "Medications"
         ),
         React.createElement(
           GroupTitle,
           { className: "mt-3 sm:mt-5" },
-          "Dosage notes",
+          "Dosage notes"
         ),
         React.createElement(
           DenseTitle,
           { className: "mt-3 sm:mt-4" },
-          "Allergies",
+          "Allergies"
         ),
         React.createElement(
           EyebrowTitle,
           { className: "mt-3 sm:mt-4" },
-          "Last reviewed",
-        ),
+          "Last reviewed"
+        )
       ),
     },
     {
@@ -585,25 +581,25 @@ export function PatientHeader() {
         React.createElement(
           Lead,
           null,
-          "Three medications and two investigations are active.",
+          "Three medications and two investigations are active."
         ),
         React.createElement(Large, null, "Confirm discharge?"),
         React.createElement(
           "p",
           { className: "text-foreground text-sm leading-6" },
-          "Pending orders must be reviewed before closing the encounter.",
+          "Pending orders must be reviewed before closing the encounter."
         ),
         React.createElement(
           Muted,
           null,
-          "Last updated 14 minutes ago by Dr. Mehta.",
+          "Last updated 14 minutes ago by Dr. Mehta."
         ),
         React.createElement(
           "div",
           { className: "flex items-center gap-2" },
           React.createElement(Small, null, "MRN"),
-          React.createElement(InlineCode, null, "00231"),
-        ),
+          React.createElement(InlineCode, null, "00231")
+        )
       ),
     },
     {
@@ -640,7 +636,8 @@ export function PatientHeader() {
           title: "EyebrowTitle (h6)",
           description:
             "Tiny categorical label above a heading or table column — “Patient · MRN-00231”, “Last reviewed”. Pair with text-muted-foreground.",
-        },        {
+        },
+        {
           title: "Lead",
           description:
             "One-sentence sub-title or intro paragraph under a PageTitle / SectionTitle. Muted by default so it does not compete with the heading above.",
@@ -664,7 +661,8 @@ export function PatientHeader() {
           title: "InlineCode",
           description:
             "Inline identifiers \u2014 MRN, lab codes, route names. Monospaced with a subtle background so it scans as a value, not prose.",
-        },      ],
+        },
+      ],
     },
     {
       name: "Do",

@@ -33,7 +33,8 @@ export default function NotFoundErrorPage() {
             We couldn&rsquo;t find that page!
           </h1>
           <p className="text-muted-foreground mt-2 text-base leading-7 text-balance">
-            We searched every vein, but couldn't find the page you're looking for.
+            We searched every vein, but couldn't find the page you're looking
+            for.
           </p>
 
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">

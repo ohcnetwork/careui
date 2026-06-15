@@ -4,18 +4,18 @@
  * @dependencies
  * @type registry:ui
  */
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function DottedDivider({ className, ...props }: React.ComponentProps<"div">) {
-  const id = React.useId()
-  const patternId = `dotted-divider-${id.replace(/:/g, "")}`
+  const id = React.useId();
+  const patternId = `dotted-divider-${id.replace(/:/g, "")}`;
 
   return (
     <div
       data-slot="dotted-divider"
-      className={cn("h-2 w-full text-border-strong", className)}
+      className={cn("text-border-strong h-2 w-full", className)}
       {...props}
     >
       <svg
@@ -40,7 +40,7 @@ function DottedDivider({ className, ...props }: React.ComponentProps<"div">) {
         <rect width="100%" height="100%" fill={`url(#${patternId})`} />
       </svg>
     </div>
-  )
+  );
 }
 
-export { DottedDivider }
+export { DottedDivider };

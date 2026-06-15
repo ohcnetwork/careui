@@ -29,7 +29,11 @@ function makeItems(
           React.createElement(
             CardContent,
             { className: contentClassName },
-            React.createElement("span", { className: spanClassName }, String(i + 1))
+            React.createElement(
+              "span",
+              { className: spanClassName },
+              String(i + 1)
+            )
           )
         )
       )
@@ -40,8 +44,7 @@ function makeItems(
 export const carouselDoc: ComponentDoc = {
   id: "carousel",
   name: "Carousel",
-  description:
-    "A carousel with motion and swipe built using Embla.",
+  description: "A carousel with motion and swipe built using Embla.",
   installation: {
     cli: "npx shadcn@latest add carousel",
     manual:

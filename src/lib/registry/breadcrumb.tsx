@@ -130,7 +130,11 @@ import {
                 Button,
                 { size: "icon-sm", variant: "ghost" },
                 React.createElement(BreadcrumbEllipsis, {}),
-                React.createElement("span", { className: "sr-only" }, "Toggle menu")
+                React.createElement(
+                  "span",
+                  { className: "sr-only" },
+                  "Toggle menu"
+                )
               )
             ),
             React.createElement(
@@ -166,8 +170,7 @@ import {
     // ── Basic ──────────────────────────────────────────────────────────────
     {
       name: "Basic",
-      description:
-        "A basic breadcrumb with a home link and a components link.",
+      description: "A basic breadcrumb with a home link and a components link.",
       code: `import {
   Breadcrumb,
   BreadcrumbItem,
@@ -384,7 +387,9 @@ export function BreadcrumbDropdown() {
                   "button",
                   { className: "flex items-center gap-1" },
                   "Components",
-                  React.createElement(ChevronDownIcon, { className: "size-3.5" })
+                  React.createElement(ChevronDownIcon, {
+                    className: "size-3.5",
+                  })
                 )
               ),
               React.createElement(

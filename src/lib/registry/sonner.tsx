@@ -60,7 +60,8 @@ export function SonnerDemo() {
   examples: [
     {
       name: "Types",
-      description: "All available toast types: default, success, info, warning, error, and promise.",
+      description:
+        "All available toast types: default, success, info, warning, error, and promise.",
       code: `"use client"
 
 import { toast } from "sonner"
@@ -115,19 +116,32 @@ export function SonnerTypes() {
           { className: "flex flex-wrap gap-2" },
           React.createElement(
             Button,
-            { variant: "outline", onClick: () => toast("Event has been created", { position: "top-center" }) },
+            {
+              variant: "outline",
+              onClick: () =>
+                toast("Event has been created", { position: "top-center" }),
+            },
             "Default"
           ),
           React.createElement(
             Button,
-            { variant: "outline", onClick: () => toast.success("Event has been created", { position: "top-center" }) },
+            {
+              variant: "outline",
+              onClick: () =>
+                toast.success("Event has been created", {
+                  position: "top-center",
+                }),
+            },
             "Success"
           ),
           React.createElement(
             Button,
             {
               variant: "outline",
-              onClick: () => toast.info("Be at the area 10 minutes before the event time", { position: "top-center" }),
+              onClick: () =>
+                toast.info("Be at the area 10 minutes before the event time", {
+                  position: "top-center",
+                }),
             },
             "Info"
           ),
@@ -135,13 +149,22 @@ export function SonnerTypes() {
             Button,
             {
               variant: "outline",
-              onClick: () => toast.warning("Event start time cannot be earlier than 8am", { position: "top-center" }),
+              onClick: () =>
+                toast.warning("Event start time cannot be earlier than 8am", {
+                  position: "top-center",
+                }),
             },
             "Warning"
           ),
           React.createElement(
             Button,
-            { variant: "outline", onClick: () => toast.error("Event has not been created", { position: "top-center" }) },
+            {
+              variant: "outline",
+              onClick: () =>
+                toast.error("Event has not been created", {
+                  position: "top-center",
+                }),
+            },
             "Error"
           ),
           React.createElement(
@@ -207,7 +230,8 @@ export function SonnerDescription() {
     },
     {
       name: "Position",
-      description: "Use the position option to change the position of the toast.",
+      description:
+        "Use the position option to change the position of the toast.",
       code: `"use client"
 
 import { toast } from "sonner"
@@ -245,7 +269,8 @@ export function SonnerPosition() {
             Button,
             {
               variant: "outline",
-              onClick: () => toast("Event has been created", { position: "top-left" }),
+              onClick: () =>
+                toast("Event has been created", { position: "top-left" }),
             },
             "Top Left"
           ),
@@ -253,7 +278,8 @@ export function SonnerPosition() {
             Button,
             {
               variant: "outline",
-              onClick: () => toast("Event has been created", { position: "top-center" }),
+              onClick: () =>
+                toast("Event has been created", { position: "top-center" }),
             },
             "Top Center"
           ),
@@ -261,7 +287,8 @@ export function SonnerPosition() {
             Button,
             {
               variant: "outline",
-              onClick: () => toast("Event has been created", { position: "top-right" }),
+              onClick: () =>
+                toast("Event has been created", { position: "top-right" }),
             },
             "Top Right"
           ),
@@ -269,7 +296,8 @@ export function SonnerPosition() {
             Button,
             {
               variant: "outline",
-              onClick: () => toast("Event has been created", { position: "bottom-left" }),
+              onClick: () =>
+                toast("Event has been created", { position: "bottom-left" }),
             },
             "Bottom Left"
           ),
@@ -277,7 +305,8 @@ export function SonnerPosition() {
             Button,
             {
               variant: "outline",
-              onClick: () => toast("Event has been created", { position: "bottom-center" }),
+              onClick: () =>
+                toast("Event has been created", { position: "bottom-center" }),
             },
             "Bottom Center"
           ),
@@ -285,7 +314,8 @@ export function SonnerPosition() {
             Button,
             {
               variant: "outline",
-              onClick: () => toast("Event has been created", { position: "bottom-right" }),
+              onClick: () =>
+                toast("Event has been created", { position: "bottom-right" }),
             },
             "Bottom Right"
           )

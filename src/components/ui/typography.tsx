@@ -78,7 +78,7 @@ export function PageTitle({ className, ...props }: HeadingProps) {
       data-slot="page-title"
       className={cn(
         "text-3xl leading-9 font-bold tracking-tight text-balance",
-        className,
+        className
       )}
       {...props}
     />
@@ -91,7 +91,7 @@ export function SectionTitle({ className, ...props }: HeadingProps) {
       data-slot="section-title"
       className={cn(
         "text-2xl leading-8 font-semibold tracking-tight text-balance",
-        className,
+        className
       )}
       {...props}
     />
@@ -104,7 +104,7 @@ export function SubsectionTitle({ className, ...props }: HeadingProps) {
       data-slot="subsection-title"
       className={cn(
         "text-xl leading-7 font-semibold tracking-tight text-balance",
-        className,
+        className
       )}
       {...props}
     />
@@ -154,14 +154,17 @@ export function Lead({ className, ...props }: ParagraphProps) {
       data-slot="lead"
       className={cn(
         "text-muted-foreground text-lg leading-7 text-balance",
-        className,
+        className
       )}
       {...props}
     />
   );
 }
 
-export function Large({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+export function Large({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       data-slot="large"
@@ -203,7 +206,7 @@ export function InlineCode({
       data-slot="inline-code"
       className={cn(
         "bg-muted relative rounded px-1.5 py-0.5 font-mono text-sm font-medium",
-        className,
+        className
       )}
       {...props}
     />

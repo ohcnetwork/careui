@@ -157,7 +157,11 @@ export function PopoverDemo() {
             React.createElement(
               "div",
               { className: "grid grid-cols-3 items-center gap-4" },
-              React.createElement(Label, { htmlFor: "maxHeight" }, "Max. height"),
+              React.createElement(
+                Label,
+                { htmlFor: "maxHeight" },
+                "Max. height"
+              ),
               React.createElement(Input, {
                 id: "maxHeight",
                 defaultValue: "none",
@@ -385,72 +389,83 @@ export function PopoverForm() {
     </Popover>
   )
 }`,
-      preview: React.createElement(
-        function PopoverFormPreview() {
-          const [open, setOpen] = React.useState(false);
-          return React.createElement(
-            Popover,
-            { open, onOpenChange: setOpen },
+      preview: React.createElement(function PopoverFormPreview() {
+        const [open, setOpen] = React.useState(false);
+        return React.createElement(
+          Popover,
+          { open, onOpenChange: setOpen },
+          React.createElement(
+            PopoverTrigger,
+            { asChild: true },
+            React.createElement(Button, { variant: "outline" }, "Open Popover")
+          ),
+          React.createElement(
+            PopoverContent,
+            { className: "w-64", align: "start" },
             React.createElement(
-              PopoverTrigger,
-              { asChild: true },
-              React.createElement(Button, { variant: "outline" }, "Open Popover")
+              PopoverHeader,
+              {},
+              React.createElement(PopoverTitle, {}, "Dimensions"),
+              React.createElement(
+                PopoverDescription,
+                {},
+                "Set the dimensions for the layer."
+              )
             ),
             React.createElement(
-              PopoverContent,
-              { className: "w-64", align: "start" },
+              FieldGroup,
+              { className: "gap-4" },
               React.createElement(
-                PopoverHeader,
-                {},
-                React.createElement(PopoverTitle, {}, "Dimensions"),
+                Field,
+                { orientation: "vertical" },
                 React.createElement(
-                  PopoverDescription,
-                  {},
-                  "Set the dimensions for the layer."
-                )
-              ),
-              React.createElement(
-                FieldGroup,
-                { className: "gap-4" },
-                React.createElement(
-                  Field,
-                  { orientation: "vertical" },
-                  React.createElement(
-                    FieldLabel,
-                    { htmlFor: "width", className: "w-1/2" },
-                    "Width"
-                  ),
-                  React.createElement(Input, { id: "width", defaultValue: "100%" })
+                  FieldLabel,
+                  { htmlFor: "width", className: "w-1/2" },
+                  "Width"
                 ),
-                React.createElement(
-                  Field,
-                  { orientation: "vertical" },
-                  React.createElement(
-                    FieldLabel,
-                    { htmlFor: "height", className: "w-1/2" },
-                    "Height"
-                  ),
-                  React.createElement(Input, { id: "height", defaultValue: "25px" })
-                )
+                React.createElement(Input, {
+                  id: "width",
+                  defaultValue: "100%",
+                })
               ),
               React.createElement(
-                "div",
+                Field,
+                { orientation: "vertical" },
+                React.createElement(
+                  FieldLabel,
+                  { htmlFor: "height", className: "w-1/2" },
+                  "Height"
+                ),
+                React.createElement(Input, {
+                  id: "height",
+                  defaultValue: "25px",
+                })
+              )
+            ),
+            React.createElement(
+              "div",
+              {
+                className:
+                  "bg-popover sticky bottom-0 -mx-4 -mb-4 mt-2 flex items-center justify-end gap-4 border-t px-4 py-3",
+              },
+              React.createElement(
+                Button,
                 {
-                  className:
-                    "bg-popover sticky bottom-0 -mx-4 -mb-4 mt-2 flex items-center justify-end gap-4 border-t px-4 py-3",
+                  variant: "ghost",
+                  size: "default",
+                  onClick: () => setOpen(false),
                 },
-                React.createElement(
-                  Button,
-                  { variant: "ghost", size: "default", onClick: () => setOpen(false) },
-                  "Close"
-                ),
-                React.createElement(Button, { size: "default", onClick: () => setOpen(false) }, "Save")
+                "Close"
+              ),
+              React.createElement(
+                Button,
+                { size: "default", onClick: () => setOpen(false) },
+                "Save"
               )
             )
-          );
-        },
-        {}
-      ),
+          )
+        );
+      }, {}),
     },
   ],
 };

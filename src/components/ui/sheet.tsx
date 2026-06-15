@@ -21,11 +21,18 @@ const SheetContext = React.createContext<{
   setScrolled: (v: boolean) => void;
 } | null>(null);
 
-const SheetRootContext = React.createContext<{ modal: boolean }>({ modal: true });
+const SheetRootContext = React.createContext<{ modal: boolean }>({
+  modal: true,
+});
 
-function Sheet({ modal = true, ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
+function Sheet({
+  modal = true,
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Root>) {
   return (
-    <SheetRootContext.Provider value={React.useMemo(() => ({ modal }), [modal])}>
+    <SheetRootContext.Provider
+      value={React.useMemo(() => ({ modal }), [modal])}
+    >
       <SheetPrimitive.Root data-slot="sheet" modal={modal} {...props} />
     </SheetRootContext.Provider>
   );
@@ -71,7 +78,8 @@ const sheetSizeClasses = {
   lg: "data-[side=left]:sm:max-w-2xl data-[side=right]:sm:max-w-2xl",
   xl: "data-[side=left]:sm:max-w-4xl data-[side=right]:sm:max-w-4xl",
   full: "data-[side=left]:max-w-none data-[side=right]:max-w-none",
-  screen: "data-[side=left]:w-screen data-[side=left]:h-screen data-[side=right]:w-screen data-[side=right]:h-screen",
+  screen:
+    "data-[side=left]:w-screen data-[side=left]:h-screen data-[side=right]:w-screen data-[side=right]:h-screen",
 } as const;
 
 type SheetSize = keyof typeof sheetSizeClasses;
@@ -100,37 +108,43 @@ function SheetContent({
   const [shaking, setShaking] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
-  const contentRef = React.useCallback((el: HTMLDivElement | null) => {
-    const vv = window.visualViewport;
-    if (!el || !vv) return;
-    let rafId: number;
-    const update = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        if (side === "left" || side === "right") {
-          el.style.height = `${vv.height}px`;
-          el.style.top = `${vv.offsetTop}px`;
-        } else if (side === "bottom") {
-          const keyboardHeight = window.innerHeight - vv.offsetTop - vv.height;
-          el.style.bottom = `${keyboardHeight}px`;
-        } else if (side === "top") {
-          el.style.maxHeight = `${vv.height}px`;
-        }
-      });
-    };
-    vv.addEventListener("resize", update);
-    vv.addEventListener("scroll", update);
-    update();
-    return () => {
-      vv.removeEventListener("resize", update);
-      vv.removeEventListener("scroll", update);
-      cancelAnimationFrame(rafId);
-    };
-  }, [side]);
+  const contentRef = React.useCallback(
+    (el: HTMLDivElement | null) => {
+      const vv = window.visualViewport;
+      if (!el || !vv) return;
+      let rafId: number;
+      const update = () => {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          if (side === "left" || side === "right") {
+            el.style.height = `${vv.height}px`;
+            el.style.top = `${vv.offsetTop}px`;
+          } else if (side === "bottom") {
+            const keyboardHeight =
+              window.innerHeight - vv.offsetTop - vv.height;
+            el.style.bottom = `${keyboardHeight}px`;
+          } else if (side === "top") {
+            el.style.maxHeight = `${vv.height}px`;
+          }
+        });
+      };
+      vv.addEventListener("resize", update);
+      vv.addEventListener("scroll", update);
+      update();
+      return () => {
+        vv.removeEventListener("resize", update);
+        vv.removeEventListener("scroll", update);
+        cancelAnimationFrame(rafId);
+      };
+    },
+    [side]
+  );
 
   const resolvedContainerClassName =
     containerClassName ??
-    (side === "top" || side === "bottom" ? "mx-auto w-full max-w-2xl px-4" : "px-4");
+    (side === "top" || side === "bottom"
+      ? "mx-auto w-full max-w-2xl px-4"
+      : "px-4");
 
   const onShakeEnd = React.useCallback(() => setShaking(false), []);
   const triggerShake = React.useCallback(() => {
@@ -139,7 +153,14 @@ function SheetContent({
   }, []);
 
   const contextValue = React.useMemo(
-    () => ({ shaking, onShakeEnd, side, containerClassName: resolvedContainerClassName, scrolled, setScrolled }),
+    () => ({
+      shaking,
+      onShakeEnd,
+      side,
+      containerClassName: resolvedContainerClassName,
+      scrolled,
+      setScrolled,
+    }),
     [shaking, onShakeEnd, side, resolvedContainerClassName, scrolled]
   );
 
@@ -151,7 +172,7 @@ function SheetContent({
         data-slot="sheet-content"
         data-side={side}
         className={cn(
-          "bg-background overflow-hidden data-open:animate-in data-closed:animate-out data-[side=right]:data-closed:slide-out-to-right-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=top]:data-closed:slide-out-to-top-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:fade-out-0 data-open:fade-in-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=bottom]:data-open:slide-in-from-bottom-10 fixed z-50 flex flex-col bg-clip-padding text-sm shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-dvh data-[side=left]:w-full data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-dvh data-[side=right]:w-full data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b",
+          "bg-background data-open:animate-in data-closed:animate-out data-[side=right]:data-closed:slide-out-to-right-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=top]:data-closed:slide-out-to-top-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:fade-out-0 data-open:fade-in-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=bottom]:data-open:slide-in-from-bottom-10 fixed z-50 flex flex-col overflow-hidden bg-clip-padding text-sm shadow-lg transition duration-200 ease-in-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-dvh data-[side=left]:w-full data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-dvh data-[side=right]:w-full data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b",
           sheetSizeClasses[size],
           className
         )}
@@ -164,7 +185,9 @@ function SheetContent({
             e.preventDefault();
             return;
           }
-          const input = (e.currentTarget as HTMLElement).querySelector<HTMLElement>(
+          const input = (
+            e.currentTarget as HTMLElement
+          ).querySelector<HTMLElement>(
             'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])'
           );
           if (input) {
@@ -216,14 +239,23 @@ function SheetHeader({
 }) {
   const ctx = React.useContext(SheetContext);
   const inner = (
-    <div className={cn("flex flex-row items-start justify-between gap-4", ctx?.containerClassName)}>
+    <div
+      className={cn(
+        "flex flex-row items-start justify-between gap-4",
+        ctx?.containerClassName
+      )}
+    >
       <div className="flex flex-col self-center-safe">{children}</div>
       {showCloseButton && (
         <SheetPrimitive.Close data-slot="sheet-close" asChild>
           <Button
             variant="ghost"
             size="icon"
-            className={cn("-mt-1 -mr-1 shrink-0", ctx?.shaking && "bg-destructive/20 will-change-transform animate-sheet-shake")}
+            className={cn(
+              "-mt-1 -mr-1 shrink-0",
+              ctx?.shaking &&
+                "bg-destructive/20 animate-sheet-shake will-change-transform"
+            )}
             onAnimationEnd={ctx?.onShakeEnd}
           >
             <XIcon />
@@ -236,7 +268,12 @@ function SheetHeader({
   return (
     <div
       data-slot="sheet-header"
-      className={cn("border-b bg-background shrink-0 transition-all duration-200", (ctx?.side === "top" || ctx?.side === "bottom") && "md:pr-4", ctx?.scrolled ? "items-center py-1.5" : "py-2 md:py-3", className)}
+      className={cn(
+        "bg-background shrink-0 border-b transition-all duration-200",
+        (ctx?.side === "top" || ctx?.side === "bottom") && "md:pr-4",
+        ctx?.scrolled ? "items-center py-1.5" : "py-2 md:py-3",
+        className
+      )}
       {...props}
     >
       {inner}
@@ -249,8 +286,13 @@ function SheetBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-body"
-      className={cn("min-h-0 flex-1 overflow-y-auto overscroll-contain py-4 [scrollbar-gutter:stable]", className)}
-      onScroll={(e) => ctx?.setScrolled((e.currentTarget as HTMLElement).scrollTop > 0)}
+      className={cn(
+        "min-h-0 flex-1 [scrollbar-gutter:stable] overflow-y-auto overscroll-contain py-4",
+        className
+      )}
+      onScroll={(e) =>
+        ctx?.setScrolled((e.currentTarget as HTMLElement).scrollTop > 0)
+      }
     >
       <div className={cn(ctx?.containerClassName)} {...props} />
     </div>
@@ -262,9 +304,12 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="sheet-footer"
-      className={cn("py-4 border-t bg-soft-background shrink-0", className)}
+      className={cn("bg-soft-background shrink-0 border-t py-4", className)}
     >
-      <div className={cn("flex flex-row-reverse gap-4", ctx?.containerClassName)} {...props} />
+      <div
+        className={cn("flex flex-row-reverse gap-4", ctx?.containerClassName)}
+        {...props}
+      />
     </div>
   );
 }
@@ -296,7 +341,9 @@ function SheetDescription({
     <div
       className={cn(
         "grid transition-[grid-template-rows,opacity] duration-200 ease-in-out",
-        ctx?.scrolled ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"
+        ctx?.scrolled
+          ? "grid-rows-[0fr] opacity-0"
+          : "grid-rows-[1fr] opacity-100"
       )}
     >
       <div className="overflow-hidden">

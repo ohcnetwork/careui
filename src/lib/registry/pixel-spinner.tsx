@@ -44,7 +44,7 @@ export function PixelSpinnerDemo() {
       React.createElement(PixelSpinner, { name: "helix" }),
       React.createElement(PixelSpinner, { name: "columns" }),
       React.createElement(PixelSpinner, { name: "scan" }),
-      React.createElement(PixelSpinner, { name: "waverows" }),
+      React.createElement(PixelSpinner, { name: "waverows" })
     ),
   },
   examples: [
@@ -80,7 +80,7 @@ export function PixelSpinnerPresets() {
       preview: React.createElement(
         "div",
         { className: "flex flex-wrap items-start gap-6" },
-        ...ALL_PRESETS.map(name =>
+        ...ALL_PRESETS.map((name) =>
           React.createElement(
             "div",
             { key: name, className: "flex flex-col items-center gap-2" },
@@ -88,10 +88,10 @@ export function PixelSpinnerPresets() {
             React.createElement(
               "span",
               { className: "text-xs text-muted-foreground" },
-              name,
-            ),
-          ),
-        ),
+              name
+            )
+          )
+        )
       ),
     },
     // ── Sizes ─────────────────────────────────────────────────────────────
@@ -117,7 +117,7 @@ export function PixelSpinnerSize() {
         React.createElement(PixelSpinner, { name: "helix", size: "14" }),
         React.createElement(PixelSpinner, { name: "helix", size: "19" }),
         React.createElement(PixelSpinner, { name: "helix", size: "24" }),
-        React.createElement(PixelSpinner, { name: "helix", size: "29" }),
+        React.createElement(PixelSpinner, { name: "helix", size: "29" })
       ),
     },
     // ── Color ─────────────────────────────────────────────────────────────
@@ -160,7 +160,7 @@ export function PixelSpinnerColor() {
         React.createElement(PixelSpinner, {
           name: "orbit",
           className: "text-amber-500",
-        }),
+        })
       ),
     },
     // ── Inline usage ──────────────────────────────────────────────────────
@@ -190,30 +190,27 @@ export function PixelSpinnerInline() {
         React.createElement(
           "p",
           {
-            className:
-              "flex items-center gap-2 text-sm text-muted-foreground",
+            className: "flex items-center gap-2 text-sm text-muted-foreground",
           },
           React.createElement(PixelSpinner, { name: "columns" }),
-          "Processing payment…",
+          "Processing payment…"
         ),
         React.createElement(
           "p",
           {
-            className:
-              "flex items-center gap-2 text-sm text-muted-foreground",
+            className: "flex items-center gap-2 text-sm text-muted-foreground",
           },
           React.createElement(PixelSpinner, { name: "breathe" }),
-          "Syncing records…",
+          "Syncing records…"
         ),
         React.createElement(
           "p",
           {
-            className:
-              "flex items-center gap-2 text-sm text-muted-foreground",
+            className: "flex items-center gap-2 text-sm text-muted-foreground",
           },
           React.createElement(PixelSpinner, { name: "dna" }),
-          "Generating report…",
-        ),
+          "Generating report…"
+        )
       ),
     },
     // ── Heartpulse ────────────────────────────────────────────────────────
@@ -242,8 +239,8 @@ export function PixelSpinnerHeartpulse() {
         React.createElement(
           "span",
           { className: "text-sm text-muted-foreground" },
-          "Monitoring vitals…",
-        ),
+          "Monitoring vitals…"
+        )
       ),
     },
   ],

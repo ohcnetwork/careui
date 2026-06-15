@@ -13,11 +13,7 @@ import {
   AlertDialogMedia,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import {
-  BluetoothIcon,
-  CircleFadingPlusIcon,
-  Trash2Icon,
-} from "lucide-react";
+import { BluetoothIcon, CircleFadingPlusIcon, Trash2Icon } from "lucide-react";
 
 export const alertDialogDoc: ComponentDoc = {
   id: "alert-dialog",
@@ -105,11 +101,7 @@ export function AlertDialogDemo() {
         React.createElement(
           AlertDialogHeader,
           {},
-          React.createElement(
-            AlertDialogTitle,
-            {},
-            "Are you absolutely sure?"
-          ),
+          React.createElement(AlertDialogTitle, {}, "Are you absolutely sure?"),
           React.createElement(
             AlertDialogDescription,
             {},
@@ -184,8 +176,7 @@ export function AlertDialogDemo() {
     },
     {
       name: "Small",
-      description:
-        'Use the `size="sm"` prop to make the alert dialog smaller.',
+      description: 'Use the `size="sm"` prop to make the alert dialog smaller.',
       code: `<AlertDialog>
   <AlertDialogTrigger asChild>
     <Button variant="outline">Show Dialog</Button>
@@ -282,11 +273,7 @@ export function AlertDialogDemo() {
               {},
               React.createElement(CircleFadingPlusIcon, {})
             ),
-            React.createElement(
-              AlertDialogTitle,
-              {},
-              "Share this project?"
-            ),
+            React.createElement(AlertDialogTitle, {}, "Share this project?"),
             React.createElement(
               AlertDialogDescription,
               {},
@@ -399,11 +386,7 @@ export function AlertDialogDemo() {
         React.createElement(
           AlertDialogTrigger,
           { asChild: true },
-          React.createElement(
-            Button,
-            { variant: "destructive" },
-            "Delete Chat"
-          )
+          React.createElement(Button, { variant: "destructive" }, "Delete Chat")
         ),
         React.createElement(
           AlertDialogContent,
@@ -449,7 +432,7 @@ export function AlertDialogDemo() {
       name: "size",
       type: '"default" | "sm"',
       description:
-        'Controls the size of the alert dialog. Apply on `AlertDialogContent`.',
+        "Controls the size of the alert dialog. Apply on `AlertDialogContent`.",
       default: '"default"',
     },
   ],

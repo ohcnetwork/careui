@@ -30,7 +30,11 @@ export function LabelDemo() {
       "div",
       { className: "flex gap-2" },
       React.createElement(Checkbox, { id: "terms" }),
-      React.createElement(Label, { htmlFor: "terms" }, "Accept terms and conditions")
+      React.createElement(
+        Label,
+        { htmlFor: "terms" },
+        "Accept terms and conditions"
+      )
     ),
   },
   examples: [

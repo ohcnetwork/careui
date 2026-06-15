@@ -1,8 +1,19 @@
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
-import { Alert, AlertAction, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import {
+  Alert,
+  AlertAction,
+  AlertTitle,
+  AlertDescription,
+} from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { AlertCircleIcon, AlertTriangleIcon, BellIcon, CheckCircle2Icon, InfoIcon } from "lucide-react";
+import {
+  AlertCircleIcon,
+  AlertTriangleIcon,
+  BellIcon,
+  CheckCircle2Icon,
+  InfoIcon,
+} from "lucide-react";
 import { Frame, FramePanel } from "@/components/ui/frame";
 import { Separator } from "@/components/ui/separator";
 
@@ -190,7 +201,11 @@ export function AlertActionExample() {
         React.createElement(
           AlertAction,
           {},
-          React.createElement(Button, { size: "xs" as never, variant: "default" }, "Enable")
+          React.createElement(
+            Button,
+            { size: "xs" as never, variant: "default" },
+            "Enable"
+          )
         )
       ),
     },
@@ -222,7 +237,11 @@ export function AlertColors() {
             "max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50",
         },
         React.createElement(AlertTriangleIcon),
-        React.createElement(AlertTitle, {}, "Your subscription will expire in 3 days."),
+        React.createElement(
+          AlertTitle,
+          {},
+          "Your subscription will expire in 3 days."
+        ),
         React.createElement(
           AlertDescription,
           {},
@@ -274,8 +293,16 @@ export function AlertVertical() {
         React.createElement(
           AlertAction,
           {},
-          React.createElement(Button, { size: "xs" as never, variant: "default" }, "Update now"),
-          React.createElement(Button, { size: "xs" as never, variant: "ghost" }, "Dismiss")
+          React.createElement(
+            Button,
+            { size: "xs" as never, variant: "default" },
+            "Update now"
+          ),
+          React.createElement(
+            Button,
+            { size: "xs" as never, variant: "ghost" },
+            "Dismiss"
+          )
         )
       ),
     },
@@ -322,9 +349,16 @@ export function AlertHorizontal() {
         React.createElement(
           AlertAction,
           {},
-          React.createElement(Button, { size: "xs" as never, variant: "ghost" }, "Dismiss"),
-          React.createElement(Button, { size: "xs" as never, variant: "default" }, "Update now")
-
+          React.createElement(
+            Button,
+            { size: "xs" as never, variant: "ghost" },
+            "Dismiss"
+          ),
+          React.createElement(
+            Button,
+            { size: "xs" as never, variant: "default" },
+            "Update now"
+          )
         )
       ),
     },
@@ -459,7 +493,10 @@ export function AlertStackedInFrame() {
             React.createElement(Separator),
             React.createElement(
               Alert,
-              { variant: "destructive", className: "border-0 shadow-none rounded-none" },
+              {
+                variant: "destructive",
+                className: "border-0 shadow-none rounded-none",
+              },
               React.createElement(AlertCircleIcon),
               React.createElement(AlertTitle, {}, "Payment failed"),
               React.createElement(
@@ -510,7 +547,10 @@ export function AlertInvertInFrame() {
             { className: "overflow-hidden p-0!" },
             React.createElement(
               Alert,
-              { variant: "invert" as never, className: "border-0 shadow-none rounded-none" },
+              {
+                variant: "invert" as never,
+                className: "border-0 shadow-none rounded-none",
+              },
               React.createElement(BellIcon),
               React.createElement(AlertTitle, {}, "New message received"),
               React.createElement(
@@ -589,7 +629,8 @@ export function AlertSuccess() {
     // ── Warning ────────────────────────────────────────────────────────────
     {
       name: "Warning",
-      description: 'Use variant="warning" to highlight a potential issue or risk.',
+      description:
+        'Use variant="warning" to highlight a potential issue or risk.',
       code: `import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertTriangleIcon } from "lucide-react"
 

@@ -4,52 +4,52 @@
  * @dependencies vaul lucide-react button
  * @type registry:ui
  */
-import * as React from "react"
-import { Drawer as DrawerPrimitive } from "vaul"
-import { XIcon } from "lucide-react"
+import * as React from "react";
+import { Drawer as DrawerPrimitive } from "vaul";
+import { XIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 function Drawer({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
-  return <DrawerPrimitive.Root data-slot="drawer" {...props} />
+  return <DrawerPrimitive.Root data-slot="drawer" {...props} />;
 }
 
 function DrawerNestedRoot({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.NestedRoot>) {
-  return <DrawerPrimitive.NestedRoot data-slot="drawer" {...props} />
+  return <DrawerPrimitive.NestedRoot data-slot="drawer" {...props} />;
 }
 
 function DrawerTrigger({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
-  return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
+  return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />;
 }
 
 function DrawerPortal({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
-  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
+  return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />;
 }
 
 function DrawerClose({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Close>) {
-  return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
+  return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />;
 }
 
 const drawerContainerClasses = {
   md: "mx-auto w-full max-w-lg",
   lg: "mx-auto w-full max-w-2xl",
   full: "",
-} as const
+} as const;
 
-type DrawerSize = keyof typeof drawerContainerClasses
+type DrawerSize = keyof typeof drawerContainerClasses;
 
-const DrawerContext = React.createContext<{ size: DrawerSize } | null>(null)
+const DrawerContext = React.createContext<{ size: DrawerSize } | null>(null);
 
 function DrawerOverlay({
   className,
@@ -64,7 +64,7 @@ function DrawerOverlay({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function DrawerContent({
@@ -73,7 +73,7 @@ function DrawerContent({
   size = "full",
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Content> & {
-  size?: DrawerSize
+  size?: DrawerSize;
 }) {
   return (
     <DrawerPortal data-slot="drawer-portal">
@@ -88,7 +88,7 @@ function DrawerContent({
           // finish before unmounting, then sets animation-fill-mode: forwards
           // to prevent any flash. Don't add Tailwind animate-in/out here — it
           // works against vaul's transitions.
-          "group/drawer-content fixed z-50 flex h-auto flex-col bg-popover text-sm text-popover-foreground",
+          "group/drawer-content bg-popover text-popover-foreground fixed z-50 flex h-auto flex-col text-sm",
           "data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-xl data-[vaul-drawer-direction=top]:border-b",
           "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[85vh] data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=bottom]:border-t",
           "data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm",
@@ -111,7 +111,7 @@ function DrawerContent({
         </DrawerContext.Provider>
       </DrawerPrimitive.Content>
     </DrawerPortal>
-  )
+  );
 }
 
 function DrawerHeader({
@@ -120,7 +120,7 @@ function DrawerHeader({
   showCloseButton = true,
   ...props
 }: React.ComponentProps<"div"> & { showCloseButton?: boolean }) {
-  const ctx = React.useContext(DrawerContext)
+  const ctx = React.useContext(DrawerContext);
   return (
     <div
       data-slot="drawer-header"
@@ -153,7 +153,7 @@ function DrawerHeader({
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function DrawerBody({
@@ -161,7 +161,7 @@ function DrawerBody({
   children,
   ...props
 }: React.ComponentProps<"div">) {
-  const ctx = React.useContext(DrawerContext)
+  const ctx = React.useContext(DrawerContext);
   return (
     <div
       data-slot="drawer-body"
@@ -175,7 +175,7 @@ function DrawerBody({
         {children}
       </div>
     </div>
-  )
+  );
 }
 
 function DrawerFooter({
@@ -183,7 +183,7 @@ function DrawerFooter({
   children,
   ...props
 }: React.ComponentProps<"div">) {
-  const ctx = React.useContext(DrawerContext)
+  const ctx = React.useContext(DrawerContext);
   return (
     <div
       data-slot="drawer-footer"
@@ -202,7 +202,7 @@ function DrawerFooter({
         {children}
       </div>
     </div>
-  )
+  );
 }
 
 function DrawerTitle({
@@ -215,7 +215,7 @@ function DrawerTitle({
       className={cn("text-foreground font-medium", className)}
       {...props}
     />
-  )
+  );
 }
 
 function DrawerDescription({
@@ -228,7 +228,7 @@ function DrawerDescription({
       className={cn("text-muted-foreground text-sm", className)}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -244,4 +244,4 @@ export {
   DrawerFooter,
   DrawerTitle,
   DrawerDescription,
-}
+};

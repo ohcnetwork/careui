@@ -69,7 +69,9 @@ function truncateMiddle(text: string, font: string, maxWidth: number): string {
   let hi = Math.floor(text.length / 2);
   while (lo < hi) {
     const mid = Math.ceil((lo + hi) / 2);
-    if (measure(text.slice(0, mid) + text.slice(text.length - mid)) <= available) {
+    if (
+      measure(text.slice(0, mid) + text.slice(text.length - mid)) <= available
+    ) {
       lo = mid;
     } else {
       hi = mid - 1;
@@ -87,7 +89,11 @@ const innerPage02Locations = [
   "Ward B",
 ];
 
-const innerPage02PharmacyItems: { title: string; icon: React.ElementType; isActive?: boolean }[] = [
+const innerPage02PharmacyItems: {
+  title: string;
+  icon: React.ElementType;
+  isActive?: boolean;
+}[] = [
   { title: "Prescription Queue", icon: ClipboardList, isActive: true },
   { title: "Dispense Medicine", icon: Syringe },
   { title: "Inventory", icon: Package },
@@ -131,19 +137,19 @@ function InnerPage02LocationSelector({
       <DropdownMenu onOpenChange={onOpenChange}>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <button className="flex w-full items-center justify-between rounded-lg border border-strong-border bg-background px-3 py-2.5 text-left transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <button className="border-strong-border bg-background hover:bg-muted focus-visible:ring-ring flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none">
               <div className="min-w-0 flex-1">
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                <p className="text-muted-foreground text-[10px] font-semibold tracking-wider uppercase">
                   Chosen Location
                 </p>
                 <p
                   ref={labelRef}
-                  className="text-sm font-semibold overflow-hidden whitespace-nowrap"
+                  className="overflow-hidden text-sm font-semibold whitespace-nowrap"
                 >
                   {displayName}
                 </p>
               </div>
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 text-muted-foreground" />
+              <ChevronsUpDown className="text-muted-foreground ml-2 h-4 w-4 shrink-0" />
             </button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
@@ -182,13 +188,13 @@ function InnerPage02SidebarContent({
           <div
             className={cn(
               "flex items-center overflow-hidden transition-opacity duration-150 ease-linear",
-              showBackRow ? "h-8 opacity-100" : "hidden",
+              showBackRow ? "h-8 opacity-100" : "hidden"
             )}
           >
             <Button
               variant="ghost"
               size="sm"
-              className="gap-1.5 text-muted-foreground hover:text-foreground -ml-1"
+              className="text-muted-foreground hover:text-foreground -ml-1 gap-1.5"
             >
               <ChevronLeft className="h-4 w-4" />
               Back
@@ -214,7 +220,10 @@ function InnerPage02SidebarContent({
           <SidebarMenu>
             {innerPage02PharmacyItems.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton isActive={item.isActive} tooltip={item.title}>
+                <SidebarMenuButton
+                  isActive={item.isActive}
+                  tooltip={item.title}
+                >
                   <item.icon />
                   <span>{item.title}</span>
                 </SidebarMenuButton>
@@ -243,7 +252,11 @@ function InnerPage02SidebarContent({
 
 // ─── InnerPageLayout02Demo ────────────────────────────────────────────────────
 
-export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean }) {
+export function InnerPageLayout02Demo({
+  fullPage = false,
+}: {
+  fullPage?: boolean;
+}) {
   const {
     pinned,
     overlayOpen,
@@ -286,23 +299,29 @@ export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean
           "**:data-[slot=sidebar-container]:duration-150!",
           "**:data-[slot=sidebar-gap]:duration-150!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
-          overlayReady && !pinned && [
-            "**:data-[slot=sidebar-container]:top-12!",
-            "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
-          ],
+          overlayReady &&
+            !pinned && [
+              "**:data-[slot=sidebar-container]:top-12!",
+              "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
+            ],
           isOverlay && [
             "**:data-[slot=sidebar-container]:bg-sidebar",
             "**:data-[slot=sidebar-container]:border-t",
             "**:data-[slot=sidebar-container]:rounded-r-md",
             "**:data-[slot=sidebar-container]:shadow-xl",
-          ],
+          ]
         )}
       >
         <SidebarProvider
           open={pinned || overlayOpen}
           onOpenChange={handleSidebarProviderOpenChange}
-          className="min-h-0! h-full"
-          style={{ "--sidebar-width": "14rem", height: "100%" } as React.CSSProperties}
+          className="h-full min-h-0!"
+          style={
+            {
+              "--sidebar-width": "14rem",
+              height: "100%",
+            } as React.CSSProperties
+          }
         >
           <Sidebar
             variant="sidebar"
@@ -318,7 +337,7 @@ export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean
           </Sidebar>
 
           <SidebarInset className="overflow-hidden">
-            <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
+            <header className="bg-background flex h-12 shrink-0 items-center gap-3 border-b px-4">
               <SidebarToggleButton
                 onDesktopToggle={toggleSidebar}
                 onMouseEnter={handleToggleMouseEnter}
@@ -346,13 +365,13 @@ export function InnerPageLayout02Demo({ fullPage = false }: { fullPage?: boolean
             </header>
 
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
-              <div className="rounded-xl bg-muted/50 h-20" />
+              <div className="bg-muted/50 h-20 rounded-xl" />
               <div className="grid grid-cols-3 gap-3">
-                <div className="rounded-xl bg-muted/50 aspect-video" />
-                <div className="rounded-xl bg-muted/50 aspect-video" />
-                <div className="rounded-xl bg-muted/50 aspect-video" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
               </div>
-              <div className="min-h-16 rounded-xl bg-muted/40" />
+              <div className="bg-muted/40 min-h-16 rounded-xl" />
             </div>
           </SidebarInset>
         </SidebarProvider>

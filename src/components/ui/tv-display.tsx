@@ -4,11 +4,11 @@
  * @dependencies radix-ui class-variance-authority
  * @type registry:ui
  */
-import * as React from "react"
-import { AspectRatio as AspectRatioPrimitive } from "radix-ui"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { AspectRatio as AspectRatioPrimitive } from "radix-ui";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 /**
  * Marquee container that reveals its child horizontally only when the content
@@ -29,57 +29,55 @@ function MarqueeText({
   /** Seconds for the fade-out / fade-in transition that hides the reset. */
   fadeDuration = 0.6,
 }: {
-  children: React.ReactNode
-  className?: string
-  speed?: number
-  startPause?: number
-  endPause?: number
-  fadeDuration?: number
+  children: React.ReactNode;
+  className?: string;
+  speed?: number;
+  startPause?: number;
+  endPause?: number;
+  fadeDuration?: number;
 }) {
-  const containerRef = React.useRef<HTMLSpanElement>(null)
-  const copyRef = React.useRef<HTMLSpanElement>(null)
-  const [copyWidth, setCopyWidth] = React.useState(0)
-  const [containerWidth, setContainerWidth] = React.useState(0)
-  const reactId = React.useId()
-  const animationName = `tv-marquee-${reactId.replace(/[^a-zA-Z0-9]/g, "")}`
+  const containerRef = React.useRef<HTMLSpanElement>(null);
+  const copyRef = React.useRef<HTMLSpanElement>(null);
+  const [copyWidth, setCopyWidth] = React.useState(0);
+  const [containerWidth, setContainerWidth] = React.useState(0);
+  const reactId = React.useId();
+  const animationName = `tv-marquee-${reactId.replace(/[^a-zA-Z0-9]/g, "")}`;
 
   React.useEffect(() => {
-    const container = containerRef.current
-    const copy = copyRef.current
-    if (!container || !copy) return
+    const container = containerRef.current;
+    const copy = copyRef.current;
+    if (!container || !copy) return;
 
     const measure = () => {
-      setCopyWidth(copy.scrollWidth)
-      setContainerWidth(container.clientWidth)
-    }
+      setCopyWidth(copy.scrollWidth);
+      setContainerWidth(container.clientWidth);
+    };
 
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(container)
-    ro.observe(copy)
-    return () => ro.disconnect()
-  }, [children])
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(container);
+    ro.observe(copy);
+    return () => ro.disconnect();
+  }, [children]);
 
-  const overflowDistance = Math.max(0, copyWidth - containerWidth)
-  const isAnimating = overflowDistance > 1
-  const scrollSeconds = isAnimating ? overflowDistance / speed : 0
+  const overflowDistance = Math.max(0, copyWidth - containerWidth);
+  const isAnimating = overflowDistance > 1;
+  const scrollSeconds = isAnimating ? overflowDistance / speed : 0;
   // Fade transition is split into two equal halves: fade-out at the end
   // position, then fade-in at the start position. The transform snaps back
   // between them while opacity is 0, so the rewind is invisible.
-  const halfFade = fadeDuration / 2
-  const totalSeconds =
-    scrollSeconds + startPause + endPause + fadeDuration
+  const halfFade = fadeDuration / 2;
+  const totalSeconds = scrollSeconds + startPause + endPause + fadeDuration;
 
-  const pct = (s: number) =>
-    isAnimating ? (s / totalSeconds) * 100 : 0
+  const pct = (s: number) => (isAnimating ? (s / totalSeconds) * 100 : 0);
 
-  const startStop = pct(startPause)
-  const scrollStop = pct(startPause + scrollSeconds)
-  const fadeOutStart = pct(startPause + scrollSeconds + endPause)
-  const fadeOutEnd = pct(startPause + scrollSeconds + endPause + halfFade)
+  const startStop = pct(startPause);
+  const scrollStop = pct(startPause + scrollSeconds);
+  const fadeOutStart = pct(startPause + scrollSeconds + endPause);
+  const fadeOutEnd = pct(startPause + scrollSeconds + endPause + halfFade);
   // Tiny epsilon after fadeOutEnd to snap transform back to 0 while opacity
   // is still 0, then fade in the rest of the way to 100.
-  const snapStop = Math.min(fadeOutEnd + 0.01, 99.99)
+  const snapStop = Math.min(fadeOutEnd + 0.01, 99.99);
 
   return (
     <span
@@ -113,7 +111,10 @@ function MarqueeText({
         {children}
       </span>
       {isAnimating ? (
-        <style href={animationName} precedence="tv-display">{`@keyframes ${animationName} {
+        <style
+          href={animationName}
+          precedence="tv-display"
+        >{`@keyframes ${animationName} {
           0% { transform: translateX(0); opacity: 1; }
           ${startStop}% { transform: translateX(0); opacity: 1; }
           ${scrollStop}% { transform: translateX(calc(var(--marquee-distance) * -1)); opacity: 1; }
@@ -124,7 +125,7 @@ function MarqueeText({
         }`}</style>
       ) : null}
     </span>
-  )
+  );
 }
 
 /**
@@ -139,9 +140,9 @@ const TV_ASPECT_RATIOS = {
   "21/9": 21 / 9,
   "4/3": 4 / 3,
   "9/16": 9 / 16,
-} as const
+} as const;
 
-type TVAspectRatio = keyof typeof TV_ASPECT_RATIOS
+type TVAspectRatio = keyof typeof TV_ASPECT_RATIOS;
 
 const tvDisplayVariants = cva(
   [
@@ -172,13 +173,13 @@ const tvDisplayVariants = cva(
       density: "default",
     },
   }
-)
+);
 
 type TVDisplayProps = React.ComponentProps<"div"> &
   VariantProps<typeof tvDisplayVariants> & {
     /** TV aspect ratio. Defaults to 16/9. */
-    aspectRatio?: TVAspectRatio
-  }
+    aspectRatio?: TVAspectRatio;
+  };
 
 function TVDisplay({
   className,
@@ -203,15 +204,12 @@ function TVDisplay({
       </div>
       <TVDisplayFallbackStyles />
     </AspectRatioPrimitive.Root>
-  )
+  );
 }
 
 function TVDisplayFallbackStyles() {
   return (
-    <style
-      href="tv-display-fallbacks"
-      precedence="tv-display-base"
-    >{`
+    <style href="tv-display-fallbacks" precedence="tv-display-base">{`
       [data-slot="tv-display"] {
         /* Explicit, widely-supported colors. Override the inherited
            --foreground so text-foreground utilities resolve to plain
@@ -336,7 +334,7 @@ function TVDisplayFallbackStyles() {
         }
       }
     `}</style>
-  )
+  );
 }
 
 /**
@@ -345,10 +343,7 @@ function TVDisplayFallbackStyles() {
  * row cells (doctor / room / token) regardless of intrinsic content widths.
  */
 
-function TVDisplayHeader({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function TVDisplayHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="tv-display-header"
@@ -364,13 +359,10 @@ function TVDisplayHeader({
       )}
       {...props}
     />
-  )
+  );
 }
 
-function TVDisplayBody({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function TVDisplayBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="tv-display-body"
@@ -382,26 +374,23 @@ function TVDisplayBody({
       )}
       {...props}
     />
-  )
+  );
 }
 
-function TVDisplayRow({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function TVDisplayRow({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="tv-display-row"
       className={cn(
         "col-span-full grid min-h-0 grid-cols-subgrid items-center gap-x-8",
-        "@max-md:items-end @max-md:grid-cols-[auto_minmax(0,1fr)] @max-md:grid-rows-[auto_1fr] @max-md:gap-x-4 @max-md:gap-y-[1cqh] @max-md:py-[2.5cqh]",
+        "@max-md:grid-cols-[auto_minmax(0,1fr)] @max-md:grid-rows-[auto_1fr] @max-md:items-end @max-md:gap-x-4 @max-md:gap-y-[1cqh] @max-md:py-[2.5cqh]",
         "px-(--tv-row-px)",
         "even:bg-[#22335a]",
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TVDisplayDoctor({
@@ -410,8 +399,8 @@ function TVDisplayDoctor({
   className,
   ...props
 }: React.ComponentProps<"div"> & {
-  name: React.ReactNode
-  specialty?: React.ReactNode
+  name: React.ReactNode;
+  specialty?: React.ReactNode;
 }) {
   return (
     <div
@@ -424,16 +413,16 @@ function TVDisplayDoctor({
       )}
       {...props}
     >
-      <span className="min-w-0 text-[clamp(1.25rem,2.2cqw+0.5rem,3.25rem)] font-bold leading-tight text-foreground">
+      <span className="text-foreground min-w-0 text-[clamp(1.25rem,2.2cqw+0.5rem,3.25rem)] leading-tight font-bold">
         <MarqueeText>{name}</MarqueeText>
       </span>
       {specialty ? (
-        <span className="truncate text-[clamp(0.875rem,1.4cqw+0.25rem,1.875rem)] font-medium text-foreground/80">
+        <span className="text-foreground/80 truncate text-[clamp(0.875rem,1.4cqw+0.25rem,1.875rem)] font-medium">
           {specialty}
         </span>
       ) : null}
     </div>
-  )
+  );
 }
 
 function TVDisplayRoom({
@@ -444,7 +433,7 @@ function TVDisplayRoom({
 }: React.ComponentProps<"div"> & {
   /** Label rendered above the room number on narrow (portrait) layouts.
    *  Hidden on wide layouts where the column header already covers it. */
-  label?: React.ReactNode
+  label?: React.ReactNode;
 }) {
   return (
     <div
@@ -453,7 +442,7 @@ function TVDisplayRoom({
         // `items-stretch` lets the inner box fill the room-column track,
         // and since that track is auto-sized to the widest box across all
         // rows, every box ends up matching the widest one.
-        "flex flex-col items-stretch justify-center self-center gap-0.5",
+        "flex flex-col items-stretch justify-center gap-0.5 self-center",
         className
       )}
       {...props}
@@ -461,7 +450,7 @@ function TVDisplayRoom({
       {label ? (
         <span
           aria-hidden
-          className="hidden text-[clamp(0.875rem,1.5cqw+0.25rem,1.5rem)] font-semibold uppercase tracking-wide text-foreground/70 @max-md:block"
+          className="text-foreground/70 hidden text-[clamp(0.875rem,1.5cqw+0.25rem,1.5rem)] font-semibold tracking-wide uppercase @max-md:block"
         >
           {label}
         </span>
@@ -471,23 +460,23 @@ function TVDisplayRoom({
           "flex w-full items-center justify-center self-start",
           "h-[clamp(3rem,6cqw+0.75rem,8rem)] min-w-[clamp(3rem,6cqw+0.75rem,8rem)]",
           "px-[clamp(0.5rem,1.2cqw,1.25rem)]",
-          "border-2 border-foreground/50 text-foreground",
-          "text-[clamp(1.5rem,3.2cqw+0.5rem,5rem)] font-bold leading-none tabular-nums whitespace-nowrap"
+          "border-foreground/50 text-foreground border-2",
+          "text-[clamp(1.5rem,3.2cqw+0.5rem,5rem)] leading-none font-bold whitespace-nowrap tabular-nums"
         )}
       >
         {children}
       </div>
     </div>
-  )
+  );
 }
 
 type TVDisplayTokenProps = React.ComponentProps<"div"> & {
   /** Token currently being served (e.g. "OP-025"). */
-  current: React.ReactNode
+  current: React.ReactNode;
   /** Upcoming tokens shown after the current one. */
-  next?: React.ReactNode[]
+  next?: React.ReactNode[];
   /** Label shown before the upcoming tokens. Override for localization. */
-  nextLabel?: React.ReactNode
+  nextLabel?: React.ReactNode;
   /**
    * Optional key that, when changed, restarts the upcoming-tokens marquee
    * from the beginning. Pass the same value you use to drive the `current`
@@ -495,8 +484,8 @@ type TVDisplayTokenProps = React.ComponentProps<"div"> & {
    * current token animates in, then begins scrolling — never overlapping
    * the rotation transition.
    */
-  nextRestartKey?: string | number
-}
+  nextRestartKey?: string | number;
+};
 
 /**
  * Token cell — shows the token currently being served (large, accent-colored)
@@ -513,19 +502,21 @@ function TVDisplayToken({
 }: TVDisplayTokenProps) {
   // Limit to the first 2 upcoming tokens — beyond that the line gets noisy
   // and is hard to read at signage distance.
-  const visibleNext = next?.slice(0, 2)
+  const visibleNext = next?.slice(0, 2);
   return (
     <div
       data-slot="tv-display-token"
       className={cn("flex min-w-0 flex-col justify-center gap-0.5", className)}
       {...props}
     >
-      <span className="truncate text-[clamp(2.25rem,4.6cqw+0.5rem,6.5rem)] font-extrabold leading-none tabular-nums text-[#ffd23f]">
+      <span className="truncate text-[clamp(2.25rem,4.6cqw+0.5rem,6.5rem)] leading-none font-extrabold text-[#ffd23f] tabular-nums">
         {current}
       </span>
       {visibleNext && visibleNext.length > 0 ? (
-        <div className="flex min-w-0 items-baseline gap-2 text-[clamp(0.875rem,1.4cqw+0.25rem,1.875rem)] font-semibold uppercase text-foreground/75">
-          <span className="shrink-0 font-medium text-foreground/80">{nextLabel}</span>
+        <div className="text-foreground/75 flex min-w-0 items-baseline gap-2 text-[clamp(0.875rem,1.4cqw+0.25rem,1.875rem)] font-semibold uppercase">
+          <span className="text-foreground/80 shrink-0 font-medium">
+            {nextLabel}
+          </span>
           {/* Remount on `nextRestartKey` change so the marquee restarts from
               its initial hold whenever the current token rotates. */}
           <MarqueeText
@@ -535,11 +526,11 @@ function TVDisplayToken({
             {visibleNext.map((token, idx) => (
               <React.Fragment key={idx}>
                 {idx > 0 ? (
-                  <span aria-hidden className="mx-2 text-foreground">
+                  <span aria-hidden className="text-foreground mx-2">
                     ·
                   </span>
                 ) : null}
-                <span className="font-bold text-foreground tabular-nums tracking-wide">
+                <span className="text-foreground font-bold tracking-wide tabular-nums">
                   {token}
                 </span>
               </React.Fragment>
@@ -548,7 +539,7 @@ function TVDisplayToken({
         </div>
       ) : null}
     </div>
-  )
+  );
 }
 
 export {
@@ -559,5 +550,5 @@ export {
   TVDisplayDoctor,
   TVDisplayRoom,
   TVDisplayToken,
-}
-export type { TVDisplayProps, TVAspectRatio }
+};
+export type { TVDisplayProps, TVAspectRatio };

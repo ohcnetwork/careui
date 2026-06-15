@@ -37,7 +37,7 @@ function SectionHeading({
   return (
     <h2
       id={id}
-      className="scroll-m-20 border-b border-border pb-2 text-3xl font-semibold tracking-tight"
+      className="border-border scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
     >
       {children}
     </h2>
@@ -61,7 +61,7 @@ function SwatchCard({ swatch }: { swatch: Swatch }) {
     <div className="border-border bg-card flex flex-col overflow-hidden rounded-lg border">
       <div
         className={`${swatch.className} ${swatch.onClass ?? "text-foreground"} ${
-          swatch.needsBorder ? "border-b border-border" : ""
+          swatch.needsBorder ? "border-border border-b" : ""
         } flex h-20 items-end p-3 font-mono text-xs`}
       >
         Aa
@@ -377,7 +377,19 @@ type RampDef = {
   name: string;
   role: string;
   /** All 11 bg classes 50→950, kept as static literals so Tailwind picks them up. */
-  bg: [string, string, string, string, string, string, string, string, string, string, string];
+  bg: [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+  ];
 };
 
 const RAMPS: RampDef[] = [
@@ -604,7 +616,19 @@ const RAMPS: RampDef[] = [
   },
 ];
 
-const RAMP_STEPS = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900", "950"];
+const RAMP_STEPS = [
+  "50",
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900",
+  "950",
+];
 
 function ColorRamp({ ramp }: { ramp: RampDef }) {
   return (
@@ -748,14 +772,14 @@ export function ColorsPage() {
           <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
             Documentation
           </div>
-          <h1 className="scroll-m-20 mt-3 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
+          <h1 className="mt-3 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
             Colors
           </h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-xl leading-7">
             One semantic palette. Five themes. Care UI never paints with raw
             color scales — every surface, text and border resolves through a
-            token so dark mode, high-contrast and color-blind safe variants
-            all stay free.
+            token so dark mode, high-contrast and color-blind safe variants all
+            stay free.
           </p>
         </header>
 
@@ -763,15 +787,15 @@ export function ColorsPage() {
         <section>
           <SectionHeading id="foundations">Foundations</SectionHeading>
           <p className="text-foreground leading-7 not-first:mt-6">
-            Tokens live in <InlineCode>src/index.css</InlineCode>. Each
-            semantic name (e.g. <InlineCode>--background</InlineCode>) points
-            at a Tailwind v4 palette value (e.g.{" "}
+            Tokens live in <InlineCode>src/index.css</InlineCode>. Each semantic
+            name (e.g. <InlineCode>--background</InlineCode>) points at a
+            Tailwind v4 palette value (e.g.{" "}
             <InlineCode>--color-neutral-950</InlineCode>) and is re-exported
             through the <InlineCode>@theme inline</InlineCode> block as a
             utility (<InlineCode>bg-background</InlineCode>,{" "}
             <InlineCode>text-foreground</InlineCode>,{" "}
-            <InlineCode>border-border</InlineCode>). That single indirection
-            is what makes the system themeable.
+            <InlineCode>border-border</InlineCode>). That single indirection is
+            what makes the system themeable.
           </p>
 
           <div className="border-border bg-card mt-6 grid grid-cols-1 gap-4 rounded-lg border p-6 md:grid-cols-3">
@@ -815,9 +839,9 @@ export function ColorsPage() {
               Use <InlineCode>bg-card</InlineCode> not{" "}
               <InlineCode>bg-white</InlineCode>. Use{" "}
               <InlineCode>text-muted-foreground</InlineCode> not{" "}
-              <InlineCode>text-neutral-500</InlineCode>. Raw scales only
-              belong inside the <InlineCode>primary-*</InlineCode> ramp where
-              the system itself swaps the palette per theme.
+              <InlineCode>text-neutral-500</InlineCode>. Raw scales only belong
+              inside the <InlineCode>primary-*</InlineCode> ramp where the
+              system itself swaps the palette per theme.
             </p>
           </div>
         </section>
@@ -826,14 +850,14 @@ export function ColorsPage() {
         <section>
           <SectionHeading id="themes">Themes</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Themes are layered. <InlineCode>.dark</InlineCode> toggles the
-            color scheme. <InlineCode>[data-theme]</InlineCode> swaps the
-            brand palette for color-blind safe scales (the swap is at the
+            Themes are layered. <InlineCode>.dark</InlineCode> toggles the color
+            scheme. <InlineCode>[data-theme]</InlineCode> swaps the brand
+            palette for color-blind safe scales (the swap is at the
             <em> palette</em> level — every component that uses{" "}
-            <InlineCode>primary</InlineCode>, <InlineCode>destructive</InlineCode>
-            , or any chart token updates with no extra work).{" "}
-            <InlineCode>.high-contrast</InlineCode> is a modifier that only
-            strengthens foreground and border tokens.
+            <InlineCode>primary</InlineCode>,{" "}
+            <InlineCode>destructive</InlineCode>, or any chart token updates
+            with no extra work). <InlineCode>.high-contrast</InlineCode> is a
+            modifier that only strengthens foreground and border tokens.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -879,8 +903,8 @@ export function ColorsPage() {
             Backgrounds stack from <strong>background</strong> (canvas) up to{" "}
             <strong>strong-background</strong> (deepest fill). Pair every
             surface with the matching <em>-foreground</em> token, or with a
-            calibrated <InlineCode>foreground / muted-foreground</InlineCode>
-            {" "}from the foregrounds section below.
+            calibrated <InlineCode>foreground / muted-foreground</InlineCode>{" "}
+            from the foregrounds section below.
           </p>
           <SwatchGrid items={SURFACES} />
         </section>
@@ -890,8 +914,8 @@ export function ColorsPage() {
           <SectionHeading id="foregrounds">Foreground Tokens</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
             Six steps of intent, not six steps of opacity. Pick by{" "}
-            <em>meaning</em>: body, secondary, tertiary, placeholder,
-            disabled, inverse. Never compose text contrast with{" "}
+            <em>meaning</em>: body, secondary, tertiary, placeholder, disabled,
+            inverse. Never compose text contrast with{" "}
             <InlineCode>opacity</InlineCode> or{" "}
             <InlineCode>text-foreground/60</InlineCode> — it breaks under
             high-contrast mode.
@@ -901,12 +925,14 @@ export function ColorsPage() {
 
         {/* Borders */}
         <section>
-          <SectionHeading id="borders">Borders, Inputs &amp; Ring</SectionHeading>
+          <SectionHeading id="borders">
+            Borders, Inputs &amp; Ring
+          </SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Borders mirror the surface stack — softer for inside-card
-            dividers, stronger for outlined controls. In dark mode they are
-            authored as <InlineCode>white / α</InlineCode> so they sit on any
-            surface without banding.
+            Borders mirror the surface stack — softer for inside-card dividers,
+            stronger for outlined controls. In dark mode they are authored as{" "}
+            <InlineCode>white / α</InlineCode> so they sit on any surface
+            without banding.
           </p>
           <SwatchGrid items={BORDERS} />
 
@@ -916,9 +942,9 @@ export function ColorsPage() {
             </div>
             <p className="text-muted-foreground mt-2 text-sm leading-6">
               The <InlineCode>ring</InlineCode> token (indigo-500 @ 75%) is
-              reserved for keyboard focus. It is intentionally{" "}
-              <em>not</em> brand-colored so it stays visible across every
-              palette swap. Apply via{" "}
+              reserved for keyboard focus. It is intentionally <em>not</em>{" "}
+              brand-colored so it stays visible across every palette swap. Apply
+              via{" "}
               <InlineCode>
                 focus-visible:ring-2 focus-visible:ring-ring/50
               </InlineCode>
@@ -931,10 +957,10 @@ export function ColorsPage() {
         <section>
           <SectionHeading id="brand">Brand &amp; State</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Use <strong>primary</strong> for the single most important action
-            on a surface. Use <strong>secondary</strong> for everything else.{" "}
-            <strong>Destructive</strong> is reserved for irreversible
-            actions and error state — never for warnings.
+            Use <strong>primary</strong> for the single most important action on
+            a surface. Use <strong>secondary</strong> for everything else.{" "}
+            <strong>Destructive</strong> is reserved for irreversible actions
+            and error state — never for warnings.
           </p>
           <SwatchGrid items={BRAND} />
         </section>
@@ -944,11 +970,11 @@ export function ColorsPage() {
           <SectionHeading id="primary-scale">Primary Scale</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
             The <InlineCode>primary-50 → primary-950</InlineCode> ramp tracks
-            whichever palette the active theme has installed (emerald, blue,
-            or rose). Compose nuanced primary states from this ramp — but
-            still keep semantic intent: <InlineCode>primary-100</InlineCode>{" "}
-            for a tinted background, <InlineCode>primary-700</InlineCode> for
-            a hover, etc.
+            whichever palette the active theme has installed (emerald, blue, or
+            rose). Compose nuanced primary states from this ramp — but still
+            keep semantic intent: <InlineCode>primary-100</InlineCode> for a
+            tinted background, <InlineCode>primary-700</InlineCode> for a hover,
+            etc.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -994,9 +1020,8 @@ export function ColorsPage() {
               How the swap works
             </div>
             <p className="text-muted-foreground mt-2 text-sm leading-6">
-              Under <InlineCode>[data-theme=&quot;protanopia&quot;]</InlineCode>
-              {" "}the system redefines{" "}
-              <InlineCode>--color-red-*</InlineCode> →{" "}
+              Under <InlineCode>[data-theme=&quot;protanopia&quot;]</InlineCode>{" "}
+              the system redefines <InlineCode>--color-red-*</InlineCode> →{" "}
               <InlineCode>--color-yellow-*</InlineCode>,{" "}
               <InlineCode>--color-green-*</InlineCode> →{" "}
               <InlineCode>--color-teal-*</InlineCode>, and{" "}
@@ -1006,8 +1031,8 @@ export function ColorsPage() {
               green→amber and emerald→orange. That means any component using{" "}
               <InlineCode>bg-emerald-500</InlineCode> would still get re-tinted
               correctly — but you should still consume the{" "}
-              <InlineCode>primary</InlineCode> / <InlineCode>destructive</InlineCode>{" "}
-              tokens, never the raw ramp.
+              <InlineCode>primary</InlineCode> /{" "}
+              <InlineCode>destructive</InlineCode> tokens, never the raw ramp.
             </p>
           </div>
         </section>
@@ -1016,10 +1041,10 @@ export function ColorsPage() {
         <section>
           <SectionHeading id="charts">Chart Palette</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Five categorical hues, ordered by visual prominence. Always use
-            them in numeric order so the most important series gets the
-            strongest hue. Each theme provides its own chart palette tuned
-            for the underlying color scheme.
+            Five categorical hues, ordered by visual prominence. Always use them
+            in numeric order so the most important series gets the strongest
+            hue. Each theme provides its own chart palette tuned for the
+            underlying color scheme.
           </p>
           <SwatchGrid items={CHARTS} />
 
@@ -1050,25 +1075,26 @@ export function ColorsPage() {
 </ChartContainer>`}</code>
             </pre>
             <p className="text-muted-foreground mt-3 text-xs leading-5">
-              Because Care UI&apos;s chart tokens are aliased to Tailwind
-              color variables (e.g.{" "}
-              <InlineCode>--chart-1: var(--color-orange-600)</InlineCode>),
-              they automatically re-tint under{" "}
+              Because Care UI&apos;s chart tokens are aliased to Tailwind color
+              variables (e.g.{" "}
+              <InlineCode>--chart-1: var(--color-orange-600)</InlineCode>), they
+              automatically re-tint under{" "}
               <InlineCode>[data-theme=&quot;protanopia&quot;]</InlineCode> and{" "}
-              <InlineCode>[data-theme=&quot;tritanopia&quot;]</InlineCode>{" "}
-              with no chart-level changes.
+              <InlineCode>[data-theme=&quot;tritanopia&quot;]</InlineCode> with
+              no chart-level changes.
             </p>
           </div>
         </section>
 
         {/* Contrast & readability */}
         <section>
-          <SectionHeading id="contrast">Contrast &amp; Readability</SectionHeading>
+          <SectionHeading id="contrast">
+            Contrast &amp; Readability
+          </SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            Care UI ships with paired tokens so contrast is correct by
-            default. The table below documents the contract — if a pairing
-            you need isn&apos;t listed, you&apos;re likely composing wrong
-            tokens.
+            Care UI ships with paired tokens so contrast is correct by default.
+            The table below documents the contract — if a pairing you need
+            isn&apos;t listed, you&apos;re likely composing wrong tokens.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -1087,7 +1113,9 @@ export function ColorsPage() {
                     <TableCell className="font-mono text-xs">
                       {p.surface}
                     </TableCell>
-                    <TableCell className="font-mono text-xs">{p.text}</TableCell>
+                    <TableCell className="font-mono text-xs">
+                      {p.text}
+                    </TableCell>
                     <TableCell className="text-muted-foreground text-sm">
                       {p.use}
                     </TableCell>
@@ -1123,7 +1151,8 @@ export function ColorsPage() {
                 Card surfaces use the same contrast contract as canvas.
               </p>
               <p className="text-muted-foreground leading-6">
-                Description text remains <InlineCode>muted-foreground</InlineCode>.
+                Description text remains{" "}
+                <InlineCode>muted-foreground</InlineCode>.
               </p>
               <div className="pt-2">
                 <span className="bg-primary text-primary-foreground inline-flex items-center rounded-md px-3 py-1.5 text-sm font-medium">
@@ -1196,9 +1225,9 @@ className="bg-destructive text-destructive-foreground hover:bg-destructive/90"`}
               <p className="text-foreground leading-7">
                 Shadows in Care UI are colored. They borrow from the surface
                 they cast onto — <InlineCode>shadow-primary/50</InlineCode>{" "}
-                under a primary button, <InlineCode>shadow-background</InlineCode>{" "}
-                under a popover in dark mode. Never use raw{" "}
-                <InlineCode>shadow-black</InlineCode>.
+                under a primary button,{" "}
+                <InlineCode>shadow-background</InlineCode> under a popover in
+                dark mode. Never use raw <InlineCode>shadow-black</InlineCode>.
               </p>
             </div>
           </div>
@@ -1230,8 +1259,8 @@ className="bg-destructive text-destructive-foreground hover:bg-destructive/90"`}
                   opacity.
                 </li>
                 <li>
-                  Test every page in all 5 themes before shipping — they are
-                  one CSS class away.
+                  Test every page in all 5 themes before shipping — they are one
+                  CSS class away.
                 </li>
                 <li>
                   Reserve <code className="font-mono">destructive</code> for
@@ -1252,13 +1281,11 @@ className="bg-destructive text-destructive-foreground hover:bg-destructive/90"`}
                 <li>
                   Lower text contrast with{" "}
                   <code className="font-mono">opacity</code> or{" "}
-                  <code className="font-mono">/40</code> on a foreground
-                  token.
+                  <code className="font-mono">/40</code> on a foreground token.
                 </li>
                 <li>
-                  Use brand color (
-                  <code className="font-mono">primary</code>) for a focus
-                  ring — it disappears under a palette swap.
+                  Use brand color (<code className="font-mono">primary</code>)
+                  for a focus ring — it disappears under a palette swap.
                 </li>
                 <li>
                   Encode meaning with color alone. Always pair with text or

@@ -37,7 +37,7 @@ function SectionHeading({
   return (
     <h2
       id={id}
-      className="scroll-m-20 border-b border-border pb-2 text-3xl font-semibold tracking-tight"
+      className="border-border scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
     >
       {children}
     </h2>
@@ -55,19 +55,97 @@ type SpacingRow = {
 };
 
 const SPACING: SpacingRow[] = [
-  { step: "0", rem: "0",       px: "0",   classes: "p-0 / m-0 / gap-0",   usage: "Reset." },
-  { step: "0.5", rem: "0.125", px: "2",   classes: "p-0.5 / gap-0.5",     usage: "Hairline insets, dense icon padding." },
-  { step: "1",   rem: "0.25",  px: "4",   classes: "p-1 / gap-1",         usage: "Menu padding, tight icon gaps (dropdown, popover)." },
-  { step: "1.5", rem: "0.375", px: "6",   classes: "p-1.5 / gap-1.5",     usage: "Compact control gaps, tooltip padding." },
-  { step: "2",   rem: "0.5",   px: "8",   classes: "p-2 / gap-2",         usage: "Header toolbars, small chip padding, list-item gaps." },
-  { step: "2.5", rem: "0.625", px: "10",  classes: "px-2.5",              usage: "Default horizontal padding for buttons, select trigger." },
-  { step: "3",   rem: "0.75",  px: "12",  classes: "px-3 / gap-3",        usage: "Input horizontal padding, form-field gaps." },
-  { step: "4",   rem: "1",     px: "16",  classes: "p-4 / gap-4 / mt-4",  usage: "Card body padding (compact), section internals." },
-  { step: "6",   rem: "1.5",   px: "24",  classes: "p-6 / mt-6 / my-6",   usage: "Card / popover / dialog body padding, body prose rhythm." },
-  { step: "8",   rem: "2",     px: "32",  classes: "p-8 / mt-8 / md:p-8", usage: "Page padding (desktop), h3 top margin." },
-  { step: "10",  rem: "2.5",   px: "40",  classes: "mt-10",               usage: "h2 top margin (major section break)." },
-  { step: "12",  rem: "3",     px: "48",  classes: "h-12",                usage: "Default control height on mobile (--header-height in shell)." },
-  { step: "16",  rem: "4",     px: "64",  classes: "h-16 / space-y-16",   usage: "Top app-bar height, between-section spacing on docs pages." },
+  {
+    step: "0",
+    rem: "0",
+    px: "0",
+    classes: "p-0 / m-0 / gap-0",
+    usage: "Reset.",
+  },
+  {
+    step: "0.5",
+    rem: "0.125",
+    px: "2",
+    classes: "p-0.5 / gap-0.5",
+    usage: "Hairline insets, dense icon padding.",
+  },
+  {
+    step: "1",
+    rem: "0.25",
+    px: "4",
+    classes: "p-1 / gap-1",
+    usage: "Menu padding, tight icon gaps (dropdown, popover).",
+  },
+  {
+    step: "1.5",
+    rem: "0.375",
+    px: "6",
+    classes: "p-1.5 / gap-1.5",
+    usage: "Compact control gaps, tooltip padding.",
+  },
+  {
+    step: "2",
+    rem: "0.5",
+    px: "8",
+    classes: "p-2 / gap-2",
+    usage: "Header toolbars, small chip padding, list-item gaps.",
+  },
+  {
+    step: "2.5",
+    rem: "0.625",
+    px: "10",
+    classes: "px-2.5",
+    usage: "Default horizontal padding for buttons, select trigger.",
+  },
+  {
+    step: "3",
+    rem: "0.75",
+    px: "12",
+    classes: "px-3 / gap-3",
+    usage: "Input horizontal padding, form-field gaps.",
+  },
+  {
+    step: "4",
+    rem: "1",
+    px: "16",
+    classes: "p-4 / gap-4 / mt-4",
+    usage: "Card body padding (compact), section internals.",
+  },
+  {
+    step: "6",
+    rem: "1.5",
+    px: "24",
+    classes: "p-6 / mt-6 / my-6",
+    usage: "Card / popover / dialog body padding, body prose rhythm.",
+  },
+  {
+    step: "8",
+    rem: "2",
+    px: "32",
+    classes: "p-8 / mt-8 / md:p-8",
+    usage: "Page padding (desktop), h3 top margin.",
+  },
+  {
+    step: "10",
+    rem: "2.5",
+    px: "40",
+    classes: "mt-10",
+    usage: "h2 top margin (major section break).",
+  },
+  {
+    step: "12",
+    rem: "3",
+    px: "48",
+    classes: "h-12",
+    usage: "Default control height on mobile (--header-height in shell).",
+  },
+  {
+    step: "16",
+    rem: "4",
+    px: "64",
+    classes: "h-16 / space-y-16",
+    usage: "Top app-bar height, between-section spacing on docs pages.",
+  },
 ];
 
 /* ── Radius (declared in :root via --radius and ladder in @theme inline) ── */
@@ -81,26 +159,102 @@ type RadiusRow = {
 };
 
 const RADIUS: RadiusRow[] = [
-  { token: "sm",  className: "rounded-sm",  value: "calc(0.625rem − 4px)", px: "6px",  usage: "Menu items, dropdown items, small chips." },
-  { token: "md",  className: "rounded-md",  value: "calc(0.625rem − 2px)", px: "8px",  usage: "Default for buttons, inputs, selects, dropdowns, popovers." },
-  { token: "lg",  className: "rounded-lg",  value: "0.625rem",              px: "10px", usage: "Tabs list, hover-card, large surfaces." },
-  { token: "xl",  className: "rounded-xl",  value: "calc(0.625rem + 4px)", px: "14px", usage: "Card, alert-dialog, frame default (--frame-radius)." },
-  { token: "2xl", className: "rounded-2xl", value: "calc(0.625rem + 8px)", px: "18px", usage: "Hero cards, marketing surfaces." },
-  { token: "3xl", className: "rounded-3xl", value: "calc(0.625rem + 12px)", px: "22px", usage: "Showcase / decorative containers." },
-  { token: "4xl", className: "rounded-4xl", value: "calc(0.625rem + 16px)", px: "26px", usage: "Reserved — currently unused at component level." },
-  { token: "full", className: "rounded-full", value: "9999px",              px: "—",    usage: "Avatars, indicators, progress bar, pill badges." },
+  {
+    token: "sm",
+    className: "rounded-sm",
+    value: "calc(0.625rem − 4px)",
+    px: "6px",
+    usage: "Menu items, dropdown items, small chips.",
+  },
+  {
+    token: "md",
+    className: "rounded-md",
+    value: "calc(0.625rem − 2px)",
+    px: "8px",
+    usage: "Default for buttons, inputs, selects, dropdowns, popovers.",
+  },
+  {
+    token: "lg",
+    className: "rounded-lg",
+    value: "0.625rem",
+    px: "10px",
+    usage: "Tabs list, hover-card, large surfaces.",
+  },
+  {
+    token: "xl",
+    className: "rounded-xl",
+    value: "calc(0.625rem + 4px)",
+    px: "14px",
+    usage: "Card, alert-dialog, frame default (--frame-radius).",
+  },
+  {
+    token: "2xl",
+    className: "rounded-2xl",
+    value: "calc(0.625rem + 8px)",
+    px: "18px",
+    usage: "Hero cards, marketing surfaces.",
+  },
+  {
+    token: "3xl",
+    className: "rounded-3xl",
+    value: "calc(0.625rem + 12px)",
+    px: "22px",
+    usage: "Showcase / decorative containers.",
+  },
+  {
+    token: "4xl",
+    className: "rounded-4xl",
+    value: "calc(0.625rem + 16px)",
+    px: "26px",
+    usage: "Reserved — currently unused at component level.",
+  },
+  {
+    token: "full",
+    className: "rounded-full",
+    value: "9999px",
+    px: "—",
+    usage: "Avatars, indicators, progress bar, pill badges.",
+  },
 ];
 
 /* ── Squircle utilities (custom Care UI, requires corner-shape support) ── */
 
 const SQUIRCLE: { className: string; based_on: string; note: string }[] = [
-  { className: "rounded-squircle-sm",   based_on: "rounded-sm",   note: "superellipse(1.6) corner shape." },
-  { className: "rounded-squircle-md",   based_on: "rounded-lg",   note: "superellipse(1.6) corner shape." },
-  { className: "rounded-squircle-lg",   based_on: "rounded-lg",   note: "superellipse(1.6) corner shape." },
-  { className: "rounded-squircle-xl",   based_on: "rounded-xl",   note: "superellipse(1.6) corner shape." },
-  { className: "rounded-squircle-2xl",  based_on: "rounded-xl",   note: "superellipse(1.6) corner shape." },
-  { className: "rounded-squircle-3xl",  based_on: "rounded-3xl",  note: "superellipse(1.6) corner shape." },
-  { className: "rounded-squircle-full", based_on: "rounded-full", note: "superellipse(1) — perfect rounding." },
+  {
+    className: "rounded-squircle-sm",
+    based_on: "rounded-sm",
+    note: "superellipse(1.6) corner shape.",
+  },
+  {
+    className: "rounded-squircle-md",
+    based_on: "rounded-lg",
+    note: "superellipse(1.6) corner shape.",
+  },
+  {
+    className: "rounded-squircle-lg",
+    based_on: "rounded-lg",
+    note: "superellipse(1.6) corner shape.",
+  },
+  {
+    className: "rounded-squircle-xl",
+    based_on: "rounded-xl",
+    note: "superellipse(1.6) corner shape.",
+  },
+  {
+    className: "rounded-squircle-2xl",
+    based_on: "rounded-xl",
+    note: "superellipse(1.6) corner shape.",
+  },
+  {
+    className: "rounded-squircle-3xl",
+    based_on: "rounded-3xl",
+    note: "superellipse(1.6) corner shape.",
+  },
+  {
+    className: "rounded-squircle-full",
+    based_on: "rounded-full",
+    note: "superellipse(1) — perfect rounding.",
+  },
 ];
 
 /* ── Borders (recap from Colors page, here grouped by use) ── */
@@ -112,13 +266,42 @@ type BorderRow = {
 };
 
 const BORDERS: BorderRow[] = [
-  { className: "border",                    token: "border-border",         usage: "Default 1px border (applied globally via `* { @apply border-border }`)." },
-  { className: "border-input",              token: "input",                 usage: "All form controls — input, select, textarea, checkbox, OTP slot." },
-  { className: "border-soft-border",        token: "soft-border",           usage: "Ghost dividers inside a card." },
-  { className: "border-strong-border",      token: "strong-border",         usage: "Outlined button, hover state on default border." },
-  { className: "border-stronger-border",    token: "stronger-border",       usage: "Emphasised outlines (some button outline variants)." },
-  { className: "border-border/50 or /60",   token: "border (with alpha)",   usage: "Subtle dividers — chart tooltip, browser tabs." },
-  { className: "ring-1 ring-foreground/10", token: "foreground/10",         usage: "Hairline ring paired with elevation on floating surfaces." },
+  {
+    className: "border",
+    token: "border-border",
+    usage:
+      "Default 1px border (applied globally via `* { @apply border-border }`).",
+  },
+  {
+    className: "border-input",
+    token: "input",
+    usage: "All form controls — input, select, textarea, checkbox, OTP slot.",
+  },
+  {
+    className: "border-soft-border",
+    token: "soft-border",
+    usage: "Ghost dividers inside a card.",
+  },
+  {
+    className: "border-strong-border",
+    token: "strong-border",
+    usage: "Outlined button, hover state on default border.",
+  },
+  {
+    className: "border-stronger-border",
+    token: "stronger-border",
+    usage: "Emphasised outlines (some button outline variants).",
+  },
+  {
+    className: "border-border/50 or /60",
+    token: "border (with alpha)",
+    usage: "Subtle dividers — chart tooltip, browser tabs.",
+  },
+  {
+    className: "ring-1 ring-foreground/10",
+    token: "foreground/10",
+    usage: "Hairline ring paired with elevation on floating surfaces.",
+  },
 ];
 
 /* ── Elevation ladder, derived from actual component usage ──
@@ -150,13 +333,15 @@ const ELEVATION: ElevationRow[] = [
     level: "E2 — Raised",
     className: "shadow-xs",
     pairing: "border + ring-1 ring-foreground/10",
-    components: "Card, button-group, menubar, frame, checkbox, OTP slot, toggle (outline), input-group, select trigger.",
+    components:
+      "Card, button-group, menubar, frame, checkbox, OTP slot, toggle (outline), input-group, select trigger.",
   },
   {
     level: "E3 — Floating menu",
     className: "shadow-md",
     pairing: "ring-1 ring-foreground/10 + bg-popover",
-    components: "Dropdown menu, context menu, menubar content, select content, hover-card.",
+    components:
+      "Dropdown menu, context menu, menubar content, select content, hover-card.",
   },
   {
     level: "E4 — Floating panel",
@@ -175,12 +360,14 @@ const ELEVATION: ElevationRow[] = [
 const BUTTON_DEPTH: { state: string; className: string; note: string }[] = [
   {
     state: "Rest",
-    className: "shadow-md shadow-primary/50 + not-disabled:inset-shadow-2xs inset-shadow-primary-200/30",
+    className:
+      "shadow-md shadow-primary/50 + not-disabled:inset-shadow-2xs inset-shadow-primary-200/30",
     note: "Colored drop shadow (brand-tinted) + subtle inner highlight along the top edge.",
   },
   {
     state: "Pressed",
-    className: "[:active,[data-pressed]]:inset-shadow-sm inset-shadow-primary-800",
+    className:
+      "[:active,[data-pressed]]:inset-shadow-sm inset-shadow-primary-800",
     note: "Inner shadow deepens to give a physical 'press' feedback.",
   },
   {
@@ -206,7 +393,8 @@ const LAYOUT: LayoutRow[] = [
   },
   {
     area: "Sidebar width (desktop)",
-    value: "16rem (256px) — overridden to 18rem (288px) on docs shell via --sidebar-width",
+    value:
+      "16rem (256px) — overridden to 18rem (288px) on docs shell via --sidebar-width",
     source: "src/components/ui/sidebar.tsx · src/App.tsx",
   },
   {
@@ -237,11 +425,17 @@ const LAYOUT: LayoutRow[] = [
   {
     area: "Card body padding",
     value: "p-6 (default) · p-8 (large variants)",
-    source: "card / alert-dialog / popover / hover-card / colors-page swatch cards",
+    source:
+      "card / alert-dialog / popover / hover-card / colors-page swatch cards",
   },
 ];
 
-const CONTROL_HEIGHTS: { tier: string; mobile: string; desktop: string; components: string }[] = [
+const CONTROL_HEIGHTS: {
+  tier: string;
+  mobile: string;
+  desktop: string;
+  components: string;
+}[] = [
   {
     tier: "Default form control",
     mobile: "h-12 (48px)",
@@ -277,14 +471,14 @@ export function FoundationsPage() {
           <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
             Documentation
           </div>
-          <h1 className="scroll-m-20 mt-3 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
+          <h1 className="mt-3 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
             Foundations
           </h1>
           <p className="text-muted-foreground mt-6 max-w-2xl text-xl leading-7">
             Spacing, elevation, borders &amp; radius, and the layout shell.
             Every value on this page is sourced directly from Care UI&apos;s{" "}
-            <InlineCode>src/index.css</InlineCode>, the sidebar primitive,
-            and the live components — nothing invented.
+            <InlineCode>src/index.css</InlineCode>, the sidebar primitive, and
+            the live components — nothing invented.
           </p>
         </header>
 
@@ -295,10 +489,9 @@ export function FoundationsPage() {
             Care UI uses Tailwind v4&apos;s default spacing unit:{" "}
             <InlineCode>--spacing: 0.25rem</InlineCode> (4px). It is{" "}
             <em>not</em> overridden. Every <InlineCode>p-*</InlineCode>,{" "}
-            <InlineCode>m-*</InlineCode>, <InlineCode>gap-*</InlineCode>,
-            and <InlineCode>space-*</InlineCode> utility is a multiple of
-            that base. The table below documents the steps actually used
-            across the system.
+            <InlineCode>m-*</InlineCode>, <InlineCode>gap-*</InlineCode>, and{" "}
+            <InlineCode>space-*</InlineCode> utility is a multiple of that base.
+            The table below documents the steps actually used across the system.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -341,11 +534,11 @@ export function FoundationsPage() {
               {", "}
               <InlineCode>hit-area-x-*</InlineCode>,{" "}
               <InlineCode>hit-area-y-*</InlineCode>, and per-side variants
-              (declared in <InlineCode>src/index.css</InlineCode>). They
-              extend the click target via a positioned{" "}
+              (declared in <InlineCode>src/index.css</InlineCode>). They extend
+              the click target via a positioned{" "}
               <InlineCode>::before</InlineCode> without affecting layout —
-              useful for small icon-only controls where a 44×44 touch target
-              is required.
+              useful for small icon-only controls where a 44×44 touch target is
+              required.
             </p>
           </div>
         </section>
@@ -357,12 +550,11 @@ export function FoundationsPage() {
             Care UI uses Tailwind&apos;s shadow scale, paired with a{" "}
             <strong>hairline ring</strong> (
             <InlineCode>ring-1 ring-foreground/10</InlineCode>) on every
-            floating surface to crisp the edge against any background.
-            Shadows are <em>colored</em> on brand controls (
-            <InlineCode>shadow-primary/50</InlineCode>) and{" "}
-            <em>inverted</em> in dark mode (
-            <InlineCode>dark:shadow-background</InlineCode>) — never raw
-            black.
+            floating surface to crisp the edge against any background. Shadows
+            are <em>colored</em> on brand controls (
+            <InlineCode>shadow-primary/50</InlineCode>) and <em>inverted</em> in
+            dark mode (<InlineCode>dark:shadow-background</InlineCode>) — never
+            raw black.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -398,30 +590,30 @@ export function FoundationsPage() {
 
           {/* Live elevation samples */}
           <div className="bg-muted/40 mt-6 grid grid-cols-2 gap-6 rounded-lg p-8 md:grid-cols-5">
-            <div className="bg-card border-border rounded-md border p-4 text-center text-xs font-mono">
+            <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-xs">
               E0
             </div>
-            <div className="bg-card border-border rounded-md border p-4 text-center text-xs font-mono shadow-2xs">
+            <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-xs shadow-2xs">
               E1 · 2xs
             </div>
-            <div className="bg-card border-border ring-foreground/10 rounded-md border p-4 text-center text-xs font-mono shadow-xs ring-1">
+            <div className="bg-card border-border ring-foreground/10 rounded-md border p-4 text-center font-mono text-xs shadow-xs ring-1">
               E2 · xs
             </div>
-            <div className="bg-popover ring-foreground/10 rounded-md p-4 text-center text-xs font-mono shadow-md ring-1">
+            <div className="bg-popover ring-foreground/10 rounded-md p-4 text-center font-mono text-xs shadow-md ring-1">
               E3 · md
             </div>
-            <div className="bg-popover ring-foreground/10 rounded-md p-4 text-center text-xs font-mono shadow-xl ring-1">
+            <div className="bg-popover ring-foreground/10 rounded-md p-4 text-center font-mono text-xs shadow-xl ring-1">
               E5 · xl
             </div>
           </div>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Button depth (Care-specific)
           </h3>
           <p className="text-foreground mt-4 leading-7">
-            Primary and outline buttons add an <em>inset shadow</em> on top
-            of the drop shadow, giving them a physical pressed-state
-            transition. This is unique to Care UI&apos;s button component.
+            Primary and outline buttons add an <em>inset shadow</em> on top of
+            the drop shadow, giving them a physical pressed-state transition.
+            This is unique to Care UI&apos;s button component.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -459,15 +651,14 @@ export function FoundationsPage() {
           </SectionHeading>
           <p className="text-foreground mt-6 leading-7">
             All radii cascade from <strong>one</strong> token:{" "}
-            <InlineCode>--radius: 0.625rem</InlineCode> (10px). The full
-            ladder (<InlineCode>sm</InlineCode>…
-            <InlineCode>4xl</InlineCode>) is generated by adding or
-            subtracting from that base in{" "}
+            <InlineCode>--radius: 0.625rem</InlineCode> (10px). The full ladder
+            (<InlineCode>sm</InlineCode>…<InlineCode>4xl</InlineCode>) is
+            generated by adding or subtracting from that base in{" "}
             <InlineCode>@theme inline</InlineCode>, so changing one value
             re-tunes the entire system proportionally.
           </p>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Radius scale
           </h3>
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -505,27 +696,42 @@ export function FoundationsPage() {
 
           {/* Live radius preview */}
           <div className="bg-muted/40 mt-6 grid grid-cols-4 gap-4 rounded-lg p-6 md:grid-cols-8">
-            <div className="bg-card border-border rounded-sm border p-4 text-center text-[10px] font-mono">sm</div>
-            <div className="bg-card border-border rounded-md border p-4 text-center text-[10px] font-mono">md</div>
-            <div className="bg-card border-border rounded-lg border p-4 text-center text-[10px] font-mono">lg</div>
-            <div className="bg-card border-border rounded-xl border p-4 text-center text-[10px] font-mono">xl</div>
-            <div className="bg-card border-border rounded-2xl border p-4 text-center text-[10px] font-mono">2xl</div>
-            <div className="bg-card border-border rounded-3xl border p-4 text-center text-[10px] font-mono">3xl</div>
-            <div className="bg-card border-border rounded-4xl border p-4 text-center text-[10px] font-mono">4xl</div>
-            <div className="bg-card border-border rounded-full border p-4 text-center text-[10px] font-mono">full</div>
+            <div className="bg-card border-border rounded-sm border p-4 text-center font-mono text-[10px]">
+              sm
+            </div>
+            <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-[10px]">
+              md
+            </div>
+            <div className="bg-card border-border rounded-lg border p-4 text-center font-mono text-[10px]">
+              lg
+            </div>
+            <div className="bg-card border-border rounded-xl border p-4 text-center font-mono text-[10px]">
+              xl
+            </div>
+            <div className="bg-card border-border rounded-2xl border p-4 text-center font-mono text-[10px]">
+              2xl
+            </div>
+            <div className="bg-card border-border rounded-3xl border p-4 text-center font-mono text-[10px]">
+              3xl
+            </div>
+            <div className="bg-card border-border rounded-4xl border p-4 text-center font-mono text-[10px]">
+              4xl
+            </div>
+            <div className="bg-card border-border rounded-full border p-4 text-center font-mono text-[10px]">
+              full
+            </div>
           </div>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Squircle utilities
           </h3>
           <p className="text-foreground mt-4 leading-7">
             Care UI ships custom <InlineCode>rounded-squircle-*</InlineCode>{" "}
-            utilities (declared in <InlineCode>src/index.css</InlineCode>)
-            that apply{" "}
-            <InlineCode>corner-shape: superellipse(1.6)</InlineCode> on top
-            of the standard radius. They progressively enhance — browsers
-            without <InlineCode>corner-shape</InlineCode> support fall back
-            to the regular rounded corner.
+            utilities (declared in <InlineCode>src/index.css</InlineCode>) that
+            apply <InlineCode>corner-shape: superellipse(1.6)</InlineCode> on
+            top of the standard radius. They progressively enhance — browsers
+            without <InlineCode>corner-shape</InlineCode> support fall back to
+            the regular rounded corner.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -568,8 +774,8 @@ export function FoundationsPage() {
             >
               Colors
             </a>{" "}
-            page. The table below is the practical mapping — which token
-            shows up where in the live components.
+            page. The table below is the practical mapping — which token shows
+            up where in the live components.
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -606,12 +812,14 @@ export function FoundationsPage() {
             <p className="text-muted-foreground mt-2 text-sm leading-6">
               The <InlineCode>@layer base</InlineCode> block in{" "}
               <InlineCode>src/index.css</InlineCode> applies{" "}
-              <InlineCode>* {`{`} @apply border-border outline-ring/50; {`}`}</InlineCode>
-              {" "}— so any element you give a <InlineCode>border</InlineCode>{" "}
-              class inherits the correct semantic colour automatically.
-              Override with <InlineCode>border-input</InlineCode> on form
-              controls or <InlineCode>border-strong-border</InlineCode> for
-              emphasised dividers.
+              <InlineCode>
+                * {`{`} @apply border-border outline-ring/50; {`}`}
+              </InlineCode>{" "}
+              — so any element you give a <InlineCode>border</InlineCode> class
+              inherits the correct semantic colour automatically. Override with{" "}
+              <InlineCode>border-input</InlineCode> on form controls or{" "}
+              <InlineCode>border-strong-border</InlineCode> for emphasised
+              dividers.
             </p>
           </div>
         </section>
@@ -620,15 +828,15 @@ export function FoundationsPage() {
         <section>
           <SectionHeading id="layout">Layout</SectionHeading>
           <p className="text-foreground mt-6 leading-7">
-            The Care UI app shell is a <InlineCode>SidebarProvider</InlineCode>
-            {" "}around an <InlineCode>AppSidebar</InlineCode> and{" "}
-            <InlineCode>SidebarInset</InlineCode>, with a sticky top app bar
-            and a single scroll region for the main content. All measurements
-            below are taken from <InlineCode>src/App.tsx</InlineCode> and{" "}
+            The Care UI app shell is a <InlineCode>SidebarProvider</InlineCode>{" "}
+            around an <InlineCode>AppSidebar</InlineCode> and{" "}
+            <InlineCode>SidebarInset</InlineCode>, with a sticky top app bar and
+            a single scroll region for the main content. All measurements below
+            are taken from <InlineCode>src/App.tsx</InlineCode> and{" "}
             <InlineCode>src/components/ui/sidebar.tsx</InlineCode>.
           </p>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             App shell measurements
           </h3>
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -658,15 +866,15 @@ export function FoundationsPage() {
             </Table>
           </div>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Control heights
           </h3>
           <p className="text-foreground mt-4 leading-7">
-            Care UI uses a responsive control height: <strong>taller on
-            mobile</strong> for touch, <strong>compact on desktop</strong>{" "}
-            for density. The pattern{" "}
-            <InlineCode>h-12 md:h-10</InlineCode> appears on every primary
-            form control (Input, Input group, Select trigger).
+            Care UI uses a responsive control height:{" "}
+            <strong>taller on mobile</strong> for touch,{" "}
+            <strong>compact on desktop</strong> for density. The pattern{" "}
+            <InlineCode>h-12 md:h-10</InlineCode> appears on every primary form
+            control (Input, Input group, Select trigger).
           </p>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
@@ -700,13 +908,13 @@ export function FoundationsPage() {
             </Table>
           </div>
 
-          <h3 className="scroll-m-20 mt-8 text-2xl font-semibold tracking-tight">
+          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Documentation page layout
           </h3>
           <p className="text-foreground mt-4 leading-7">
-            Every long-form documentation page (Typography, Colors, this
-            page) shares the same container so reading width and section
-            rhythm stay consistent.
+            Every long-form documentation page (Typography, Colors, this page)
+            shares the same container so reading width and section rhythm stay
+            consistent.
           </p>
 
           <pre className="bg-muted my-6 overflow-x-auto rounded-lg p-4">
@@ -731,24 +939,24 @@ export function FoundationsPage() {
 
           <ul className="text-muted-foreground mt-4 ml-5 list-disc space-y-2 text-sm leading-6">
             <li>
-              <code className="font-mono">max-w-4xl</code> (56rem / 896px)
-              keeps line length under the readable maximum.
+              <code className="font-mono">max-w-4xl</code> (56rem / 896px) keeps
+              line length under the readable maximum.
             </li>
             <li>
               <code className="font-mono">space-y-16</code> (64px) is the
               between-section rhythm. Sections themselves use{" "}
-              <code className="font-mono">mt-6</code> / <code className="font-mono">mt-8</code>{" "}
-              / <code className="font-mono">mt-10</code> for internal
-              hierarchy (see Typography page).
+              <code className="font-mono">mt-6</code> /{" "}
+              <code className="font-mono">mt-8</code> /{" "}
+              <code className="font-mono">mt-10</code> for internal hierarchy
+              (see Typography page).
             </li>
             <li>
               <code className="font-mono">p-4 md:p-8</code> — 16px gutter on
               mobile, 32px on desktop.
             </li>
             <li>
-              <code className="font-mono">max-w-2xl</code> on the lead
-              paragraph (42rem / 672px) sits comfortably inside the wider
-              container.
+              <code className="font-mono">max-w-2xl</code> on the lead paragraph
+              (42rem / 672px) sits comfortably inside the wider container.
             </li>
           </ul>
         </section>
@@ -763,27 +971,27 @@ export function FoundationsPage() {
               </div>
               <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
                 <li>
-                  Use multiples of the 4px spacing unit — go through
-                  Tailwind utilities (<code className="font-mono">p-4</code>,{" "}
+                  Use multiples of the 4px spacing unit — go through Tailwind
+                  utilities (<code className="font-mono">p-4</code>,{" "}
                   <code className="font-mono">gap-2</code>) only.
                 </li>
                 <li>
                   Pair every floating shadow with{" "}
-                  <code className="font-mono">ring-1 ring-foreground/10</code>
-                  {" "}so the edge is crisp on any background.
+                  <code className="font-mono">ring-1 ring-foreground/10</code>{" "}
+                  so the edge is crisp on any background.
                 </li>
                 <li>
-                  Pick a radius from the ladder. Need a new size?
-                  Re-tune <code className="font-mono">--radius</code>{" "}
-                  instead of adding arbitrary values.
+                  Pick a radius from the ladder. Need a new size? Re-tune{" "}
+                  <code className="font-mono">--radius</code> instead of adding
+                  arbitrary values.
                 </li>
                 <li>
-                  Use <code className="font-mono">h-12 md:h-10</code> for
-                  any new primary form control.
+                  Use <code className="font-mono">h-12 md:h-10</code> for any
+                  new primary form control.
                 </li>
                 <li>
-                  Use the <code className="font-mono">hit-area-*</code>{" "}
-                  utility for icon-only controls smaller than 32×32.
+                  Use the <code className="font-mono">hit-area-*</code> utility
+                  for icon-only controls smaller than 32×32.
                 </li>
               </ul>
             </div>
@@ -800,8 +1008,8 @@ export function FoundationsPage() {
                 </li>
                 <li>
                   Use raw <code className="font-mono">shadow-black</code> or
-                  arbitrary <code className="font-mono">shadow-[…]</code>{" "}
-                  values — break the elevation contract.
+                  arbitrary <code className="font-mono">shadow-[…]</code> values
+                  — break the elevation contract.
                 </li>
                 <li>
                   Add a new shadow level without first checking whether an
@@ -809,8 +1017,8 @@ export function FoundationsPage() {
                 </li>
                 <li>
                   Strip the global border colour by setting{" "}
-                  <code className="font-mono">border-foo-500</code> — go
-                  through a semantic border token.
+                  <code className="font-mono">border-foo-500</code> — go through
+                  a semantic border token.
                 </li>
                 <li>
                   Set <code className="font-mono">--sidebar-width</code> per

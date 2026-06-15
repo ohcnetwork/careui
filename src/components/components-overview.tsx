@@ -320,7 +320,7 @@ export function ComponentsOverview() {
         </div>
 
         {/* Components Grid */}
-        <div className="grid bg-soft-background rounded-xl p-4 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="bg-soft-background grid grid-cols-1 gap-6 rounded-xl p-4 md:grid-cols-2 lg:grid-cols-3">
           {componentIds.map((id) => {
             const metadata = componentMetadata[id] || {
               name: id,
@@ -331,7 +331,7 @@ export function ComponentsOverview() {
             return (
               <Card
                 key={id}
-                className="group justify-between shadow-md hover:shadow-primary/20 hover:border-primary/70 cursor-pointer transition-all hover:shadow-lg"
+                className="group hover:shadow-primary/20 hover:border-primary/70 cursor-pointer justify-between shadow-md transition-all hover:shadow-lg"
                 onClick={() => handleComponentClick(id)}
               >
                 <CardHeader className="pb-4">

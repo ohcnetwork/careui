@@ -15,11 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { RefreshCwIcon } from "lucide-react";
 import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 
@@ -92,7 +88,8 @@ export function InputOTPDemo() {
   examples: [
     {
       name: "Pattern",
-      description: "Use the pattern prop to define a custom pattern for the OTP input.",
+      description:
+        "Use the pattern prop to define a custom pattern for the OTP input.",
       code: `import { Field, FieldLabel } from "@/components/ui/field"
 import {
   InputOTP,
@@ -121,7 +118,11 @@ export function InputOTPPattern() {
       preview: React.createElement(
         Field,
         { className: "w-fit" },
-        React.createElement(FieldLabel, { htmlFor: "digits-only" }, "Digits Only"),
+        React.createElement(
+          FieldLabel,
+          { htmlFor: "digits-only" },
+          "Digits Only"
+        ),
         React.createElement(
           InputOTP as any,
           { id: "digits-only", maxLength: 6, pattern: REGEXP_ONLY_DIGITS },
@@ -140,7 +141,8 @@ export function InputOTPPattern() {
     },
     {
       name: "Separator",
-      description: "Use the InputOTPSeparator component to add a separator between input groups.",
+      description:
+        "Use the InputOTPSeparator component to add a separator between input groups.",
       code: `import {
   InputOTP,
   InputOTPGroup,
@@ -242,7 +244,8 @@ export function InputOTPDisabled() {
     },
     {
       name: "Controlled",
-      description: "Use the value and onChange props to control the input value.",
+      description:
+        "Use the value and onChange props to control the input value.",
       code: `"use client"
 
 import * as React from "react"
@@ -353,22 +356,40 @@ export function InputOTPInvalid() {
           React.createElement(
             InputOTPGroup,
             {},
-            React.createElement(InputOTPSlot, { index: 0, "aria-invalid": true }),
-            React.createElement(InputOTPSlot, { index: 1, "aria-invalid": true })
+            React.createElement(InputOTPSlot, {
+              index: 0,
+              "aria-invalid": true,
+            }),
+            React.createElement(InputOTPSlot, {
+              index: 1,
+              "aria-invalid": true,
+            })
           ),
           React.createElement(InputOTPSeparator, {}),
           React.createElement(
             InputOTPGroup,
             {},
-            React.createElement(InputOTPSlot, { index: 2, "aria-invalid": true }),
-            React.createElement(InputOTPSlot, { index: 3, "aria-invalid": true })
+            React.createElement(InputOTPSlot, {
+              index: 2,
+              "aria-invalid": true,
+            }),
+            React.createElement(InputOTPSlot, {
+              index: 3,
+              "aria-invalid": true,
+            })
           ),
           React.createElement(InputOTPSeparator, {}),
           React.createElement(
             InputOTPGroup,
             {},
-            React.createElement(InputOTPSlot, { index: 4, "aria-invalid": true }),
-            React.createElement(InputOTPSlot, { index: 5, "aria-invalid": true })
+            React.createElement(InputOTPSlot, {
+              index: 4,
+              "aria-invalid": true,
+            }),
+            React.createElement(InputOTPSlot, {
+              index: 5,
+              "aria-invalid": true,
+            })
           )
         );
       }),
@@ -410,7 +431,8 @@ export function InputOTPFourDigits() {
     },
     {
       name: "Alphanumeric",
-      description: "Use REGEXP_ONLY_DIGITS_AND_CHARS to accept both letters and numbers.",
+      description:
+        "Use REGEXP_ONLY_DIGITS_AND_CHARS to accept both letters and numbers.",
       code: `import {
   InputOTP,
   InputOTPGroup,
@@ -546,7 +568,11 @@ export function InputOTPForm() {
             CardDescription,
             {},
             "Enter the verification code we sent to your email address: ",
-            React.createElement("span", { className: "font-medium" }, "m@example.com"),
+            React.createElement(
+              "span",
+              { className: "font-medium" },
+              "m@example.com"
+            ),
             "."
           )
         ),
@@ -559,7 +585,11 @@ export function InputOTPForm() {
             React.createElement(
               "div",
               { className: "flex items-center justify-between" },
-              React.createElement(FieldLabel, { htmlFor: "otp-verification" }, "Verification code"),
+              React.createElement(
+                FieldLabel,
+                { htmlFor: "otp-verification" },
+                "Verification code"
+              ),
               React.createElement(
                 Button,
                 { variant: "tertiary", size: "xs" as any },
@@ -572,7 +602,10 @@ export function InputOTPForm() {
               { maxLength: 6, id: "otp-verification" },
               React.createElement(
                 InputOTPGroup,
-                { className: "*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl" },
+                {
+                  className:
+                    "*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl",
+                },
                 React.createElement(InputOTPSlot, { index: 0 }),
                 React.createElement(InputOTPSlot, { index: 1 }),
                 React.createElement(InputOTPSlot, { index: 2 })
@@ -580,7 +613,10 @@ export function InputOTPForm() {
               React.createElement(InputOTPSeparator, { className: "mx-2" }),
               React.createElement(
                 InputOTPGroup,
-                { className: "*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl" },
+                {
+                  className:
+                    "*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl",
+                },
                 React.createElement(InputOTPSlot, { index: 3 }),
                 React.createElement(InputOTPSlot, { index: 4 }),
                 React.createElement(InputOTPSlot, { index: 5 })
@@ -589,7 +625,11 @@ export function InputOTPForm() {
             React.createElement(
               FieldDescription,
               {},
-              React.createElement("a", { href: "#" }, "I no longer have access to this email address.")
+              React.createElement(
+                "a",
+                { href: "#" },
+                "I no longer have access to this email address."
+              )
             )
           )
         ),
@@ -599,14 +639,22 @@ export function InputOTPForm() {
           React.createElement(
             Field,
             {},
-            React.createElement(Button, { type: "submit", className: "w-full" }, "Verify"),
+            React.createElement(
+              Button,
+              { type: "submit", className: "w-full" },
+              "Verify"
+            ),
             React.createElement(
               "div",
               { className: "text-sm text-muted-foreground" },
               "Having trouble signing in? ",
               React.createElement(
                 "a",
-                { href: "#", className: "underline underline-offset-4 transition-colors hover:text-primary" },
+                {
+                  href: "#",
+                  className:
+                    "underline underline-offset-4 transition-colors hover:text-primary",
+                },
                 "Contact support"
               )
             )

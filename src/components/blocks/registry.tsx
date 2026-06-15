@@ -29,7 +29,8 @@ export const BLOCKS: BlockDef[] = [
   {
     id: "sidebar-01",
     name: "Main Dashboard",
-    description: "A dashboard with collapsible sidebar navigation and team switcher.",
+    description:
+      "A dashboard with collapsible sidebar navigation and team switcher.",
     category: "Sidebar",
     preview: (fullPage) => <AppSidebarDemo fullPage={fullPage} />,
     scale: 0.68,
@@ -38,7 +39,8 @@ export const BLOCKS: BlockDef[] = [
   {
     id: "inner-page-01",
     name: "Inner Page",
-    description: "An inner-page patient detail layout with a fixed sidebar and contextual breadcrumb header.",
+    description:
+      "An inner-page patient detail layout with a fixed sidebar and contextual breadcrumb header.",
     category: "Sidebar",
     preview: (fullPage) => <InnerPageLayoutDemo fullPage={fullPage} />,
     scale: 0.68,
@@ -47,7 +49,8 @@ export const BLOCKS: BlockDef[] = [
   {
     id: "inner-page-02",
     name: "Inner Page with Patient Detail",
-    description: "A patient detail page with a sidebar, stats cards, tab navigation, and condition tags.",
+    description:
+      "A patient detail page with a sidebar, stats cards, tab navigation, and condition tags.",
     category: "Sidebar",
     preview: (fullPage) => <InnerPageLayout02Demo fullPage={fullPage} />,
     scale: 0.68,
@@ -56,7 +59,8 @@ export const BLOCKS: BlockDef[] = [
   {
     id: "tv-display-01",
     name: "TV Queue Display",
-    description: "Full-screen digital signage for clinic queue boards. No sidebar, optimised for TVs.",
+    description:
+      "Full-screen digital signage for clinic queue boards. No sidebar, optimised for TVs.",
     category: "Display",
     preview: (fullPage) => <TVDisplay01Demo fullPage={fullPage} />,
     scale: 0.5,

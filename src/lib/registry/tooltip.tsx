@@ -238,7 +238,11 @@ export function TooltipDisabled() {
           React.createElement(
             TooltipContent,
             {},
-            React.createElement("p", {}, "This feature is currently unavailable")
+            React.createElement(
+              "p",
+              {},
+              "This feature is currently unavailable"
+            )
           )
         )
       ),

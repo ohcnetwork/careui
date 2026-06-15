@@ -51,7 +51,10 @@ function RotatingText({
           </span>
         ))}
       </span>
-      <style href="tv-rotating-text-in" precedence="tv-display">{`@keyframes tv-rotating-text-in {
+      <style
+        href="tv-rotating-text-in"
+        precedence="tv-display"
+      >{`@keyframes tv-rotating-text-in {
         0% { transform: translateY(100%); opacity: 0; }
         100% { transform: translateY(0); opacity: 1; }
       }`}</style>
@@ -116,7 +119,10 @@ function AnimatedRow({
             "linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.07) 50%, transparent 100%)",
         }}
       />
-      <style href="tv-display-glare" precedence="tv-display">{`@keyframes tv-display-glare {
+      <style
+        href="tv-display-glare"
+        precedence="tv-display"
+      >{`@keyframes tv-display-glare {
         0% { transform: translateX(0); opacity: 0; }
         25% { opacity: 1; }
         75% { opacity: 1; }

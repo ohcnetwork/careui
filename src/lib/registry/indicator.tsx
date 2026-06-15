@@ -106,8 +106,7 @@ export function IndicatorDemo() {
     // ── Filled Variant ──────────────────────────────────────────────────────
     {
       name: "Filled",
-      description:
-        "Solid filled variant for bolder status indicators.",
+      description: "Solid filled variant for bolder status indicators.",
       code: `<div className="flex items-center gap-3">
   <Indicator variant="filled" tone="primary" />
   <Indicator variant="filled" tone="success" />
@@ -271,7 +270,8 @@ export function IndicatorDemo() {
       name: "variant",
       type: '"filled" | "outlined"',
       default: '"outlined"',
-      description: "Visual style — outlined with tinted fill (default) or solid fill.",
+      description:
+        "Visual style — outlined with tinted fill (default) or solid fill.",
     },
     {
       name: "tone",

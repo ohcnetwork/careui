@@ -176,13 +176,15 @@ const previewFields: FilterFieldConfig[] = [
             className: "flex items-center",
             "aria-hidden": true,
           },
-          selected.slice(0, 3).map((o) =>
-            React.createElement(
-              "span",
-              { key: String(o.value), className: "inline-flex items-center" },
-              o.icon
+          selected
+            .slice(0, 3)
+            .map((o) =>
+              React.createElement(
+                "span",
+                { key: String(o.value), className: "inline-flex items-center" },
+                o.icon
+              )
             )
-          )
         ),
         React.createElement(
           "span",
@@ -681,7 +683,11 @@ function FilterPanelDemo() {
         prev.map((s) => (s.id === id ? { ...s, name } : s))
       );
     },
-    onSave: (name: string, currentFilters: Filter[], currentConjunction: "and" | "or") => {
+    onSave: (
+      name: string,
+      currentFilters: Filter[],
+      currentConjunction: "and" | "or"
+    ) => {
       setSavedFilters((prev) => [
         ...prev,
         {
@@ -910,7 +916,7 @@ export const filtersDoc: ComponentDoc = {
     {
       name: "Custom Controls",
       description:
-        "Use `type: \"custom\"` with `customRenderer` to render entirely custom filter controls like sliders or date pickers.",
+        'Use `type: "custom"` with `customRenderer` to render entirely custom filter controls like sliders or date pickers.',
       code: `const fields: FilterFieldConfig[] = [
   {
     key: "sliderRange",

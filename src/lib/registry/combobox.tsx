@@ -20,7 +20,13 @@ import {
 } from "@/components/ui/combobox";
 import { Button } from "@/components/ui/button";
 
-const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"] as const;
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const;
 
 /** Cast render-prop children to ReactNode for React.createElement compatibility */
 const rc = <T,>(fn: T): React.ReactNode => fn as unknown as React.ReactNode;
@@ -58,7 +64,13 @@ function ComboboxMultiplePreview() {
     { className: "w-full max-w-xs" },
     React.createElement(
       Combobox,
-      { items: frameworks, multiple: true, autoHighlight: true, value, onValueChange: setValue } as any,
+      {
+        items: frameworks,
+        multiple: true,
+        autoHighlight: true,
+        value,
+        onValueChange: setValue,
+      } as any,
       React.createElement(
         ComboboxChips,
         { ref: anchor } as any,
@@ -128,10 +140,15 @@ function comboboxGroupsPreview() {
               ComboboxGroup,
               { key: group.value, items: group.items } as any,
               React.createElement(ComboboxLabel, {}, group.value),
-              React.createElement(
-                ComboboxCollection,
-                { children: rc((item: string) => React.createElement(ComboboxItem, { key: item, value: item }, item)) } as any
-              ),
+              React.createElement(ComboboxCollection, {
+                children: rc((item: string) =>
+                  React.createElement(
+                    ComboboxItem,
+                    { key: item, value: item },
+                    item
+                  )
+                ),
+              } as any),
               index < timezones.length - 1
                 ? React.createElement(ComboboxSeparator, {})
                 : null
@@ -146,13 +163,38 @@ function comboboxGroupsPreview() {
 function comboboxPopupPreview() {
   const countries = [
     { code: "", value: "", continent: "", label: "Select country" },
-    { code: "ar", value: "argentina", label: "Argentina", continent: "South America" },
-    { code: "au", value: "australia", label: "Australia", continent: "Oceania" },
-    { code: "br", value: "brazil", label: "Brazil", continent: "South America" },
-    { code: "ca", value: "canada", label: "Canada", continent: "North America" },
+    {
+      code: "ar",
+      value: "argentina",
+      label: "Argentina",
+      continent: "South America",
+    },
+    {
+      code: "au",
+      value: "australia",
+      label: "Australia",
+      continent: "Oceania",
+    },
+    {
+      code: "br",
+      value: "brazil",
+      label: "Brazil",
+      continent: "South America",
+    },
+    {
+      code: "ca",
+      value: "canada",
+      label: "Canada",
+      continent: "North America",
+    },
     { code: "fr", value: "france", label: "France", continent: "Europe" },
     { code: "jp", value: "japan", label: "Japan", continent: "Asia" },
-    { code: "us", value: "united-states", label: "United States", continent: "North America" },
+    {
+      code: "us",
+      value: "united-states",
+      label: "United States",
+      continent: "North America",
+    },
   ];
 
   return React.createElement(
@@ -171,17 +213,26 @@ function comboboxPopupPreview() {
     React.createElement(
       ComboboxContent,
       {},
-      React.createElement(ComboboxInput, { showTrigger: false, placeholder: "Search" } as any),
+      React.createElement(ComboboxInput, {
+        showTrigger: false,
+        placeholder: "Search",
+      } as any),
       React.createElement(ComboboxEmpty, {}, "No items found."),
       React.createElement(
         ComboboxList,
         {},
-        rc((item: { code: string; value: string; continent: string; label: string }) =>
-          React.createElement(
-            ComboboxItem,
-            { key: item.code, value: item },
-            item.label
-          )
+        rc(
+          (item: {
+            code: string;
+            value: string;
+            continent: string;
+            label: string;
+          }) =>
+            React.createElement(
+              ComboboxItem,
+              { key: item.code, value: item },
+              item.label
+            )
         )
       )
     )
@@ -245,7 +296,8 @@ export function ComboboxDemo() {
   examples: [
     {
       name: "With Clear Button",
-      description: "Use the showClear prop to show a clear button inside the input.",
+      description:
+        "Use the showClear prop to show a clear button inside the input.",
       code: `<Combobox items={frameworks} defaultValue={frameworks[0]}>
   <ComboboxInput placeholder="Select a framework" showClear />
   <ComboboxContent>
@@ -265,7 +317,10 @@ export function ComboboxDemo() {
         React.createElement(
           Combobox,
           { items: frameworks, defaultValue: frameworks[0] } as any,
-          React.createElement(ComboboxInput, { placeholder: "Select a framework", showClear: true } as any),
+          React.createElement(ComboboxInput, {
+            placeholder: "Select a framework",
+            showClear: true,
+          } as any),
           React.createElement(
             ComboboxContent,
             {},
@@ -274,7 +329,11 @@ export function ComboboxDemo() {
               ComboboxList,
               {},
               rc((item: string) =>
-                React.createElement(ComboboxItem, { key: item, value: item }, item)
+                React.createElement(
+                  ComboboxItem,
+                  { key: item, value: item },
+                  item
+                )
               )
             )
           )
@@ -283,8 +342,7 @@ export function ComboboxDemo() {
     },
     {
       name: "Multiple Selection",
-      description:
-        "Use multiple with ComboboxChips for multi-select behavior.",
+      description: "Use multiple with ComboboxChips for multi-select behavior.",
       code: `import * as React from "react"
 import {
   Combobox,
@@ -489,7 +547,9 @@ export function ComboboxCustomItems() {
             itemToStringValue: (f: { label: string }) => f.label,
             className: "w-full max-w-xs",
           } as any,
-          React.createElement(ComboboxInput, { placeholder: "Select a framework" }),
+          React.createElement(ComboboxInput, {
+            placeholder: "Select a framework",
+          }),
           React.createElement(
             ComboboxContent,
             {},
@@ -498,7 +558,11 @@ export function ComboboxCustomItems() {
               ComboboxList,
               {},
               rc((f: { label: string; value: string }) =>
-                React.createElement(ComboboxItem, { key: f.value, value: f }, f.label)
+                React.createElement(
+                  ComboboxItem,
+                  { key: f.value, value: f },
+                  f.label
+                )
               )
             )
           )
@@ -527,7 +591,10 @@ export function ComboboxCustomItems() {
         React.createElement(
           Combobox,
           { items: frameworks } as any,
-          React.createElement(ComboboxInput, { placeholder: "Select a framework", disabled: true }),
+          React.createElement(ComboboxInput, {
+            placeholder: "Select a framework",
+            disabled: true,
+          }),
           React.createElement(
             ComboboxContent,
             {},
@@ -536,7 +603,11 @@ export function ComboboxCustomItems() {
               ComboboxList,
               {},
               rc((item: string) =>
-                React.createElement(ComboboxItem, { key: item, value: item }, item)
+                React.createElement(
+                  ComboboxItem,
+                  { key: item, value: item },
+                  item
+                )
               )
             )
           )
@@ -566,7 +637,9 @@ export function ComboboxCustomItems() {
         React.createElement(
           Combobox,
           { items: frameworks, autoHighlight: true } as any,
-          React.createElement(ComboboxInput, { placeholder: "Select a framework" }),
+          React.createElement(ComboboxInput, {
+            placeholder: "Select a framework",
+          }),
           React.createElement(
             ComboboxContent,
             {},
@@ -575,7 +648,11 @@ export function ComboboxCustomItems() {
               ComboboxList,
               {},
               rc((item: string) =>
-                React.createElement(ComboboxItem, { key: item, value: item }, item)
+                React.createElement(
+                  ComboboxItem,
+                  { key: item, value: item },
+                  item
+                )
               )
             )
           )

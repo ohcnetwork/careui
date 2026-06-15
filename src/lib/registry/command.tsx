@@ -282,7 +282,11 @@ export function CommandBasic() {
           { className: "flex flex-col gap-4" },
           React.createElement(
             Button,
-            { variant: "outline", onClick: () => setOpen(true), className: "w-fit" },
+            {
+              variant: "outline",
+              onClick: () => setOpen(true),
+              className: "w-fit",
+            },
             "Open Menu"
           ),
           React.createElement(
@@ -291,7 +295,9 @@ export function CommandBasic() {
             React.createElement(
               Command,
               {},
-              React.createElement(CommandInput, { placeholder: "Type a command or search..." }),
+              React.createElement(CommandInput, {
+                placeholder: "Type a command or search...",
+              }),
               React.createElement(
                 CommandList,
                 {},
@@ -371,7 +377,11 @@ export function CommandWithShortcuts() {
           { className: "flex flex-col gap-4" },
           React.createElement(
             Button,
-            { variant: "outline", onClick: () => setOpen(true), className: "w-fit" },
+            {
+              variant: "outline",
+              onClick: () => setOpen(true),
+              className: "w-fit",
+            },
             "Open Menu"
           ),
           React.createElement(
@@ -380,7 +390,9 @@ export function CommandWithShortcuts() {
             React.createElement(
               Command,
               {},
-              React.createElement(CommandInput, { placeholder: "Type a command or search..." }),
+              React.createElement(CommandInput, {
+                placeholder: "Type a command or search...",
+              }),
               React.createElement(
                 CommandList,
                 {},
@@ -388,9 +400,27 @@ export function CommandWithShortcuts() {
                 React.createElement(
                   CommandGroup,
                   { heading: "Settings" },
-                  React.createElement(CommandItem, {}, React.createElement(User, {}), React.createElement("span", {}, "Profile"), React.createElement(CommandShortcut, {}, "⌘P")),
-                  React.createElement(CommandItem, {}, React.createElement(CreditCard, {}), React.createElement("span", {}, "Billing"), React.createElement(CommandShortcut, {}, "⌘B")),
-                  React.createElement(CommandItem, {}, React.createElement(Settings, {}), React.createElement("span", {}, "Settings"), React.createElement(CommandShortcut, {}, "⌘S"))
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(User, {}),
+                    React.createElement("span", {}, "Profile"),
+                    React.createElement(CommandShortcut, {}, "⌘P")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(CreditCard, {}),
+                    React.createElement("span", {}, "Billing"),
+                    React.createElement(CommandShortcut, {}, "⌘B")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Settings, {}),
+                    React.createElement("span", {}, "Settings"),
+                    React.createElement(CommandShortcut, {}, "⌘S")
+                  )
                 )
               )
             )
@@ -483,7 +513,11 @@ export function CommandWithGroups() {
           { className: "flex flex-col gap-4" },
           React.createElement(
             Button,
-            { variant: "outline", onClick: () => setOpen(true), className: "w-fit" },
+            {
+              variant: "outline",
+              onClick: () => setOpen(true),
+              className: "w-fit",
+            },
             "Open Menu"
           ),
           React.createElement(
@@ -492,7 +526,9 @@ export function CommandWithGroups() {
             React.createElement(
               Command,
               {},
-              React.createElement(CommandInput, { placeholder: "Type a command or search..." }),
+              React.createElement(CommandInput, {
+                placeholder: "Type a command or search...",
+              }),
               React.createElement(
                 CommandList,
                 {},
@@ -500,17 +536,50 @@ export function CommandWithGroups() {
                 React.createElement(
                   CommandGroup,
                   { heading: "Suggestions" },
-                  React.createElement(CommandItem, {}, React.createElement(Calendar, {}), React.createElement("span", {}, "Calendar")),
-                  React.createElement(CommandItem, {}, React.createElement(Smile, {}), React.createElement("span", {}, "Search Emoji")),
-                  React.createElement(CommandItem, {}, React.createElement(Calculator, {}), React.createElement("span", {}, "Calculator"))
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Calendar, {}),
+                    React.createElement("span", {}, "Calendar")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Smile, {}),
+                    React.createElement("span", {}, "Search Emoji")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Calculator, {}),
+                    React.createElement("span", {}, "Calculator")
+                  )
                 ),
                 React.createElement(CommandSeparator),
                 React.createElement(
                   CommandGroup,
                   { heading: "Settings" },
-                  React.createElement(CommandItem, {}, React.createElement(User, {}), React.createElement("span", {}, "Profile"), React.createElement(CommandShortcut, {}, "⌘P")),
-                  React.createElement(CommandItem, {}, React.createElement(CreditCard, {}), React.createElement("span", {}, "Billing"), React.createElement(CommandShortcut, {}, "⌘B")),
-                  React.createElement(CommandItem, {}, React.createElement(Settings, {}), React.createElement("span", {}, "Settings"), React.createElement(CommandShortcut, {}, "⌘S"))
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(User, {}),
+                    React.createElement("span", {}, "Profile"),
+                    React.createElement(CommandShortcut, {}, "⌘P")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(CreditCard, {}),
+                    React.createElement("span", {}, "Billing"),
+                    React.createElement(CommandShortcut, {}, "⌘B")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Settings, {}),
+                    React.createElement("span", {}, "Settings"),
+                    React.createElement(CommandShortcut, {}, "⌘S")
+                  )
                 )
               )
             )
@@ -625,7 +694,11 @@ export function CommandManyItems() {
           { className: "flex flex-col gap-4" },
           React.createElement(
             Button,
-            { variant: "outline", onClick: () => setOpen(true), className: "w-fit" },
+            {
+              variant: "outline",
+              onClick: () => setOpen(true),
+              className: "w-fit",
+            },
             "Open Menu"
           ),
           React.createElement(
@@ -634,7 +707,9 @@ export function CommandManyItems() {
             React.createElement(
               Command,
               {},
-              React.createElement(CommandInput, { placeholder: "Type a command or search..." }),
+              React.createElement(CommandInput, {
+                placeholder: "Type a command or search...",
+              }),
               React.createElement(
                 CommandList,
                 {},
@@ -642,49 +717,179 @@ export function CommandManyItems() {
                 React.createElement(
                   CommandGroup,
                   { heading: "Navigation" },
-                  React.createElement(CommandItem, {}, React.createElement(Home, {}), React.createElement("span", {}, "Home"), React.createElement(CommandShortcut, {}, "⌘H")),
-                  React.createElement(CommandItem, {}, React.createElement(Inbox, {}), React.createElement("span", {}, "Inbox"), React.createElement(CommandShortcut, {}, "⌘I")),
-                  React.createElement(CommandItem, {}, React.createElement(FileText, {}), React.createElement("span", {}, "Documents"), React.createElement(CommandShortcut, {}, "⌘D")),
-                  React.createElement(CommandItem, {}, React.createElement(Folder, {}), React.createElement("span", {}, "Folders"), React.createElement(CommandShortcut, {}, "⌘F"))
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Home, {}),
+                    React.createElement("span", {}, "Home"),
+                    React.createElement(CommandShortcut, {}, "⌘H")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Inbox, {}),
+                    React.createElement("span", {}, "Inbox"),
+                    React.createElement(CommandShortcut, {}, "⌘I")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(FileText, {}),
+                    React.createElement("span", {}, "Documents"),
+                    React.createElement(CommandShortcut, {}, "⌘D")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Folder, {}),
+                    React.createElement("span", {}, "Folders"),
+                    React.createElement(CommandShortcut, {}, "⌘F")
+                  )
                 ),
                 React.createElement(CommandSeparator),
                 React.createElement(
                   CommandGroup,
                   { heading: "Actions" },
-                  React.createElement(CommandItem, {}, React.createElement(Plus, {}), React.createElement("span", {}, "New File"), React.createElement(CommandShortcut, {}, "⌘N")),
-                  React.createElement(CommandItem, {}, React.createElement(FolderPlus, {}), React.createElement("span", {}, "New Folder"), React.createElement(CommandShortcut, {}, "⇧⌘N")),
-                  React.createElement(CommandItem, {}, React.createElement(Copy, {}), React.createElement("span", {}, "Copy"), React.createElement(CommandShortcut, {}, "⌘C")),
-                  React.createElement(CommandItem, {}, React.createElement(Scissors, {}), React.createElement("span", {}, "Cut"), React.createElement(CommandShortcut, {}, "⌘X")),
-                  React.createElement(CommandItem, {}, React.createElement(ClipboardPaste, {}), React.createElement("span", {}, "Paste"), React.createElement(CommandShortcut, {}, "⌘V")),
-                  React.createElement(CommandItem, {}, React.createElement(Trash, {}), React.createElement("span", {}, "Delete"), React.createElement(CommandShortcut, {}, "⌫"))
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Plus, {}),
+                    React.createElement("span", {}, "New File"),
+                    React.createElement(CommandShortcut, {}, "⌘N")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(FolderPlus, {}),
+                    React.createElement("span", {}, "New Folder"),
+                    React.createElement(CommandShortcut, {}, "⇧⌘N")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Copy, {}),
+                    React.createElement("span", {}, "Copy"),
+                    React.createElement(CommandShortcut, {}, "⌘C")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Scissors, {}),
+                    React.createElement("span", {}, "Cut"),
+                    React.createElement(CommandShortcut, {}, "⌘X")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(ClipboardPaste, {}),
+                    React.createElement("span", {}, "Paste"),
+                    React.createElement(CommandShortcut, {}, "⌘V")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Trash, {}),
+                    React.createElement("span", {}, "Delete"),
+                    React.createElement(CommandShortcut, {}, "⌫")
+                  )
                 ),
                 React.createElement(CommandSeparator),
                 React.createElement(
                   CommandGroup,
                   { heading: "View" },
-                  React.createElement(CommandItem, {}, React.createElement(LayoutGrid, {}), React.createElement("span", {}, "Grid View")),
-                  React.createElement(CommandItem, {}, React.createElement(List, {}), React.createElement("span", {}, "List View")),
-                  React.createElement(CommandItem, {}, React.createElement(ZoomIn, {}), React.createElement("span", {}, "Zoom In"), React.createElement(CommandShortcut, {}, "⌘+")),
-                  React.createElement(CommandItem, {}, React.createElement(ZoomOut, {}), React.createElement("span", {}, "Zoom Out"), React.createElement(CommandShortcut, {}, "⌘-"))
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(LayoutGrid, {}),
+                    React.createElement("span", {}, "Grid View")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(List, {}),
+                    React.createElement("span", {}, "List View")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(ZoomIn, {}),
+                    React.createElement("span", {}, "Zoom In"),
+                    React.createElement(CommandShortcut, {}, "⌘+")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(ZoomOut, {}),
+                    React.createElement("span", {}, "Zoom Out"),
+                    React.createElement(CommandShortcut, {}, "⌘-")
+                  )
                 ),
                 React.createElement(CommandSeparator),
                 React.createElement(
                   CommandGroup,
                   { heading: "Account" },
-                  React.createElement(CommandItem, {}, React.createElement(User, {}), React.createElement("span", {}, "Profile"), React.createElement(CommandShortcut, {}, "⌘P")),
-                  React.createElement(CommandItem, {}, React.createElement(CreditCard, {}), React.createElement("span", {}, "Billing"), React.createElement(CommandShortcut, {}, "⌘B")),
-                  React.createElement(CommandItem, {}, React.createElement(Settings, {}), React.createElement("span", {}, "Settings"), React.createElement(CommandShortcut, {}, "⌘S")),
-                  React.createElement(CommandItem, {}, React.createElement(Bell, {}), React.createElement("span", {}, "Notifications")),
-                  React.createElement(CommandItem, {}, React.createElement(HelpCircle, {}), React.createElement("span", {}, "Help & Support"))
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(User, {}),
+                    React.createElement("span", {}, "Profile"),
+                    React.createElement(CommandShortcut, {}, "⌘P")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(CreditCard, {}),
+                    React.createElement("span", {}, "Billing"),
+                    React.createElement(CommandShortcut, {}, "⌘B")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Settings, {}),
+                    React.createElement("span", {}, "Settings"),
+                    React.createElement(CommandShortcut, {}, "⌘S")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Bell, {}),
+                    React.createElement("span", {}, "Notifications")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(HelpCircle, {}),
+                    React.createElement("span", {}, "Help & Support")
+                  )
                 ),
                 React.createElement(CommandSeparator),
                 React.createElement(
                   CommandGroup,
                   { heading: "Tools" },
-                  React.createElement(CommandItem, {}, React.createElement(Calculator, {}), React.createElement("span", {}, "Calculator")),
-                  React.createElement(CommandItem, {}, React.createElement(Calendar, {}), React.createElement("span", {}, "Calendar")),
-                  React.createElement(CommandItem, {}, React.createElement(Image, {}), React.createElement("span", {}, "Image Editor")),
-                  React.createElement(CommandItem, {}, React.createElement(Code, {}), React.createElement("span", {}, "Code Editor"))
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Calculator, {}),
+                    React.createElement("span", {}, "Calculator")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Calendar, {}),
+                    React.createElement("span", {}, "Calendar")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Image, {}),
+                    React.createElement("span", {}, "Image Editor")
+                  ),
+                  React.createElement(
+                    CommandItem,
+                    {},
+                    React.createElement(Code, {}),
+                    React.createElement("span", {}, "Code Editor")
+                  )
                 )
               )
             )

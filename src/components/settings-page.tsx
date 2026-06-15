@@ -246,7 +246,7 @@ export function SettingsPage() {
                     className={cn(
                       "flex cursor-pointer flex-col gap-2 rounded-lg border p-3 text-left transition-all",
                       isActive
-                        ? "border-primary bg-primary/5 ring-2 ring-primary/30"
+                        ? "border-primary bg-primary/5 ring-primary/30 ring-2"
                         : "border-border hover:border-strong-border hover:bg-muted/50"
                     )}
                   >
@@ -302,7 +302,7 @@ export function SettingsPage() {
                     className={cn(
                       "flex cursor-pointer flex-col gap-2 rounded-lg border p-3 text-left transition-all",
                       isActive
-                        ? "border-primary bg-primary/5 ring-2 ring-primary/30"
+                        ? "border-primary bg-primary/5 ring-primary/30 ring-2"
                         : "border-border hover:border-strong-border hover:bg-muted/50"
                     )}
                   >
@@ -324,7 +324,7 @@ export function SettingsPage() {
                       </span>
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-foreground">
+                      <p className="text-foreground text-xs font-medium">
                         {option.description}
                       </p>
                       <p className="text-muted-foreground text-xs">
@@ -342,10 +342,12 @@ export function SettingsPage() {
           {/* High contrast */}
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-start gap-3">
-              <Contrast className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+              <Contrast className="text-muted-foreground mt-0.5 size-4 shrink-0" />
               <div>
-                <p className="text-sm font-medium text-foreground">Increase contrast</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-foreground text-sm font-medium">
+                  Increase contrast
+                </p>
+                <p className="text-muted-foreground text-sm">
                   Enable high contrast for light or dark mode based on your
                   current theme.
                 </p>
@@ -379,13 +381,13 @@ export function SettingsPage() {
                     className={cn(
                       "flex cursor-pointer flex-col items-center gap-2 rounded-lg border p-4 transition-all",
                       isActive
-                        ? "border-primary bg-primary/5 ring-2 ring-primary/30"
+                        ? "border-primary bg-primary/5 ring-primary/30 ring-2"
                         : "border-border hover:border-strong-border hover:bg-muted/50"
                     )}
                   >
                     <span
                       className={cn(
-                        "font-semibold leading-none",
+                        "leading-none font-semibold",
                         option.sampleSize,
                         isActive ? "text-primary" : "text-foreground"
                       )}

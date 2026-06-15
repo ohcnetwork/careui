@@ -8,11 +8,7 @@ import {
   EmptyDescription,
   EmptyContent,
 } from "@/components/ui/empty";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   InputGroup,
   InputGroupAddon,
@@ -124,7 +120,12 @@ export function EmptyDemo() {
         ),
         React.createElement(
           Button,
-          { variant: "link", asChild: true, className: "text-muted-foreground", size: "sm" },
+          {
+            variant: "link",
+            asChild: true,
+            className: "text-muted-foreground",
+            size: "sm",
+          },
           React.createElement(
             "a",
             { href: "#" },
@@ -138,7 +139,8 @@ export function EmptyDemo() {
   examples: [
     {
       name: "Outline",
-      description: "Use the border utility class to create an outline empty state.",
+      description:
+        "Use the border utility class to create an outline empty state.",
       code: `import { CloudIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -191,14 +193,19 @@ export function EmptyOutline() {
           React.createElement(
             EmptyContent,
             {},
-            React.createElement(Button, { variant: "outline", size: "sm" }, "Upload Files")
+            React.createElement(
+              Button,
+              { variant: "outline", size: "sm" },
+              "Upload Files"
+            )
           )
         )
       ),
     },
     {
       name: "Background",
-      description: "Use the bg-* and bg-gradient-* utilities to add a background to the empty state.",
+      description:
+        "Use the bg-* and bg-gradient-* utilities to add a background to the empty state.",
       code: `import { BellIcon, RefreshCcwIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -266,7 +273,8 @@ export function EmptyMuted() {
     },
     {
       name: "Avatar",
-      description: "Use the EmptyMedia component to display an avatar in the empty state.",
+      description:
+        "Use the EmptyMedia component to display an avatar in the empty state.",
       code: `import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -337,7 +345,8 @@ export function EmptyAvatar() {
     },
     {
       name: "Avatar Group",
-      description: "Use the EmptyMedia component to display an avatar group in the empty state.",
+      description:
+        "Use the EmptyMedia component to display an avatar group in the empty state.",
       code: `import { PlusIcon } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -404,19 +413,28 @@ export function EmptyAvatarGroup() {
                 React.createElement(
                   Avatar,
                   {},
-                  React.createElement(AvatarImage, { src: "https://github.com/shadcn.png", alt: "@shadcn" }),
+                  React.createElement(AvatarImage, {
+                    src: "https://github.com/shadcn.png",
+                    alt: "@shadcn",
+                  }),
                   React.createElement(AvatarFallback, {}, "CN")
                 ),
                 React.createElement(
                   Avatar,
                   {},
-                  React.createElement(AvatarImage, { src: "https://github.com/maxleiter.png", alt: "@maxleiter" }),
+                  React.createElement(AvatarImage, {
+                    src: "https://github.com/maxleiter.png",
+                    alt: "@maxleiter",
+                  }),
                   React.createElement(AvatarFallback, {}, "LR")
                 ),
                 React.createElement(
                   Avatar,
                   {},
-                  React.createElement(AvatarImage, { src: "https://github.com/evilrabbit.png", alt: "@evilrabbit" }),
+                  React.createElement(AvatarImage, {
+                    src: "https://github.com/evilrabbit.png",
+                    alt: "@evilrabbit",
+                  }),
                   React.createElement(AvatarFallback, {}, "ER")
                 )
               )
@@ -443,7 +461,8 @@ export function EmptyAvatarGroup() {
     },
     {
       name: "InputGroup",
-      description: "You can add an InputGroup component to the EmptyContent component.",
+      description:
+        "You can add an InputGroup component to the EmptyContent component.",
       code: `import { SearchIcon } from "lucide-react"
 
 import {
@@ -507,8 +526,14 @@ export function EmptyInputGroup() {
             React.createElement(
               InputGroup,
               { className: "sm:w-3/4" },
-              React.createElement(InputGroupInput, { placeholder: "Try searching for pages..." }),
-              React.createElement(InputGroupAddon, {}, React.createElement(SearchIcon, {})),
+              React.createElement(InputGroupInput, {
+                placeholder: "Try searching for pages...",
+              }),
+              React.createElement(
+                InputGroupAddon,
+                {},
+                React.createElement(SearchIcon, {})
+              ),
               React.createElement(
                 InputGroupAddon,
                 { align: "inline-end" },

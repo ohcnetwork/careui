@@ -66,19 +66,23 @@ function InnerSidebarContent({ pinned }: { pinned: boolean }) {
       <SidebarHeader
         className={cn(
           "overflow-hidden border-b",
-          showHeader ? "border-border min-h-12" : "max-h-0 py-0 border-transparent",
+          showHeader
+            ? "border-border min-h-12"
+            : "max-h-0 border-transparent py-0"
         )}
       >
         <div
           className={cn(
             "flex items-center gap-2 px-2 transition-[opacity,transform] duration-150 ease-linear",
-            showHeader ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2",
+            showHeader
+              ? "translate-y-0 opacity-100"
+              : "-translate-y-2 opacity-0"
           )}
         >
           <Button
             variant="ghost"
             size="sm"
-            className="gap-1.5 text-muted-foreground hover:text-foreground -ml-1"
+            className="text-muted-foreground hover:text-foreground -ml-1 gap-1.5"
           >
             <ChevronLeft className="h-4 w-4" />
             Back
@@ -104,7 +108,7 @@ function InnerSidebarContent({ pinned }: { pinned: boolean }) {
                 <SidebarMenuButton
                   isActive={i === 0}
                   tooltip={item.title}
-                  className="data-active:bg-strong-background data-active:text-foreground data-active:hover:bg-strong-background data-active:ring-stronger-border data-active:dark:ring-neutral-100/50 data-active:hover:text-foreground data-active:after:bg-neutral-500 data-active:dark:after:bg-neutral-300 data-[active=true]:font-medium"
+                  className="data-active:bg-strong-background data-active:text-foreground data-active:hover:bg-strong-background data-active:ring-stronger-border data-active:hover:text-foreground data-active:after:bg-neutral-500 data-[active=true]:font-medium data-active:dark:ring-neutral-100/50 data-active:dark:after:bg-neutral-300"
                 >
                   <item.icon />
                   <span>{item.title}</span>
@@ -120,7 +124,11 @@ function InnerSidebarContent({ pinned }: { pinned: boolean }) {
 
 // ─── InnerPageLayoutDemo ──────────────────────────────────────────────────────
 
-export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }) {
+export function InnerPageLayoutDemo({
+  fullPage = false,
+}: {
+  fullPage?: boolean;
+}) {
   const {
     pinned,
     overlayOpen,
@@ -162,23 +170,29 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
           "**:data-[slot=sidebar-container]:duration-100!",
           "**:data-[slot=sidebar-gap]:duration-100!",
           isOverlay && "**:data-[slot=sidebar-gap]:w-0!",
-          overlayReady && !pinned && [
-            "**:data-[slot=sidebar-container]:top-12!",
-            "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
-          ],
+          overlayReady &&
+            !pinned && [
+              "**:data-[slot=sidebar-container]:top-12!",
+              "**:data-[slot=sidebar-container]:h-[calc(100%-3rem)]!",
+            ],
           isOverlay && [
             "**:data-[slot=sidebar-container]:bg-sidebar",
             "**:data-[slot=sidebar-container]:border-t",
             "**:data-[slot=sidebar-container]:rounded-r-md",
             "**:data-[slot=sidebar-container]:shadow-xl",
-          ],
+          ]
         )}
       >
         <SidebarProvider
           open={pinned || overlayOpen}
           onOpenChange={handleSidebarProviderOpenChange}
-          className="min-h-0! h-full"
-          style={{ "--sidebar-width": "14rem", height: "100%" } as React.CSSProperties}
+          className="h-full min-h-0!"
+          style={
+            {
+              "--sidebar-width": "14rem",
+              height: "100%",
+            } as React.CSSProperties
+          }
         >
           <Sidebar
             variant="sidebar"
@@ -191,7 +205,7 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
           </Sidebar>
 
           <SidebarInset className="overflow-hidden">
-            <header className="flex h-12 shrink-0 items-center gap-3 border-b bg-background px-4">
+            <header className="bg-background flex h-12 shrink-0 items-center gap-3 border-b px-4">
               <SidebarToggleButton
                 onDesktopToggle={toggleSidebar}
                 onMouseEnter={handleToggleMouseEnter}
@@ -240,11 +254,11 @@ export function InnerPageLayoutDemo({ fullPage = false }: { fullPage?: boolean }
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
               {/* Patient summary card */}
               <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
-                <div className="aspect-video rounded-xl bg-muted/50" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
               </div>
-              <div className="min-h-24 rounded-xl bg-muted/50" />
+              <div className="bg-muted/50 min-h-24 rounded-xl" />
             </div>
           </SidebarInset>
         </SidebarProvider>

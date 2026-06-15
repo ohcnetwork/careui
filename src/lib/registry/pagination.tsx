@@ -106,7 +106,11 @@ export const paginationDoc: ComponentDoc = {
         React.createElement(
           PaginationItem,
           {},
-          React.createElement(PaginationLink, { href: "#", isActive: true }, "2")
+          React.createElement(
+            PaginationLink,
+            { href: "#", isActive: true },
+            "2"
+          )
         ),
         React.createElement(
           PaginationItem,
@@ -165,7 +169,11 @@ export const paginationDoc: ComponentDoc = {
           React.createElement(
             PaginationItem,
             {},
-            React.createElement(PaginationLink, { href: "#", isActive: true }, "2")
+            React.createElement(
+              PaginationLink,
+              { href: "#", isActive: true },
+              "2"
+            )
           ),
           React.createElement(
             PaginationItem,

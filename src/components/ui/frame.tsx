@@ -4,10 +4,10 @@
  * @dependencies class-variance-authority
  * @type registry:ui
  */
-import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 /**
  * Frame uses CSS variables to coordinate panel padding and spacing
@@ -63,7 +63,7 @@ const frameVariants = cva(
       dense: false,
     },
   }
-)
+);
 
 function Frame({
   className,
@@ -86,7 +86,7 @@ function Frame({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
@@ -94,7 +94,7 @@ function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="frame-panel"
       className={cn(
-        "relative grow rounded-(--frame-radius) border bg-background bg-clip-padding shadow-xs",
+        "bg-background relative grow rounded-(--frame-radius) border bg-clip-padding shadow-xs",
         "before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--frame-radius)-1px)] before:shadow-black/5",
         "dark:bg-clip-border dark:before:shadow-white/5",
         "p-(--frame-panel-p)",
@@ -102,13 +102,10 @@ function FramePanel({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  )
+  );
 }
 
-function FrameHeader({
-  className,
-  ...props
-}: React.ComponentProps<"header">) {
+function FrameHeader({ className, ...props }: React.ComponentProps<"header">) {
   return (
     <header
       data-slot="frame-panel-header"
@@ -118,17 +115,17 @@ function FrameHeader({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function FrameTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="frame-panel-title"
-      className={cn("text-sm font-semibold leading-normal", className)}
+      className={cn("text-sm leading-normal font-semibold", className)}
       {...props}
     />
-  )
+  );
 }
 
 function FrameDescription({
@@ -138,16 +135,13 @@ function FrameDescription({
   return (
     <div
       data-slot="frame-panel-description"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-sm", className)}
       {...props}
     />
-  )
+  );
 }
 
-function FrameFooter({
-  className,
-  ...props
-}: React.ComponentProps<"footer">) {
+function FrameFooter({ className, ...props }: React.ComponentProps<"footer">) {
   return (
     <footer
       data-slot="frame-panel-footer"
@@ -157,7 +151,7 @@ function FrameFooter({
       )}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -168,4 +162,4 @@ export {
   FramePanel,
   FrameTitle,
   frameVariants,
-}
+};

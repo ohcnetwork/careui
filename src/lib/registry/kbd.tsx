@@ -178,57 +178,57 @@ export const kbdDoc: ComponentDoc = {
         TooltipProvider as React.ComponentType<React.PropsWithChildren>,
         {},
         React.createElement(
-        "div",
-        { className: "flex flex-wrap gap-4" },
-        React.createElement(
-          ButtonGroup,
-          {},
+          "div",
+          { className: "flex flex-wrap gap-4" },
           React.createElement(
-            Tooltip,
+            ButtonGroup,
             {},
             React.createElement(
-              TooltipTrigger,
-              { asChild: true },
-              React.createElement(Button, { variant: "outline" }, "Save")
-            ),
-            React.createElement(
-              TooltipContent,
-              { className: "pr-1.5" },
+              Tooltip,
+              {},
               React.createElement(
-                "div",
-                { className: "flex items-center gap-2" },
-                "Save Changes ",
-                React.createElement(Kbd, {}, "S")
-              )
-            )
-          ),
-          React.createElement(
-            Tooltip,
-            {},
-            React.createElement(
-              TooltipTrigger,
-              { asChild: true },
-              React.createElement(Button, { variant: "outline" }, "Print")
-            ),
-            React.createElement(
-              TooltipContent,
-              { className: "pr-1.5" },
+                TooltipTrigger,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Save")
+              ),
               React.createElement(
-                "div",
-                { className: "flex items-center gap-2" },
-                "Print Document ",
+                TooltipContent,
+                { className: "pr-1.5" },
                 React.createElement(
-                  KbdGroup,
-                  {},
-                  React.createElement(Kbd, {}, "Ctrl"),
-                  React.createElement(Kbd, {}, "P")
+                  "div",
+                  { className: "flex items-center gap-2" },
+                  "Save Changes ",
+                  React.createElement(Kbd, {}, "S")
+                )
+              )
+            ),
+            React.createElement(
+              Tooltip,
+              {},
+              React.createElement(
+                TooltipTrigger,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Print")
+              ),
+              React.createElement(
+                TooltipContent,
+                { className: "pr-1.5" },
+                React.createElement(
+                  "div",
+                  { className: "flex items-center gap-2" },
+                  "Print Document ",
+                  React.createElement(
+                    KbdGroup,
+                    {},
+                    React.createElement(Kbd, {}, "Ctrl"),
+                    React.createElement(Kbd, {}, "P")
+                  )
                 )
               )
             )
           )
         )
-      )
-    ),
+      ),
     },
     {
       name: "Input Group",
