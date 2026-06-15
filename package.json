@@ -10,6 +10,7 @@
     "registry:generate": "tsx scripts/generate-registry.ts",
     "registry:watch": "tsx --watch scripts/generate-registry.ts",
     "registry:add-jsdoc": "tsx scripts/add-jsdoc.ts",
+    "registry:check": "tsx scripts/check-registry.ts",
     "registry:validate": "pnpm dlx shadcn@latest registry validate --cwd public registry.json",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",

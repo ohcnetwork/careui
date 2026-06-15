@@ -183,6 +183,21 @@ git commit -m "Update components" && \
 git push
 ```
 
+## Verify the Registry Is in Sync
+
+The generated JSON under `public/registry/care-ui/**` must always match the
+component source. After editing a component, run `pnpm build:registry` and
+commit the regenerated files. To confirm there is no drift:
+
+```bash
+pnpm registry:check
+```
+
+This regenerates the registry and fails (exit 1) if any committed JSON differs
+from the current source — meaning someone changed a component without running
+`pnpm build:registry`. The fix is to run `pnpm build:registry` and commit the
+updated files. Run `pnpm registry:check` before opening a PR.
+
 ## File Structure
 
 ### Files You'll Touch
