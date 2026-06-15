@@ -22,7 +22,7 @@ export default function NotFoundErrorPage() {
         <div className="w-full max-w-xl text-center">
           <img
             src="/error-pages/404.webp"
-            alt="Illustration of a patient's arm with a projected green '404' error code during a blood collection procedure, symbolizing a page not found error."
+            alt=""
             aria-hidden="true"
             className="mx-auto mb-8 w-full max-w-xl rounded-2xl"
           />
