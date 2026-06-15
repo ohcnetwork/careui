@@ -287,7 +287,7 @@ function SheetBody({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sheet-body"
       className={cn(
-        "min-h-0 flex-1 [scrollbar-gutter:stable] overflow-y-auto overscroll-contain py-4",
+        "min-h-0 flex-1 overflow-y-auto overscroll-contain py-4 [scrollbar-gutter:stable]",
         className
       )}
       onScroll={(e) =>
