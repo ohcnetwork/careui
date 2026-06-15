@@ -312,8 +312,8 @@ function renderPharmacyBoard(
         // Both columns hug their content (`auto` tracks) so the token cell
         // doesn't stretch across the full row. Leftover space sits on the
         // right of the row, keeping counter + token visually grouped.
-        // The `[&_[data-slot=...]]:w-fit` override stops the room/counter
-        // box from stretching to the full track width — without it the box
+        // The room/counter box gets a `w-fit` override (see className below)
+        // so it doesn't stretch to the full track width — without it the box
         // inherits `w-full` from the component and grows wider than its
         // square footprint demands.
         className:
