@@ -101,10 +101,7 @@ export function SearchForm(props: React.ComponentProps<"form">) {
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command>
-          <CommandInput
-            autoFocus
-            placeholder="Search components and docs..."
-          />
+          <CommandInput autoFocus placeholder="Search components and docs..." />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             {navSections.map((section) => (
