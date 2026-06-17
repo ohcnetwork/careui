@@ -24,23 +24,20 @@ export function useNavigation() {
   return context;
 }
 
+const DEFAULT_COMPONENT = "get-started";
+
 function getInitialComponent(): string {
-  // Try to get from URL hash first
+  // The URL hash is the single source of truth. No hash means the default
+  // page, so clearing the hash (and reloading) always returns home instead
+  // of restoring a previously visited page.
   if (typeof window !== "undefined") {
     const hash = window.location.hash.slice(1); // Remove the #
     if (hash) {
       return hash;
     }
-
-    // Fallback to localStorage
-    const stored = localStorage.getItem("activeComponent");
-    if (stored) {
-      return stored;
-    }
   }
 
-  // Default fallback
-  return "get-started";
+  return DEFAULT_COMPONENT;
 }
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
@@ -49,21 +46,19 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   // Reset scroll position when component changes
   useScrollRestoration([activeComponent]);
 
-  // Update URL hash and localStorage when component changes
+  // Update URL hash when component changes
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.location.hash = activeComponent;
-      localStorage.setItem("activeComponent", activeComponent);
     }
   }, [activeComponent]);
 
-  // Listen for hash changes (back/forward navigation)
+  // Listen for hash changes (back/forward navigation, manual edits)
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
-      if (hash) {
-        setActiveComponent(hash);
-      }
+      // An empty hash means the user cleared it; fall back to the default.
+      setActiveComponent(hash || DEFAULT_COMPONENT);
     };
 
     window.addEventListener("hashchange", handleHashChange);

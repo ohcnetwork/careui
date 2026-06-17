@@ -35,6 +35,7 @@ function Command({
       data-slot="command"
       className={cn(
         "bg-popover text-popover-foreground flex size-full flex-col overflow-hidden rounded-xl!",
+        "in-data-[slot=drawer-content]:h-auto! in-data-[slot=drawer-content]:min-h-0 in-data-[slot=drawer-content]:flex-1",
         className
       )}
       {...props}
@@ -78,8 +79,17 @@ function CommandDialog({
   }
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange}>
-      <DrawerContent className={cn("overflow-hidden p-1.5", className)}>
+    <Drawer
+      open={open}
+      onOpenChange={onOpenChange}
+      repositionInputs={false}
+    >
+      <DrawerContent
+        className={cn(
+          "inset-x-0 top-0 bottom-0 mt-0! flex h-dvh! max-h-dvh! flex-col rounded-none! p-1.5",
+          className
+        )}
+      >
         <DrawerHeader className="sr-only">
           <DrawerTitle>{title}</DrawerTitle>
           <DrawerDescription>{description}</DrawerDescription>
@@ -92,12 +102,33 @@ function CommandDialog({
 
 function CommandInput({
   className,
+  autoFocus,
+  ref,
   ...props
 }: React.ComponentProps<typeof CommandPrimitive.Input>) {
+  const innerRef = React.useRef<HTMLInputElement>(null);
+
+  React.useImperativeHandle(
+    ref,
+    () => innerRef.current as HTMLInputElement,
+    []
+  );
+
+  // Native `autoFocus` is unreliable inside an animated, portalled drawer:
+  // the element is focused before it's visible (or the drawer moves focus to
+  // its content), so the keyboard never opens on mobile. Focus imperatively
+  // after the element mounts/paints instead.
+  React.useEffect(() => {
+    if (!autoFocus) return;
+    const id = requestAnimationFrame(() => innerRef.current?.focus());
+    return () => cancelAnimationFrame(id);
+  }, [autoFocus]);
+
   return (
     <div data-slot="command-input-wrapper" className="px-1 pt-4 pb-0 md:pt-1">
       <InputGroup className="border-input/30 bg-input/30 h-12 rounded-lg shadow-none! *:data-[slot=input-group-addon]:pl-2! md:h-10">
         <CommandPrimitive.Input
+          ref={innerRef}
           data-slot="command-input"
           className={cn(
             "w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50",
@@ -122,6 +153,7 @@ function CommandList({
       data-slot="command-list"
       className={cn(
         "no-scrollbar max-h-72 scroll-py-1 overflow-x-hidden overflow-y-auto outline-none",
+        "in-data-[slot=drawer-content]:max-h-none in-data-[slot=drawer-content]:min-h-0 in-data-[slot=drawer-content]:flex-1",
         className
       )}
       {...props}

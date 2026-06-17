@@ -16,6 +16,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -89,13 +90,21 @@ export function SearchForm(props: React.ComponentProps<"form">) {
             <InputGroupAddon>
               <Search className="text-muted-foreground" />
             </InputGroupAddon>
+            <InputGroupAddon align="inline-end">
+              <KbdGroup>
+                <Kbd>⌘K</Kbd>
+              </KbdGroup>
+            </InputGroupAddon>
           </InputGroup>
         </SidebarGroupContent>
       </SidebarGroup>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <Command>
-          <CommandInput placeholder="Search components and docs..." />
+          <CommandInput
+            autoFocus
+            placeholder="Search components and docs..."
+          />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             {navSections.map((section) => (
