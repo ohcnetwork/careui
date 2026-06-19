@@ -6,7 +6,7 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "careui";
-import { Search, Eye, EyeOff, Globe } from "lucide-react";
+import { Search, Eye, Globe } from "lucide-react";
 
 export function SearchField() {
   return (

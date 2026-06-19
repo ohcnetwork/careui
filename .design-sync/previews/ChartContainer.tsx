@@ -3,7 +3,6 @@ import {
   BarChart,
   Bar,
   XAxis,
-  YAxis,
   CartesianGrid,
   LineChart,
   Line,
