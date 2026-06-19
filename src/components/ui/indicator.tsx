@@ -17,14 +17,14 @@ const indicatorVariants = cva("inline-block shrink-0 rounded-full", {
     },
     tone: {
       // Semantic
-      primary: "bg-primary border-primary",
+      primary: "bg-primary border-primary dark:bg-primary-600",
       success:
-        "bg-green-500 border-green-500 dark:bg-green-400 dark:border-green-400",
+        "bg-green-600 border-green-500 dark:bg-green-600 dark:border-green-400",
       warning:
-        "bg-orange-500 border-orange-500 dark:bg-orange-400 dark:border-orange-400",
-      info: "bg-indigo-500 border-indigo-500 dark:bg-indigo-400 dark:border-indigo-400",
+        "bg-orange-500 border-orange-500 dark:bg-orange-500 dark:border-orange-400",
+      info: "bg-indigo-500 border-indigo-500 dark:bg-indigo-500 dark:border-indigo-400",
       destructive:
-        "bg-red-500 border-red-500 dark:bg-red-400 dark:border-red-400",
+        "bg-red-500 border-red-500 dark:bg-red-300 dark:border-red-400",
       neutral: "bg-muted-foreground/50 border-muted-foreground/50",
       // Named Tailwind colors
       red: "bg-red-500 border-red-500 dark:bg-red-400 dark:border-red-400",
@@ -37,20 +37,20 @@ const indicatorVariants = cva("inline-block shrink-0 rounded-full", {
       lime: "bg-lime-500 border-lime-500 dark:bg-lime-400 dark:border-lime-400",
       green:
         "bg-green-500 border-green-500 dark:bg-green-400 dark:border-green-400",
-      teal: "bg-teal-500 border-teal-500 dark:bg-teal-400 dark:border-teal-400",
-      cyan: "bg-cyan-500 border-cyan-500 dark:bg-cyan-400 dark:border-cyan-400",
-      sky: "bg-sky-500 border-sky-500 dark:bg-sky-400 dark:border-sky-400",
-      blue: "bg-blue-500 border-blue-500 dark:bg-blue-400 dark:border-blue-400",
+      teal: "bg-teal-500 border-teal-500 dark:bg-teal-600 dark:border-teal-400",
+      cyan: "bg-cyan-500 border-cyan-500 dark:bg-cyan-600 dark:border-cyan-400",
+      sky: "bg-sky-500 border-sky-500 dark:bg-sky-600 dark:border-sky-400",
+      blue: "bg-blue-500 border-blue-500 dark:bg-blue-600 dark:border-blue-400",
       indigo:
-        "bg-indigo-500 border-indigo-500 dark:bg-indigo-400 dark:border-indigo-400",
+        "bg-indigo-500 border-indigo-500 dark:bg-indigo-600 dark:border-indigo-400",
       violet:
-        "bg-violet-500 border-violet-500 dark:bg-violet-400 dark:border-violet-400",
+        "bg-violet-500 border-violet-500 dark:bg-violet-600 dark:border-violet-400",
       purple:
-        "bg-purple-500 border-purple-500 dark:bg-purple-400 dark:border-purple-400",
+        "bg-purple-500 border-purple-500 dark:bg-purple-600 dark:border-purple-400",
       fuchsia:
-        "bg-fuchsia-500 border-fuchsia-500 dark:bg-fuchsia-400 dark:border-fuchsia-400",
-      pink: "bg-pink-500 border-pink-500 dark:bg-pink-400 dark:border-pink-400",
-      rose: "bg-rose-500 border-rose-500 dark:bg-rose-400 dark:border-rose-400",
+        "bg-fuchsia-500 border-fuchsia-500 dark:bg-fuchsia-600 dark:border-fuchsia-400",
+      pink: "bg-pink-500 border-pink-500 dark:bg-pink-600 dark:border-pink-400",
+      rose: "bg-rose-500 border-rose-500 dark:bg-rose-600 dark:border-rose-400",
     },
     size: {
       xs: "size-1.5",

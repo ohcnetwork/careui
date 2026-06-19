@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "types": "dist/types/ds-index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -63,6 +64,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "playwright": "^1.61.0",
     "prettier": "^3.8.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "shadcn": "^3.8.5",
