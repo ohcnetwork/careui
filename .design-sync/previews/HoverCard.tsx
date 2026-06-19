@@ -1,4 +1,4 @@
-import { HoverCard, HoverCardContent, HoverCardTrigger, Avatar, AvatarFallback, AvatarImage } from "careui";
+import { HoverCard, HoverCardContent, HoverCardTrigger, Avatar, AvatarFallback } from "careui";
 
 export function Default() {
   return (
