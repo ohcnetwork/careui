@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Check, Copy } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -56,7 +57,143 @@ type Swatch = {
   needsBorder?: boolean;
 };
 
-function SwatchCard({ swatch }: { swatch: Swatch }) {
+type SwatchCopyMode = "hex-only" | "class-and-hex";
+
+let colorContext: CanvasRenderingContext2D | null = null;
+
+function getColorContext() {
+  if (typeof document === "undefined") {
+    return null;
+  }
+
+  if (!colorContext) {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = 1;
+    colorContext = canvas.getContext("2d");
+  }
+
+  return colorContext;
+}
+
+function toHex(color: string) {
+  const ctx = getColorContext();
+  if (!ctx) {
+    return "";
+  }
+
+  try {
+    ctx.clearRect(0, 0, 1, 1);
+    ctx.fillStyle = "rgba(0,0,0,0)";
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+    if (a < 255) {
+      return `#${[r, g, b, a].map((n) => n.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+    }
+    return `#${[r, g, b].map((n) => n.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+  } catch {
+    return "";
+  }
+}
+
+function resolveCssColorHex(value: string) {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  const probe = document.createElement("span");
+  probe.style.color = value;
+  probe.style.position = "absolute";
+  probe.style.opacity = "0";
+  probe.style.pointerEvents = "none";
+  document.body.appendChild(probe);
+  const computed = getComputedStyle(probe).color;
+  document.body.removeChild(probe);
+  return toHex(computed);
+}
+
+function resolveTokenHex(token: string, dark = false) {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  const mount = document.createElement("div");
+  mount.className = dark ? "dark" : "";
+  mount.style.position = "absolute";
+  mount.style.opacity = "0";
+  mount.style.pointerEvents = "none";
+
+  const probe = document.createElement("span");
+  probe.style.color = `var(--${token})`;
+  mount.appendChild(probe);
+  document.body.appendChild(mount);
+
+  const computed = getComputedStyle(probe).color;
+  document.body.removeChild(mount);
+  return toHex(computed);
+}
+
+async function copyText(value: string) {
+  if (!value) {
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(value);
+  } catch {
+    const ta = document.createElement("textarea");
+    ta.value = value;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
+}
+
+function SwatchCard({
+  swatch,
+  copyMode,
+}: {
+  swatch: Swatch;
+  copyMode: SwatchCopyMode;
+}) {
+  const [lightHex, setLightHex] = React.useState("");
+  const [darkHex, setDarkHex] = React.useState("");
+  const [copied, setCopied] = React.useState<"light" | "dark" | "class" | "">("");
+
+  React.useEffect(() => {
+    setLightHex(resolveTokenHex(swatch.token, false));
+    setDarkHex(resolveTokenHex(swatch.token, true));
+  }, [swatch.token]);
+
+  React.useEffect(() => {
+    if (!copied) {
+      return;
+    }
+
+    const id = window.setTimeout(() => setCopied(""), 1200);
+    return () => window.clearTimeout(id);
+  }, [copied]);
+
+  const onCopyLightHex = async () => {
+    await copyText(lightHex);
+    setCopied("light");
+  };
+
+  const onCopyDarkHex = async () => {
+    await copyText(darkHex);
+    setCopied("dark");
+  };
+
+  const onCopyClass = async () => {
+    await copyText(swatch.className);
+    setCopied("class");
+  };
+
   return (
     <div className="border-border bg-card flex flex-col overflow-hidden rounded-lg border">
       <div
@@ -66,14 +203,55 @@ function SwatchCard({ swatch }: { swatch: Swatch }) {
       >
         Aa
       </div>
-      <div className="space-y-1 p-4">
-        <div className="text-foreground text-sm font-semibold">
+      <div className="space-y-2 p-4">
+        <div className="text-foreground text-sm font-semibold leading-none">
           {swatch.token}
         </div>
-        <code className="text-muted-foreground block font-mono text-xs">
-          {swatch.className}
-        </code>
-        <div className="text-muted-foreground pt-1 text-xs">
+        {copyMode === "class-and-hex" ? (
+          <button
+            type="button"
+            onClick={onCopyClass}
+            aria-label="Copy class name"
+            title={`Copy ${swatch.className}`}
+            className="border-border text-muted-foreground hover:bg-muted focus-visible:ring-ring/50 inline-flex h-7 items-center gap-1.5 self-start rounded-md border px-2 font-mono text-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
+          >
+            <span className="tabular-nums">{swatch.className}</span>
+            {copied === "class" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+          </button>
+        ) : (
+          <code className="text-muted-foreground block font-mono text-xs">
+            {swatch.className}
+          </code>
+        )}
+        {lightHex || darkHex ? (
+          <div className="font-mono text-xs">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={onCopyLightHex}
+                aria-label="Copy light hex"
+                title={`Copy light ${lightHex || "—"}`}
+                className="border-border text-muted-foreground hover:bg-muted focus-visible:ring-ring/50 inline-flex h-7 items-center gap-1.5 rounded-md border px-2 tabular-nums transition-colors focus-visible:ring-2 focus-visible:outline-none"
+              >
+                <span className="font-mono">L</span>
+                <span>{lightHex || "—"}</span>
+                {copied === "light" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+              </button>
+              <button
+                type="button"
+                onClick={onCopyDarkHex}
+                aria-label="Copy dark hex"
+                title={`Copy dark ${darkHex || "—"}`}
+                className="border-border text-muted-foreground hover:bg-muted focus-visible:ring-ring/50 inline-flex h-7 items-center gap-1.5 rounded-md border px-2 tabular-nums transition-colors focus-visible:ring-2 focus-visible:outline-none"
+              >
+                <span className="font-mono">D</span>
+                <span>{darkHex || "—"}</span>
+                {copied === "dark" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+              </button>
+            </div>
+          </div>
+        ) : null}
+        <div className="text-muted-foreground text-xs">
           <span className="font-mono">L</span> {swatch.light}{" "}
           <span className="text-foreground/30">·</span>{" "}
           <span className="font-mono">D</span> {swatch.dark}
@@ -84,11 +262,17 @@ function SwatchCard({ swatch }: { swatch: Swatch }) {
   );
 }
 
-function SwatchGrid({ items }: { items: Swatch[] }) {
+function SwatchGrid({
+  items,
+  copyMode = "class-and-hex",
+}: {
+  items: Swatch[];
+  copyMode?: SwatchCopyMode;
+}) {
   return (
     <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {items.map((s) => (
-        <SwatchCard key={s.token} swatch={s} />
+        <SwatchCard key={s.token} swatch={s} copyMode={copyMode} />
       ))}
     </div>
   );
@@ -630,6 +814,45 @@ const RAMP_STEPS = [
   "950",
 ];
 
+function PaletteBox({
+  className,
+  label,
+  textClassName,
+  heightClassName = "h-14",
+}: {
+  className: string;
+  label: string;
+  textClassName: string;
+  heightClassName?: string;
+}) {
+  const [copied, setCopied] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!copied) {
+      return;
+    }
+
+    const id = window.setTimeout(() => setCopied(false), 1000);
+    return () => window.clearTimeout(id);
+  }, [copied]);
+
+  const onCopyClass = async () => {
+    await copyText(className);
+    setCopied(true);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onCopyClass}
+      title={`Copy ${className}`}
+      className={`${className} ${textClassName} ${heightClassName} flex flex-1 cursor-copy items-end justify-center pb-1 font-mono text-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50`}
+    >
+      {copied ? "Copied" : label}
+    </button>
+  );
+}
+
 function ColorRamp({ ramp }: { ramp: RampDef }) {
   return (
     <div className="border-border overflow-hidden rounded-lg border">
@@ -641,14 +864,12 @@ function ColorRamp({ ramp }: { ramp: RampDef }) {
       </div>
       <div className="flex">
         {ramp.bg.map((cls, i) => (
-          <div
+          <PaletteBox
             key={cls}
-            className={`${cls} ${
-              i >= 5 ? "text-white" : "text-neutral-950"
-            } flex h-14 flex-1 items-end justify-center pb-1 font-mono text-[10px]`}
-          >
-            {RAMP_STEPS[i]}
-          </div>
+            className={cls}
+            textClassName={i >= 5 ? "text-white" : "text-neutral-950"}
+            label={RAMP_STEPS[i]}
+          />
         ))}
       </div>
     </div>
@@ -980,12 +1201,13 @@ export function ColorsPage() {
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <div className="flex">
               {PRIMARY_SCALE.map((s) => (
-                <div
+                <PaletteBox
                   key={s.step}
-                  className={`${s.className} ${s.onClass} flex h-20 flex-1 items-end justify-center pb-2 font-mono text-[11px]`}
-                >
-                  {s.step}
-                </div>
+                  className={s.className}
+                  textClassName={s.onClass}
+                  label={s.step}
+                  heightClassName="h-20"
+                />
               ))}
             </div>
             <div className="bg-card border-border border-t p-4">
