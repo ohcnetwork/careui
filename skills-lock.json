@@ -4,7 +4,62 @@
     "emil-design-eng": {
       "source": "emilkowalski/skill",
       "sourceType": "github",
+      "skillPath": "skills/emil-design-eng/SKILL.md",
       "computedHash": "8bdf9e4e6de7a4969147bf4828a4ad2c5aacd9fba4b690b250a85e0467ca387d"
+    },
+    "figma-code-connect": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-code-connect/SKILL.md",
+      "computedHash": "97115879461e3fb0766ea31d35a370e47f140c0e2896e33ccdd1f8a693e78358"
+    },
+    "figma-create-new-file": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-create-new-file/SKILL.md",
+      "computedHash": "8013ae97a1d34753bdd916225ef781500e072631ef94f7a38975fc15394f0dc2"
+    },
+    "figma-generate-design": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-generate-design/SKILL.md",
+      "computedHash": "28cc665073d992bab1105b6dd7a3fcd8402e9007da54a2b2619343aa743e3c33"
+    },
+    "figma-generate-diagram": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-generate-diagram/SKILL.md",
+      "computedHash": "94535a994b6af987fe7f313df9835d8f5cb3d96c0f343be5f7c07b06421c1e2e"
+    },
+    "figma-generate-library": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-generate-library/SKILL.md",
+      "computedHash": "6833890132c9b49baad17d272dc26daec984ea191fa2c34653c8e87bf3647168"
+    },
+    "figma-swiftui": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-swiftui/SKILL.md",
+      "computedHash": "a1cb0b6966de30e4f4fe50fbc0d9e89aff8d3b1d80143cc3de09f07b7dbb6ef9"
+    },
+    "figma-use": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-use/SKILL.md",
+      "computedHash": "ad6ff47710d541d77a0a276ece823bddc785697bbd6efc6a6b72c123c1d8fb78"
+    },
+    "figma-use-figjam": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-use-figjam/SKILL.md",
+      "computedHash": "8dc0ca7d4b1330fe8bb0580f452d55982b5eb1792860f4d178348a261c7a9dc8"
+    },
+    "figma-use-slides": {
+      "source": "git@github.com:figma/mcp-server-guide.git",
+      "sourceType": "git",
+      "skillPath": "skills/figma-use-slides/SKILL.md",
+      "computedHash": "8ef111b618949def25de537e05a108a56470ec4222b049eb72afd67348e5e71a"
     },
     "improve": {
       "source": "shadcn/improve",
@@ -12,10 +67,17 @@
       "skillPath": "skills/improve/SKILL.md",
       "computedHash": "7a0f09dd535fc84391dc63bea826d6aeab985b92423fa4dd93edacb5dfb82524"
     },
+    "review-animations": {
+      "source": "emilkowalski/skill",
+      "sourceType": "github",
+      "skillPath": "skills/review-animations/SKILL.md",
+      "computedHash": "ca04aaa0a815f05e0910ded8fedbfbdfe0acdec8f52dfbb88277890070d134d4"
+    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",
-      "computedHash": "91c02eb706f046fb9d6a061efbb96496e4be751b5b14c283cf82baaa50f3a985"
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "ac9d0d69caac7de1d1e5647f3db3bcd2f13af355d6b3a78780fbf7fc80e8dca0"
     },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
