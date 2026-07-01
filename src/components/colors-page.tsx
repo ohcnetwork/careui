@@ -97,22 +97,6 @@ function toHex(color: string) {
   }
 }
 
-function resolveCssColorHex(value: string) {
-  if (typeof window === "undefined") {
-    return "";
-  }
-
-  const probe = document.createElement("span");
-  probe.style.color = value;
-  probe.style.position = "absolute";
-  probe.style.opacity = "0";
-  probe.style.pointerEvents = "none";
-  document.body.appendChild(probe);
-  const computed = getComputedStyle(probe).color;
-  document.body.removeChild(probe);
-  return toHex(computed);
-}
-
 function resolveTokenHex(token: string, dark = false) {
   if (typeof window === "undefined") {
     return "";

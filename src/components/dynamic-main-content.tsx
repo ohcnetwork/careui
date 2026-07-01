@@ -20,6 +20,7 @@ import { BlocksPage } from "@/components/blocks";
 import { SettingsPage } from "@/components/settings-page";
 import { TypographyPage } from "@/components/typography-page";
 import { ColorsPage } from "@/components/colors-page";
+import { BrandsPage } from "@/components/brands-page";
 import { FoundationsPage } from "@/components/foundations-page";
 import { AccessibilityPage } from "@/components/accessibility-page";
 import { ContributingPage } from "@/components/contributing-page";
@@ -502,6 +503,9 @@ export function DynamicMainContent() {
     }
     if (activeComponent === "colors") {
       return <ColorsPage />;
+    }
+    if (activeComponent === "brands") {
+      return <BrandsPage />;
     }
     if (activeComponent === "foundations") {
       return <FoundationsPage />;

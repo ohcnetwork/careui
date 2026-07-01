@@ -86,6 +86,13 @@ export function SignInForm() {
       "The Care UI color system — semantic tokens, theme modes (light, dark, protanopia, tritanopia, high-contrast), contrast pairings and usage rules.",
     content: { sections: [] },
   },
+  brands: {
+    id: "brands",
+    title: "Brands",
+    description:
+      "Brand assets and logo guidance for Care, OHCNF, and OHC, with direct downloads and light/dark preview variants.",
+    content: { sections: [] },
+  },
   foundations: {
     id: "foundations",
     title: "Foundations",
