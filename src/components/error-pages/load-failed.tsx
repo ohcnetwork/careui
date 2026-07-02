@@ -95,10 +95,20 @@ export default function LoadFailedErrorPage() {
     }
   }, []);
 
-  // Touch handler for mobile (trigger brief unblur)
-  const handleTouchStart = useCallback(() => {
+  // Touch handler for mobile (trigger unblur with touch position)
+  const handleTouchStart = useCallback((e: TouchEvent) => {
     if (touchTimeoutRef.current) {
       clearTimeout(touchTimeoutRef.current);
+    }
+
+    // Get touch coordinates relative to container
+    const touch = e.touches[0];
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (rect && touch) {
+      setMousePos({
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      });
     }
 
     setIsUnblurred(true);
@@ -108,7 +118,7 @@ export default function LoadFailedErrorPage() {
     }, TOUCH_UNBLUR_DURATION);
   }, []);
 
-  // Clean up touch on touchend to allow state reset
+  // Clean up touch on touchend
   const handleTouchEnd = useCallback(() => {
     // Timeout continues to manage the blur
   }, []);
