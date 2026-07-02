@@ -184,7 +184,7 @@ function InnerPage02SidebarContent({
   return (
     <>
       <SidebarHeader className="border-b">
-        <div className="space-y-2 px-2 py-2">
+        <div className="min-w-0 space-y-2 px-2 py-2">
           <div
             className={cn(
               "flex items-center overflow-hidden transition-opacity duration-150 ease-linear",
@@ -231,7 +231,7 @@ function InnerPage02SidebarContent({
             ))}
           </SidebarMenu>
         </SidebarGroup>
-        <Separator variant="inset" className="mx-3 w-auto" />
+        <Separator variant="inset" className="mx-2" />
         <SidebarGroup>
           <SidebarGroupLabel>Patient Management</SidebarGroupLabel>
           <SidebarMenu>

@@ -159,10 +159,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Context Menu */}
       {contextMenu.show && (
         <div
-          className="bg-popover fixed z-50 w-40 max-w-fit rounded-md border py-1 shadow-lg"
+          className="bg-popover fixed z-50 max-w-[10rem] rounded-md border py-1 shadow-lg"
           style={{
-            left: contextMenu.x,
-            top: contextMenu.y,
+            left: `max(0px, min(${contextMenu.x}px, calc(100vw - 10rem)))`,
+            top: `max(0px, min(${contextMenu.y}px, calc(100vh - 8rem)))`,
           }}
         >
           <button

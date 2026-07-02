@@ -24,7 +24,7 @@ const MOUSE_THROTTLE_MS = 16; // ~60fps
 
 // Memoized Snellen lines component to prevent unnecessary re-renders
 const SnellenLines = ({ isUnblurred }: { isUnblurred: boolean }) => (
-  <div className="relative z-10 flex flex-col items-center px-6 pt-6 pb-8 font-bold text-center leading-none">
+  <div className="relative z-10 flex flex-col items-center px-6 pt-6 pb-8 font-extrabold text-center leading-none">
     {SNELLEN_LINES.map((line, index) => {
       const fontSize = BASE_FONT_SIZE - index * FONT_SIZE_DECREMENT;
       return (
@@ -149,7 +149,7 @@ export default function LoadFailedErrorPage() {
   );
 
   return (
-    <main className="bg-background text-foreground flex min-h-screen w-full flex-col items-center justify-center px-4 py-16">
+    <main className="bg-background text-foreground flex min-h-dvh md:min-h-screen w-full flex-col items-center justify-center px-4 py-1 md:py-16">
       {/* Snellen Chart */}
       <div
         className="relative scale-[var(--scale-mobile)] rounded-xl border-6 border-yellow-950 transition-all duration-300 will-change-transform md:scale-[var(--scale-desktop)] md:justify-center"
@@ -201,7 +201,7 @@ export default function LoadFailedErrorPage() {
       </div>
 
       {/* Error Content */}
-      <div className="w-full max-w-xl text-center mt-8 md:mt-16">
+      <div className="w-full max-w-xl text-center mt-2 md:mt-16">
         <div className="text-muted-foreground/70 font-mono text-sm tracking-widest uppercase">
           Error 503
         </div>
