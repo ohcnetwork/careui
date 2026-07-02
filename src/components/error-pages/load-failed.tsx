@@ -47,8 +47,8 @@ export default function LoadFailedErrorPage() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isUnblurred, setIsUnblurred] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const mouseMoveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const touchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mouseMoveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isTouchDeviceRef = useRef(false);
 
   // Detect touch device once on mount

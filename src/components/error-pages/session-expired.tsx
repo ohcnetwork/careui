@@ -3,7 +3,6 @@ import { LogIn } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-const ANIMATION_CYCLE_MS = 8000;
 const BREATH_CYCLE_MS = 4000;
 const UPDATE_INTERVAL_MS = 1000;
 
