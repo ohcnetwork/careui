@@ -8,6 +8,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
+import {
+  EyebrowTitle,
+  Lead,
+  PageTitle,
+  SectionTitle,
+} from "@/components/ui/typography";
 
 /**
  * Foundations documentation page for the Care design system.
@@ -35,12 +41,9 @@ function SectionHeading({
   children: React.ReactNode;
 }) {
   return (
-    <h2
-      id={id}
-      className="border-border scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
-    >
+    <SectionTitle id={id} className="border-b pb-2 scroll-m-20">
       {children}
-    </h2>
+    </SectionTitle>
   );
 }
 
@@ -468,18 +471,18 @@ export function FoundationsPage() {
       <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
         {/* Header */}
         <header>
-          <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
             Documentation
-          </div>
-          <h1 className="mt-3 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
+          </EyebrowTitle>
+          <PageTitle className="mt-3 scroll-m-20">
             Foundations
-          </h1>
-          <p className="text-muted-foreground mt-6 max-w-2xl text-xl leading-7">
+          </PageTitle>
+          <Lead className="mt-6 max-w-2xl text-xl">
             Spacing, elevation, borders &amp; radius, and the layout shell.
             Every value on this page is sourced directly from Care UI&apos;s{" "}
             <InlineCode>src/index.css</InlineCode>, the sidebar primitive, and
             the live components — nothing invented.
-          </p>
+          </Lead>
         </header>
 
         {/* Spacing */}

@@ -1,5 +1,10 @@
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  EyebrowTitle,
+  Lead,
+  PageTitle,
+} from "@/components/ui/typography";
 
 type AssetPreview = {
   title: string;
@@ -308,20 +313,18 @@ export function BrandsPage() {
   return (
     <main className="flex-1 overflow-y-auto">
       <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
-        <header className="space-y-6">
-          <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+        <header className="space-y-4">
+          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
             Documentation
-          </div>
-          <div className="space-y-4">
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
-              Brands
-            </h1>
-            <p className="text-muted-foreground max-w-3xl text-xl leading-8">
-              Centralized brand assets for Care, OHCNF, and OHC. Each section
-              includes download-ready files, approved light and dark variants,
-              and spacing references for correct logo placement.
-            </p>
-          </div>
+          </EyebrowTitle>
+          <PageTitle className="scroll-m-20">
+            Brands
+          </PageTitle>
+          <Lead className="max-w-3xl text-xl">
+            Centralized brand assets for Care, OHCNF, and OHC. Each section
+            includes download-ready files, approved light and dark variants,
+            and spacing references for correct logo placement.
+          </Lead>
         </header>
 
         {BRANDS.map((brand) => (

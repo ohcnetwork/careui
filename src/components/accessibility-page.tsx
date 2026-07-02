@@ -7,6 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  EyebrowTitle,
+  Lead,
+  PageTitle,
+  SectionTitle,
+} from "@/components/ui/typography";
 
 /**
  * Accessibility documentation page for Care UI.
@@ -44,12 +50,9 @@ function SectionHeading({
   children: React.ReactNode;
 }) {
   return (
-    <h2
-      id={id}
-      className="border-border scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight"
-    >
+    <SectionTitle id={id} className="border-b pb-2 scroll-m-20">
       {children}
-    </h2>
+    </SectionTitle>
   );
 }
 
@@ -363,17 +366,17 @@ export function AccessibilityPage() {
       <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
         {/* Header */}
         <header>
-          <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
+          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
             Documentation
-          </div>
-          <h1 className="mt-3 scroll-m-20 text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
+          </EyebrowTitle>
+          <PageTitle className="mt-3 scroll-m-20">
             Accessibility
-          </h1>
-          <p className="text-muted-foreground mt-6 max-w-2xl text-xl leading-7">
+          </PageTitle>
+          <Lead className="mt-6 max-w-2xl text-xl">
             Care UI targets <strong>WCAG 2.2 AA</strong> across every theme.
             Half of the work is built into the design tokens and primitives; the
             other half is a short checklist every contributor must apply.
-          </p>
+          </Lead>
         </header>
 
         {/* Standards */}

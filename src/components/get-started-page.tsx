@@ -2,9 +2,11 @@ import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import {
+  EyebrowTitle,
+  Lead,
+  PageTitle,
   SectionTitle,
   SubsectionTitle,
-  Lead,
 } from "@/components/ui/typography";
 
 /**
@@ -13,14 +15,6 @@ import {
  * Guides developers through installing Care UI in a React + Tailwind v4 project,
  * adding components via shadcn CLI, and setting up the design tokens and typography system.
  */
-
-function PageHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h1 className="border-border scroll-m-20 border-b pb-3 text-4xl font-bold tracking-tight">
-      {children}
-    </h1>
-  );
-}
 
 function InlineCode({ children }: { children: React.ReactNode }) {
   return (
@@ -57,20 +51,25 @@ function CodeBlock({ code, id }: { code: string; id: string }) {
 export function GetStartedPage() {
   return (
     <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-8">
-        {/* Page Header */}
-        <div className="space-y-3">
-          <PageHeading>Get Started</PageHeading>
-          <Lead>
+      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
+        {/* Header */}
+        <header>
+          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
+            Documentation
+          </EyebrowTitle>
+          <PageTitle className="mt-3 scroll-m-20">
+            Get Started
+          </PageTitle>
+          <Lead className="mt-6 max-w-2xl text-xl">
             Install Care UI in a React + Tailwind v4 project. Components are
             added on demand through the shadcn CLI — you own the source, nothing
             is published as a runtime dependency.
           </Lead>
-        </div>
+        </header>
 
         {/* Prerequisites Section */}
         <section className="space-y-4">
-          <SectionTitle>Prerequisites</SectionTitle>
+          <SectionTitle className="border-b pb-2 scroll-m-20">Prerequisites</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Care UI targets React 19, TypeScript, and Tailwind CSS v4.
@@ -90,7 +89,7 @@ npx shadcn@latest init`}
 
         {/* Add Components Section */}
         <section className="space-y-4">
-          <SectionTitle>Add a component</SectionTitle>
+          <SectionTitle className="border-b pb-2 scroll-m-20">Add a component</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Every Care UI component is published as a shadcn-compatible
@@ -122,7 +121,7 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
 
         {/* Tailwind v4 Setup Section */}
         <section className="space-y-4">
-          <SectionTitle>Tailwind v4 setup</SectionTitle>
+          <SectionTitle className="border-b pb-2 scroll-m-20">Tailwind v4 setup</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Care UI uses Tailwind v4's CSS-first configuration — there is no{" "}
@@ -143,7 +142,7 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
 
         {/* Use in App Section */}
         <section className="space-y-4">
-          <SectionTitle>Use it in your app</SectionTitle>
+          <SectionTitle className="border-b pb-2 scroll-m-20">Use it in your app</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Components are imported from the{" "}
@@ -184,7 +183,7 @@ export function SignInForm() {
 
         {/* What You Get Section */}
         <section className="space-y-4">
-          <SectionTitle>What you get</SectionTitle>
+          <SectionTitle className="border-b pb-2 scroll-m-20">What you get</SectionTitle>
           <div className="space-y-4">
             <p className="text-muted-foreground leading-relaxed">
               Source you own (no runtime dependency on Care UI), full TypeScript
@@ -236,7 +235,7 @@ export function SignInForm() {
 
         {/* Next Steps Section */}
         <section className="space-y-4">
-          <SectionTitle>Next steps</SectionTitle>
+          <SectionTitle className="border-b pb-2 scroll-m-20">Next steps</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Browse the rest of the docs to learn more about the design system:
