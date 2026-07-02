@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const BREATH_CYCLE_MS = 4000;
 const UPDATE_INTERVAL_MS = 1000;
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 // Digit map for 7-segment display
 const SEGMENT_DIGITS = {
@@ -61,8 +62,12 @@ const SegmentedTime = ({ timeStr, scale }: { timeStr: string; scale: number }) =
 export default function SessionExpiredErrorPage() {
   const [seconds, setSeconds] = useState(0);
   const [breathState, setBreathState] = useState<"in" | "out">("in");
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const startTimeRef = useRef(Date.now());
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia(REDUCED_MOTION_QUERY).matches
+      : false
+  );
+  const startTimeRef = useRef<number | null>(null);
 
   // Format time string with proper padding
   const formatTime = useCallback((totalSeconds: number): string => {
@@ -96,6 +101,10 @@ export default function SessionExpiredErrorPage() {
   useEffect(() => {
     const tick = () => {
       const now = Date.now();
+      if (startTimeRef.current === null) {
+        startTimeRef.current = now;
+      }
+
       const elapsedMs = now - startTimeRef.current;
       const elapsedSec = Math.floor(elapsedMs / UPDATE_INTERVAL_MS);
       setSeconds(-elapsedSec);
@@ -109,8 +118,7 @@ export default function SessionExpiredErrorPage() {
 
   // Detect reduced motion preference
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
+    const mediaQuery = window.matchMedia(REDUCED_MOTION_QUERY);
 
     const handleChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches);
