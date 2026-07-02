@@ -24,13 +24,13 @@ const MOUSE_THROTTLE_MS = 16; // ~60fps
 
 // Memoized Snellen lines component to prevent unnecessary re-renders
 const SnellenLines = ({ isUnblurred }: { isUnblurred: boolean }) => (
-  <div className="relative z-10 flex flex-col items-center px-6 pt-6 pb-8 font-extrabold text-center leading-none">
+  <div className="relative z-10 flex flex-col items-center px-6 pt-6 pb-8 text-center leading-none font-extrabold">
     {SNELLEN_LINES.map((line, index) => {
       const fontSize = BASE_FONT_SIZE - index * FONT_SIZE_DECREMENT;
       return (
         <p
           key={`snellen-${index}`}
-          className="text-black select-none pb-3 transition-all duration-300 will-change-[filter]"
+          className="pb-3 text-black transition-all duration-300 will-change-[filter] select-none"
           style={{
             fontSize: `${fontSize}px`,
             filter: isUnblurred ? "blur(0px)" : `blur(${BLUR_INTENSITY})`,
@@ -48,7 +48,9 @@ export default function LoadFailedErrorPage() {
   const [isUnblurred, setIsUnblurred] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const touchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const mouseMoveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mouseMoveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
   const isTouchDeviceRef = useRef(false);
 
   // Detect touch device once on mount
@@ -62,7 +64,8 @@ export default function LoadFailedErrorPage() {
   useEffect(() => {
     return () => {
       if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
-      if (mouseMoveTimeoutRef.current) clearTimeout(mouseMoveTimeoutRef.current);
+      if (mouseMoveTimeoutRef.current)
+        clearTimeout(mouseMoveTimeoutRef.current);
     };
   }, []);
 
@@ -149,17 +152,18 @@ export default function LoadFailedErrorPage() {
   );
 
   return (
-    <main className="bg-background text-foreground flex min-h-dvh md:min-h-screen w-full flex-col items-center justify-center px-4 py-1 md:py-16">
+    <main className="bg-background text-foreground flex min-h-dvh w-full flex-col items-center justify-center px-4 py-1 md:min-h-screen md:py-16">
       {/* Snellen Chart */}
       <div
         className="relative scale-[var(--scale-mobile)] rounded-xl border-6 border-yellow-950 transition-all duration-300 will-change-transform md:scale-[var(--scale-desktop)] md:justify-center"
         ref={containerRef}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
-        style={{
-          "--scale-mobile": SCALE_MOBILE,
-          "--scale-desktop": SCALE_DESKTOP,
-          boxShadow: `
+        style={
+          {
+            "--scale-mobile": SCALE_MOBILE,
+            "--scale-desktop": SCALE_DESKTOP,
+            boxShadow: `
             hsl(57, 19%, 35%, 0.73) 0px 1px 0.8px,
             hsl(57, 19%, 35%, 0.67) 0px 2.3px 1.9px -0.5px,
             hsl(57, 19%, 35%, 0.6) 0px 4.6px 3.8px -1px,
@@ -171,21 +175,22 @@ export default function LoadFailedErrorPage() {
             hsl(57, 19%, 35%, 0.21) 0.7px 106.8px 88.1px -4px,
             hsl(57, 19%, 35%, 0.15) 0.9px 150px 123.8px -4.5px
           `,
-        } as React.CSSProperties}
+          } as React.CSSProperties
+        }
       >
         {/* Background glow animation */}
         <div
-          className={`absolute inset-0 z-0 rounded-xl bg-yellow-100 blur-3xl pointer-events-none transition-all duration-700 will-change-opacity ${
-            !isUnblurred ? "opacity-0 scale-90" : "opacity-50 scale-100"
+          className={`will-change-opacity pointer-events-none absolute inset-0 z-0 rounded-xl bg-yellow-100 blur-3xl transition-all duration-700 ${
+            !isUnblurred ? "scale-90 opacity-0" : "scale-100 opacity-50"
           }`}
           aria-hidden="true"
         />
 
         {/* Chart Container */}
-        <div className="relative max-w-fit w-full bg-white rounded-xl ring-1 ring-white/60 backdrop-blur-md transition-all duration-300 hover:shadow-[inset_0_0_40px_rgba(255,255,150,0.5)] will-change-shadow">
+        <div className="will-change-shadow relative w-full max-w-fit rounded-xl bg-white ring-1 ring-white/60 backdrop-blur-md transition-all duration-300 hover:shadow-[inset_0_0_40px_rgba(255,255,150,0.5)]">
           {/* Radial cursor blur (desktop only) */}
           <div
-            className="absolute inset-0 z-20 pointer-events-none rounded-xl will-change-[mask-image,webkit-mask-image]"
+            className="pointer-events-none absolute inset-0 z-20 rounded-xl will-change-[mask-image,webkit-mask-image]"
             style={{
               WebkitMaskImage: maskImage,
               maskImage: maskImage,
@@ -201,7 +206,7 @@ export default function LoadFailedErrorPage() {
       </div>
 
       {/* Error Content */}
-      <div className="w-full max-w-xl text-center mt-2 md:mt-16">
+      <div className="mt-2 w-full max-w-xl text-center md:mt-16">
         <div className="text-muted-foreground/70 font-mono text-sm tracking-widest uppercase">
           Error 503
         </div>

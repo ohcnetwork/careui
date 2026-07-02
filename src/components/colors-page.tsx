@@ -89,9 +89,15 @@ function toHex(color: string) {
     ctx.fillRect(0, 0, 1, 1);
     const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
     if (a < 255) {
-      return `#${[r, g, b, a].map((n) => n.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+      return `#${[r, g, b, a]
+        .map((n) => n.toString(16).padStart(2, "0"))
+        .join("")
+        .toUpperCase()}`;
     }
-    return `#${[r, g, b].map((n) => n.toString(16).padStart(2, "0")).join("").toUpperCase()}`;
+    return `#${[r, g, b]
+      .map((n) => n.toString(16).padStart(2, "0"))
+      .join("")
+      .toUpperCase()}`;
   } catch {
     return "";
   }
@@ -147,7 +153,9 @@ function SwatchCard({
 }) {
   const [lightHex, setLightHex] = React.useState("");
   const [darkHex, setDarkHex] = React.useState("");
-  const [copied, setCopied] = React.useState<"light" | "dark" | "class" | "">("");
+  const [copied, setCopied] = React.useState<"light" | "dark" | "class" | "">(
+    ""
+  );
 
   React.useEffect(() => {
     setLightHex(resolveTokenHex(swatch.token, false));
@@ -188,7 +196,7 @@ function SwatchCard({
         Aa
       </div>
       <div className="space-y-2 p-4">
-        <div className="text-foreground text-sm font-semibold leading-none">
+        <div className="text-foreground text-sm leading-none font-semibold">
           {swatch.token}
         </div>
         {copyMode === "class-and-hex" ? (
@@ -200,7 +208,11 @@ function SwatchCard({
             className="border-border text-muted-foreground hover:bg-muted focus-visible:ring-ring/50 inline-flex h-7 items-center gap-1.5 self-start rounded-md border px-2 font-mono text-xs transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
             <span className="tabular-nums">{swatch.className}</span>
-            {copied === "class" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+            {copied === "class" ? (
+              <Check className="h-3 w-3" />
+            ) : (
+              <Copy className="h-3 w-3" />
+            )}
           </button>
         ) : (
           <code className="text-muted-foreground block font-mono text-xs">
@@ -219,7 +231,11 @@ function SwatchCard({
               >
                 <span className="font-mono">L</span>
                 <span>{lightHex || "—"}</span>
-                {copied === "light" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                {copied === "light" ? (
+                  <Check className="h-3 w-3" />
+                ) : (
+                  <Copy className="h-3 w-3" />
+                )}
               </button>
               <button
                 type="button"
@@ -230,7 +246,11 @@ function SwatchCard({
               >
                 <span className="font-mono">D</span>
                 <span>{darkHex || "—"}</span>
-                {copied === "dark" ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                {copied === "dark" ? (
+                  <Check className="h-3 w-3" />
+                ) : (
+                  <Copy className="h-3 w-3" />
+                )}
               </button>
             </div>
           </div>
@@ -830,7 +850,7 @@ function PaletteBox({
       type="button"
       onClick={onCopyClass}
       title={`Copy ${className}`}
-      className={`${className} ${textClassName} ${heightClassName} flex flex-1 cursor-copy items-end justify-center pb-1 font-mono text-[10px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50`}
+      className={`${className} ${textClassName} ${heightClassName} focus-visible:ring-ring/50 flex flex-1 cursor-copy items-end justify-center pb-1 font-mono text-[10px] focus-visible:ring-2 focus-visible:outline-none`}
     >
       {copied ? "Copied" : label}
     </button>
