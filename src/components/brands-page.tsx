@@ -4,6 +4,7 @@ import {
   EyebrowTitle,
   Lead,
   PageTitle,
+  SectionTitle,
 } from "@/components/ui/typography";
 
 type AssetPreview = {
@@ -119,12 +120,9 @@ function SectionHeading({
   children: React.ReactNode;
 }) {
   return (
-    <h2
-      id={id}
-      className="border-border scroll-m-20 text-3xl font-semibold tracking-tight"
-    >
+    <SectionTitle id={id} className="border-b pb-2 scroll-m-20">
       {children}
-    </h2>
+    </SectionTitle>
   );
 }
 
@@ -313,14 +311,14 @@ export function BrandsPage() {
   return (
     <main className="flex-1 overflow-y-auto">
       <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
-        <header className="space-y-4">
+        <header>
           <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
             Documentation
           </EyebrowTitle>
-          <PageTitle className="scroll-m-20">
+          <PageTitle className="mt-3 scroll-m-20">
             Brands
           </PageTitle>
-          <Lead className="max-w-3xl text-xl">
+          <Lead className="mt-6 max-w-3xl text-xl">
             Centralized brand assets for Care, OHCNF, and OHC. Each section
             includes download-ready files, approved light and dark variants,
             and spacing references for correct logo placement.
