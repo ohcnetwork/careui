@@ -9,24 +9,103 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 // Digit map for 7-segment display
 const SEGMENT_DIGITS = {
-  "0": [[1, 1, 1], [1, 0, 1], [1, 0, 1], [1, 0, 1], [1, 1, 1]],
-  "1": [[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]],
-  "2": [[1, 1, 1], [0, 0, 1], [1, 1, 1], [1, 0, 0], [1, 1, 1]],
-  "3": [[1, 1, 1], [0, 0, 1], [1, 1, 1], [0, 0, 1], [1, 1, 1]],
-  "4": [[1, 0, 1], [1, 0, 1], [1, 1, 1], [0, 0, 1], [0, 0, 1]],
-  "5": [[1, 1, 1], [1, 0, 0], [1, 1, 1], [0, 0, 1], [1, 1, 1]],
-  "6": [[1, 1, 1], [1, 0, 0], [1, 1, 1], [1, 0, 1], [1, 1, 1]],
-  "7": [[1, 1, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1]],
-  "8": [[1, 1, 1], [1, 0, 1], [1, 1, 1], [1, 0, 1], [1, 1, 1]],
-  "9": [[1, 1, 1], [1, 0, 1], [1, 1, 1], [0, 0, 1], [1, 1, 1]],
-  ":": [[0, 0, 0], [0, 1, 0], [0, 0, 0], [0, 1, 0], [0, 0, 0]],
-  "-": [[0, 0, 0], [0, 0, 0], [1, 1, 1], [0, 0, 0], [0, 0, 0]],
-  "·": [[0, 0, 0], [0, 0, 0], [0, 1, 0], [0, 0, 0], [0, 0, 0]],
+  "0": [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ],
+  "1": [
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+  ],
+  "2": [
+    [1, 1, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+    [1, 0, 0],
+    [1, 1, 1],
+  ],
+  "3": [
+    [1, 1, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+  ],
+  "4": [
+    [1, 0, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+  ],
+  "5": [
+    [1, 1, 1],
+    [1, 0, 0],
+    [1, 1, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+  ],
+  "6": [
+    [1, 1, 1],
+    [1, 0, 0],
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ],
+  "7": [
+    [1, 1, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+    [0, 0, 1],
+  ],
+  "8": [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+  ],
+  "9": [
+    [1, 1, 1],
+    [1, 0, 1],
+    [1, 1, 1],
+    [0, 0, 1],
+    [1, 1, 1],
+  ],
+  ":": [
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 0, 0],
+  ],
+  "-": [
+    [0, 0, 0],
+    [0, 0, 0],
+    [1, 1, 1],
+    [0, 0, 0],
+    [0, 0, 0],
+  ],
+  "·": [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 1, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+  ],
 } as const;
 
 // Memoized segment digit component
 const SegmentDigit = ({ digit }: { digit: string }) => {
-  const map = SEGMENT_DIGITS[digit as keyof typeof SEGMENT_DIGITS] || SEGMENT_DIGITS["0"];
+  const map =
+    SEGMENT_DIGITS[digit as keyof typeof SEGMENT_DIGITS] || SEGMENT_DIGITS["0"];
 
   return (
     <div className="inline-block">
@@ -35,7 +114,7 @@ const SegmentDigit = ({ digit }: { digit: string }) => {
           {row.map((cell, cellIndex) => (
             <div
               key={`cell-${cellIndex}`}
-              className={`w-1.5 h-1.5 m-px transition-all duration-300 ease-out will-change-[background-color,opacity] ${
+              className={`m-px h-1.5 w-1.5 transition-all duration-300 ease-out will-change-[background-color,opacity] ${
                 cell ? "bg-gray-400 opacity-100" : "bg-gray-200 opacity-20"
               }`}
               aria-hidden="true"
@@ -48,9 +127,15 @@ const SegmentDigit = ({ digit }: { digit: string }) => {
 };
 
 // Memoized time display component
-const SegmentedTime = ({ timeStr, scale }: { timeStr: string; scale: number }) => (
+const SegmentedTime = ({
+  timeStr,
+  scale,
+}: {
+  timeStr: string;
+  scale: number;
+}) => (
   <div
-    className="flex items-center justify-center gap-1 transform origin-center will-change-transform"
+    className="flex origin-center transform items-center justify-center gap-1 will-change-transform"
     style={{ transform: `scale(${scale})` }}
   >
     {timeStr.split("").map((char, idx) => (
@@ -95,7 +180,10 @@ export default function SessionExpiredErrorPage() {
 
   // Memoize time string and scale factor
   const timeStr = useMemo(() => formatTime(seconds), [seconds, formatTime]);
-  const scaleFactor = useMemo(() => getScaleFactor(timeStr), [timeStr, getScaleFactor]);
+  const scaleFactor = useMemo(
+    () => getScaleFactor(timeStr),
+    [timeStr, getScaleFactor]
+  );
 
   // Timer effect
   useEffect(() => {
@@ -144,24 +232,33 @@ export default function SessionExpiredErrorPage() {
   return (
     <main className="bg-background text-foreground flex min-h-screen w-full flex-col items-center justify-center px-4 py-16">
       {/* Ripple Timer Section */}
-      <div className="flex flex-col items-center justify-center w-full mb-4">
-        <div className="relative flex items-center justify-center w-64 h-64 sm:w-72 sm:h-72 md:w-96 md:h-96 will-change-transform">
+      <div className="mb-4 flex w-full flex-col items-center justify-center">
+        <div className="relative flex h-64 w-64 items-center justify-center will-change-transform sm:h-72 sm:w-72 md:h-96 md:w-96">
           {/* Ripple Layers */}
-          <div className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
-            <div className={`absolute w-72 h-72 sm:w-80 sm:h-80 bg-primary-500/20 rounded-full will-change-transform ${
-              prefersReducedMotion ? "" : "animate-ripple-slow"
-            }`} />
-            <div className={`absolute w-56 h-56 sm:w-64 sm:h-64 bg-primary-600/20 rounded-full will-change-transform ${
-              prefersReducedMotion ? "" : "animate-ripple-medium"
-            }`} />
-            <div className={`absolute w-40 h-40 sm:w-48 sm:h-48 bg-primary-700/20 rounded-full will-change-transform ${
-              prefersReducedMotion ? "" : "animate-ripple-fast"
-            }`} />
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            aria-hidden="true"
+          >
+            <div
+              className={`bg-primary-500/20 absolute h-72 w-72 rounded-full will-change-transform sm:h-80 sm:w-80 ${
+                prefersReducedMotion ? "" : "animate-ripple-slow"
+              }`}
+            />
+            <div
+              className={`bg-primary-600/20 absolute h-56 w-56 rounded-full will-change-transform sm:h-64 sm:w-64 ${
+                prefersReducedMotion ? "" : "animate-ripple-medium"
+              }`}
+            />
+            <div
+              className={`bg-primary-700/20 absolute h-40 w-40 rounded-full will-change-transform sm:h-48 sm:w-48 ${
+                prefersReducedMotion ? "" : "animate-ripple-fast"
+              }`}
+            />
           </div>
 
           {/* Timer Display */}
-          <div className="absolute flex flex-col items-center justify-center w-36 h-36 sm:w-40 sm:h-40 p-4 bg-card rounded-squircle-full border border-border shadow-lg z-10">
-            <div className="bg-muted p-2 rounded-full shadow-inner mb-2 flex w-full items-center justify-center">
+          <div className="bg-card rounded-squircle-full border-border absolute z-10 flex h-36 w-36 flex-col items-center justify-center border p-4 shadow-lg sm:h-40 sm:w-40">
+            <div className="bg-muted mb-2 flex w-full items-center justify-center rounded-full p-2 shadow-inner">
               <div className="scale-65">
                 {seconds === 0 ? (
                   <SegmentedTime timeStr="··:··" scale={scaleFactor} />
@@ -172,24 +269,29 @@ export default function SessionExpiredErrorPage() {
             </div>
 
             {/* Breathing Text */}
-            <div className="text-xs text-center uppercase font-medium text-muted-foreground h-4 transition-all duration-300">
-              Breathe <span className={`block ${
-                prefersReducedMotion ? "" : "animate-breath"
-              }`}>{breathState}</span>
+            <div className="text-muted-foreground h-4 text-center text-xs font-medium uppercase transition-all duration-300">
+              Breathe{" "}
+              <span
+                className={`block ${
+                  prefersReducedMotion ? "" : "animate-breath"
+                }`}
+              >
+                {breathState}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Error Content */}
-      <div className="w-full max-w-xl text-center px-4">
-        <div className="text-muted-foreground/70 font-mono text-xs sm:text-sm tracking-widest uppercase">
+      <div className="w-full max-w-xl px-4 text-center">
+        <div className="text-muted-foreground/70 font-mono text-xs tracking-widest uppercase sm:text-sm">
           Session expired
         </div>
-        <h1 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight text-balance md:text-5xl">
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-balance sm:text-4xl md:text-5xl">
           Welcome back!
         </h1>
-        <p className="text-muted-foreground mt-2 text-sm sm:text-base leading-6 sm:leading-7 text-balance">
+        <p className="text-muted-foreground mt-2 text-sm leading-6 text-balance sm:text-base sm:leading-7">
           It looks like your session timed out for a moment. Take a quick
           breather, then log in again to continue.
         </p>

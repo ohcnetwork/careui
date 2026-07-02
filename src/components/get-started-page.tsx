@@ -14,11 +14,7 @@ import {
  * adding components via shadcn CLI, and setting up the design tokens and typography system.
  */
 
-function PageHeading({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function PageHeading({ children }: { children: React.ReactNode }) {
   return (
     <h1 className="border-border scroll-m-20 border-b pb-3 text-4xl font-bold tracking-tight">
       {children}
@@ -34,13 +30,7 @@ function InlineCode({ children }: { children: React.ReactNode }) {
   );
 }
 
-function CodeBlock({
-  code,
-  id,
-}: {
-  code: string;
-  id: string;
-}) {
+function CodeBlock({ code, id }: { code: string; id: string }) {
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
   return (
@@ -48,7 +38,7 @@ function CodeBlock({
       <Button
         size="sm"
         variant="ghost"
-        className="absolute right-2 top-2 h-8 w-8 p-0 text-slate-400 hover:text-slate-200"
+        className="absolute top-2 right-2 h-8 w-8 p-0 text-slate-400 hover:text-slate-200"
         onClick={() => copyToClipboard(code, id)}
       >
         {isCopied(id) ? (
@@ -72,9 +62,9 @@ export function GetStartedPage() {
         <div className="space-y-3">
           <PageHeading>Get Started</PageHeading>
           <Lead>
-            Install Care UI in a React + Tailwind v4 project. Components are added
-            on demand through the shadcn CLI — you own the source, nothing is
-            published as a runtime dependency.
+            Install Care UI in a React + Tailwind v4 project. Components are
+            added on demand through the shadcn CLI — you own the source, nothing
+            is published as a runtime dependency.
           </Lead>
         </div>
 
@@ -83,11 +73,12 @@ export function GetStartedPage() {
           <SectionTitle>Prerequisites</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
-              Care UI targets React 19, TypeScript, and Tailwind CSS v4. Initialise
-              shadcn once in your project — this writes{" "}
+              Care UI targets React 19, TypeScript, and Tailwind CSS v4.
+              Initialise shadcn once in your project — this writes{" "}
               <InlineCode>components.json</InlineCode>, sets up the{" "}
               <InlineCode>@/</InlineCode> import alias, and wires Tailwind's CSS
-              variables. Pick the neutral base colour to match the Care UI palette.
+              variables. Pick the neutral base colour to match the Care UI
+              palette.
             </p>
             <CodeBlock
               code={`# In your React + Tailwind v4 project
@@ -102,12 +93,14 @@ npx shadcn@latest init`}
           <SectionTitle>Add a component</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
-              Every Care UI component is published as a shadcn-compatible registry
-              entry at{" "}
-              <InlineCode>https://careui.ohc.network/r/&lt;name&gt;.json</InlineCode>.
-              Pass the URL directly to the CLI — files land in{" "}
-              <InlineCode>@/components/ui/</InlineCode> and any required dependencies
-              are installed automatically.
+              Every Care UI component is published as a shadcn-compatible
+              registry entry at{" "}
+              <InlineCode>
+                https://careui.ohc.network/r/&lt;name&gt;.json
+              </InlineCode>
+              . Pass the URL directly to the CLI — files land in{" "}
+              <InlineCode>@/components/ui/</InlineCode> and any required
+              dependencies are installed automatically.
             </p>
             <CodeBlock
               code={`# Add a single component
@@ -133,9 +126,9 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Care UI uses Tailwind v4's CSS-first configuration — there is no{" "}
-              <InlineCode>tailwind.config.js</InlineCode>. Import Tailwind from your
-              root stylesheet and the design tokens shadcn writes will be picked up
-              automatically.
+              <InlineCode>tailwind.config.js</InlineCode>. Import Tailwind from
+              your root stylesheet and the design tokens shadcn writes will be
+              picked up automatically.
             </p>
             <CodeBlock
               code={`/* src/index.css */
@@ -153,11 +146,15 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
           <SectionTitle>Use it in your app</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
-              Components are imported from the <InlineCode>@/components/ui/</InlineCode>{" "}
-              alias and composed with regular Tailwind classes. They are fully typed,
-              support dark mode out of the box, and follow the Care UI heading and
-              spacing rhythm documented under{" "}
-              <a href="#docs-typography" className="text-primary hover:underline">
+              Components are imported from the{" "}
+              <InlineCode>@/components/ui/</InlineCode> alias and composed with
+              regular Tailwind classes. They are fully typed, support dark mode
+              out of the box, and follow the Care UI heading and spacing rhythm
+              documented under{" "}
+              <a
+                href="#docs-typography"
+                className="text-primary hover:underline"
+              >
                 Typography
               </a>
               .
@@ -190,37 +187,47 @@ export function SignInForm() {
           <SectionTitle>What you get</SectionTitle>
           <div className="space-y-4">
             <p className="text-muted-foreground leading-relaxed">
-              Source you own (no runtime dependency on Care UI), full TypeScript types
-              and Radix accessibility primitives, the Care UI theme tokens (light,
-              dark, protanopia, tritanopia, high-contrast), and the typography +
-              spacing system tuned for clinical density.
+              Source you own (no runtime dependency on Care UI), full TypeScript
+              types and Radix accessibility primitives, the Care UI theme tokens
+              (light, dark, protanopia, tritanopia, high-contrast), and the
+              typography + spacing system tuned for clinical density.
             </p>
             <div>
               <SubsectionTitle>Features included</SubsectionTitle>
               <ul className="mt-3 space-y-2">
                 <li className="text-muted-foreground flex gap-3">
-                  <span className="mt-1 text-primary">✓</span>
-                  <span>Source code ownership — components are installed, never bundled</span>
+                  <span className="text-primary mt-1">✓</span>
+                  <span>
+                    Source code ownership — components are installed, never
+                    bundled
+                  </span>
                 </li>
                 <li className="text-muted-foreground flex gap-3">
-                  <span className="mt-1 text-primary">✓</span>
+                  <span className="text-primary mt-1">✓</span>
                   <span>Full TypeScript types and Radix UI primitives</span>
                 </li>
                 <li className="text-muted-foreground flex gap-3">
-                  <span className="mt-1 text-primary">✓</span>
-                  <span>Semantic colour tokens and 5 theme modes (light, dark, high-contrast, protanopia, tritanopia)</span>
+                  <span className="text-primary mt-1">✓</span>
+                  <span>
+                    Semantic colour tokens and 5 theme modes (light, dark,
+                    high-contrast, protanopia, tritanopia)
+                  </span>
                 </li>
                 <li className="text-muted-foreground flex gap-3">
-                  <span className="mt-1 text-primary">✓</span>
-                  <span>Typography and spacing system tuned for clinical density</span>
+                  <span className="text-primary mt-1">✓</span>
+                  <span>
+                    Typography and spacing system tuned for clinical density
+                  </span>
                 </li>
                 <li className="text-muted-foreground flex gap-3">
-                  <span className="mt-1 text-primary">✓</span>
+                  <span className="text-primary mt-1">✓</span>
                   <span>Full dark mode support out of the box</span>
                 </li>
                 <li className="text-muted-foreground flex gap-3">
-                  <span className="mt-1 text-primary">✓</span>
-                  <span>Accessibility-first components with WCAG 2.2 AA compliance</span>
+                  <span className="text-primary mt-1">✓</span>
+                  <span>
+                    Accessibility-first components with WCAG 2.2 AA compliance
+                  </span>
                 </li>
               </ul>
             </div>
@@ -237,7 +244,10 @@ export function SignInForm() {
             <ul className="space-y-2">
               <li className="text-muted-foreground flex gap-2">
                 <span>→</span>
-                <a href="#docs-typography" className="text-primary hover:underline">
+                <a
+                  href="#docs-typography"
+                  className="text-primary hover:underline"
+                >
                   Typography
                 </a>
                 {" — Sizes, line heights, letter spacing, and vertical rhythm"}
@@ -258,7 +268,10 @@ export function SignInForm() {
               </li>
               <li className="text-muted-foreground flex gap-2">
                 <span>→</span>
-                <a href="#accessibility" className="text-primary hover:underline">
+                <a
+                  href="#accessibility"
+                  className="text-primary hover:underline"
+                >
                   Accessibility
                 </a>
                 {" — WCAG compliance and component checklist"}

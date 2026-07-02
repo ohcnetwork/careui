@@ -20,7 +20,8 @@ type BrandSection = {
 };
 
 function getDownloadFileName(folderLabel: string) {
-  const folderName = folderLabel.split("/").filter(Boolean).pop() ?? "brand-assets";
+  const folderName =
+    folderLabel.split("/").filter(Boolean).pop() ?? "brand-assets";
   return `${folderName}.zip`;
 }
 
@@ -134,19 +135,21 @@ function BrandPreviewCard({ preview }: { preview: AssetPreview }) {
         className={`${surfaceClassName} flex min-h-48 items-center justify-center border-b p-5 md:p-6`}
       >
         <div className="flex h-20 w-full max-w-[15rem] items-center justify-center md:h-24 md:max-w-[17rem]">
-        <img
-          src={preview.src}
-          alt={preview.alt}
-          width={preview.width}
-          height={preview.height}
-          loading="lazy"
-          decoding="async"
-          className="max-h-full w-auto max-w-full object-contain"
-        />
+          <img
+            src={preview.src}
+            alt={preview.alt}
+            width={preview.width}
+            height={preview.height}
+            loading="lazy"
+            decoding="async"
+            className="max-h-full w-auto max-w-full object-contain"
+          />
         </div>
       </div>
       <div className="space-y-1 p-4">
-        <h3 className="text-foreground text-sm font-semibold">{preview.title}</h3>
+        <h3 className="text-foreground text-sm font-semibold">
+          {preview.title}
+        </h3>
         <p className="text-muted-foreground text-xs">
           Use this approved variant on {preview.theme} backgrounds.
         </p>
@@ -158,20 +161,25 @@ function BrandPreviewCard({ preview }: { preview: AssetPreview }) {
 function BrandSectionBlock({ brand }: { brand: BrandSection }) {
   return (
     <section id={brand.id} className="space-y-6">
-      <div className="flex flex-col border-b pb-2 gap-4 md:flex-row md:items-end md:justify-between">
+      <div className="flex flex-col gap-4 border-b pb-2 md:flex-row md:items-end md:justify-between">
         <div className="max-w-2xl space-y-2">
-          <SectionHeading id={`${brand.id}-heading`}>{brand.name}</SectionHeading>
-              <p className="text-muted-foreground text-sm leading-6">{brand.summary}</p>
+          <SectionHeading id={`${brand.id}-heading`}>
+            {brand.name}
+          </SectionHeading>
+          <p className="text-muted-foreground text-sm leading-6">
+            {brand.summary}
+          </p>
         </div>
         <Button asChild className="self-start">
-          <a href={brand.downloadHref} download={getDownloadFileName(brand.folderLabel)}>
+          <a
+            href={brand.downloadHref}
+            download={getDownloadFileName(brand.folderLabel)}
+          >
             <Download className="h-4 w-4" />
             Download Assets
           </a>
         </Button>
       </div>
-
-
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {brand.featuredPreviews.map((preview) => (
@@ -253,38 +261,42 @@ function ClearspaceGuidance() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {guideBoxes.map((guide) => {
-          const isClearspaceIconGuide = guide.key.startsWith("icon-clearspace-");
-          const isLogotypeSafetyGuide = guide.key.startsWith("logotype-safety-");
+          const isClearspaceIconGuide =
+            guide.key.startsWith("icon-clearspace-");
+          const isLogotypeSafetyGuide =
+            guide.key.startsWith("logotype-safety-");
 
           return (
-          <article
-            key={guide.key}
-            className="border-border bg-card overflow-hidden rounded-xl border"
-          >
-            <div
-              className={`border-b bg-white ${isClearspaceIconGuide ? "p-3 md:p-4" : isLogotypeSafetyGuide ? "p-2 md:p-3" : "p-5 md:p-6"}`}
+            <article
+              key={guide.key}
+              className="border-border bg-card overflow-hidden rounded-xl border"
             >
               <div
-                className={`mx-auto ${isClearspaceIconGuide ? "w-fit rounded-md border border-solid border-border" : isLogotypeSafetyGuide ? "w-full" : "w-fit"}`}
+                className={`border-b bg-white ${isClearspaceIconGuide ? "p-3 md:p-4" : isLogotypeSafetyGuide ? "p-2 md:p-3" : "p-5 md:p-6"}`}
               >
-                <img
-                  src={guide.src}
-                  alt={guide.alt}
-                  width={1200}
-                  height={800}
-                  loading="lazy"
-                  decoding="async"
-                  className={`mx-auto h-auto w-full object-contain ${isClearspaceIconGuide ? "max-w-[120px]" : isLogotypeSafetyGuide ? "max-w-full" : "max-w-xl"}`}
-                />
+                <div
+                  className={`mx-auto ${isClearspaceIconGuide ? "border-border w-fit rounded-md border border-solid" : isLogotypeSafetyGuide ? "w-full" : "w-fit"}`}
+                >
+                  <img
+                    src={guide.src}
+                    alt={guide.alt}
+                    width={1200}
+                    height={800}
+                    loading="lazy"
+                    decoding="async"
+                    className={`mx-auto h-auto w-full object-contain ${isClearspaceIconGuide ? "max-w-[120px]" : isLogotypeSafetyGuide ? "max-w-full" : "max-w-xl"}`}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="space-y-1 p-4">
-              <h3 className="text-foreground text-sm font-semibold">
-                {guide.title} ({guide.variant})
-              </h3>
-              <p className="text-muted-foreground text-xs">{guide.description}</p>
-            </div>
-          </article>
+              <div className="space-y-1 p-4">
+                <h3 className="text-foreground text-sm font-semibold">
+                  {guide.title} ({guide.variant})
+                </h3>
+                <p className="text-muted-foreground text-xs">
+                  {guide.description}
+                </p>
+              </div>
+            </article>
           );
         })}
       </div>
