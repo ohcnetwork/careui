@@ -1,9 +1,7 @@
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import {
-  PageTitle,
   SectionTitle,
   SubsectionTitle,
   Lead,
@@ -15,6 +13,18 @@ import {
  * Guides developers through installing Care UI in a React + Tailwind v4 project,
  * adding components via shadcn CLI, and setting up the design tokens and typography system.
  */
+
+function PageHeading({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <h1 className="border-border scroll-m-20 border-b pb-3 text-4xl font-bold tracking-tight">
+      {children}
+    </h1>
+  );
+}
 
 function InlineCode({ children }: { children: React.ReactNode }) {
   return (
@@ -59,16 +69,14 @@ export function GetStartedPage() {
     <main className="flex-1 overflow-y-auto">
       <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-8">
         {/* Page Header */}
-        <div>
-          <PageTitle>Get Started</PageTitle>
-          <Lead className="mt-3">
+        <div className="space-y-3">
+          <PageHeading>Get Started</PageHeading>
+          <Lead>
             Install Care UI in a React + Tailwind v4 project. Components are added
             on demand through the shadcn CLI — you own the source, nothing is
             published as a runtime dependency.
           </Lead>
         </div>
-
-        <Separator />
 
         {/* Prerequisites Section */}
         <section className="space-y-4">
