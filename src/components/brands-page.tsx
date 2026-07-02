@@ -295,7 +295,7 @@ function ClearspaceGuidance() {
 export function BrandsPage() {
   return (
     <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-6xl space-y-16 p-4 md:p-8">
+      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
         <header className="space-y-6">
           <div className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
             Documentation

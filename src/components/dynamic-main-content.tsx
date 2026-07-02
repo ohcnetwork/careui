@@ -18,6 +18,7 @@ import { ComponentsOverview } from "@/components/components-overview";
 import { Playground } from "@/components/playground";
 import { BlocksPage } from "@/components/blocks";
 import { SettingsPage } from "@/components/settings-page";
+import { GetStartedPage } from "@/components/get-started-page";
 import { TypographyPage } from "@/components/typography-page";
 import { ColorsPage } from "@/components/colors-page";
 import { BrandsPage } from "@/components/brands-page";
@@ -498,6 +499,9 @@ export function DynamicMainContent() {
   const docPage = documentationPages[activeComponent];
   if (docPage) {
     dismissHtmlScreen();
+    if (activeComponent === "get-started") {
+      return <GetStartedPage />;
+    }
     if (activeComponent === "docs-typography") {
       return <TypographyPage />;
     }
