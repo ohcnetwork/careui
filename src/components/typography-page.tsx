@@ -154,12 +154,12 @@ const HEADINGS: HeadingRow[] = [
   {
     tag: "h2",
     classes:
-      "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
+      "scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0",
     size: "30px",
     lineHeight: "36px",
     tracking: "-0.025em",
     topMargin: "mt-10 (40px) — none if first",
-    usage: "Major section. Underline separator.",
+    usage: "Major section heading.",
   },
   {
     tag: "h3",
@@ -515,7 +515,7 @@ const SPACING: SpacingRow[] = [
     className: "mt-6",
     rem: "1.5rem",
     px: "24px",
-    note: "h2 itself has pb-2 underline.",
+    note: "Use more space after h2 than smaller headings for clear section separation.",
   },
   {
     pair: "block → h3",
@@ -616,7 +616,7 @@ function SectionHeading({
   children: React.ReactNode;
 }) {
   return (
-    <SectionTitle id={id} className="border-b pb-2 scroll-m-20">
+    <SectionTitle id={id} className="scroll-m-20">
       {children}
     </SectionTitle>
   );
@@ -865,7 +865,7 @@ export function TypographyPage() {
           <SectionHeading id="headings">
             Documentation heading scale
           </SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <p className="text-foreground mt-4 leading-7">
             The larger shadcn-aligned scale used by this docs site, marketing
             pages, sign-in, and empty states. Use one{" "}
             <InlineCode>h1</InlineCode> per page. Headings cascade down and
@@ -880,15 +880,15 @@ export function TypographyPage() {
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
               Patient Consultation Notes
             </h1>
-            <p className="text-muted-foreground mt-6 text-xl leading-7">
+            <p className="text-muted-foreground mt-4 text-xl leading-7">
               A complete record of the patient&apos;s visit, including vitals,
               assessments, and the care plan agreed with the clinician.
             </p>
 
-            <h2 className="border-border mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
+            <h2 className="mt-10 scroll-m-20 text-3xl font-semibold tracking-tight">
               Presenting Complaint
             </h2>
-            <p className="text-foreground mt-6 leading-7">
+            <p className="text-foreground mt-3 leading-7">
               The patient reports persistent chest discomfort over the last
               forty-eight hours, worsening on exertion and partially relieved by
               rest.
@@ -897,7 +897,7 @@ export function TypographyPage() {
             <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
               Vitals on Arrival
             </h3>
-            <p className="text-foreground mt-4 leading-7">
+            <p className="text-foreground mt-2 leading-7">
               Blood pressure 138/86&nbsp;mmHg, heart rate 92&nbsp;bpm, SpO₂ 97%
               on room air, temperature 37.1&nbsp;°C.
             </p>
@@ -905,7 +905,7 @@ export function TypographyPage() {
             <h4 className="mt-6 scroll-m-20 text-xl font-semibold tracking-tight">
               Differential Diagnosis
             </h4>
-            <p className="text-foreground mt-4 leading-7">
+            <p className="text-foreground mt-1 leading-7">
               Stable angina is the leading consideration. Musculoskeletal pain
               and gastro-oesophageal reflux remain on the differential pending
               further workup.
@@ -1237,13 +1237,13 @@ export function TypographyPage() {
               </h1>
 
               <RhythmTag offset="24px" label="mt-6" />
-              <p className="text-muted-foreground mt-6 text-xl leading-7">
+              <p className="text-muted-foreground mt-4 text-xl leading-7">
                 An overview of the patient&apos;s admission, ongoing orders, and
                 care team.
               </p>
 
               <RhythmTag offset="40px" label="mt-10" />
-              <h2 className="border-border mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
+              <h2 className="border-border mt-10 scroll-m-20 text-3xl font-semibold tracking-tight">
                 Active medications
               </h2>
 

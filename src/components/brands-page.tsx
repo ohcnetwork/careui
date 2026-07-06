@@ -120,7 +120,7 @@ function SectionHeading({
   children: React.ReactNode;
 }) {
   return (
-    <SectionTitle id={id} className="border-b pb-2 scroll-m-20">
+    <SectionTitle id={id} className="scroll-m-20">
       {children}
     </SectionTitle>
   );
@@ -164,7 +164,7 @@ function BrandPreviewCard({ preview }: { preview: AssetPreview }) {
 function BrandSectionBlock({ brand }: { brand: BrandSection }) {
   return (
     <section id={brand.id} className="space-y-6">
-      <div className="flex flex-col gap-4 border-b pb-2 md:flex-row md:items-end md:justify-between">
+      <div className="space-y-2 border-b pb-2">
         <div className="max-w-2xl space-y-2">
           <SectionHeading id={`${brand.id}-heading`}>
             {brand.name}
@@ -173,21 +173,29 @@ function BrandSectionBlock({ brand }: { brand: BrandSection }) {
             {brand.summary}
           </p>
         </div>
-        <Button asChild className="self-start">
-          <a
-            href={brand.downloadHref}
-            download={getDownloadFileName(brand.folderLabel)}
-          >
-            <Download className="h-4 w-4" />
-            Download Assets
-          </a>
-        </Button>
       </div>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div className="space-y-1 md:space-y-4">
+      <div className="grid grid-cols-1 gap-1 md:gap-4 md:grid-cols-2">
         {brand.featuredPreviews.map((preview) => (
           <BrandPreviewCard key={preview.src} preview={preview} />
         ))}
+        </div>
+        <div className="flex flex-col gap-3 rounded-xl bg-soft-background border p-4 md:flex-row md:items-start md:justify-between md:gap-6">
+          <p className="text-muted-foreground max-w-2xl text-sm leading-6">
+            Download a ZIP with approved {brand.name} logo assets in SVG and PNG
+            formats, including light and dark variants for different
+            backgrounds.
+          </p>
+          <Button asChild className="w-full shrink-0 sm:w-auto">
+            <a
+              href={brand.downloadHref}
+              download={getDownloadFileName(brand.folderLabel)}
+            >
+              <Download className="h-4 w-4" />
+              Download Assets
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );
@@ -319,7 +327,7 @@ export function BrandsPage() {
             Brands
           </PageTitle>
           <Lead className="mt-6 max-w-3xl text-xl">
-            Centralized brand assets for Care, OHCNF, and OHC. Each section
+            Centralised brand assets for Care, OHCNF, and OHC. Each section
             includes download-ready files, approved light and dark variants,
             and spacing references for correct logo placement.
           </Lead>
