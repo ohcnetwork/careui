@@ -50,7 +50,7 @@ function SectionHeading({
   children: React.ReactNode;
 }) {
   return (
-    <SectionTitle id={id} className="border-b pb-2 scroll-m-20">
+    <SectionTitle id={id} className="scroll-m-20">
       {children}
     </SectionTitle>
   );

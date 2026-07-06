@@ -69,7 +69,7 @@ export function GetStartedPage() {
 
         {/* Prerequisites Section */}
         <section className="space-y-4">
-          <SectionTitle className="border-b pb-2 scroll-m-20">Prerequisites</SectionTitle>
+          <SectionTitle className="scroll-m-20">Prerequisites</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Care UI targets React 19, TypeScript, and Tailwind CSS v4.
@@ -89,7 +89,7 @@ npx shadcn@latest init`}
 
         {/* Add Components Section */}
         <section className="space-y-4">
-          <SectionTitle className="border-b pb-2 scroll-m-20">Add a component</SectionTitle>
+          <SectionTitle className="scroll-m-20">Add a component</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Every Care UI component is published as a shadcn-compatible
@@ -121,7 +121,7 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
 
         {/* Tailwind v4 Setup Section */}
         <section className="space-y-4">
-          <SectionTitle className="border-b pb-2 scroll-m-20">Tailwind v4 setup</SectionTitle>
+          <SectionTitle className="scroll-m-20">Tailwind v4 setup</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Care UI uses Tailwind v4's CSS-first configuration — there is no{" "}
@@ -142,7 +142,7 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
 
         {/* Use in App Section */}
         <section className="space-y-4">
-          <SectionTitle className="border-b pb-2 scroll-m-20">Use it in your app</SectionTitle>
+          <SectionTitle className="scroll-m-20">Use it in your app</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Components are imported from the{" "}
@@ -183,7 +183,7 @@ export function SignInForm() {
 
         {/* What You Get Section */}
         <section className="space-y-4">
-          <SectionTitle className="border-b pb-2 scroll-m-20">What you get</SectionTitle>
+          <SectionTitle className="scroll-m-20">What you get</SectionTitle>
           <div className="space-y-4">
             <p className="text-muted-foreground leading-relaxed">
               Source you own (no runtime dependency on Care UI), full TypeScript
@@ -235,7 +235,7 @@ export function SignInForm() {
 
         {/* Next Steps Section */}
         <section className="space-y-4">
-          <SectionTitle className="border-b pb-2 scroll-m-20">Next steps</SectionTitle>
+          <SectionTitle className="scroll-m-20">Next steps</SectionTitle>
           <div className="space-y-3">
             <p className="text-muted-foreground leading-relaxed">
               Browse the rest of the docs to learn more about the design system:
