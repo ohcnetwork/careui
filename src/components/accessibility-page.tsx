@@ -342,218 +342,215 @@ const TOOLS: { name: string; use: string }[] = [
 export function AccessibilityPage() {
   return (
     <DocumentationPage>
-        {/* Header */}
-        <DocumentationHeader title="Accessibility">
-          Care UI targets <strong>WCAG 2.2 AA</strong> across every theme. Half
-          of the work is built into the design tokens and primitives; the other
-          half is a short checklist every contributor must apply.
-        </DocumentationHeader>
+      {/* Header */}
+      <DocumentationHeader title="Accessibility">
+        Care UI targets <strong>WCAG 2.2 AA</strong> across every theme. Half of
+        the work is built into the design tokens and primitives; the other half
+        is a short checklist every contributor must apply.
+      </DocumentationHeader>
 
-        {/* Standards */}
-        <section>
-          <SectionHeading id="standards">Standards we follow</SectionHeading>
-          <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
-            <li>
-              <strong>WCAG 2.2 AA</strong> — the legal baseline in most
-              jurisdictions and the level every Care UI component is tested
-              against.
-            </li>
-            <li>
-              <strong>WAI-ARIA Authoring Practices 1.2</strong> — Care UI
-              composes Radix primitives, which follow APG patterns for dialogs,
-              menus, listboxes, tabs, and combobox.
-            </li>
-            <li>
-              <strong>EN 301 549</strong> &amp; <strong>Section 508</strong> —
-              both reference WCAG 2.x; passing WCAG AA satisfies the technical
-              requirements of each.
-            </li>
-            <li>
-              <strong>Vercel Web Interface Guidelines</strong> — the practical
-              rule-set this page&apos;s checklist is derived from.
-            </li>
-          </ul>
-        </section>
+      {/* Standards */}
+      <section>
+        <SectionHeading id="standards">Standards we follow</SectionHeading>
+        <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
+          <li>
+            <strong>WCAG 2.2 AA</strong> — the legal baseline in most
+            jurisdictions and the level every Care UI component is tested
+            against.
+          </li>
+          <li>
+            <strong>WAI-ARIA Authoring Practices 1.2</strong> — Care UI composes
+            Radix primitives, which follow APG patterns for dialogs, menus,
+            listboxes, tabs, and combobox.
+          </li>
+          <li>
+            <strong>EN 301 549</strong> &amp; <strong>Section 508</strong> —
+            both reference WCAG 2.x; passing WCAG AA satisfies the technical
+            requirements of each.
+          </li>
+          <li>
+            <strong>Vercel Web Interface Guidelines</strong> — the practical
+            rule-set this page&apos;s checklist is derived from.
+          </li>
+        </ul>
+      </section>
 
-        {/* Built-in */}
-        <section>
-          <SectionHeading id="built-in">
-            What Care UI gives you for free
-          </SectionHeading>
-          <DocumentationParagraph>
-            Before you write a single attribute, the design tokens and providers
-            below are already doing accessibility work on your behalf.
-          </DocumentationParagraph>
+      {/* Built-in */}
+      <section>
+        <SectionHeading id="built-in">
+          What Care UI gives you for free
+        </SectionHeading>
+        <DocumentationParagraph>
+          Before you write a single attribute, the design tokens and providers
+          below are already doing accessibility work on your behalf.
+        </DocumentationParagraph>
 
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-56">Feature</TableHead>
-                  <TableHead>Where it lives</TableHead>
-                  <TableHead>What it does</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-56">Feature</TableHead>
+                <TableHead>Where it lives</TableHead>
+                <TableHead>What it does</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {BUILT_IN.map((b) => (
+                <TableRow key={b.feature}>
+                  <TableCell className="text-sm font-medium">
+                    {b.feature}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground font-mono text-xs">
+                    {b.source}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm leading-6">
+                    {b.detail}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {BUILT_IN.map((b) => (
-                  <TableRow key={b.feature}>
-                    <TableCell className="text-sm font-medium">
-                      {b.feature}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground font-mono text-xs">
-                      {b.source}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm leading-6">
-                      {b.detail}
-                    </TableCell>
-                  </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </section>
+
+      {/* Author checklist */}
+      <section>
+        <SectionHeading id="checklist">Author checklist</SectionHeading>
+        <DocumentationParagraph>
+          Apply every rule below when authoring a new component or composing
+          existing ones. Each group maps to one WCAG outcome and one place
+          reviewers will look during code review.
+        </DocumentationParagraph>
+
+        <div className="mt-8 space-y-10">
+          {CHECKLIST.map((group) => (
+            <div key={group.id}>
+              <h3
+                id={group.id}
+                className="scroll-m-20 text-2xl font-semibold tracking-tight"
+              >
+                {group.title}
+              </h3>
+              <ul className="text-foreground mt-4 ml-5 list-disc space-y-3 leading-7">
+                {group.items.map((item, i) => (
+                  <li key={i}>
+                    {item.rule}
+                    {item.example && (
+                      <pre className="bg-muted mt-3 overflow-x-auto rounded-md p-3">
+                        <code className="font-mono text-xs">
+                          {item.example}
+                        </code>
+                      </pre>
+                    )}
+                  </li>
                 ))}
-              </TableBody>
-            </Table>
-          </div>
-        </section>
-
-        {/* Author checklist */}
-        <section>
-          <SectionHeading id="checklist">Author checklist</SectionHeading>
-          <DocumentationParagraph>
-            Apply every rule below when authoring a new component or composing
-            existing ones. Each group maps to one WCAG outcome and one place
-            reviewers will look during code review.
-          </DocumentationParagraph>
-
-          <div className="mt-8 space-y-10">
-            {CHECKLIST.map((group) => (
-              <div key={group.id}>
-                <h3
-                  id={group.id}
-                  className="scroll-m-20 text-2xl font-semibold tracking-tight"
-                >
-                  {group.title}
-                </h3>
-                <ul className="text-foreground mt-4 ml-5 list-disc space-y-3 leading-7">
-                  {group.items.map((item, i) => (
-                    <li key={i}>
-                      {item.rule}
-                      {item.example && (
-                        <pre className="bg-muted mt-3 overflow-x-auto rounded-md p-3">
-                          <code className="font-mono text-xs">
-                            {item.example}
-                          </code>
-                        </pre>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Anti-patterns */}
-        <section>
-          <SectionHeading id="anti-patterns">Anti-patterns</SectionHeading>
-          <DocumentationParagraph>
-            Reviewers will flag any of these on sight. They are the most common
-            ways an otherwise good component becomes inaccessible.
-          </DocumentationParagraph>
-          <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
-            {ANTI_PATTERNS.map((p) => (
-              <li key={p}>{p}</li>
-            ))}
-          </ul>
-        </section>
-
-        {/* Testing */}
-        <section>
-          <SectionHeading id="testing">Testing &amp; tooling</SectionHeading>
-          <DocumentationParagraph>
-            Automated tools catch a fraction of accessibility issues. Combine
-            them with the manual passes below before any non-trivial change
-            ships.
-          </DocumentationParagraph>
-
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-56">Tool / Pass</TableHead>
-                  <TableHead>How to use it</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {TOOLS.map((t) => (
-                  <TableRow key={t.name}>
-                    <TableCell className="text-sm font-medium">
-                      {t.name}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm leading-6">
-                      {t.use}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </section>
-
-        {/* Quick reference */}
-        <section>
-          <SectionHeading id="quick-reference">Quick reference</SectionHeading>
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="border-border bg-card space-y-3 rounded-lg border p-6">
-              <div className="text-foreground text-sm font-semibold tracking-tight">
-                Do
-              </div>
-              <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>Reach for a semantic HTML element first.</li>
-                <li>
-                  Give every interactive element an accessible name (
-                  <InlineCode>aria-label</InlineCode> or{" "}
-                  <InlineCode>sr-only</InlineCode>).
-                </li>
-                <li>
-                  Pair every state change with an ARIA attribute (
-                  <InlineCode>aria-invalid</InlineCode>,{" "}
-                  <InlineCode>aria-pressed</InlineCode>,{" "}
-                  <InlineCode>aria-expanded</InlineCode>).
-                </li>
-                <li>
-                  Use Care UI tokens — they ship the right contrast in every
-                  theme.
-                </li>
-                <li>
-                  Guard every animation with{" "}
-                  <InlineCode>prefers-reduced-motion</InlineCode>.
-                </li>
               </ul>
             </div>
-            <div className="border-border bg-card space-y-3 rounded-lg border p-6">
-              <div className="text-foreground text-sm font-semibold tracking-tight">
-                Don&apos;t
-              </div>
-              <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>
-                  Attach <InlineCode>onClick</InlineCode> to a{" "}
-                  <InlineCode>&lt;div&gt;</InlineCode> or{" "}
-                  <InlineCode>&lt;span&gt;</InlineCode>.
-                </li>
-                <li>
-                  Strip the focus ring without providing a{" "}
-                  <InlineCode>focus-visible</InlineCode> replacement.
-                </li>
-                <li>Communicate state by color alone.</li>
-                <li>
-                  Use raw hex / OKLCH values that bypass the theme system.
-                </li>
-                <li>
-                  Set positive <InlineCode>tabIndex</InlineCode> or override
-                  Radix focus-trap behavior.
-                </li>
-              </ul>
+          ))}
+        </div>
+      </section>
+
+      {/* Anti-patterns */}
+      <section>
+        <SectionHeading id="anti-patterns">Anti-patterns</SectionHeading>
+        <DocumentationParagraph>
+          Reviewers will flag any of these on sight. They are the most common
+          ways an otherwise good component becomes inaccessible.
+        </DocumentationParagraph>
+        <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
+          {ANTI_PATTERNS.map((p) => (
+            <li key={p}>{p}</li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Testing */}
+      <section>
+        <SectionHeading id="testing">Testing &amp; tooling</SectionHeading>
+        <DocumentationParagraph>
+          Automated tools catch a fraction of accessibility issues. Combine them
+          with the manual passes below before any non-trivial change ships.
+        </DocumentationParagraph>
+
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-56">Tool / Pass</TableHead>
+                <TableHead>How to use it</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {TOOLS.map((t) => (
+                <TableRow key={t.name}>
+                  <TableCell className="text-sm font-medium">
+                    {t.name}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm leading-6">
+                    {t.use}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </section>
+
+      {/* Quick reference */}
+      <section>
+        <SectionHeading id="quick-reference">Quick reference</SectionHeading>
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="border-border bg-card space-y-3 rounded-lg border p-6">
+            <div className="text-foreground text-sm font-semibold tracking-tight">
+              Do
             </div>
+            <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
+              <li>Reach for a semantic HTML element first.</li>
+              <li>
+                Give every interactive element an accessible name (
+                <InlineCode>aria-label</InlineCode> or{" "}
+                <InlineCode>sr-only</InlineCode>).
+              </li>
+              <li>
+                Pair every state change with an ARIA attribute (
+                <InlineCode>aria-invalid</InlineCode>,{" "}
+                <InlineCode>aria-pressed</InlineCode>,{" "}
+                <InlineCode>aria-expanded</InlineCode>).
+              </li>
+              <li>
+                Use Care UI tokens — they ship the right contrast in every
+                theme.
+              </li>
+              <li>
+                Guard every animation with{" "}
+                <InlineCode>prefers-reduced-motion</InlineCode>.
+              </li>
+            </ul>
           </div>
-        </section>
+          <div className="border-border bg-card space-y-3 rounded-lg border p-6">
+            <div className="text-foreground text-sm font-semibold tracking-tight">
+              Don&apos;t
+            </div>
+            <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
+              <li>
+                Attach <InlineCode>onClick</InlineCode> to a{" "}
+                <InlineCode>&lt;div&gt;</InlineCode> or{" "}
+                <InlineCode>&lt;span&gt;</InlineCode>.
+              </li>
+              <li>
+                Strip the focus ring without providing a{" "}
+                <InlineCode>focus-visible</InlineCode> replacement.
+              </li>
+              <li>Communicate state by color alone.</li>
+              <li>Use raw hex / OKLCH values that bypass the theme system.</li>
+              <li>
+                Set positive <InlineCode>tabIndex</InlineCode> or override Radix
+                focus-trap behavior.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </DocumentationPage>
   );
 }

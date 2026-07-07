@@ -446,451 +446,444 @@ const CONTROL_HEIGHTS: {
 export function FoundationsPage() {
   return (
     <DocumentationPage>
-        {/* Header */}
-        <DocumentationHeader title="Foundations">
-          Spacing, elevation, borders &amp; radius, and the layout shell. Every
-          value on this page is sourced directly from Care UI&apos;s{" "}
-          <InlineCode>src/index.css</InlineCode>, the sidebar primitive, and
-          the live components — nothing invented.
-        </DocumentationHeader>
+      {/* Header */}
+      <DocumentationHeader title="Foundations">
+        Spacing, elevation, borders &amp; radius, and the layout shell. Every
+        value on this page is sourced directly from Care UI&apos;s{" "}
+        <InlineCode>src/index.css</InlineCode>, the sidebar primitive, and the
+        live components — nothing invented.
+      </DocumentationHeader>
 
-        {/* Spacing */}
-        <section>
-          <SectionHeading id="spacing">Spacing</SectionHeading>
-          <DocumentationParagraph>
-            Care UI uses Tailwind v4&apos;s default spacing unit:{" "}
-            <InlineCode>--spacing: 0.25rem</InlineCode> (4px). It is{" "}
-            <em>not</em> overridden. Every <InlineCode>p-*</InlineCode>,{" "}
-            <InlineCode>m-*</InlineCode>, <InlineCode>gap-*</InlineCode>, and{" "}
-            <InlineCode>space-*</InlineCode> utility is a multiple of that base.
-            The table below documents the steps actually used across the system.
-          </DocumentationParagraph>
+      {/* Spacing */}
+      <section>
+        <SectionHeading id="spacing">Spacing</SectionHeading>
+        <DocumentationParagraph>
+          Care UI uses Tailwind v4&apos;s default spacing unit:{" "}
+          <InlineCode>--spacing: 0.25rem</InlineCode> (4px). It is <em>not</em>{" "}
+          overridden. Every <InlineCode>p-*</InlineCode>,{" "}
+          <InlineCode>m-*</InlineCode>, <InlineCode>gap-*</InlineCode>, and{" "}
+          <InlineCode>space-*</InlineCode> utility is a multiple of that base.
+          The table below documents the steps actually used across the system.
+        </DocumentationParagraph>
 
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-16">Step</TableHead>
-                  <TableHead className="w-20">rem</TableHead>
-                  <TableHead className="w-16">px</TableHead>
-                  <TableHead>Common classes</TableHead>
-                  <TableHead>Usage in Care UI</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-16">Step</TableHead>
+                <TableHead className="w-20">rem</TableHead>
+                <TableHead className="w-16">px</TableHead>
+                <TableHead>Common classes</TableHead>
+                <TableHead>Usage in Care UI</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {SPACING.map((s) => (
+                <TableRow key={s.step}>
+                  <TableCell className="font-mono text-xs font-semibold">
+                    {s.step}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">{s.rem}</TableCell>
+                  <TableCell className="font-mono text-xs">{s.px}</TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {s.classes}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {s.usage}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {SPACING.map((s) => (
-                  <TableRow key={s.step}>
-                    <TableCell className="font-mono text-xs font-semibold">
-                      {s.step}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">{s.rem}</TableCell>
-                    <TableCell className="font-mono text-xs">{s.px}</TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {s.classes}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {s.usage}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="border-border bg-card mt-6 rounded-lg border p-6">
+          <div className="text-foreground text-sm font-semibold">
+            Hit-area utility (Care-specific)
           </div>
+          <p className="text-muted-foreground mt-2 text-sm leading-6">
+            Care UI ships custom utilities <InlineCode>hit-area-*</InlineCode>
+            {", "}
+            <InlineCode>hit-area-x-*</InlineCode>,{" "}
+            <InlineCode>hit-area-y-*</InlineCode>, and per-side variants
+            (declared in <InlineCode>src/index.css</InlineCode>). They extend
+            the click target via a positioned <InlineCode>::before</InlineCode>{" "}
+            without affecting layout — useful for small icon-only controls where
+            a 44×44 touch target is required.
+          </p>
+        </div>
+      </section>
 
-          <div className="border-border bg-card mt-6 rounded-lg border p-6">
-            <div className="text-foreground text-sm font-semibold">
-              Hit-area utility (Care-specific)
-            </div>
-            <p className="text-muted-foreground mt-2 text-sm leading-6">
-              Care UI ships custom utilities <InlineCode>hit-area-*</InlineCode>
-              {", "}
-              <InlineCode>hit-area-x-*</InlineCode>,{" "}
-              <InlineCode>hit-area-y-*</InlineCode>, and per-side variants
-              (declared in <InlineCode>src/index.css</InlineCode>). They extend
-              the click target via a positioned{" "}
-              <InlineCode>::before</InlineCode> without affecting layout —
-              useful for small icon-only controls where a 44×44 touch target is
-              required.
-            </p>
-          </div>
-        </section>
+      {/* Elevation */}
+      <section>
+        <SectionHeading id="elevation">Elevation</SectionHeading>
+        <DocumentationParagraph>
+          Care UI uses Tailwind&apos;s shadow scale, paired with a{" "}
+          <strong>hairline ring</strong> (
+          <InlineCode>ring-1 ring-foreground/10</InlineCode>) on every floating
+          surface to crisp the edge against any background. Shadows are{" "}
+          <em>colored</em> on brand controls (
+          <InlineCode>shadow-primary/50</InlineCode>) and <em>inverted</em> in
+          dark mode (<InlineCode>dark:shadow-background</InlineCode>) — never
+          raw black.
+        </DocumentationParagraph>
 
-        {/* Elevation */}
-        <section>
-          <SectionHeading id="elevation">Elevation</SectionHeading>
-          <DocumentationParagraph>
-            Care UI uses Tailwind&apos;s shadow scale, paired with a{" "}
-            <strong>hairline ring</strong> (
-            <InlineCode>ring-1 ring-foreground/10</InlineCode>) on every
-            floating surface to crisp the edge against any background. Shadows
-            are <em>colored</em> on brand controls (
-            <InlineCode>shadow-primary/50</InlineCode>) and <em>inverted</em> in
-            dark mode (<InlineCode>dark:shadow-background</InlineCode>) — never
-            raw black.
-          </DocumentationParagraph>
-
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Level</TableHead>
-                  <TableHead>Shadow class</TableHead>
-                  <TableHead>Paired with</TableHead>
-                  <TableHead>Components</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Level</TableHead>
+                <TableHead>Shadow class</TableHead>
+                <TableHead>Paired with</TableHead>
+                <TableHead>Components</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {ELEVATION.map((e) => (
+                <TableRow key={e.level}>
+                  <TableCell className="text-sm font-medium">
+                    {e.level}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {e.className}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {e.pairing}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {e.components}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {ELEVATION.map((e) => (
-                  <TableRow key={e.level}>
-                    <TableCell className="text-sm font-medium">
-                      {e.level}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {e.className}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {e.pairing}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {e.components}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        {/* Live elevation samples */}
+        <div className="bg-muted/40 mt-6 grid grid-cols-2 gap-6 rounded-lg p-8 md:grid-cols-5">
+          <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-xs">
+            E0
           </div>
-
-          {/* Live elevation samples */}
-          <div className="bg-muted/40 mt-6 grid grid-cols-2 gap-6 rounded-lg p-8 md:grid-cols-5">
-            <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-xs">
-              E0
-            </div>
-            <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-xs shadow-2xs">
-              E1 · 2xs
-            </div>
-            <div className="bg-card border-border ring-foreground/10 rounded-md border p-4 text-center font-mono text-xs shadow-xs ring-1">
-              E2 · xs
-            </div>
-            <div className="bg-popover ring-foreground/10 rounded-md p-4 text-center font-mono text-xs shadow-md ring-1">
-              E3 · md
-            </div>
-            <div className="bg-popover ring-foreground/10 rounded-md p-4 text-center font-mono text-xs shadow-xl ring-1">
-              E5 · xl
-            </div>
+          <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-xs shadow-2xs">
+            E1 · 2xs
           </div>
+          <div className="bg-card border-border ring-foreground/10 rounded-md border p-4 text-center font-mono text-xs shadow-xs ring-1">
+            E2 · xs
+          </div>
+          <div className="bg-popover ring-foreground/10 rounded-md p-4 text-center font-mono text-xs shadow-md ring-1">
+            E3 · md
+          </div>
+          <div className="bg-popover ring-foreground/10 rounded-md p-4 text-center font-mono text-xs shadow-xl ring-1">
+            E5 · xl
+          </div>
+        </div>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            Button depth (Care-specific)
-          </h3>
-          <DocumentationParagraph spacing="subsection">
-            Primary and outline buttons add an <em>inset shadow</em> on top of
-            the drop shadow, giving them a physical pressed-state transition.
-            This is unique to Care UI&apos;s button component.
-          </DocumentationParagraph>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Button depth (Care-specific)
+        </h3>
+        <DocumentationParagraph spacing="subsection">
+          Primary and outline buttons add an <em>inset shadow</em> on top of the
+          drop shadow, giving them a physical pressed-state transition. This is
+          unique to Care UI&apos;s button component.
+        </DocumentationParagraph>
 
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-32">State</TableHead>
-                  <TableHead>Shadow stack</TableHead>
-                  <TableHead>Note</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-32">State</TableHead>
+                <TableHead>Shadow stack</TableHead>
+                <TableHead>Note</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {BUTTON_DEPTH.map((b) => (
+                <TableRow key={b.state}>
+                  <TableCell className="text-sm font-medium">
+                    {b.state}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {b.className}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {b.note}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {BUTTON_DEPTH.map((b) => (
-                  <TableRow key={b.state}>
-                    <TableCell className="text-sm font-medium">
-                      {b.state}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {b.className}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {b.note}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </section>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </section>
 
-        {/* Borders & Radius */}
-        <section>
-          <SectionHeading id="borders-radius">
-            Borders &amp; Radius
-          </SectionHeading>
-          <DocumentationParagraph>
-            All radii cascade from <strong>one</strong> token:{" "}
-            <InlineCode>--radius: 0.625rem</InlineCode> (10px). The full ladder
-            (<InlineCode>sm</InlineCode>…<InlineCode>4xl</InlineCode>) is
-            generated by adding or subtracting from that base in{" "}
-            <InlineCode>@theme inline</InlineCode>, so changing one value
-            re-tunes the entire system proportionally.
-          </DocumentationParagraph>
+      {/* Borders & Radius */}
+      <section>
+        <SectionHeading id="borders-radius">
+          Borders &amp; Radius
+        </SectionHeading>
+        <DocumentationParagraph>
+          All radii cascade from <strong>one</strong> token:{" "}
+          <InlineCode>--radius: 0.625rem</InlineCode> (10px). The full ladder (
+          <InlineCode>sm</InlineCode>…<InlineCode>4xl</InlineCode>) is generated
+          by adding or subtracting from that base in{" "}
+          <InlineCode>@theme inline</InlineCode>, so changing one value re-tunes
+          the entire system proportionally.
+        </DocumentationParagraph>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            Radius scale
-          </h3>
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-20">Token</TableHead>
-                  <TableHead>Class</TableHead>
-                  <TableHead>Value</TableHead>
-                  <TableHead className="w-16">px</TableHead>
-                  <TableHead>Usage</TableHead>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Radius scale
+        </h3>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-20">Token</TableHead>
+                <TableHead>Class</TableHead>
+                <TableHead>Value</TableHead>
+                <TableHead className="w-16">px</TableHead>
+                <TableHead>Usage</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {RADIUS.map((r) => (
+                <TableRow key={r.token}>
+                  <TableCell className="font-mono text-xs font-semibold">
+                    {r.token}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {r.className}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">{r.value}</TableCell>
+                  <TableCell className="font-mono text-xs">{r.px}</TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {r.usage}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {RADIUS.map((r) => (
-                  <TableRow key={r.token}>
-                    <TableCell className="font-mono text-xs font-semibold">
-                      {r.token}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {r.className}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {r.value}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">{r.px}</TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {r.usage}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        {/* Live radius preview */}
+        <div className="bg-muted/40 mt-6 grid grid-cols-4 gap-4 rounded-lg p-6 md:grid-cols-8">
+          <div className="bg-card border-border rounded-sm border p-4 text-center font-mono text-[10px]">
+            sm
           </div>
-
-          {/* Live radius preview */}
-          <div className="bg-muted/40 mt-6 grid grid-cols-4 gap-4 rounded-lg p-6 md:grid-cols-8">
-            <div className="bg-card border-border rounded-sm border p-4 text-center font-mono text-[10px]">
-              sm
-            </div>
-            <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-[10px]">
-              md
-            </div>
-            <div className="bg-card border-border rounded-lg border p-4 text-center font-mono text-[10px]">
-              lg
-            </div>
-            <div className="bg-card border-border rounded-xl border p-4 text-center font-mono text-[10px]">
-              xl
-            </div>
-            <div className="bg-card border-border rounded-2xl border p-4 text-center font-mono text-[10px]">
-              2xl
-            </div>
-            <div className="bg-card border-border rounded-3xl border p-4 text-center font-mono text-[10px]">
-              3xl
-            </div>
-            <div className="bg-card border-border rounded-4xl border p-4 text-center font-mono text-[10px]">
-              4xl
-            </div>
-            <div className="bg-card border-border rounded-full border p-4 text-center font-mono text-[10px]">
-              full
-            </div>
+          <div className="bg-card border-border rounded-md border p-4 text-center font-mono text-[10px]">
+            md
           </div>
+          <div className="bg-card border-border rounded-lg border p-4 text-center font-mono text-[10px]">
+            lg
+          </div>
+          <div className="bg-card border-border rounded-xl border p-4 text-center font-mono text-[10px]">
+            xl
+          </div>
+          <div className="bg-card border-border rounded-2xl border p-4 text-center font-mono text-[10px]">
+            2xl
+          </div>
+          <div className="bg-card border-border rounded-3xl border p-4 text-center font-mono text-[10px]">
+            3xl
+          </div>
+          <div className="bg-card border-border rounded-4xl border p-4 text-center font-mono text-[10px]">
+            4xl
+          </div>
+          <div className="bg-card border-border rounded-full border p-4 text-center font-mono text-[10px]">
+            full
+          </div>
+        </div>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            Squircle utilities
-          </h3>
-          <DocumentationParagraph spacing="subsection">
-            Care UI ships custom <InlineCode>rounded-squircle-*</InlineCode>{" "}
-            utilities (declared in <InlineCode>src/index.css</InlineCode>) that
-            apply <InlineCode>corner-shape: superellipse(1.6)</InlineCode> on
-            top of the standard radius. They progressively enhance — browsers
-            without <InlineCode>corner-shape</InlineCode> support fall back to
-            the regular rounded corner.
-          </DocumentationParagraph>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Squircle utilities
+        </h3>
+        <DocumentationParagraph spacing="subsection">
+          Care UI ships custom <InlineCode>rounded-squircle-*</InlineCode>{" "}
+          utilities (declared in <InlineCode>src/index.css</InlineCode>) that
+          apply <InlineCode>corner-shape: superellipse(1.6)</InlineCode> on top
+          of the standard radius. They progressively enhance — browsers without{" "}
+          <InlineCode>corner-shape</InlineCode> support fall back to the regular
+          rounded corner.
+        </DocumentationParagraph>
 
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Utility</TableHead>
-                  <TableHead>Based on</TableHead>
-                  <TableHead>Note</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Utility</TableHead>
+                <TableHead>Based on</TableHead>
+                <TableHead>Note</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {SQUIRCLE.map((s) => (
+                <TableRow key={s.className}>
+                  <TableCell className="font-mono text-xs">
+                    {s.className}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {s.based_on}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {s.note}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {SQUIRCLE.map((s) => (
-                  <TableRow key={s.className}>
-                    <TableCell className="font-mono text-xs">
-                      {s.className}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {s.based_on}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {s.note}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
 
-          <Separator className="my-10" />
+        <Separator className="my-10" />
 
-          <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-            Border tokens by use
-          </h3>
-          <DocumentationParagraph spacing="subsection">
-            The border tokens themselves are documented in detail on the{" "}
-            <a
-              href="#"
-              className="text-primary underline-offset-4 hover:underline"
-            >
-              Colors
-            </a>{" "}
-            page. The table below is the practical mapping — which token shows
-            up where in the live components.
-          </DocumentationParagraph>
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+          Border tokens by use
+        </h3>
+        <DocumentationParagraph spacing="subsection">
+          The border tokens themselves are documented in detail on the{" "}
+          <a
+            href="#"
+            className="text-primary underline-offset-4 hover:underline"
+          >
+            Colors
+          </a>{" "}
+          page. The table below is the practical mapping — which token shows up
+          where in the live components.
+        </DocumentationParagraph>
 
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Class</TableHead>
-                  <TableHead>Token</TableHead>
-                  <TableHead>Where it lives</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Class</TableHead>
+                <TableHead>Token</TableHead>
+                <TableHead>Where it lives</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {BORDERS.map((b) => (
+                <TableRow key={b.className}>
+                  <TableCell className="font-mono text-xs">
+                    {b.className}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">{b.token}</TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {b.usage}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {BORDERS.map((b) => (
-                  <TableRow key={b.className}>
-                    <TableCell className="font-mono text-xs">
-                      {b.className}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {b.token}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {b.usage}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="border-border bg-card mt-6 rounded-lg border p-6">
+          <div className="text-foreground text-sm font-semibold">
+            Global border colour
           </div>
+          <p className="text-muted-foreground mt-2 text-sm leading-6">
+            The <InlineCode>@layer base</InlineCode> block in{" "}
+            <InlineCode>src/index.css</InlineCode> applies{" "}
+            <InlineCode>
+              * {`{`} @apply border-border outline-ring/50; {`}`}
+            </InlineCode>{" "}
+            — so any element you give a <InlineCode>border</InlineCode> class
+            inherits the correct semantic colour automatically. Override with{" "}
+            <InlineCode>border-input</InlineCode> on form controls or{" "}
+            <InlineCode>border-strong-border</InlineCode> for emphasised
+            dividers.
+          </p>
+        </div>
+      </section>
 
-          <div className="border-border bg-card mt-6 rounded-lg border p-6">
-            <div className="text-foreground text-sm font-semibold">
-              Global border colour
-            </div>
-            <p className="text-muted-foreground mt-2 text-sm leading-6">
-              The <InlineCode>@layer base</InlineCode> block in{" "}
-              <InlineCode>src/index.css</InlineCode> applies{" "}
-              <InlineCode>
-                * {`{`} @apply border-border outline-ring/50; {`}`}
-              </InlineCode>{" "}
-              — so any element you give a <InlineCode>border</InlineCode> class
-              inherits the correct semantic colour automatically. Override with{" "}
-              <InlineCode>border-input</InlineCode> on form controls or{" "}
-              <InlineCode>border-strong-border</InlineCode> for emphasised
-              dividers.
-            </p>
-          </div>
-        </section>
+      {/* Layout */}
+      <section>
+        <SectionHeading id="layout">Layout</SectionHeading>
+        <DocumentationParagraph>
+          The Care UI app shell is a <InlineCode>SidebarProvider</InlineCode>{" "}
+          around an <InlineCode>AppSidebar</InlineCode> and{" "}
+          <InlineCode>SidebarInset</InlineCode>, with a sticky top app bar and a
+          single scroll region for the main content. All measurements below are
+          taken from <InlineCode>src/App.tsx</InlineCode> and{" "}
+          <InlineCode>src/components/ui/sidebar.tsx</InlineCode>.
+        </DocumentationParagraph>
 
-        {/* Layout */}
-        <section>
-          <SectionHeading id="layout">Layout</SectionHeading>
-          <DocumentationParagraph>
-            The Care UI app shell is a <InlineCode>SidebarProvider</InlineCode>{" "}
-            around an <InlineCode>AppSidebar</InlineCode> and{" "}
-            <InlineCode>SidebarInset</InlineCode>, with a sticky top app bar and
-            a single scroll region for the main content. All measurements below
-            are taken from <InlineCode>src/App.tsx</InlineCode> and{" "}
-            <InlineCode>src/components/ui/sidebar.tsx</InlineCode>.
-          </DocumentationParagraph>
-
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            App shell measurements
-          </h3>
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Area</TableHead>
-                  <TableHead>Value</TableHead>
-                  <TableHead>Source</TableHead>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          App shell measurements
+        </h3>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Area</TableHead>
+                <TableHead>Value</TableHead>
+                <TableHead>Source</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {LAYOUT.map((l) => (
+                <TableRow key={l.area}>
+                  <TableCell className="text-sm font-medium">
+                    {l.area}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">{l.value}</TableCell>
+                  <TableCell className="text-muted-foreground font-mono text-xs">
+                    {l.source}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {LAYOUT.map((l) => (
-                  <TableRow key={l.area}>
-                    <TableCell className="text-sm font-medium">
-                      {l.area}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {l.value}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground font-mono text-xs">
-                      {l.source}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            Control heights
-          </h3>
-          <DocumentationParagraph spacing="subsection">
-            Care UI uses a responsive control height:{" "}
-            <strong>taller on mobile</strong> for touch,{" "}
-            <strong>compact on desktop</strong> for density. The pattern{" "}
-            <InlineCode>h-12 md:h-10</InlineCode> appears on every primary form
-            control (Input, Input group, Select trigger).
-          </DocumentationParagraph>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Control heights
+        </h3>
+        <DocumentationParagraph spacing="subsection">
+          Care UI uses a responsive control height:{" "}
+          <strong>taller on mobile</strong> for touch,{" "}
+          <strong>compact on desktop</strong> for density. The pattern{" "}
+          <InlineCode>h-12 md:h-10</InlineCode> appears on every primary form
+          control (Input, Input group, Select trigger).
+        </DocumentationParagraph>
 
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Tier</TableHead>
-                  <TableHead>Mobile</TableHead>
-                  <TableHead>Desktop</TableHead>
-                  <TableHead>Components</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Tier</TableHead>
+                <TableHead>Mobile</TableHead>
+                <TableHead>Desktop</TableHead>
+                <TableHead>Components</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {CONTROL_HEIGHTS.map((c) => (
+                <TableRow key={c.tier}>
+                  <TableCell className="text-sm font-medium">
+                    {c.tier}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {c.mobile}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {c.desktop}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {c.components}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {CONTROL_HEIGHTS.map((c) => (
-                  <TableRow key={c.tier}>
-                    <TableCell className="text-sm font-medium">
-                      {c.tier}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {c.mobile}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {c.desktop}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {c.components}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            Documentation page layout
-          </h3>
-          <DocumentationParagraph spacing="subsection">
-            Every long-form documentation page (Typography, Colors, this page)
-            shares the same container so reading width and section rhythm stay
-            consistent.
-          </DocumentationParagraph>
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          Documentation page layout
+        </h3>
+        <DocumentationParagraph spacing="subsection">
+          Every long-form documentation page (Typography, Colors, this page)
+          shares the same container so reading width and section rhythm stay
+          consistent.
+        </DocumentationParagraph>
 
-          <pre className="bg-muted my-6 overflow-x-auto rounded-lg p-4">
-            <code className="font-mono text-sm">{`<main className="flex-1 overflow-y-auto">
+        <pre className="bg-muted my-6 overflow-x-auto rounded-lg p-4">
+          <code className="font-mono text-sm">{`<main className="flex-1 overflow-y-auto">
   <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
     <header>
       <h1 className="scroll-m-20 mt-3 text-4xl font-extrabold tracking-tight lg:text-5xl">
@@ -907,100 +900,100 @@ export function FoundationsPage() {
     </section>
   </div>
 </main>`}</code>
-          </pre>
+        </pre>
 
-          <ul className="text-muted-foreground mt-4 ml-5 list-disc space-y-2 text-sm leading-6">
-            <li>
-              <code className="font-mono">max-w-4xl</code> (56rem / 896px) keeps
-              line length under the readable maximum.
-            </li>
-            <li>
-              <code className="font-mono">space-y-16</code> (64px) is the
-              between-section rhythm. Sections themselves use{" "}
-              <code className="font-mono">mt-6</code> /{" "}
-              <code className="font-mono">mt-8</code> /{" "}
-              <code className="font-mono">mt-10</code> for internal hierarchy
-              (see Typography page).
-            </li>
-            <li>
-              <code className="font-mono">p-4 md:p-8</code> — 16px gutter on
-              mobile, 32px on desktop.
-            </li>
-            <li>
-              <code className="font-mono">max-w-2xl</code> on the lead paragraph
-              (42rem / 672px) sits comfortably inside the wider container.
-            </li>
-          </ul>
-        </section>
+        <ul className="text-muted-foreground mt-4 ml-5 list-disc space-y-2 text-sm leading-6">
+          <li>
+            <code className="font-mono">max-w-4xl</code> (56rem / 896px) keeps
+            line length under the readable maximum.
+          </li>
+          <li>
+            <code className="font-mono">space-y-16</code> (64px) is the
+            between-section rhythm. Sections themselves use{" "}
+            <code className="font-mono">mt-6</code> /{" "}
+            <code className="font-mono">mt-8</code> /{" "}
+            <code className="font-mono">mt-10</code> for internal hierarchy (see
+            Typography page).
+          </li>
+          <li>
+            <code className="font-mono">p-4 md:p-8</code> — 16px gutter on
+            mobile, 32px on desktop.
+          </li>
+          <li>
+            <code className="font-mono">max-w-2xl</code> on the lead paragraph
+            (42rem / 672px) sits comfortably inside the wider container.
+          </li>
+        </ul>
+      </section>
 
-        {/* Guidelines */}
-        <section>
-          <SectionHeading id="guidelines">Guidelines</SectionHeading>
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="border-border bg-card space-y-3 rounded-lg border p-6">
-              <div className="text-foreground text-sm font-semibold tracking-tight">
-                Do
-              </div>
-              <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>
-                  Use multiples of the 4px spacing unit — go through Tailwind
-                  utilities (<code className="font-mono">p-4</code>,{" "}
-                  <code className="font-mono">gap-2</code>) only.
-                </li>
-                <li>
-                  Pair every floating shadow with{" "}
-                  <code className="font-mono">ring-1 ring-foreground/10</code>{" "}
-                  so the edge is crisp on any background.
-                </li>
-                <li>
-                  Pick a radius from the ladder. Need a new size? Re-tune{" "}
-                  <code className="font-mono">--radius</code> instead of adding
-                  arbitrary values.
-                </li>
-                <li>
-                  Use <code className="font-mono">h-12 md:h-10</code> for any
-                  new primary form control.
-                </li>
-                <li>
-                  Use the <code className="font-mono">hit-area-*</code> utility
-                  for icon-only controls smaller than 32×32.
-                </li>
-              </ul>
+      {/* Guidelines */}
+      <section>
+        <SectionHeading id="guidelines">Guidelines</SectionHeading>
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="border-border bg-card space-y-3 rounded-lg border p-6">
+            <div className="text-foreground text-sm font-semibold tracking-tight">
+              Do
             </div>
-            <div className="border-border bg-card space-y-3 rounded-lg border p-6">
-              <div className="text-foreground text-sm font-semibold tracking-tight">
-                Don&apos;t
-              </div>
-              <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>
-                  Hard-code pixel values (
-                  <code className="font-mono">p-[13px]</code>,{" "}
-                  <code className="font-mono">rounded-[7px]</code>) in
-                  application code.
-                </li>
-                <li>
-                  Use raw <code className="font-mono">shadow-black</code> or
-                  arbitrary <code className="font-mono">shadow-[…]</code> values
-                  — break the elevation contract.
-                </li>
-                <li>
-                  Add a new shadow level without first checking whether an
-                  existing E0–E5 step fits.
-                </li>
-                <li>
-                  Strip the global border colour by setting{" "}
-                  <code className="font-mono">border-foo-500</code> — go through
-                  a semantic border token.
-                </li>
-                <li>
-                  Set <code className="font-mono">--sidebar-width</code> per
-                  page; configure it once on the{" "}
-                  <code className="font-mono">SidebarProvider</code>.
-                </li>
-              </ul>
-            </div>
+            <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
+              <li>
+                Use multiples of the 4px spacing unit — go through Tailwind
+                utilities (<code className="font-mono">p-4</code>,{" "}
+                <code className="font-mono">gap-2</code>) only.
+              </li>
+              <li>
+                Pair every floating shadow with{" "}
+                <code className="font-mono">ring-1 ring-foreground/10</code> so
+                the edge is crisp on any background.
+              </li>
+              <li>
+                Pick a radius from the ladder. Need a new size? Re-tune{" "}
+                <code className="font-mono">--radius</code> instead of adding
+                arbitrary values.
+              </li>
+              <li>
+                Use <code className="font-mono">h-12 md:h-10</code> for any new
+                primary form control.
+              </li>
+              <li>
+                Use the <code className="font-mono">hit-area-*</code> utility
+                for icon-only controls smaller than 32×32.
+              </li>
+            </ul>
           </div>
-        </section>
+          <div className="border-border bg-card space-y-3 rounded-lg border p-6">
+            <div className="text-foreground text-sm font-semibold tracking-tight">
+              Don&apos;t
+            </div>
+            <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
+              <li>
+                Hard-code pixel values (
+                <code className="font-mono">p-[13px]</code>,{" "}
+                <code className="font-mono">rounded-[7px]</code>) in application
+                code.
+              </li>
+              <li>
+                Use raw <code className="font-mono">shadow-black</code> or
+                arbitrary <code className="font-mono">shadow-[…]</code> values —
+                break the elevation contract.
+              </li>
+              <li>
+                Add a new shadow level without first checking whether an
+                existing E0–E5 step fits.
+              </li>
+              <li>
+                Strip the global border colour by setting{" "}
+                <code className="font-mono">border-foo-500</code> — go through a
+                semantic border token.
+              </li>
+              <li>
+                Set <code className="font-mono">--sidebar-width</code> per page;
+                configure it once on the{" "}
+                <code className="font-mono">SidebarProvider</code>.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </DocumentationPage>
   );
 }

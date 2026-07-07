@@ -152,88 +152,88 @@ const QUALITY: { area: string; rules: string[] }[] = [
 export function ContributingPage() {
   return (
     <DocumentationPage>
-        {/* Header */}
-        <DocumentationHeader title="Contributing">
-          A short, opinionated workflow for adding and modifying Care UI
-          components — one source of truth, three files to touch, and the
-          quality bar every change is held to.
-        </DocumentationHeader>
+      {/* Header */}
+      <DocumentationHeader title="Contributing">
+        A short, opinionated workflow for adding and modifying Care UI
+        components — one source of truth, three files to touch, and the quality
+        bar every change is held to.
+      </DocumentationHeader>
 
-        {/* Prerequisites */}
-        <section>
-          <SectionHeading id="prerequisites">Prerequisites</SectionHeading>
-          <DocumentationParagraph>
-            Care UI pins its toolchain so every contributor and the Cloudflare
-            Pages build run on the same versions.
-          </DocumentationParagraph>
+      {/* Prerequisites */}
+      <section>
+        <SectionHeading id="prerequisites">Prerequisites</SectionHeading>
+        <DocumentationParagraph>
+          Care UI pins its toolchain so every contributor and the Cloudflare
+          Pages build run on the same versions.
+        </DocumentationParagraph>
 
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-32">Tool</TableHead>
-                  <TableHead className="w-44">Version</TableHead>
-                  <TableHead>Pinned in</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-32">Tool</TableHead>
+                <TableHead className="w-44">Version</TableHead>
+                <TableHead>Pinned in</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {PREREQS.map((p) => (
+                <TableRow key={p.tool}>
+                  <TableCell className="text-sm font-medium">
+                    {p.tool}
+                  </TableCell>
+                  <TableCell className="font-mono text-xs">
+                    {p.version}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground font-mono text-xs">
+                    {p.source}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {PREREQS.map((p) => (
-                  <TableRow key={p.tool}>
-                    <TableCell className="text-sm font-medium">
-                      {p.tool}
-                    </TableCell>
-                    <TableCell className="font-mono text-xs">
-                      {p.version}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground font-mono text-xs">
-                      {p.source}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
 
-          <CodeBlock>{`# Clone, install, run
+        <CodeBlock>{`# Clone, install, run
 git clone https://github.com/ohcnetwork/careui.git
 cd careui
 pnpm install
 pnpm dev`}</CodeBlock>
-        </section>
+      </section>
 
-        {/* Three-file workflow */}
-        <section>
-          <SectionHeading id="workflow">The three-file workflow</SectionHeading>
-          <DocumentationParagraph>
-            Every component touches exactly three hand-written files. The JSON
-            under <InlineCode>public/registry/care-ui/</InlineCode> is generated
-            — never edit it.
-          </DocumentationParagraph>
+      {/* Three-file workflow */}
+      <section>
+        <SectionHeading id="workflow">The three-file workflow</SectionHeading>
+        <DocumentationParagraph>
+          Every component touches exactly three hand-written files. The JSON
+          under <InlineCode>public/registry/care-ui/</InlineCode> is generated —
+          never edit it.
+        </DocumentationParagraph>
 
-          <ol className="text-foreground mt-6 ml-5 list-decimal space-y-2 leading-7">
-            <li>
-              <strong>Implementation</strong> —{" "}
-              <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>
-            </li>
-            <li>
-              <strong>Documentation</strong> —{" "}
-              <InlineCode>src/lib/registry/&lt;name&gt;.tsx</InlineCode>
-            </li>
-            <li>
-              <strong>Registration</strong> —{" "}
-              <InlineCode>src/lib/registry/index.ts</InlineCode>
-            </li>
-          </ol>
+        <ol className="text-foreground mt-6 ml-5 list-decimal space-y-2 leading-7">
+          <li>
+            <strong>Implementation</strong> —{" "}
+            <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>
+          </li>
+          <li>
+            <strong>Documentation</strong> —{" "}
+            <InlineCode>src/lib/registry/&lt;name&gt;.tsx</InlineCode>
+          </li>
+          <li>
+            <strong>Registration</strong> —{" "}
+            <InlineCode>src/lib/registry/index.ts</InlineCode>
+          </li>
+        </ol>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            1. Implementation
-          </h3>
-          <DocumentationParagraph spacing="subsection">
-            Place the component at{" "}
-            <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>. The
-            JSDoc header is required — the registry generator parses it.
-          </DocumentationParagraph>
-          <CodeBlock>{`// src/components/ui/my-component.tsx
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          1. Implementation
+        </h3>
+        <DocumentationParagraph spacing="subsection">
+          Place the component at{" "}
+          <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>. The JSDoc
+          header is required — the registry generator parses it.
+        </DocumentationParagraph>
+        <CodeBlock>{`// src/components/ui/my-component.tsx
 /**
  * @name my-component
  * @description A brief description of what it does
@@ -255,15 +255,15 @@ export function MyComponent({
   );
 }`}</CodeBlock>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            2. Documentation
-          </h3>
-          <DocumentationParagraph spacing="subsection">
-            Authoring docs use <InlineCode>React.createElement</InlineCode> (not
-            JSX) so the file can be evaluated in non-JSX contexts when
-            generating the registry payload.
-          </DocumentationParagraph>
-          <CodeBlock>{`// src/lib/registry/my-component.tsx
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          2. Documentation
+        </h3>
+        <DocumentationParagraph spacing="subsection">
+          Authoring docs use <InlineCode>React.createElement</InlineCode> (not
+          JSX) so the file can be evaluated in non-JSX contexts when generating
+          the registry payload.
+        </DocumentationParagraph>
+        <CodeBlock>{`// src/lib/registry/my-component.tsx
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
 import { MyComponent } from "@/components/ui/my-component";
@@ -293,167 +293,165 @@ export const myComponentDoc: ComponentDoc = {
   ],
 };`}</CodeBlock>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            3. Registration
-          </h3>
-          <DocumentationParagraph spacing="subsection">
-            Register the component in the lazy-loader map so the docs SPA and
-            the sidebar pick it up automatically.
-          </DocumentationParagraph>
-          <CodeBlock>{`// src/lib/registry/index.ts
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          3. Registration
+        </h3>
+        <DocumentationParagraph spacing="subsection">
+          Register the component in the lazy-loader map so the docs SPA and the
+          sidebar pick it up automatically.
+        </DocumentationParagraph>
+        <CodeBlock>{`// src/lib/registry/index.ts
 const componentLoaders = {
   // …existing entries
   "my-component": () =>
     import("./my-component").then((m) => ({ default: m.myComponentDoc })),
 };`}</CodeBlock>
 
-          <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
-            4. Generate &amp; verify
-          </h3>
-          <CodeBlock>{`pnpm build:registry   # writes public/registry/care-ui/<name>/<name>.json
+        <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+          4. Generate &amp; verify
+        </h3>
+        <CodeBlock>{`pnpm build:registry   # writes public/registry/care-ui/<name>/<name>.json
 pnpm dev              # http://localhost:5173 → component appears in the sidebar`}</CodeBlock>
-        </section>
+      </section>
 
-        {/* Commands */}
-        <section>
-          <SectionHeading id="commands">Commands</SectionHeading>
-          <DocumentationParagraph>
-            Every script is defined in <InlineCode>package.json</InlineCode>.
-            Prefer the named scripts over invoking <InlineCode>tsx</InlineCode>{" "}
-            or <InlineCode>vite</InlineCode> directly.
-          </DocumentationParagraph>
+      {/* Commands */}
+      <section>
+        <SectionHeading id="commands">Commands</SectionHeading>
+        <DocumentationParagraph>
+          Every script is defined in <InlineCode>package.json</InlineCode>.
+          Prefer the named scripts over invoking <InlineCode>tsx</InlineCode> or{" "}
+          <InlineCode>vite</InlineCode> directly.
+        </DocumentationParagraph>
 
-          <div className="border-border mt-6 overflow-hidden rounded-lg border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-56">Script</TableHead>
-                  <TableHead>What it does</TableHead>
-                  <TableHead className="w-72">When to use it</TableHead>
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-56">Script</TableHead>
+                <TableHead>What it does</TableHead>
+                <TableHead className="w-72">When to use it</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {SCRIPTS.map((s) => (
+                <TableRow key={s.script}>
+                  <TableCell className="font-mono text-xs">
+                    {s.script}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm leading-6">
+                    {s.description}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm leading-6">
+                    {s.when}
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {SCRIPTS.map((s) => (
-                  <TableRow key={s.script}>
-                    <TableCell className="font-mono text-xs">
-                      {s.script}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm leading-6">
-                      {s.description}
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm leading-6">
-                      {s.when}
-                    </TableCell>
-                  </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </section>
+
+      {/* Files you'll touch */}
+      <section>
+        <SectionHeading id="files">Files you&apos;ll touch</SectionHeading>
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="border-border bg-card space-y-3 rounded-lg border p-6">
+            <div className="text-foreground text-sm font-semibold tracking-tight">
+              Always edit
+            </div>
+            <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
+              <li>
+                <code className="font-mono">
+                  src/components/ui/&lt;name&gt;.tsx
+                </code>
+              </li>
+              <li>
+                <code className="font-mono">
+                  src/lib/registry/&lt;name&gt;.tsx
+                </code>
+              </li>
+              <li>
+                <code className="font-mono">src/lib/registry/index.ts</code>
+              </li>
+              <li>
+                <code className="font-mono">src/index.css</code> — only for new
+                design tokens or global utilities.
+              </li>
+              <li>
+                <code className="font-mono">scripts/generate-registry.ts</code>{" "}
+                — when a new external dependency lands (update{" "}
+                <code className="font-mono">CONFIG.dependencyMap</code>).
+              </li>
+            </ul>
+          </div>
+          <div className="border-border bg-card space-y-3 rounded-lg border p-6">
+            <div className="text-foreground text-sm font-semibold tracking-tight">
+              Never hand-edit
+            </div>
+            <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
+              <li>
+                <code className="font-mono">
+                  public/registry/care-ui/**/*.json
+                </code>{" "}
+                — regenerated by{" "}
+                <code className="font-mono">pnpm build:registry</code>.
+              </li>
+              <li>
+                <code className="font-mono">public/registry.json</code> and{" "}
+                <code className="font-mono">public/index.json</code> — also
+                generated.
+              </li>
+              <li>
+                <code className="font-mono">pnpm-lock.yaml</code> — let pnpm
+                manage it; commit only after{" "}
+                <code className="font-mono">pnpm install</code>.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Quality checklist */}
+      <section>
+        <SectionHeading id="quality">Quality checklist</SectionHeading>
+        <DocumentationParagraph>
+          Before opening a pull request, walk every component change through
+          this list. Each group cross-references the foundations documented
+          elsewhere in this site.
+        </DocumentationParagraph>
+
+        <div className="mt-8 space-y-8">
+          {QUALITY.map((group) => (
+            <div key={group.area}>
+              <h3
+                id={group.area.toLowerCase().replace(/\s+/g, "-")}
+                className="scroll-m-20 text-2xl font-semibold tracking-tight"
+              >
+                {group.area}
+              </h3>
+              <ul className="text-foreground mt-4 ml-5 list-disc space-y-2 leading-7">
+                {group.rules.map((r) => (
+                  <li key={r}>{r}</li>
                 ))}
-              </TableBody>
-            </Table>
-          </div>
-        </section>
-
-        {/* Files you'll touch */}
-        <section>
-          <SectionHeading id="files">Files you&apos;ll touch</SectionHeading>
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="border-border bg-card space-y-3 rounded-lg border p-6">
-              <div className="text-foreground text-sm font-semibold tracking-tight">
-                Always edit
-              </div>
-              <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>
-                  <code className="font-mono">
-                    src/components/ui/&lt;name&gt;.tsx
-                  </code>
-                </li>
-                <li>
-                  <code className="font-mono">
-                    src/lib/registry/&lt;name&gt;.tsx
-                  </code>
-                </li>
-                <li>
-                  <code className="font-mono">src/lib/registry/index.ts</code>
-                </li>
-                <li>
-                  <code className="font-mono">src/index.css</code> — only for
-                  new design tokens or global utilities.
-                </li>
-                <li>
-                  <code className="font-mono">
-                    scripts/generate-registry.ts
-                  </code>{" "}
-                  — when a new external dependency lands (update{" "}
-                  <code className="font-mono">CONFIG.dependencyMap</code>).
-                </li>
               </ul>
             </div>
-            <div className="border-border bg-card space-y-3 rounded-lg border p-6">
-              <div className="text-foreground text-sm font-semibold tracking-tight">
-                Never hand-edit
-              </div>
-              <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>
-                  <code className="font-mono">
-                    public/registry/care-ui/**/*.json
-                  </code>{" "}
-                  — regenerated by{" "}
-                  <code className="font-mono">pnpm build:registry</code>.
-                </li>
-                <li>
-                  <code className="font-mono">public/registry.json</code> and{" "}
-                  <code className="font-mono">public/index.json</code> — also
-                  generated.
-                </li>
-                <li>
-                  <code className="font-mono">pnpm-lock.yaml</code> — let pnpm
-                  manage it; commit only after{" "}
-                  <code className="font-mono">pnpm install</code>.
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
+          ))}
+        </div>
+      </section>
 
-        {/* Quality checklist */}
-        <section>
-          <SectionHeading id="quality">Quality checklist</SectionHeading>
-          <DocumentationParagraph>
-            Before opening a pull request, walk every component change through
-            this list. Each group cross-references the foundations documented
-            elsewhere in this site.
-          </DocumentationParagraph>
+      {/* Dependencies */}
+      <section>
+        <SectionHeading id="dependencies">
+          Adding a new dependency
+        </SectionHeading>
+        <DocumentationParagraph>
+          Adding an external package to a UI component requires two steps:
+          install it, then teach the registry generator about it so downstream{" "}
+          <InlineCode>shadcn</InlineCode> consumers get the right install
+          command.
+        </DocumentationParagraph>
 
-          <div className="mt-8 space-y-8">
-            {QUALITY.map((group) => (
-              <div key={group.area}>
-                <h3
-                  id={group.area.toLowerCase().replace(/\s+/g, "-")}
-                  className="scroll-m-20 text-2xl font-semibold tracking-tight"
-                >
-                  {group.area}
-                </h3>
-                <ul className="text-foreground mt-4 ml-5 list-disc space-y-2 leading-7">
-                  {group.rules.map((r) => (
-                    <li key={r}>{r}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Dependencies */}
-        <section>
-          <SectionHeading id="dependencies">
-            Adding a new dependency
-          </SectionHeading>
-          <DocumentationParagraph>
-            Adding an external package to a UI component requires two steps:
-            install it, then teach the registry generator about it so downstream{" "}
-            <InlineCode>shadcn</InlineCode> consumers get the right install
-            command.
-          </DocumentationParagraph>
-
-          <CodeBlock>{`# 1. Install
+        <CodeBlock>{`# 1. Install
 pnpm add <package>
 
 # 2. Update scripts/generate-registry.ts → CONFIG.dependencyMap
@@ -464,129 +462,128 @@ pnpm add <package>
 #
 # 4. Regenerate
 pnpm build:registry`}</CodeBlock>
-        </section>
+      </section>
 
-        {/* Modifying existing */}
-        <section>
-          <SectionHeading id="modifying">
-            Modifying an existing component
-          </SectionHeading>
-          <ol className="text-foreground mt-6 ml-5 list-decimal space-y-2 leading-7">
-            <li>
-              Edit <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>.
-            </li>
-            <li>
-              Update <InlineCode>src/lib/registry/&lt;name&gt;.tsx</InlineCode>{" "}
-              if the public API, examples, or props changed.
-            </li>
-            <li>
-              Run <InlineCode>pnpm build:registry</InlineCode> to refresh the
-              JSON.
-            </li>
-            <li>
-              Run <InlineCode>pnpm lint</InlineCode> and{" "}
-              <InlineCode>pnpm format:check</InlineCode>.
-            </li>
-            <li>
-              Verify the component in the docs SPA — light, dark, high-contrast,
-              and at the 18px+ font scale.
-            </li>
-          </ol>
+      {/* Modifying existing */}
+      <section>
+        <SectionHeading id="modifying">
+          Modifying an existing component
+        </SectionHeading>
+        <ol className="text-foreground mt-6 ml-5 list-decimal space-y-2 leading-7">
+          <li>
+            Edit <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>.
+          </li>
+          <li>
+            Update <InlineCode>src/lib/registry/&lt;name&gt;.tsx</InlineCode> if
+            the public API, examples, or props changed.
+          </li>
+          <li>
+            Run <InlineCode>pnpm build:registry</InlineCode> to refresh the
+            JSON.
+          </li>
+          <li>
+            Run <InlineCode>pnpm lint</InlineCode> and{" "}
+            <InlineCode>pnpm format:check</InlineCode>.
+          </li>
+          <li>
+            Verify the component in the docs SPA — light, dark, high-contrast,
+            and at the 18px+ font scale.
+          </li>
+        </ol>
 
-          <CodeBlock>{`# Quick all-in-one for a doc-only tweak
+        <CodeBlock>{`# Quick all-in-one for a doc-only tweak
 pnpm build:registry && pnpm lint && pnpm format:check`}</CodeBlock>
-        </section>
+      </section>
 
-        {/* PR conventions */}
-        <section>
-          <SectionHeading id="pr">Pull request conventions</SectionHeading>
-          <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
-            <li>
-              One logical change per PR — a new component, a single fix, or one
-              cross-cutting refactor.
-            </li>
-            <li>
-              Commit messages: short imperative summary (
-              <em>Add empty component</em>, <em>Fix focus ring on switch</em>
-              ).
-            </li>
-            <li>
-              Include before/after screenshots for any visual change. Capture
-              both light and dark.
-            </li>
-            <li>
-              Note any new design tokens or utilities introduced in{" "}
-              <InlineCode>src/index.css</InlineCode> in the PR description.
-            </li>
-            <li>
-              CI runs <InlineCode>pnpm build</InlineCode> +{" "}
-              <InlineCode>pnpm build:registry</InlineCode> — both must pass.
-            </li>
-          </ul>
-        </section>
+      {/* PR conventions */}
+      <section>
+        <SectionHeading id="pr">Pull request conventions</SectionHeading>
+        <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
+          <li>
+            One logical change per PR — a new component, a single fix, or one
+            cross-cutting refactor.
+          </li>
+          <li>
+            Commit messages: short imperative summary (
+            <em>Add empty component</em>, <em>Fix focus ring on switch</em>
+            ).
+          </li>
+          <li>
+            Include before/after screenshots for any visual change. Capture both
+            light and dark.
+          </li>
+          <li>
+            Note any new design tokens or utilities introduced in{" "}
+            <InlineCode>src/index.css</InlineCode> in the PR description.
+          </li>
+          <li>
+            CI runs <InlineCode>pnpm build</InlineCode> +{" "}
+            <InlineCode>pnpm build:registry</InlineCode> — both must pass.
+          </li>
+        </ul>
+      </section>
 
-        {/* Do / Don't */}
-        <section>
-          <SectionHeading id="guidelines">Guidelines</SectionHeading>
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="border-border bg-card space-y-3 rounded-lg border p-6">
-              <div className="text-foreground text-sm font-semibold tracking-tight">
-                Do
-              </div>
-              <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>
-                  Run the named pnpm scripts — don&apos;t invoke tools directly.
-                </li>
-                <li>
-                  Keep the JSDoc header on every UI file — the generator depends
-                  on it.
-                </li>
-                <li>
-                  Use Care UI semantic tokens for color, spacing, radius, and
-                  elevation.
-                </li>
-                <li>
-                  Cross-reference the Typography, Foundations, and Accessibility
-                  pages when designing the API.
-                </li>
-                <li>
-                  Regenerate the registry before pushing anything that touches a
-                  UI file.
-                </li>
-              </ul>
+      {/* Do / Don't */}
+      <section>
+        <SectionHeading id="guidelines">Guidelines</SectionHeading>
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="border-border bg-card space-y-3 rounded-lg border p-6">
+            <div className="text-foreground text-sm font-semibold tracking-tight">
+              Do
             </div>
-            <div className="border-border bg-card space-y-3 rounded-lg border p-6">
-              <div className="text-foreground text-sm font-semibold tracking-tight">
-                Don&apos;t
-              </div>
-              <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
-                <li>
-                  Hand-edit anything under{" "}
-                  <code className="font-mono">public/registry/care-ui/</code>.
-                </li>
-                <li>
-                  Use JSX inside{" "}
-                  <code className="font-mono">src/lib/registry/*.tsx</code> —
-                  use <code className="font-mono">React.createElement</code>.
-                </li>
-                <li>
-                  Ship a new dependency without updating{" "}
-                  <code className="font-mono">CONFIG.dependencyMap</code>.
-                </li>
-                <li>
-                  Bypass <code className="font-mono">cn()</code> or skip{" "}
-                  <code className="font-mono">data-slot</code> on the root.
-                </li>
-                <li>
-                  Skip the quality gates —{" "}
-                  <code className="font-mono">pnpm lint</code> and{" "}
-                  <code className="font-mono">pnpm format:check</code> must
-                  pass.
-                </li>
-              </ul>
-            </div>
+            <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
+              <li>
+                Run the named pnpm scripts — don&apos;t invoke tools directly.
+              </li>
+              <li>
+                Keep the JSDoc header on every UI file — the generator depends
+                on it.
+              </li>
+              <li>
+                Use Care UI semantic tokens for color, spacing, radius, and
+                elevation.
+              </li>
+              <li>
+                Cross-reference the Typography, Foundations, and Accessibility
+                pages when designing the API.
+              </li>
+              <li>
+                Regenerate the registry before pushing anything that touches a
+                UI file.
+              </li>
+            </ul>
           </div>
-        </section>
+          <div className="border-border bg-card space-y-3 rounded-lg border p-6">
+            <div className="text-foreground text-sm font-semibold tracking-tight">
+              Don&apos;t
+            </div>
+            <ul className="text-muted-foreground ml-5 list-disc space-y-2 text-sm leading-6">
+              <li>
+                Hand-edit anything under{" "}
+                <code className="font-mono">public/registry/care-ui/</code>.
+              </li>
+              <li>
+                Use JSX inside{" "}
+                <code className="font-mono">src/lib/registry/*.tsx</code> — use{" "}
+                <code className="font-mono">React.createElement</code>.
+              </li>
+              <li>
+                Ship a new dependency without updating{" "}
+                <code className="font-mono">CONFIG.dependencyMap</code>.
+              </li>
+              <li>
+                Bypass <code className="font-mono">cn()</code> or skip{" "}
+                <code className="font-mono">data-slot</code> on the root.
+              </li>
+              <li>
+                Skip the quality gates —{" "}
+                <code className="font-mono">pnpm lint</code> and{" "}
+                <code className="font-mono">pnpm format:check</code> must pass.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </DocumentationPage>
   );
 }
