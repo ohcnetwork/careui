@@ -15,8 +15,15 @@ import {
   GroupTitle,
   DenseTitle,
   EyebrowTitle,
-  Lead,
 } from "@/components/ui/typography";
+import {
+  DocumentationHeader,
+  DocumentationInlineCode as InlineCode,
+  DocumentationPage,
+  DocumentationParagraph,
+  DocumentationSectionHeading as SectionHeading,
+  documentationLinkClassName,
+} from "@/components/documentation-primitives";
 
 /**
  * Typography documentation page for the Care design system.
@@ -225,7 +232,7 @@ const APP_HEADINGS: AppHeadingRow[] = [
     lineHeight: "36px (leading-9)",
     weight: "700 (font-bold)",
     tracking: "tracking-tight",
-    spacing: "— / body mt-3",
+    spacing: "— / body mt-2",
     usage: "Page titles — e.g. “Patients”, “Encounter #4421”.",
   },
   {
@@ -235,7 +242,7 @@ const APP_HEADINGS: AppHeadingRow[] = [
     lineHeight: "32px (leading-8)",
     weight: "600 (font-semibold)",
     tracking: "tracking-tight",
-    spacing: "mt-8 / body mt-4",
+    spacing: "mt-8 / body mt-3",
     usage: "Section titles — major panels under the page title.",
   },
   {
@@ -245,7 +252,7 @@ const APP_HEADINGS: AppHeadingRow[] = [
     lineHeight: "28px (leading-7)",
     weight: "600 (font-semibold)",
     tracking: "tracking-tight",
-    spacing: "mt-6 / body mt-3",
+    spacing: "mt-6 / body mt-2",
     usage: "Major groups, card titles, dialog titles.",
   },
   {
@@ -255,7 +262,7 @@ const APP_HEADINGS: AppHeadingRow[] = [
     lineHeight: "28px (leading-7)",
     weight: "500 (font-medium)",
     tracking: "normal",
-    spacing: "mt-5 / body mt-2",
+    spacing: "mt-5 / body mt-1",
     usage: "Subsections inside a card or form.",
   },
   {
@@ -512,10 +519,10 @@ const SPACING: SpacingRow[] = [
   },
   {
     pair: "h2 → following content",
-    className: "mt-6",
-    rem: "1.5rem",
-    px: "24px",
-    note: "Use more space after h2 than smaller headings for clear section separation.",
+    className: "mt-3",
+    rem: "0.75rem",
+    px: "12px",
+    note: "Default body copy under a documentation section heading.",
   },
   {
     pair: "block → h3",
@@ -526,10 +533,10 @@ const SPACING: SpacingRow[] = [
   },
   {
     pair: "h3 → following content",
-    className: "mt-4",
-    rem: "1rem",
-    px: "16px",
-    note: "Tighter than h2 rhythm.",
+    className: "mt-2",
+    rem: "0.5rem",
+    px: "8px",
+    note: "Subsection copy stays tighter than section-intro prose.",
   },
   {
     pair: "block → h4 / h5",
@@ -540,10 +547,10 @@ const SPACING: SpacingRow[] = [
   },
   {
     pair: "p → p",
-    className: "[&:not(:first-child)]:mt-6",
-    rem: "1.5rem",
-    px: "24px",
-    note: "Default body rhythm.",
+    className: "[&:not(:first-child)]:mt-3",
+    rem: "0.75rem",
+    px: "12px",
+    note: "Default documentation prose stack.",
   },
   {
     pair: "p → ul / ol",
@@ -575,14 +582,6 @@ const SPACING: SpacingRow[] = [
   },
 ];
 
-function InlineCode({ children }: { children: React.ReactNode }) {
-  return (
-    <code className="bg-muted text-foreground relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-      {children}
-    </code>
-  );
-}
-
 function SpecRow({
   label,
   className,
@@ -608,44 +607,21 @@ function SpecRow({
   );
 }
 
-function SectionHeading({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <SectionTitle id={id} className="scroll-m-20">
-      {children}
-    </SectionTitle>
-  );
-}
-
 export function TypographyPage() {
   return (
-    <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
+    <DocumentationPage>
         {/* Header */}
-        <header>
-          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
-            Documentation
-          </EyebrowTitle>
-          <PageTitle className="mt-3 scroll-m-20">
-            Typography
-          </PageTitle>
-          <Lead className="mt-6 max-w-2xl text-xl">
-            The Care UI type system for healthcare interfaces. Sizes, line
-            heights, letter spacing, and vertical rhythm — tuned for the clarity
-            clinicians need at the bedside and aligned to Tailwind&nbsp;v4 and
-            shadcn/ui conventions.
-          </Lead>
-        </header>
+        <DocumentationHeader title="Typography">
+          The Care UI type system for healthcare interfaces. Sizes, line
+          heights, letter spacing, and vertical rhythm — tuned for the clarity
+          clinicians need at the bedside and aligned to Tailwind&nbsp;v4 and
+          shadcn/ui conventions.
+        </DocumentationHeader>
 
         {/* Foundations */}
         <section>
           <SectionHeading id="foundations">Foundations</SectionHeading>
-          <p className="text-foreground leading-7 not-first:mt-6">
+          <DocumentationParagraph spacing="stack">
             All UI text is rendered in <strong>Figtree Variable</strong>,
             exposed via the <InlineCode>--font-sans</InlineCode> token and
             applied to <InlineCode>html</InlineCode> and{" "}
@@ -654,7 +630,7 @@ export function TypographyPage() {
             with <InlineCode>--font-size-scale</InlineCode>, so every{" "}
             <InlineCode>rem</InlineCode> below respects user preferences set in
             the Settings page.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border bg-card mt-6 grid grid-cols-1 gap-4 rounded-lg border p-6 md:grid-cols-3">
             <div className="space-y-1">
@@ -696,12 +672,12 @@ export function TypographyPage() {
         {/* Type scale */}
         <section>
           <SectionHeading id="type-scale">Type Scale</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             The full Tailwind type scale. Every size uses{" "}
             <InlineCode>letter-spacing: 0</InlineCode> by default. Apply{" "}
             <InlineCode>tracking-tight</InlineCode> (−0.025em) to anything{" "}
             <InlineCode>text-2xl</InlineCode> and larger.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 rounded-lg border">
             {TYPE_SCALE.map((row) => (
@@ -729,7 +705,7 @@ export function TypographyPage() {
         {/* App heading scale */}
         <section>
           <SectionHeading id="app-headings">App heading scale</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             The scale used inside the Care product surfaces — patient records,
             encounter forms, dashboards, dialogs. It is intentionally compressed
             so clinical data stays above the fold and hierarchy is carried by{" "}
@@ -737,7 +713,7 @@ export function TypographyPage() {
             components from <InlineCode>@/components/ui/typography</InlineCode>{" "}
             in product code; the larger docs scale below is for this
             documentation site, marketing pages, and empty / sign-in screens.
-          </p>
+          </DocumentationParagraph>
 
           {/* Live preview */}
           <article className="border-border bg-card mt-6 rounded-lg border p-6 md:p-8">
@@ -865,7 +841,7 @@ export function TypographyPage() {
           <SectionHeading id="headings">
             Documentation heading scale
           </SectionHeading>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             The larger shadcn-aligned scale used by this docs site, marketing
             pages, sign-in, and empty states. Use one{" "}
             <InlineCode>h1</InlineCode> per page. Headings cascade down and
@@ -873,7 +849,7 @@ export function TypographyPage() {
             <InlineCode>tracking-tight</InlineCode> and{" "}
             <InlineCode>text-balance</InlineCode> (configured globally in{" "}
             <InlineCode>src/index.css</InlineCode>).
-          </p>
+          </DocumentationParagraph>
 
           {/* Live preview */}
           <article className="border-border bg-card mt-6 rounded-lg border p-6 md:p-8">
@@ -974,8 +950,8 @@ export function TypographyPage() {
 
             <SpecRow
               label="Paragraph"
-              className="leading-7 not-first:mt-6"
-              meta="16px / 28px · Default prose"
+              className="leading-7"
+              meta="16px / 28px · Default prose; spacing comes from context"
             >
               <p className="text-foreground leading-7">
                 The patient was discharged in a stable condition with a
@@ -1032,7 +1008,7 @@ export function TypographyPage() {
               example{" "}
               <a
                 href="#docs-typography"
-                className="text-primary underline-offset-4 hover:underline"
+                className={documentationLinkClassName}
               >
                 a sample link
               </a>
@@ -1191,13 +1167,13 @@ export function TypographyPage() {
         {/* Spacing */}
         <section>
           <SectionHeading id="spacing">Vertical Rhythm</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Margin between content blocks. These mirror the shadcn{" "}
             <InlineCode>prose</InlineCode> rhythm: tighter as headings get
             smaller, looser around major sections. Apply top margins (
             <InlineCode>mt-*</InlineCode>) so the first element of a region
             never needs a reset.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -1236,7 +1212,7 @@ export function TypographyPage() {
                 Encounter summary
               </h1>
 
-              <RhythmTag offset="24px" label="mt-6" />
+              <RhythmTag offset="24px" label="mt-3" />
               <p className="text-muted-foreground mt-4 text-xl leading-7">
                 An overview of the patient&apos;s admission, ongoing orders, and
                 care team.
@@ -1247,14 +1223,14 @@ export function TypographyPage() {
                 Active medications
               </h2>
 
-              <RhythmTag offset="24px" label="mt-6" />
-              <p className="text-foreground mt-6 leading-7">
+              <RhythmTag offset="12px" label="mt-3" />
+              <p className="text-foreground mt-3 leading-7">
                 Three medications are currently active, with no recorded
                 interactions or contraindications.
               </p>
 
-              <RhythmTag offset="24px" label="mt-6" />
-              <p className="text-foreground mt-6 leading-7">
+              <RhythmTag offset="12px" label="mt-3" />
+              <p className="text-foreground mt-3 leading-7">
                 Pharmacy has verified each order against the patient&apos;s
                 allergy profile.
               </p>
@@ -1264,8 +1240,8 @@ export function TypographyPage() {
                 Pending tasks
               </h3>
 
-              <RhythmTag offset="16px" label="mt-4" />
-              <p className="text-foreground mt-4 leading-7">
+              <RhythmTag offset="8px" label="mt-2" />
+              <p className="text-foreground mt-2 leading-7">
                 Two tasks remain open for the nursing team on the next shift.
               </p>
             </div>
@@ -1275,12 +1251,12 @@ export function TypographyPage() {
         {/* Roles */}
         <section>
           <SectionHeading id="roles">Roles — when to use what</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             The scale answers <em>how big</em>; this table answers{" "}
             <em>which one</em>. Match the role to the job before reaching for a
             size — most UI text is <InlineCode>text-sm</InlineCode> or{" "}
             <InlineCode>text-base</InlineCode>; the larger sizes are structural.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -1319,13 +1295,13 @@ export function TypographyPage() {
         {/* Case usage */}
         <section>
           <SectionHeading id="case">Case &amp; tracking</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Care UI uses <strong>sentence case</strong> almost everywhere.
             Sentence case scans faster, translates cleanly, and stays readable
             across the type scale. The exceptions — UPPERCASE eyebrows, badges,
             and identifiers — are small and always tracked out so the
             letterforms breathe.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -1404,11 +1380,11 @@ export function TypographyPage() {
           <SectionHeading id="numerics">
             Numerics &amp; font features
           </SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Clinical UIs are full of numbers. Switch on the right OpenType
             feature so columns align, identifiers are unambiguous, and prose
             still reads naturally.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -1547,10 +1523,10 @@ export function TypographyPage() {
           <SectionHeading id="punctuation">
             Punctuation &amp; characters
           </SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Small character choices add up. Use the correct glyph in copy — they
             render better, translate cleanly, and signal care.
-          </p>
+          </DocumentationParagraph>
           <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
             <li>
               Use a single ellipsis character (…) — never three dots (
@@ -1670,8 +1646,7 @@ export function TypographyPage() {
             </div>
           </div>
         </section>
-      </div>
-    </main>
+    </DocumentationPage>
   );
 }
 

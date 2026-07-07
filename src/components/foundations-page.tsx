@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Table,
   TableBody,
@@ -9,11 +8,12 @@ import {
 } from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
 import {
-  EyebrowTitle,
-  Lead,
-  PageTitle,
-  SectionTitle,
-} from "@/components/ui/typography";
+  DocumentationHeader,
+  DocumentationInlineCode as InlineCode,
+  DocumentationPage,
+  DocumentationParagraph,
+  DocumentationSectionHeading as SectionHeading,
+} from "@/components/documentation-primitives";
 
 /**
  * Foundations documentation page for the Care design system.
@@ -24,28 +24,6 @@ import {
  * Nothing is invented; this page is a faithful audit of the tokens and
  * conventions Care UI already ships.
  */
-
-function InlineCode({ children }: { children: React.ReactNode }) {
-  return (
-    <code className="bg-muted text-foreground relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-      {children}
-    </code>
-  );
-}
-
-function SectionHeading({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <SectionTitle id={id} className="scroll-m-20">
-      {children}
-    </SectionTitle>
-  );
-}
 
 /* ── Spacing scale (Tailwind v4 default --spacing: 0.25rem, not overridden) ── */
 
@@ -467,35 +445,26 @@ const CONTROL_HEIGHTS: {
 
 export function FoundationsPage() {
   return (
-    <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
+    <DocumentationPage>
         {/* Header */}
-        <header>
-          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
-            Documentation
-          </EyebrowTitle>
-          <PageTitle className="mt-3 scroll-m-20">
-            Foundations
-          </PageTitle>
-          <Lead className="mt-6 max-w-2xl text-xl">
-            Spacing, elevation, borders &amp; radius, and the layout shell.
-            Every value on this page is sourced directly from Care UI&apos;s{" "}
-            <InlineCode>src/index.css</InlineCode>, the sidebar primitive, and
-            the live components — nothing invented.
-          </Lead>
-        </header>
+        <DocumentationHeader title="Foundations">
+          Spacing, elevation, borders &amp; radius, and the layout shell. Every
+          value on this page is sourced directly from Care UI&apos;s{" "}
+          <InlineCode>src/index.css</InlineCode>, the sidebar primitive, and
+          the live components — nothing invented.
+        </DocumentationHeader>
 
         {/* Spacing */}
         <section>
           <SectionHeading id="spacing">Spacing</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Care UI uses Tailwind v4&apos;s default spacing unit:{" "}
             <InlineCode>--spacing: 0.25rem</InlineCode> (4px). It is{" "}
             <em>not</em> overridden. Every <InlineCode>p-*</InlineCode>,{" "}
             <InlineCode>m-*</InlineCode>, <InlineCode>gap-*</InlineCode>, and{" "}
             <InlineCode>space-*</InlineCode> utility is a multiple of that base.
             The table below documents the steps actually used across the system.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -549,7 +518,7 @@ export function FoundationsPage() {
         {/* Elevation */}
         <section>
           <SectionHeading id="elevation">Elevation</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Care UI uses Tailwind&apos;s shadow scale, paired with a{" "}
             <strong>hairline ring</strong> (
             <InlineCode>ring-1 ring-foreground/10</InlineCode>) on every
@@ -558,7 +527,7 @@ export function FoundationsPage() {
             <InlineCode>shadow-primary/50</InlineCode>) and <em>inverted</em> in
             dark mode (<InlineCode>dark:shadow-background</InlineCode>) — never
             raw black.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -613,11 +582,11 @@ export function FoundationsPage() {
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Button depth (Care-specific)
           </h3>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             Primary and outline buttons add an <em>inset shadow</em> on top of
             the drop shadow, giving them a physical pressed-state transition.
             This is unique to Care UI&apos;s button component.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -652,14 +621,14 @@ export function FoundationsPage() {
           <SectionHeading id="borders-radius">
             Borders &amp; Radius
           </SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             All radii cascade from <strong>one</strong> token:{" "}
             <InlineCode>--radius: 0.625rem</InlineCode> (10px). The full ladder
             (<InlineCode>sm</InlineCode>…<InlineCode>4xl</InlineCode>) is
             generated by adding or subtracting from that base in{" "}
             <InlineCode>@theme inline</InlineCode>, so changing one value
             re-tunes the entire system proportionally.
-          </p>
+          </DocumentationParagraph>
 
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Radius scale
@@ -728,14 +697,14 @@ export function FoundationsPage() {
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Squircle utilities
           </h3>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             Care UI ships custom <InlineCode>rounded-squircle-*</InlineCode>{" "}
             utilities (declared in <InlineCode>src/index.css</InlineCode>) that
             apply <InlineCode>corner-shape: superellipse(1.6)</InlineCode> on
             top of the standard radius. They progressively enhance — browsers
             without <InlineCode>corner-shape</InlineCode> support fall back to
             the regular rounded corner.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -769,7 +738,7 @@ export function FoundationsPage() {
           <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
             Border tokens by use
           </h3>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             The border tokens themselves are documented in detail on the{" "}
             <a
               href="#"
@@ -779,7 +748,7 @@ export function FoundationsPage() {
             </a>{" "}
             page. The table below is the practical mapping — which token shows
             up where in the live components.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -830,14 +799,14 @@ export function FoundationsPage() {
         {/* Layout */}
         <section>
           <SectionHeading id="layout">Layout</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             The Care UI app shell is a <InlineCode>SidebarProvider</InlineCode>{" "}
             around an <InlineCode>AppSidebar</InlineCode> and{" "}
             <InlineCode>SidebarInset</InlineCode>, with a sticky top app bar and
             a single scroll region for the main content. All measurements below
             are taken from <InlineCode>src/App.tsx</InlineCode> and{" "}
             <InlineCode>src/components/ui/sidebar.tsx</InlineCode>.
-          </p>
+          </DocumentationParagraph>
 
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             App shell measurements
@@ -872,13 +841,13 @@ export function FoundationsPage() {
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Control heights
           </h3>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             Care UI uses a responsive control height:{" "}
             <strong>taller on mobile</strong> for touch,{" "}
             <strong>compact on desktop</strong> for density. The pattern{" "}
             <InlineCode>h-12 md:h-10</InlineCode> appears on every primary form
             control (Input, Input group, Select trigger).
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -914,11 +883,11 @@ export function FoundationsPage() {
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             Documentation page layout
           </h3>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             Every long-form documentation page (Typography, Colors, this page)
             shares the same container so reading width and section rhythm stay
             consistent.
-          </p>
+          </DocumentationParagraph>
 
           <pre className="bg-muted my-6 overflow-x-auto rounded-lg p-4">
             <code className="font-mono text-sm">{`<main className="flex-1 overflow-y-auto">
@@ -1032,7 +1001,6 @@ export function FoundationsPage() {
             </div>
           </div>
         </section>
-      </div>
-    </main>
+    </DocumentationPage>
   );
 }

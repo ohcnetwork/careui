@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Table,
   TableBody,
@@ -8,11 +7,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  EyebrowTitle,
-  Lead,
-  PageTitle,
-  SectionTitle,
-} from "@/components/ui/typography";
+  DocumentationHeader,
+  DocumentationInlineCode as InlineCode,
+  DocumentationPage,
+  DocumentationParagraph,
+  DocumentationSectionHeading as SectionHeading,
+} from "@/components/documentation-primitives";
 
 /**
  * Contributing documentation page for Care UI.
@@ -26,28 +26,6 @@ import {
  * Every command, path, and rule on this page exists in the repo today —
  * nothing aspirational.
  */
-
-function InlineCode({ children }: { children: React.ReactNode }) {
-  return (
-    <code className="bg-muted text-foreground relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-      {children}
-    </code>
-  );
-}
-
-function SectionHeading({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <SectionTitle id={id} className="border-b pb-2 scroll-m-20">
-      {children}
-    </SectionTitle>
-  );
-}
 
 function CodeBlock({ children }: { children: string }) {
   return (
@@ -173,30 +151,21 @@ const QUALITY: { area: string; rules: string[] }[] = [
 
 export function ContributingPage() {
   return (
-    <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
+    <DocumentationPage>
         {/* Header */}
-        <header>
-          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
-            Documentation
-          </EyebrowTitle>
-          <PageTitle className="mt-3 scroll-m-20">
-            Contributing
-          </PageTitle>
-          <Lead className="mt-6 max-w-2xl text-xl">
-            A short, opinionated workflow for adding and modifying Care UI
-            components — one source of truth, three files to touch, and the
-            quality bar every change is held to.
-          </Lead>
-        </header>
+        <DocumentationHeader title="Contributing">
+          A short, opinionated workflow for adding and modifying Care UI
+          components — one source of truth, three files to touch, and the
+          quality bar every change is held to.
+        </DocumentationHeader>
 
         {/* Prerequisites */}
         <section>
           <SectionHeading id="prerequisites">Prerequisites</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Care UI pins its toolchain so every contributor and the Cloudflare
             Pages build run on the same versions.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -235,11 +204,11 @@ pnpm dev`}</CodeBlock>
         {/* Three-file workflow */}
         <section>
           <SectionHeading id="workflow">The three-file workflow</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Every component touches exactly three hand-written files. The JSON
             under <InlineCode>public/registry/care-ui/</InlineCode> is generated
             — never edit it.
-          </p>
+          </DocumentationParagraph>
 
           <ol className="text-foreground mt-6 ml-5 list-decimal space-y-2 leading-7">
             <li>
@@ -259,11 +228,11 @@ pnpm dev`}</CodeBlock>
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             1. Implementation
           </h3>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             Place the component at{" "}
             <InlineCode>src/components/ui/&lt;name&gt;.tsx</InlineCode>. The
             JSDoc header is required — the registry generator parses it.
-          </p>
+          </DocumentationParagraph>
           <CodeBlock>{`// src/components/ui/my-component.tsx
 /**
  * @name my-component
@@ -289,11 +258,11 @@ export function MyComponent({
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             2. Documentation
           </h3>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             Authoring docs use <InlineCode>React.createElement</InlineCode> (not
             JSX) so the file can be evaluated in non-JSX contexts when
             generating the registry payload.
-          </p>
+          </DocumentationParagraph>
           <CodeBlock>{`// src/lib/registry/my-component.tsx
 import React from "react";
 import { type ComponentDoc } from "@/lib/types";
@@ -327,10 +296,10 @@ export const myComponentDoc: ComponentDoc = {
           <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
             3. Registration
           </h3>
-          <p className="text-foreground mt-4 leading-7">
+          <DocumentationParagraph spacing="subsection">
             Register the component in the lazy-loader map so the docs SPA and
             the sidebar pick it up automatically.
-          </p>
+          </DocumentationParagraph>
           <CodeBlock>{`// src/lib/registry/index.ts
 const componentLoaders = {
   // …existing entries
@@ -348,11 +317,11 @@ pnpm dev              # http://localhost:5173 → component appears in the sideb
         {/* Commands */}
         <section>
           <SectionHeading id="commands">Commands</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Every script is defined in <InlineCode>package.json</InlineCode>.
             Prefer the named scripts over invoking <InlineCode>tsx</InlineCode>{" "}
             or <InlineCode>vite</InlineCode> directly.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -447,11 +416,11 @@ pnpm dev              # http://localhost:5173 → component appears in the sideb
         {/* Quality checklist */}
         <section>
           <SectionHeading id="quality">Quality checklist</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Before opening a pull request, walk every component change through
             this list. Each group cross-references the foundations documented
             elsewhere in this site.
-          </p>
+          </DocumentationParagraph>
 
           <div className="mt-8 space-y-8">
             {QUALITY.map((group) => (
@@ -477,12 +446,12 @@ pnpm dev              # http://localhost:5173 → component appears in the sideb
           <SectionHeading id="dependencies">
             Adding a new dependency
           </SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Adding an external package to a UI component requires two steps:
             install it, then teach the registry generator about it so downstream{" "}
             <InlineCode>shadcn</InlineCode> consumers get the right install
             command.
-          </p>
+          </DocumentationParagraph>
 
           <CodeBlock>{`# 1. Install
 pnpm add <package>
@@ -618,7 +587,6 @@ pnpm build:registry && pnpm lint && pnpm format:check`}</CodeBlock>
             </div>
           </div>
         </section>
-      </div>
-    </main>
+    </DocumentationPage>
   );
 }

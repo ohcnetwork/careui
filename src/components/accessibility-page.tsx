@@ -8,11 +8,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  EyebrowTitle,
-  Lead,
-  PageTitle,
-  SectionTitle,
-} from "@/components/ui/typography";
+  DocumentationHeader,
+  DocumentationInlineCode as InlineCode,
+  DocumentationPage,
+  DocumentationParagraph,
+  DocumentationSectionHeading as SectionHeading,
+} from "@/components/documentation-primitives";
 
 /**
  * Accessibility documentation page for Care UI.
@@ -33,28 +34,6 @@ import {
  * src/index.css, src/App.tsx, or the live primitives in
  * src/components/ui/.
  */
-
-function InlineCode({ children }: { children: React.ReactNode }) {
-  return (
-    <code className="bg-muted text-foreground relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-      {children}
-    </code>
-  );
-}
-
-function SectionHeading({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <SectionTitle id={id} className="scroll-m-20">
-      {children}
-    </SectionTitle>
-  );
-}
 
 /* ── What Care UI ships for accessibility ── */
 
@@ -362,22 +341,13 @@ const TOOLS: { name: string; use: string }[] = [
 
 export function AccessibilityPage() {
   return (
-    <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
+    <DocumentationPage>
         {/* Header */}
-        <header>
-          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
-            Documentation
-          </EyebrowTitle>
-          <PageTitle className="mt-3 scroll-m-20">
-            Accessibility
-          </PageTitle>
-          <Lead className="mt-6 max-w-2xl text-xl">
-            Care UI targets <strong>WCAG 2.2 AA</strong> across every theme.
-            Half of the work is built into the design tokens and primitives; the
-            other half is a short checklist every contributor must apply.
-          </Lead>
-        </header>
+        <DocumentationHeader title="Accessibility">
+          Care UI targets <strong>WCAG 2.2 AA</strong> across every theme. Half
+          of the work is built into the design tokens and primitives; the other
+          half is a short checklist every contributor must apply.
+        </DocumentationHeader>
 
         {/* Standards */}
         <section>
@@ -410,10 +380,10 @@ export function AccessibilityPage() {
           <SectionHeading id="built-in">
             What Care UI gives you for free
           </SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Before you write a single attribute, the design tokens and providers
             below are already doing accessibility work on your behalf.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -446,11 +416,11 @@ export function AccessibilityPage() {
         {/* Author checklist */}
         <section>
           <SectionHeading id="checklist">Author checklist</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Apply every rule below when authoring a new component or composing
             existing ones. Each group maps to one WCAG outcome and one place
             reviewers will look during code review.
-          </p>
+          </DocumentationParagraph>
 
           <div className="mt-8 space-y-10">
             {CHECKLIST.map((group) => (
@@ -483,10 +453,10 @@ export function AccessibilityPage() {
         {/* Anti-patterns */}
         <section>
           <SectionHeading id="anti-patterns">Anti-patterns</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Reviewers will flag any of these on sight. They are the most common
             ways an otherwise good component becomes inaccessible.
-          </p>
+          </DocumentationParagraph>
           <ul className="text-foreground mt-6 ml-5 list-disc space-y-2 leading-7">
             {ANTI_PATTERNS.map((p) => (
               <li key={p}>{p}</li>
@@ -497,11 +467,11 @@ export function AccessibilityPage() {
         {/* Testing */}
         <section>
           <SectionHeading id="testing">Testing &amp; tooling</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Automated tools catch a fraction of accessibility issues. Combine
             them with the manual passes below before any non-trivial change
             ships.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -584,7 +554,6 @@ export function AccessibilityPage() {
             </div>
           </div>
         </section>
-      </div>
-    </main>
+    </DocumentationPage>
   );
 }

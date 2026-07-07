@@ -2,11 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/care-ui-logo-mark.svg" />
+    <link id="site-favicon" rel="icon" href="%FAVICON_HREF%" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Care·ui</title>
     <script>
       (function () {
+        var env = "%DEPLOY_ENV%";
+        var faviconByEnv = {
+          preview: "/favicon.preview.ico",
+          development: "/favicon.development.ico",
+        };
+        var expectedFavicon =
+          env === "production"
+            ? "/favicon.ico"
+            : faviconByEnv[env] || "/favicon.development.ico";
+        var faviconLink = document.getElementById("site-favicon");
+        if (faviconLink && faviconLink.getAttribute("href") !== expectedFavicon) {
+          faviconLink.setAttribute("href", expectedFavicon);
+        }
+
         var scale = { small: 0.875, default: 1, large: 1.125, larger: 1.25 };
         var saved = localStorage.getItem("careui-font-size");
         var value = scale[saved] || 1;

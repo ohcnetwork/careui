@@ -10,11 +10,12 @@ import {
 } from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
 import {
-  EyebrowTitle,
-  Lead,
-  PageTitle,
-  SectionTitle,
-} from "@/components/ui/typography";
+  DocumentationHeader,
+  DocumentationInlineCode as InlineCode,
+  DocumentationPage,
+  DocumentationParagraph,
+  DocumentationSectionHeading as SectionHeading,
+} from "@/components/documentation-primitives";
 
 /**
  * Colors documentation page for the Care design system.
@@ -25,28 +26,6 @@ import {
  * they consume `background`, `foreground`, `border`, `primary`, etc. so
  * theming, dark mode, high-contrast and color-blind variants stay free.
  */
-
-function InlineCode({ children }: { children: React.ReactNode }) {
-  return (
-    <code className="bg-muted text-foreground relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-      {children}
-    </code>
-  );
-}
-
-function SectionHeading({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <SectionTitle id={id} className="scroll-m-20">
-      {children}
-    </SectionTitle>
-  );
-}
 
 type Swatch = {
   token: string;
@@ -993,28 +972,19 @@ const PAIRINGS: PairingRow[] = [
 
 export function ColorsPage() {
   return (
-    <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
+    <DocumentationPage>
         {/* Header */}
-        <header>
-          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
-            Documentation
-          </EyebrowTitle>
-          <PageTitle className="mt-3 scroll-m-20">
-            Colors
-          </PageTitle>
-          <Lead className="mt-6 max-w-2xl text-xl">
-            One semantic palette. Five themes. Care UI never paints with raw
-            color scales — every surface, text and border resolves through a
-            token so dark mode, high-contrast and color-blind safe variants all
-            stay free.
-          </Lead>
-        </header>
+        <DocumentationHeader title="Colors">
+          One semantic palette. Five themes. Care UI never paints with raw
+          color scales — every surface, text and border resolves through a
+          token so dark mode, high-contrast and color-blind safe variants all
+          stay free.
+        </DocumentationHeader>
 
         {/* Foundations */}
         <section>
           <SectionHeading id="foundations">Foundations</SectionHeading>
-          <p className="text-foreground leading-7 not-first:mt-6">
+          <DocumentationParagraph spacing="stack">
             Tokens live in <InlineCode>src/index.css</InlineCode>. Each semantic
             name (e.g. <InlineCode>--background</InlineCode>) points at a
             Tailwind v4 palette value (e.g.{" "}
@@ -1024,7 +994,7 @@ export function ColorsPage() {
             <InlineCode>text-foreground</InlineCode>,{" "}
             <InlineCode>border-border</InlineCode>). That single indirection is
             what makes the system themeable.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border bg-card mt-6 grid grid-cols-1 gap-4 rounded-lg border p-6 md:grid-cols-3">
             <div className="space-y-1">
@@ -1077,7 +1047,7 @@ export function ColorsPage() {
         {/* Theme modes */}
         <section>
           <SectionHeading id="themes">Themes</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Themes are layered. <InlineCode>.dark</InlineCode> toggles the color
             scheme. <InlineCode>[data-theme]</InlineCode> swaps the brand
             palette for color-blind safe scales (the swap is at the
@@ -1086,7 +1056,7 @@ export function ColorsPage() {
             <InlineCode>destructive</InlineCode>, or any chart token updates
             with no extra work). <InlineCode>.high-contrast</InlineCode> is a
             modifier that only strengthens foreground and border tokens.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -1127,27 +1097,27 @@ export function ColorsPage() {
         {/* Surfaces */}
         <section>
           <SectionHeading id="surfaces">Surface Tokens</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Backgrounds stack from <strong>background</strong> (canvas) up to{" "}
             <strong>strong-background</strong> (deepest fill). Pair every
             surface with the matching <em>-foreground</em> token, or with a
             calibrated <InlineCode>foreground / muted-foreground</InlineCode>{" "}
             from the foregrounds section below.
-          </p>
+          </DocumentationParagraph>
           <SwatchGrid items={SURFACES} />
         </section>
 
         {/* Foregrounds */}
         <section>
           <SectionHeading id="foregrounds">Foreground Tokens</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Six steps of intent, not six steps of opacity. Pick by{" "}
             <em>meaning</em>: body, secondary, tertiary, placeholder, disabled,
             inverse. Never compose text contrast with{" "}
             <InlineCode>opacity</InlineCode> or{" "}
             <InlineCode>text-foreground/60</InlineCode> — it breaks under
             high-contrast mode.
-          </p>
+          </DocumentationParagraph>
           <SwatchGrid items={FOREGROUNDS} />
         </section>
 
@@ -1156,12 +1126,12 @@ export function ColorsPage() {
           <SectionHeading id="borders">
             Borders, Inputs &amp; Ring
           </SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Borders mirror the surface stack — softer for inside-card dividers,
             stronger for outlined controls. In dark mode they are authored as{" "}
             <InlineCode>white / α</InlineCode> so they sit on any surface
             without banding.
-          </p>
+          </DocumentationParagraph>
           <SwatchGrid items={BORDERS} />
 
           <div className="border-border bg-card mt-6 rounded-lg border p-6">
@@ -1184,26 +1154,26 @@ export function ColorsPage() {
         {/* Brand & state */}
         <section>
           <SectionHeading id="brand">Brand &amp; State</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Use <strong>primary</strong> for the single most important action on
             a surface. Use <strong>secondary</strong> for everything else.{" "}
             <strong>Destructive</strong> is reserved for irreversible actions
             and error state — never for warnings.
-          </p>
+          </DocumentationParagraph>
           <SwatchGrid items={BRAND} />
         </section>
 
         {/* Primary scale */}
         <section>
           <SectionHeading id="primary-scale">Primary Scale</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             The <InlineCode>primary-50 → primary-950</InlineCode> ramp tracks
             whichever palette the active theme has installed (emerald, blue, or
             rose). Compose nuanced primary states from this ramp — but still
             keep semantic intent: <InlineCode>primary-100</InlineCode> for a
             tinted background, <InlineCode>primary-700</InlineCode> for a hover,
             etc.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <div className="flex">
@@ -1228,7 +1198,7 @@ export function ColorsPage() {
         {/* Base palette */}
         <section>
           <SectionHeading id="base-palette">Base Palette</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Every Care UI token ultimately resolves to one of the Tailwind v4
             ramps below. <strong>neutral</strong> powers the surface and
             foreground stacks. <strong>emerald · blue · rose</strong> are the
@@ -1236,7 +1206,7 @@ export function ColorsPage() {
             changes. <strong>red · yellow</strong> drive destructive across
             those swaps. The remaining ramps feed the chart palette and the
             color-blind safe substitutions.
-          </p>
+          </DocumentationParagraph>
 
           <div className="mt-6 space-y-4">
             {RAMPS.map((r) => (
@@ -1269,12 +1239,12 @@ export function ColorsPage() {
         {/* Charts */}
         <section>
           <SectionHeading id="charts">Chart Palette</SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Five categorical hues, ordered by visual prominence. Always use them
             in numeric order so the most important series gets the strongest
             hue. Each theme provides its own chart palette tuned for the
             underlying color scheme.
-          </p>
+          </DocumentationParagraph>
           <SwatchGrid items={CHARTS} />
 
           <div className="border-border bg-card mt-6 rounded-lg border p-6">
@@ -1320,11 +1290,11 @@ export function ColorsPage() {
           <SectionHeading id="contrast">
             Contrast &amp; Readability
           </SectionHeading>
-          <p className="text-foreground mt-6 leading-7">
+          <DocumentationParagraph>
             Care UI ships with paired tokens so contrast is correct by default.
             The table below documents the contract — if a pairing you need
             isn&apos;t listed, you&apos;re likely composing wrong tokens.
-          </p>
+          </DocumentationParagraph>
 
           <div className="border-border mt-6 overflow-hidden rounded-lg border">
             <Table>
@@ -1528,7 +1498,6 @@ className="bg-destructive text-destructive-foreground hover:bg-destructive/90"`}
             </div>
           </div>
         </section>
-      </div>
-    </main>
+    </DocumentationPage>
   );
 }

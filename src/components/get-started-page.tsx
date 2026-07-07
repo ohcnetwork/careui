@@ -1,13 +1,15 @@
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { SubsectionTitle } from "@/components/ui/typography";
 import {
-  EyebrowTitle,
-  Lead,
-  PageTitle,
-  SectionTitle,
-  SubsectionTitle,
-} from "@/components/ui/typography";
+  DocumentationHeader,
+  DocumentationInlineCode as InlineCode,
+  DocumentationPage,
+  DocumentationParagraph,
+  DocumentationSectionHeading as SectionHeading,
+  documentationLinkClassName,
+} from "@/components/documentation-primitives";
 
 /**
  * Get Started documentation page for Care UI.
@@ -15,14 +17,6 @@ import {
  * Guides developers through installing Care UI in a React + Tailwind v4 project,
  * adding components via shadcn CLI, and setting up the design tokens and typography system.
  */
-
-function InlineCode({ children }: { children: React.ReactNode }) {
-  return (
-    <code className="bg-muted text-foreground relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
-      {children}
-    </code>
-  );
-}
 
 function CodeBlock({ code, id }: { code: string; id: string }) {
   const { copyToClipboard, isCopied } = useCopyToClipboard();
@@ -50,35 +44,26 @@ function CodeBlock({ code, id }: { code: string; id: string }) {
 
 export function GetStartedPage() {
   return (
-    <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
+    <DocumentationPage>
         {/* Header */}
-        <header>
-          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
-            Documentation
-          </EyebrowTitle>
-          <PageTitle className="mt-3 scroll-m-20">
-            Get Started
-          </PageTitle>
-          <Lead className="mt-6 max-w-2xl text-xl">
-            Install Care UI in a React + Tailwind v4 project. Components are
-            added on demand through the shadcn CLI — you own the source, nothing
-            is published as a runtime dependency.
-          </Lead>
-        </header>
+        <DocumentationHeader title="Get Started">
+          Install Care UI in a React + Tailwind v4 project. Components are
+          added on demand through the shadcn CLI — you own the source, nothing
+          is published as a runtime dependency.
+        </DocumentationHeader>
 
         {/* Prerequisites Section */}
         <section className="space-y-4">
-          <SectionTitle className="scroll-m-20">Prerequisites</SectionTitle>
+          <SectionHeading id="prerequisites">Prerequisites</SectionHeading>
           <div className="space-y-3">
-            <p className="text-muted-foreground leading-relaxed">
+            <DocumentationParagraph spacing="none">
               Care UI targets React 19, TypeScript, and Tailwind CSS v4.
               Initialise shadcn once in your project — this writes{" "}
               <InlineCode>components.json</InlineCode>, sets up the{" "}
               <InlineCode>@/</InlineCode> import alias, and wires Tailwind's CSS
               variables. Pick the neutral base colour to match the Care UI
               palette.
-            </p>
+            </DocumentationParagraph>
             <CodeBlock
               code={`# In your React + Tailwind v4 project
 npx shadcn@latest init`}
@@ -89,9 +74,9 @@ npx shadcn@latest init`}
 
         {/* Add Components Section */}
         <section className="space-y-4">
-          <SectionTitle className="scroll-m-20">Add a component</SectionTitle>
+          <SectionHeading id="add-component">Add a component</SectionHeading>
           <div className="space-y-3">
-            <p className="text-muted-foreground leading-relaxed">
+            <DocumentationParagraph spacing="none">
               Every Care UI component is published as a shadcn-compatible
               registry entry at{" "}
               <InlineCode>
@@ -100,7 +85,7 @@ npx shadcn@latest init`}
               . Pass the URL directly to the CLI — files land in{" "}
               <InlineCode>@/components/ui/</InlineCode> and any required
               dependencies are installed automatically.
-            </p>
+            </DocumentationParagraph>
             <CodeBlock
               code={`# Add a single component
 npx shadcn@latest add https://careui.ohc.network/r/button.json
@@ -121,14 +106,16 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
 
         {/* Tailwind v4 Setup Section */}
         <section className="space-y-4">
-          <SectionTitle className="scroll-m-20">Tailwind v4 setup</SectionTitle>
+          <SectionHeading id="tailwind-v4-setup">
+            Tailwind v4 setup
+          </SectionHeading>
           <div className="space-y-3">
-            <p className="text-muted-foreground leading-relaxed">
+            <DocumentationParagraph spacing="none">
               Care UI uses Tailwind v4's CSS-first configuration — there is no{" "}
               <InlineCode>tailwind.config.js</InlineCode>. Import Tailwind from
               your root stylesheet and the design tokens shadcn writes will be
               picked up automatically.
-            </p>
+            </DocumentationParagraph>
             <CodeBlock
               code={`/* src/index.css */
 @import "tailwindcss";
@@ -142,9 +129,11 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
 
         {/* Use in App Section */}
         <section className="space-y-4">
-          <SectionTitle className="scroll-m-20">Use it in your app</SectionTitle>
+          <SectionHeading id="use-it-in-your-app">
+            Use it in your app
+          </SectionHeading>
           <div className="space-y-3">
-            <p className="text-muted-foreground leading-relaxed">
+            <DocumentationParagraph spacing="none">
               Components are imported from the{" "}
               <InlineCode>@/components/ui/</InlineCode> alias and composed with
               regular Tailwind classes. They are fully typed, support dark mode
@@ -152,12 +141,12 @@ bunx shadcn@latest add https://careui.ohc.network/r/button.json`}
               documented under{" "}
               <a
                 href="#docs-typography"
-                className="text-primary hover:underline"
+                className={documentationLinkClassName}
               >
                 Typography
               </a>
               .
-            </p>
+            </DocumentationParagraph>
             <CodeBlock
               code={`import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -183,14 +172,14 @@ export function SignInForm() {
 
         {/* What You Get Section */}
         <section className="space-y-4">
-          <SectionTitle className="scroll-m-20">What you get</SectionTitle>
+          <SectionHeading id="what-you-get">What you get</SectionHeading>
           <div className="space-y-4">
-            <p className="text-muted-foreground leading-relaxed">
+            <DocumentationParagraph spacing="none">
               Source you own (no runtime dependency on Care UI), full TypeScript
               types and Radix accessibility primitives, the Care UI theme tokens
               (light, dark, protanopia, tritanopia, high-contrast), and the
               typography + spacing system tuned for clinical density.
-            </p>
+            </DocumentationParagraph>
             <div>
               <SubsectionTitle>Features included</SubsectionTitle>
               <ul className="mt-3 space-y-2">
@@ -235,17 +224,17 @@ export function SignInForm() {
 
         {/* Next Steps Section */}
         <section className="space-y-4">
-          <SectionTitle className="scroll-m-20">Next steps</SectionTitle>
+          <SectionHeading id="next-steps">Next steps</SectionHeading>
           <div className="space-y-3">
-            <p className="text-muted-foreground leading-relaxed">
+            <DocumentationParagraph spacing="none">
               Browse the rest of the docs to learn more about the design system:
-            </p>
+            </DocumentationParagraph>
             <ul className="space-y-2">
               <li className="text-muted-foreground flex gap-2">
                 <span>→</span>
                 <a
                   href="#docs-typography"
-                  className="text-primary hover:underline"
+                  className={documentationLinkClassName}
                 >
                   Typography
                 </a>
@@ -253,14 +242,17 @@ export function SignInForm() {
               </li>
               <li className="text-muted-foreground flex gap-2">
                 <span>→</span>
-                <a href="#colors" className="text-primary hover:underline">
+                <a href="#colors" className={documentationLinkClassName}>
                   Colors
                 </a>
                 {" — Semantic tokens, theme modes, and contrast pairings"}
               </li>
               <li className="text-muted-foreground flex gap-2">
                 <span>→</span>
-                <a href="#foundations" className="text-primary hover:underline">
+                <a
+                  href="#foundations"
+                  className={documentationLinkClassName}
+                >
                   Foundations
                 </a>
                 {" — Spacing, elevation, borders, and layout shells"}
@@ -269,7 +261,7 @@ export function SignInForm() {
                 <span>→</span>
                 <a
                   href="#accessibility"
-                  className="text-primary hover:underline"
+                  className={documentationLinkClassName}
                 >
                   Accessibility
                 </a>
@@ -281,25 +273,24 @@ export function SignInForm() {
 
         {/* Footer */}
         <div className="border-t pt-8">
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-sm leading-6">
             Need help? Check out our{" "}
             <a
               href="#components-overview"
-              className="text-primary hover:underline"
+              className={documentationLinkClassName}
             >
               component examples
             </a>
             {" or browse the "}
             <a
               href="https://github.com/ohcnetwork/careui"
-              className="text-primary hover:underline"
+              className={documentationLinkClassName}
             >
               source code
             </a>
             .
           </p>
         </div>
-      </div>
-    </main>
+    </DocumentationPage>
   );
 }

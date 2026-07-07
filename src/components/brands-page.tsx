@@ -1,11 +1,11 @@
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  EyebrowTitle,
-  Lead,
-  PageTitle,
-  SectionTitle,
-} from "@/components/ui/typography";
+  DocumentationHeader,
+  DocumentationPage,
+  DocumentationParagraph,
+  DocumentationSectionHeading as SectionHeading,
+} from "@/components/documentation-primitives";
 
 type AssetPreview = {
   title: string;
@@ -112,20 +112,6 @@ const BRANDS: BrandSection[] = [
   },
 ];
 
-function SectionHeading({
-  id,
-  children,
-}: {
-  id: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <SectionTitle id={id} className="scroll-m-20">
-      {children}
-    </SectionTitle>
-  );
-}
-
 function BrandPreviewCard({ preview }: { preview: AssetPreview }) {
   const surfaceClassName =
     preview.theme === "dark"
@@ -169,18 +155,22 @@ function BrandSectionBlock({ brand }: { brand: BrandSection }) {
           <SectionHeading id={`${brand.id}-heading`}>
             {brand.name}
           </SectionHeading>
-          <p className="text-muted-foreground text-sm leading-6">
+          <DocumentationParagraph
+            spacing="none"
+            tone="muted"
+            className="text-sm leading-6"
+          >
             {brand.summary}
-          </p>
+          </DocumentationParagraph>
         </div>
       </div>
-    <div className="space-y-1 md:space-y-4">
-      <div className="grid grid-cols-1 gap-1 md:gap-4 md:grid-cols-2">
-        {brand.featuredPreviews.map((preview) => (
-          <BrandPreviewCard key={preview.src} preview={preview} />
-        ))}
+      <div className="space-y-1 md:space-y-4">
+        <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-4">
+          {brand.featuredPreviews.map((preview) => (
+            <BrandPreviewCard key={preview.src} preview={preview} />
+          ))}
         </div>
-        <div className="flex flex-col gap-3 rounded-xl bg-soft-background border p-4 md:flex-row md:items-start md:justify-between md:gap-6">
+        <div className="bg-soft-background border-border flex flex-col gap-3 rounded-xl border p-4 md:flex-row md:items-start md:justify-between md:gap-6">
           <p className="text-muted-foreground max-w-2xl text-sm leading-6">
             Download a ZIP with approved {brand.name} logo assets in SVG and PNG
             formats, including light and dark variants for different
@@ -264,11 +254,15 @@ function ClearspaceGuidance() {
       <SectionHeading id="spacing-considerations-heading">
         Clearspace Guidance
       </SectionHeading>
-      <p className="text-muted-foreground max-w-3xl text-base leading-7">
+      <DocumentationParagraph
+        spacing="none"
+        tone="muted"
+        className="max-w-3xl"
+      >
         Keep consistent clearspace around each primary logo so the mark remains
         readable and visually distinct. Avoid placing text, imagery, UI
         elements, or other logos inside the protected area.
-      </p>
+      </DocumentationParagraph>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {guideBoxes.map((guide) => {
@@ -317,28 +311,18 @@ function ClearspaceGuidance() {
 
 export function BrandsPage() {
   return (
-    <main className="flex-1 overflow-y-auto">
-      <div className="mx-auto max-w-4xl space-y-16 p-4 md:p-8">
-        <header>
-          <EyebrowTitle className="text-muted-foreground text-xs tracking-widest uppercase">
-            Documentation
-          </EyebrowTitle>
-          <PageTitle className="mt-3 scroll-m-20">
-            Brands
-          </PageTitle>
-          <Lead className="mt-6 max-w-3xl text-xl">
-            Centralised brand assets for Care, OHCNF, and OHC. Each section
-            includes download-ready files, approved light and dark variants,
-            and spacing references for correct logo placement.
-          </Lead>
-        </header>
+    <DocumentationPage>
+      <DocumentationHeader title="Brands" leadClassName="max-w-3xl text-xl">
+        Centralised brand assets for Care, OHCNF, and OHC. Each section
+        includes download-ready files, approved light and dark variants, and
+        spacing references for correct logo placement.
+      </DocumentationHeader>
 
         {BRANDS.map((brand) => (
           <BrandSectionBlock key={brand.id} brand={brand} />
         ))}
 
         <ClearspaceGuidance />
-      </div>
-    </main>
+    </DocumentationPage>
   );
 }
