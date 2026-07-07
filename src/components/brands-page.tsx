@@ -254,11 +254,7 @@ function ClearspaceGuidance() {
       <SectionHeading id="spacing-considerations-heading">
         Clearspace Guidance
       </SectionHeading>
-      <DocumentationParagraph
-        spacing="none"
-        tone="muted"
-        className="max-w-3xl"
-      >
+      <DocumentationParagraph spacing="none" tone="muted" className="max-w-3xl">
         Keep consistent clearspace around each primary logo so the mark remains
         readable and visually distinct. Avoid placing text, imagery, UI
         elements, or other logos inside the protected area.
@@ -313,16 +309,16 @@ export function BrandsPage() {
   return (
     <DocumentationPage>
       <DocumentationHeader title="Brands" leadClassName="max-w-3xl text-xl">
-        Centralised brand assets for Care, OHCNF, and OHC. Each section
-        includes download-ready files, approved light and dark variants, and
-        spacing references for correct logo placement.
+        Centralised brand assets for Care, OHCNF, and OHC. Each section includes
+        download-ready files, approved light and dark variants, and spacing
+        references for correct logo placement.
       </DocumentationHeader>
 
-        {BRANDS.map((brand) => (
-          <BrandSectionBlock key={brand.id} brand={brand} />
-        ))}
+      {BRANDS.map((brand) => (
+        <BrandSectionBlock key={brand.id} brand={brand} />
+      ))}
 
-        <ClearspaceGuidance />
+      <ClearspaceGuidance />
     </DocumentationPage>
   );
 }
