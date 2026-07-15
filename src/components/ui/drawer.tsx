@@ -27,8 +27,10 @@ function mapDirection(dir: string): "up" | "down" | "left" | "right" {
 // ---------------------------------------------------------------------------
 // asChild → render shim (vaul/Radix pattern → Base UI render prop)
 // ---------------------------------------------------------------------------
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type RenderProp = React.ReactElement | ((props: any, state: any) => React.ReactElement) | undefined;
+type RenderProp =
+  | React.ReactElement
+  | ((props: unknown, state: unknown) => React.ReactElement)
+  | undefined;
 
 function resolveAsChild(
   asChild: boolean | undefined,
@@ -45,10 +47,7 @@ function resolveAsChild(
     // so an explicit `children: undefined` key would erase the trigger text.
     const { children: extractedChildren, ...restProps } = child.props;
     return {
-      render: React.createElement(
-        child.type as React.ElementType,
-        restProps
-      ),
+      render: React.createElement(child.type as React.ElementType, restProps),
       children: extractedChildren,
     };
   }
@@ -105,10 +104,17 @@ function Drawer({
   /** @deprecated Use swipeDirection. */
   direction?: string;
 }) {
-  const resolvedDirection = direction ? mapDirection(direction) : swipeDirection;
+  const resolvedDirection = direction
+    ? mapDirection(direction)
+    : swipeDirection;
   const hasSnapPoints = snapPoints != null && snapPoints.length > 0;
   const contextValue = React.useMemo(
-    () => ({ hasSnapPoints, modal, showSwipeHandle, swipeDirection: resolvedDirection }),
+    () => ({
+      hasSnapPoints,
+      modal,
+      showSwipeHandle,
+      swipeDirection: resolvedDirection,
+    }),
     [hasSnapPoints, modal, showSwipeHandle, resolvedDirection]
   );
 
@@ -230,7 +236,7 @@ function DrawerSwipeHandle({
         "group-data-[swipe-direction=left]/drawer-popup:order-last group-data-[swipe-direction=left]/drawer-popup:justify-start",
         "group-data-[swipe-direction=right]/drawer-popup:justify-end",
         "group-data-[swipe-direction=up]/drawer-popup:order-last group-data-[swipe-direction=up]/drawer-popup:items-start",
-        "after:block after:shrink-0 after:rounded-full after:bg-muted",
+        "after:bg-muted after:block after:shrink-0 after:rounded-full",
         "group-data-[swipe-axis=x]/drawer-popup:after:h-25 group-data-[swipe-axis=x]/drawer-popup:after:w-1.5",
         "group-data-[swipe-axis=y]/drawer-popup:after:h-1.5 group-data-[swipe-axis=y]/drawer-popup:after:w-25",
         "active:cursor-grabbing",
@@ -254,7 +260,8 @@ function DrawerContent({
   size?: DrawerSize;
 }) {
   const { hasSnapPoints, modal, showSwipeHandle, swipeDirection } = useDrawer();
-  const swipeAxis = swipeDirection === "down" || swipeDirection === "up" ? "y" : "x";
+  const swipeAxis =
+    swipeDirection === "down" || swipeDirection === "up" ? "y" : "x";
 
   return (
     <DrawerPortal>
@@ -275,17 +282,17 @@ function DrawerContent({
             "group/drawer-popup pointer-events-auto fixed z-50 m-(--drawer-inset,0px) flex",
             "h-(--drawer-content-height) max-h-(--drawer-content-max-height,none) min-h-0 w-(--drawer-content-width,auto)",
             "transform-[translate3d(var(--translate-x,0px),var(--translate-y,0px),0)_scale(var(--stack-scale))]",
-            "flex-col border border-popover bg-popover",
+            "border-popover bg-popover flex-col border",
             "data-[swipe-direction=down]:rounded-t-[min(var(--radius-xl),24px)] data-[swipe-direction=down]:rounded-b-none",
-            "data-[swipe-direction=up]:rounded-b-[min(var(--radius-xl),24px)] data-[swipe-direction=up]:rounded-t-none",
-            "data-[swipe-direction=left]:rounded-r-[min(var(--radius-xl),24px)] data-[swipe-direction=left]:rounded-l-none",
+            "data-[swipe-direction=up]:rounded-t-none data-[swipe-direction=up]:rounded-b-[min(var(--radius-xl),24px)]",
+            "data-[swipe-direction=left]:rounded-l-none data-[swipe-direction=left]:rounded-r-[min(var(--radius-xl),24px)]",
             "data-[swipe-direction=right]:rounded-l-[min(var(--radius-xl),24px)] data-[swipe-direction=right]:rounded-r-none",
-            "text-sm text-popover-foreground shadow-xl outline-none select-none",
+            "text-popover-foreground text-sm shadow-xl outline-none select-none",
             "transition-[transform,height,opacity,filter] duration-450 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform",
             "[--drawer-bleed-background:transparent] [--drawer-inset:0px]",
             "[--drawer-stacked-shadow:0_-20px_25px_-5px_rgb(0_0_0/0.1),0_-8px_10px_-6px_rgb(0_0_0/0.1)]",
             "[interpolate-size:allow-keywords]",
-            "data-[swipe-direction=down]:data-nested-drawer-open:shadow-(--drawer-stacked-shadow) dark:border-border",
+            "dark:border-border data-[swipe-direction=down]:data-nested-drawer-open:shadow-(--drawer-stacked-shadow)",
             // Nested
             "data-nested-drawer-open:overflow-hidden data-nested-drawer-open:brightness-95",
             // Bleed
@@ -374,14 +381,16 @@ function DrawerHeader({
       data-slot="drawer-header"
       className={cn(
         "flex shrink-0 flex-col gap-0.5 p-4",
-        "md:gap-1.5 text-left",
+        "text-left md:gap-1.5",
         drawerContainerClasses[size],
         className
       )}
       {...props}
     >
       <div className="flex flex-row items-start justify-between gap-4">
-        <div className="flex flex-1 flex-col gap-0.5 md:gap-1.5">{children}</div>
+        <div className="flex flex-1 flex-col gap-0.5 md:gap-1.5">
+          {children}
+        </div>
         {showCloseButton && (
           <DrawerClose asChild>
             <Button
@@ -402,10 +411,7 @@ function DrawerHeader({
 // ---------------------------------------------------------------------------
 // DrawerBody — local addition, not in upstream
 // ---------------------------------------------------------------------------
-function DrawerBody({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function DrawerBody({ className, ...props }: React.ComponentProps<"div">) {
   const size = useDrawerContentSize();
 
   return (
@@ -434,7 +440,7 @@ function DrawerFooter({
   return (
     <div
       data-slot="drawer-footer"
-      className="mt-auto w-full shrink-0 bg-soft-background border-t"
+      className="bg-soft-background mt-auto w-full shrink-0 border-t"
       {...props}
     >
       <div
@@ -473,7 +479,7 @@ function DrawerDescription({
   return (
     <DrawerPrimitive.Description
       data-slot="drawer-description"
-      className={cn("text-sm text-balance text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-sm text-balance", className)}
       {...props}
     />
   );

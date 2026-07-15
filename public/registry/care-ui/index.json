@@ -466,7 +466,7 @@
     "name": "drawer",
     "type": "registry:ui",
     "dependencies": [
-      "vaul",
+      "@base-ui/react",
       "lucide-react",
       "button"
     ],
