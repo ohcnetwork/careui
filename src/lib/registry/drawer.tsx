@@ -231,7 +231,10 @@ export function DrawerDemo() {
                 { className: "flex-1 text-center" },
                 React.createElement(
                   "div",
-                  { className: "text-7xl font-bold tracking-tighter tabular-nums" },
+                  {
+                    className:
+                      "text-7xl font-bold tracking-tighter tabular-nums",
+                  },
                   goal
                 ),
                 React.createElement(
@@ -1116,7 +1119,11 @@ export function NestedDrawerRightDemo() {
           React.createElement(
             DrawerTrigger,
             { asChild: true },
-            React.createElement(Button, { variant: "outline" }, "Open Right Drawer")
+            React.createElement(
+              Button,
+              { variant: "outline" },
+              "Open Right Drawer"
+            )
           ),
           React.createElement(
             DrawerContent,
@@ -1165,7 +1172,11 @@ export function NestedDrawerRightDemo() {
                     React.createElement(
                       DrawerClose,
                       { asChild: true },
-                      React.createElement(Button, { variant: "outline" }, "Close")
+                      React.createElement(
+                        Button,
+                        { variant: "outline" },
+                        "Close"
+                      )
                     )
                   )
                 )
@@ -1186,7 +1197,8 @@ export function NestedDrawerRightDemo() {
     },
     {
       name: "Swipe Handle",
-      description: "Use showSwipeHandle on Drawer to render a draggable handle.",
+      description:
+        "Use showSwipeHandle on Drawer to render a draggable handle.",
       code: `import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -1451,9 +1463,9 @@ export function DrawerSnapPointsDemo() {
   )
 }`,
       preview: React.createElement(() => {
-        const [snapPoint, setSnapPoint] = React.useState<number | string | null>(
-          0.35
-        );
+        const [snapPoint, setSnapPoint] = React.useState<
+          number | string | null
+        >(0.35);
 
         return React.createElement(
           Drawer,
@@ -1525,7 +1537,8 @@ export function DrawerSnapPointsDemo() {
     {
       name: "snapPoints",
       type: "(number | string)[]",
-      description: "Snap point heights. Numbers 0–1 are viewport fractions; larger numbers are pixels; strings support px/rem.",
+      description:
+        "Snap point heights. Numbers 0–1 are viewport fractions; larger numbers are pixels; strings support px/rem.",
     },
     {
       name: "snapPoint",
@@ -1540,7 +1553,8 @@ export function DrawerSnapPointsDemo() {
     {
       name: "snapToSequentialPoints",
       type: "boolean",
-      description: "When true, snap gestures move to adjacent snap points in sequence.",
+      description:
+        "When true, snap gestures move to adjacent snap points in sequence.",
       default: "false",
     },
     {
@@ -1556,7 +1570,8 @@ export function DrawerSnapPointsDemo() {
     {
       name: "modal",
       type: '"boolean" | "trap-focus"',
-      description: "Modal traps focus and blocks pointer events. trap-focus keeps focus inside but allows scroll/pointer outside.",
+      description:
+        "Modal traps focus and blocks pointer events. trap-focus keeps focus inside but allows scroll/pointer outside.",
       default: "true",
     },
     {

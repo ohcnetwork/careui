@@ -663,11 +663,7 @@ export function DialogScrollableWithSelects() {
                       { value: "afternoon" },
                       "Afternoon"
                     ),
-                    React.createElement(
-                      SelectItem,
-                      { value: "night" },
-                      "Night"
-                    )
+                    React.createElement(SelectItem, { value: "night" }, "Night")
                   )
                 )
               ),
@@ -698,7 +694,11 @@ export function DialogScrollableWithSelects() {
                       { value: "sulfa" },
                       "Sulfa Drugs"
                     ),
-                    React.createElement(SelectItem, { value: "nsaid" }, "NSAIDs"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "nsaid" },
+                      "NSAIDs"
+                    ),
                     React.createElement(
                       SelectItem,
                       { value: "none" },
@@ -724,8 +724,16 @@ export function DialogScrollableWithSelects() {
                   React.createElement(
                     SelectContent,
                     {},
-                    React.createElement(SelectItem, { value: "bc" }, "Blue Cross"),
-                    React.createElement(SelectItem, { value: "aetna" }, "Aetna"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "bc" },
+                      "Blue Cross"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "aetna" },
+                      "Aetna"
+                    ),
                     React.createElement(
                       SelectItem,
                       { value: "united" },
@@ -752,7 +760,11 @@ export function DialogScrollableWithSelects() {
                   React.createElement(
                     SelectContent,
                     {},
-                    React.createElement(SelectItem, { value: "active" }, "Active"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "active" },
+                      "Active"
+                    ),
                     React.createElement(
                       SelectItem,
                       { value: "inactive" },
