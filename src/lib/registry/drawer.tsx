@@ -2,7 +2,6 @@ import React from "react";
 import { type ComponentDoc } from "@/lib/types";
 import {
   Drawer,
-  DrawerNestedRoot,
   DrawerTrigger,
   DrawerContent,
   DrawerHeader,
@@ -48,11 +47,11 @@ const chartData = [
 export const drawerDoc: ComponentDoc = {
   id: "drawer",
   name: "Drawer",
-  description: "A drawer component for React, built on top of Vaul.",
+  description: "A drawer component for React, built on top of Base UI.",
   installation: {
     cli: "npx shadcn@latest add drawer",
     manual:
-      "Install vaul dependency and copy the drawer component source code into your project.",
+      "Install @base-ui/react and copy the drawer component source code into your project.",
   },
   usage: `import {
   Drawer,
@@ -78,8 +77,8 @@ export const drawerDoc: ComponentDoc = {
     </DrawerBody>
     <DrawerFooter>
       <Button>Submit</Button>
-      <DrawerClose asChild>
-        <Button variant="outline">Cancel</Button>
+      <DrawerClose render={<Button variant="outline" />}>
+        Cancel
       </DrawerClose>
     </DrawerFooter>
   </DrawerContent>
@@ -119,8 +118,8 @@ export function DrawerDemo() {
 
   return (
     <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="outline">Open Drawer</Button>
+      <DrawerTrigger render={<Button variant="outline" />}>
+        Open Drawer
       </DrawerTrigger>
       <DrawerContent size="md">
         <DrawerHeader>
@@ -140,7 +139,7 @@ export function DrawerDemo() {
               <span className="sr-only">Decrease</span>
             </Button>
             <div className="flex-1 text-center">
-              <div className="text-7xl font-bold tracking-tighter">{goal}</div>
+              <div className="text-7xl font-bold tracking-tighter tabular-nums">{goal}</div>
               <div className="text-muted-foreground text-[0.70rem] uppercase">
                 Calories/day
               </div>
@@ -169,8 +168,8 @@ export function DrawerDemo() {
         </DrawerBody>
         <DrawerFooter>
           <Button>Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
+          <DrawerClose render={<Button variant="outline" />}>
+            Cancel
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
@@ -232,7 +231,7 @@ export function DrawerDemo() {
                 { className: "flex-1 text-center" },
                 React.createElement(
                   "div",
-                  { className: "text-7xl font-bold tracking-tighter" },
+                  { className: "text-7xl font-bold tracking-tighter tabular-nums" },
                   goal
                 ),
                 React.createElement(
@@ -310,9 +309,9 @@ import {
 
 export function DrawerScrollableContent() {
   return (
-    <Drawer direction="right">
-      <DrawerTrigger asChild>
-        <Button variant="outline">Scrollable Content</Button>
+    <Drawer swipeDirection="right">
+      <DrawerTrigger render={<Button variant="outline" />}>
+        Scrollable Content
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
@@ -334,8 +333,8 @@ export function DrawerScrollableContent() {
         </DrawerBody>
         <DrawerFooter>
           <Button>Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
+          <DrawerClose render={<Button variant="outline" />}>
+            Cancel
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
@@ -345,7 +344,7 @@ export function DrawerScrollableContent() {
       preview: React.createElement(() =>
         React.createElement(
           Drawer,
-          { direction: "right" },
+          { swipeDirection: "right" },
           React.createElement(
             DrawerTrigger,
             { asChild: true },
@@ -396,7 +395,7 @@ export function DrawerScrollableContent() {
     {
       name: "Sides",
       description:
-        "Use the direction prop to set the side of the drawer. Available options are top, right, bottom, and left.",
+        "Use the swipeDirection prop to set the drawer side. Options: up, right, down (default), left.",
       code: `import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -410,7 +409,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 
-const DRAWER_SIDES = ["top", "right", "bottom", "left"] as const
+const DRAWER_SIDES = ["up", "right", "down", "left"] as const
 
 export function DrawerWithSides() {
   return (
@@ -418,14 +417,12 @@ export function DrawerWithSides() {
       {DRAWER_SIDES.map((side) => (
         <Drawer
           key={side}
-          direction={
-            side === "bottom" ? undefined : (side as "top" | "right" | "left")
+          swipeDirection={
+            side === "down" ? undefined : (side as "up" | "right" | "left")
           }
         >
-          <DrawerTrigger asChild>
-            <Button variant="outline" className="capitalize">
-              {side}
-            </Button>
+          <DrawerTrigger render={<Button variant="outline" className="capitalize" />}>
+            {side}
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
@@ -444,8 +441,8 @@ export function DrawerWithSides() {
             </DrawerBody>
             <DrawerFooter>
               <Button>Submit</Button>
-              <DrawerClose asChild>
-                <Button variant="outline">Cancel</Button>
+              <DrawerClose render={<Button variant="outline" />}>
+                Cancel
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
@@ -455,7 +452,7 @@ export function DrawerWithSides() {
   )
 }`,
       preview: React.createElement(() => {
-        const DRAWER_SIDES = ["top", "right", "bottom", "left"] as const;
+        const DRAWER_SIDES = ["up", "right", "down", "left"] as const;
         return React.createElement(
           "div",
           { className: "flex flex-wrap gap-2" },
@@ -464,10 +461,10 @@ export function DrawerWithSides() {
               Drawer,
               {
                 key: side,
-                direction:
-                  side === "bottom"
+                swipeDirection:
+                  side === "down"
                     ? undefined
-                    : (side as "top" | "right" | "left"),
+                    : (side as "up" | "right" | "left"),
               },
               React.createElement(
                 DrawerTrigger,
@@ -546,10 +543,8 @@ export function DrawerSizes() {
     <div className="flex flex-wrap gap-2">
       {SIZES.map((size) => (
         <Drawer key={size}>
-          <DrawerTrigger asChild>
-            <Button variant="outline" className="capitalize">
-              {size}
-            </Button>
+          <DrawerTrigger render={<Button variant="outline" className="capitalize" />}>
+            {size}
           </DrawerTrigger>
           <DrawerContent size={size}>
             <DrawerHeader>
@@ -565,8 +560,8 @@ export function DrawerSizes() {
             </DrawerBody>
             <DrawerFooter>
               <Button>Submit</Button>
-              <DrawerClose asChild>
-                <Button variant="outline">Cancel</Button>
+              <DrawerClose render={<Button variant="outline" />}>
+                Cancel
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
@@ -698,8 +693,8 @@ export function DrawerDialogDemo() {
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
-        <Button variant="outline">Edit Profile</Button>
+      <DrawerTrigger render={<Button variant="outline" />}>
+        Edit Profile
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
@@ -713,8 +708,8 @@ export function DrawerDialogDemo() {
         </DrawerBody>
         <DrawerFooter>
           <Button type="submit">Save changes</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
+          <DrawerClose render={<Button variant="outline" />}>
+            Cancel
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
@@ -849,7 +844,7 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
     {
       name: "Nested Drawers",
       description:
-        "Nesting drawers creates a Sonner-like stacking effect: dragging the inner drawer down a bit scales the outer drawer too. Wrap the inner drawer in `DrawerNestedRoot` instead of `Drawer` so vaul can coordinate the gesture between them.",
+        "Base UI handles nesting automatically. Use Drawer directly — inner drawers stack and scale behind the frontmost one.",
       code: `import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -859,7 +854,6 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
-  DrawerNestedRoot,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
@@ -867,8 +861,8 @@ import {
 export function NestedDrawerDemo() {
   return (
     <Drawer>
-      <DrawerTrigger asChild>
-        <Button variant="outline">Open Drawer</Button>
+      <DrawerTrigger render={<Button variant="outline" />}>
+        Open Drawer
       </DrawerTrigger>
       <DrawerContent size="md">
         <DrawerHeader>
@@ -879,17 +873,35 @@ export function NestedDrawerDemo() {
         </DrawerHeader>
         <DrawerBody>
           <p className="text-muted-foreground mb-2 text-sm">
-            You can nest as many drawers as you want. Use{" "}
-            <code className="bg-muted rounded px-1 py-0.5 text-xs">
-              DrawerNestedRoot
-            </code>{" "}
-            instead of{" "}
-            <code className="bg-muted rounded px-1 py-0.5 text-xs">Drawer</code>{" "}
-            for the inner drawer.
+            Drawers nest automatically — just use Drawer inside another Drawer.
           </p>
-          <DrawerNestedRoot>
-            <DrawerTrigger asChild>
-              <Button className="mt-4 w-full">Open Second Drawer</Button>
+          <div className="space-y-3 pb-4">
+            <p className="text-muted-foreground text-sm">
+              Parent content row 1. This is intentionally added to force
+              vertical overflow.
+            </p>
+            <p className="text-muted-foreground text-sm">
+              Parent content row 2. Scroll this parent drawer before opening
+              the nested drawer.
+            </p>
+            <p className="text-muted-foreground text-sm">
+              Parent content row 3. Closing the nested drawer should not cause
+              a scrollbar flash now.
+            </p>
+            <p className="text-muted-foreground text-sm">
+              Parent content row 4. Keep swiping up and down to verify the
+              interaction.
+            </p>
+            <p className="text-muted-foreground text-sm">
+              Parent content row 5. This mirrors long-form content sections.
+            </p>
+            <p className="text-muted-foreground text-sm">
+              Parent content row 6. The footer stays pinned while body scrolls.
+            </p>
+          </div>
+          <Drawer>
+            <DrawerTrigger render={<Button className="mt-4 w-full" />}>
+              Open Second Drawer
             </DrawerTrigger>
             <DrawerContent size="md">
               <DrawerHeader>
@@ -900,16 +912,16 @@ export function NestedDrawerDemo() {
                 </DrawerDescription>
               </DrawerHeader>
               <DrawerFooter>
-                <DrawerClose asChild>
-                  <Button variant="outline">Close</Button>
+                <DrawerClose render={<Button variant="outline" />}>
+                  Close
                 </DrawerClose>
               </DrawerFooter>
             </DrawerContent>
-          </DrawerNestedRoot>
+          </Drawer>
         </DrawerBody>
         <DrawerFooter>
-          <DrawerClose asChild>
-            <Button variant="outline">Close</Button>
+          <DrawerClose render={<Button variant="outline" />}>
+            Close
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
@@ -944,22 +956,44 @@ export function NestedDrawerDemo() {
               React.createElement(
                 "p",
                 { className: "text-muted-foreground mb-2 text-sm" },
-                "You can nest as many drawers as you want. Use ",
-                React.createElement(
-                  "code",
-                  { className: "bg-muted rounded px-1 py-0.5 text-xs" },
-                  "DrawerNestedRoot"
-                ),
-                " instead of ",
-                React.createElement(
-                  "code",
-                  { className: "bg-muted rounded px-1 py-0.5 text-xs" },
-                  "Drawer"
-                ),
-                " for the inner drawer."
+                "Drawers nest automatically - just use Drawer inside another Drawer."
               ),
               React.createElement(
-                DrawerNestedRoot,
+                "div",
+                { className: "space-y-3 pb-4" },
+                React.createElement(
+                  "p",
+                  { className: "text-muted-foreground text-sm" },
+                  "Parent content row 1. This is intentionally added to force vertical overflow."
+                ),
+                React.createElement(
+                  "p",
+                  { className: "text-muted-foreground text-sm" },
+                  "Parent content row 2. Scroll this parent drawer before opening the nested drawer."
+                ),
+                React.createElement(
+                  "p",
+                  { className: "text-muted-foreground text-sm" },
+                  "Parent content row 3. Closing the nested drawer should not cause a scrollbar flash now."
+                ),
+                React.createElement(
+                  "p",
+                  { className: "text-muted-foreground text-sm" },
+                  "Parent content row 4. Keep swiping up and down to verify the interaction."
+                ),
+                React.createElement(
+                  "p",
+                  { className: "text-muted-foreground text-sm" },
+                  "Parent content row 5. This mirrors long-form content sections."
+                ),
+                React.createElement(
+                  "p",
+                  { className: "text-muted-foreground text-sm" },
+                  "Parent content row 6. The footer stays pinned while body scrolls."
+                )
+              ),
+              React.createElement(
+                Drawer,
                 {},
                 React.createElement(
                   DrawerTrigger,
@@ -1016,13 +1050,498 @@ export function NestedDrawerDemo() {
         )
       ),
     },
+    {
+      name: "Nested Drawers (Right)",
+      description:
+        "Open nested drawers from the right. Parent and child drawers can share the same swipeDirection.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+export function NestedDrawerRightDemo() {
+  return (
+    <Drawer swipeDirection="right">
+      <DrawerTrigger render={<Button variant="outline" />}>
+        Open Right Drawer
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Nested Right Drawers</DrawerTitle>
+          <DrawerDescription>
+            Open another right drawer from inside this one.
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerBody>
+          <Drawer swipeDirection="right">
+            <DrawerTrigger render={<Button className="w-full" />}>
+              Open Inner Right Drawer
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Inner Right Drawer</DrawerTitle>
+                <DrawerDescription>
+                  This nested drawer also opens from the right.
+                </DrawerDescription>
+              </DrawerHeader>
+              <DrawerFooter>
+                <DrawerClose render={<Button variant="outline" />}>
+                  Close
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </DrawerBody>
+        <DrawerFooter>
+          <DrawerClose render={<Button variant="outline" />}>
+            Close
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}`,
+      preview: React.createElement(() =>
+        React.createElement(
+          Drawer,
+          { swipeDirection: "right" },
+          React.createElement(
+            DrawerTrigger,
+            { asChild: true },
+            React.createElement(Button, { variant: "outline" }, "Open Right Drawer")
+          ),
+          React.createElement(
+            DrawerContent,
+            {},
+            React.createElement(
+              DrawerHeader,
+              {},
+              React.createElement(DrawerTitle, {}, "Nested Right Drawers"),
+              React.createElement(
+                DrawerDescription,
+                {},
+                "Open another right drawer from inside this one."
+              )
+            ),
+            React.createElement(
+              DrawerBody,
+              {},
+              React.createElement(
+                Drawer,
+                { swipeDirection: "right" },
+                React.createElement(
+                  DrawerTrigger,
+                  { asChild: true },
+                  React.createElement(
+                    Button,
+                    { className: "w-full" },
+                    "Open Inner Right Drawer"
+                  )
+                ),
+                React.createElement(
+                  DrawerContent,
+                  {},
+                  React.createElement(
+                    DrawerHeader,
+                    {},
+                    React.createElement(DrawerTitle, {}, "Inner Right Drawer"),
+                    React.createElement(
+                      DrawerDescription,
+                      {},
+                      "This nested drawer also opens from the right."
+                    )
+                  ),
+                  React.createElement(
+                    DrawerFooter,
+                    {},
+                    React.createElement(
+                      DrawerClose,
+                      { asChild: true },
+                      React.createElement(Button, { variant: "outline" }, "Close")
+                    )
+                  )
+                )
+              )
+            ),
+            React.createElement(
+              DrawerFooter,
+              {},
+              React.createElement(
+                DrawerClose,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Close")
+              )
+            )
+          )
+        )
+      ),
+    },
+    {
+      name: "Swipe Handle",
+      description: "Use showSwipeHandle on Drawer to render a draggable handle.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+export function DrawerSwipeHandleDemo() {
+  return (
+    <Drawer showSwipeHandle>
+      <DrawerTrigger render={<Button variant="outline" />}>
+        Open Drawer
+      </DrawerTrigger>
+      <DrawerContent size="md">
+        <DrawerHeader>
+          <DrawerTitle>Swipe Handle</DrawerTitle>
+          <DrawerDescription>
+            Drag from the handle to move the drawer.
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerBody>
+          <p className="text-muted-foreground text-sm">
+            Enable <code>showSwipeHandle</code> when you want stronger touch
+            affordance for draggable drawers.
+          </p>
+        </DrawerBody>
+        <DrawerFooter>
+          <DrawerClose render={<Button variant="outline" />}>
+            Close
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}`,
+      preview: React.createElement(() =>
+        React.createElement(
+          Drawer,
+          { showSwipeHandle: true },
+          React.createElement(
+            DrawerTrigger,
+            { asChild: true },
+            React.createElement(Button, { variant: "outline" }, "Open Drawer")
+          ),
+          React.createElement(
+            DrawerContent,
+            { size: "md" },
+            React.createElement(
+              DrawerHeader,
+              {},
+              React.createElement(DrawerTitle, {}, "Swipe Handle"),
+              React.createElement(
+                DrawerDescription,
+                {},
+                "Drag from the handle to move the drawer."
+              )
+            ),
+            React.createElement(
+              DrawerBody,
+              {},
+              React.createElement(
+                "p",
+                { className: "text-muted-foreground text-sm" },
+                "Enable ",
+                React.createElement(
+                  "code",
+                  { className: "bg-muted rounded px-1 py-0.5 text-xs" },
+                  "showSwipeHandle"
+                ),
+                " when you want stronger touch affordance for draggable drawers."
+              )
+            ),
+            React.createElement(
+              DrawerFooter,
+              {},
+              React.createElement(
+                DrawerClose,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Close")
+              )
+            )
+          )
+        )
+      ),
+    },
+    {
+      name: "Non Modal",
+      description:
+        "Set modal={false} to keep page interaction enabled, and use disablePointerDismissal to prevent outside press dismissal.",
+      code: `import * as React from "react"
+import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+export function DrawerNonModalDemo() {
+  const [count, setCount] = React.useState(0)
+
+  return (
+    <div className="flex flex-wrap items-start gap-3">
+      <Button variant="tertiary" className="tabular-nums" onClick={() => setCount((value) => value + 1)}>
+        Background Clicks: {count}
+      </Button>
+      <Drawer modal={false} disablePointerDismissal swipeDirection="right">
+        <DrawerTrigger render={<Button variant="outline" />}>
+          Open Non Modal Drawer
+        </DrawerTrigger>
+        <DrawerContent size="md">
+          <DrawerHeader>
+            <DrawerTitle>Non Modal Drawer</DrawerTitle>
+            <DrawerDescription>
+              Outside content stays interactive while the drawer is open.
+            </DrawerDescription>
+          </DrawerHeader>
+          <DrawerBody>
+            <p className="text-muted-foreground text-sm">
+              Try clicking the background button while this drawer is open.
+            </p>
+          </DrawerBody>
+          <DrawerFooter>
+            <DrawerClose render={<Button variant="outline" />}>
+              Close
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </div>
+  )
+}`,
+      preview: React.createElement(() => {
+        const [count, setCount] = React.useState(0);
+
+        return React.createElement(
+          "div",
+          { className: "flex flex-wrap items-start gap-3" },
+          React.createElement(
+            Button,
+            {
+              variant: "tertiary",
+              className: "tabular-nums",
+              onClick: () => setCount((value) => value + 1),
+            },
+            `Background Clicks: ${count}`
+          ),
+          React.createElement(
+            Drawer,
+            {
+              modal: false,
+              disablePointerDismissal: true,
+              swipeDirection: "right",
+            },
+            React.createElement(
+              DrawerTrigger,
+              { asChild: true },
+              React.createElement(
+                Button,
+                { variant: "outline" },
+                "Open Non Modal Drawer"
+              )
+            ),
+            React.createElement(
+              DrawerContent,
+              { size: "md" },
+              React.createElement(
+                DrawerHeader,
+                {},
+                React.createElement(DrawerTitle, {}, "Non Modal Drawer"),
+                React.createElement(
+                  DrawerDescription,
+                  {},
+                  "Outside content stays interactive while the drawer is open."
+                )
+              ),
+              React.createElement(
+                DrawerBody,
+                {},
+                React.createElement(
+                  "p",
+                  { className: "text-muted-foreground text-sm" },
+                  "Try clicking the background button while this drawer is open."
+                )
+              ),
+              React.createElement(
+                DrawerFooter,
+                {},
+                React.createElement(
+                  DrawerClose,
+                  { asChild: true },
+                  React.createElement(Button, { variant: "outline" }, "Close")
+                )
+              )
+            )
+          )
+        );
+      }),
+    },
+    {
+      name: "Snap Points",
+      description:
+        "Use snapPoints with controlled snapPoint and onSnapPointChange for vertical drawers.",
+      code: `import * as React from "react"
+import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerBody,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+
+export function DrawerSnapPointsDemo() {
+  const [snapPoint, setSnapPoint] = React.useState<number | string | null>(0.35)
+
+  return (
+    <Drawer
+      snapPoints={[0.35, 0.6, 1]}
+      snapPoint={snapPoint}
+      onSnapPointChange={setSnapPoint}
+      snapToSequentialPoints
+      showSwipeHandle
+    >
+      <DrawerTrigger render={<Button variant="outline" />}>
+        Open Snap Points Drawer
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Snap Points</DrawerTitle>
+          <DrawerDescription className="tabular-nums">
+            Active snap point: {String(snapPoint)}
+          </DrawerDescription>
+        </DrawerHeader>
+        <DrawerBody>
+          <p className="text-muted-foreground text-sm">
+            Swipe up and down to move between 35%, 60%, and 100% heights.
+          </p>
+        </DrawerBody>
+        <DrawerFooter>
+          <DrawerClose render={<Button variant="outline" />}>
+            Close
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}`,
+      preview: React.createElement(() => {
+        const [snapPoint, setSnapPoint] = React.useState<number | string | null>(
+          0.35
+        );
+
+        return React.createElement(
+          Drawer,
+          {
+            snapPoints: [0.35, 0.6, 1],
+            snapPoint,
+            onSnapPointChange: setSnapPoint,
+            snapToSequentialPoints: true,
+            showSwipeHandle: true,
+          },
+          React.createElement(
+            DrawerTrigger,
+            { asChild: true },
+            React.createElement(
+              Button,
+              { variant: "outline" },
+              "Open Snap Points Drawer"
+            )
+          ),
+          React.createElement(
+            DrawerContent,
+            {},
+            React.createElement(
+              DrawerHeader,
+              {},
+              React.createElement(DrawerTitle, {}, "Snap Points"),
+              React.createElement(
+                DrawerDescription,
+                { className: "tabular-nums" },
+                `Active snap point: ${String(snapPoint)}`
+              )
+            ),
+            React.createElement(
+              DrawerBody,
+              {},
+              React.createElement(
+                "p",
+                { className: "text-muted-foreground text-sm" },
+                "Swipe up and down to move between 35%, 60%, and 100% heights."
+              )
+            ),
+            React.createElement(
+              DrawerFooter,
+              {},
+              React.createElement(
+                DrawerClose,
+                { asChild: true },
+                React.createElement(Button, { variant: "outline" }, "Close")
+              )
+            )
+          )
+        );
+      }),
+    },
   ],
   props: [
     {
-      name: "direction",
-      type: '"top" | "right" | "bottom" | "left"',
+      name: "swipeDirection",
+      type: '"up" | "right" | "down" | "left"',
       description: "The direction from which the drawer slides.",
-      default: '"bottom"',
+      default: '"down"',
+    },
+    {
+      name: "showSwipeHandle",
+      type: "boolean",
+      description: "Render a swipe handle on the drawer edge.",
+      default: "false",
+    },
+    {
+      name: "snapPoints",
+      type: "(number | string)[]",
+      description: "Snap point heights. Numbers 0–1 are viewport fractions; larger numbers are pixels; strings support px/rem.",
+    },
+    {
+      name: "snapPoint",
+      type: "number | string | null",
+      description: "Controlled active snap point value.",
+    },
+    {
+      name: "onSnapPointChange",
+      type: "(snapPoint: number | string | null) => void",
+      description: "Callback fired when the active snap point changes.",
+    },
+    {
+      name: "snapToSequentialPoints",
+      type: "boolean",
+      description: "When true, snap gestures move to adjacent snap points in sequence.",
+      default: "false",
     },
     {
       name: "open",
@@ -1032,13 +1551,24 @@ export function NestedDrawerDemo() {
     {
       name: "onOpenChange",
       type: "(open: boolean) => void",
-      description: "Callback function called when the open state changes.",
+      description: "Callback when the open state changes.",
     },
     {
       name: "modal",
-      type: "boolean",
-      description: "Whether the drawer should be modal.",
+      type: '"boolean" | "trap-focus"',
+      description: "Modal traps focus and blocks pointer events. trap-focus keeps focus inside but allows scroll/pointer outside.",
       default: "true",
+    },
+    {
+      name: "disablePointerDismissal",
+      type: "boolean",
+      description: "Disables outside pointer press dismissal when true.",
+      default: "false",
+    },
+    {
+      name: "onOpenChangeComplete",
+      type: "(open: boolean) => void",
+      description: "Called after open/close transitions finish.",
     },
   ],
 };

@@ -3,11 +3,14 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/figtree";
 @import "@fontsource-variable/geist-mono";
+@import "./typeset.css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
     color-scheme: light;
+    --font-figtree: 'Figtree Variable', sans-serif;
+    --font-geist-mono: 'Geist Mono Variable', monospace;
     --font-size-scale: 1;
 
     /* Primary palette */
@@ -708,4 +711,13 @@
 
 .animate-breath {
   animation: fade-breath 4s ease-in-out infinite;
+}
+
+.typeset-docs {
+  --typeset-font-body: var(--font-figtree);
+  --typeset-font-heading: var(--font-figtree);
+  --typeset-font-mono: var(--font-geist-mono);
+  --typeset-size: 16px;
+  --typeset-leading: 1.6;
+  --typeset-flow: 1.25em;
 }

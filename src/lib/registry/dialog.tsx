@@ -14,6 +14,13 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const loremParagraph =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.";
@@ -333,6 +340,443 @@ export function DialogScrollableContent() {
                 loremParagraph
               )
             )
+          )
+        )
+      ),
+    },
+
+    // ── With Portal Components ─────────────────────────────────────────────
+    {
+      name: "Scrollable Content with Selects",
+      description:
+        "Form fields with Select inside a scrollable dialog body. Their overlays open above the scroll container without clipping.",
+      code: `import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Field, FieldGroup } from "@/components/ui/field"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+export function DialogScrollableWithSelects() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Scrollable with Selects</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Patient Details</DialogTitle>
+          <DialogDescription>
+            Fill in the details below. Scroll to see more fields.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="-mx-4 no-scrollbar max-h-[50vh] overflow-x-clip overflow-y-auto px-4">
+          <FieldGroup>
+            <Field>
+              <Label>Department</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select department" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="cardiology">Cardiology</SelectItem>
+                  <SelectItem value="neurology">Neurology</SelectItem>
+                  <SelectItem value="orthopedics">Orthopedics</SelectItem>
+                  <SelectItem value="pediatrics">Pediatrics</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field>
+              <Label>Priority</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="critical">Critical</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field>
+              <Label>Ward</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select ward" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="icu">ICU</SelectItem>
+                  <SelectItem value="general">General</SelectItem>
+                  <SelectItem value="emergency">Emergency</SelectItem>
+                  <SelectItem value="outpatient">Outpatient</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field>
+              <Label>Shift</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select shift" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="morning">Morning</SelectItem>
+                  <SelectItem value="afternoon">Afternoon</SelectItem>
+                  <SelectItem value="night">Night</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field>
+              <Label>Allergies</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select allergies" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="penicillin">Penicillin</SelectItem>
+                  <SelectItem value="sulfa">Sulfa Drugs</SelectItem>
+                  <SelectItem value="nsaid">NSAIDs</SelectItem>
+                  <SelectItem value="none">None Known</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field>
+              <Label>Insurance Provider</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select provider" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="bc">Blue Cross</SelectItem>
+                  <SelectItem value="aetna">Aetna</SelectItem>
+                  <SelectItem value="united">United Health</SelectItem>
+                  <SelectItem value="cigna">Cigna</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field>
+              <Label>Status</Label>
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="inactive">Inactive</SelectItem>
+                  <SelectItem value="pending">Pending Review</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+          </FieldGroup>
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DialogClose>
+          <Button>Save</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}`,
+      preview: React.createElement(
+        Dialog,
+        {},
+        React.createElement(
+          DialogTrigger,
+          { asChild: true },
+          React.createElement(
+            Button,
+            { variant: "outline" },
+            "Scrollable with Selects"
+          )
+        ),
+        React.createElement(
+          DialogContent,
+          {},
+          React.createElement(
+            DialogHeader,
+            {},
+            React.createElement(DialogTitle, {}, "Patient Details"),
+            React.createElement(
+              DialogDescription,
+              {},
+              "Fill in the details below. Scroll to see more fields."
+            )
+          ),
+          React.createElement(
+            "div",
+            {
+              className:
+                "-mx-4 no-scrollbar max-h-[50vh] overflow-x-clip overflow-y-auto px-4",
+            },
+            React.createElement(
+              FieldGroup,
+              {},
+              React.createElement(
+                Field,
+                {},
+                React.createElement(Label, {}, "Department"),
+                React.createElement(
+                  Select,
+                  {},
+                  React.createElement(
+                    SelectTrigger,
+                    {},
+                    React.createElement(SelectValue, {
+                      placeholder: "Select department",
+                    })
+                  ),
+                  React.createElement(
+                    SelectContent,
+                    {},
+                    React.createElement(
+                      SelectItem,
+                      { value: "cardiology" },
+                      "Cardiology"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "neurology" },
+                      "Neurology"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "orthopedics" },
+                      "Orthopedics"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "pediatrics" },
+                      "Pediatrics"
+                    )
+                  )
+                )
+              ),
+              React.createElement(
+                Field,
+                {},
+                React.createElement(Label, {}, "Priority"),
+                React.createElement(
+                  Select,
+                  {},
+                  React.createElement(
+                    SelectTrigger,
+                    {},
+                    React.createElement(SelectValue, {
+                      placeholder: "Select priority",
+                    })
+                  ),
+                  React.createElement(
+                    SelectContent,
+                    {},
+                    React.createElement(SelectItem, { value: "low" }, "Low"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "medium" },
+                      "Medium"
+                    ),
+                    React.createElement(SelectItem, { value: "high" }, "High"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "critical" },
+                      "Critical"
+                    )
+                  )
+                )
+              ),
+              React.createElement(
+                Field,
+                {},
+                React.createElement(Label, {}, "Ward"),
+                React.createElement(
+                  Select,
+                  {},
+                  React.createElement(
+                    SelectTrigger,
+                    {},
+                    React.createElement(SelectValue, {
+                      placeholder: "Select ward",
+                    })
+                  ),
+                  React.createElement(
+                    SelectContent,
+                    {},
+                    React.createElement(SelectItem, { value: "icu" }, "ICU"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "general" },
+                      "General"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "emergency" },
+                      "Emergency"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "outpatient" },
+                      "Outpatient"
+                    )
+                  )
+                )
+              ),
+              React.createElement(
+                Field,
+                {},
+                React.createElement(Label, {}, "Shift"),
+                React.createElement(
+                  Select,
+                  {},
+                  React.createElement(
+                    SelectTrigger,
+                    {},
+                    React.createElement(SelectValue, {
+                      placeholder: "Select shift",
+                    })
+                  ),
+                  React.createElement(
+                    SelectContent,
+                    {},
+                    React.createElement(
+                      SelectItem,
+                      { value: "morning" },
+                      "Morning"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "afternoon" },
+                      "Afternoon"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "night" },
+                      "Night"
+                    )
+                  )
+                )
+              ),
+              React.createElement(
+                Field,
+                {},
+                React.createElement(Label, {}, "Allergies"),
+                React.createElement(
+                  Select,
+                  {},
+                  React.createElement(
+                    SelectTrigger,
+                    {},
+                    React.createElement(SelectValue, {
+                      placeholder: "Select allergies",
+                    })
+                  ),
+                  React.createElement(
+                    SelectContent,
+                    {},
+                    React.createElement(
+                      SelectItem,
+                      { value: "penicillin" },
+                      "Penicillin"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "sulfa" },
+                      "Sulfa Drugs"
+                    ),
+                    React.createElement(SelectItem, { value: "nsaid" }, "NSAIDs"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "none" },
+                      "None Known"
+                    )
+                  )
+                )
+              ),
+              React.createElement(
+                Field,
+                {},
+                React.createElement(Label, {}, "Insurance Provider"),
+                React.createElement(
+                  Select,
+                  {},
+                  React.createElement(
+                    SelectTrigger,
+                    {},
+                    React.createElement(SelectValue, {
+                      placeholder: "Select provider",
+                    })
+                  ),
+                  React.createElement(
+                    SelectContent,
+                    {},
+                    React.createElement(SelectItem, { value: "bc" }, "Blue Cross"),
+                    React.createElement(SelectItem, { value: "aetna" }, "Aetna"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "united" },
+                      "United Health"
+                    ),
+                    React.createElement(SelectItem, { value: "cigna" }, "Cigna")
+                  )
+                )
+              ),
+              React.createElement(
+                Field,
+                {},
+                React.createElement(Label, {}, "Status"),
+                React.createElement(
+                  Select,
+                  {},
+                  React.createElement(
+                    SelectTrigger,
+                    {},
+                    React.createElement(SelectValue, {
+                      placeholder: "Select status",
+                    })
+                  ),
+                  React.createElement(
+                    SelectContent,
+                    {},
+                    React.createElement(SelectItem, { value: "active" }, "Active"),
+                    React.createElement(
+                      SelectItem,
+                      { value: "inactive" },
+                      "Inactive"
+                    ),
+                    React.createElement(
+                      SelectItem,
+                      { value: "pending" },
+                      "Pending Review"
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          React.createElement(
+            DialogFooter,
+            {},
+            React.createElement(
+              DialogClose,
+              { asChild: true },
+              React.createElement(Button, { variant: "outline" }, "Cancel")
+            ),
+            React.createElement(Button, {}, "Save")
           )
         )
       ),

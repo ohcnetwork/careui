@@ -79,7 +79,7 @@ function CommandDialog({
   }
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChange} repositionInputs={false}>
+    <Drawer open={open} onOpenChange={onOpenChange}>
       <DrawerContent
         className={cn(
           "inset-x-0 top-0 bottom-0 mt-0! flex h-dvh! max-h-dvh! flex-col rounded-none! p-1.5",

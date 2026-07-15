@@ -122,10 +122,10 @@
   var svg = document.createElementNS(NS, "svg");
   svg.setAttribute("viewBox", "0 0 " + COLS + " " + ROWS);
   svg.setAttribute("aria-hidden", "true");
-  svg.style.cssText = "width:72px;aspect-ratio:" + COLS + "/" + ROWS;
+  svg.style.cssText = "display:block;width:72px;height:58px";
 
   var beatG = document.createElementNS(NS, "g");
-  beatG.style.cssText = "transform-box:fill-box;transform-origin:center";
+  beatG.style.cssText = "transform-box:view-box;transform-origin:50% 50%";
   svg.appendChild(beatG);
 
   var rectRefs = new Array(ROWS * COLS);
@@ -161,8 +161,10 @@
   }
 
   var label = document.createElement("p");
-  label.style.cssText = "padding-left:12px;margin:0;text-align:center;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#6b7280";
+  label.style.cssText = "padding-left:12px;margin:0;text-align:center;font-size:12px;line-height:1;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#6b7280;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision";
   label.textContent = "loading care...";
+
+  container.style.webkitFontSmoothing = "antialiased";
 
   container.appendChild(svg);
   container.appendChild(label);
