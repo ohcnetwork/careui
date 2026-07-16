@@ -325,7 +325,6 @@
     "name": "label",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
       "class-variance-authority"
     ],
     "files": [
