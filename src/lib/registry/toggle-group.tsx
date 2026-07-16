@@ -16,7 +16,7 @@ export const toggleGroupDoc: ComponentDoc = {
   preview: {
     code: `import { Bold, Italic, Underline } from "lucide-react"
 
-<ToggleGroup type="single">
+<ToggleGroup>
   <ToggleGroupItem value="bold">
     <Bold className="h-4 w-4" />
   </ToggleGroupItem>
@@ -29,7 +29,7 @@ export const toggleGroupDoc: ComponentDoc = {
 </ToggleGroup>`,
     component: React.createElement(
       ToggleGroup,
-      { type: "single" },
+      {},
       React.createElement(
         ToggleGroupItem,
         { value: "bold" },
