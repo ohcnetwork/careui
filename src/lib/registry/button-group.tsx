@@ -994,7 +994,10 @@ export function ButtonGroupSelect() {
             {},
             React.createElement(
               Select,
-              { value: currency, onValueChange: setCurrency },
+              {
+                value: currency,
+                onValueChange: (value) => setCurrency(value as string),
+              },
               React.createElement(
                 SelectTrigger,
                 { className: "font-mono" },
