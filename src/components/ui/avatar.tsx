@@ -1,12 +1,12 @@
 /**
  * @name avatar
  * @description An image element with a fallback for representing the user.
- * @dependencies class-variance-authority radix-ui
+ * @dependencies class-variance-authority @base-ui/react
  * @type registry:ui
  */
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Avatar as AvatarPrimitive } from "radix-ui";
+import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
 
 import { cn } from "@/lib/utils";
 
@@ -15,7 +15,7 @@ function Avatar({
   size = "default",
   shape = "circle",
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
+}: AvatarPrimitive.Root.Props & {
   size?: "default" | "sm" | "lg";
   shape?: "circle" | "rounded" | "squircle";
 }) {
@@ -37,10 +37,7 @@ function Avatar({
   );
 }
 
-function AvatarImage({
-  className,
-  ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
@@ -112,7 +109,7 @@ function AvatarFallback({
   className,
   color = "default",
   ...props
-}: React.ComponentProps<typeof AvatarPrimitive.Fallback> & {
+}: AvatarPrimitive.Fallback.Props & {
   color?: AvatarColor;
 }) {
   return (

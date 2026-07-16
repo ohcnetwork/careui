@@ -661,7 +661,7 @@
     "type": "registry:ui",
     "dependencies": [
       "class-variance-authority",
-      "radix-ui"
+      "@base-ui/react"
     ],
     "files": [
       "registry/care-ui/avatar/avatar.tsx"
