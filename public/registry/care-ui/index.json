@@ -692,7 +692,8 @@
     "name": "alert-dialog",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "@base-ui/react",
+      "button"
     ],
     "files": [
       "registry/care-ui/alert-dialog/alert-dialog.tsx"

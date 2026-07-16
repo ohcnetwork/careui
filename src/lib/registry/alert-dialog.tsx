@@ -25,7 +25,7 @@ export const alertDialogDoc: ComponentDoc = {
     manual: `Install the following dependencies:
 
 \`\`\`bash
-npm install radix-ui
+npm install @base-ui/react
 \`\`\`
 
 Copy and paste the following code into your project:
