@@ -540,9 +540,7 @@ export function ButtonGroupNested() {
             }),
             React.createElement(
               TooltipProvider,
-              { delayDuration: 0 } as React.ComponentProps<
-                typeof TooltipProvider
-              >,
+              { delay: 0 } as React.ComponentProps<typeof TooltipProvider>,
               React.createElement(
                 Tooltip,
                 {},
@@ -747,9 +745,7 @@ export function ButtonGroupInputGroup() {
                 { align: "inline-end" },
                 React.createElement(
                   TooltipProvider,
-                  { delayDuration: 0 } as React.ComponentProps<
-                    typeof TooltipProvider
-                  >,
+                  { delay: 0 } as React.ComponentProps<typeof TooltipProvider>,
                   React.createElement(
                     Tooltip,
                     {},

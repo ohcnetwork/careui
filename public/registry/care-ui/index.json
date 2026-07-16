@@ -30,7 +30,7 @@
     "name": "tooltip",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "@base-ui/react"
     ],
     "files": [
       "registry/care-ui/tooltip/tooltip.tsx"

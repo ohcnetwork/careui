@@ -2661,7 +2661,7 @@ export function FilterPanel<T = unknown>({
                     >
                       {/* Saved filter list */}
                       {savedFilters && savedFilters.length > 0 && (
-                        <TooltipProvider delayDuration={300}>
+                        <TooltipProvider delay={300}>
                           <div
                             ref={savedListRef}
                             role="listbox"

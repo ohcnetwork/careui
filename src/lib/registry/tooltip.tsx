@@ -268,7 +268,7 @@ export function TooltipDisabled() {
       default: '"center"',
     },
     {
-      name: "delayDuration",
+      name: "delay",
       type: "number",
       description:
         "The duration from when the mouse enters the trigger until the tooltip opens.",
