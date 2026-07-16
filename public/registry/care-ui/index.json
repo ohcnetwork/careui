@@ -650,7 +650,7 @@
     "dependencies": [
       "class-variance-authority",
       "lucide-react",
-      "radix-ui"
+      "@base-ui/react"
     ],
     "files": [
       "registry/care-ui/badge/badge.tsx"

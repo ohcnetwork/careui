@@ -1,12 +1,13 @@
 /**
  * @name badge
  * @description A badge component for displaying status labels, tags, and notification indicators with dot, icon, and close button variants across semantic and named Tailwind color scales.
- * @dependencies class-variance-authority lucide-react radix-ui
+ * @dependencies class-variance-authority lucide-react @base-ui/react
  * @type registry:ui
  */
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Slot } from "radix-ui";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -137,61 +138,72 @@ function Badge({
   className,
   variant = "primary",
   size = "md",
-  asChild = false,
+  render,
   dot = false,
   solid = false,
   counter = false,
   onClose,
   children,
   ...props
-}: React.ComponentProps<"span"> &
+}: useRender.ComponentProps<"span"> &
   VariantProps<typeof badgeVariants> & {
-    asChild?: boolean;
     dot?: boolean;
     /** Solid filled background — only applies to the 5 semantic variants */
     solid?: boolean;
     /** Counter pill — square at single digit, grows for multi-digit, tabular-nums */
     counter?: boolean;
-    /** Renders a close (×) button; not compatible with asChild */
+    /** Renders a close (×) button; not compatible with a custom `render` element */
     onClose?: React.MouseEventHandler<HTMLButtonElement>;
   }) {
-  const Comp = asChild ? Slot.Root : "span";
   const useSolidPalette = Boolean(
     solid && variant && semanticVariants.has(variant)
   );
 
-  return (
-    <Comp
-      data-slot="badge"
-      data-variant={variant}
-      data-solid={solid || undefined}
-      className={cn(
-        badgeVariants({ variant, size, solid: useSolidPalette, counter }),
-        onClose && "pe-0",
-        className
-      )}
-      {...props}
-    >
-      {dot && (
-        <span
-          data-slot="badge-dot"
-          className="size-1.5 shrink-0 rounded-full bg-current"
-          aria-hidden="true"
-        />
-      )}
-      {children}
-      {onClose && (
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Remove"
-          className="inline-flex aspect-square shrink-0 cursor-pointer items-center justify-center self-stretch rounded-r-sm opacity-60 outline-none hover:bg-current/20 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-indigo-500/80 focus-visible:ring-inset"
-        >
-          <X className={cn(closeIconSizeMap[size as BadgeSize] ?? "size-3")} />
-        </button>
-      )}
-    </Comp>
-  );
+  return useRender({
+    defaultTagName: "span",
+    render,
+    state: {
+      slot: "badge",
+      variant,
+      solid: solid || undefined,
+    },
+    props: mergeProps<"span">(
+      {
+        className: cn(
+          badgeVariants({ variant, size, solid: useSolidPalette, counter }),
+          onClose && "pe-0",
+          className
+        ),
+        children: (
+          <>
+            {dot && (
+              <span
+                data-slot="badge-dot"
+                className="size-1.5 shrink-0 rounded-full bg-current"
+                aria-hidden="true"
+              />
+            )}
+            {children}
+            {onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Remove"
+                className="inline-flex aspect-square shrink-0 cursor-pointer items-center justify-center self-stretch rounded-r-sm opacity-60 outline-none hover:bg-current/20 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-indigo-500/80 focus-visible:ring-inset"
+              >
+                <X
+                  className={cn(
+                    closeIconSizeMap[size as BadgeSize] ?? "size-3"
+                  )}
+                />
+              </button>
+            )}
+          </>
+        ),
+      },
+      props
+    ),
+  });
 }
 
 export { Badge, badgeVariants };
