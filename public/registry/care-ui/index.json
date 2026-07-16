@@ -40,7 +40,7 @@
     "name": "toggle",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
+      "@base-ui/react",
       "class-variance-authority"
     ],
     "files": [
@@ -51,7 +51,7 @@
     "name": "toggle-group",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
+      "@base-ui/react",
       "class-variance-authority"
     ],
     "files": [
