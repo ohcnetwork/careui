@@ -33,8 +33,8 @@ import {
 
 export function HoverCardDemo() {
   return (
-    <HoverCard openDelay={10} closeDelay={100}>
-      <HoverCardTrigger asChild>
+    <HoverCard>
+      <HoverCardTrigger asChild delay={10} closeDelay={100}>
         <Button variant="link">Hover Here</Button>
       </HoverCardTrigger>
       <HoverCardContent className="flex w-64 flex-col gap-0.5">
@@ -49,10 +49,10 @@ export function HoverCardDemo() {
 }`,
     component: React.createElement(
       HoverCard,
-      { openDelay: 10, closeDelay: 100 },
+      {},
       React.createElement(
         HoverCardTrigger,
-        { asChild: true },
+        { asChild: true, delay: 10, closeDelay: 100 },
         React.createElement(Button, { variant: "link" }, "Hover Here")
       ),
       React.createElement(
@@ -90,8 +90,8 @@ export function HoverCardSides() {
   return (
     <div className="flex flex-wrap justify-center gap-2">
       {HOVER_CARD_SIDES.map((side) => (
-        <HoverCard key={side} openDelay={100} closeDelay={100}>
-          <HoverCardTrigger asChild>
+        <HoverCard key={side}>
+          <HoverCardTrigger asChild delay={100} closeDelay={100}>
             <Button variant="outline" className="capitalize">
               {side}
             </Button>
@@ -113,10 +113,10 @@ export function HoverCardSides() {
         ...HOVER_CARD_SIDES.map((side) =>
           React.createElement(
             HoverCard,
-            { key: side, openDelay: 100, closeDelay: 100 },
+            { key: side },
             React.createElement(
               HoverCardTrigger,
-              { asChild: true },
+              { asChild: true, delay: 100, closeDelay: 100 },
               React.createElement(
                 Button,
                 { variant: "outline", className: "capitalize" },
