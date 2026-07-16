@@ -115,7 +115,7 @@ const CollapsibleBasic = () => {
       {},
       React.createElement(
         Collapsible,
-        { className: "rounded-md data-[state=open]:bg-muted" },
+        { className: "rounded-md data-open:bg-muted" },
         React.createElement(
           CollapsibleTrigger,
           { asChild: true },
@@ -125,7 +125,7 @@ const CollapsibleBasic = () => {
             "Product details",
             React.createElement(ChevronDown, {
               className:
-                "ml-auto group-data-[state=open]:rotate-180 transition-transform",
+                "ml-auto group-data-panel-open:rotate-180 transition-transform",
             })
           )
         ),
@@ -263,7 +263,7 @@ const renderFileTreeItem = (fileItem: FileTreeItem): React.ReactNode => {
               "group w-full justify-start transition-none hover:bg-accent hover:text-accent-foreground",
           },
           React.createElement(ChevronRight, {
-            className: "transition-transform group-data-[state=open]:rotate-90",
+            className: "transition-transform group-data-panel-open:rotate-90",
           }),
           React.createElement(FolderIcon, {}),
           fileItem.name
@@ -423,11 +423,11 @@ export function CollapsibleBasic() {
   return (
     <Card className="mx-auto w-full max-w-sm">
       <CardContent>
-        <Collapsible className="rounded-md data-[state=open]:bg-muted">
+        <Collapsible className="rounded-md data-open:bg-muted">
           <CollapsibleTrigger asChild>
             <Button variant="ghost" className="group w-full">
               Product details
-              <ChevronDown className="ml-auto group-data-[state=open]:rotate-180 transition-transform" />
+              <ChevronDown className="ml-auto group-data-panel-open:rotate-180 transition-transform" />
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
@@ -563,7 +563,7 @@ export function CollapsibleFileTree() {
               size="sm"
               className="group w-full justify-start transition-none hover:bg-accent hover:text-accent-foreground"
             >
-              <ChevronRight className="transition-transform group-data-[state=open]:rotate-90" />
+              <ChevronRight className="transition-transform group-data-panel-open:rotate-90" />
               <FolderIcon />
               {fileItem.name}
             </Button>

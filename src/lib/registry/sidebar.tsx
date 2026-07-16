@@ -249,7 +249,9 @@ function CareNavUserCard({
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{careUser.name}</span>
+                    <span className="truncate font-medium">
+                      {careUser.name}
+                    </span>
                     <span className="text-muted-foreground truncate text-xs">
                       {careUser.role}
                     </span>
@@ -1619,7 +1621,7 @@ function NavMain({
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
               <CollapsibleContent>
