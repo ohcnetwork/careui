@@ -41,10 +41,7 @@ function ContextMenuPortal({ ...props }: ContextMenuPrimitive.Portal.Props) {
 
 function ContextMenuSub({ ...props }: ContextMenuPrimitive.SubmenuRoot.Props) {
   return (
-    <ContextMenuPrimitive.SubmenuRoot
-      data-slot="context-menu-sub"
-      {...props}
-    />
+    <ContextMenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
   );
 }
 

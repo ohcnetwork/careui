@@ -42,10 +42,7 @@ function MenubarRadioGroup({ ...props }: MenuPrimitive.RadioGroup.Props) {
   );
 }
 
-function MenubarTrigger({
-  className,
-  ...props
-}: MenuPrimitive.Trigger.Props) {
+function MenubarTrigger({ className, ...props }: MenuPrimitive.Trigger.Props) {
   return (
     <MenuPrimitive.Trigger
       data-slot="menubar-trigger"

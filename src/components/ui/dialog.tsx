@@ -167,7 +167,11 @@ function DialogHeader({
       {showCloseButton && (
         <DialogClose
           render={
-            <Button variant="ghost" size="icon" className="-mt-1 -mr-1 shrink-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="-mt-1 -mr-1 shrink-0"
+            >
               <XIcon />
               <span className="sr-only">Close</span>
             </Button>

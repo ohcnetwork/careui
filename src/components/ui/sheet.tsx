@@ -67,7 +67,11 @@ function Sheet({
 
   const handleOpenChange = React.useCallback(
     (open: boolean, eventDetails: SheetPrimitive.Root.ChangeEventDetails) => {
-      if (!open && !dismissibleRef.current && isBlockedReason(eventDetails.reason)) {
+      if (
+        !open &&
+        !dismissibleRef.current &&
+        isBlockedReason(eventDetails.reason)
+      ) {
         eventDetails.cancel();
         if (modal && eventDetails.reason === "outside-press") {
           triggerShakeRef.current?.();
@@ -81,10 +85,7 @@ function Sheet({
 
   return (
     <SheetRootContext.Provider
-      value={React.useMemo(
-        () => ({ dismissibleRef, triggerShakeRef }),
-        []
-      )}
+      value={React.useMemo(() => ({ dismissibleRef, triggerShakeRef }), [])}
     >
       <SheetPrimitive.Root
         data-slot="sheet"
@@ -142,10 +143,7 @@ function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-function SheetOverlay({
-  className,
-  ...props
-}: SheetPrimitive.Backdrop.Props) {
+function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
   return (
     <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
@@ -188,7 +186,8 @@ function SheetContent({
   containerClassName?: string;
 }) {
   const isMobile = useIsMobile();
-  const { dismissibleRef, triggerShakeRef } = React.useContext(SheetRootContext);
+  const { dismissibleRef, triggerShakeRef } =
+    React.useContext(SheetRootContext);
   const [shaking, setShaking] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
   const popupRef = React.useRef<HTMLDivElement | null>(null);
