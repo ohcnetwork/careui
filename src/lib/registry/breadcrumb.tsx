@@ -494,7 +494,7 @@ export function BreadcrumbEllipsisDemo() {
     {
       name: "Link component",
       description:
-        "To use a custom link component from your routing library, you can use the asChild prop on <BreadcrumbLink />.",
+        "To use a custom link component from your routing library, you can use the render prop on <BreadcrumbLink />.",
       code: `import {
   Breadcrumb,
   BreadcrumbItem,

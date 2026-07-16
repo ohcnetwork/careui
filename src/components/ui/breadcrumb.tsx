@@ -1,11 +1,12 @@
 /**
  * @name breadcrumb
  * @description Displays the path to the current resource using a hierarchy of links.
- * @dependencies radix-ui
+ * @dependencies @base-ui/react
  * @type registry:ui
  */
 import * as React from "react";
-import { Slot } from "radix-ui";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 
 import { cn } from "@/lib/utils";
 import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
@@ -45,24 +46,26 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
 }
 
 function BreadcrumbLink({
-  asChild,
   className,
+  render,
   ...props
-}: React.ComponentProps<"a"> & {
-  asChild?: boolean;
-}) {
-  const Comp = asChild ? Slot.Root : "a";
-
-  return (
-    <Comp
-      data-slot="breadcrumb-link"
-      className={cn(
-        "hover:bg-soft-background hover:text-foreground underline transition-colors",
-        className
-      )}
-      {...props}
-    />
-  );
+}: useRender.ComponentProps<"a">) {
+  return useRender({
+    defaultTagName: "a",
+    render,
+    state: {
+      slot: "breadcrumb-link",
+    },
+    props: mergeProps<"a">(
+      {
+        className: cn(
+          "hover:bg-soft-background hover:text-foreground underline transition-colors",
+          className
+        ),
+      },
+      props
+    ),
+  });
 }
 
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
