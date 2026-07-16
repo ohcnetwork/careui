@@ -110,8 +110,8 @@ function CheckboxInTablePreview() {
               id: `row-${row.id}-checkbox`,
               name: `row-${row.id}-checkbox`,
               checked: selectedRows.has(row.id),
-              onCheckedChange: (checked: boolean | "indeterminate") =>
-                handleSelectRow(row.id, checked === true),
+              onCheckedChange: (checked: boolean) =>
+                handleSelectRow(row.id, checked),
             })
           ),
           React.createElement(
@@ -661,7 +661,7 @@ export function CheckboxInTable() {
     },
     {
       name: "checked",
-      type: 'boolean | "indeterminate"',
+      type: "boolean",
       description: "The controlled checked state of the checkbox.",
     },
     {
@@ -670,8 +670,15 @@ export function CheckboxInTable() {
       description: "The default checked state when initially rendered.",
     },
     {
+      name: "indeterminate",
+      type: "boolean",
+      description:
+        "The mixed state, decoupled from `checked` (e.g. a header checkbox when only some rows are selected).",
+      default: "false",
+    },
+    {
       name: "onCheckedChange",
-      type: '(checked: boolean | "indeterminate") => void',
+      type: "(checked: boolean) => void",
       description: "Event handler called when the checked state changes.",
     },
     {

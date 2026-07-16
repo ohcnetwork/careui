@@ -1070,9 +1070,10 @@ const selectionColumns: ColumnDef<SelectionMember>[] = [
     id: "select",
     header: ({ table }) =>
       React.createElement(Checkbox, {
-        checked:
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() ? "indeterminate" : false),
+        checked: table.getIsAllPageRowsSelected(),
+        indeterminate:
+          !table.getIsAllPageRowsSelected() &&
+          table.getIsSomePageRowsSelected(),
         onCheckedChange: (value: boolean) =>
           table.toggleAllPageRowsSelected(!!value),
         "aria-label": "Select all",
@@ -2531,9 +2532,10 @@ function RowSelectionDemo() {
       id: "select",
       header: ({ table }) =>
         React.createElement(Checkbox, {
-          checked:
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() ? "indeterminate" : false),
+          checked: table.getIsAllPageRowsSelected(),
+          indeterminate:
+            !table.getIsAllPageRowsSelected() &&
+            table.getIsSomePageRowsSelected(),
           onCheckedChange: (value: boolean) =>
             table.toggleAllPageRowsSelected(!!value),
           "aria-label": "Select all",
@@ -5692,9 +5694,9 @@ function CrudDemo() {
         id: "id",
         header: ({ table: t }) =>
           React.createElement(Checkbox, {
-            checked:
-              t.getIsAllPageRowsSelected() ||
-              (t.getIsSomePageRowsSelected() && "indeterminate"),
+            checked: t.getIsAllPageRowsSelected(),
+            indeterminate:
+              !t.getIsAllPageRowsSelected() && t.getIsSomePageRowsSelected(),
             onCheckedChange: (value: boolean) =>
               t.toggleAllPageRowsSelected(!!value),
             "aria-label": "Select all",
@@ -6238,9 +6240,10 @@ const footerTotalsColumns: ColumnDef<Employee>[] = [
     id: "select",
     header: ({ table }) =>
       React.createElement(Checkbox, {
-        checked:
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() ? "indeterminate" : false),
+        checked: table.getIsAllPageRowsSelected(),
+        indeterminate:
+          !table.getIsAllPageRowsSelected() &&
+          table.getIsSomePageRowsSelected(),
         onCheckedChange: (value: boolean) =>
           table.toggleAllPageRowsSelected(!!value),
         "aria-label": "Select all",
@@ -7068,9 +7071,10 @@ const columns: ColumnDef<Member>[] = [
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
+        checked={table.getIsAllPageRowsSelected()}
+        indeterminate={
+          !table.getIsAllPageRowsSelected() &&
+          table.getIsSomePageRowsSelected()
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
@@ -9700,9 +9704,10 @@ export function RowSelectionDemo() {
         id: "select",
         header: ({ table }) => (
           <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && "indeterminate")
+            checked={table.getIsAllPageRowsSelected()}
+            indeterminate={
+              !table.getIsAllPageRowsSelected() &&
+              table.getIsSomePageRowsSelected()
             }
             onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
             aria-label="Select all"
@@ -10828,9 +10833,10 @@ export function CrudTable() {
         id: "id",
         header: ({ table }) => (
           <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && "indeterminate")
+            checked={table.getIsAllPageRowsSelected()}
+            indeterminate={
+              !table.getIsAllPageRowsSelected() &&
+              table.getIsSomePageRowsSelected()
             }
             onCheckedChange={(value) =>
               table.toggleAllPageRowsSelected(!!value)
@@ -11211,7 +11217,8 @@ const columns: ColumnDef<Employee>[] = [
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() ? "indeterminate" : false)}
+        checked={table.getIsAllPageRowsSelected()}
+        indeterminate={!table.getIsAllPageRowsSelected() && table.getIsSomePageRowsSelected()}
         onCheckedChange={(v) => table.toggleAllPageRowsSelected(!!v)}
         aria-label="Select all"
       />

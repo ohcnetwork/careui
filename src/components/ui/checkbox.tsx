@@ -1,11 +1,10 @@
 /**
  * @name checkbox
  * @description A control that allows the user to toggle between checked and not checked.
- * @dependencies radix-ui
+ * @dependencies @base-ui/react
  * @type registry:ui
  */
-import * as React from "react";
-import { Checkbox as CheckboxPrimitive } from "radix-ui";
+import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
@@ -30,8 +29,7 @@ function Checkbox({
   className,
   size,
   ...props
-}: React.ComponentProps<typeof CheckboxPrimitive.Root> &
-  VariantProps<typeof checkboxVariants>) {
+}: CheckboxPrimitive.Root.Props & VariantProps<typeof checkboxVariants>) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
