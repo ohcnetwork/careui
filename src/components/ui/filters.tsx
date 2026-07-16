@@ -2397,6 +2397,7 @@ export function FilterPanel<T = unknown>({
   const [savedFiltersOpen, setSavedFiltersOpenState] = useState(false);
   const [highlightedSavedIndex, setHighlightedSavedIndex] = useState(-1);
   const savedListRef = useRef<HTMLDivElement>(null);
+  const savedPopoverContentRef = useRef<HTMLDivElement>(null);
   const saveInputRef = useRef<HTMLInputElement>(null);
   const editInputRef = useRef<HTMLInputElement>(null);
   const clearOpenFilterId = useCallback(() => setOpenFilterId(null), []);
@@ -2628,13 +2629,11 @@ export function FilterPanel<T = unknown>({
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent
+                      ref={savedPopoverContentRef}
                       align="end"
                       side="bottom"
                       className="w-64 gap-0 p-0"
-                      onOpenAutoFocus={(e) => {
-                        e.preventDefault();
-                        (e.currentTarget as HTMLElement).focus();
-                      }}
+                      initialFocus={() => savedPopoverContentRef.current ?? undefined}
                       onKeyDown={(e) => {
                         if (e.key !== "ArrowDown" && e.key !== "ArrowUp")
                           return;

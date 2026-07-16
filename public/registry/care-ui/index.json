@@ -241,7 +241,7 @@
     "name": "popover",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "@base-ui/react"
     ],
     "files": [
       "registry/care-ui/popover/popover.tsx"
