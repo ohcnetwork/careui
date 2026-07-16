@@ -2,13 +2,13 @@
   "name": "aspect-ratio",
   "type": "registry:ui",
   "dependencies": [
-    "radix-ui"
+    "none"
   ],
   "registryDependencies": [],
   "files": [
     {
       "path": "registry/care-ui/aspect-ratio/aspect-ratio.tsx",
-      "content": "/**\n * @name aspect-ratio\n * @description Displays content within a desired ratio.\n * @dependencies radix-ui\n * @type registry:ui\n */\nimport { AspectRatio as AspectRatioPrimitive } from \"radix-ui\";\n\nfunction AspectRatio({\n  ...props\n}: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {\n  return <AspectRatioPrimitive.Root data-slot=\"aspect-ratio\" {...props} />;\n}\n\nexport { AspectRatio };\n",
+      "content": "/**\n * @name aspect-ratio\n * @description Displays content within a desired ratio.\n * @dependencies none\n * @type registry:ui\n */\nimport { cn } from \"@/lib/utils\";\n\nfunction AspectRatio({\n  ratio,\n  className,\n  ...props\n}: React.ComponentProps<\"div\"> & { ratio: number }) {\n  return (\n    <div\n      data-slot=\"aspect-ratio\"\n      style={\n        {\n          \"--ratio\": ratio,\n        } as React.CSSProperties\n      }\n      className={cn(\"relative aspect-(--ratio)\", className)}\n      {...props}\n    />\n  );\n}\n\nexport { AspectRatio };\n",
       "type": "registry:component",
       "target": "components/careui/aspect-ratio.tsx"
     }

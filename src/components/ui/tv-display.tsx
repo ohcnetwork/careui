@@ -1,11 +1,10 @@
 /**
  * @name tv-display
  * @description Composable digital signage layout for TVs (queue boards, room rosters) with built-in aspect ratios.
- * @dependencies radix-ui class-variance-authority
+ * @dependencies class-variance-authority
  * @type registry:ui
  */
 import * as React from "react";
-import { AspectRatio as AspectRatioPrimitive } from "radix-ui";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
@@ -189,10 +188,15 @@ function TVDisplay({
   ...props
 }: TVDisplayProps) {
   return (
-    <AspectRatioPrimitive.Root
-      ratio={TV_ASPECT_RATIOS[aspectRatio]}
+    <div
       data-slot="tv-display-root"
       data-aspect-ratio={aspectRatio}
+      style={
+        {
+          "--ratio": TV_ASPECT_RATIOS[aspectRatio],
+        } as React.CSSProperties
+      }
+      className="relative aspect-(--ratio)"
     >
       <div
         data-slot="tv-display"
@@ -203,7 +207,7 @@ function TVDisplay({
         {children}
       </div>
       <TVDisplayFallbackStyles />
-    </AspectRatioPrimitive.Root>
+    </div>
   );
 }
 

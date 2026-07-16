@@ -20,7 +20,6 @@
     "name": "tv-display",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
       "class-variance-authority"
     ],
     "files": [
@@ -672,7 +671,7 @@
     "name": "aspect-ratio",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "none"
     ],
     "files": [
       "registry/care-ui/aspect-ratio/aspect-ratio.tsx"

@@ -8,16 +8,8 @@ export const aspectRatioDoc: ComponentDoc = {
   description: "Displays content within a desired ratio.",
   installation: {
     cli: "npx shadcn@latest add aspect-ratio",
-    manual: `Install the following dependencies:
-
-\`\`\`bash
-npm install radix-ui
-\`\`\`
-
-Copy and paste the following code into your project:
-components/ui/aspect-ratio.tsx
-
-Update the import paths to match your project setup.`,
+    manual:
+      "Copy and paste the aspect-ratio component source code into your project.",
   },
   usage: `import { AspectRatio } from "@/components/ui/aspect-ratio"
 
