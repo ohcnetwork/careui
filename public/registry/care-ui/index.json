@@ -155,7 +155,7 @@
     "name": "sidebar",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
+      "@base-ui/react",
       "class-variance-authority",
       "lucide-react"
     ],

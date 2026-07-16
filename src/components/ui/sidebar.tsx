@@ -1,12 +1,12 @@
 /**
  * @name sidebar
  * @description A composable, themeable sidebar component with collapsible navigation.
- * @dependencies radix-ui
+ * @dependencies @base-ui/react
  * @type registry:ui
  */
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Slot } from "radix-ui";
+import { useRender } from "@base-ui/react/use-render";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,30 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { PanelLeftIcon } from "lucide-react";
+
+type RenderProp =
+  | React.ReactElement
+  | ((props: unknown, state: unknown) => React.ReactElement)
+  | undefined;
+
+function resolveAsChild(
+  asChild: boolean | undefined,
+  children: React.ReactNode,
+  render: RenderProp
+): { render: RenderProp; children: React.ReactNode } {
+  if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<{
+      children?: React.ReactNode;
+      [key: string]: unknown;
+    }>;
+    const { children: extractedChildren, ...restProps } = child.props;
+    return {
+      render: React.createElement(child.type as React.ElementType, restProps),
+      children: extractedChildren,
+    };
+  }
+  return { render, children };
+}
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -401,42 +425,42 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
 
 function SidebarGroupLabel({
   className,
-  asChild = false,
+  render,
   ...props
-}: React.ComponentProps<"div"> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot.Root : "div";
-
-  return (
-    <Comp
-      data-slot="sidebar-group-label"
-      data-sidebar="group-label"
-      className={cn(
+}: useRender.ComponentProps<"div">) {
+  return useRender({
+    defaultTagName: "div",
+    render,
+    props: {
+      "data-slot": "sidebar-group-label",
+      "data-sidebar": "group-label",
+      className: cn(
         "text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium uppercase outline-hidden transition-[margin,opacity] duration-200 ease-linear group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         className
-      )}
-      {...props}
-    />
-  );
+      ),
+      ...props,
+    },
+  });
 }
 
 function SidebarGroupAction({
   className,
-  asChild = false,
+  render,
   ...props
-}: React.ComponentProps<"button"> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot.Root : "button";
-
-  return (
-    <Comp
-      data-slot="sidebar-group-action"
-      data-sidebar="group-action"
-      className={cn(
+}: useRender.ComponentProps<"button">) {
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: {
+      "data-slot": "sidebar-group-action",
+      "data-sidebar": "group-action",
+      className: cn(
         "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform group-data-[collapsible=icon]:hidden after:absolute after:-inset-2 focus-visible:ring-2 md:after:hidden [&>svg]:size-4 [&>svg]:shrink-0",
         className
-      )}
-      {...props}
-    />
-  );
+      ),
+      ...props,
+    },
+  });
 }
 
 function SidebarGroupContent({
@@ -498,31 +522,37 @@ const sidebarMenuButtonVariants = cva(
 );
 
 function SidebarMenuButton({
-  asChild = false,
+  asChild,
+  render,
   isActive = false,
   variant = "default",
   size = "default",
   tooltip,
   className,
+  children,
   ...props
-}: React.ComponentProps<"button"> & {
+}: Omit<useRender.ComponentProps<"button">, "render"> & {
   asChild?: boolean;
+  render?: RenderProp;
   isActive?: boolean;
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
-  const Comp = asChild ? Slot.Root : "button";
+  const resolved = resolveAsChild(asChild, children, render);
   const { isMobile, state } = useSidebar();
 
-  const button = (
-    <Comp
-      data-slot="sidebar-menu-button"
-      data-sidebar="menu-button"
-      data-size={size}
-      data-active={isActive}
-      className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
-      {...props}
-    />
-  );
+  const button = useRender({
+    defaultTagName: "button",
+    render: resolved.render,
+    props: {
+      "data-slot": "sidebar-menu-button",
+      "data-sidebar": "menu-button",
+      "data-size": size,
+      "data-active": isActive,
+      className: cn(sidebarMenuButtonVariants({ variant, size }), className),
+      children: resolved.children,
+      ...props,
+    },
+  });
 
   if (!tooltip) {
     return button;
@@ -549,28 +579,27 @@ function SidebarMenuButton({
 
 function SidebarMenuAction({
   className,
-  asChild = false,
+  render,
   showOnHover = false,
   ...props
-}: React.ComponentProps<"button"> & {
-  asChild?: boolean;
+}: useRender.ComponentProps<"button"> & {
   showOnHover?: boolean;
 }) {
-  const Comp = asChild ? Slot.Root : "button";
-
-  return (
-    <Comp
-      data-slot="sidebar-menu-action"
-      data-sidebar="menu-action"
-      className={cn(
+  return useRender({
+    defaultTagName: "button",
+    render,
+    props: {
+      "data-slot": "sidebar-menu-action",
+      "data-sidebar": "menu-action",
+      className: cn(
         "text-sidebar-foreground ring-sidebar-ring peer-hover/menu-button:text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 outline-hidden transition-transform group-data-[collapsible=icon]:hidden peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 peer-data-[size=sm]/menu-button:top-1 after:absolute after:-inset-2 focus-visible:ring-2 md:after:hidden [&>svg]:size-4 [&>svg]:shrink-0",
         showOnHover &&
           "peer-data-active/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 aria-expanded:opacity-100 md:opacity-0",
         className
-      )}
-      {...props}
-    />
-  );
+      ),
+      ...props,
+    },
+  });
 }
 
 function SidebarMenuBadge({
@@ -657,31 +686,36 @@ function SidebarMenuSubItem({
 }
 
 function SidebarMenuSubButton({
-  asChild = false,
+  asChild,
+  render,
   size = "md",
   isActive = false,
   className,
+  children,
   ...props
-}: React.ComponentProps<"a"> & {
+}: Omit<useRender.ComponentProps<"a">, "render"> & {
   asChild?: boolean;
+  render?: RenderProp;
   size?: "sm" | "md";
   isActive?: boolean;
 }) {
-  const Comp = asChild ? Slot.Root : "a";
-
-  return (
-    <Comp
-      data-slot="sidebar-menu-sub-button"
-      data-sidebar="menu-sub-button"
-      data-size={size}
-      data-active={isActive}
-      className={cn(
+  const resolved = resolveAsChild(asChild, children, render);
+  return useRender({
+    defaultTagName: "a",
+    render: resolved.render,
+    props: {
+      "data-slot": "sidebar-menu-sub-button",
+      "data-sidebar": "menu-sub-button",
+      "data-size": size,
+      "data-active": isActive,
+      className: cn(
         "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground data-active:bg-sidebar-accent data-active:text-sidebar-accent-foreground [&>svg]:text-sidebar-accent-foreground flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden group-data-[collapsible=icon]:hidden focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[size=md]:text-sm data-[size=sm]:text-xs [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
         className
-      )}
-      {...props}
-    />
-  );
+      ),
+      children: resolved.children,
+      ...props,
+    },
+  });
 }
 
 export {
