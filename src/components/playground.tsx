@@ -200,8 +200,9 @@ export function Playground() {
             <Slider
               value={sliderValue}
               onValueChange={(v) => {
-                setSliderValue(v);
-                setProgress(v[0]);
+                const next = Array.isArray(v) ? v : [v];
+                setSliderValue(next);
+                setProgress(next[0]);
               }}
               min={0}
               max={100}

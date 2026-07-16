@@ -135,7 +135,7 @@
     "name": "slider",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui"
+      "@base-ui/react"
     ],
     "files": [
       "registry/care-ui/slider/slider.tsx"

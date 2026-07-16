@@ -153,7 +153,7 @@ export function SliderControlled() {
       <Slider
         id="slider-demo-temperature"
         value={value}
-        onValueChange={setValue}
+        onValueChange={(v) => setValue(Array.isArray(v) ? v : [v])}
         min={0}
         max={1}
         step={0.1}
@@ -183,7 +183,7 @@ export function SliderControlled() {
           React.createElement(Slider, {
             id: "slider-demo-temperature",
             value,
-            onValueChange: setValue,
+            onValueChange: (v) => setValue(Array.isArray(v) ? v : [v]),
             min: 0,
             max: 1,
             step: 0.1,

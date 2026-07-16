@@ -500,7 +500,7 @@ function CustomSliderRangeInput({
           { className: "space-y-4 pt-2.5" },
           React.createElement(Slider, {
             value: range,
-            onValueChange: (v: number[]) => setRange(v),
+            onValueChange: (v) => setRange(Array.isArray(v) ? v : [v]),
             max: 100,
             min: 0,
             step: 1,

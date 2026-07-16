@@ -21,7 +21,7 @@ function ProgressControlled() {
     React.createElement(Progress, { value: value[0] }),
     React.createElement(Slider, {
       value,
-      onValueChange: setValue,
+      onValueChange: (v) => setValue(Array.isArray(v) ? v : [v]),
       min: 0,
       max: 100,
       step: 1,
