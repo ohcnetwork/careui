@@ -1,11 +1,10 @@
 /**
  * @name switch
  * @description A control that allows the user to toggle between checked and not checked.
- * @dependencies radix-ui
+ * @dependencies @base-ui/react
  * @type registry:ui
  */
-import * as React from "react";
-import { Switch as SwitchPrimitive } from "radix-ui";
+import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
 
 import { CheckIcon, MinusIcon } from "lucide-react";
 
@@ -15,7 +14,7 @@ function Switch({
   className,
   size = "default",
   ...props
-}: React.ComponentProps<typeof SwitchPrimitive.Root> & {
+}: SwitchPrimitive.Root.Props & {
   size?: "sm" | "default";
 }) {
   return (
