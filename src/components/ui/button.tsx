@@ -1,12 +1,12 @@
 /**
  * @name button
  * @description Displays a button or a component that looks like a button.
- * @dependencies radix-ui class-variance-authority
+ * @dependencies @base-ui/react class-variance-authority
  * @type registry:ui
  */
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Slot } from "radix-ui";
+import { Button as ButtonPrimitive } from "@base-ui/react/button";
 
 import { cn } from "@/lib/utils";
 
@@ -56,26 +56,64 @@ const buttonVariants = cva(
   }
 );
 
+type RenderProp =
+  | React.ReactElement
+  | ((props: unknown, state: unknown) => React.ReactElement)
+  | undefined;
+
+function resolveAsChild(
+  asChild: boolean | undefined,
+  children: React.ReactNode,
+  render: RenderProp
+): {
+  render: RenderProp;
+  children: React.ReactNode;
+  /** True when the resolved child is a plain non-button DOM tag (e.g. `<a>`). */
+  isNonButtonTag: boolean;
+} {
+  if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<{
+      children?: React.ReactNode;
+      [key: string]: unknown;
+    }>;
+    const { children: extractedChildren, ...restProps } = child.props;
+    return {
+      render: React.createElement(child.type as React.ElementType, restProps),
+      children: extractedChildren,
+      isNonButtonTag: typeof child.type === "string" && child.type !== "button",
+    };
+  }
+  return { render, children, isNonButtonTag: false };
+}
+
 function Button({
   className,
   variant = "default",
   size = "default",
-  asChild = false,
+  asChild,
+  render,
+  nativeButton,
+  children,
   ...props
-}: React.ComponentProps<"button"> &
+}: Omit<ButtonPrimitive.Props, "render"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
+    render?: RenderProp;
   }) {
-  const Comp = asChild ? Slot.Root : "button";
+  const resolved = resolveAsChild(asChild, children, render);
 
   return (
-    <Comp
+    <ButtonPrimitive
       data-slot="button"
       data-variant={variant}
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
+      render={resolved.render}
+      nativeButton={nativeButton ?? !resolved.isNonButtonTag}
       {...props}
-    />
+    >
+      {resolved.children}
+    </ButtonPrimitive>
   );
 }
 
