@@ -435,5 +435,11 @@ export function AlertDialogDemo() {
         "Controls the size of the alert dialog. Apply on `AlertDialogContent`.",
       default: '"default"',
     },
+    {
+      name: "AlertDialogAction",
+      type: "React.ComponentProps<typeof Button>",
+      description:
+        "Renders a plain button and does **not** close the dialog automatically on click (Base UI has no dedicated action primitive). Close it yourself, e.g. with a controlled `open`/`onOpenChange` pair on `AlertDialog`, or by calling your close handler in `onClick`. `AlertDialogCancel` still closes automatically.",
+    },
   ],
 };
