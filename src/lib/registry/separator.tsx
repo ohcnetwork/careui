@@ -586,12 +586,5 @@ export function SeparatorList() {
       description: "The orientation of the separator.",
       default: '"horizontal"',
     },
-    {
-      name: "decorative",
-      type: "boolean",
-      description:
-        "When true, signifies that it is purely visual, carries no semantic meaning, and ensures it is not present in the accessibility tree.",
-      default: "true",
-    },
   ],
 };

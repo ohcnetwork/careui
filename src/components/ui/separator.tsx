@@ -1,12 +1,11 @@
 /**
  * @name separator
  * @description Visually or semantically separates content.
- * @dependencies radix-ui class-variance-authority
+ * @dependencies @base-ui/react class-variance-authority
  * @type registry:ui
  */
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Separator as SeparatorPrimitive } from "radix-ui";
+import { Separator as SeparatorPrimitive } from "@base-ui/react/separator";
 
 import { cn } from "@/lib/utils";
 
@@ -33,15 +32,12 @@ const separatorVariants = cva(
 function Separator({
   className,
   orientation = "horizontal",
-  decorative = true,
   variant,
   ...props
-}: React.ComponentProps<typeof SeparatorPrimitive.Root> &
-  VariantProps<typeof separatorVariants>) {
+}: SeparatorPrimitive.Props & VariantProps<typeof separatorVariants>) {
   return (
-    <SeparatorPrimitive.Root
+    <SeparatorPrimitive
       data-slot="separator"
-      decorative={decorative}
       orientation={orientation}
       className={cn(separatorVariants({ variant }), className)}
       {...props}
