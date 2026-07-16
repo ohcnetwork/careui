@@ -1,7 +1,7 @@
 /**
  * @name field
  * @description A form field component with label, description, and error message support.
- * @dependencies radix-ui class-variance-authority
+ * @dependencies class-variance-authority
  * @type registry:ui
  */
 import { useMemo } from "react";

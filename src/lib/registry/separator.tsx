@@ -337,7 +337,7 @@ export const separatorDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add separator",
     manual:
-      "Install radix-ui and copy the separator component source code into your project.",
+      "Install @base-ui/react and copy the separator component source code into your project.",
   },
   usage: `import { Separator } from "@/components/ui/separator"
 

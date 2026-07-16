@@ -20,7 +20,7 @@ export const radioGroupDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add radio-group",
     manual:
-      "Install radix-ui, copy the radio group component source, and update import paths to match your project setup.",
+      "Install @base-ui/react, copy the radio group component source, and update import paths to match your project setup.",
   },
   usage: `import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"

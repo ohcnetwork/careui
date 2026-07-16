@@ -885,7 +885,7 @@ function SelectOptionsPopover<T = unknown>({
       )}
       <div className="relative flex max-h-full">
         <div
-          className="flex max-h-[min(var(--radix-popover-content-available-height),24rem)] w-full scroll-pt-2 scroll-pb-2 flex-col overscroll-contain"
+          className="flex max-h-[min(var(--available-height),24rem)] w-full scroll-pt-2 scroll-pb-2 flex-col overscroll-contain"
           role="listbox"
           id={`${baseId}-listbox`}
         >
@@ -1286,7 +1286,7 @@ function FilterSubmenuContent<T = unknown>({
       )}
       <div className="relative flex max-h-full">
         <div
-          className="flex max-h-[min(var(--radix-dropdown-menu-content-available-height),24rem)] w-full scroll-pt-2 scroll-pb-2 flex-col overscroll-contain outline-hidden"
+          className="flex max-h-[min(var(--available-height),24rem)] w-full scroll-pt-2 scroll-pb-2 flex-col overscroll-contain outline-hidden"
           role="listbox"
           id={`${baseId}-listbox`}
           tabIndex={field.searchable === false ? 0 : -1}
@@ -1864,7 +1864,7 @@ export function Filters<T = unknown>({
 
               <div className="relative flex max-h-full">
                 <div
-                  className="flex max-h-[min(var(--radix-dropdown-menu-content-available-height),24rem)] w-full scroll-pt-2 scroll-pb-2 flex-col overscroll-contain"
+                  className="flex max-h-[min(var(--available-height),24rem)] w-full scroll-pt-2 scroll-pb-2 flex-col overscroll-contain"
                   role="listbox"
                   id={`${rootId}-listbox`}
                 >
@@ -2631,7 +2631,9 @@ export function FilterPanel<T = unknown>({
                       align="end"
                       side="bottom"
                       className="w-64 gap-0 p-0"
-                      initialFocus={() => savedPopoverContentRef.current ?? undefined}
+                      initialFocus={() =>
+                        savedPopoverContentRef.current ?? undefined
+                      }
                       onKeyDown={(e) => {
                         if (e.key !== "ArrowDown" && e.key !== "ArrowUp")
                           return;

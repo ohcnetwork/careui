@@ -1,7 +1,7 @@
 /**
  * @name command
  * @description Fast, composable, unstyled command menu for React.
- * @dependencies cmdk radix-ui vaul
+ * @dependencies cmdk
  * @type registry:ui
  */
 import * as React from "react";

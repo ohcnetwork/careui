@@ -1,7 +1,7 @@
 /**
  * @name combobox
  * @description Autocomplete input and command palette with a list of suggestions.
- * @dependencies @base-ui/react radix-ui
+ * @dependencies @base-ui/react
  * @type registry:ui
  */
 "use client";

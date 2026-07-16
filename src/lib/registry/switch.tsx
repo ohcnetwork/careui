@@ -17,7 +17,7 @@ export const switchDoc: ComponentDoc = {
     "A control that allows the user to toggle between checked and not checked.",
   installation: {
     cli: "npx shadcn@latest add switch",
-    manual: "Install radix-ui and copy the switch component source code.",
+    manual: "Install @base-ui/react and copy the switch component source code.",
   },
   usage: `import { Switch } from "@/components/ui/switch"
 

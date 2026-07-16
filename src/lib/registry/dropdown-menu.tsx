@@ -39,7 +39,7 @@ export const dropdownMenuDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add dropdown-menu",
     manual:
-      "Install radix-ui and copy the dropdown menu component source code into your project.",
+      "Install @base-ui/react and copy the dropdown menu component source code into your project.",
   },
   usage: `import { Button } from "@/components/ui/button"
 import {
@@ -205,7 +205,7 @@ export function DropdownMenuDemo() {
     {
       name: "Modal",
       description:
-        "Pass `modal={true}` (Radix default) to block interaction with the page behind the menu. Useful for destructive flows where users should explicitly confirm or dismiss. The rest of the examples on this page use `modal={false}` so scrolling and other UI stay responsive while the menu is open — recommended for dashboards and data-dense surfaces.",
+        "Pass `modal={true}` (Base UI default) to block interaction with the page behind the menu. Useful for destructive flows where users should explicitly confirm or dismiss. The rest of the examples on this page use `modal={false}` so scrolling and other UI stay responsive while the menu is open — recommended for dashboards and data-dense surfaces.",
       code: `import { ChevronDown } from "lucide-react"
 
 <DropdownMenu modal={true}>
@@ -1104,7 +1104,7 @@ export function DropdownMenuComplex() {
                   checked: showStatusBar,
                   onCheckedChange: (checked) =>
                     setShowStatusBar(checked === true),
-                  },
+                },
                 "Status Bar"
               ),
               React.createElement(
@@ -1113,7 +1113,7 @@ export function DropdownMenuComplex() {
                   checked: showActivityBar,
                   onCheckedChange: (checked) =>
                     setShowActivityBar(checked === true),
-                  },
+                },
                 "Activity Bar"
               )
             ),

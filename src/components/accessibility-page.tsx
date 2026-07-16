@@ -92,8 +92,8 @@ const BUILT_IN: BuiltInRow[] = [
       "Expands the click target of small icon-only controls via a positioned ::before, so the visual size stays compact while the hit zone meets WCAG 2.5.5 (24×24 AA) / 44×44 (AAA).",
   },
   {
-    feature: "Radix primitives",
-    source: "radix-ui",
+    feature: "Base UI primitives",
+    source: "@base-ui/react",
     detail:
       "Dialog, Popover, Dropdown, Tabs, etc. provide focus trapping, roving tabindex, escape-to-close, and screen-reader announcements out of the box.",
   },
@@ -157,7 +157,7 @@ const CHECKLIST: ChecklistGroup[] = [
         rule: "Tab / Shift+Tab to move, Enter / Space to activate, Escape to dismiss overlays, arrow keys inside composite widgets (menu, tabs, listbox, slider).",
       },
       {
-        rule: "Trap focus inside dialogs and sheets; restore focus to the trigger on close (Radix handles this — don't disable it).",
+        rule: "Trap focus inside dialogs and sheets; restore focus to the trigger on close (Base UI handles this — don't disable it).",
       },
       {
         rule: "Never set tabIndex={-1} on something a user needs to reach. Never use positive tabIndex.",
@@ -359,7 +359,7 @@ export function AccessibilityPage() {
           </li>
           <li>
             <strong>WAI-ARIA Authoring Practices 1.2</strong> — Care UI composes
-            Radix primitives, which follow APG patterns for dialogs, menus,
+            Base UI primitives, which follow APG patterns for dialogs, menus,
             listboxes, tabs, and combobox.
           </li>
           <li>
@@ -543,8 +543,8 @@ export function AccessibilityPage() {
               <li>Communicate state by color alone.</li>
               <li>Use raw hex / OKLCH values that bypass the theme system.</li>
               <li>
-                Set positive <InlineCode>tabIndex</InlineCode> or override Radix
-                focus-trap behavior.
+                Set positive <InlineCode>tabIndex</InlineCode> or override Base
+                UI focus-trap behavior.
               </li>
             </ul>
           </div>

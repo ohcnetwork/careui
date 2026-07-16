@@ -135,7 +135,7 @@ export const checkboxDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add checkbox",
     manual:
-      "Install radix-ui, then copy and paste the checkbox component source code into your project.",
+      "Install @base-ui/react, then copy and paste the checkbox component source code into your project.",
   },
   usage: `import { Checkbox } from "@/components/ui/checkbox"
 

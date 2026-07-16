@@ -97,7 +97,7 @@ export const scrollAreaDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add scroll-area",
     manual:
-      "Install `radix-ui`, then copy the scroll-area component into your project.",
+      "Install `@base-ui/react`, then copy the scroll-area component into your project.",
   },
   usage: `import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 

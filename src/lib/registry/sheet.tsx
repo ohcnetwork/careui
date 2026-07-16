@@ -291,7 +291,7 @@ export const sheetDoc: ComponentDoc = {
     "Extends the Dialog component to display content that complements the main content of the screen.",
   installation: {
     cli: "npx shadcn@latest add sheet",
-    manual: "Install radix-ui and copy the sheet component source code.",
+    manual: "Install @base-ui/react and copy the sheet component source code.",
   },
   usage: `import {
   Sheet,

@@ -173,7 +173,7 @@ export function SignInForm() {
         <div className="space-y-4">
           <DocumentationParagraph spacing="none">
             Source you own (no runtime dependency on Care UI), full TypeScript
-            types and Radix accessibility primitives, the Care UI theme tokens
+            types and Base UI accessibility primitives, the Care UI theme tokens
             (light, dark, protanopia, tritanopia, high-contrast), and the
             typography + spacing system tuned for clinical density.
           </DocumentationParagraph>
@@ -189,7 +189,7 @@ export function SignInForm() {
               </li>
               <li className="text-muted-foreground flex gap-3">
                 <span className="text-primary mt-1">✓</span>
-                <span>Full TypeScript types and Radix UI primitives</span>
+                <span>Full TypeScript types and Base UI primitives</span>
               </li>
               <li className="text-muted-foreground flex gap-3">
                 <span className="text-primary mt-1">✓</span>

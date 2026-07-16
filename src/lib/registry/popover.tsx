@@ -20,7 +20,7 @@ export const popoverDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add popover",
     manual:
-      "Install radix-ui and copy the popover component source code into your project.",
+      "Install @base-ui/react and copy the popover component source code into your project.",
   },
   usage: `import {
   Popover,

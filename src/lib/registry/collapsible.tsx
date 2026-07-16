@@ -342,7 +342,7 @@ export const collapsibleDoc: ComponentDoc = {
   installation: {
     cli: "npx shadcn@latest add collapsible",
     manual:
-      "Install radix-ui, then copy and paste the collapsible component source code into your project.",
+      "Install @base-ui/react, then copy and paste the collapsible component source code into your project.",
   },
   usage: `import {
   Collapsible,

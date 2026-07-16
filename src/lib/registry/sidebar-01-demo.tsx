@@ -216,7 +216,7 @@ function CareNavUserCard({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--anchor-width) min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -230,7 +230,9 @@ function CareNavUserCard({
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{careUser.name}</span>
+                    <span className="truncate font-medium">
+                      {careUser.name}
+                    </span>
                     <span className="text-muted-foreground truncate text-xs">
                       {careUser.role}
                     </span>

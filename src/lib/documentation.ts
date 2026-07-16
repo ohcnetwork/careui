@@ -67,7 +67,7 @@ export function SignInForm() {
         {
           title: "What you get",
           content:
-            "Source you own (no runtime dependency on Care UI), full TypeScript types and Radix accessibility primitives, the Care UI theme tokens (light, dark, protanopia, tritanopia, high-contrast), and the typography + spacing system tuned for clinical density. Browse the rest of the docs — Typography, Colors, Foundations, Accessibility — for the design conventions every component is built against.",
+            "Source you own (no runtime dependency on Care UI), full TypeScript types and Base UI accessibility primitives, the Care UI theme tokens (light, dark, protanopia, tritanopia, high-contrast), and the typography + spacing system tuned for clinical density. Browse the rest of the docs — Typography, Colors, Foundations, Accessibility — for the design conventions every component is built against.",
         },
       ],
     },
