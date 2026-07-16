@@ -625,8 +625,8 @@
     "name": "button-group",
     "type": "registry:ui",
     "dependencies": [
-      "class-variance-authority",
-      "radix-ui"
+      "@base-ui/react",
+      "class-variance-authority"
     ],
     "files": [
       "registry/care-ui/button-group/button-group.tsx"
