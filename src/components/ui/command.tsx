@@ -51,10 +51,12 @@ function CommandDialog({
   open,
   onOpenChange,
   ...props
-}: React.ComponentProps<typeof Dialog> & {
+}: Omit<React.ComponentProps<typeof Dialog>, "children" | "onOpenChange"> & {
   title?: string;
   description?: string;
   className?: string;
+  children?: React.ReactNode;
+  onOpenChange?: (open: boolean) => void;
 }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
