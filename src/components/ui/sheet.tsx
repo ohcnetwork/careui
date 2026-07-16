@@ -1,16 +1,44 @@
 /**
  * @name sheet
  * @description Extends the Dialog component to display content that complements the main content of the screen.
- * @dependencies radix-ui class-variance-authority lucide-react
+ * @dependencies @base-ui/react class-variance-authority lucide-react
  * @type registry:ui
  */
 import * as React from "react";
-import { Dialog as SheetPrimitive } from "radix-ui";
+import { Dialog as SheetPrimitive } from "@base-ui/react/dialog";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { XIcon } from "lucide-react";
+
+type RenderProp =
+  | React.ReactElement
+  | ((props: unknown, state: unknown) => React.ReactElement)
+  | undefined;
+
+function resolveAsChild(
+  asChild: boolean | undefined,
+  children: React.ReactNode,
+  render: RenderProp
+): { render: RenderProp; children: React.ReactNode } {
+  if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<{
+      children?: React.ReactNode;
+      [key: string]: unknown;
+    }>;
+    const { children: extractedChildren, ...restProps } = child.props;
+    return {
+      render: React.createElement(child.type as React.ElementType, restProps),
+      children: extractedChildren,
+    };
+  }
+  return { render, children };
+}
+
+function isBlockedReason(reason: string) {
+  return reason === "outside-press" || reason === "focus-out";
+}
 
 const SheetContext = React.createContext<{
   shaking: boolean;
@@ -21,47 +49,105 @@ const SheetContext = React.createContext<{
   setScrolled: (v: boolean) => void;
 } | null>(null);
 
-const SheetRootContext = React.createContext<{ modal: boolean }>({
-  modal: true,
+const SheetRootContext = React.createContext<{
+  dismissibleRef: React.RefObject<boolean>;
+  triggerShakeRef: React.RefObject<(() => void) | null>;
+}>({
+  dismissibleRef: { current: true },
+  triggerShakeRef: { current: null },
 });
 
 function Sheet({
   modal = true,
+  onOpenChange,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Root>) {
+}: SheetPrimitive.Root.Props) {
+  const dismissibleRef = React.useRef(true);
+  const triggerShakeRef = React.useRef<(() => void) | null>(null);
+
+  const handleOpenChange = React.useCallback(
+    (open: boolean, eventDetails: SheetPrimitive.Root.ChangeEventDetails) => {
+      if (!open && !dismissibleRef.current && isBlockedReason(eventDetails.reason)) {
+        eventDetails.cancel();
+        if (modal && eventDetails.reason === "outside-press") {
+          triggerShakeRef.current?.();
+        }
+        return;
+      }
+      onOpenChange?.(open, eventDetails);
+    },
+    [modal, onOpenChange]
+  );
+
   return (
     <SheetRootContext.Provider
-      value={React.useMemo(() => ({ modal }), [modal])}
+      value={React.useMemo(
+        () => ({ dismissibleRef, triggerShakeRef }),
+        []
+      )}
     >
-      <SheetPrimitive.Root data-slot="sheet" modal={modal} {...props} />
+      <SheetPrimitive.Root
+        data-slot="sheet"
+        modal={modal}
+        onOpenChange={handleOpenChange}
+        {...props}
+      />
     </SheetRootContext.Provider>
   );
 }
 
 function SheetTrigger({
+  asChild,
+  render,
+  children,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
-  return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
+}: Omit<SheetPrimitive.Trigger.Props, "render"> & {
+  asChild?: boolean;
+  render?: RenderProp;
+}) {
+  const resolved = resolveAsChild(asChild, children, render);
+  return (
+    <SheetPrimitive.Trigger
+      data-slot="sheet-trigger"
+      render={resolved.render}
+      {...props}
+    >
+      {resolved.children}
+    </SheetPrimitive.Trigger>
+  );
 }
 
 function SheetClose({
+  asChild,
+  render,
+  children,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Close>) {
-  return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
+}: Omit<SheetPrimitive.Close.Props, "render"> & {
+  asChild?: boolean;
+  render?: RenderProp;
+}) {
+  const resolved = resolveAsChild(asChild, children, render);
+  return (
+    <SheetPrimitive.Close
+      data-slot="sheet-close"
+      render={resolved.render}
+      {...props}
+    >
+      {resolved.children}
+    </SheetPrimitive.Close>
+  );
 }
 
-function SheetPortal({
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Portal>) {
+function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
 function SheetOverlay({
   className,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Overlay>) {
+}: SheetPrimitive.Backdrop.Props) {
   return (
-    <SheetPrimitive.Overlay
+    <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
       className={cn(
         "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 fixed inset-0 z-50 bg-black/10 duration-100 data-ending-style:opacity-0 data-starting-style:opacity-0 supports-backdrop-filter:backdrop-blur-xs",
@@ -92,11 +178,9 @@ function SheetContent({
   dismissible = false,
   overlay = true,
   containerClassName,
-  onOpenAutoFocus,
-  onInteractOutside,
-  onPointerDownOutside,
+  initialFocus,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Content> & {
+}: SheetPrimitive.Popup.Props & {
   side?: "top" | "right" | "bottom" | "left";
   size?: SheetSize;
   dismissible?: boolean;
@@ -104,11 +188,25 @@ function SheetContent({
   containerClassName?: string;
 }) {
   const isMobile = useIsMobile();
-  const { modal } = React.useContext(SheetRootContext);
+  const { dismissibleRef, triggerShakeRef } = React.useContext(SheetRootContext);
   const [shaking, setShaking] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
+  const popupRef = React.useRef<HTMLDivElement | null>(null);
 
-  const contentRef = React.useCallback(
+  const onShakeEnd = React.useCallback(() => setShaking(false), []);
+  const triggerShake = React.useCallback(() => {
+    setShaking(false);
+    requestAnimationFrame(() => setShaking(true));
+  }, []);
+
+  // Always-latest refs: Root's onOpenChange fires later, asynchronously, in
+  // response to user interaction — by then this effect has already run.
+  React.useEffect(() => {
+    dismissibleRef.current = dismissible;
+    triggerShakeRef.current = triggerShake;
+  }, [dismissibleRef, dismissible, triggerShakeRef, triggerShake]);
+
+  const viewportRef = React.useCallback(
     (el: HTMLDivElement | null) => {
       const vv = window.visualViewport;
       if (!el || !vv) return;
@@ -140,17 +238,19 @@ function SheetContent({
     [side]
   );
 
+  const setContentRef = React.useCallback(
+    (el: HTMLDivElement | null) => {
+      popupRef.current = el;
+      return viewportRef(el);
+    },
+    [viewportRef]
+  );
+
   const resolvedContainerClassName =
     containerClassName ??
     (side === "top" || side === "bottom"
       ? "mx-auto w-full max-w-2xl px-4"
       : "px-4");
-
-  const onShakeEnd = React.useCallback(() => setShaking(false), []);
-  const triggerShake = React.useCallback(() => {
-    setShaking(false);
-    requestAnimationFrame(() => setShaking(true));
-  }, []);
 
   const contextValue = React.useMemo(
     () => ({
@@ -167,8 +267,8 @@ function SheetContent({
   return (
     <SheetPortal>
       {overlay && <SheetOverlay />}
-      <SheetPrimitive.Content
-        ref={contentRef}
+      <SheetPrimitive.Popup
+        ref={setContentRef}
         data-slot="sheet-content"
         data-side={side}
         className={cn(
@@ -176,55 +276,35 @@ function SheetContent({
           sheetSizeClasses[size],
           className
         )}
-        onOpenAutoFocus={(e) => {
-          if (onOpenAutoFocus) {
-            onOpenAutoFocus(e);
-            return;
-          }
-          if (isMobile) {
-            e.preventDefault();
-            return;
-          }
-          const input = (
-            e.currentTarget as HTMLElement
-          ).querySelector<HTMLElement>(
-            'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])'
-          );
-          if (input) {
-            e.preventDefault();
-            input.focus();
-          }
-        }}
-        onInteractOutside={(e) => {
-          if (!dismissible) {
-            e.preventDefault();
-            // Only shake when the sheet is modal — a non-modal sheet has no
-            // "trapped" affordance to signal, and a shake would feel jarring
-            // against the still-interactive page behind it.
-            if (modal) triggerShake();
-          }
-          onInteractOutside?.(e);
-        }}
-        onPointerDownOutside={(e) => {
-          if (!dismissible) e.preventDefault();
-          onPointerDownOutside?.(e);
-        }}
+        initialFocus={
+          initialFocus ??
+          (() => {
+            if (isMobile) return false;
+            const input = popupRef.current?.querySelector<HTMLElement>(
+              'input:not([disabled]):not([type="hidden"]), textarea:not([disabled]), select:not([disabled])'
+            );
+            return input ?? undefined;
+          })
+        }
         data-shaking={shaking || undefined}
         onAnimationEnd={onShakeEnd}
         {...props}
       >
         {/*
-         * IMPORTANT: SheetContext.Provider must live INSIDE SheetPrimitive.Content
-         * (not between SheetPortal and SheetPrimitive.Content). Radix Presence
-         * does `cloneElement(child, { ref })` on its direct child; Context
-         * Providers silently drop refs, leaving Presence's stylesRef null. On
-         * close it then reads animation-name as "none" and unmounts the sheet
-         * synchronously, skipping the slide-out animation.
+         * SheetContext.Provider lives INSIDE SheetPrimitive.Popup (not
+         * between SheetPortal and SheetPrimitive.Popup). This mirrored a
+         * hard Radix Presence requirement (cloneElement(child, { ref })
+         * on its direct child; a Context Provider there silently dropped
+         * the ref, breaking exit-animation detection). Base UI's Popup
+         * uses data-starting-style/data-ending-style + CSS transitions
+         * instead of that ref-based mechanism, so this specific failure
+         * mode no longer applies — kept in the same position anyway since
+         * it costs nothing and there's no reason to relitigate it.
          */}
         <SheetContext.Provider value={contextValue}>
           {children}
         </SheetContext.Provider>
-      </SheetPrimitive.Content>
+      </SheetPrimitive.Popup>
     </SheetPortal>
   );
 }
@@ -247,21 +327,23 @@ function SheetHeader({
     >
       <div className="flex flex-col self-center-safe">{children}</div>
       {showCloseButton && (
-        <SheetPrimitive.Close data-slot="sheet-close" asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(
-              "-mt-1 -mr-1 shrink-0",
-              ctx?.shaking &&
-                "bg-destructive/20 animate-sheet-shake will-change-transform"
-            )}
-            onAnimationEnd={ctx?.onShakeEnd}
-          >
-            <XIcon />
-            <span className="sr-only">Close</span>
-          </Button>
-        </SheetPrimitive.Close>
+        <SheetClose
+          render={
+            <Button
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "-mt-1 -mr-1 shrink-0",
+                ctx?.shaking &&
+                  "bg-destructive/20 animate-sheet-shake will-change-transform"
+              )}
+              onAnimationEnd={ctx?.onShakeEnd}
+            >
+              <XIcon />
+              <span className="sr-only">Close</span>
+            </Button>
+          }
+        />
       )}
     </div>
   );
@@ -314,10 +396,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function SheetTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof SheetPrimitive.Title>) {
+function SheetTitle({ className, ...props }: SheetPrimitive.Title.Props) {
   const ctx = React.useContext(SheetContext);
   return (
     <SheetPrimitive.Title
@@ -335,7 +414,7 @@ function SheetTitle({
 function SheetDescription({
   className,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Description>) {
+}: SheetPrimitive.Description.Props) {
   const ctx = React.useContext(SheetContext);
   return (
     <div
