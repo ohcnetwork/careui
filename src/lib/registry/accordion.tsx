@@ -31,7 +31,7 @@ export const accordionDoc: ComponentDoc = {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-<Accordion type="single" collapsible defaultValue="item-1">
+<Accordion defaultValue={["item-1"]}>
   <AccordionItem value="item-1">
     <AccordionTrigger>Is it accessible?</AccordionTrigger>
     <AccordionContent>
@@ -49,12 +49,7 @@ export const accordionDoc: ComponentDoc = {
 
 export function AccordionDemo() {
   return (
-    <Accordion
-      type="single"
-      collapsible
-      defaultValue="shipping"
-      className="max-w-lg"
-    >
+    <Accordion defaultValue={["shipping"]} className="max-w-lg">
       <AccordionItem value="shipping">
         <AccordionTrigger>What are your shipping options?</AccordionTrigger>
         <AccordionContent>
@@ -82,9 +77,7 @@ export function AccordionDemo() {
     component: React.createElement(
       Accordion,
       {
-        type: "single",
-        collapsible: true,
-        defaultValue: "shipping",
+        defaultValue: ["shipping"],
         className: "max-w-lg",
       },
       React.createElement(
@@ -168,7 +161,7 @@ const items = [
 
 export function AccordionBasic() {
   return (
-    <Accordion type="single" collapsible defaultValue="item-1" className="max-w-lg">
+    <Accordion defaultValue={["item-1"]} className="max-w-lg">
       {items.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionTrigger>{item.trigger}</AccordionTrigger>
@@ -181,9 +174,7 @@ export function AccordionBasic() {
       preview: React.createElement(
         Accordion,
         {
-          type: "single",
-          collapsible: true,
-          defaultValue: "item-1",
+          defaultValue: ["item-1"],
           className: "max-w-lg",
         },
         ...[
@@ -220,7 +211,7 @@ export function AccordionBasic() {
     {
       name: "Multiple",
       description:
-        'Use type="multiple" to allow multiple items to be open at the same time.',
+        "Use the `multiple` prop to allow multiple items to be open at the same time.",
       code: `import {
   Accordion,
   AccordionContent,
@@ -251,7 +242,7 @@ const items = [
 
 export function AccordionMultiple() {
   return (
-    <Accordion type="multiple" className="max-w-lg" defaultValue={["notifications"]}>
+    <Accordion multiple className="max-w-lg" defaultValue={["notifications"]}>
       {items.map((item) => (
         <AccordionItem key={item.value} value={item.value}>
           <AccordionTrigger>{item.trigger}</AccordionTrigger>
@@ -264,7 +255,7 @@ export function AccordionMultiple() {
       preview: React.createElement(
         Accordion,
         {
-          type: "multiple",
+          multiple: true,
           className: "max-w-lg",
           defaultValue: ["notifications"],
         },
@@ -312,7 +303,7 @@ export function AccordionMultiple() {
 
 export function AccordionDisabled() {
   return (
-    <Accordion type="single" collapsible className="max-w-lg">
+    <Accordion className="max-w-lg">
       <AccordionItem value="item-1">
         <AccordionTrigger>Can I access my account history?</AccordionTrigger>
         <AccordionContent>
@@ -340,7 +331,7 @@ export function AccordionDisabled() {
 }`,
       preview: React.createElement(
         Accordion,
-        { type: "single", collapsible: true, className: "max-w-lg" },
+        { className: "max-w-lg" },
         React.createElement(
           AccordionItem,
           { value: "item-1" },
@@ -421,12 +412,7 @@ const items = [
 
 export function AccordionBorders() {
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className="max-w-lg rounded-lg border"
-      defaultValue="billing"
-    >
+    <Accordion className="max-w-lg rounded-lg border" defaultValue={["billing"]}>
       {items.map((item) => (
         <AccordionItem
           key={item.value}
@@ -443,10 +429,8 @@ export function AccordionBorders() {
       preview: React.createElement(
         Accordion,
         {
-          type: "single",
-          collapsible: true,
           className: "max-w-lg rounded-lg border",
-          defaultValue: "billing",
+          defaultValue: ["billing"],
         },
         ...[
           {
@@ -531,7 +515,7 @@ export function AccordionCard() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Accordion type="single" collapsible defaultValue="plans">
+        <Accordion defaultValue={["plans"]}>
           {items.map((item) => (
             <AccordionItem key={item.value} value={item.value}>
               <AccordionTrigger>{item.trigger}</AccordionTrigger>
@@ -561,7 +545,7 @@ export function AccordionCard() {
           {},
           React.createElement(
             Accordion,
-            { type: "single", collapsible: true, defaultValue: "plans" },
+            { defaultValue: ["plans"] },
             ...[
               {
                 value: "plans",
