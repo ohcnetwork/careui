@@ -345,9 +345,8 @@
     "name": "item",
     "type": "registry:ui",
     "dependencies": [
-      "none",
-      "class-variance-authority",
-      "radix-ui"
+      "@base-ui/react",
+      "class-variance-authority"
     ],
     "files": [
       "registry/care-ui/item/item.tsx"

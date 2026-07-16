@@ -1,12 +1,13 @@
 /**
  * @name item
  * @description A generic item component used within lists or menus.
- * @dependencies none
+ * @dependencies @base-ui/react
  * @type registry:ui
  */
 import * as React from "react";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Slot } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -61,24 +62,60 @@ const itemVariants = cva(
   }
 );
 
+type RenderProp =
+  | React.ReactElement
+  | ((props: unknown, state: unknown) => React.ReactElement)
+  | undefined;
+
+function resolveAsChild(
+  asChild: boolean | undefined,
+  children: React.ReactNode,
+  render: RenderProp
+): { render: RenderProp; children: React.ReactNode } {
+  if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<{
+      children?: React.ReactNode;
+      [key: string]: unknown;
+    }>;
+    const { children: extractedChildren, ...restProps } = child.props;
+    return {
+      render: React.createElement(child.type as React.ElementType, restProps),
+      children: extractedChildren,
+    };
+  }
+  return { render, children };
+}
+
 function Item({
   className,
   variant = "default",
   size = "default",
-  asChild = false,
+  asChild,
+  render,
+  children,
   ...props
-}: React.ComponentProps<"div"> &
-  VariantProps<typeof itemVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot.Root : "div";
-  return (
-    <Comp
-      data-slot="item"
-      data-variant={variant}
-      data-size={size}
-      className={cn(itemVariants({ variant, size, className }))}
-      {...props}
-    />
-  );
+}: Omit<useRender.ComponentProps<"div">, "render"> &
+  VariantProps<typeof itemVariants> & {
+    asChild?: boolean;
+    render?: RenderProp;
+  }) {
+  const resolved = resolveAsChild(asChild, children, render);
+  return useRender({
+    defaultTagName: "div",
+    render: resolved.render,
+    state: {
+      slot: "item",
+      variant,
+      size,
+    },
+    props: mergeProps<"div">(
+      {
+        className: cn(itemVariants({ variant, size, className })),
+        children: resolved.children,
+      },
+      props
+    ),
+  });
 }
 
 const itemMediaVariants = cva(
