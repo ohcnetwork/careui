@@ -271,7 +271,7 @@
     "name": "navigation-menu",
     "type": "registry:ui",
     "dependencies": [
-      "radix-ui",
+      "@base-ui/react",
       "lucide-react",
       "class-variance-authority"
     ],
