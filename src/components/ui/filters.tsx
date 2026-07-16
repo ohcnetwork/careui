@@ -1350,10 +1350,8 @@ function FilterSubmenuContent<T = unknown>({
                         "data-highlighted:bg-accent data-highlighted:text-accent-foreground gap-2",
                         option.className
                       )}
-                      onSelect={(e) => {
-                        if (isMultiSelect) e.preventDefault();
-                        onToggle(option.value as T, isSelected);
-                      }}
+                      closeOnClick={!isMultiSelect}
+                      onClick={() => onToggle(option.value as T, isSelected)}
                     >
                       <Checkbox
                         checked={isSelected}

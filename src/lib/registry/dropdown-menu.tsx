@@ -216,7 +216,9 @@ export function DropdownMenuDemo() {
     </Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent>
-    <DropdownMenuLabel>Danger zone</DropdownMenuLabel>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>Danger zone</DropdownMenuLabel>
+    </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuItem>Archive patient</DropdownMenuItem>
     <DropdownMenuItem variant="destructive">Delete record</DropdownMenuItem>
@@ -238,7 +240,11 @@ export function DropdownMenuDemo() {
         React.createElement(
           DropdownMenuContent,
           {},
-          React.createElement(DropdownMenuLabel, {}, "Danger zone"),
+          React.createElement(
+            DropdownMenuGroup,
+            {},
+            React.createElement(DropdownMenuLabel, {}, "Danger zone")
+          ),
           React.createElement(DropdownMenuSeparator, {}),
           React.createElement(DropdownMenuItem, {}, "Archive patient"),
           React.createElement(
@@ -334,7 +340,9 @@ export function DropdownMenuCheckboxes() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
           checked={showStatusBar}
@@ -372,7 +380,11 @@ export function DropdownMenuCheckboxes() {
           React.createElement(
             DropdownMenuContent,
             {},
-            React.createElement(DropdownMenuLabel, {}, "Appearance"),
+            React.createElement(
+              DropdownMenuGroup,
+              {},
+              React.createElement(DropdownMenuLabel, {}, "Appearance")
+            ),
             React.createElement(DropdownMenuSeparator, {}),
             React.createElement(
               DropdownMenuCheckboxItem,
@@ -380,7 +392,6 @@ export function DropdownMenuCheckboxes() {
                 checked: showStatusBar,
                 onCheckedChange: (checked) =>
                   setShowStatusBar(checked === true),
-                onSelect: (event) => event.preventDefault(),
               },
               "Status Bar"
             ),
@@ -390,7 +401,6 @@ export function DropdownMenuCheckboxes() {
                 checked: showActivityBar,
                 onCheckedChange: (checked) =>
                   setShowActivityBar(checked === true),
-                onSelect: (event) => event.preventDefault(),
               },
               "Activity Bar"
             )
@@ -431,15 +441,15 @@ export function DropdownMenuCheckboxComponent() {
           }
         }}
       >
-        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           role="menuitemcheckbox"
           aria-checked={showStatusBar}
-          onSelect={(event) => {
-            event.preventDefault()
-            setShowStatusBar((prev) => !prev)
-          }}
+          closeOnClick={false}
+          onClick={() => setShowStatusBar((prev) => !prev)}
         >
           <Checkbox
             checked={showStatusBar}
@@ -452,10 +462,8 @@ export function DropdownMenuCheckboxComponent() {
         <DropdownMenuItem
           role="menuitemcheckbox"
           aria-checked={showActivityBar}
-          onSelect={(event) => {
-            event.preventDefault()
-            setShowActivityBar((prev) => !prev)
-          }}
+          closeOnClick={false}
+          onClick={() => setShowActivityBar((prev) => !prev)}
         >
           <Checkbox
             checked={showActivityBar}
@@ -512,17 +520,19 @@ export function DropdownMenuCheckboxComponent() {
                   }
                 },
               },
-              React.createElement(DropdownMenuLabel, {}, "Appearance"),
+              React.createElement(
+                DropdownMenuGroup,
+                {},
+                React.createElement(DropdownMenuLabel, {}, "Appearance")
+              ),
               React.createElement(DropdownMenuSeparator, {}),
               React.createElement(
                 DropdownMenuItem,
                 {
                   role: "menuitemcheckbox",
                   "aria-checked": showStatusBar,
-                  onSelect: (event) => {
-                    event.preventDefault();
-                    setShowStatusBar((prev) => !prev);
-                  },
+                  closeOnClick: false,
+                  onClick: () => setShowStatusBar((prev) => !prev),
                 },
                 React.createElement(Checkbox, {
                   checked: showStatusBar,
@@ -538,10 +548,8 @@ export function DropdownMenuCheckboxComponent() {
                 {
                   role: "menuitemcheckbox",
                   "aria-checked": showActivityBar,
-                  onSelect: (event) => {
-                    event.preventDefault();
-                    setShowActivityBar((prev) => !prev);
-                  },
+                  closeOnClick: false,
+                  onClick: () => setShowActivityBar((prev) => !prev),
                 },
                 React.createElement(Checkbox, {
                   checked: showActivityBar,
@@ -595,16 +603,16 @@ export function DropdownMenuRadioGroupComponent() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <RadioGroup value={position} className="gap-0 w-full">
           <DropdownMenuItem
             role="menuitemradio"
             aria-checked={position === "top"}
-            onSelect={(event) => {
-              event.preventDefault()
-              setPosition("top")
-            }}
+            closeOnClick={false}
+            onClick={() => setPosition("top")}
           >
             <RadioGroupItem
               value="top"
@@ -617,10 +625,8 @@ export function DropdownMenuRadioGroupComponent() {
           <DropdownMenuItem
             role="menuitemradio"
             aria-checked={position === "bottom"}
-            onSelect={(event) => {
-              event.preventDefault()
-              setPosition("bottom")
-            }}
+            closeOnClick={false}
+            onClick={() => setPosition("bottom")}
           >
             <RadioGroupItem
               value="bottom"
@@ -633,10 +639,8 @@ export function DropdownMenuRadioGroupComponent() {
           <DropdownMenuItem
             role="menuitemradio"
             aria-checked={position === "right"}
-            onSelect={(event) => {
-              event.preventDefault()
-              setPosition("right")
-            }}
+            closeOnClick={false}
+            onClick={() => setPosition("right")}
           >
             <RadioGroupItem
               value="right"
@@ -671,7 +675,11 @@ export function DropdownMenuRadioGroupComponent() {
             React.createElement(
               DropdownMenuContent,
               {},
-              React.createElement(DropdownMenuLabel, {}, "Panel Position"),
+              React.createElement(
+                DropdownMenuGroup,
+                {},
+                React.createElement(DropdownMenuLabel, {}, "Panel Position")
+              ),
               React.createElement(DropdownMenuSeparator, {}),
               React.createElement(
                 RadioGroup,
@@ -681,10 +689,8 @@ export function DropdownMenuRadioGroupComponent() {
                   {
                     role: "menuitemradio",
                     "aria-checked": position === "top",
-                    onSelect: (event) => {
-                      event.preventDefault();
-                      setPosition("top");
-                    },
+                    closeOnClick: false,
+                    onClick: () => setPosition("top"),
                   },
                   React.createElement(RadioGroupItem, {
                     value: "top",
@@ -700,10 +706,8 @@ export function DropdownMenuRadioGroupComponent() {
                   {
                     role: "menuitemradio",
                     "aria-checked": position === "bottom",
-                    onSelect: (event) => {
-                      event.preventDefault();
-                      setPosition("bottom");
-                    },
+                    closeOnClick: false,
+                    onClick: () => setPosition("bottom"),
                   },
                   React.createElement(RadioGroupItem, {
                     value: "bottom",
@@ -719,10 +723,8 @@ export function DropdownMenuRadioGroupComponent() {
                   {
                     role: "menuitemradio",
                     "aria-checked": position === "right",
-                    onSelect: (event) => {
-                      event.preventDefault();
-                      setPosition("right");
-                    },
+                    closeOnClick: false,
+                    onClick: () => setPosition("right"),
                   },
                   React.createElement(RadioGroupItem, {
                     value: "right",
@@ -759,7 +761,9 @@ export function DropdownMenuTheme() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>Theme</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Theme</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
           <DropdownMenuRadioItem value="light">Light</DropdownMenuRadioItem>
@@ -789,7 +793,11 @@ export function DropdownMenuTheme() {
           React.createElement(
             DropdownMenuContent,
             {},
-            React.createElement(DropdownMenuLabel, {}, "Theme"),
+            React.createElement(
+              DropdownMenuGroup,
+              {},
+              React.createElement(DropdownMenuLabel, {}, "Theme")
+            ),
             React.createElement(DropdownMenuSeparator, {}),
             React.createElement(
               DropdownMenuRadioGroup,
@@ -1096,8 +1104,7 @@ export function DropdownMenuComplex() {
                   checked: showStatusBar,
                   onCheckedChange: (checked) =>
                     setShowStatusBar(checked === true),
-                  onSelect: (event) => event.preventDefault(),
-                },
+                  },
                 "Status Bar"
               ),
               React.createElement(
@@ -1106,8 +1113,7 @@ export function DropdownMenuComplex() {
                   checked: showActivityBar,
                   onCheckedChange: (checked) =>
                     setShowActivityBar(checked === true),
-                  onSelect: (event) => event.preventDefault(),
-                },
+                  },
                 "Activity Bar"
               )
             ),
