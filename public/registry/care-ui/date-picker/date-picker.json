@@ -6,7 +6,10 @@
     "react-day-picker",
     "lucide-react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/button/button.json",
+    "https://careui.ohc.network/registry/care-ui/calendar/calendar.json"
+  ],
   "files": [
     {
       "path": "registry/care-ui/date-picker/date-picker.tsx",

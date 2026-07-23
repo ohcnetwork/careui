@@ -18,7 +18,8 @@
     "https://careui.ohc.network/registry/care-ui/popover/popover.json",
     "https://careui.ohc.network/registry/care-ui/scroll-area/scroll-area.json",
     "https://careui.ohc.network/registry/care-ui/separator/separator.json",
-    "https://careui.ohc.network/registry/care-ui/tooltip/tooltip.json"
+    "https://careui.ohc.network/registry/care-ui/tooltip/tooltip.json",
+    "https://careui.ohc.network/registry/care-ui/use-mobile/use-mobile.json"
   ],
   "files": [
     {

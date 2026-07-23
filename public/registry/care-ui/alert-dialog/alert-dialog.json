@@ -2,10 +2,11 @@
   "name": "alert-dialog",
   "type": "registry:ui",
   "dependencies": [
-    "@base-ui/react",
-    "button"
+    "@base-ui/react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/button/button.json"
+  ],
   "files": [
     {
       "path": "registry/care-ui/alert-dialog/alert-dialog.tsx",

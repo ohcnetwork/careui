@@ -5,7 +5,9 @@
     "@base-ui/react",
     "lucide-react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/button/button.json"
+  ],
   "files": [
     {
       "path": "registry/care-ui/combobox/combobox.tsx",

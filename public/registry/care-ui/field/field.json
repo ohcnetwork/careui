@@ -5,7 +5,10 @@
     "class-variance-authority",
     "lucide-react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/label/label.json",
+    "https://careui.ohc.network/registry/care-ui/separator/separator.json"
+  ],
   "files": [
     {
       "path": "registry/care-ui/field/field.tsx",

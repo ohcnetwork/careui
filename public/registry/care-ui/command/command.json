@@ -5,7 +5,10 @@
     "cmdk",
     "lucide-react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/input-group/input-group.json",
+    "https://careui.ohc.network/registry/care-ui/use-media-query/use-media-query.json"
+  ],
   "files": [
     {
       "path": "registry/care-ui/command/command.tsx",

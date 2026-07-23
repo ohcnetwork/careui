@@ -1,9 +1,6 @@
 {
   "name": "skeleton",
   "type": "registry:ui",
-  "dependencies": [
-    "none"
-  ],
   "registryDependencies": [],
   "files": [
     {

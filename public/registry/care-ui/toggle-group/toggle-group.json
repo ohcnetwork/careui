@@ -5,7 +5,9 @@
     "@base-ui/react",
     "class-variance-authority"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/toggle/toggle.json"
+  ],
   "files": [
     {
       "path": "registry/care-ui/toggle-group/toggle-group.tsx",

@@ -2,10 +2,13 @@
   "name": "input-group",
   "type": "registry:ui",
   "dependencies": [
-    "none",
     "class-variance-authority"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/button/button.json",
+    "https://careui.ohc.network/registry/care-ui/input/input.json",
+    "https://careui.ohc.network/registry/care-ui/textarea/textarea.json"
+  ],
   "files": [
     {
       "path": "registry/care-ui/input-group/input-group.tsx",

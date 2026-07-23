@@ -1,9 +1,6 @@
 {
   "name": "input",
   "type": "registry:ui",
-  "dependencies": [
-    "none"
-  ],
   "registryDependencies": [
     "https://careui.ohc.network/registry/care-ui/use-auto-space/use-auto-space.json"
   ],

@@ -135,6 +135,32 @@ function detectDependencies(content: string): string[] {
 }
 
 /**
+ * Detect local registry dependencies from workspace import statements
+ */
+function detectLocalRegistryDependencies(content: string): string[] {
+  const registryDeps = new Set<string>()
+
+  const importRegex = /import\s+(?:.*?from\s+)?['"]([^'"]+)['"]/g
+  let match
+
+  while ((match = importRegex.exec(content)) !== null) {
+    const importPath = match[1]
+
+    if (importPath.startsWith('@/components/ui/')) {
+      const name = importPath.replace('@/components/ui/', '').split('/')[0]
+      if (name) registryDeps.add(name)
+    }
+
+    if (importPath.startsWith('@/hooks/')) {
+      const name = importPath.replace('@/hooks/', '').split('/')[0]
+      if (name) registryDeps.add(name)
+    }
+  }
+
+  return Array.from(registryDeps)
+}
+
+/**
  * Process a single component file
  */
 async function processComponent(filePath: string): Promise<ComponentMeta> {
@@ -145,7 +171,9 @@ async function processComponent(filePath: string): Promise<ComponentMeta> {
   // Extract metadata
   const metadata = extractMetadata(content, fileName)
   const autoDeps = detectDependencies(content)
+  const autoRegistryDeps = detectLocalRegistryDependencies(content)
   const allDeps = [...new Set([...metadata.dependencies || [], ...autoDeps])]
+  const allRegistryDeps = [...new Set([...metadata.registryDependencies || [], ...autoRegistryDeps])]
 
   const isHook = (metadata.type || 'registry:ui') === 'registry:hook'
   const fileExt = path.extname(fileName)
@@ -157,7 +185,7 @@ async function processComponent(filePath: string): Promise<ComponentMeta> {
     type: metadata.type || 'registry:ui',
     description: metadata.description || `${componentName.charAt(0).toUpperCase() + componentName.slice(1)} component`,
     dependencies: allDeps.length > 0 ? allDeps : undefined,
-    registryDependencies: metadata.registryDependencies && metadata.registryDependencies.length > 0 ? metadata.registryDependencies : undefined,
+    registryDependencies: allRegistryDeps.length > 0 ? allRegistryDeps : undefined,
     files: [{
       path: `registry/care-ui/${componentName}/${componentName}${fileExt}`,
       content,
@@ -187,8 +215,19 @@ async function writeRegistryFile(component: ComponentMeta, localNames: Set<strin
 
   await ensureDir(outputDir)
 
-  // Resolve bare local names to full URLs; leave full URLs and official names as-is
-  const resolvedDeps = (component.registryDependencies || []).map(dep => {
+  // Normalize deps: remove placeholders and move local names from npm deps into registry deps.
+  const existingRegistryDeps = new Set(component.registryDependencies || [])
+  const normalizedNpmDeps = (component.dependencies || []).filter(dep => {
+    if (!dep || dep === 'none') return false
+    // Move local component names only when already detected as local registry deps.
+    if (localNames.has(dep) && existingRegistryDeps.has(dep)) {
+      return false
+    }
+    return true
+  })
+
+  // Resolve bare local names to full URLs; leave full URLs and official names as-is.
+  const resolvedDeps = Array.from(existingRegistryDeps).map(dep => {
     if (dep.startsWith('http')) return dep
     if (localNames.has(dep)) {
       return `${CONFIG.registryBaseUrl}/${dep}/${dep}.json`
@@ -199,7 +238,7 @@ async function writeRegistryFile(component: ComponentMeta, localNames: Set<strin
   const registryData = {
     name: component.name,
     type: component.type,
-    dependencies: component.dependencies,
+    dependencies: normalizedNpmDeps.length > 0 ? normalizedNpmDeps : undefined,
     registryDependencies: resolvedDeps,
     files: component.files
   }

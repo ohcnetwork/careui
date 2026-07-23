@@ -1,9 +1,6 @@
 {
   "name": "aspect-ratio",
   "type": "registry:ui",
-  "dependencies": [
-    "none"
-  ],
   "registryDependencies": [],
   "files": [
     {

@@ -3,10 +3,11 @@
   "type": "registry:ui",
   "dependencies": [
     "@base-ui/react",
-    "lucide-react",
-    "button"
+    "lucide-react"
   ],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/button/button.json"
+  ],
   "files": [
     {
       "path": "registry/care-ui/drawer/drawer.tsx",

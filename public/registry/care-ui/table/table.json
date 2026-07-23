@@ -1,9 +1,6 @@
 {
   "name": "table",
   "type": "registry:ui",
-  "dependencies": [
-    "none"
-  ],
   "registryDependencies": [],
   "files": [
     {
