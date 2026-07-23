@@ -1,8 +1,9 @@
 {
-  "projectId": "b84d52e0-6b65-4b18-beed-3f4c4b141c68",
+  "projectId": "d470209a-03fd-48aa-a991-8e3514e398d9",
   "shape": "package",
   "pkg": "careui",
   "globalName": "careui",
+  "readmeHeader": ".design-sync/conventions.md",
   "buildCmd": "pnpm run build && cp $(ls dist/assets/index-*.css | head -1) dist/careui.css && npx tsc -p tsconfig.dts.json",
   "srcDir": "src/components/ui",
   "tsconfig": "tsconfig.app.json",
@@ -122,6 +123,7 @@
     "DrawerPortal": null,
     "DrawerTitle": null,
     "DrawerTrigger": null,
+    "DrawerSwipeHandle": null,
     "DropdownMenuCheckboxItem": null,
     "DropdownMenuContent": null,
     "DropdownMenuGroup": null,
@@ -196,6 +198,7 @@
     "NavigationMenuItem": null,
     "NavigationMenuLink": null,
     "NavigationMenuList": null,
+    "NavigationMenuPositioner": null,
     "NavigationMenuTrigger": null,
     "NavigationMenuViewport": null,
     "PaginationContent": null,
@@ -210,6 +213,10 @@
     "PopoverHeader": null,
     "PopoverTitle": null,
     "PopoverTrigger": null,
+    "ProgressTrack": null,
+    "ProgressIndicator": null,
+    "ProgressLabel": null,
+    "ProgressValue": null,
     "RadialSpinner": null,
     "RadioGroupItem": null,
     "ResizableHandle": null,
@@ -275,5 +282,20 @@
     "TooltipProvider": null,
     "TooltipTrigger": null,
     "ResizablePanel": null
+  },
+  "overrides": {
+    "AlertDialog": { "cardMode": "single", "primaryStory": "Default" },
+    "Dialog": { "cardMode": "single", "primaryStory": "Default" },
+    "HoverCard": { "cardMode": "single", "primaryStory": "OpenByDefault" },
+    "Popover": { "cardMode": "single", "primaryStory": "Default" },
+    "Sheet": { "cardMode": "single", "primaryStory": "RightSheet" },
+    "Tooltip": { "cardMode": "single", "primaryStory": "WithOpenState" },
+    "Carousel": { "cardMode": "column" },
+    "ChartContainer": { "cardMode": "column" },
+    "InputGroup": { "cardMode": "column" },
+    "Item": { "cardMode": "column" },
+    "Pagination": { "cardMode": "column" },
+    "Progress": { "cardMode": "single", "primaryStory": "States" },
+    "TVDisplay": { "cardMode": "column" }
   }
 }
