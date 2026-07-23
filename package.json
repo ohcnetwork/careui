@@ -11,13 +11,14 @@
     "registry:generate": "tsx scripts/generate-registry.ts",
     "registry:watch": "tsx --watch scripts/generate-registry.ts",
     "registry:add-jsdoc": "tsx scripts/add-jsdoc.ts",
-    "registry:check": "tsx scripts/check-registry.ts",
+    "registry:check": "tsx scripts/check-registry.ts && pnpm run registry:check:deps",
+    "registry:check:deps": "tsx scripts/validate-registry-dependencies.ts",
     "registry:validate": "pnpm dlx shadcn@latest registry validate --cwd public registry.json",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build:registry"
+    "prepublishOnly": "npm run build:registry && npm run registry:check:deps"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
