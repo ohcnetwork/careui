@@ -60,19 +60,19 @@ export * from "./components/ui/table";
 export * from "./components/ui/tabs";
 export * from "./components/ui/textarea";
 export {
-	Toast,
-	ToastAction,
-	ToastClose,
-	ToastContent,
-	ToastDescription,
-	ToastPortal,
-	ToastProvider,
-	ToastTitle,
-	ToastViewport,
-	createToastManager,
-	toast,
-	useToastManager,
-	Toaster as ToastToaster,
+  Toast,
+  ToastAction,
+  ToastClose,
+  ToastContent,
+  ToastDescription,
+  ToastPortal,
+  ToastProvider,
+  ToastTitle,
+  ToastViewport,
+  createToastManager,
+  toast,
+  useToastManager,
+  Toaster as ToastToaster,
 } from "./components/ui/toast";
 export * from "./components/ui/toggle";
 export * from "./components/ui/toggle-group";

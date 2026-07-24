@@ -282,17 +282,10 @@ function genCrossfadeGrid(): number[][] {
     const a = Array.from({ length: DOTS }, (_, i) => {
       const t = f / 9;
       // visual parity: base dot parity = (r+c)%2, offset always odd parity
-      let parity = 0;
-      if (i < 16) {
-        const r = Math.floor(i / 4),
-          c = i % 4;
-        parity = (r + c) % 2;
-      } else {
-        const ri = i - 16,
-          r = Math.floor(ri / 3),
-          c = ri % 3;
-        parity = (r + c + 1) % 2;
-      }
+      const parity =
+        i < 16
+          ? (Math.floor(i / 4) + (i % 4)) % 2
+          : (Math.floor((i - 16) / 3) + ((i - 16) % 3) + 1) % 2;
       return parity === 0 ? DIM + (HI - DIM) * (1 - t) : DIM + (HI - DIM) * t;
     });
     frames.push(a);
