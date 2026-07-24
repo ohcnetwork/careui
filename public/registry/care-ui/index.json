@@ -59,6 +59,17 @@
     ]
   },
   {
+    "name": "toast",
+    "type": "registry:ui",
+    "dependencies": [
+      "@base-ui/react",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/toast/toast.tsx"
+    ]
+  },
+  {
     "name": "textarea",
     "type": "registry:ui",
     "files": [
