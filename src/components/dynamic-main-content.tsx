@@ -32,7 +32,7 @@ import {
 } from "@/components/documentation-display";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { type ComponentDoc, type ComponentExample } from "@/lib/types";
-import { LoadingAnimationSvg } from "@/components/ui/loading-animation-svg";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   PageTitle,
   SectionTitle,
@@ -442,6 +442,37 @@ function NotFoundDisplay({ componentId }: { componentId: string }) {
   );
 }
 
+function ContentSkeletonTemplate() {
+  return (
+    <main className="flex-1 overflow-y-auto">
+      <div className="mx-auto max-w-4xl space-y-8 p-4 md:p-8">
+        <div className="space-y-3">
+          <Skeleton className="h-10 w-64" />
+          <Skeleton className="h-5 w-full max-w-2xl" />
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-10 w-44" />
+            <Skeleton className="h-9 w-9 rounded-md" />
+          </div>
+          <Skeleton className="h-80 w-full rounded-lg" />
+        </div>
+
+        <div className="space-y-4">
+          <Skeleton className="h-7 w-32" />
+          <Skeleton className="h-16 w-full rounded-lg" />
+        </div>
+
+        <div className="space-y-4">
+          <Skeleton className="h-7 w-24" />
+          <Skeleton className="h-48 w-full rounded-lg" />
+        </div>
+      </div>
+    </main>
+  );
+}
+
 const knownComponentIds = new Set(getComponentIds());
 
 // Track whether the pre-React HTML loading screen has been dismissed yet.
@@ -554,20 +585,14 @@ export function DynamicMainContent() {
   }
 
   // Show loading state — also covers the gap between navigation and effect firing.
-  // If the HTML loading screen is still up, suppress the React spinner to avoid
-  // showing two animations simultaneously.
+  // Keep the full loading animation only for first app boot (HTML screen), then
+  // use lightweight skeletons for in-app navigation transitions.
   if (loading || (knownComponentIds.has(activeComponent) && !componentDoc)) {
     if (!htmlScreenDismissed) {
-      // HTML screen is still visible — render nothing inside root
+      // HTML screen is still visible — render nothing inside root.
       return null;
     }
-    return (
-      <main className="flex-1 overflow-y-auto">
-        <div className="flex min-h-100 items-center justify-center">
-          <LoadingAnimationSvg />
-        </div>
-      </main>
-    );
+    return <ContentSkeletonTemplate />;
   }
 
   // Handle component documentation
