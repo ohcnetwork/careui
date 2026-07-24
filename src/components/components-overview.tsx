@@ -276,6 +276,11 @@ const componentMetadata: Record<
       "Displays a form textarea or a component that looks like a textarea.",
     examples: 2,
   },
+  toast: {
+    name: "Toast",
+    description: "A succinct message displayed temporarily to the user.",
+    examples: 3,
+  },
   toggle: {
     name: "Toggle",
     description: "A two-state button that can be either on or off.",

@@ -66,3 +66,30 @@ All sub-components from shadcn/ui primitives (even those excluded from standalon
 - **Spinner sizes**: Controlled via `className` (e.g. `className="size-6"`), not a `size` prop.
 - **Textarea error state**: Uses `aria-invalid="true"` attribute (not an `error` prop) to trigger destructive styling.
 - **Switch sizes**: Controlled via `data-size` attribute, not `className`.
+
+## Card presentation overrides (cfg.overrides)
+
+Applied to fix grid presentation (all render fine solo; these control how they sit in the product's card grid):
+- **Single-story cards** (portals/fixed content that escapes a grid cell): `AlertDialog` (Default), `Dialog` (Default), `HoverCard` (OpenByDefault), `Popover` (Default), `Sheet` (RightSheet), `Tooltip` (WithOpenState), `Progress` (States).
+- **Column cards** (wider than one grid cell, keep all stories full-width): `Carousel`, `ChartContainer`, `InputGroup`, `Item`, `TVDisplay`.
+- **`Progress` is `single`, not `column`**: Base UI's Progress fill bar is absolutely positioned, which the GRID_OVERFLOW detector reads as "escape" (a FALSE POSITIVE — Progress renders fine). `column` can't clear an escape flag; `single` is exempt by construction. Don't "fix" it back to column.
+- **`TVDisplay` MUST be `column`**: it's a `@container`/`cqw` signage board with large clamp *minimums* (36px tokens, 48px room boxes). In a narrow grid cell (~340px) the 16/9 aspect box is too short and all rows overlap. Full card width (column) gives proportional height so the fonts fit. Do not remove this override.
+
+## Known render warns (benign — recorded so re-sync doesn't flag them as new)
+
+- `[RENDER_THIN]` on **AlertDialog, Dialog, Sheet**: measure 0–1px because their overlay/fixed content isn't counted in root height. They render perfectly (verified via screenshots). Benign.
+- `[GRID_OVERFLOW]` / escape false-positive on **Progress**: see above; handled by `single` mode.
+- `[TOKENS_MISSING]` (10 vars): all runtime/theming, none are real missing tokens — `--font-heading` (a theming hook in typeset.css; default resolves via `--font-figtree`), `--scale-mobile` (only in a non-DS error page, set inline), `--drawer-swipe-*` / `--accordion-panel-height` / `--nested-drawers` (set by Base UI at runtime). Benign.
+
+## ChartContainer / Recharts static-capture (IMPORTANT)
+
+Recharts is **v3.8.1**. In headless static capture the enter animation is caught **mid-reveal**, so Area/Line series clip to ~40% width (Bar is unaffected — it animates height, not a horizontal clipPath). Fix already applied in `previews/ChartContainer.tsx`: **`isAnimationActive={false}` on every Bar/Line/Area**, plus explicit `width={400} height={192}` on the chart (required — without it the ResponsiveContainer renders blank in headless) and `className="h-48 w-[400px]"` on ChartContainer. Do not remove `isAnimationActive={false}` or the charts will clip again on re-sync.
+
+## Re-sync risks (watch-list for the next run)
+
+- **Remote project was recreated this run.** The original synced project was deleted on claude.ai/design; a fresh `careui` project was created and its new `projectId` is in config.json. If it's deleted again, the run will re-ask and recreate (all local state is committed, so only verification re-runs).
+- **Grades are not in git** (`.cache/` is gitignored). A fresh clone with no uploaded `_ds_sync.json` anchor re-verifies all 76 (what happened here). Normal.
+- **6 sub-components excluded this run** (`DrawerSwipeHandle`, `NavigationMenuPositioner`, `ProgressTrack/Indicator/Label/Value`) via `componentSrcMap: null` to keep the curated set at 76. New structural sub-components appearing on a future component upgrade will show as floor cards until similarly excluded or authored.
+- **conventions.md authored this run** and wired via `readmeHeader`. It names real tokens/classes/components validated against the build — re-validate it against a fresh build on re-sync (a component/token rename would rot a claim).
+- **Build assumes**: Node 22.16.0 pinned (ran on 23.9.0, fine), pnpm (frozen lockfile), Playwright 1.61.0 → chromium-1228, esbuild bundles the JS from `src/ds-index.ts` (source barrel; there is no single dist JS entry — the vite build is a code-split app build). CSS comes from `dist/careui.css` (copied from the vite app-build assets), types from `tsconfig.dts.json`.
+- **calendar.tsx** emits a non-fatal TS error during the dts build (react-day-picker `required` type) — `noEmitOnError:false` lets it emit; Calendar renders fine.

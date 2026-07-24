@@ -37,7 +37,12 @@ export function BarChartExample() {
           axisLine={false}
           tickMargin={8}
         />
-        <Bar dataKey="patients" fill="var(--color-patients)" radius={4} />
+        <Bar
+          dataKey="patients"
+          fill="var(--color-patients)"
+          radius={4}
+          isAnimationActive={false}
+        />
       </BarChart>
     </ChartContainer>
   );
@@ -71,6 +76,7 @@ export function LineChartExample() {
           stroke="#3b82f6"
           strokeWidth={2}
           dot={false}
+          isAnimationActive={false}
         />
       </LineChart>
     </ChartContainer>
@@ -108,6 +114,7 @@ export function AreaChartExample() {
           stroke="var(--color-consultations)"
           fill="var(--color-consultations)"
           fillOpacity={0.3}
+          isAnimationActive={false}
         />
         <Area
           type="monotone"
@@ -116,6 +123,7 @@ export function AreaChartExample() {
           stroke="var(--color-admissions)"
           fill="var(--color-admissions)"
           fillOpacity={0.3}
+          isAnimationActive={false}
         />
       </AreaChart>
     </ChartContainer>

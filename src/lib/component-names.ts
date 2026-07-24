@@ -58,6 +58,7 @@ export const componentNames: Record<string, string> = {
   table: "Table",
   tabs: "Tabs",
   textarea: "Textarea",
+  toast: "Toast",
   toggle: "Toggle",
   "toggle-group": "Toggle Group",
   tooltip: "Tooltip",
