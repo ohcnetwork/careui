@@ -189,11 +189,11 @@ export function ToastActionDemo() {
           {
             variant: "outline",
             onClick: () =>
-                toast.add({
-                  title: "Report generated",
+              toast.add({
+                title: "Report generated",
                 description: "The weekly admissions report is ready.",
-                  actionProps: {
-                    children: "Open",
+                actionProps: {
+                  children: "Open",
                   onClick: () => console.log("Open report"),
                 },
               }),
