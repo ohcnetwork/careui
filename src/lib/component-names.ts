@@ -1,5 +1,9 @@
 export const componentNames: Record<string, string> = {
   "components-overview": "Overview",
+  attachment: "Attachment",
+  bubble: "Bubble",
+  marker: "Marker",
+  message: "Message",
   accordion: "Accordion",
   alert: "Alert",
   "alert-dialog": "Alert Dialog",

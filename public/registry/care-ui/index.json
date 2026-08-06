@@ -301,6 +301,16 @@
     ]
   },
   {
+    "name": "message",
+    "type": "registry:ui",
+    "dependencies": [
+      "none"
+    ],
+    "files": [
+      "registry/care-ui/message/message.tsx"
+    ]
+  },
+  {
     "name": "menubar",
     "type": "registry:ui",
     "dependencies": [
@@ -316,6 +326,17 @@
     "type": "registry:ui",
     "files": [
       "registry/care-ui/matrix-spinner/matrix-spinner.tsx"
+    ]
+  },
+  {
+    "name": "marker",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority",
+      "@base-ui/react"
+    ],
+    "files": [
+      "registry/care-ui/marker/marker.tsx"
     ]
   },
   {
@@ -639,6 +660,17 @@
     ]
   },
   {
+    "name": "bubble",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority",
+      "@base-ui/react"
+    ],
+    "files": [
+      "registry/care-ui/bubble/bubble.tsx"
+    ]
+  },
+  {
     "name": "breadcrumb",
     "type": "registry:ui",
     "dependencies": [
@@ -670,6 +702,17 @@
     ],
     "files": [
       "registry/care-ui/avatar/avatar.tsx"
+    ]
+  },
+  {
+    "name": "attachment",
+    "type": "registry:ui",
+    "dependencies": [
+      "class-variance-authority",
+      "@base-ui/react"
+    ],
+    "files": [
+      "registry/care-ui/attachment/attachment.tsx"
     ]
   },
   {
