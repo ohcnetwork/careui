@@ -44,6 +44,7 @@ export const componentNames: Record<string, string> = {
   pagination: "Pagination",
   popover: "Popover",
   progress: "Progress",
+  questionnaire: "Questionnaire",
   "radio-group": "Radio Group",
   resizable: "Resizable",
   "scroll-area": "Scroll Area",

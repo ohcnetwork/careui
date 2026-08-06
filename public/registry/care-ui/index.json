@@ -239,6 +239,18 @@
     ]
   },
   {
+    "name": "questionnaire",
+    "type": "registry:ui",
+    "dependencies": [
+      "@shadcn/react",
+      "lucide-react",
+      "button"
+    ],
+    "files": [
+      "registry/care-ui/questionnaire/questionnaire.tsx"
+    ]
+  },
+  {
     "name": "progress",
     "type": "registry:ui",
     "dependencies": [

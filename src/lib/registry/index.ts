@@ -107,6 +107,8 @@ const componentLoaders: Record<
   popover: () => import("./popover").then((m) => ({ default: m.popoverDoc })),
   progress: () =>
     import("./progress").then((m) => ({ default: m.progressDoc })),
+  questionnaire: () =>
+    import("./questionnaire").then((m) => ({ default: m.questionnaireDoc })),
   "radio-group": () =>
     import("./radio-group").then((m) => ({ default: m.radioGroupDoc })),
   resizable: () =>
