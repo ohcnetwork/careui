@@ -36,8 +36,7 @@ const componentLoaders: Record<
     import("./attachment").then((m) => ({ default: m.attachmentDoc })),
   bubble: () => import("./bubble").then((m) => ({ default: m.bubbleDoc })),
   marker: () => import("./marker").then((m) => ({ default: m.markerDoc })),
-  message: () =>
-    import("./message").then((m) => ({ default: m.messageDoc })),
+  message: () => import("./message").then((m) => ({ default: m.messageDoc })),
   accordion: () =>
     import("./accordion").then((m) => ({ default: m.accordionDoc })),
   alert: () => import("./alert").then((m) => ({ default: m.alertDoc })),

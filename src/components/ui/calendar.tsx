@@ -303,12 +303,9 @@ function SegmentedDateInput({
   );
   const [activeSeg, setActiveSeg] = React.useState<SegIdx>(0);
   const pendingRef = React.useRef("");
-  const [prevValue, setPrevValue] = React.useState(value);
-
-  if (prevValue !== value) {
-    setPrevValue(value);
-    setParts(value && isValid(value) ? partsFromDate(value) : ["", "", ""]);
-  }
+  const [lastValueKey, setLastValueKey] = React.useState(
+    value && isValid(value) ? partsFromDate(value).join("/") : ""
+  );
 
   // Compute dynamic segment config, accounting for days-in-month
   function segs(p: [string, string, string]) {
@@ -322,6 +319,26 @@ function SegmentedDateInput({
     const seg = segs(parts)[activeSeg];
     el.setSelectionRange(seg.start, seg.end);
   });
+
+  const nextValue = value && isValid(value) ? value : undefined;
+  const nextValueParts: [string, string, string] = nextValue
+    ? partsFromDate(nextValue)
+    : ["", "", ""];
+  const nextValueKey = nextValue ? nextValueParts.join("/") : "";
+  const currentPartsKey = parts.join("/");
+  const isDraftState = parts.some(Boolean) && parts.some((part) => !part);
+
+  if (nextValueKey !== lastValueKey) {
+    setLastValueKey(nextValueKey);
+
+    if (nextValueKey) {
+      if (currentPartsKey !== nextValueKey) {
+        setParts(nextValueParts);
+      }
+    } else if (!isDraftState && currentPartsKey) {
+      setParts(["", "", ""]);
+    }
+  }
 
   function announce(msg: string) {
     if (announceRef.current) announceRef.current.textContent = msg;
@@ -535,11 +552,22 @@ function CalendarWithInput({
   onSelect?: (date: Date | undefined) => void;
 }) {
   const [month, setMonth] = React.useState<Date>(selected ?? new Date());
-  const [prevSelected, setPrevSelected] = React.useState(selected);
+  const nextSelected = selected && isValid(selected) ? selected : undefined;
+  const [lastSelectedTime, setLastSelectedTime] = React.useState(
+    nextSelected?.getTime()
+  );
+  const nextSelectedTime = nextSelected?.getTime();
 
-  if (selected !== prevSelected && selected && isValid(selected)) {
-    setPrevSelected(selected);
-    setMonth(selected);
+  if (
+    nextSelected &&
+    nextSelectedTime !== undefined &&
+    nextSelectedTime !== lastSelectedTime &&
+    month.getTime() !== nextSelectedTime
+  ) {
+    setLastSelectedTime(nextSelectedTime);
+    setMonth(nextSelected);
+  } else if (nextSelectedTime !== lastSelectedTime) {
+    setLastSelectedTime(nextSelectedTime);
   }
 
   return (

@@ -62,22 +62,33 @@ function Carousel({
     },
     plugins
   );
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
-  const [prevApi, setPrevApi] = React.useState<CarouselApi>(undefined);
-
-  if (api !== prevApi) {
-    setPrevApi(api);
-    if (api) {
-      setCanScrollPrev(api.canScrollPrev());
-      setCanScrollNext(api.canScrollNext());
-    }
-  }
+  const [{ lastInitializedApi, canScrollPrev, canScrollNext }, setScrollState] =
+    React.useState<{
+      lastInitializedApi: CarouselApi;
+      canScrollPrev: boolean;
+      canScrollNext: boolean;
+    }>({
+      lastInitializedApi: undefined,
+      canScrollPrev: false,
+      canScrollNext: false,
+    });
 
   const onSelect = React.useCallback((api: CarouselApi) => {
     if (!api) return;
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
+    const nextCanScrollPrev = api.canScrollPrev();
+    const nextCanScrollNext = api.canScrollNext();
+
+    setScrollState((currentState) =>
+      currentState.lastInitializedApi === api &&
+      currentState.canScrollPrev === nextCanScrollPrev &&
+      currentState.canScrollNext === nextCanScrollNext
+        ? currentState
+        : {
+            lastInitializedApi: api,
+            canScrollPrev: nextCanScrollPrev,
+            canScrollNext: nextCanScrollNext,
+          }
+    );
   }, []);
 
   const scrollPrev = React.useCallback(() => {
@@ -101,6 +112,14 @@ function Carousel({
     [scrollPrev, scrollNext]
   );
 
+  if (api && api !== lastInitializedApi) {
+    setScrollState({
+      lastInitializedApi: api,
+      canScrollPrev: api.canScrollPrev(),
+      canScrollNext: api.canScrollNext(),
+    });
+  }
+
   React.useEffect(() => {
     if (!api || !setApi) return;
     setApi(api);
@@ -112,7 +131,6 @@ function Carousel({
     api.on("select", onSelect);
 
     return () => {
-      api?.off("reInit", onSelect);
       api?.off("select", onSelect);
     };
   }, [api, onSelect]);
