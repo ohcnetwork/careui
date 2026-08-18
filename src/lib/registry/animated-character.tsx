@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 
 import { type ComponentDoc } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -18,21 +18,15 @@ const FACE_STATES = CHARACTER_STATES.filter((state) => state !== "writing")
 
 function AnimatedCharacterPlayground({
   variant = "classic",
-  initialState = "idle",
   previewClassName,
 }: {
   variant?: CharacterVariantName
-  initialState?: CharacterState
   previewClassName?: string
 }) {
   const characterRef = useRef<AnimatedCharacterHandle>(null)
-  const [state, setState] = useState<CharacterState>(initialState)
+  const [state, setState] = useState<CharacterState>("idle")
   const [mouseTracking, setMouseTracking] = useState(false)
   const trackingId = `character-mouse-tracking-${variant}`
-
-  useEffect(() => {
-    setState(initialState)
-  }, [initialState])
 
   return (
     <Card className="mx-auto w-full max-w-xl">
@@ -91,29 +85,12 @@ export const animatedCharacterDoc: ComponentDoc = {
   },
   examples: [
     {
-      name: "State playground",
-      description:
-        "Face-driven states with a mouse-tracking toggle. Writing is shown as a dedicated standalone state example below.",
-      preview: <AnimatedCharacterPlayground variant="classic" />,
-      code: `const characterRef = useRef<AnimatedCharacterHandle>(null)
-const [state, setState] = useState<CharacterState>("idle")
-const [mouseTracking, setMouseTracking] = useState(false)
-
-<AnimatedCharacter
-  ref={characterRef}
-  variant="classic"
-  state={state}
-  mouseTracking={mouseTracking}
-/>`,
-    },
-    {
       name: "Dark background example",
       description:
-        "Dark variant rendered on a gray-950 background, initialized to loading so the shimmer is immediately visible.",
+        "Dark variant rendered on a gray-950 background.",
       preview: (
         <AnimatedCharacterPlayground
           variant="dark"
-          initialState="loading"
           previewClassName="bg-gray-950"
         />
       ),
