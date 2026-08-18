@@ -188,8 +188,8 @@ const DIRS = {
 const STATES: Record<CharacterStateName, CharacterStateConfig> = {
   idle: { expr: 'neutral', gaze: [0, 0], blink: [2.2, 6.5], micro: { amp: .5, speed: 1 }, gap: [1.6, 4.2],
     events: [[5, 'gazeShift'], [3, 'glance'], [2, 'headDrift'], [1, 'doubleBlink'], [1, 'microSmile'], [.4, 'eyeRoll']] },
-  listening: { expr: 'smallSmile', gaze: [0, .12], head: { rot: -1.5 }, blink: [2, 5.5], micro: { amp: .6, speed: 1 }, gap: [2, 4.5],
-    events: [[3, 'gazeShift'], [2, 'nodOnce'], [1, 'headDrift'], [1, 'doubleBlink']] },
+  listening: { expr: 'smallSmile', gaze: [0, .12], head: { rot: -1.2 }, blink: [2, 5.5], micro: { amp: .6, speed: 1 }, gap: [1.5, 2.8],
+    events: [[1.9, 'gazeShift'], [1, 'listeningMouthShift'], [3, 'listeningSideRotateNod'], [.55, 'headDrift'], [.6, 'doubleBlink']] },
   talking: { expr: 'neutral', talk: true, gaze: [0, 0], blink: [2.5, 6], micro: { amp: .8, speed: 1.25 }, gap: [1.5, 3.5],
     events: [[3, 'gazeShift'], [1, 'headDrift']] },
   thinking: { expr: 'thinking', gaze: [-.45, -.55], head: { rot: -5, x: -1 }, lid: .95, blink: [3, 7], blinkDur: .55,
@@ -200,7 +200,7 @@ const STATES: Record<CharacterStateName, CharacterStateConfig> = {
   sad: { expr: 'sad', gaze: [0, .55], head: { rot: 2.5, y: 2.2 }, lid: .8, eye: .97, blink: [3.5, 7.5], blinkDur: .6,
     micro: { amp: .3, speed: .55 }, gap: [3, 6], events: [[2, 'gazeShiftDown'], [1, 'sigh'], [1, 'slowBlink']] },
   surprised: { expr: 'surprised', gaze: [0, -.08], head: { y: -2 }, eye: 1.3, blink: [4, 8], micro: { amp: .5, speed: 1.1 },
-    gap: [2.5, 5], events: [[2, 'gazeShift'], [1, 'doubleBlink']], enter: (e: CharacterEngine) => e.headPulse({ y: -1.6, rot: -1 }, .35) },
+    gap: [2.5, 5], events: [[2, 'gazeShift'], [1.2, 'surprisedPulse'], [1, 'doubleBlink']], enter: (e: CharacterEngine) => e.headPulse({ y: -1.6, rot: -1 }, .35) },
   confused: { expr: 'confused', gaze: [0, 0], blink: [2.5, 6], micro: { amp: .5, speed: .9 }, loop: 'confusedLoop' },
   excited: { expr: 'bigSmile', gaze: [0, -.05], head: { y: -.8 }, eye: 1.12, blink: [2, 5], micro: { amp: 1.2, speed: 2.1 },
     gap: [.9, 2.2], events: [[3, 'bounce'], [2, 'gazeShift'], [1, 'doubleBlink']] },
@@ -211,6 +211,7 @@ const STATES: Record<CharacterStateName, CharacterStateConfig> = {
 class CharacterEngine {
   svg: SVGSVGElement
   head: SVGGraphicsElement
+  face: SVGGraphicsElement
   eyesG: SVGGraphicsElement
   mouthG: SVGGraphicsElement
   eyeL: SVGGraphicsElement
@@ -225,6 +226,7 @@ class CharacterEngine {
   hx: Spring
   hy: Spring
   hr: Spring
+  nodDepth: Spring
   lid: Spring
   eyeS: Spring
   open: Spring
@@ -273,18 +275,19 @@ class CharacterEngine {
   constructor(svg: SVGSVGElement, opts: { state?: string } = {}) {
     this.svg = svg;
     const q = (part: string) => svg.querySelector('[data-part="' + part + '"]') as SVGGraphicsElement;
-    this.head = q('head'); this.eyesG = q('eyes'); this.mouthG = q('mouth-group');
+    this.head = q('head'); this.face = q('face'); this.eyesG = q('eyes'); this.mouthG = q('mouth-group');
     this.eyeL = q('eye-left'); this.eyeR = q('eye-right');
     this.bar = q('mouth'); this.mL = q('mouth-left'); this.mR = q('mouth-right');
 
     const S = (v: number, w: number, z = 1) => new Spring(v, w, z);
     this.gx = S(0, 11); this.gy = S(0, 11); this.yaw = S(0, 8, .95);
     this.hx = S(0, 6.5); this.hy = S(0, 6.5, .95); this.hr = S(0, 7, .9);
+    this.nodDepth = S(0, 13, .84)
     this.lid = S(1, 14); this.eyeS = S(1, 10, .85);
     this.open = S(1, 16, .9); this.wide = S(1, 14, .95);
     this.cy = S(0, 11, .85); this.cx = S(0, 11); this.cs = S(1, 12); this.asym = S(0, 11);
     this.mx = S(0, 9); this.my = S(0, 11); this.mAmp = S(.5, 3);
-    this.springs = [this.gx, this.gy, this.yaw, this.hx, this.hy, this.hr, this.lid, this.eyeS,
+    this.springs = [this.gx, this.gy, this.yaw, this.hx, this.hy, this.hr, this.nodDepth, this.lid, this.eyeS,
       this.open, this.wide, this.cy, this.cx, this.cs, this.asym, this.mx, this.my, this.mAmp];
 
     this.time = 0; this.acc = 0; this.last = performance.now();
@@ -389,6 +392,9 @@ class CharacterEngine {
 
   cancel(ch: string) {
     this.gen[ch] = (this.gen[ch] || 0) + 1
+    if (ch === "head") {
+      this.nodDepth.set(0)
+    }
   }
 
   seq(ch: string, steps: SequenceStep[], loop = false) {
@@ -444,11 +450,154 @@ class CharacterEngine {
         { do: () => this.hy.set(this.hb.y) }]),
       sigh: () => this.seq('head', [{ do: () => this.hy.set(this.hb.y + 1.4), wait: [1, 1.6] },
         { do: () => this.hy.set(this.hb.y) }]),
+      surprisedPulse: () => {
+        if (this.stateName !== 'surprised' || this.talking) return
+        const e = EXPR.surprised
+        const baseOpen = e.open ?? 1
+        const baseWide = e.wide ?? 1
+        const baseMy = e.my ?? 0
+        const baseEye = (this.st?.eye ?? 1) * (e.eye ?? 1)
+
+        if (Math.random() < .2) {
+          this.after(rand(.04, .12), () => this.startBlink(rand(.24, .32)))
+        }
+
+        this.seq('surprisePulse', [
+          {
+            do: () => {
+              // Single subtle wow pulse: mouth and eyes pop slightly with a tiny head cue.
+              this.open.set(baseOpen * rand(1.08, 1.16))
+              this.wide.set(baseWide * rand(.91, .97))
+              this.my.set(baseMy + rand(-.5, -.2))
+              this.eyeS.set(baseEye * rand(1.03, 1.08))
+              this.hy.set(this.hb.y + rand(.28, .52))
+              this.hr.set(this.hb.rot + rand(.25, .7))
+            },
+            wait: [0.16, 0.24]
+          },
+          {
+            do: () => {
+              this.open.set(baseOpen)
+              this.wide.set(baseWide)
+              this.my.set(baseMy)
+              this.eyeS.set(baseEye)
+              this.hy.set(this.hb.y)
+              this.hr.set(this.hb.rot)
+            },
+            wait: [0.24, 0.36]
+          }
+        ])
+      },
       longClose: () => this.startBlink(1.2, rand(.4, .9), .03),
       swaySlow: () => this.headPulse({ rot: rand(-2.5, 2.5) }, rand(1.5, 2.8)),
+      listeningSideRotateNod: () => {
+        if (this.stateName !== 'listening') return
+        const dir = Math.random() < .5 ? -1 : 1
+        const a1 = rand(3.4, 4.5)
+        const a2 = a1 * rand(.68, .8)
+        const y1 = rand(.28, .4)
+        const y2 = y1 * rand(.7, .82)
+        this.seq('head', [
+          {
+            do: () => {
+              this.hy.set(this.hb.y)
+              this.hx.set(this.hb.x)
+              this.hr.set(this.hb.rot + rand(-.16, .16))
+              this.yaw.set(0)
+            },
+            wait: [0.07, 0.11]
+          },
+          {
+            do: () => {
+              this.hy.set(this.hb.y)
+              this.hx.set(this.hb.x)
+              this.hr.set(this.hb.rot + dir * a1)
+              this.yaw.set(dir * y1)
+            },
+            wait: [0.14, 0.2]
+          },
+          {
+            do: () => {
+              this.hy.set(this.hb.y)
+              this.hx.set(this.hb.x)
+              this.hr.set(this.hb.rot + dir * rand(.12, .26))
+              this.yaw.set(dir * rand(.02, .07))
+            },
+            wait: [0.1, 0.15]
+          },
+          {
+            do: () => {
+              this.hy.set(this.hb.y)
+              this.hx.set(this.hb.x)
+              this.hr.set(this.hb.rot - dir * a1)
+              this.yaw.set(-dir * y1)
+            },
+            wait: [0.14, 0.2]
+          },
+          {
+            do: () => {
+              this.hy.set(this.hb.y)
+              this.hx.set(this.hb.x)
+              this.hr.set(this.hb.rot)
+              this.yaw.set(0)
+            },
+            wait: [0.11, 0.16]
+          },
+          {
+            do: () => {
+              this.hy.set(this.hb.y)
+              this.hx.set(this.hb.x)
+              this.hr.set(this.hb.rot + dir * a2)
+              this.yaw.set(dir * y2)
+            },
+            wait: [0.12, 0.18]
+          },
+          {
+            do: () => {
+              this.hy.set(this.hb.y)
+              this.hx.set(this.hb.x)
+              this.hr.set(this.hb.rot - dir * a2)
+              this.yaw.set(-dir * y2)
+            },
+            wait: [0.12, 0.18]
+          },
+          {
+            do: () => {
+              this.hy.set(this.hb.y)
+              this.hx.set(this.hb.x)
+              this.hr.set(this.hb.rot)
+              this.yaw.set(0)
+            },
+            wait: [0.12, 0.18]
+          }
+        ])
+      },
       switchSide: () => { this.thinkSide = -(this.thinkSide || 1); const s = this.thinkSide;
         if (!this.mouse) this.gazeTo(.45 * s, this.gazeBias[1]);
         this.hb.rot = 5 * s; this.hr.set(this.hb.rot); }
+      ,
+      listeningMouthShift: () => {
+        if (this.talking) return
+
+        const nextExpr = wpick([
+          [5, 'smallSmile'],
+          [3, 'neutral'],
+          [1, 'worried']
+        ]) as ExpressionName
+
+        this.seq('mouth', [
+          {
+            do: () => {
+              this.setExpression(nextExpr, false)
+              this.open.set(rand(.94, 1.14))
+              this.wide.set(rand(.93, 1.05))
+              this.cy.set(rand(-.1, .35))
+            },
+            wait: [1, 1.9]
+          },
+          { do: () => this.setExpression('smallSmile', false) }
+        ])
+      }
     };
   }
 
@@ -654,44 +803,69 @@ class CharacterEngine {
     const mX = a * .55 * (Math.sin(ph * 1.1) + .4 * Math.sin(ph * 2.3 + 1.7));
     const mY = a * .45 * (Math.sin(ph * .9 + .8) + .4 * Math.sin(ph * 2.1 + .3));
     const mR = a * .7 * Math.sin(ph * .65 + 2);
+    const yaw = this.yaw.x;
+    const nodProgress = this.nodDepth.x
+    const nodDown = smooth(clamp(nodProgress, 0, 1))
+    const nodUp = smooth(clamp(-nodProgress, 0, .45) / .45)
+    const depthScaleX = 1 + nodDown * .012 + nodUp * .004
+    const depthScaleY = 1 + nodDown * .078 + nodUp * .01
     const hx = this.hx.x + mX
     let hy = this.hy.x + mY
-    const rot = this.hr.x + mR
+    const rot = this.hr.x + mR + nodDown * .95 - nodUp * .42
+    hy += nodDown * 1.9 - nodUp * .45
     if (this.talking) hy += (1 - this.open.x) * .4;
     this.head.setAttribute('transform',
-      `translate(${hx.toFixed(2)} ${hy.toFixed(2)}) rotate(${rot.toFixed(2)} ${G.CX} ${G.CY})`);
+      `translate(${hx.toFixed(2)} ${hy.toFixed(2)}) rotate(${rot.toFixed(2)} ${G.CX} ${G.CY}) translate(${G.CX} ${G.CY}) scale(${depthScaleX.toFixed(3)} ${depthScaleY.toFixed(3)}) translate(${-G.CX} ${-G.CY})`);
+    const faceScaleX = 1 + nodDown * .014 + nodUp * .004
+    const faceScaleY = 1 + nodDown * .04 + nodUp * .01
+    const faceLiftY = nodDown * 1.05 - nodUp * .22
+    const facePitch = nodDown * 1.45 - nodUp * .5
+    this.face.setAttribute('transform',
+      `translate(${(yaw * .28).toFixed(2)} ${faceLiftY.toFixed(2)}) rotate(${facePitch.toFixed(2)} ${G.CX} ${G.CY}) translate(${G.CX} ${G.CY}) scale(${faceScaleX.toFixed(3)} ${faceScaleY.toFixed(3)}) translate(${-G.CX} ${-G.CY})`)
 
-    const yaw = this.yaw.x;
-    const rawGx = this.gx.x * G.RX + mX * .25, rawGy = this.gy.x * G.RY + mY * .2;
-    const etx = rawGx + yaw * 5.2, ety = rawGy;
+    const rawGx = this.gx.x * G.RX + mX * .25
+    const rawGy = this.gy.x * G.RY + mY * .2
+    const etx = rawGx + yaw * 5.2 + nodDown * .22 - nodUp * .12
+    const ety = rawGy + nodDown * .62 - nodUp * .2
     this.eyesG.setAttribute('transform', `translate(${etx.toFixed(2)} ${ety.toFixed(2)})`);
 
     const openV = clamp(this.lid.x, .02, 1.15) * this.blinkVal();
     const es = this.eyeS.x;
-    const sy = Math.max(.045, es * openV);
+    const sy = Math.max(.045, es * openV * (1 + nodDown * .01 + nodUp * .006));
     const bsx = 1 + (es - 1) * .55;
     const ay = Math.abs(yaw);
     const sxL = Math.max(.05, bsx * (1 - ay * .12 - Math.max(0, yaw) * .3));
     const sxR = Math.max(.05, bsx * (1 - ay * .12 - Math.max(0, -yaw) * .3));
+    const eyeOffsetY = nodDown * .26 - nodUp * .12
+    const eyeOffsetX = nodDown * .16
     this.eyeL.setAttribute('transform',
-      `translate(${G.ELX} ${G.ELY}) scale(${sxL.toFixed(3)} ${sy.toFixed(3)}) translate(${-G.ELX} ${-G.ELY})`);
+      `translate(${eyeOffsetX.toFixed(2)} ${eyeOffsetY.toFixed(2)}) translate(${G.ELX} ${G.ELY}) scale(${sxL.toFixed(3)} ${sy.toFixed(3)}) translate(${-G.ELX} ${-G.ELY})`);
     this.eyeR.setAttribute('transform',
-      `translate(${G.ERX} ${G.ERY}) scale(${sxR.toFixed(3)} ${sy.toFixed(3)}) translate(${-G.ERX} ${-G.ERY})`);
+      `translate(${(-eyeOffsetX).toFixed(2)} ${eyeOffsetY.toFixed(2)}) translate(${G.ERX} ${G.ERY}) scale(${sxR.toFixed(3)} ${sy.toFixed(3)}) translate(${-G.ERX} ${-G.ERY})`);
 
-    const mtx = rawGx * .28 + yaw * 3.6 + this.mx.x, mty = this.my.x + rawGy * .18;
+    const mtx = rawGx * .28 + yaw * 3.6 + this.mx.x + nodDown * .2 - nodUp * .08
+    const mty = this.my.x + rawGy * .18 + nodDown * .74 - nodUp * .22
     this.mouthG.setAttribute('transform', `translate(${mtx.toFixed(2)} ${mty.toFixed(2)})`);
-    const ow = Math.max(.06, this.open.x), ww = Math.max(.2, this.wide.x);
+    const sleepyMouthY = this.stateName === 'sleepy' ? .78 : 1
+    const ow = Math.max(.06, this.open.x) * (1 + nodDown * .06 + nodUp * .01) * sleepyMouthY
+    const ww = Math.max(.2, this.wide.x) * (1 + nodDown * .012 + nodUp * .004)
     const barAY = ow > 1 ? 78.5 : G.MBY; // grow downward from top edge when taller than base
     this.bar.setAttribute('transform',
       `translate(${G.MBX} ${barAY}) scale(${ww.toFixed(3)} ${ow.toFixed(3)}) translate(${-G.MBX} ${-barAY})`);
     const csv = Math.max(0, this.cs.x);
+    const sleepyCornerY = this.stateName === 'sleepy' ? .62 : 1
+    const cornerScaleY = csv * sleepyCornerY
     const cvis = csv < .04 ? 'hidden' : 'visible';
     this.mL.setAttribute('visibility', cvis); this.mR.setAttribute('visibility', cvis);
-    const lty = this.cy.x - this.asym.x, rty = this.cy.x + this.asym.x;
+    const cornerLift = nodDown * .58 - nodUp * .18
+    const cornerSpread = nodDown * .2 - nodUp * .08
+    const lty = this.cy.x - this.asym.x + cornerLift
+    const rty = this.cy.x + this.asym.x + cornerLift
+    const cornerBottomY = 78.51
     this.mL.setAttribute('transform',
-      `translate(${(-this.cx.x).toFixed(2)} ${lty.toFixed(2)}) translate(${G.MLX} ${G.MLY}) scale(${csv.toFixed(3)}) translate(${-G.MLX} ${-G.MLY})`);
+      `translate(${(-this.cx.x - cornerSpread).toFixed(2)} ${lty.toFixed(2)}) translate(${G.MLX} ${cornerBottomY}) scale(${csv.toFixed(3)} ${cornerScaleY.toFixed(3)}) translate(${-G.MLX} ${-cornerBottomY})`);
     this.mR.setAttribute('transform',
-      `translate(${this.cx.x.toFixed(2)} ${rty.toFixed(2)}) translate(${G.MRX} ${G.MRY}) scale(${csv.toFixed(3)}) translate(${-G.MRX} ${-G.MRY})`);
+      `translate(${(this.cx.x + cornerSpread).toFixed(2)} ${rty.toFixed(2)}) translate(${G.MRX} ${cornerBottomY}) scale(${csv.toFixed(3)} ${cornerScaleY.toFixed(3)}) translate(${-G.MRX} ${-cornerBottomY})`);
 
     if (this.debug && this.guides && this.gT && this.gL && this.gR) {
       this.gT.setAttribute('transform', `translate(${(this.gx.t * G.RX).toFixed(2)} ${(this.gy.t * G.RY).toFixed(2)})`);
@@ -831,7 +1005,7 @@ export const AnimatedCharacter = React.forwardRef<
         viewBox="0 0 119.91 119.91"
         role="img"
         aria-label="Animated character"
-        className="block h-auto w-32 mx-auto"
+        className="block h-auto w-24 mx-auto"
       >
         <g data-part="head">
           <path
