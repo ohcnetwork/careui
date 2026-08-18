@@ -5,7 +5,7 @@
   "files": [
     {
       "path": "registry/care-ui/use-media-query/use-media-query.ts",
-      "content": "import * as React from \"react\";\n\nexport function useMediaQuery(query: string) {\n  const [value, setValue] = React.useState(() => matchMedia(query).matches);\n\n  React.useEffect(() => {\n    function onChange(event: MediaQueryListEvent) {\n      setValue(event.matches);\n    }\n\n    const result = matchMedia(query);\n    result.addEventListener(\"change\", onChange);\n\n    return () => result.removeEventListener(\"change\", onChange);\n  }, [query]);\n\n  return value;\n}\n",
+      "content": "import * as React from \"react\";\n\nexport function useMediaQuery(query: string) {\n  const [value, setValue] = React.useState(\n    () => typeof window !== \"undefined\" && matchMedia(query).matches\n  );\n\n  React.useEffect(() => {\n    function onChange(event: MediaQueryListEvent) {\n      setValue(event.matches);\n    }\n\n    const result = matchMedia(query);\n    result.addEventListener(\"change\", onChange);\n\n    return () => result.removeEventListener(\"change\", onChange);\n  }, [query]);\n\n  return value;\n}\n",
       "type": "registry:component",
       "target": "components/careui/use-media-query.ts"
     }
