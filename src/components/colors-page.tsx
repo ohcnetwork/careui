@@ -85,25 +85,12 @@ function toHex(color: string) {
   }
 }
 
-function resolveTokenHex(token: string, dark = false) {
-  if (typeof window === "undefined") {
+function resolveNodeHex(node: HTMLElement | null) {
+  if (!node) {
     return "";
   }
 
-  const mount = document.createElement("div");
-  mount.className = dark ? "dark" : "";
-  mount.style.position = "absolute";
-  mount.style.opacity = "0";
-  mount.style.pointerEvents = "none";
-
-  const probe = document.createElement("span");
-  probe.style.color = `var(--${token})`;
-  mount.appendChild(probe);
-  document.body.appendChild(mount);
-
-  const computed = getComputedStyle(probe).color;
-  document.body.removeChild(mount);
-  return toHex(computed);
+  return toHex(getComputedStyle(node).color);
 }
 
 async function copyText(value: string) {
@@ -174,6 +161,18 @@ function SwatchCard({
 
   return (
     <div className="border-border bg-card flex flex-col overflow-hidden rounded-lg border">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute size-0 overflow-hidden opacity-0"
+      >
+        <span ref={lightProbeRef} style={{ color: `var(--${swatch.token})` }} />
+        <div className="dark">
+          <span
+            ref={darkProbeRef}
+            style={{ color: `var(--${swatch.token})` }}
+          />
+        </div>
+      </div>
       <div
         className={`${swatch.className} ${swatch.onClass ?? "text-foreground"} ${
           swatch.needsBorder ? "border-border border-b" : ""

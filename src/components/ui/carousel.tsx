@@ -108,6 +108,14 @@ function Carousel({
     [scrollPrev, scrollNext]
   );
 
+  if (api && api !== lastInitializedApi) {
+    setScrollState({
+      lastInitializedApi: api,
+      canScrollPrev: api.canScrollPrev(),
+      canScrollNext: api.canScrollNext(),
+    });
+  }
+
   React.useEffect(() => {
     if (!api || !setApi) return;
     setApi(api);

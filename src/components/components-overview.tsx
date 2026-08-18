@@ -299,7 +299,7 @@ const componentMetadata: Record<
 };
 
 const allComponentIds = getComponentIds().filter(
-  (id) => id !== "components-overview"
+  (id) => id !== "components-overview" && id !== "animated-character"
 );
 
 export function ComponentsOverview() {

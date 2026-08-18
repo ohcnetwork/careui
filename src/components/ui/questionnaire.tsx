@@ -4,12 +4,12 @@
  * @dependencies @shadcn/react lucide-react button
  * @type registry:ui
  */
-import * as React from "react"
-import { Questionnaire as QuestionnairePrimitive } from "@shadcn/react/questionnaire"
+import * as React from "react";
+import { Questionnaire as QuestionnairePrimitive } from "@shadcn/react/questionnaire";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants, Button } from "@/components/ui/button"
-import { CheckIcon } from "lucide-react"
+import { cn } from "@/lib/utils";
+import { buttonVariants, Button } from "@/components/ui/button";
+import { CheckIcon } from "lucide-react";
 
 function Questionnaire({
   className,
@@ -21,7 +21,7 @@ function Questionnaire({
       className={cn("flex w-full min-w-0 flex-col gap-6", className)}
       {...props}
     />
-  )
+  );
 }
 
 function QuestionnaireProgress({
@@ -32,12 +32,12 @@ function QuestionnaireProgress({
     <QuestionnairePrimitive.Progress
       data-slot="questionnaire-progress"
       className={cn(
-        "min-h-lh w-fit min-w-[14ch] text-xs font-medium text-muted-foreground tabular-nums",
+        "text-muted-foreground min-h-lh w-fit min-w-[14ch] text-xs font-medium tabular-nums",
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 function QuestionnaireItem({
@@ -53,7 +53,7 @@ function QuestionnaireItem({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function QuestionnaireTitle({
@@ -69,7 +69,7 @@ function QuestionnaireTitle({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function QuestionnaireDescription({
@@ -79,10 +79,10 @@ function QuestionnaireDescription({
   return (
     <QuestionnairePrimitive.Description
       data-slot="questionnaire-description"
-      className={cn("text-sm text-pretty text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-sm text-pretty", className)}
       {...props}
     />
-  )
+  );
 }
 
 function QuestionnaireChoices({
@@ -98,7 +98,7 @@ function QuestionnaireChoices({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function QuestionnaireChoice({
@@ -110,7 +110,7 @@ function QuestionnaireChoice({
     <QuestionnairePrimitive.Choice
       data-slot="questionnaire-choice"
       className={cn(
-        "group/questionnaire-choice relative flex min-h-11 cursor-pointer items-start gap-3.5 rounded-md border border-input bg-transparent px-4 py-3.5 text-start text-sm shadow-xs transition-colors outline-none select-none hover:bg-muted/50 has-[>input:focus-visible]:border-ring has-[>input:focus-visible]:ring-3 has-[>input:focus-visible]:ring-ring/50 data-invalid:border-destructive dark:bg-input/20 data-checked:border-primary/40 data-checked:bg-muted dark:data-checked:bg-muted",
+        "group/questionnaire-choice border-input hover:bg-muted/50 has-[>input:focus-visible]:border-ring has-[>input:focus-visible]:ring-ring/50 data-invalid:border-destructive dark:bg-input/20 data-checked:border-primary/40 data-checked:bg-muted dark:data-checked:bg-muted relative flex min-h-11 cursor-pointer items-start gap-3.5 rounded-md border bg-transparent px-4 py-3.5 text-start text-sm shadow-xs transition-colors outline-none select-none has-[>input:focus-visible]:ring-3",
         "data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className
       )}
@@ -123,13 +123,16 @@ function QuestionnaireChoice({
       <span
         aria-hidden="true"
         data-slot="questionnaire-choice-indicator"
-        className="pointer-events-none relative flex size-4 shrink-0 items-center justify-center rounded-lg border border-input group-data-[type=radio]/questionnaire-choice:rounded-full group-data-checked/questionnaire-choice:border-primary group-data-checked/questionnaire-choice:bg-primary group-data-checked/questionnaire-choice:text-primary-foreground dark:bg-input/30 dark:group-data-checked/questionnaire-choice:bg-primary"
+        className="border-input group-data-checked/questionnaire-choice:border-primary group-data-checked/questionnaire-choice:bg-primary group-data-checked/questionnaire-choice:text-primary-foreground dark:bg-input/30 dark:group-data-checked/questionnaire-choice:bg-primary pointer-events-none relative flex size-4 shrink-0 items-center justify-center rounded-lg border group-data-[type=radio]/questionnaire-choice:rounded-full"
       >
         <span
           data-slot="questionnaire-choice-indicator-dot"
-          className="hidden size-2 rounded-full bg-primary-foreground group-data-[type=checkbox]/questionnaire-choice:hidden group-data-checked/questionnaire-choice:block"
+          className="bg-primary-foreground hidden size-2 rounded-full group-data-checked/questionnaire-choice:block group-data-[type=checkbox]/questionnaire-choice:hidden"
         />
-        <CheckIcon data-slot="questionnaire-choice-indicator-check" className="hidden size-3.5 group-data-[type=radio]/questionnaire-choice:hidden group-data-checked/questionnaire-choice:block" />
+        <CheckIcon
+          data-slot="questionnaire-choice-indicator-check"
+          className="hidden size-3.5 group-data-checked/questionnaire-choice:block group-data-[type=radio]/questionnaire-choice:hidden"
+        />
       </span>
       <QuestionnairePrimitive.ChoiceLabel
         data-slot="questionnaire-choice-label"
@@ -139,10 +142,10 @@ function QuestionnaireChoice({
       </QuestionnairePrimitive.ChoiceLabel>
       <QuestionnairePrimitive.ChoiceShortcut
         data-slot="questionnaire-choice-shortcut"
-        className="pointer-events-none ms-auto mt-0.5 hidden size-5 shrink-0 items-center justify-center rounded-md border border-input bg-background font-mono text-[0.625rem] leading-none font-medium text-muted-foreground shadow-xs group-data-shortcut/questionnaire-choice:inline-flex"
+        className="border-input bg-background text-muted-foreground pointer-events-none ms-auto mt-0.5 hidden size-5 shrink-0 items-center justify-center rounded-md border font-mono text-[0.625rem] leading-none font-medium shadow-xs group-data-shortcut/questionnaire-choice:inline-flex"
       />
     </QuestionnairePrimitive.Choice>
-  )
+  );
 }
 
 function QuestionnaireInput({
@@ -157,14 +160,14 @@ function QuestionnaireInput({
       <QuestionnairePrimitive.Input
         data-slot="questionnaire-input"
         className={cn(
-          "h-9 min-h-11 w-full min-w-0 rounded-md border border-input bg-transparent px-2.5 py-1 text-base shadow-xs transition-[color,box-shadow,background-color] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 sm:min-h-0 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+          "border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 h-9 min-h-11 w-full min-w-0 rounded-md border bg-transparent px-2.5 py-1 text-base shadow-xs transition-[color,box-shadow,background-color] outline-none focus-visible:ring-3 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 sm:min-h-0 md:text-sm",
           "selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground",
           className
         )}
         {...props}
       />
     </div>
-  )
+  );
 }
 
 function QuestionnaireError({
@@ -174,10 +177,10 @@ function QuestionnaireError({
   return (
     <QuestionnairePrimitive.Error
       data-slot="questionnaire-error"
-      className={cn("text-sm text-destructive", className)}
+      className={cn("text-destructive text-sm", className)}
       {...props}
     />
-  )
+  );
 }
 
 function QuestionnaireActions({
@@ -193,7 +196,7 @@ function QuestionnaireActions({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function QuestionnairePrevious({
@@ -218,7 +221,7 @@ function QuestionnairePrevious({
     >
       {children ?? "Previous"}
     </QuestionnairePrimitive.Previous>
-  )
+  );
 }
 
 function QuestionnaireSkip({
@@ -243,7 +246,7 @@ function QuestionnaireSkip({
     >
       {children ?? "Skip"}
     </QuestionnairePrimitive.Skip>
-  )
+  );
 }
 
 function QuestionnaireNext({
@@ -268,7 +271,7 @@ function QuestionnaireNext({
     >
       {children ?? "Next"}
     </QuestionnairePrimitive.Next>
-  )
+  );
 }
 
 function QuestionnaireSubmit({
@@ -293,7 +296,7 @@ function QuestionnaireSubmit({
     >
       {children ?? "Submit"}
     </QuestionnairePrimitive.Submit>
-  )
+  );
 }
 
 export {
@@ -311,4 +314,4 @@ export {
   QuestionnaireSkip,
   QuestionnaireSubmit,
   QuestionnaireTitle,
-}
+};

@@ -738,6 +738,13 @@
     ]
   },
   {
+    "name": "animated-character",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/animated-character/animated-character.tsx"
+    ]
+  },
+  {
     "name": "alert",
     "type": "registry:ui",
     "dependencies": [

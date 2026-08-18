@@ -303,6 +303,9 @@ function SegmentedDateInput({
   );
   const [activeSeg, setActiveSeg] = React.useState<SegIdx>(0);
   const pendingRef = React.useRef("");
+  const [lastValueKey, setLastValueKey] = React.useState(
+    value && isValid(value) ? partsFromDate(value).join("/") : ""
+  );
 
   // Sync from external `value` prop using render-time state update
   const [prevValue, setPrevValue] = React.useState(value);
@@ -536,6 +539,11 @@ function CalendarWithInput({
   onSelect?: (date: Date | undefined) => void;
 }) {
   const [month, setMonth] = React.useState<Date>(selected ?? new Date());
+  const nextSelected = selected && isValid(selected) ? selected : undefined;
+  const [lastSelectedTime, setLastSelectedTime] = React.useState(
+    nextSelected?.getTime()
+  );
+  const nextSelectedTime = nextSelected?.getTime();
 
   const [prevSelected, setPrevSelected] = React.useState(selected);
   if (prevSelected !== selected) {

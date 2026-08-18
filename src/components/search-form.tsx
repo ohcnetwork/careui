@@ -27,11 +27,14 @@ import { getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
 import { ERROR_PAGES } from "@/components/error-pages/registry";
 
+const TOOL_ONLY_COMPONENT_IDS = new Set(["animated-character"]);
+
 const navSections = [
   {
     title: "Tools",
     items: [
       { id: "playground", title: "Playground" },
+      { id: "animated-character", title: "Care Filly" },
       { id: "blocks", title: "Blocks" },
     ],
   },
@@ -51,10 +54,12 @@ const navSections = [
   },
   {
     title: "Components",
-    items: getComponentIds().map((id) => ({
-      id,
-      title: componentNames[id] || id,
-    })),
+    items: getComponentIds()
+      .filter((id) => !TOOL_ONLY_COMPONENT_IDS.has(id))
+      .map((id) => ({
+        id,
+        title: componentNames[id] || id,
+      })),
   },
 ];
 

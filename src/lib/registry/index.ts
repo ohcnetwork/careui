@@ -36,13 +36,16 @@ const componentLoaders: Record<
     import("./attachment").then((m) => ({ default: m.attachmentDoc })),
   bubble: () => import("./bubble").then((m) => ({ default: m.bubbleDoc })),
   marker: () => import("./marker").then((m) => ({ default: m.markerDoc })),
-  message: () =>
-    import("./message").then((m) => ({ default: m.messageDoc })),
+  message: () => import("./message").then((m) => ({ default: m.messageDoc })),
   accordion: () =>
     import("./accordion").then((m) => ({ default: m.accordionDoc })),
   alert: () => import("./alert").then((m) => ({ default: m.alertDoc })),
   "alert-dialog": () =>
     import("./alert-dialog").then((m) => ({ default: m.alertDialogDoc })),
+  "animated-character": () =>
+    import("./animated-character").then((m) => ({
+      default: m.animatedCharacterDoc,
+    })),
   "aspect-ratio": () =>
     import("./aspect-ratio").then((m) => ({ default: m.aspectRatioDoc })),
   avatar: () => import("./avatar").then((m) => ({ default: m.avatarDoc })),
