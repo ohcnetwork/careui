@@ -56,13 +56,13 @@ function AnimatedCharacterPlayground() {
 
 export const animatedCharacterDoc: ComponentDoc = {
   id: "animated-character",
-  name: "AnimatedCharacter",
+  name: "CareFilly",
   description:
-    "A spring-driven animated AI character. State presets compose independent gaze, blink, mouth and head layers into one continuously animated SVG frame — transitions blend from the current pose with no snapping or drift.",
+    "Care Filly is a spring-driven animated assistant. State presets compose independent gaze, blink, mouth and head layers into one continuously animated SVG frame — transitions blend from the current pose with no snapping or drift.",
   installation: {
     cli: "pnpm dlx shadcn@latest add https://careui.ohc.network/registry/care-ui/animated-character/animated-character.json",
     manual:
-      "Copy the animated character implementation and ensure it is exported from your local UI index if you keep one.",
+      "Copy the Care Filly implementation and ensure it is exported from your local UI index if you keep one.",
   },
   usage: `import { AnimatedCharacter } from "@/components/ui/animated-character"
 

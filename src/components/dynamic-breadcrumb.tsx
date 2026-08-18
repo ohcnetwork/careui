@@ -25,7 +25,7 @@ function getBreadcrumbPath(activeComponent: string): BreadcrumbPath {
     return {
       section: "Tools",
       sectionTarget: null,
-      page: "Animated Character",
+      page: "Care Filly",
     };
   }
 

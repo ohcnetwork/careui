@@ -237,6 +237,7 @@ class CharacterEngine {
   mx: Spring
   my: Spring
   mAmp: Spring
+  sleepyMorph: Spring
   springs: Spring[]
 
   time: number
@@ -285,8 +286,9 @@ class CharacterEngine {
     this.open = S(1, 16, .9); this.wide = S(1, 14, .95);
     this.cy = S(0, 11, .85); this.cx = S(0, 11); this.cs = S(1, 12); this.asym = S(0, 11);
     this.mx = S(0, 9); this.my = S(0, 11); this.mAmp = S(.5, 3);
+    this.sleepyMorph = S(0, 10, .9);
     this.springs = [this.gx, this.gy, this.yaw, this.hx, this.hy, this.hr, this.lid, this.eyeS,
-      this.open, this.wide, this.cy, this.cx, this.cs, this.asym, this.mx, this.my, this.mAmp];
+      this.open, this.wide, this.cy, this.cx, this.cs, this.asym, this.mx, this.my, this.mAmp, this.sleepyMorph];
 
     this.time = 0; this.acc = 0; this.last = performance.now();
     this.timers = []; this.gen = {};
@@ -483,7 +485,7 @@ class CharacterEngine {
           }
         ])
       },
-      longClose: () => this.startBlink(1.2, rand(.4, .9), .03),
+      longClose: () => this.startBlink(1.0, rand(.2, .5), .04),
       swaySlow: () => this.headPulse({ rot: rand(-2.5, 2.5) }, rand(1.5, 2.8)),
       listeningSideRotateNod: () => {
         if (this.stateName !== 'listening') return
@@ -620,10 +622,14 @@ class CharacterEngine {
   setState(name: CharacterStateName) {
     const st = STATES[name]; if (!st) return;
     this.stateName = name; this.st = st;
-    this.cancel('ev'); this.cancel('loop'); this.cancel('gaze'); this.cancel('head'); this.cancel('mouth');
+    this.cancel('ev'); this.cancel('loop'); this.cancel('gaze'); this.cancel('head'); this.cancel('mouth'); this.cancel('surprisePulse');
+    this.timers = [];
+    this.bl.queue = 0;
+    this.thinkSide = undefined;
     this.roll = null;
     this.hb = { x: st.head?.x || 0, y: st.head?.y || 0, rot: st.head?.rot || 0 };
     this.hx.set(this.hb.x); this.hy.set(this.hb.y); this.hr.set(this.hb.rot); this.yaw.set(0);
+    this.sleepyMorph.set(name === 'sleepy' ? 1 : 0);
     this.gazeBias = st.gaze || [0, 0];
     if (!this.mouse) this.gazeTo(this.gazeBias[0], this.gazeBias[1]);
     this.setExpression(st.expr || 'neutral', false);
@@ -829,14 +835,15 @@ class CharacterEngine {
     const mtx = rawGx * .28 + yaw * 3.6 + this.mx.x
     const mty = this.my.x + rawGy * .18
     this.mouthG.setAttribute('transform', `translate(${mtx.toFixed(2)} ${mty.toFixed(2)})`);
-    const sleepyMouthY = this.stateName === 'sleepy' ? .78 : 1
+    const sleepyBlend = clamp(this.sleepyMorph.x, 0, 1)
+    const sleepyMouthY = 1 - .22 * sleepyBlend
     const ow = Math.max(.06, this.open.x) * sleepyMouthY
     const ww = Math.max(.2, this.wide.x)
     const barAY = ow > 1 ? 78.5 : G.MBY; // grow downward from top edge when taller than base
     this.bar.setAttribute('transform',
       `translate(${G.MBX} ${barAY}) scale(${ww.toFixed(3)} ${ow.toFixed(3)}) translate(${-G.MBX} ${-barAY})`);
     const csv = Math.max(0, this.cs.x);
-    const sleepyCornerY = this.stateName === 'sleepy' ? .62 : 1
+    const sleepyCornerY = 1 - .38 * sleepyBlend
     const cornerScaleY = csv * sleepyCornerY
     const cvis = csv < .04 ? 'hidden' : 'visible';
     this.mL.setAttribute('visibility', cvis); this.mR.setAttribute('visibility', cvis);
@@ -874,7 +881,7 @@ class CharacterEngine {
   destroy() {
     cancelAnimationFrame(this._rafId);
     if (this._pm) window.removeEventListener('pointermove', this._pm);
-    this.cancel('ev'); this.cancel('loop'); this.cancel('gaze'); this.cancel('head'); this.cancel('mouth');
+    this.cancel('ev'); this.cancel('loop'); this.cancel('gaze'); this.cancel('head'); this.cancel('mouth'); this.cancel('surprisePulse');
     this.timers = [];
   }
 }
@@ -987,7 +994,7 @@ export const AnimatedCharacter = React.forwardRef<
         ref={svgRef}
         viewBox="0 0 119.91 119.91"
         role="img"
-        aria-label="Animated character"
+        aria-label="Care Filly"
         className="block h-auto w-24 mx-auto"
       >
         <g data-part="head">
