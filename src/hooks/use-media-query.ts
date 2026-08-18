@@ -10,7 +10,10 @@ export function useMediaQuery(query: string) {
     [query]
   );
 
-  const getSnapshot = React.useCallback(() => matchMedia(query).matches, [query]);
+  const getSnapshot = React.useCallback(
+    () => matchMedia(query).matches,
+    [query]
+  );
 
   return React.useSyncExternalStore(subscribe, getSnapshot, () => false);
 }
