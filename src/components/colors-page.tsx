@@ -140,12 +140,12 @@ function SwatchCard({
   );
 
   React.useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      setLightHex(resolveTokenHex(swatch.token, false));
-      setDarkHex(resolveTokenHex(swatch.token, true));
-    });
-
-    return () => window.cancelAnimationFrame(frame);
+    const token = swatch.token;
+    const id = window.setTimeout(() => {
+      setLightHex(resolveTokenHex(token, false));
+      setDarkHex(resolveTokenHex(token, true));
+    }, 0);
+    return () => window.clearTimeout(id);
   }, [swatch.token]);
 
   React.useEffect(() => {

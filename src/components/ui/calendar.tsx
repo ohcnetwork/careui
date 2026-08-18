@@ -303,6 +303,29 @@ function SegmentedDateInput({
   );
   const [activeSeg, setActiveSeg] = React.useState<SegIdx>(0);
   const pendingRef = React.useRef("");
+  const [lastValueKey, setLastValueKey] = React.useState(
+    value && isValid(value) ? partsFromDate(value).join("/") : ""
+  );
+
+  // Sync from external `value` prop using render-time state update
+  const nextValue = value && isValid(value) ? value : undefined;
+  const nextValueParts: [string, string, string] = nextValue
+    ? partsFromDate(nextValue)
+    : ["", "", ""];
+  const nextValueKey = nextValue ? nextValueParts.join("/") : "";
+  const currentPartsKey = parts.join("/");
+  const isDraftState = parts.some(Boolean) && parts.some((part) => !part);
+  if (nextValueKey !== lastValueKey) {
+    setLastValueKey(nextValueKey);
+
+    if (nextValueKey) {
+      if (currentPartsKey !== nextValueKey) {
+        setParts(nextValueParts);
+      }
+    } else if (!isDraftState && currentPartsKey) {
+      setParts(["", "", ""]);
+    }
+  }
 
   // Compute dynamic segment config, accounting for days-in-month
   function segs(p: [string, string, string]) {
@@ -316,15 +339,6 @@ function SegmentedDateInput({
     const seg = segs(parts)[activeSeg];
     el.setSelectionRange(seg.start, seg.end);
   });
-
-  // Sync from external `value` prop
-  React.useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      setParts(value && isValid(value) ? partsFromDate(value) : ["", "", ""]);
-    });
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [value]);
 
   function announce(msg: string) {
     if (announceRef.current) announceRef.current.textContent = msg;
@@ -485,7 +499,6 @@ function SegmentedDateInput({
     }
   }
 
-  const isPartiallyFilled = parts.some(Boolean) && parts.some((p) => !p);
   const displayVal = buildDisplay(parts);
   const ariaLabel =
     value && isValid(value)
@@ -511,7 +524,7 @@ function SegmentedDateInput({
         onClick={handleClick}
         onFocus={handleFocus}
         aria-label={ariaLabel}
-        aria-invalid={isPartiallyFilled}
+        aria-invalid={isDraftState}
         aria-describedby={hintId}
         placeholder="DD/MM/YYYY"
         className={cn("font-mono tracking-wider", className)}
@@ -539,15 +552,11 @@ function CalendarWithInput({
 }) {
   const [month, setMonth] = React.useState<Date>(selected ?? new Date());
 
-  React.useEffect(() => {
-    if (!selected || !isValid(selected)) {
-      return;
-    }
-
-    const frame = window.requestAnimationFrame(() => setMonth(selected));
-
-    return () => window.cancelAnimationFrame(frame);
-  }, [selected]);
+  const [prevSelected, setPrevSelected] = React.useState(selected);
+  if (prevSelected !== selected) {
+    setPrevSelected(selected);
+    if (selected && isValid(selected)) setMonth(selected);
+  }
 
   return (
     <div data-slot="calendar-with-input" className="flex flex-col gap-2">
