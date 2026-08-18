@@ -62,13 +62,33 @@ function Carousel({
     },
     plugins
   );
-  const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-  const [canScrollNext, setCanScrollNext] = React.useState(false);
+  const [{ lastInitializedApi, canScrollPrev, canScrollNext }, setScrollState] =
+    React.useState<{
+      lastInitializedApi: CarouselApi;
+      canScrollPrev: boolean;
+      canScrollNext: boolean;
+    }>({
+      lastInitializedApi: undefined,
+      canScrollPrev: false,
+      canScrollNext: false,
+    });
 
   const onSelect = React.useCallback((api: CarouselApi) => {
     if (!api) return;
-    setCanScrollPrev(api.canScrollPrev());
-    setCanScrollNext(api.canScrollNext());
+    const nextCanScrollPrev = api.canScrollPrev();
+    const nextCanScrollNext = api.canScrollNext();
+
+    setScrollState((currentState) =>
+      currentState.lastInitializedApi === api &&
+      currentState.canScrollPrev === nextCanScrollPrev &&
+      currentState.canScrollNext === nextCanScrollNext
+        ? currentState
+        : {
+            lastInitializedApi: api,
+            canScrollPrev: nextCanScrollPrev,
+            canScrollNext: nextCanScrollNext,
+          }
+    );
   }, []);
 
   const scrollPrev = React.useCallback(() => {
@@ -92,6 +112,14 @@ function Carousel({
     [scrollPrev, scrollNext]
   );
 
+  if (api && api !== lastInitializedApi) {
+    setScrollState({
+      lastInitializedApi: api,
+      canScrollPrev: api.canScrollPrev(),
+      canScrollNext: api.canScrollNext(),
+    });
+  }
+
   React.useEffect(() => {
     if (!api || !setApi) return;
     setApi(api);
@@ -99,7 +127,6 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return;
-    onSelect(api);
     api.on("reInit", onSelect);
     api.on("select", onSelect);
 
