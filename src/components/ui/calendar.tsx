@@ -303,12 +303,28 @@ function SegmentedDateInput({
   );
   const [activeSeg, setActiveSeg] = React.useState<SegIdx>(0);
   const pendingRef = React.useRef("");
+  const [lastValueKey, setLastValueKey] = React.useState(
+    value && isValid(value) ? partsFromDate(value).join("/") : ""
+  );
 
   // Sync from external `value` prop using render-time state update
-  const [prevValue, setPrevValue] = React.useState(value);
-  if (prevValue !== value) {
-    setPrevValue(value);
-    setParts(value && isValid(value) ? partsFromDate(value) : ["", "", ""]);
+  const nextValue = value && isValid(value) ? value : undefined;
+  const nextValueParts: [string, string, string] = nextValue
+    ? partsFromDate(nextValue)
+    : ["", "", ""];
+  const nextValueKey = nextValue ? nextValueParts.join("/") : "";
+  const currentPartsKey = parts.join("/");
+  const isDraftState = parts.some(Boolean) && parts.some((part) => !part);
+  if (nextValueKey !== lastValueKey) {
+    setLastValueKey(nextValueKey);
+
+    if (nextValueKey) {
+      if (currentPartsKey !== nextValueKey) {
+        setParts(nextValueParts);
+      }
+    } else if (!isDraftState && currentPartsKey) {
+      setParts(["", "", ""]);
+    }
   }
 
   // Compute dynamic segment config, accounting for days-in-month
@@ -483,7 +499,6 @@ function SegmentedDateInput({
     }
   }
 
-  const isPartiallyFilled = parts.some(Boolean) && parts.some((p) => !p);
   const displayVal = buildDisplay(parts);
   const ariaLabel =
     value && isValid(value)
@@ -509,7 +524,7 @@ function SegmentedDateInput({
         onClick={handleClick}
         onFocus={handleFocus}
         aria-label={ariaLabel}
-        aria-invalid={isPartiallyFilled}
+        aria-invalid={isDraftState}
         aria-describedby={hintId}
         placeholder="DD/MM/YYYY"
         className={cn("font-mono tracking-wider", className)}
