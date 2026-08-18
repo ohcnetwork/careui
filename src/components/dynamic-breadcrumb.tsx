@@ -60,6 +60,8 @@ function getBreadcrumbPath(activeComponent: string): BreadcrumbPath {
       return { section: "Components", sectionTarget: null, page: "Overview" };
     case "playground":
       return { section: "Tools", sectionTarget: null, page: "Playground" };
+    case "filly-mascot-playground":
+      return { section: "Tools", sectionTarget: null, page: "Filly Mascot" };
     case "blocks":
       return { section: "Tools", sectionTarget: null, page: "Blocks" };
     default:

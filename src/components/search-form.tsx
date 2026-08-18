@@ -32,6 +32,7 @@ const navSections = [
     title: "Tools",
     items: [
       { id: "playground", title: "Playground" },
+      { id: "filly-mascot-playground", title: "Filly Mascot" },
       { id: "blocks", title: "Blocks" },
     ],
   },

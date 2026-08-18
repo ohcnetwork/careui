@@ -15,6 +15,7 @@ import { useNavigation } from "@/contexts/navigation-context";
 import { loadComponentDoc, getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
 import { ComponentsOverview } from "@/components/components-overview";
+import { FillyMascotPlayground } from "@/components/filly-mascot-playground";
 import { Playground } from "@/components/playground";
 import { BlocksPage } from "@/components/blocks";
 import { SettingsPage } from "@/components/settings-page";
@@ -504,6 +505,7 @@ export function DynamicMainContent() {
         documentationPages[activeComponent] ||
         activeComponent === "components-overview" ||
         activeComponent === "blocks" ||
+        activeComponent === "filly-mascot-playground" ||
         activeComponent === "error-pages" ||
         activeComponent.startsWith("error-page-")
       ) {
@@ -564,6 +566,12 @@ export function DynamicMainContent() {
   if (activeComponent === "playground") {
     dismissHtmlScreen();
     return <Playground />;
+  }
+
+  // Handle Filly mascot playground
+  if (activeComponent === "filly-mascot-playground") {
+    dismissHtmlScreen();
+    return <FillyMascotPlayground />;
   }
 
   // Handle blocks overview
