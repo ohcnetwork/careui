@@ -411,8 +411,12 @@ export function QuestionnaireDemo() {
               <QuestionnaireChoice value="source">
                 Relevant source files
               </QuestionnaireChoice>
-              <QuestionnaireChoice value="tests">Existing tests</QuestionnaireChoice>
-              <QuestionnaireChoice value="docs">Architecture docs</QuestionnaireChoice>
+              <QuestionnaireChoice value="tests">
+                Existing tests
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="docs">
+                Architecture docs
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -501,15 +505,14 @@ export function QuestionnaireDemo() {
         <Questionnaire
           className="mx-auto max-w-md"
           defaultItem="task"
-          items={[
-            { name: "task", required: true },
-            { name: "constraints" },
-          ]}
+          items={[{ name: "task", required: true }, { name: "constraints" }]}
           onSubmit={(event) => event.preventDefault()}
         >
           <QuestionnaireProgress />
           <QuestionnaireItem name="task" required>
-            <QuestionnaireTitle>What kind of change is this?</QuestionnaireTitle>
+            <QuestionnaireTitle>
+              What kind of change is this?
+            </QuestionnaireTitle>
             <QuestionnaireChoices>
               <QuestionnaireChoice value="feature">Feature</QuestionnaireChoice>
               <QuestionnaireChoice value="fix">Bug fix</QuestionnaireChoice>
@@ -559,16 +562,32 @@ export function QuestionnaireDemo() {
       preview: (
         <Questionnaire
           className="mx-auto max-w-md"
-          items={[{ name: "action", required: true, choices: [{ value: "inspect" }, { value: "tests" }, { value: "patch" }] }]}
+          items={[
+            {
+              name: "action",
+              required: true,
+              choices: [
+                { value: "inspect" },
+                { value: "tests" },
+                { value: "patch" },
+              ],
+            },
+          ]}
           shortcuts="letters"
           onSubmit={(event) => event.preventDefault()}
         >
           <QuestionnaireItem name="action" required>
-            <QuestionnaireTitle>What should the agent do next?</QuestionnaireTitle>
+            <QuestionnaireTitle>
+              What should the agent do next?
+            </QuestionnaireTitle>
             <QuestionnaireChoices>
-              <QuestionnaireChoice value="inspect">Inspect implementation</QuestionnaireChoice>
+              <QuestionnaireChoice value="inspect">
+                Inspect implementation
+              </QuestionnaireChoice>
               <QuestionnaireChoice value="tests">Run tests</QuestionnaireChoice>
-              <QuestionnaireChoice value="patch">Prepare patch</QuestionnaireChoice>
+              <QuestionnaireChoice value="patch">
+                Prepare patch
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -613,8 +632,12 @@ export function QuestionnaireDemo() {
               How much detail should the answer include?
             </QuestionnaireTitle>
             <QuestionnaireChoices>
-              <QuestionnaireChoice value="summary">Concise summary</QuestionnaireChoice>
-              <QuestionnaireChoice value="complete">Complete answer</QuestionnaireChoice>
+              <QuestionnaireChoice value="summary">
+                Concise summary
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="complete">
+                Complete answer
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError>
               Public answers need enough context. Choose a complete answer.
@@ -624,7 +647,9 @@ export function QuestionnaireDemo() {
             <QuestionnaireTitle>Who will read the answer?</QuestionnaireTitle>
             <QuestionnaireChoices>
               <QuestionnaireChoice value="team">My team</QuestionnaireChoice>
-              <QuestionnaireChoice value="public">Public audience</QuestionnaireChoice>
+              <QuestionnaireChoice value="public">
+                Public audience
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -667,16 +692,24 @@ export function QuestionnaireDemo() {
           <QuestionnaireItem name="scope" required>
             <QuestionnaireTitle>What may the agent change?</QuestionnaireTitle>
             <QuestionnaireChoices>
-              <QuestionnaireChoice value="component">Target component</QuestionnaireChoice>
-              <QuestionnaireChoice value="feature">Feature area</QuestionnaireChoice>
+              <QuestionnaireChoice value="component">
+                Target component
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="feature">
+                Feature area
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
           <QuestionnaireItem name="checks" required>
             <QuestionnaireTitle>Verification depth</QuestionnaireTitle>
             <QuestionnaireChoices>
-              <QuestionnaireChoice value="targeted">Targeted tests</QuestionnaireChoice>
-              <QuestionnaireChoice value="full">Full checks</QuestionnaireChoice>
+              <QuestionnaireChoice value="targeted">
+                Targeted tests
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="full">
+                Full checks
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -684,7 +717,9 @@ export function QuestionnaireDemo() {
             <QuestionnaireTitle>Final output</QuestionnaireTitle>
             <QuestionnaireChoices>
               <QuestionnaireChoice value="summary">Summary</QuestionnaireChoice>
-              <QuestionnaireChoice value="handoff">Detailed handoff</QuestionnaireChoice>
+              <QuestionnaireChoice value="handoff">
+                Detailed handoff
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -729,7 +764,9 @@ export function QuestionnaireDemo() {
               <QuestionnaireChoice value="incremental" defaultChecked>
                 Incremental migration
               </QuestionnaireChoice>
-              <QuestionnaireChoice value="cutover">Single cutover</QuestionnaireChoice>
+              <QuestionnaireChoice value="cutover">
+                Single cutover
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -765,8 +802,7 @@ export function QuestionnaireDemo() {
     },
     {
       name: "Conditional Items",
-      description:
-        "Disable items that do not apply to earlier answers.",
+      description: "Disable items that do not apply to earlier answers.",
       code: `const items = [
   { name: "runtime", required: true },
   { name: "environment", required: true, disabled: runtime !== "cloud" },
@@ -795,8 +831,12 @@ export function QuestionnaireDemo() {
           <QuestionnaireItem name="runtime" required>
             <QuestionnaireTitle>Runtime</QuestionnaireTitle>
             <QuestionnaireChoices>
-              <QuestionnaireChoice value="local">Local workspace</QuestionnaireChoice>
-              <QuestionnaireChoice value="cloud">Cloud workspace</QuestionnaireChoice>
+              <QuestionnaireChoice value="local">
+                Local workspace
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="cloud">
+                Cloud workspace
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -811,8 +851,12 @@ export function QuestionnaireDemo() {
           <QuestionnaireItem name="approval" required>
             <QuestionnaireTitle>Approval timing</QuestionnaireTitle>
             <QuestionnaireChoices>
-              <QuestionnaireChoice value="writes">Before writes</QuestionnaireChoice>
-              <QuestionnaireChoice value="sensitive">Sensitive only</QuestionnaireChoice>
+              <QuestionnaireChoice value="writes">
+                Before writes
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="sensitive">
+                Sensitive only
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -853,7 +897,9 @@ export function QuestionnaireDemo() {
             <QuestionnaireTitle>Permission scope</QuestionnaireTitle>
             <QuestionnaireChoices>
               <QuestionnaireChoice value="files">Files</QuestionnaireChoice>
-              <QuestionnaireChoice value="config">Files and config</QuestionnaireChoice>
+              <QuestionnaireChoice value="config">
+                Files and config
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -918,8 +964,8 @@ export function QuestionnaireDemo() {
                       key={index}
                       className={
                         index < state.current
-                          ? "h-1.5 flex-1 rounded-full bg-primary"
-                          : "h-1.5 flex-1 rounded-full bg-muted"
+                          ? "bg-primary h-1.5 flex-1 rounded-full"
+                          : "bg-muted h-1.5 flex-1 rounded-full"
                       }
                     />
                   ))}
@@ -933,8 +979,12 @@ export function QuestionnaireDemo() {
           <QuestionnaireItem name="scope" required>
             <QuestionnaireTitle>Change scope</QuestionnaireTitle>
             <QuestionnaireChoices>
-              <QuestionnaireChoice value="small">Small patch</QuestionnaireChoice>
-              <QuestionnaireChoice value="large">Large refactor</QuestionnaireChoice>
+              <QuestionnaireChoice value="small">
+                Small patch
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="large">
+                Large refactor
+              </QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
           </QuestionnaireItem>
@@ -974,7 +1024,9 @@ export function QuestionnaireDemo() {
           >
             <QuestionnaireTitle>Task</QuestionnaireTitle>
             <QuestionnaireChoices>
-              <QuestionnaireChoice value="implement">Implement</QuestionnaireChoice>
+              <QuestionnaireChoice value="implement">
+                Implement
+              </QuestionnaireChoice>
               <QuestionnaireChoice value="debug">Debug</QuestionnaireChoice>
             </QuestionnaireChoices>
             <QuestionnaireError />
@@ -1025,8 +1077,12 @@ export function QuestionnaireDemo() {
               </CardHeader>
               <CardContent>
                 <QuestionnaireChoices>
-                  <QuestionnaireChoice value="fix">Fix tests</QuestionnaireChoice>
-                  <QuestionnaireChoice value="docs">Update docs</QuestionnaireChoice>
+                  <QuestionnaireChoice value="fix">
+                    Fix tests
+                  </QuestionnaireChoice>
+                  <QuestionnaireChoice value="docs">
+                    Update docs
+                  </QuestionnaireChoice>
                 </QuestionnaireChoices>
               </CardContent>
             </QuestionnaireItem>
@@ -1110,7 +1166,9 @@ export function QuestionnaireDemo() {
                 <QuestionnaireError />
               </QuestionnaireItem>
               <DialogFooter>
-                <DialogClose render={<Button type="button" variant="outline" />}>
+                <DialogClose
+                  render={<Button type="button" variant="outline" />}
+                >
                   Cancel
                 </DialogClose>
                 <QuestionnaireActions>
@@ -1143,7 +1201,8 @@ export function QuestionnaireDemo() {
     },
     {
       name: "Composition",
-      description: "Questionnaire owns item order, active item, answer state, validation, progress, and navigation.",
+      description:
+        "Questionnaire owns item order, active item, answer state, validation, progress, and navigation.",
       code: `Questionnaire
 ├── QuestionnaireProgress
 ├── QuestionnaireItem
@@ -1159,8 +1218,8 @@ export function QuestionnaireDemo() {
     ├── QuestionnaireNext
     └── QuestionnaireSubmit`,
       preview: (
-        <pre className="w-full overflow-x-auto rounded-md border bg-muted/30 p-4 text-sm leading-relaxed">
-{`Questionnaire
+        <pre className="bg-muted/30 w-full overflow-x-auto rounded-md border p-4 text-sm leading-relaxed">
+          {`Questionnaire
 ├── QuestionnaireProgress
 ├── QuestionnaireItem
 │   ├── QuestionnaireTitle
