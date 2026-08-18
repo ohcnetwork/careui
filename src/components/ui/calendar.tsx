@@ -319,7 +319,11 @@ function SegmentedDateInput({
 
   // Sync from external `value` prop
   React.useEffect(() => {
-    setParts(value && isValid(value) ? partsFromDate(value) : ["", "", ""]);
+    const frame = window.requestAnimationFrame(() => {
+      setParts(value && isValid(value) ? partsFromDate(value) : ["", "", ""]);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, [value]);
 
   function announce(msg: string) {
@@ -536,7 +540,13 @@ function CalendarWithInput({
   const [month, setMonth] = React.useState<Date>(selected ?? new Date());
 
   React.useEffect(() => {
-    if (selected && isValid(selected)) setMonth(selected);
+    if (!selected || !isValid(selected)) {
+      return;
+    }
+
+    const frame = window.requestAnimationFrame(() => setMonth(selected));
+
+    return () => window.cancelAnimationFrame(frame);
   }, [selected]);
 
   return (
