@@ -1,21 +1,21 @@
-import { useRef, useState } from "react"
+import { useRef, useState } from "react";
 
-import { type ComponentDoc } from "@/lib/types"
+import { type ComponentDoc } from "@/lib/types";
 import {
   AnimatedCharacter,
   CHARACTER_STATES,
   type AnimatedCharacterHandle,
   type CharacterState,
-} from "@/components/ui/animated-character"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+} from "@/components/ui/animated-character";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 function AnimatedCharacterPlayground() {
-  const characterRef = useRef<AnimatedCharacterHandle>(null)
-  const [state, setState] = useState<CharacterState>("idle")
-  const [mouseTracking, setMouseTracking] = useState(false)
+  const characterRef = useRef<AnimatedCharacterHandle>(null);
+  const [state, setState] = useState<CharacterState>("idle");
+  const [mouseTracking, setMouseTracking] = useState(false);
 
   return (
     <Card className="mx-auto w-full max-w-xl">
@@ -51,7 +51,7 @@ function AnimatedCharacterPlayground() {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 export const animatedCharacterDoc: ComponentDoc = {
@@ -91,7 +91,9 @@ const [mouseTracking, setMouseTracking] = useState(false)
       name: "Imperative API",
       description:
         "One-shot actions via the ref handle: blink(), nod(), shakeHead(), eyeRoll(), setGazeTarget({ x, y }), startTalking(), and more.",
-      preview: <AnimatedCharacter state="listening" className="mx-auto max-w-48" />,
+      preview: (
+        <AnimatedCharacter state="listening" className="mx-auto max-w-48" />
+      ),
       code: `characterRef.current?.nod()
 characterRef.current?.setGazeTarget({ x: 0.4, y: -0.2 })
 characterRef.current?.startTalking()`,
@@ -101,22 +103,26 @@ characterRef.current?.startTalking()`,
     {
       name: "state",
       type: `"idle" | "listening" | "talking" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`,
-      description: "Behavioral state preset. Transitions blend from the current pose.",
+      description:
+        "Behavioral state preset. Transitions blend from the current pose.",
     },
     {
       name: "mouseTracking",
       type: "boolean",
-      description: "Eyes smoothly follow the pointer when true; return to the state gaze when false.",
+      description:
+        "Eyes smoothly follow the pointer when true; return to the state gaze when false.",
     },
     {
       name: "ref",
       type: "AnimatedCharacterHandle",
-      description: "Imperative API: setState, look, setGazeTarget, blink, nod, shakeHead, eyeRoll, startTalking, stopTalking, reset, ...",
+      description:
+        "Imperative API: setState, look, setGazeTarget, blink, nod, shakeHead, eyeRoll, startTalking, stopTalking, reset, ...",
     },
     {
       name: "className",
       type: "string",
-      description: "Additional CSS classes on the wrapper (sizing, color via text-*).",
+      description:
+        "Additional CSS classes on the wrapper (sizing, color via text-*).",
     },
   ],
-}
+};
