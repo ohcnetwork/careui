@@ -213,7 +213,7 @@ function DatePickerWithInput({
   const [text, setText] = React.useState(formatInputDate(selected));
   const controlledText = formatInputDate(value);
 
-  if (isControlled && text !== controlledText) {
+  if (isControlled && value !== undefined && text !== controlledText) {
     setText(controlledText);
   }
 
