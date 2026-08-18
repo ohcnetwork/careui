@@ -307,6 +307,26 @@ function SegmentedDateInput({
     value && isValid(value) ? partsFromDate(value).join("/") : ""
   );
 
+  // Sync from external `value` prop using render-time state update
+  const nextValue = value && isValid(value) ? value : undefined;
+  const nextValueParts: [string, string, string] = nextValue
+    ? partsFromDate(nextValue)
+    : ["", "", ""];
+  const nextValueKey = nextValue ? nextValueParts.join("/") : "";
+  const currentPartsKey = parts.join("/");
+  const isDraftState = parts.some(Boolean) && parts.some((part) => !part);
+  if (nextValueKey !== lastValueKey) {
+    setLastValueKey(nextValueKey);
+
+    if (nextValueKey) {
+      if (currentPartsKey !== nextValueKey) {
+        setParts(nextValueParts);
+      }
+    } else if (!isDraftState && currentPartsKey) {
+      setParts(["", "", ""]);
+    }
+  }
+
   // Compute dynamic segment config, accounting for days-in-month
   function segs(p: [string, string, string]) {
     return getSegs(p, minYear, maxYear);
@@ -319,26 +339,6 @@ function SegmentedDateInput({
     const seg = segs(parts)[activeSeg];
     el.setSelectionRange(seg.start, seg.end);
   });
-
-  const nextValue = value && isValid(value) ? value : undefined;
-  const nextValueParts: [string, string, string] = nextValue
-    ? partsFromDate(nextValue)
-    : ["", "", ""];
-  const nextValueKey = nextValue ? nextValueParts.join("/") : "";
-  const currentPartsKey = parts.join("/");
-  const isDraftState = parts.some(Boolean) && parts.some((part) => !part);
-
-  if (nextValueKey !== lastValueKey) {
-    setLastValueKey(nextValueKey);
-
-    if (nextValueKey) {
-      if (currentPartsKey !== nextValueKey) {
-        setParts(nextValueParts);
-      }
-    } else if (!isDraftState && currentPartsKey) {
-      setParts(["", "", ""]);
-    }
-  }
 
   function announce(msg: string) {
     if (announceRef.current) announceRef.current.textContent = msg;
@@ -499,7 +499,6 @@ function SegmentedDateInput({
     }
   }
 
-  const isPartiallyFilled = parts.some(Boolean) && parts.some((p) => !p);
   const displayVal = buildDisplay(parts);
   const ariaLabel =
     value && isValid(value)
@@ -525,7 +524,7 @@ function SegmentedDateInput({
         onClick={handleClick}
         onFocus={handleFocus}
         aria-label={ariaLabel}
-        aria-invalid={isPartiallyFilled}
+        aria-invalid={isDraftState}
         aria-describedby={hintId}
         placeholder="DD/MM/YYYY"
         className={cn("font-mono tracking-wider", className)}
@@ -552,22 +551,11 @@ function CalendarWithInput({
   onSelect?: (date: Date | undefined) => void;
 }) {
   const [month, setMonth] = React.useState<Date>(selected ?? new Date());
-  const nextSelected = selected && isValid(selected) ? selected : undefined;
-  const [lastSelectedTime, setLastSelectedTime] = React.useState(
-    nextSelected?.getTime()
-  );
-  const nextSelectedTime = nextSelected?.getTime();
 
-  if (
-    nextSelected &&
-    nextSelectedTime !== undefined &&
-    nextSelectedTime !== lastSelectedTime &&
-    month.getTime() !== nextSelectedTime
-  ) {
-    setLastSelectedTime(nextSelectedTime);
-    setMonth(nextSelected);
-  } else if (nextSelectedTime !== lastSelectedTime) {
-    setLastSelectedTime(nextSelectedTime);
+  const [prevSelected, setPrevSelected] = React.useState(selected);
+  if (prevSelected !== selected) {
+    setPrevSelected(selected);
+    if (selected && isValid(selected)) setMonth(selected);
   }
 
   return (
