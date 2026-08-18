@@ -226,7 +226,6 @@ class CharacterEngine {
   hx: Spring
   hy: Spring
   hr: Spring
-  nodDepth: Spring
   lid: Spring
   eyeS: Spring
   open: Spring
@@ -282,12 +281,11 @@ class CharacterEngine {
     const S = (v: number, w: number, z = 1) => new Spring(v, w, z);
     this.gx = S(0, 11); this.gy = S(0, 11); this.yaw = S(0, 8, .95);
     this.hx = S(0, 6.5); this.hy = S(0, 6.5, .95); this.hr = S(0, 7, .9);
-    this.nodDepth = S(0, 13, .84)
     this.lid = S(1, 14); this.eyeS = S(1, 10, .85);
     this.open = S(1, 16, .9); this.wide = S(1, 14, .95);
     this.cy = S(0, 11, .85); this.cx = S(0, 11); this.cs = S(1, 12); this.asym = S(0, 11);
     this.mx = S(0, 9); this.my = S(0, 11); this.mAmp = S(.5, 3);
-    this.springs = [this.gx, this.gy, this.yaw, this.hx, this.hy, this.hr, this.nodDepth, this.lid, this.eyeS,
+    this.springs = [this.gx, this.gy, this.yaw, this.hx, this.hy, this.hr, this.lid, this.eyeS,
       this.open, this.wide, this.cy, this.cx, this.cs, this.asym, this.mx, this.my, this.mAmp];
 
     this.time = 0; this.acc = 0; this.last = performance.now();
@@ -392,9 +390,6 @@ class CharacterEngine {
 
   cancel(ch: string) {
     this.gen[ch] = (this.gen[ch] || 0) + 1
-    if (ch === "head") {
-      this.nodDepth.set(0)
-    }
   }
 
   seq(ch: string, steps: SequenceStep[], loop = false) {
@@ -804,51 +799,39 @@ class CharacterEngine {
     const mY = a * .45 * (Math.sin(ph * .9 + .8) + .4 * Math.sin(ph * 2.1 + .3));
     const mR = a * .7 * Math.sin(ph * .65 + 2);
     const yaw = this.yaw.x;
-    const nodProgress = this.nodDepth.x
-    const nodDown = smooth(clamp(nodProgress, 0, 1))
-    const nodUp = smooth(clamp(-nodProgress, 0, .45) / .45)
-    const depthScaleX = 1 + nodDown * .012 + nodUp * .004
-    const depthScaleY = 1 + nodDown * .078 + nodUp * .01
     const hx = this.hx.x + mX
     let hy = this.hy.x + mY
-    const rot = this.hr.x + mR + nodDown * .95 - nodUp * .42
-    hy += nodDown * 1.9 - nodUp * .45
+    const rot = this.hr.x + mR
     if (this.talking) hy += (1 - this.open.x) * .4;
     this.head.setAttribute('transform',
-      `translate(${hx.toFixed(2)} ${hy.toFixed(2)}) rotate(${rot.toFixed(2)} ${G.CX} ${G.CY}) translate(${G.CX} ${G.CY}) scale(${depthScaleX.toFixed(3)} ${depthScaleY.toFixed(3)}) translate(${-G.CX} ${-G.CY})`);
-    const faceScaleX = 1 + nodDown * .014 + nodUp * .004
-    const faceScaleY = 1 + nodDown * .04 + nodUp * .01
-    const faceLiftY = nodDown * 1.05 - nodUp * .22
-    const facePitch = nodDown * 1.45 - nodUp * .5
+      `translate(${hx.toFixed(2)} ${hy.toFixed(2)}) rotate(${rot.toFixed(2)} ${G.CX} ${G.CY})`);
     this.face.setAttribute('transform',
-      `translate(${(yaw * .28).toFixed(2)} ${faceLiftY.toFixed(2)}) rotate(${facePitch.toFixed(2)} ${G.CX} ${G.CY}) translate(${G.CX} ${G.CY}) scale(${faceScaleX.toFixed(3)} ${faceScaleY.toFixed(3)}) translate(${-G.CX} ${-G.CY})`)
+      `translate(${(yaw * .28).toFixed(2)} 0)`)
 
     const rawGx = this.gx.x * G.RX + mX * .25
     const rawGy = this.gy.x * G.RY + mY * .2
-    const etx = rawGx + yaw * 5.2 + nodDown * .22 - nodUp * .12
-    const ety = rawGy + nodDown * .62 - nodUp * .2
+    const etx = rawGx + yaw * 5.2
+    const ety = rawGy
     this.eyesG.setAttribute('transform', `translate(${etx.toFixed(2)} ${ety.toFixed(2)})`);
 
     const openV = clamp(this.lid.x, .02, 1.15) * this.blinkVal();
     const es = this.eyeS.x;
-    const sy = Math.max(.045, es * openV * (1 + nodDown * .01 + nodUp * .006));
+    const sy = Math.max(.045, es * openV);
     const bsx = 1 + (es - 1) * .55;
     const ay = Math.abs(yaw);
     const sxL = Math.max(.05, bsx * (1 - ay * .12 - Math.max(0, yaw) * .3));
     const sxR = Math.max(.05, bsx * (1 - ay * .12 - Math.max(0, -yaw) * .3));
-    const eyeOffsetY = nodDown * .26 - nodUp * .12
-    const eyeOffsetX = nodDown * .16
     this.eyeL.setAttribute('transform',
-      `translate(${eyeOffsetX.toFixed(2)} ${eyeOffsetY.toFixed(2)}) translate(${G.ELX} ${G.ELY}) scale(${sxL.toFixed(3)} ${sy.toFixed(3)}) translate(${-G.ELX} ${-G.ELY})`);
+      `translate(${G.ELX} ${G.ELY}) scale(${sxL.toFixed(3)} ${sy.toFixed(3)}) translate(${-G.ELX} ${-G.ELY})`);
     this.eyeR.setAttribute('transform',
-      `translate(${(-eyeOffsetX).toFixed(2)} ${eyeOffsetY.toFixed(2)}) translate(${G.ERX} ${G.ERY}) scale(${sxR.toFixed(3)} ${sy.toFixed(3)}) translate(${-G.ERX} ${-G.ERY})`);
+      `translate(${G.ERX} ${G.ERY}) scale(${sxR.toFixed(3)} ${sy.toFixed(3)}) translate(${-G.ERX} ${-G.ERY})`);
 
-    const mtx = rawGx * .28 + yaw * 3.6 + this.mx.x + nodDown * .2 - nodUp * .08
-    const mty = this.my.x + rawGy * .18 + nodDown * .74 - nodUp * .22
+    const mtx = rawGx * .28 + yaw * 3.6 + this.mx.x
+    const mty = this.my.x + rawGy * .18
     this.mouthG.setAttribute('transform', `translate(${mtx.toFixed(2)} ${mty.toFixed(2)})`);
     const sleepyMouthY = this.stateName === 'sleepy' ? .78 : 1
-    const ow = Math.max(.06, this.open.x) * (1 + nodDown * .06 + nodUp * .01) * sleepyMouthY
-    const ww = Math.max(.2, this.wide.x) * (1 + nodDown * .012 + nodUp * .004)
+    const ow = Math.max(.06, this.open.x) * sleepyMouthY
+    const ww = Math.max(.2, this.wide.x)
     const barAY = ow > 1 ? 78.5 : G.MBY; // grow downward from top edge when taller than base
     this.bar.setAttribute('transform',
       `translate(${G.MBX} ${barAY}) scale(${ww.toFixed(3)} ${ow.toFixed(3)}) translate(${-G.MBX} ${-barAY})`);
@@ -857,8 +840,8 @@ class CharacterEngine {
     const cornerScaleY = csv * sleepyCornerY
     const cvis = csv < .04 ? 'hidden' : 'visible';
     this.mL.setAttribute('visibility', cvis); this.mR.setAttribute('visibility', cvis);
-    const cornerLift = nodDown * .58 - nodUp * .18
-    const cornerSpread = nodDown * .2 - nodUp * .08
+    const cornerLift = 0
+    const cornerSpread = 0
     const lty = this.cy.x - this.asym.x + cornerLift
     const rty = this.cy.x + this.asym.x + cornerLift
     const cornerBottomY = 78.51
