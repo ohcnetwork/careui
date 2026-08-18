@@ -62,34 +62,30 @@ function Carousel({
     },
     plugins
   );
-  const [{ lastInitializedApi, canScrollPrev, canScrollNext }, setScrollState] =
-    React.useState<{
-      lastInitializedApi: CarouselApi;
-      canScrollPrev: boolean;
-      canScrollNext: boolean;
-    }>({
-      lastInitializedApi: undefined,
-      canScrollPrev: false,
-      canScrollNext: false,
-    });
 
-  const onSelect = React.useCallback((api: CarouselApi) => {
-    if (!api) return;
-    const nextCanScrollPrev = api.canScrollPrev();
-    const nextCanScrollNext = api.canScrollNext();
+  const subscribe = React.useCallback(
+    (callback: () => void) => {
+      if (!api) return () => {};
+      api.on("reInit", callback);
+      api.on("select", callback);
+      return () => {
+        api.off("reInit", callback);
+        api.off("select", callback);
+      };
+    },
+    [api]
+  );
 
-    setScrollState((currentState) =>
-      currentState.lastInitializedApi === api &&
-      currentState.canScrollPrev === nextCanScrollPrev &&
-      currentState.canScrollNext === nextCanScrollNext
-        ? currentState
-        : {
-            lastInitializedApi: api,
-            canScrollPrev: nextCanScrollPrev,
-            canScrollNext: nextCanScrollNext,
-          }
-    );
-  }, []);
+  const canScrollPrev = React.useSyncExternalStore(
+    subscribe,
+    () => api?.canScrollPrev() ?? false,
+    () => false
+  );
+  const canScrollNext = React.useSyncExternalStore(
+    subscribe,
+    () => api?.canScrollNext() ?? false,
+    () => false
+  );
 
   const scrollPrev = React.useCallback(() => {
     api?.scrollPrev();
@@ -112,28 +108,10 @@ function Carousel({
     [scrollPrev, scrollNext]
   );
 
-  if (api && api !== lastInitializedApi) {
-    setScrollState({
-      lastInitializedApi: api,
-      canScrollPrev: api.canScrollPrev(),
-      canScrollNext: api.canScrollNext(),
-    });
-  }
-
   React.useEffect(() => {
     if (!api || !setApi) return;
     setApi(api);
   }, [api, setApi]);
-
-  React.useEffect(() => {
-    if (!api) return;
-    api.on("reInit", onSelect);
-    api.on("select", onSelect);
-
-    return () => {
-      api?.off("select", onSelect);
-    };
-  }, [api, onSelect]);
 
   return (
     <CarouselContext.Provider
