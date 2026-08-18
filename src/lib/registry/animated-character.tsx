@@ -1,37 +1,39 @@
-import { useRef, useState } from "react"
+import { useRef, useState } from "react";
 
-import { type ComponentDoc } from "@/lib/types"
-import { cn } from "@/lib/utils"
+import { type ComponentDoc } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import {
   AnimatedCharacter,
   CHARACTER_STATES,
   type AnimatedCharacterHandle,
   type CharacterState,
   type CharacterVariantName,
-} from "@/components/ui/animated-character"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+} from "@/components/ui/animated-character";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
-const FACE_STATES = CHARACTER_STATES.filter((state) => state !== "writing")
+const FACE_STATES = CHARACTER_STATES.filter((state) => state !== "writing");
 
 function AnimatedCharacterPlayground({
   variant = "classic",
   previewClassName,
 }: {
-  variant?: CharacterVariantName
-  previewClassName?: string
+  variant?: CharacterVariantName;
+  previewClassName?: string;
 }) {
-  const characterRef = useRef<AnimatedCharacterHandle>(null)
-  const [state, setState] = useState<CharacterState>("idle")
-  const [mouseTracking, setMouseTracking] = useState(false)
-  const trackingId = `character-mouse-tracking-${variant}`
+  const characterRef = useRef<AnimatedCharacterHandle>(null);
+  const [state, setState] = useState<CharacterState>("idle");
+  const [mouseTracking, setMouseTracking] = useState(false);
+  const trackingId = `character-mouse-tracking-${variant}`;
 
   return (
     <Card className="mx-auto w-full max-w-xl">
       <CardContent className="flex flex-col gap-5 pt-6">
-        <div className={cn("bg-muted rounded-xl px-14 py-10", previewClassName)}>
+        <div
+          className={cn("bg-muted rounded-xl px-14 py-10", previewClassName)}
+        >
           <AnimatedCharacter
             ref={characterRef}
             state={state}
@@ -63,7 +65,7 @@ function AnimatedCharacterPlayground({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
 
 export const animatedCharacterDoc: ComponentDoc = {
@@ -86,8 +88,7 @@ export const animatedCharacterDoc: ComponentDoc = {
   examples: [
     {
       name: "Dark background example",
-      description:
-        "Dark variant rendered on a gray-950 background.",
+      description: "Dark variant rendered on a gray-950 background.",
       preview: (
         <AnimatedCharacterPlayground
           variant="dark"
@@ -109,7 +110,9 @@ const [mouseTracking, setMouseTracking] = useState(false)
       name: "Imperative API",
       description:
         "One-shot actions via the ref handle: blink(), nod(), shakeHead(), eyeRoll(), setGazeTarget({ x, y }), startTalking(), and more.",
-      preview: <AnimatedCharacter state="listening" className="mx-auto max-w-48" />,
+      preview: (
+        <AnimatedCharacter state="listening" className="mx-auto max-w-48" />
+      ),
       code: `characterRef.current?.nod()
 characterRef.current?.setGazeTarget({ x: 0.4, y: -0.2 })
 characterRef.current?.startTalking()`,
@@ -119,27 +122,32 @@ characterRef.current?.startTalking()`,
     {
       name: "state",
       type: `"idle" | "listening" | "talking" | "writing" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`,
-      description: "Behavioral state preset. Transitions blend from the current pose.",
+      description:
+        "Behavioral state preset. Transitions blend from the current pose.",
     },
     {
       name: "mouseTracking",
       type: "boolean",
-      description: "Eyes smoothly follow the pointer when true; return to the state gaze when false.",
+      description:
+        "Eyes smoothly follow the pointer when true; return to the state gaze when false.",
     },
     {
       name: "variant",
       type: '"classic" | "panel" | "dark"',
-      description: "Selects the visual shell while preserving the same animation engine and expression states.",
+      description:
+        "Selects the visual shell while preserving the same animation engine and expression states.",
     },
     {
       name: "ref",
       type: "AnimatedCharacterHandle",
-      description: "Imperative API: setState, look, setGazeTarget, blink, nod, shakeHead, eyeRoll, startTalking, stopTalking, reset, ...",
+      description:
+        "Imperative API: setState, look, setGazeTarget, blink, nod, shakeHead, eyeRoll, startTalking, stopTalking, reset, ...",
     },
     {
       name: "className",
       type: "string",
-      description: "Additional CSS classes on the wrapper (sizing, color via text-*).",
+      description:
+        "Additional CSS classes on the wrapper (sizing, color via text-*).",
     },
   ],
-}
+};
