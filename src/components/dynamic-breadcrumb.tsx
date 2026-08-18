@@ -21,6 +21,14 @@ type BreadcrumbPath = {
 };
 
 function getBreadcrumbPath(activeComponent: string): BreadcrumbPath {
+  if (activeComponent === "animated-character") {
+    return {
+      section: "Tools",
+      sectionTarget: null,
+      page: "Care Filly",
+    };
+  }
+
   if (componentIds.has(activeComponent)) {
     return {
       section: "Components",

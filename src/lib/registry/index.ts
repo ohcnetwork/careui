@@ -42,6 +42,10 @@ const componentLoaders: Record<
   alert: () => import("./alert").then((m) => ({ default: m.alertDoc })),
   "alert-dialog": () =>
     import("./alert-dialog").then((m) => ({ default: m.alertDialogDoc })),
+  "animated-character": () =>
+    import("./animated-character").then((m) => ({
+      default: m.animatedCharacterDoc,
+    })),
   "aspect-ratio": () =>
     import("./aspect-ratio").then((m) => ({ default: m.aspectRatioDoc })),
   avatar: () => import("./avatar").then((m) => ({ default: m.avatarDoc })),

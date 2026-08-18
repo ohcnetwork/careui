@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/studio-sidebar";
 import { X } from "lucide-react";
 
+const TOOL_ONLY_COMPONENT_IDS = new Set(["animated-character"]);
+
 // Navigation data
 const data = {
   navMain: [
@@ -28,6 +30,7 @@ const data = {
       title: "Tools",
       items: [
         { id: "playground", title: "Playground" },
+        { id: "animated-character", title: "Care Filly" },
         { id: "blocks", title: "Blocks" },
         { id: "settings", title: "Settings" },
       ],
@@ -41,10 +44,12 @@ const data = {
     },
     {
       title: "Components",
-      items: getComponentIds().map((id) => ({
-        id,
-        title: componentNames[id] || id,
-      })),
+      items: getComponentIds()
+        .filter((id) => !TOOL_ONLY_COMPONENT_IDS.has(id))
+        .map((id) => ({
+          id,
+          title: componentNames[id] || id,
+        })),
     },
     {
       title: "Error Pages",
