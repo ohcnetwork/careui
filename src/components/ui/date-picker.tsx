@@ -211,10 +211,12 @@ function DatePickerWithInput({
   const selected = isControlled ? value : internal;
   const [month, setMonth] = React.useState<Date | undefined>(selected);
   const [text, setText] = React.useState(formatInputDate(selected));
+  const [prevValue, setPrevValue] = React.useState(value);
 
-  React.useEffect(() => {
-    if (isControlled) setText(formatInputDate(value));
-  }, [isControlled, value]);
+  if (isControlled && prevValue !== value) {
+    setPrevValue(value);
+    setText(formatInputDate(value));
+  }
 
   const setSelected = (next: Date | undefined) => {
     if (!isControlled) setInternal(next);

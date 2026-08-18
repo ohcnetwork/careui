@@ -133,16 +133,11 @@ function SwatchCard({
   swatch: Swatch;
   copyMode: SwatchCopyMode;
 }) {
-  const [lightHex, setLightHex] = React.useState("");
-  const [darkHex, setDarkHex] = React.useState("");
+  const lightHex = resolveTokenHex(swatch.token, false);
+  const darkHex = resolveTokenHex(swatch.token, true);
   const [copied, setCopied] = React.useState<"light" | "dark" | "class" | "">(
     ""
   );
-
-  React.useEffect(() => {
-    setLightHex(resolveTokenHex(swatch.token, false));
-    setDarkHex(resolveTokenHex(swatch.token, true));
-  }, [swatch.token]);
 
   React.useEffect(() => {
     if (!copied) {

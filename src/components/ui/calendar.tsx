@@ -303,6 +303,12 @@ function SegmentedDateInput({
   );
   const [activeSeg, setActiveSeg] = React.useState<SegIdx>(0);
   const pendingRef = React.useRef("");
+  const [prevValue, setPrevValue] = React.useState(value);
+
+  if (prevValue !== value) {
+    setPrevValue(value);
+    setParts(value && isValid(value) ? partsFromDate(value) : ["", "", ""]);
+  }
 
   // Compute dynamic segment config, accounting for days-in-month
   function segs(p: [string, string, string]) {
@@ -316,11 +322,6 @@ function SegmentedDateInput({
     const seg = segs(parts)[activeSeg];
     el.setSelectionRange(seg.start, seg.end);
   });
-
-  // Sync from external `value` prop
-  React.useEffect(() => {
-    setParts(value && isValid(value) ? partsFromDate(value) : ["", "", ""]);
-  }, [value]);
 
   function announce(msg: string) {
     if (announceRef.current) announceRef.current.textContent = msg;
@@ -534,10 +535,12 @@ function CalendarWithInput({
   onSelect?: (date: Date | undefined) => void;
 }) {
   const [month, setMonth] = React.useState<Date>(selected ?? new Date());
+  const [prevSelected, setPrevSelected] = React.useState(selected);
 
-  React.useEffect(() => {
-    if (selected && isValid(selected)) setMonth(selected);
-  }, [selected]);
+  if (selected !== prevSelected && selected && isValid(selected)) {
+    setPrevSelected(selected);
+    setMonth(selected);
+  }
 
   return (
     <div data-slot="calendar-with-input" className="flex flex-col gap-2">
