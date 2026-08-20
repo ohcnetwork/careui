@@ -1,6 +1,8 @@
 export interface ComponentExample {
   name: string;
   description: string;
+  /** Optional large section heading rendered above this example as a visual divider. */
+  heading?: string;
   items?: Array<{ title: string; description: string }>;
   code?: string;
   preview?: React.ReactNode;

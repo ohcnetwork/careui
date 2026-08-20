@@ -75,6 +75,11 @@ function ExampleItem({ example }: { example: ComponentExample }) {
 
   return (
     <div>
+      {example.heading && (
+        <div className="mt-8 mb-6 border-t pt-8">
+          <SectionTitle>{example.heading}</SectionTitle>
+        </div>
+      )}
       <SubsectionTitle>{example.name}</SubsectionTitle>
       <Muted className="mt-1">{example.description}</Muted>
       {example.items && example.items.length > 0 && (
@@ -121,7 +126,7 @@ function ExampleItem({ example }: { example: ComponentExample }) {
           </div>
           <TabsContent value="preview">
             <div className="border-border bg-card min-h-50 rounded-lg border p-4 md:p-8">
-              <div className="flex min-h-40 items-center justify-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
+              <div className="flex min-h-40 items-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
                 {example.preview}
               </div>
             </div>

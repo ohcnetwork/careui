@@ -8,6 +8,7 @@ export const componentNames: Record<string, string> = {
   alert: "Alert",
   "alert-dialog": "Alert Dialog",
   "animated-character": "Care Filly",
+  "animated-character-filly": "Filly",
   "aspect-ratio": "Aspect Ratio",
   avatar: "Avatar",
   badge: "Badge",
