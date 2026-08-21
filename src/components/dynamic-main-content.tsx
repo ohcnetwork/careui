@@ -72,26 +72,52 @@ const componentNavOrder = Object.keys(componentNames).filter(
 function PropsTable({
   props,
 }: {
-  props: Array<{ name: string; type: string; description: string; default?: string }>;
+  props: Array<{
+    name: string;
+    type: string;
+    description: string;
+    default?: string;
+  }>;
 }) {
   return (
     <div className="border-border rounded-lg border">
       <table className="w-full">
         <thead>
           <tr className="border-border bg-muted/50 border-b">
-            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">Prop</th>
-            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">Type</th>
-            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">Default</th>
-            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">Description</th>
+            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">
+              Prop
+            </th>
+            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">
+              Type
+            </th>
+            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">
+              Default
+            </th>
+            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">
+              Description
+            </th>
           </tr>
         </thead>
         <tbody>
           {props.map((prop, index) => (
-            <tr key={prop.name} className={index !== props.length - 1 ? "border-border border-b" : ""}>
-              <td className="text-foreground px-4 py-3 font-mono text-sm">{prop.name}</td>
-              <td className="text-muted-foreground px-4 py-3 font-mono text-sm">{prop.type}</td>
-              <td className="text-muted-foreground px-4 py-3 font-mono text-sm">{prop.default || "—"}</td>
-              <td className="text-muted-foreground px-4 py-3 text-sm">{prop.description}</td>
+            <tr
+              key={prop.name}
+              className={
+                index !== props.length - 1 ? "border-border border-b" : ""
+              }
+            >
+              <td className="text-foreground px-4 py-3 font-mono text-sm">
+                {prop.name}
+              </td>
+              <td className="text-muted-foreground px-4 py-3 font-mono text-sm">
+                {prop.type}
+              </td>
+              <td className="text-muted-foreground px-4 py-3 font-mono text-sm">
+                {prop.default || "—"}
+              </td>
+              <td className="text-muted-foreground px-4 py-3 text-sm">
+                {prop.description}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -180,7 +206,9 @@ function ExampleItem({ example }: { example: ComponentExample }) {
       {example.trailingProps && (
         <div className="mt-8 space-y-3">
           <SubsectionTitle>{example.trailingProps.title}</SubsectionTitle>
-          {example.trailingProps.description && <Muted>{example.trailingProps.description}</Muted>}
+          {example.trailingProps.description && (
+            <Muted>{example.trailingProps.description}</Muted>
+          )}
           <PropsTable props={example.trailingProps.props} />
         </div>
       )}

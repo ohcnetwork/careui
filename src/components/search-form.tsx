@@ -27,9 +27,7 @@ import { getComponentIds } from "@/lib/component-registry";
 import { documentationPages } from "@/lib/documentation";
 import { ERROR_PAGES } from "@/components/error-pages/registry";
 
-const TOOL_ONLY_COMPONENT_IDS = new Set([
-  "animated-character",
-]);
+const TOOL_ONLY_COMPONENT_IDS = new Set(["animated-character"]);
 
 const navSections = [
   {

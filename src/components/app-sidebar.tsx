@@ -21,9 +21,7 @@ import {
 } from "@/components/ui/studio-sidebar";
 import { X } from "lucide-react";
 
-const TOOL_ONLY_COMPONENT_IDS = new Set([
-  "animated-character",
-]);
+const TOOL_ONLY_COMPONENT_IDS = new Set(["animated-character"]);
 
 // Navigation data
 const data = {
