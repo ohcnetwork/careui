@@ -29,7 +29,6 @@ import { ERROR_PAGES } from "@/components/error-pages/registry";
 
 const TOOL_ONLY_COMPONENT_IDS = new Set([
   "animated-character",
-  "animated-character-filly",
 ]);
 
 const navSections = [

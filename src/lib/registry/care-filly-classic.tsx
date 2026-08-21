@@ -7,7 +7,7 @@ import {
   CHARACTER_STATES,
   type CareFillyClassicHandle,
   type CareFillyClassicState,
-  type CharacterVariantName,
+  type CareFillyClassicVariant,
 } from "@/components/ui/care-filly-classic";
 import {
   CareFilly,
@@ -27,10 +27,10 @@ const FILLY_INNER_FACE_PATH =
   "M59.96,109.06c-37.53,0-48.78-10.68-49.11-47.4-1.89-1.2-3.14-3.3-3.14-5.7v-13.79c0-3.33,2.43-6.11,5.61-6.65,5.59-20.54,21.5-24.68,46.64-24.68s41.04,4.13,46.63,24.68c3.18.55,5.61,3.32,5.61,6.65v13.79c0,2.39-1.25,4.5-3.14,5.7-.33,36.72-11.58,47.4-49.1,47.4Z";
 
 function AnimatedCharacterPlayground({
-  variant = "classic",
+  variant = "light",
   previewClassName,
 }: {
-  variant?: CharacterVariantName;
+  variant?: CareFillyClassicVariant;
   previewClassName?: string;
 }) {
   const characterRef = useRef<CareFillyClassicHandle>(null);
@@ -268,7 +268,7 @@ function ClassicInlineAssistant() {
       <CareFillyClassic
         ref={ref}
         state={current.state}
-        variant="classic"
+        variant="light"
         size="32px"
         color="#3b82f6"
         className="shrink-0"
@@ -295,16 +295,28 @@ function ClassicInlineAssistant() {
 export const animatedCharacterDoc: ComponentDoc = {
   id: "animated-character",
   name: "CareFilly",
-  description:
-    "Care Filly is a spring-driven animated assistant. State presets compose independent gaze, blink, mouth and head layers into one continuously animated SVG frame — transitions blend from the current pose with no snapping or drift.",
+  description: (
+    <ul className="mt-2 space-y-2 text-sm">
+      <li>
+        <strong>CareFilly</strong>{" "}(<code>care-filly</code>) — layered face-plate character. The face-plate translates independently, creating a parallax depth illusion on every nod. Use for prominent roles: onboarding, empty states, loading screens, full-page assistants.
+      </li>
+      <li>
+        <strong>CareFillyClassic</strong>{" "}(<code>care-filly-classic</code>) — classic pixel-head character. The entire head rotates as one rigid unit. Use for compact, inline contexts: chat bubbles, search bars, status indicators. Available in <code>light</code> and <code>dark</code> variants.
+      </li>
+    </ul>
+  ),
   installation: {
     cli: "pnpm dlx shadcn@latest add https://careui.ohc.network/registry/care-ui/animated-character/animated-character.json",
     manual:
       "Copy the Care Filly implementation and ensure it is exported from your local UI index if you keep one.",
   },
-  usage: `import { CareFillyClassic } from "@/components/ui/care-filly-classic"
+  usage: `// Layered character — prominent roles (onboarding, empty states, full-page assistants)
+import { CareFilly } from "@/components/ui/care-filly"
+<CareFilly state="idle" />
 
-<CareFillyClassic state="idle" />`,
+// Classic character — inline roles (chat, search, status indicators)
+import { CareFillyClassic } from "@/components/ui/care-filly-classic"
+<CareFillyClassic state="idle" variant="light" />`,
 
   preview: {
     component: <FillyPlayground />,
@@ -351,9 +363,20 @@ ref.current?.noShake()  // Decaying left-right shake with blinks`,
     {
       name: "Filly — Dark background",
       description:
-        "Original SVG colors: black shell, white face panel, black pixel features on a dark background.",
+        "CareFilly has no variant prop — dark mode requires a white SVG face-fill overlay so the cutout mask stays visible. Wrap the character in a relative container, place the fill path behind it, then set color to black via the color prop.",
       preview: <FillyDarkDemo />,
-      code: `<CareFilly state={state} className="text-black" />`,
+      code: `{/* White overlay fills the face cutout so it reads on dark backgrounds */}
+<div className="relative mx-auto w-fit">
+  <svg viewBox="0 0 119.91 119.91" className="absolute inset-0 h-full w-full" aria-hidden>
+    <path fill="white" d="M59.96,109.06c-37.53,0-48.78-10.68-49.11-47.4..." />
+  </svg>
+  <CareFilly
+    ref={ref}
+    state={state}
+    color="black"
+    className="relative"
+  />
+</div>`,
     },
     {
       name: "Filly — Inline assistant",
@@ -376,13 +399,25 @@ ref.current?.noShake()  // Decaying left-right shake with blinks`,
     {current.label}
   </span>
 </div>`,
+      trailingProps: {
+        title: "CareFilly props",
+        description: 'import { CareFilly } from "@/components/ui/care-filly"',
+        props: [
+          { name: "state", type: `"idle" | "listening" | "talking" | "writing" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`, description: "Behavioral state preset. Transitions blend from the current pose." },
+          { name: "mouseTracking", type: "boolean", description: "Eyes smoothly follow the pointer when true; return to the state gaze when false." },
+          { name: "size", type: "string | number", description: 'CSS width for the SVG (e.g. "32px", "2rem"). Overrides the default 6rem.' },
+          { name: "color", type: "string", description: 'CSS color tinting the entire character via currentColor (e.g. "#3b82f6").' },
+          { name: "ref", type: "CareFillyHandle", description: "Imperative API: setState, nod, yesNod, noShake, shakeHead, blink, eyeRoll, startTalking, stopTalking, setGazeTarget, setMouseTracking, reset." },
+          { name: "className", type: "string", description: "Additional CSS classes on the wrapper." },
+        ],
+      },
     },
     {
       name: "Classic",
       heading: "Classic",
       description:
         "Use when you need a lighter footprint — the entire head rotates as one rigid unit. Better suited for inline UI elements, smaller sizes, or contexts where subtle animation is preferred over expressive depth.",
-      preview: <AnimatedCharacterPlayground variant="classic" />,
+      preview: <AnimatedCharacterPlayground variant="light" />,
       code: `import { CareFillyClassic } from "@/components/ui/care-filly-classic"
 
 <CareFillyClassic state={state} />`,
@@ -396,11 +431,11 @@ ref.current?.noShake()  // Decaying left-right shake with blinks`,
           previewClassName="bg-gray-950"
         />
       ),
-      code: `const characterRef = useRef<AnimatedCharacterHandle>(null)
-const [state, setState] = useState<CharacterState>("idle")
+      code: `const characterRef = useRef<CareFillyClassicHandle>(null)
+const [state, setState] = useState<CareFillyClassicState>("idle")
 const [mouseTracking, setMouseTracking] = useState(false)
 
-<AnimatedCharacter
+<CareFillyClassic
   ref={characterRef}
   variant="dark"
   state={state}
@@ -429,7 +464,7 @@ useEffect(() => {
 }, [step])
 
 <div className="flex items-center gap-3 rounded-xl border bg-background px-4 py-3 shadow-sm">
-  <AnimatedCharacter state={current.state} variant="classic" size="20px" />
+  <CareFillyClassic state={current.state} variant="light" size="20px" />
   <span className={cn(
     "text-sm text-foreground",
     current.shimmer && "bg-linear-to-r from-foreground/20 via-foreground to-foreground/20 bg-clip-text text-transparent animate-[shimmer_1.4s_linear_infinite] bg-size-[200%_100%]"
@@ -437,50 +472,19 @@ useEffect(() => {
     {current.label}
   </span>
 </div>`,
-    },
-  ],
-  props: [
-    {
-      name: "state",
-      type: `"idle" | "listening" | "talking" | "writing" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`,
-      description:
-        "Behavioral state preset. Transitions blend from the current pose.",
-    },
-    {
-      name: "mouseTracking",
-      type: "boolean",
-      description:
-        "Eyes smoothly follow the pointer when true; return to the state gaze when false.",
-    },
-    {
-      name: "variant",
-      type: '"classic" | "panel" | "dark"',
-      description:
-        "Selects the visual shell while preserving the same animation engine and expression states.",
-    },
-    {
-      name: "size",
-      type: "string | number",
-      description:
-        'CSS width for the character SVG — any valid CSS length (e.g. "20px", "2rem", 48). Overrides the default width. Use this to embed the character at any size without extra wrapper divs.',
-    },
-    {
-      name: "ref",
-      type: "AnimatedCharacterHandle",
-      description:
-        "Imperative API: setState, look, setGazeTarget, blink, nod, shakeHead, eyeRoll, startTalking, stopTalking, reset, ...",
-    },
-    {
-      name: "color",
-      type: "string",
-      description:
-        'CSS color value applied to the character (e.g. "#3b82f6", "oklch(70% 0.2 250)"). The SVG uses currentColor throughout, so this tints the entire character.',
-    },
-    {
-      name: "className",
-      type: "string",
-      description:
-        "Additional CSS classes on the wrapper (sizing, color via text-*).",
+      trailingProps: {
+        title: "CareFillyClassic props",
+        description: 'import { CareFillyClassic } from "@/components/ui/care-filly-classic"',
+        props: [
+          { name: "state", type: `"idle" | "listening" | "talking" | "writing" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`, description: "Behavioral state preset. Transitions blend from the current pose." },
+          { name: "mouseTracking", type: "boolean", description: "Eyes smoothly follow the pointer when true; return to the state gaze when false." },
+          { name: "variant", type: '"light" | "dark"', description: "Selects the visual shell. light — pixel head on light background; dark — white shell with dark pixel features." },
+          { name: "size", type: "string | number", description: 'CSS width for the SVG (e.g. "32px", "2rem"). Overrides the default.' },
+          { name: "color", type: "string", description: 'CSS color tinting the entire character via currentColor (e.g. "#3b82f6").' },
+          { name: "ref", type: "CareFillyClassicHandle", description: "Imperative API: setState, nod, shakeHead, blink, eyeRoll, startTalking, stopTalking, setGazeTarget, setMouseTracking, reset." },
+          { name: "className", type: "string", description: "Additional CSS classes on the wrapper." },
+        ],
+      },
     },
   ],
 };

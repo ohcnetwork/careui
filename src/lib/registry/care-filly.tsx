@@ -6,7 +6,7 @@ import {
   FILLY_CHARACTER_STATES,
   type CareFillyHandle,
   type CareFillyState,
-} from "@/components/ui/animated-character-filly";
+} from "@/components/ui/care-filly";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -139,14 +139,14 @@ export const animatedCharacterFillyDoc: ComponentDoc = {
     "Filly is a spring-driven animated AI character using the Filly-New-Series SVG design. Head nodding is expressed as face-plate translation (±9 SVG units horizontal, ±8.5 vertical) that maps directly to the nodding keyframes — so every state animation automatically produces the correct nod motion. All expressions, blink cadences, talking, loading shimmer, writing stroke, and imperative actions are identical to the original Care Filly.",
   installation: {
     cli: "pnpm dlx shadcn@latest add https://careui.ohc.network/registry/care-ui/animated-character-filly/animated-character-filly.json",
-    manual: "Copy animated-character-filly.tsx into your components/ui folder.",
+    manual: "Copy care-filly.tsx into your components/ui folder.",
   },
   usage: `import { CareFilly } from "@/components/ui/care-filly"
 
 <CareFilly state="idle" />`,
   preview: {
     component: <FillyPlayground />,
-    code: `<AnimatedCharacterFilly state="idle" />`,
+    code: `<CareFilly state="idle" />`,
   },
   examples: [
     {
@@ -160,7 +160,7 @@ export const animatedCharacterFillyDoc: ComponentDoc = {
     style={{ transform: "translate(5px, 6px)" }} aria-hidden>
     <path fill="currentColor" d="M108.2,42.17v13.79..." />
   </svg>
-  <AnimatedCharacterFilly state={state} className="relative text-white" />
+  <CareFilly state={state} className="relative text-white" />
 </div>`,
     },
     {
@@ -168,7 +168,7 @@ export const animatedCharacterFillyDoc: ComponentDoc = {
       description:
         "One-shot actions via the ref handle: nod(), doubleNod(), shakeHead(), tiltLeft(), tiltRight(), eyeRoll(), blink(), startTalking(), stopTalking(), setGazeTarget({ x, y }).",
       preview: <CareFilly state="listening" className="mx-auto max-w-48" />,
-      code: `const ref = useRef<AnimatedCharacterFillyHandle>(null)
+      code: `const ref = useRef<CareFillyHandle>(null)
 
 ref.current?.nod()
 ref.current?.shakeHead()
@@ -180,7 +180,7 @@ ref.current?.setGazeTarget({ x: 0.4, y: -0.2 })`,
       description:
         "Imperative gesture methods: yesNod() for affirming gestures, noShake() for negation. Ideal for conversational responses.",
       preview: <GesturesDemo />,
-      code: `const ref = useRef<AnimatedCharacterFillyHandle>(null)
+      code: `const ref = useRef<CareFillyHandle>(null)
 
 ref.current?.yesNod()   // Affirming 3-beat nod with smile
 ref.current?.noShake()  // Fast left-right shake with blink`,
@@ -190,7 +190,7 @@ ref.current?.noShake()  // Fast left-right shake with blink`,
       description:
         "Eyes and head follow the pointer. Idle state with natural blink cadence; no state-specific animations or nods unless triggered manually.",
       preview: <MouseTrackingDemo />,
-      code: `<AnimatedCharacterFilly
+      code: `<CareFilly
   state="idle"
   mouseTracking={true}
   className="mx-auto max-w-48"

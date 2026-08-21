@@ -1,7 +1,7 @@
 /**
- * @name animated-character-filly
+ * @name care-filly
  * @description Spring-driven animated Filly character (Filly-New-Series) with face-plate nodding,
- *   blinking, talking, expressions and all state presets from animated-character
+ *   blinking, talking, expressions and all state presets.
  * @type registry:ui
  */
 import * as React from "react";
@@ -9,7 +9,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ */
-/* Shared utilities (same engine architecture as animated-character)   */
+/* Shared utilities                                                    */
 /* ------------------------------------------------------------------ */
 const clamp = (v: number, a: number, b: number) => (v < a ? a : v > b ? b : v);
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
@@ -169,7 +169,7 @@ const FP = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* Shared expression / state tables (same as animated-character)       */
+/* Expression / state tables                                          */
 /* ------------------------------------------------------------------ */
 const EXPR: Record<ExpressionName, ExpressionConfig> = {
   neutral: { open: 1, wide: 1, cy: 0, cx: 0, cs: 1 },

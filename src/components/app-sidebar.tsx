@@ -23,7 +23,6 @@ import { X } from "lucide-react";
 
 const TOOL_ONLY_COMPONENT_IDS = new Set([
   "animated-character",
-  "animated-character-filly",
 ]);
 
 // Navigation data
