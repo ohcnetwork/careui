@@ -69,12 +69,48 @@ const componentNavOrder = Object.keys(componentNames).filter(
   (id) => id !== "components-overview"
 );
 
+function PropsTable({
+  props,
+}: {
+  props: Array<{ name: string; type: string; description: string; default?: string }>;
+}) {
+  return (
+    <div className="border-border rounded-lg border">
+      <table className="w-full">
+        <thead>
+          <tr className="border-border bg-muted/50 border-b">
+            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">Prop</th>
+            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">Type</th>
+            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">Default</th>
+            <th className="text-foreground px-4 py-3 text-left text-sm font-medium">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.map((prop, index) => (
+            <tr key={prop.name} className={index !== props.length - 1 ? "border-border border-b" : ""}>
+              <td className="text-foreground px-4 py-3 font-mono text-sm">{prop.name}</td>
+              <td className="text-muted-foreground px-4 py-3 font-mono text-sm">{prop.type}</td>
+              <td className="text-muted-foreground px-4 py-3 font-mono text-sm">{prop.default || "—"}</td>
+              <td className="text-muted-foreground px-4 py-3 text-sm">{prop.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function ExampleItem({ example }: { example: ComponentExample }) {
   const [tab, setTab] = useState("preview");
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
   return (
     <div>
+      {example.heading && (
+        <div className="mt-8 mb-6 border-t pt-8">
+          <SectionTitle>{example.heading}</SectionTitle>
+        </div>
+      )}
       <SubsectionTitle>{example.name}</SubsectionTitle>
       <Muted className="mt-1">{example.description}</Muted>
       {example.items && example.items.length > 0 && (
@@ -121,7 +157,7 @@ function ExampleItem({ example }: { example: ComponentExample }) {
           </div>
           <TabsContent value="preview">
             <div className="border-border bg-card min-h-50 rounded-lg border p-4 md:p-8">
-              <div className="flex min-h-40 items-center justify-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
+              <div className="flex min-h-40 items-center gap-4 [&:has([data-slot=chart])]:block [&:has([data-slot=chart])]:min-h-0">
                 {example.preview}
               </div>
             </div>
@@ -140,6 +176,13 @@ function ExampleItem({ example }: { example: ComponentExample }) {
             </SyntaxHighlighter>
           </TabsContent>
         </Tabs>
+      )}
+      {example.trailingProps && (
+        <div className="mt-8 space-y-3">
+          <SubsectionTitle>{example.trailingProps.title}</SubsectionTitle>
+          {example.trailingProps.description && <Muted>{example.trailingProps.description}</Muted>}
+          <PropsTable props={example.trailingProps.props} />
+        </div>
       )}
     </div>
   );
@@ -343,84 +386,41 @@ function ComponentDocDisplay({ doc }: ComponentDocDisplayProps) {
             </div>
           </section>
         )}
-        {/* Props */}
+        {/* Props — single table */}
         {doc.props && doc.props.length > 0 && (
           <section className="space-y-4">
             <SectionTitle>Props</SectionTitle>
-            <div className="border-border rounded-lg border">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-border bg-muted/50 border-b">
-                    <th className="text-foreground px-4 py-3 text-left text-sm font-medium">
-                      Prop
-                    </th>
-                    <th className="text-foreground px-4 py-3 text-left text-sm font-medium">
-                      Type
-                    </th>
-                    <th className="text-foreground px-4 py-3 text-left text-sm font-medium">
-                      Default
-                    </th>
-                    <th className="text-foreground px-4 py-3 text-left text-sm font-medium">
-                      Description
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {doc.props.map((prop, index) => (
-                    <tr
-                      key={prop.name}
-                      className={
-                        index !== doc.props!.length - 1
-                          ? "border-border border-b"
-                          : ""
-                      }
-                    >
-                      <td className="text-foreground px-4 py-3 font-mono text-sm">
-                        {prop.name}
-                      </td>
-                      <td className="text-muted-foreground px-4 py-3 font-mono text-sm">
-                        {prop.type}
-                      </td>
-                      <td className="text-muted-foreground px-4 py-3 font-mono text-sm">
-                        {prop.default || "—"}
-                      </td>
-                      <td className="text-muted-foreground px-4 py-3 text-sm">
-                        {prop.description}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <PropsTable props={doc.props} />
           </section>
         )}
-        {/* Prev / Next navigation */}
-        <div className="flex items-center justify-between border-t pt-8">
-          <div>
-            {prevId && (
-              <Button
-                variant="tertiary"
-                size="lg"
-                onClick={() => setActiveComponent(prevId)}
-              >
-                <ChevronLeft data-icon="inline-start" />
-                {componentNames[prevId]}
-              </Button>
-            )}
+        {doc.id !== "animated-character" && (
+          <div className="flex items-center justify-between border-t pt-8">
+            <div>
+              {prevId && (
+                <Button
+                  variant="tertiary"
+                  size="lg"
+                  onClick={() => setActiveComponent(prevId)}
+                >
+                  <ChevronLeft data-icon="inline-start" />
+                  {componentNames[prevId]}
+                </Button>
+              )}
+            </div>
+            <div>
+              {nextId && (
+                <Button
+                  variant="tertiary"
+                  size="lg"
+                  onClick={() => setActiveComponent(nextId)}
+                >
+                  {componentNames[nextId]}
+                  <ChevronRight data-icon="inline-end" />
+                </Button>
+              )}
+            </div>
           </div>
-          <div>
-            {nextId && (
-              <Button
-                variant="tertiary"
-                size="lg"
-                onClick={() => setActiveComponent(nextId)}
-              >
-                {componentNames[nextId]}
-                <ChevronRight data-icon="inline-end" />
-              </Button>
-            )}
-          </div>
-        </div>
+        )}
       </div>
     </main>
   );

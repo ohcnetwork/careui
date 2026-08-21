@@ -43,7 +43,7 @@ const componentLoaders: Record<
   "alert-dialog": () =>
     import("./alert-dialog").then((m) => ({ default: m.alertDialogDoc })),
   "animated-character": () =>
-    import("./animated-character").then((m) => ({
+    import("./care-filly-classic").then((m) => ({
       default: m.animatedCharacterDoc,
     })),
   "aspect-ratio": () =>

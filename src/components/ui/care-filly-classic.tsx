@@ -82,7 +82,7 @@ type CharacterStateName =
   | "confused"
   | "excited"
   | "sleepy";
-export type CharacterVariantName = "classic" | "panel" | "dark";
+export type CareFillyClassicVariant = "light" | "dark";
 type DirectionName = keyof typeof DIRS;
 
 type ExpressionConfig = {
@@ -160,7 +160,7 @@ type StatusPayload = {
 
 /* Base geometry of the supplied artwork (viewBox 0 0 119.91 119.91) */
 const GEOMETRY = {
-  classic: {
+  light: {
     CX: 59.955,
     CY: 61, // head pivot
     RX: 4.6,
@@ -179,26 +179,6 @@ const GEOMETRY = {
     MBY_TOP: 78.5,
     MBW: 30.4,
     MBH: 8.06,
-  },
-  panel: {
-    CX: 489.0,
-    CY: 456.7,
-    RX: 47.0,
-    RY: 31.5,
-    ELX: 294.293,
-    ELY: 353.95,
-    ERX: 684.012,
-    ERY: 353.95,
-    MBX: 489.052,
-    MBY: 685.286,
-    MLX: 294.293,
-    MLY: 603.883,
-    MRX: 684.012,
-    MRY: 603.883,
-    EW: 82,
-    MBY_TOP: 644.486,
-    MBW: 308.127,
-    MBH: 81.599,
   },
   dark: {
     CX: 60,
@@ -300,7 +280,7 @@ const WRITING_STROKE: WritingStrokeSpec = {
 };
 
 function writingStrokeScale(
-  geom: (typeof GEOMETRY)[CharacterVariantName],
+  geom: (typeof GEOMETRY)[CareFillyClassicVariant],
   spec: WritingStrokeSpec
 ) {
   const targetWidth = geom.EW * 4.6;
@@ -308,7 +288,7 @@ function writingStrokeScale(
 }
 
 function writingStrokeTransform(
-  geom: (typeof GEOMETRY)[CharacterVariantName],
+  geom: (typeof GEOMETRY)[CareFillyClassicVariant],
   spec: WritingStrokeSpec
 ) {
   const s = writingStrokeScale(geom, spec);
@@ -544,7 +524,7 @@ class CharacterEngine {
   gL: SVGCircleElement | null;
   gR: SVGCircleElement | null;
   gT: SVGGElement | null;
-  geom: (typeof GEOMETRY)[CharacterVariantName];
+  geom: (typeof GEOMETRY)[CareFillyClassicVariant];
   onChange?: () => void;
   onStatus?: (payload: StatusPayload) => void;
   _raf: (t: number) => void;
@@ -552,7 +532,7 @@ class CharacterEngine {
 
   constructor(
     svg: SVGSVGElement,
-    opts: { state?: string; variant?: CharacterVariantName } = {}
+    opts: { state?: string; variant?: CareFillyClassicVariant } = {}
   ) {
     this.svg = svg;
     const q = (part: string) =>
@@ -660,7 +640,7 @@ class CharacterEngine {
     this.gL = null;
     this.gR = null;
     this.gT = null;
-    this.geom = GEOMETRY[opts.variant || "classic"];
+    this.geom = GEOMETRY[opts.variant || "light"];
     this._lastStat = -1;
 
     this.acts = this._buildActions();
@@ -1725,10 +1705,10 @@ export const CHARACTER_STATES = [
   "sleepy",
 ] as const;
 
-export type CharacterState = (typeof CHARACTER_STATES)[number];
+export type CareFillyClassicState = (typeof CHARACTER_STATES)[number];
 
-export interface AnimatedCharacterHandle {
-  setState: (state: CharacterState) => void;
+export interface CareFillyClassicHandle {
+  setState: (state: CareFillyClassicState) => void;
   look: (dir: string) => void;
   setGazeTarget: (target: { x: number; y: number }) => void;
   blink: () => void;
@@ -1747,27 +1727,34 @@ export interface AnimatedCharacterHandle {
   reset: () => void;
 }
 
-export interface AnimatedCharacterProps extends Omit<
+export interface CareFillyClassicProps extends Omit<
   React.ComponentProps<"div">,
   "children"
 > {
   /** Behavioral state preset. Transitions blend from the current pose. */
-  state?: CharacterState;
+  state?: CareFillyClassicState;
   /** When true, the eyes smoothly follow the pointer; when false they return to the state's gaze. */
   mouseTracking?: boolean;
   /** Visual shell variant with the same animation behavior model. */
-  variant?: CharacterVariantName;
+  variant?: CareFillyClassicVariant;
+  /** CSS width for the character (e.g. "20px", "2rem"). Overrides the default size. */
+  size?: string | number;
+  /** CSS color for the character (e.g. "#3b82f6", "oklch(70% 0.2 250)"). Defaults to currentColor. */
+  color?: string;
 }
 
-export const AnimatedCharacter = React.forwardRef<
-  AnimatedCharacterHandle,
-  AnimatedCharacterProps
+export const CareFillyClassic = React.forwardRef<
+  CareFillyClassicHandle,
+  CareFillyClassicProps
 >(function AnimatedCharacter(
   {
     state = "idle",
     mouseTracking = false,
-    variant = "classic",
+    variant = "light",
+    size,
+    color,
     className,
+    style,
     ...props
   },
   ref
@@ -1795,7 +1782,7 @@ export const AnimatedCharacter = React.forwardRef<
 
   React.useImperativeHandle(ref, () => {
     return {
-      setState: (nextState: CharacterState) =>
+      setState: (nextState: CareFillyClassicState) =>
         engineRef.current?.setState(nextState),
       look: (dir: string) => engineRef.current?.look(dir),
       setGazeTarget: (target: { x: number; y: number }) =>
@@ -1820,242 +1807,32 @@ export const AnimatedCharacter = React.forwardRef<
   }, []);
 
   return (
-    <div className={cn("text-foreground", className)} {...props}>
+    <div
+      className={cn("text-foreground", className)}
+      style={color ? { color, ...style } : style}
+      {...props}
+    >
       {/* Original artwork: geometry preserved verbatim; wrapper groups only. */}
       <svg
         ref={svgRef}
-        viewBox={variant === "panel" ? "0 0 978 914" : "0 0 120 120"}
+        viewBox="0 0 120 120"
         role="img"
         aria-label="Care Filly"
         className={cn(
-          "mx-auto block h-auto",
-          variant === "panel" ? "w-80 max-w-full" : "w-24"
+          "block h-auto",
+          size == null && "mx-auto",
+          size == null && "w-24"
         )}
+        style={
+          size != null
+            ? {
+                width: typeof size === "number" ? `${size}px` : size,
+                height: "auto",
+              }
+            : undefined
+        }
       >
-        {variant === "panel" ? (
-          <>
-            <defs>
-              <filter
-                id="panel-face-inner-shadow"
-                x="0"
-                y="0"
-                width="978"
-                height="913.375"
-                filterUnits="userSpaceOnUse"
-                colorInterpolationFilters="sRGB"
-              >
-                <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                <feBlend
-                  mode="normal"
-                  in="SourceGraphic"
-                  in2="BackgroundImageFix"
-                  result="shape"
-                />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha"
-                />
-                <feOffset dx="10" dy="12" />
-                <feGaussianBlur stdDeviation="10" />
-                <feComposite
-                  in2="hardAlpha"
-                  operator="arithmetic"
-                  k2="-1"
-                  k3="1"
-                />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0"
-                />
-                <feBlend
-                  mode="normal"
-                  in2="shape"
-                  result="effect1_innerShadow"
-                />
-                <feColorMatrix
-                  in="SourceAlpha"
-                  type="matrix"
-                  values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                  result="hardAlpha2"
-                />
-                <feOffset dx="-6" dy="-8" />
-                <feGaussianBlur stdDeviation="8" />
-                <feComposite
-                  in2="hardAlpha2"
-                  operator="arithmetic"
-                  k2="-1"
-                  k3="1"
-                />
-                <feColorMatrix
-                  type="matrix"
-                  values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.14 0"
-                />
-                <feBlend
-                  mode="normal"
-                  in2="effect1_innerShadow"
-                  result="effect2_innerShadow"
-                />
-              </filter>
-              <radialGradient
-                id="panel-eye-left"
-                cx="0"
-                cy="0"
-                r="1"
-                gradientUnits="userSpaceOnUse"
-                gradientTransform="translate(294.293 353.95) rotate(90) scale(41)"
-              >
-                <stop stopColor="#F1F1F1" />
-                <stop offset="1" stopColor="white" />
-              </radialGradient>
-              <radialGradient
-                id="panel-eye-right"
-                cx="0"
-                cy="0"
-                r="1"
-                gradientUnits="userSpaceOnUse"
-                gradientTransform="translate(684.012 353.95) rotate(90) scale(41)"
-              >
-                <stop stopColor="#F1F1F1" />
-                <stop offset="1" stopColor="white" />
-              </radialGradient>
-              <linearGradient
-                id="panel-mouth-left"
-                x1="253.293"
-                y1="603.883"
-                x2="335.293"
-                y2="603.883"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="white" />
-                <stop offset="0.475962" stopColor="#F1F1F1" />
-                <stop offset="1" stopColor="white" />
-              </linearGradient>
-              <linearGradient
-                id="panel-mouth-right"
-                x1="643.012"
-                y1="603.883"
-                x2="725.012"
-                y2="603.883"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="white" />
-                <stop offset="0.475962" stopColor="#F1F1F1" />
-                <stop offset="1" stopColor="white" />
-              </linearGradient>
-              <linearGradient
-                id="panel-mouth-bar"
-                x1="334.988"
-                y1="685.285"
-                x2="643.115"
-                y2="685.285"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="white" />
-                <stop offset="0.475962" stopColor="#F1F1F1" />
-                <stop offset="1" stopColor="white" />
-              </linearGradient>
-            </defs>
-
-            <g data-part="head">
-              <g data-part="face" filter="url(#panel-face-inner-shadow)">
-                <path
-                  d="M488.949 0C852.114 0 946.174 93.9496 946.174 456.688C946.174 819.425 852.215 913.375 488.949 913.375C125.684 913.375 31.7256 819.425 31.7256 456.688C31.7256 93.9498 125.785 0 488.949 0Z"
-                  fill="black"
-                />
-                <path
-                  d="M905.682 456.687C905.682 798.469 831.184 872.879 489.001 872.879C146.817 872.879 72.2182 798.469 72.2182 456.687C72.2182 114.906 146.817 40.4955 488.9 40.4955C830.982 40.4955 905.581 114.906 905.581 456.687H905.682Z"
-                  fill="#2A2A2A"
-                />
-                <path
-                  d="M488.949 0C852.114 0 946.174 93.9496 946.174 456.688C946.174 819.425 852.215 913.375 488.949 913.375C125.684 913.375 31.7256 819.425 31.7256 456.688C31.7256 93.9498 125.785 0 488.949 0Z"
-                  fill="white"
-                  fillOpacity="0.1"
-                />
-                <path
-                  d="M782.38 91.5126V258.961H586.759V91.5126C586.759 76.1244 599.227 63.5708 614.734 63.5708H754.405C769.811 63.5708 782.38 76.0231 782.38 91.5126ZM950.025 258.961H782.38V454.352H950.025C965.432 454.352 978 441.899 978 426.41V286.903C978 271.515 965.533 258.961 950.025 258.961ZM363.266 63.5708H223.595C208.189 63.5708 195.62 76.0231 195.62 91.5126V258.961H391.241V91.5126C391.241 76.1244 378.774 63.5708 363.266 63.5708ZM0 286.903V426.41C0 441.798 12.467 454.352 27.9747 454.352H195.62V258.961H27.9747C12.5683 258.961 0 271.414 0 286.903Z"
-                  fill="#2A2A2A"
-                />
-                <path
-                  d="M586.862 258.969L391.241 258.961L391.242 454.36H586.862V258.969Z"
-                  fill="#2A2A2A"
-                />
-                <path
-                  d="M27.9746 259.461H195.12V453.852H27.9746C12.7437 453.852 0.5 441.522 0.5 426.41V286.903C0.500152 271.691 12.8428 259.461 27.9746 259.461ZM950.025 259.461C965.256 259.461 977.5 271.79 977.5 286.903V426.41C977.5 441.621 965.157 453.852 950.025 453.852H782.88V259.461H950.025ZM586.362 259.468V453.86H391.741L391.74 259.461L586.362 259.468ZM614.734 64.0708H754.405C769.537 64.0709 781.88 76.3009 781.88 91.5122V258.461H587.26V91.5122C587.26 76.3997 599.504 64.0708 614.734 64.0708ZM223.595 64.0708H363.266C378.496 64.0708 390.74 76.3997 390.74 91.5122V258.461H196.12V91.5122C196.12 76.3009 208.463 64.0709 223.595 64.0708Z"
-                  stroke="white"
-                />
-                <path
-                  data-part="nose"
-                  d="M586.862 258.969L391.241 258.961L391.242 454.36H586.862V258.969Z"
-                  fill="#2A2A2A"
-                />
-              </g>
-
-              <g data-part="eyes">
-                <rect
-                  data-part="eye-left"
-                  x="253.293"
-                  y="312.95"
-                  width="82"
-                  height="82"
-                  fill="url(#panel-eye-left)"
-                  fillOpacity="0.9"
-                />
-                <rect
-                  data-part="eye-right"
-                  x="643.012"
-                  y="312.95"
-                  width="82"
-                  height="82"
-                  fill="url(#panel-eye-right)"
-                  fillOpacity="0.9"
-                />
-              </g>
-
-              <g data-part="mouth-group">
-                <rect
-                  data-part="mouth-left"
-                  x="253.293"
-                  y="562.883"
-                  width="82"
-                  height="82"
-                  fill="url(#panel-mouth-left)"
-                  fillOpacity="0.9"
-                />
-                <rect
-                  data-part="mouth-right"
-                  x="643.012"
-                  y="562.883"
-                  width="82"
-                  height="82"
-                  fill="url(#panel-mouth-right)"
-                  fillOpacity="0.9"
-                />
-                <rect
-                  data-part="mouth"
-                  x="334.988"
-                  y="644.486"
-                  width="308.127"
-                  height="81.599"
-                  fill="url(#panel-mouth-bar)"
-                  fillOpacity="0.9"
-                />
-                <g data-part="writing-stroke" visibility="hidden">
-                  <path
-                    data-part="writing-line"
-                    d={WRITING_STROKE.d}
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeOpacity="0.95"
-                  />
-                </g>
-              </g>
-            </g>
-          </>
-        ) : variant === "dark" ? (
+        {variant === "dark" ? (
           <g data-part="head">
             <path
               data-part="shell"

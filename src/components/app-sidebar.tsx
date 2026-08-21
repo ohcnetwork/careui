@@ -21,7 +21,9 @@ import {
 } from "@/components/ui/studio-sidebar";
 import { X } from "lucide-react";
 
-const TOOL_ONLY_COMPONENT_IDS = new Set(["animated-character"]);
+const TOOL_ONLY_COMPONENT_IDS = new Set([
+  "animated-character",
+]);
 
 // Navigation data
 const data = {
@@ -164,7 +166,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {/* Context Menu */}
       {contextMenu.show && (
         <div
-          className="bg-popover fixed z-50 max-w-[10rem] rounded-md border py-1 shadow-lg"
+          className="bg-popover fixed z-50 max-w-40 rounded-md border py-1 shadow-lg"
           style={{
             left: `max(0px, min(${contextMenu.x}px, calc(100vw - 10rem)))`,
             top: `max(0px, min(${contextMenu.y}px, calc(100vh - 8rem)))`,
