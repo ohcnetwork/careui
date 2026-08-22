@@ -632,6 +632,20 @@
     ]
   },
   {
+    "name": "care-filly",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/care-filly/care-filly.tsx"
+    ]
+  },
+  {
+    "name": "care-filly-classic",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/care-filly-classic/care-filly-classic.tsx"
+    ]
+  },
+  {
     "name": "card",
     "type": "registry:ui",
     "files": [
@@ -735,13 +749,6 @@
     ],
     "files": [
       "registry/care-ui/aspect-ratio/aspect-ratio.tsx"
-    ]
-  },
-  {
-    "name": "animated-character",
-    "type": "registry:ui",
-    "files": [
-      "registry/care-ui/animated-character/animated-character.tsx"
     ]
   },
   {

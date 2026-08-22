@@ -298,10 +298,17 @@ export const animatedCharacterDoc: ComponentDoc = {
   description: (
     <ul className="mt-2 space-y-2 text-sm">
       <li>
-        <strong>CareFilly</strong>{" "}(<code>care-filly</code>) — layered face-plate character. The face-plate translates independently, creating a parallax depth illusion on every nod. Use for prominent roles: onboarding, empty states, loading screens, full-page assistants.
+        <strong>CareFilly</strong> (<code>care-filly</code>) — layered
+        face-plate character. The face-plate translates independently, creating
+        a parallax depth illusion on every nod. Use for prominent roles:
+        onboarding, empty states, loading screens, full-page assistants.
       </li>
       <li>
-        <strong>CareFillyClassic</strong>{" "}(<code>care-filly-classic</code>) — classic pixel-head character. The entire head rotates as one rigid unit. Use for compact, inline contexts: chat bubbles, search bars, status indicators. Available in <code>light</code> and <code>dark</code> variants.
+        <strong>CareFillyClassic</strong> (<code>care-filly-classic</code>) —
+        classic pixel-head character. The entire head rotates as one rigid unit.
+        Use for compact, inline contexts: chat bubbles, search bars, status
+        indicators. Available in <code>light</code> and <code>dark</code>{" "}
+        variants.
       </li>
     </ul>
   ),
@@ -403,12 +410,41 @@ ref.current?.noShake()  // Decaying left-right shake with blinks`,
         title: "CareFilly props",
         description: 'import { CareFilly } from "@/components/ui/care-filly"',
         props: [
-          { name: "state", type: `"idle" | "listening" | "talking" | "writing" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`, description: "Behavioral state preset. Transitions blend from the current pose." },
-          { name: "mouseTracking", type: "boolean", description: "Eyes smoothly follow the pointer when true; return to the state gaze when false." },
-          { name: "size", type: "string | number", description: 'CSS width for the SVG (e.g. "32px", "2rem"). Overrides the default 6rem.' },
-          { name: "color", type: "string", description: 'CSS color tinting the entire character via currentColor (e.g. "#3b82f6").' },
-          { name: "ref", type: "CareFillyHandle", description: "Imperative API: setState, nod, yesNod, noShake, shakeHead, blink, eyeRoll, startTalking, stopTalking, setGazeTarget, setMouseTracking, reset." },
-          { name: "className", type: "string", description: "Additional CSS classes on the wrapper." },
+          {
+            name: "state",
+            type: `"idle" | "listening" | "talking" | "writing" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`,
+            description:
+              "Behavioral state preset. Transitions blend from the current pose.",
+          },
+          {
+            name: "mouseTracking",
+            type: "boolean",
+            description:
+              "Eyes smoothly follow the pointer when true; return to the state gaze when false.",
+          },
+          {
+            name: "size",
+            type: "string | number",
+            description:
+              'CSS width for the SVG (e.g. "32px", "2rem"). Overrides the default 6rem.',
+          },
+          {
+            name: "color",
+            type: "string",
+            description:
+              'CSS color tinting the entire character via currentColor (e.g. "#3b82f6").',
+          },
+          {
+            name: "ref",
+            type: "CareFillyHandle",
+            description:
+              "Imperative API: setState, nod, yesNod, noShake, shakeHead, blink, eyeRoll, startTalking, stopTalking, setGazeTarget, setMouseTracking, reset.",
+          },
+          {
+            name: "className",
+            type: "string",
+            description: "Additional CSS classes on the wrapper.",
+          },
         ],
       },
     },
@@ -474,15 +510,50 @@ useEffect(() => {
 </div>`,
       trailingProps: {
         title: "CareFillyClassic props",
-        description: 'import { CareFillyClassic } from "@/components/ui/care-filly-classic"',
+        description:
+          'import { CareFillyClassic } from "@/components/ui/care-filly-classic"',
         props: [
-          { name: "state", type: `"idle" | "listening" | "talking" | "writing" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`, description: "Behavioral state preset. Transitions blend from the current pose." },
-          { name: "mouseTracking", type: "boolean", description: "Eyes smoothly follow the pointer when true; return to the state gaze when false." },
-          { name: "variant", type: '"light" | "dark"', description: "Selects the visual shell. light — pixel head on light background; dark — white shell with dark pixel features." },
-          { name: "size", type: "string | number", description: 'CSS width for the SVG (e.g. "32px", "2rem"). Overrides the default.' },
-          { name: "color", type: "string", description: 'CSS color tinting the entire character via currentColor (e.g. "#3b82f6").' },
-          { name: "ref", type: "CareFillyClassicHandle", description: "Imperative API: setState, nod, shakeHead, blink, eyeRoll, startTalking, stopTalking, setGazeTarget, setMouseTracking, reset." },
-          { name: "className", type: "string", description: "Additional CSS classes on the wrapper." },
+          {
+            name: "state",
+            type: `"idle" | "listening" | "talking" | "writing" | "thinking" | "loading" | "happy" | "sad" | "surprised" | "confused" | "excited" | "sleepy"`,
+            description:
+              "Behavioral state preset. Transitions blend from the current pose.",
+          },
+          {
+            name: "mouseTracking",
+            type: "boolean",
+            description:
+              "Eyes smoothly follow the pointer when true; return to the state gaze when false.",
+          },
+          {
+            name: "variant",
+            type: '"light" | "dark"',
+            description:
+              "Selects the visual shell. light — pixel head on light background; dark — white shell with dark pixel features.",
+          },
+          {
+            name: "size",
+            type: "string | number",
+            description:
+              'CSS width for the SVG (e.g. "32px", "2rem"). Overrides the default.',
+          },
+          {
+            name: "color",
+            type: "string",
+            description:
+              'CSS color tinting the entire character via currentColor (e.g. "#3b82f6").',
+          },
+          {
+            name: "ref",
+            type: "CareFillyClassicHandle",
+            description:
+              "Imperative API: setState, nod, shakeHead, blink, eyeRoll, startTalking, stopTalking, setGazeTarget, setMouseTracking, reset.",
+          },
+          {
+            name: "className",
+            type: "string",
+            description: "Additional CSS classes on the wrapper.",
+          },
         ],
       },
     },

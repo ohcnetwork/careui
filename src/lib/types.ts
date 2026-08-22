@@ -7,7 +7,16 @@ export interface ComponentExample {
   code?: string;
   preview?: React.ReactNode;
   /** Optional props table rendered below this example, scoped to this component/variant. */
-  trailingProps?: { title: string; description?: string; props: Array<{ name: string; type: string; description: string; default?: string }> };
+  trailingProps?: {
+    title: string;
+    description?: string;
+    props: Array<{
+      name: string;
+      type: string;
+      description: string;
+      default?: string;
+    }>;
+  };
 }
 
 export interface DocumentationPage {
@@ -46,7 +55,12 @@ export interface ComponentDoc {
   propSections?: Array<{
     title: string;
     description?: string;
-    props: Array<{ name: string; type: string; description: string; default?: string }>;
+    props: Array<{
+      name: string;
+      type: string;
+      description: string;
+      default?: string;
+    }>;
   }>;
 }
 
