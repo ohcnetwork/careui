@@ -1143,9 +1143,7 @@ function MatrixSpinner({
       if (dueAt < now) dueAt = now + duration;
 
       frame =
-        preset.loop === false
-          ? frame + 1
-          : (frame + 1) % preset.frames.length;
+        preset.loop === false ? frame + 1 : (frame + 1) % preset.frames.length;
       if (preset.loop === false && frame >= preset.frames.length) {
         unsubscribe();
         return;
