@@ -235,7 +235,6 @@ const SHIMMER_UTILITIES: { className: string; styles: string }[] = [
   },
 ];
 
-
 /* ── Squircle utilities (custom Care UI, requires corner-shape support) ── */
 
 const SQUIRCLE: { className: string; based_on: string; note: string }[] = [
@@ -661,8 +660,8 @@ export function FoundationsPage() {
           <InlineCode>src/index.css</InlineCode>) animates a highlight sweep
           across text via <InlineCode>background-clip: text</InlineCode>. It is
           built on <InlineCode>currentColor</InlineCode>, so it adapts to any
-          text color with no configuration, and brightens automatically in
-          dark mode. Use it for streaming/generating states —{" "}
+          text color with no configuration, and brightens automatically in dark
+          mode. Use it for streaming/generating states —{" "}
           <InlineCode>Generating response…</InlineCode> — instead of a plain
           pulse or opacity animation.
         </DocumentationParagraph>
@@ -705,8 +704,8 @@ export function FoundationsPage() {
           </div>
           <p className="text-muted-foreground mt-2 text-sm leading-6">
             When the user prefers reduced motion, the animation is disabled
-            automatically and the text renders normally — nothing to
-            configure. The sweep also follows reading direction automatically
+            automatically and the text renders normally — nothing to configure.
+            The sweep also follows reading direction automatically
             (left-to-right in LTR, right-to-left in RTL); use{" "}
             <InlineCode>shimmer-reverse</InlineCode> to flip it manually.
           </p>
