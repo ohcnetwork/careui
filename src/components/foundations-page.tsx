@@ -198,6 +198,44 @@ const RADIUS: RadiusRow[] = [
   },
 ];
 
+/* ── Shimmer utilities (custom Care UI, text highlight sweep) ── */
+
+const SHIMMER_UTILITIES: { className: string; styles: string }[] = [
+  {
+    className: "shimmer",
+    styles: "background-clip: text; animate tw-shimmer 2s linear infinite.",
+  },
+  {
+    className: "shimmer-once",
+    styles: "animation-iteration-count: 1.",
+  },
+  {
+    className: "shimmer-reverse",
+    styles: "animation-direction: reverse.",
+  },
+  {
+    className: "shimmer-none",
+    styles: "Disables the effect — renders the text normally.",
+  },
+  {
+    className: "shimmer-color-<color>",
+    styles: "Sets --shimmer-color, e.g. shimmer-color-blue-500/60.",
+  },
+  {
+    className: "shimmer-duration-<number>",
+    styles: "Sweep duration in ms — default 2000.",
+  },
+  {
+    className: "shimmer-spread-<number>",
+    styles: "Highlight band width via the spacing scale.",
+  },
+  {
+    className: "shimmer-angle-<number>",
+    styles: "Tilt of the highlight band in degrees — default 20.",
+  },
+];
+
+
 /* ── Squircle utilities (custom Care UI, requires corner-shape support) ── */
 
 const SQUIRCLE: { className: string; based_on: string; note: string }[] = [
@@ -612,6 +650,66 @@ export function FoundationsPage() {
               ))}
             </TableBody>
           </Table>
+        </div>
+      </section>
+
+      {/* Motion */}
+      <section>
+        <SectionHeading id="motion">Motion</SectionHeading>
+        <DocumentationParagraph>
+          The <InlineCode>shimmer</InlineCode> utility (declared in{" "}
+          <InlineCode>src/index.css</InlineCode>) animates a highlight sweep
+          across text via <InlineCode>background-clip: text</InlineCode>. It is
+          built on <InlineCode>currentColor</InlineCode>, so it adapts to any
+          text color with no configuration, and brightens automatically in
+          dark mode. Use it for streaming/generating states —{" "}
+          <InlineCode>Generating response…</InlineCode> — instead of a plain
+          pulse or opacity animation.
+        </DocumentationParagraph>
+
+        <div className="bg-muted/40 mt-6 flex flex-col items-center justify-center gap-3 rounded-lg p-10">
+          <p className="shimmer text-2xl font-semibold">
+            Generating response&hellip;
+          </p>
+          <p className="shimmer shimmer-color-primary text-sm">
+            Thinking&hellip;
+          </p>
+        </div>
+
+        <div className="border-border mt-6 overflow-hidden rounded-lg border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Class</TableHead>
+                <TableHead>Styles</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {SHIMMER_UTILITIES.map((s) => (
+                <TableRow key={s.className}>
+                  <TableCell className="font-mono text-xs">
+                    {s.className}
+                  </TableCell>
+                  <TableCell className="text-muted-foreground text-sm">
+                    {s.styles}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="border-border bg-card mt-6 rounded-lg border p-6">
+          <div className="text-foreground text-sm font-semibold">
+            Reduced motion &amp; RTL
+          </div>
+          <p className="text-muted-foreground mt-2 text-sm leading-6">
+            When the user prefers reduced motion, the animation is disabled
+            automatically and the text renders normally — nothing to
+            configure. The sweep also follows reading direction automatically
+            (left-to-right in LTR, right-to-left in RTL); use{" "}
+            <InlineCode>shimmer-reverse</InlineCode> to flip it manually.
+          </p>
         </div>
       </section>
 

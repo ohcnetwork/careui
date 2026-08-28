@@ -127,7 +127,7 @@ function PropsTable({
 }
 
 function ExampleItem({ example }: { example: ComponentExample }) {
-  const [tab, setTab] = useState("preview");
+  const [tab, setTab] = useState(example.preview ? "preview" : "code");
   const { copyToClipboard, isCopied } = useCopyToClipboard();
 
   return (
@@ -155,7 +155,9 @@ function ExampleItem({ example }: { example: ComponentExample }) {
         <Tabs value={tab} onValueChange={setTab} className="mt-4 w-full">
           <div className="flex items-center justify-between">
             <TabsList>
-              <TabsTrigger value="preview">Preview</TabsTrigger>
+              {example.preview && (
+                <TabsTrigger value="preview">Preview</TabsTrigger>
+              )}
               <TabsTrigger value="code">Code</TabsTrigger>
             </TabsList>
             {tab === "code" && (

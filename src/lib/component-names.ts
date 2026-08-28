@@ -3,6 +3,7 @@ export const componentNames: Record<string, string> = {
   attachment: "Attachment",
   bubble: "Bubble",
   marker: "Marker",
+  shimmer: "Shimmer",
   message: "Message",
   accordion: "Accordion",
   alert: "Alert",

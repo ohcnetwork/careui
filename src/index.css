@@ -641,6 +641,95 @@
     }
 }
 
+/* ── Shimmer utilities ──────────────────────────────────────────────────────
+   Animated highlight sweep for text, built on `background-clip: text` with
+   `currentColor` as the base — no configuration needed to match any brand
+   or muted color, light or dark mode. */
+
+@keyframes tw-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@utility shimmer {
+  --shimmer-color: currentColor;
+  --shimmer-duration: 2s;
+  --shimmer-spread: calc(3ch + 40px);
+  --shimmer-angle: 20deg;
+  --shimmer-image: linear-gradient(
+    var(--shimmer-angle),
+    transparent calc(50% - var(--shimmer-spread) / 2),
+    color-mix(in oklch, var(--shimmer-color) 92%, transparent) 50%,
+    transparent calc(50% + var(--shimmer-spread) / 2)
+  );
+  --shimmer-text-fill: color-mix(in oklch, currentColor 40%, transparent);
+
+  background-repeat: no-repeat;
+  background-image:
+    var(--shimmer-image),
+    linear-gradient(var(--shimmer-text-fill), var(--shimmer-text-fill));
+  background-size: 200% 100%, 100% 100%;
+  background-position: 200% 0, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* A separate property (not `color`) so it can't lose the cascade to a
+     companion text-color utility like `text-muted-foreground`. */
+  -webkit-text-fill-color: transparent;
+  animation: tw-shimmer var(--shimmer-duration, 2s) linear infinite;
+
+  &:dir(rtl) {
+    animation-direction: reverse;
+  }
+}
+
+@utility shimmer-once {
+  animation-iteration-count: 1;
+}
+
+@utility shimmer-reverse {
+  animation-direction: reverse;
+}
+
+@utility shimmer-none {
+  background-image: none;
+  -webkit-text-fill-color: currentColor;
+  animation: none;
+}
+
+@utility shimmer-color-* {
+  --shimmer-color: --value(--color, [color]);
+  --shimmer-color: color-mix(
+    in oklch,
+    --value(--color, [color]) --modifier(percentage),
+    transparent
+  );
+}
+
+@utility shimmer-duration-* {
+  --shimmer-duration: calc(--value(integer) * 1ms);
+}
+
+@utility shimmer-spread-* {
+  --shimmer-spread: calc(var(--spacing) * --value(integer));
+  --shimmer-spread: --value([length], [percentage]);
+}
+
+@utility shimmer-angle-* {
+  --shimmer-angle: calc(--value(integer) * 1deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer {
+    animation: none;
+    background-image: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
 /* ── Session Timeout Animations ──────────────────────────────────────────── */
 @keyframes ripple-pulse-slow {
   0% {
