@@ -154,8 +154,7 @@ function AsyncStatePreview() {
       React.createElement(
         "button",
         {
-          className:
-            "text-xs rounded-md border px-2 py-1 cursor-pointer",
+          className: "text-xs rounded-md border px-2 py-1 cursor-pointer",
           onClick: () => run("spin-check"),
         },
         "Simulate success"
@@ -163,8 +162,7 @@ function AsyncStatePreview() {
       React.createElement(
         "button",
         {
-          className:
-            "text-xs rounded-md border px-2 py-1 cursor-pointer",
+          className: "text-xs rounded-md border px-2 py-1 cursor-pointer",
           onClick: () => run("spin-cross"),
         },
         "Simulate error"
@@ -369,7 +367,7 @@ export function SpinCrossDemo() {
     {
       name: "Async State",
       description:
-        "The real-world pattern: keep `name=\"spin-cw\"` (loops) while a request is pending, then swap to `spin-check` or `spin-cross` once it settles — both play once and hold on the final frame, so no extra state machine is needed. Bump `key` only when you want to replay the same terminal state from a fresh request.",
+        'The real-world pattern: keep `name="spin-cw"` (loops) while a request is pending, then swap to `spin-check` or `spin-cross` once it settles — both play once and hold on the final frame, so no extra state machine is needed. Bump `key` only when you want to replay the same terminal state from a fresh request.',
       code: `import { MatrixSpinner, type MatrixSpinnerName } from "@/components/ui/matrix-spinner"
 import { useRef, useState, useEffect } from "react"
 
