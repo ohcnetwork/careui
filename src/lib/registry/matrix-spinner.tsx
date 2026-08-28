@@ -58,6 +58,7 @@ const ALL_PRESETS: MatrixSpinnerName[] = [
   "diamond-pulse-soft",
   "spin-cw",
   "spin-check",
+  "spin-cross",
   "spin-fall",
   "heart-pulse",
   "heart-plus",
@@ -71,6 +72,28 @@ function SpinCheckPreview() {
     React.createElement(MatrixSpinner, {
       key,
       name: "spin-check" as MatrixSpinnerName,
+      size: "16",
+    }),
+    React.createElement(
+      "button",
+      {
+        className:
+          "text-xs text-muted-foreground underline underline-offset-2 cursor-pointer",
+        onClick: () => setKey((k) => k + 1),
+      },
+      "Replay"
+    )
+  );
+}
+
+function SpinCrossPreview() {
+  const [key, setKey] = React.useState(0);
+  return React.createElement(
+    "div",
+    { className: "flex flex-col items-center gap-4" },
+    React.createElement(MatrixSpinner, {
+      key,
+      name: "spin-cross" as MatrixSpinnerName,
       size: "16",
     }),
     React.createElement(
@@ -103,6 +126,49 @@ function SpinFallPreview() {
         onClick: () => setKey((k) => k + 1),
       },
       "Replay"
+    )
+  );
+}
+
+function AsyncStatePreview() {
+  const [name, setName] = React.useState<MatrixSpinnerName>("spin-cw");
+  const [key, setKey] = React.useState(0);
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  const run = (outcome: "spin-check" | "spin-cross") => {
+    clearTimeout(timeoutRef.current);
+    setKey((k) => k + 1);
+    setName("spin-cw"); // back to the looping "loading" state
+    timeoutRef.current = setTimeout(() => setName(outcome), 1200);
+  };
+
+  React.useEffect(() => () => clearTimeout(timeoutRef.current), []);
+
+  return React.createElement(
+    "div",
+    { className: "flex flex-col items-center gap-4" },
+    React.createElement(MatrixSpinner, { key, name, size: "32" }),
+    React.createElement(
+      "div",
+      { className: "flex gap-2" },
+      React.createElement(
+        "button",
+        {
+          className:
+            "text-xs rounded-md border px-2 py-1 cursor-pointer",
+          onClick: () => run("spin-check"),
+        },
+        "Simulate success"
+      ),
+      React.createElement(
+        "button",
+        {
+          className:
+            "text-xs rounded-md border px-2 py-1 cursor-pointer",
+          onClick: () => run("spin-cross"),
+        },
+        "Simulate error"
+      )
     )
   );
 }
@@ -276,6 +342,62 @@ export function SpinFallDemo() {
   )
 }`,
       preview: React.createElement(SpinFallPreview, {}),
+    },
+    {
+      name: "Spin Cross",
+      description:
+        "spin-cross plays exactly once — two clockwise rotations dissolve into a held error cross (X). The animation stops on the final frame without looping. Click Replay to restart.",
+      code: `import { MatrixSpinner } from "@/components/ui/matrix-spinner"
+import { useState } from "react"
+
+export function SpinCrossDemo() {
+  const [key, setKey] = useState(0)
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <MatrixSpinner key={key} name="spin-cross" size="32" />
+      <button
+        className="text-xs text-muted-foreground underline underline-offset-2"
+        onClick={() => setKey(k => k + 1)}
+      >
+        Replay
+      </button>
+    </div>
+  )
+}`,
+      preview: React.createElement(SpinCrossPreview, {}),
+    },
+    {
+      name: "Async State",
+      description:
+        "The real-world pattern: keep `name=\"spin-cw\"` (loops) while a request is pending, then swap to `spin-check` or `spin-cross` once it settles — both play once and hold on the final frame, so no extra state machine is needed. Bump `key` only when you want to replay the same terminal state from a fresh request.",
+      code: `import { MatrixSpinner, type MatrixSpinnerName } from "@/components/ui/matrix-spinner"
+import { useRef, useState, useEffect } from "react"
+
+export function AsyncStateDemo() {
+  const [name, setName] = useState<MatrixSpinnerName>("spin-cw")
+  const [key, setKey] = useState(0)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+
+  const run = (outcome: "spin-check" | "spin-cross") => {
+    clearTimeout(timeoutRef.current)
+    setKey((k) => k + 1)
+    setName("spin-cw") // back to the looping "loading" state
+    timeoutRef.current = setTimeout(() => setName(outcome), 1200)
+  }
+
+  useEffect(() => () => clearTimeout(timeoutRef.current), [])
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <MatrixSpinner key={key} name={name} size="32" />
+      <div className="flex gap-2">
+        <button onClick={() => run("spin-check")}>Simulate success</button>
+        <button onClick={() => run("spin-cross")}>Simulate error</button>
+      </div>
+    </div>
+  )
+}`,
+      preview: React.createElement(AsyncStatePreview, {}),
     },
   ],
 };

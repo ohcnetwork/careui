@@ -1,6 +1,6 @@
 /**
  * @name matrix-spinner
- * @description SVG diamond-lattice matrix spinner: 25 diamonds arranged as a 4×4 base grid interleaved with a 3×3 offset grid. Ships 55 named animation presets covering every UI state — loading, success, error, idle, transition — each driven by a frame array with per-dot opacity values. Zero runtime dependencies.
+ * @description SVG diamond-lattice matrix spinner: 25 diamonds arranged as a 4×4 base grid interleaved with a 3×3 offset grid. Ships 56 named animation presets covering every UI state — loading, success, error, idle, transition — each driven by a frame array with per-dot opacity values. Zero runtime dependencies.
  * @type registry:ui
  */
 
@@ -854,7 +854,9 @@ function genSpinCw(): number[][] {
 // Checkmark:  short left leg 8(0,4)→22(1,5)→13(2,6)
 //             long right leg 13(2,6)→23(3,5)→10(4,4)→21(5,3)→7(6,2)
 // Dots 10,21,23 are shared — they anchor the smooth morph from spin to check.
-function genSpinCheck(): number[][] {
+// Spin phase runs at spin-cw's pace (11ms/frame) so it doesn't look laggy next to it;
+// the morph phase holds longer (70ms/frame) so the dissolve into the checkmark reads clearly.
+function genSpinCheck(): { frames: number[][]; intervals: number[] } {
   const ring = [17, 6, 21, 10, 23, 9, 19, 5];
   const check = [8, 22, 13, 23, 10, 21, 7];
   const n = ring.length;
@@ -876,7 +878,42 @@ function genSpinCheck(): number[][] {
   frames.push(sets(rest, [check, MID * 1.4]));
   frames.push(sets(rest, [check, HI]));
 
-  return frames;
+  const intervals = [...Array(12).fill(11), 70, 70, 70, 90];
+  return { frames, intervals };
+}
+
+// ── spin-cross: spins CW ×1.5, morphs to error cross (X), holds — 16 frames ──
+// Spin ring: [17,6,21,10,23,9,19,5] (inner ring)
+// Cross diagonals: TL-BR [0,16,5,20,10,24,15] and TR-BL [3,18,6,20,9,22,12]
+// Dot 20 (centre) is shared by both diagonals — anchors the morph from spin to cross.
+// Spin phase runs at spin-cw's pace (11ms/frame) so it doesn't look laggy next to it;
+// the morph phase holds longer (70ms/frame) so the dissolve into the cross reads clearly.
+function genSpinCross(): { frames: number[][]; intervals: number[] } {
+  const ring = [17, 6, 21, 10, 23, 9, 19, 5];
+  const diag1 = [0, 16, 5, 20, 10, 24, 15];
+  const diag2 = [3, 18, 6, 20, 9, 22, 12];
+  const cross = Array.from(new Set([...diag1, ...diag2]));
+  const n = ring.length;
+  const rest = fill(DIM);
+  const frames: number[][] = [];
+
+  // Phase 1: 1.5 rotations — 12 frames
+  for (let f = 0; f < 12; f++) {
+    const a = fill(DIM);
+    a[ring[f % n]] = HI;
+    a[ring[(f - 1 + n) % n]] = MID;
+    a[ring[(f - 2 + n) % n]] = MID * 0.45;
+    frames.push(a);
+  }
+
+  // Phase 2: morph spin → cross — 4 frames
+  frames.push(sets(rest, [cross, MID * 0.5]));
+  frames.push(sets(rest, [cross, MID]));
+  frames.push(sets(rest, [cross, MID * 1.4]));
+  frames.push(sets(rest, [cross, HI]));
+
+  const intervals = [...Array(12).fill(11), 70, 70, 70, 90];
+  return { frames, intervals };
 }
 
 // ── spin-fall: spins CW ×1.5, directly falls — pixels rain randomly to bottom and settle — 29 frames
@@ -943,7 +980,13 @@ function genSpinFall(): number[][] {
 
 // ─── Preset registry ──────────────────────────────────────────────────────────
 
-type Preset = { frames: readonly number[][]; interval: number; loop?: boolean };
+type Preset = {
+  frames: readonly number[][];
+  interval: number;
+  loop?: boolean;
+  /** Optional per-frame duration (ms), indexed by current frame. Falls back to `interval`. */
+  intervals?: readonly number[];
+};
 
 export const MATRIX_SPINNERS: Record<string, Preset> = {
   "center-expand": { frames: genCenterExpand(), interval: 120 },
@@ -997,13 +1040,55 @@ export const MATRIX_SPINNERS: Record<string, Preset> = {
   "grid-float-soft": { frames: genGridFloatSoft(), interval: 150 },
   "diamond-pulse-soft": { frames: genDiamondPulseSoft(), interval: 180 },
   "spin-cw": { frames: genSpinCw(), interval: 11 },
-  "spin-check": { frames: genSpinCheck(), interval: 30, loop: false },
+  "spin-check": (() => {
+    const { frames, intervals } = genSpinCheck();
+    return { frames, interval: 30, loop: false, intervals };
+  })(),
+  "spin-cross": (() => {
+    const { frames, intervals } = genSpinCross();
+    return { frames, interval: 30, loop: false, intervals };
+  })(),
   "spin-fall": { frames: genSpinFall(), interval: 30, loop: false },
   "heart-pulse": { frames: genHeartPulse(), interval: 150 },
   "heart-plus": { frames: genHeartPlus(), interval: 140 },
 };
 
 export type MatrixSpinnerName = keyof typeof MATRIX_SPINNERS;
+
+// ─── Shared animation driver ──────────────────────────────────────────────────
+//
+// A single requestAnimationFrame loop drives every mounted spinner instead of
+// each instance running its own rAF loop, so CPU/GPU cost stays flat no matter
+// how many spinners are on screen (e.g. a docs page rendering 50+ presets).
+// `prefers-reduced-motion` is also read once and cached, instead of creating a
+// MediaQueryList per instance.
+
+type Ticker = (now: number) => void;
+
+const tickers = new Set<Ticker>();
+let tickerFrame: number | null = null;
+
+function runTickers(now: number) {
+  for (const tick of tickers) tick(now);
+  tickerFrame = tickers.size > 0 ? requestAnimationFrame(runTickers) : null;
+}
+
+function subscribeTicker(tick: Ticker): () => void {
+  tickers.add(tick);
+  if (tickerFrame === null) tickerFrame = requestAnimationFrame(runTickers);
+  return () => {
+    tickers.delete(tick);
+  };
+}
+
+let prefersReducedMotion = false;
+if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+  const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+  prefersReducedMotion = mql.matches;
+  mql.addEventListener("change", (e) => {
+    prefersReducedMotion = e.matches;
+  });
+}
 
 // ─── Size variants ────────────────────────────────────────────────────────────
 
@@ -1036,41 +1121,45 @@ function MatrixSpinner({
   ...props
 }: MatrixSpinnerProps) {
   const preset = MATRIX_SPINNERS[name];
-  const svgRef = React.useRef<SVGSVGElement>(null);
-  const transitionMs = Math.round(preset.interval * 0.8);
+  const rectRefs = React.useRef<(SVGRectElement | null)[]>([]);
+  const fastestInterval = preset.intervals
+    ? Math.min(...preset.intervals)
+    : preset.interval;
+  const transitionMs = Math.round(fastestInterval * 0.8);
 
   React.useEffect(() => {
-    const svg = svgRef.current;
-    if (!svg) return;
-    const mql =
-      typeof window !== "undefined"
-        ? window.matchMedia("(prefers-reduced-motion: reduce)")
-        : null;
-    if (mql?.matches) return;
-    const rects = Array.from(
-      svg.querySelectorAll<SVGRectElement>("[data-dot]")
-    );
+    if (prefersReducedMotion) return;
+    const rects = rectRefs.current;
     let frame = 0;
-    if (preset.loop === false) {
-      const id = setInterval(() => {
-        frame++;
-        if (frame >= preset.frames.length) {
-          clearInterval(id);
-          return;
-        }
-        const opacities = preset.frames[frame];
-        for (let i = 0; i < rects.length; i++)
-          rects[i].style.opacity = String(opacities[i]);
-      }, preset.interval);
-      return () => clearInterval(id);
-    }
-    const id = setInterval(() => {
-      frame = (frame + 1) % preset.frames.length;
+    let dueAt: number | null = null;
+
+    const tick = (now: number) => {
+      dueAt ??= now;
+      if (now < dueAt) return;
+
+      const duration = preset.intervals?.[frame] ?? preset.interval;
+      dueAt += duration;
+      // Catch up in one step if we fell far behind instead of drifting.
+      if (dueAt < now) dueAt = now + duration;
+
+      frame =
+        preset.loop === false
+          ? frame + 1
+          : (frame + 1) % preset.frames.length;
+      if (preset.loop === false && frame >= preset.frames.length) {
+        unsubscribe();
+        return;
+      }
+
       const opacities = preset.frames[frame];
-      for (let i = 0; i < rects.length; i++)
-        rects[i].style.opacity = String(opacities[i]);
-    }, preset.interval);
-    return () => clearInterval(id);
+      for (let i = 0; i < rects.length; i++) {
+        const rect = rects[i];
+        if (rect) rect.style.opacity = String(opacities[i]);
+      }
+    };
+
+    const unsubscribe = subscribeTicker(tick);
+    return unsubscribe;
   }, [name, preset]);
 
   const opacities = preset.frames[0];
@@ -1087,7 +1176,6 @@ function MatrixSpinner({
       {...props}
     >
       <svg
-        ref={svgRef}
         width={SVG_W}
         height={SVG_H}
         viewBox={`0 0 ${SVG_W} ${SVG_H}`}
@@ -1103,6 +1191,9 @@ function MatrixSpinner({
             return (
               <rect
                 key={`b-${idx}`}
+                ref={(el) => {
+                  rectRefs.current[idx] = el;
+                }}
                 data-dot
                 x={x}
                 y={y}
@@ -1112,6 +1203,7 @@ function MatrixSpinner({
                 fill="currentColor"
                 style={{
                   opacity: opacities[idx],
+                  willChange: "opacity",
                   transition: `opacity ${transitionMs}ms cubic-bezier(0.23, 1, 0.32, 1)`,
                 }}
               />
@@ -1128,6 +1220,9 @@ function MatrixSpinner({
             return (
               <rect
                 key={`o-${idx}`}
+                ref={(el) => {
+                  rectRefs.current[idx] = el;
+                }}
                 data-dot
                 x={x}
                 y={y}
@@ -1137,6 +1232,7 @@ function MatrixSpinner({
                 fill="currentColor"
                 style={{
                   opacity: opacities[idx],
+                  willChange: "opacity",
                   transition: `opacity ${transitionMs}ms cubic-bezier(0.23, 1, 0.32, 1)`,
                 }}
               />
@@ -1149,4 +1245,7 @@ function MatrixSpinner({
   );
 }
 
-export { MatrixSpinner };
+const MemoizedMatrixSpinner = React.memo(MatrixSpinner);
+MemoizedMatrixSpinner.displayName = "MatrixSpinner";
+
+export { MemoizedMatrixSpinner as MatrixSpinner };
