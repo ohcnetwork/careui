@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
 import { componentNames } from "@/lib/component-names";
+import {
+  ATOMIC_LEVEL_LABELS,
+  ATOMIC_LEVEL_ORDER,
+  groupComponentIdsByLevel,
+} from "@/lib/component-categories";
 import { documentationPages } from "@/lib/documentation";
 import {
   Sidebar,
@@ -21,7 +26,9 @@ import {
 } from "@/components/ui/studio-sidebar";
 import { X } from "lucide-react";
 
-const TOOL_ONLY_COMPONENT_IDS = new Set(["animated-character"]);
+// Grouped by Atomic Design level (see src/lib/component-categories.ts) —
+// components not assigned a level (e.g. tool-only entries) are excluded.
+const componentsByLevel = groupComponentIdsByLevel(getComponentIds());
 
 // Navigation data
 const data = {
@@ -42,15 +49,18 @@ const data = {
         title: page.title,
       })),
     },
-    {
-      title: "Components",
-      items: getComponentIds()
-        .filter((id) => !TOOL_ONLY_COMPONENT_IDS.has(id))
+    ...ATOMIC_LEVEL_ORDER.map((level) => ({
+      title: `Components / ${ATOMIC_LEVEL_LABELS[level]}`,
+      items: componentsByLevel[level]
+        .slice()
+        .sort((a, b) =>
+          (componentNames[a] || a).localeCompare(componentNames[b] || b)
+        )
         .map((id) => ({
           id,
           title: componentNames[id] || id,
         })),
-    },
+    })),
     {
       title: "Error Pages",
       items: [{ id: "error-pages", title: "Examples" }],

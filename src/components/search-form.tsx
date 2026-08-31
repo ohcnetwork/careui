@@ -24,10 +24,15 @@ import {
 } from "@/components/ui/studio-sidebar";
 import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
+import {
+  ATOMIC_LEVEL_LABELS,
+  ATOMIC_LEVEL_ORDER,
+  groupComponentIdsByLevel,
+} from "@/lib/component-categories";
 import { documentationPages } from "@/lib/documentation";
 import { ERROR_PAGES } from "@/components/error-pages/registry";
 
-const TOOL_ONLY_COMPONENT_IDS = new Set(["animated-character"]);
+const componentsByLevel = groupComponentIdsByLevel(getComponentIds());
 
 const navSections = [
   {
@@ -52,15 +57,13 @@ const navSections = [
       ...ERROR_PAGES.map((page) => ({ id: page.id, title: page.title })),
     ],
   },
-  {
-    title: "Components",
-    items: getComponentIds()
-      .filter((id) => !TOOL_ONLY_COMPONENT_IDS.has(id))
-      .map((id) => ({
-        id,
-        title: componentNames[id] || id,
-      })),
-  },
+  ...ATOMIC_LEVEL_ORDER.map((level) => ({
+    title: `Components / ${ATOMIC_LEVEL_LABELS[level]}`,
+    items: componentsByLevel[level].map((id) => ({
+      id,
+      title: componentNames[id] || id,
+    })),
+  })),
 ];
 
 export function SearchForm(props: React.ComponentProps<"form">) {

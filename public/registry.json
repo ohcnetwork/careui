@@ -369,24 +369,6 @@
       ]
     },
     {
-      "name": "form",
-      "type": "registry:ui",
-      "description": "Building forms with validation and accessibility.",
-      "dependencies": [
-        "react-hook-form",
-        "@hookform/resolvers",
-        "zod"
-      ],
-      "files": [
-        {
-          "name": "form.tsx",
-          "type": "registry:ui",
-          "target": "components/careui/form.tsx",
-          "path": "registry/care-ui/form/form.json"
-        }
-      ]
-    },
-    {
       "name": "hover-card",
       "type": "registry:ui",
       "description": "For sighted users to preview content available behind a link.",

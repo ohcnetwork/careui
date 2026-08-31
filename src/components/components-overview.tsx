@@ -1,6 +1,12 @@
 import { useNavigation } from "@/contexts/navigation-context";
 import { getComponentIds } from "@/lib/component-registry";
 import {
+  ATOMIC_LEVEL_DESCRIPTIONS,
+  ATOMIC_LEVEL_LABELS,
+  ATOMIC_LEVEL_ORDER,
+  groupComponentIdsByLevel,
+} from "@/lib/component-categories";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -8,7 +14,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PageTitle, Lead } from "@/components/ui/typography";
+import {
+  PageTitle,
+  Lead,
+  SectionTitle,
+  Muted,
+} from "@/components/ui/typography";
 
 // Component metadata for display
 const componentMetadata: Record<
@@ -200,6 +211,12 @@ const componentMetadata: Record<
       "Displays an indicator showing the completion progress of a task.",
     examples: 1,
   },
+  questionnaire: {
+    name: "Questionnaire",
+    description:
+      "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
+    examples: 2,
+  },
   "radio-group": {
     name: "Radio Group",
     description: "A set of checkable buttons where only one can be checked.",
@@ -233,6 +250,11 @@ const componentMetadata: Record<
       "Extends the Dialog component to display content that complements the main content.",
     examples: 4,
   },
+  sidebar: {
+    name: "Sidebar",
+    description: "A composable, themeable and customizable sidebar component.",
+    examples: 1,
+  },
   skeleton: {
     name: "Skeleton",
     description: "Use to show a placeholder while content is loading.",
@@ -252,6 +274,24 @@ const componentMetadata: Record<
   spinner: {
     name: "Spinner",
     description: "A loading indicator component.",
+    examples: 1,
+  },
+  "unicode-spinner": {
+    name: "Unicode Spinner",
+    description:
+      "Braille-based Unicode spinner with multiple animation presets and zero dependencies.",
+    examples: 1,
+  },
+  "pixel-spinner": {
+    name: "Pixel Spinner",
+    description:
+      "Dot-matrix spinner rendered as a CSS 8×8 grid of discrete rounded dots.",
+    examples: 1,
+  },
+  "matrix-spinner": {
+    name: "Matrix Spinner",
+    description:
+      "SVG diamond-lattice matrix spinner with 50 named animation presets.",
     examples: 1,
   },
   switch: {
@@ -296,16 +336,24 @@ const componentMetadata: Record<
     description: "A popup that displays information related to an element.",
     examples: 1,
   },
+  "tv-display": {
+    name: "TV Display",
+    description:
+      "Composable digital signage layout for TVs (queue boards, room rosters).",
+    examples: 1,
+  },
+  typography: {
+    name: "Typography",
+    description:
+      "App-shell heading components (h1–h6) tuned for clinical UI density.",
+    examples: 1,
+  },
 };
 
-const allComponentIds = getComponentIds().filter(
-  (id) => id !== "components-overview" && id !== "animated-character"
-);
+const componentsByLevel = groupComponentIdsByLevel(getComponentIds());
 
 export function ComponentsOverview() {
   const { setActiveComponent } = useNavigation();
-
-  const componentIds = allComponentIds;
 
   const handleComponentClick = (componentId: string) => {
     setActiveComponent(componentId);
@@ -320,64 +368,86 @@ export function ComponentsOverview() {
           <Lead className="max-w-3xl">
             Beautiful UI components built with Tailwind CSS and React. An
             open-source collection of copy-and-paste components for quickly
-            building care application UIs.
+            building care application UIs, organized by{" "}
+            <a
+              href="https://atomicdesign.bradfrost.com/chapter-2/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-primary hover:underline"
+            >
+              Atomic Design
+            </a>{" "}
+            level — atoms, then molecules, then organisms.
           </Lead>
         </div>
 
-        {/* Components Grid */}
-        <div className="bg-soft-background grid grid-cols-1 gap-6 rounded-xl p-4 md:grid-cols-2 lg:grid-cols-3">
-          {componentIds.map((id) => {
-            const metadata = componentMetadata[id] || {
-              name: id,
-              description: "Component description",
-              examples: 0,
-            };
+        {/* Components grid, grouped by Atomic Design level */}
+        {ATOMIC_LEVEL_ORDER.map((level) => {
+          const componentIds = componentsByLevel[level];
+          if (componentIds.length === 0) return null;
 
-            return (
-              <Card
-                key={id}
-                className="group hover:shadow-primary/20 hover:border-primary/70 cursor-pointer justify-between shadow-md transition-all hover:shadow-lg"
-                onClick={() => handleComponentClick(id)}
-              >
-                <CardHeader className="pb-4">
-                  {/* Placeholder thumbnail banner */}
-                  <div className="from-primary/10 to-primary/5 mb-4 flex h-32 items-center justify-center rounded-lg border bg-linear-to-br">
-                    <div className="text-primary/20 text-4xl font-bold">
-                      {metadata.name.charAt(0).toUpperCase()}
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <CardTitle className="flex items-center justify-between">
-                      {metadata.name}
-                    </CardTitle>
-                    <CardDescription className="line-clamp-2">
-                      {metadata.description}
-                    </CardDescription>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="text-muted-foreground flex items-center justify-between text-sm">
-                    <span>
-                      {metadata.examples || 0} variant
-                      {metadata.examples !== 1 ? "s" : ""}
-                    </span>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className=""
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleComponentClick(id);
-                      }}
+          return (
+            <section key={level} className="space-y-4">
+              <div className="space-y-1">
+                <SectionTitle>{ATOMIC_LEVEL_LABELS[level]}</SectionTitle>
+                <Muted>{ATOMIC_LEVEL_DESCRIPTIONS[level]}</Muted>
+              </div>
+              <div className="bg-soft-background grid grid-cols-1 gap-6 rounded-xl p-4 md:grid-cols-2 lg:grid-cols-3">
+                {componentIds.map((id) => {
+                  const metadata = componentMetadata[id] || {
+                    name: id,
+                    description: "Component description",
+                    examples: 0,
+                  };
+
+                  return (
+                    <Card
+                      key={id}
+                      className="group hover:shadow-primary/20 hover:border-primary/70 cursor-pointer justify-between shadow-md transition-all hover:shadow-lg"
+                      onClick={() => handleComponentClick(id)}
                     >
-                      View docs
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+                      <CardHeader className="pb-4">
+                        {/* Placeholder thumbnail banner */}
+                        <div className="from-primary/10 to-primary/5 mb-4 flex h-32 items-center justify-center rounded-lg border bg-linear-to-br">
+                          <div className="text-primary/20 text-4xl font-bold">
+                            {metadata.name.charAt(0).toUpperCase()}
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <CardTitle className="flex items-center justify-between">
+                            {metadata.name}
+                          </CardTitle>
+                          <CardDescription className="line-clamp-2">
+                            {metadata.description}
+                          </CardDescription>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <div className="text-muted-foreground flex items-center justify-between text-sm">
+                          <span>
+                            {metadata.examples || 0} variant
+                            {metadata.examples !== 1 ? "s" : ""}
+                          </span>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className=""
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleComponentClick(id);
+                            }}
+                          >
+                            View docs
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
 
         {/* Footer message */}
         <div className="py-8 text-center">

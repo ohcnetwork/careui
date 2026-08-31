@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "atomic-design-fundamentals": {
+      "source": "thebushidocollective/han",
+      "sourceType": "github",
+      "skillPath": "plugins/patterns/atomic-design/skills/atomic-design-fundamentals/SKILL.md",
+      "computedHash": "4a2d3a077911fd8da7ac42c42ff120345e476078ede8f523c9a0a7b4e3eb7cc8"
+    },
     "better-accessibility": {
       "source": "jakubkrehel/skills",
       "sourceType": "github",

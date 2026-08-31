@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { Copy, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { componentNames } from "@/lib/component-names";
+import {
+  ATOMIC_LEVEL_ORDER,
+  groupComponentIdsByLevel,
+} from "@/lib/component-categories";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button } from "@/components/ui/button";
@@ -65,9 +69,24 @@ function CliCommand({ command }: CliCommandProps) {
   );
 }
 
-const componentNavOrder = Object.keys(componentNames).filter(
-  (id) => id !== "components-overview"
+// Prev/next order follows Atomic Design level (atoms -> molecules ->
+// organisms), alphabetical within each level; anything without a level
+// (tool-only entries) is appended afterwards in its original order.
+const componentsByLevel = groupComponentIdsByLevel(getComponentIds());
+const levelOrderedIds = ATOMIC_LEVEL_ORDER.flatMap((level) =>
+  componentsByLevel[level]
+    .slice()
+    .sort((a, b) =>
+      (componentNames[a] || a).localeCompare(componentNames[b] || b)
+    )
 );
+const levelOrderedIdSet = new Set(levelOrderedIds);
+const componentNavOrder = [
+  ...levelOrderedIds,
+  ...Object.keys(componentNames).filter(
+    (id) => id !== "components-overview" && !levelOrderedIdSet.has(id)
+  ),
+];
 
 function PropsTable({
   props,
