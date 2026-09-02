@@ -41,7 +41,7 @@ export const badgeDoc: ComponentDoc = {
   id: "badge",
   name: "Badge",
   description:
-    "A badge for displaying status labels, tags, and notification indicators. Supports semantic and full Tailwind color palettes, a neutral indicator style, four sizes, and dot, icon, and close-button variants.",
+    "An outlined badge for displaying status labels, tags, and notification indicators. Supports semantic and full Tailwind color palettes, four sizes, and dot, icon, and close-button variants.",
   installation: {
     cli: "npx shadcn@latest add badge",
     manual: "Copy and paste the badge component source code into your project.",
@@ -167,76 +167,6 @@ export function BadgeDemo() {
             tone: "destructive",
             variant: "filled",
             size: "xs",
-          }),
-          "Destructive"
-        )
-      ),
-    },
-
-    // ── Indicator Style ───────────────────────────────────────────────────
-    {
-      name: "Indicator Style",
-      description:
-        "Use the indicator variant with an outlined Indicator for a badge with no border or fill color. Install the Indicator component separately.",
-      code: `pnpm dlx shadcn@latest add indicator
-
-import { Indicator } from "@/components/ui/indicator"
-
-<div className="flex items-center gap-2 flex-wrap">
-  <Badge variant="indicator"><Indicator tone="primary" variant="outlined" size="sm" />Primary</Badge>
-  <Badge variant="indicator"><Indicator tone="success" variant="outlined" size="sm" />Success</Badge>
-  <Badge variant="indicator"><Indicator tone="warning" variant="outlined" size="sm" />Warning</Badge>
-  <Badge variant="indicator"><Indicator tone="info" variant="outlined" size="sm" />Info</Badge>
-  <Badge variant="indicator"><Indicator tone="destructive" variant="outlined" size="sm" />Destructive</Badge>
-</div>`,
-      preview: row(
-        React.createElement(
-          Badge,
-          { variant: "indicator" },
-          React.createElement(Indicator, {
-            tone: "primary",
-            variant: "outlined",
-            size: "sm",
-          }),
-          "Primary"
-        ),
-        React.createElement(
-          Badge,
-          { variant: "indicator" },
-          React.createElement(Indicator, {
-            tone: "success",
-            variant: "outlined",
-            size: "sm",
-          }),
-          "Success"
-        ),
-        React.createElement(
-          Badge,
-          { variant: "indicator" },
-          React.createElement(Indicator, {
-            tone: "warning",
-            variant: "outlined",
-            size: "sm",
-          }),
-          "Warning"
-        ),
-        React.createElement(
-          Badge,
-          { variant: "indicator" },
-          React.createElement(Indicator, {
-            tone: "info",
-            variant: "outlined",
-            size: "sm",
-          }),
-          "Info"
-        ),
-        React.createElement(
-          Badge,
-          { variant: "indicator" },
-          React.createElement(Indicator, {
-            tone: "destructive",
-            variant: "outlined",
-            size: "sm",
           }),
           "Destructive"
         )
@@ -745,9 +675,8 @@ import { Indicator } from "@/components/ui/indicator"
   props: [
     {
       name: "variant",
-      type: '"primary" | "success" | "warning" | "info" | "destructive" | "indicator" | "neutral" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose"',
-      description:
-        "Color variant of the badge. The indicator variant has no border or fill color.",
+      type: '"primary" | "success" | "warning" | "info" | "destructive" | "neutral" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose"',
+      description: "Color variant of the badge.",
       default: '"primary"',
     },
     {
