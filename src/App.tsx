@@ -19,9 +19,14 @@ import {
 } from "@/components/ui/studio-sidebar";
 import { BlockPreviewPage, BlockCodePage } from "@/components/blocks";
 import { ErrorPagePreview } from "@/components/error-pages";
+import { PrototypeBuilder } from "@/components/prototype-builder";
 
 function AppShell() {
   const { activeComponent } = useNavigation();
+
+  if (activeComponent === "prototype-builder") {
+    return <PrototypeBuilder />;
+  }
 
   if (activeComponent.startsWith("block-preview-")) {
     const id = activeComponent.slice("block-preview-".length);
