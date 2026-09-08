@@ -56,7 +56,7 @@ export function DropdownMenuDemo() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
+        <Button variant="outline" className="shadow-sm">Open</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
@@ -78,7 +78,7 @@ export function DropdownMenuDemo() {
 
 <DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline" size="default">
+    <Button variant="outline" size="default" className="shadow-sm">
       Open Menu
       <ChevronDown className="size-4" />
     </Button>
@@ -109,7 +109,7 @@ export function DropdownMenuDemo() {
         { asChild: true },
         React.createElement(
           Button,
-          { variant: "outline", size: "default" },
+          { variant: "outline", className: "shadow-sm", size: "default" },
           "Open Menu",
           React.createElement(ChevronDown, { className: "size-4" })
         )
@@ -153,7 +153,7 @@ export function DropdownMenuDemo() {
 
 <DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline">
+    <Button variant="outline" className="shadow-sm">
       Open
       <ChevronDown className="size-4" />
     </Button>
@@ -179,7 +179,7 @@ export function DropdownMenuDemo() {
           { asChild: true },
           React.createElement(
             Button,
-            { variant: "outline" },
+            { variant: "outline", className: "shadow-sm" },
             "Open",
             React.createElement(ChevronDown, { className: "size-4" })
           )
@@ -210,7 +210,7 @@ export function DropdownMenuDemo() {
 
 <DropdownMenu modal={true}>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline">
+    <Button variant="outline" className="shadow-sm">
       Open
       <ChevronDown className="size-4" />
     </Button>
@@ -232,7 +232,7 @@ export function DropdownMenuDemo() {
           { asChild: true },
           React.createElement(
             Button,
-            { variant: "outline" },
+            { variant: "outline", className: "shadow-sm" },
             "Open",
             React.createElement(ChevronDown, { className: "size-4" })
           )
@@ -262,7 +262,7 @@ export function DropdownMenuDemo() {
 
 <DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline">
+    <Button variant="outline" className="shadow-sm">
       Open
       <ChevronDown className="size-4" />
     </Button>
@@ -290,7 +290,7 @@ export function DropdownMenuDemo() {
           { asChild: true },
           React.createElement(
             Button,
-            { variant: "outline" },
+            { variant: "outline", className: "shadow-sm" },
             "Open",
             React.createElement(ChevronDown, { className: "size-4" })
           )
@@ -334,7 +334,7 @@ export function DropdownMenuCheckboxes() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="shadow-sm">
           View
           <ChevronDown className="size-4" />
         </Button>
@@ -372,7 +372,7 @@ export function DropdownMenuCheckboxes() {
             { asChild: true },
             React.createElement(
               Button,
-              { variant: "outline" },
+              { variant: "outline", className: "shadow-sm" },
               "View",
               React.createElement(ChevronDown, { className: "size-4" })
             )
@@ -428,7 +428,7 @@ export function DropdownMenuCheckboxComponent() {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="shadow-sm">
           View
           <ChevronDown className="size-4" />
         </Button>
@@ -505,7 +505,7 @@ export function DropdownMenuCheckboxComponent() {
               { asChild: true },
               React.createElement(
                 Button,
-                { variant: "outline" },
+                { variant: "outline", className: "shadow-sm" },
                 "View",
                 React.createElement(ChevronDown, { className: "size-4" })
               )
@@ -597,7 +597,7 @@ export function DropdownMenuRadioGroupComponent() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="shadow-sm">
           Position
           <ChevronDown className="size-4" />
         </Button>
@@ -667,7 +667,7 @@ export function DropdownMenuRadioGroupComponent() {
               { asChild: true },
               React.createElement(
                 Button,
-                { variant: "outline" },
+                { variant: "outline", className: "shadow-sm" },
                 "Position",
                 React.createElement(ChevronDown, { className: "size-4" })
               )
@@ -755,7 +755,7 @@ export function DropdownMenuTheme() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="shadow-sm">
           Theme
           <ChevronDown className="size-4" />
         </Button>
@@ -785,7 +785,7 @@ export function DropdownMenuTheme() {
             { asChild: true },
             React.createElement(
               Button,
-              { variant: "outline" },
+              { variant: "outline", className: "shadow-sm" },
               "Theme",
               React.createElement(ChevronDown, { className: "size-4" })
             )
@@ -829,7 +829,7 @@ export function DropdownMenuTheme() {
 
 <DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline">
+    <Button variant="outline" className="shadow-sm">
       Actions
       <ChevronDown className="size-4" />
     </Button>
@@ -849,7 +849,7 @@ export function DropdownMenuTheme() {
           { asChild: true },
           React.createElement(
             Button,
-            { variant: "outline" },
+            { variant: "outline", className: "shadow-sm" },
             "Actions",
             React.createElement(ChevronDown, { className: "size-4" })
           )
@@ -876,7 +876,7 @@ export function DropdownMenuTheme() {
 
 <DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline" size="icon" aria-label="Open menu">
+    <Button variant="outline" size="icon" aria-label="Open menu" className="shadow-sm">
       <EllipsisVertical className="size-4" />
     </Button>
   </DropdownMenuTrigger>
@@ -894,7 +894,12 @@ export function DropdownMenuTheme() {
           { asChild: true },
           React.createElement(
             Button,
-            { variant: "outline", size: "icon", "aria-label": "Open menu" },
+            {
+              variant: "outline",
+              size: "icon",
+              "aria-label": "Open menu",
+              className: "shadow-sm",
+            },
             React.createElement(EllipsisVertical, { className: "size-4" })
           )
         ),
@@ -954,7 +959,7 @@ export function DropdownMenuComplex() {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="shadow-sm">
           Complex Menu
           <ChevronDown className="size-4" />
         </Button>
@@ -1045,7 +1050,7 @@ export function DropdownMenuComplex() {
             { asChild: true },
             React.createElement(
               Button,
-              { variant: "outline" },
+              { variant: "outline", className: "shadow-sm" },
               "Complex Menu",
               React.createElement(ChevronDown, { className: "size-4" })
             )
@@ -1158,7 +1163,7 @@ export function DropdownMenuComplex() {
 
 <DropdownMenu modal={false}>
   <DropdownMenuTrigger asChild>
-    <Button variant="outline">
+    <Button variant="outline" className="shadow-sm">
       Open
       <ChevronDown className="size-4" />
     </Button>
@@ -1186,7 +1191,7 @@ export function DropdownMenuComplex() {
           { asChild: true },
           React.createElement(
             Button,
-            { variant: "outline" },
+            { variant: "outline", className: "shadow-sm" },
             "Open",
             React.createElement(ChevronDown, { className: "size-4" })
           )

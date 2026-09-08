@@ -137,7 +137,7 @@ function InnerPage02LocationSelector({
       <DropdownMenu onOpenChange={onOpenChange}>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <button className="border-strong-border bg-background hover:bg-muted focus-visible:ring-ring flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none">
+            <button className="border-strong-border bg-background hover:bg-muted focus-visible:ring-ring flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none">
               <div className="min-w-0 flex-1">
                 <p className="text-muted-foreground text-[10px] font-semibold tracking-wider uppercase">
                   Chosen Location

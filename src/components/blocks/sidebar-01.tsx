@@ -88,7 +88,7 @@ function AppSidebarInner({ pinned, onMenuOpenChange }: { pinned: boolean; onMenu
           <SidebarMenuItem>
               <DropdownMenu onOpenChange={onMenuOpenChange}>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton size="lg">
+                <SidebarMenuButton size="lg" className="shadow-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarFallback className="rounded-lg bg-green-100 text-green-800 text-xs font-semibold">
                       {user.initials}

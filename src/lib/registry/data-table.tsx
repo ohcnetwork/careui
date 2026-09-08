@@ -4981,7 +4981,7 @@ function ColumnVisibilityDemo() {
             { asChild: true },
             React.createElement(
               Button,
-              { variant: "outline", size: "sm" },
+              { variant: "outline", size: "sm", className: "shadow-sm" },
               React.createElement(Settings2, { "aria-hidden": true }),
               "Columns"
             )
@@ -5613,7 +5613,12 @@ function CrudActionsCell({ row }: { row: Row<CrudMember> }) {
       null,
       React.createElement(
         Button,
-        { className: "size-7", size: "icon", variant: "ghost", asChild: true },
+        {
+          className: "size-7 shadow-sm",
+          size: "icon",
+          variant: "ghost",
+          asChild: true,
+        },
         React.createElement(
           DropdownMenuTrigger,
           null,
@@ -10261,7 +10266,7 @@ export function ColumnVisibilityTable() {
         <CardAction>
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="shadow-sm">
                 <Settings2 aria-hidden />
                 Columns
               </Button>
@@ -10761,7 +10766,7 @@ function ActionsCell({ row }: { row: Row<Member> }) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button className="size-7" size="icon" variant="ghost">
+        <Button className="size-7 shadow-sm" size="icon" variant="ghost">
           <MoreHorizontal />
         </Button>
       </DropdownMenuTrigger>

@@ -530,7 +530,7 @@ export function AvatarDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full [corner-shape:round]">
+        <Button variant="ghost" size="icon" className="rounded-full [corner-shape:round] shadow-sm">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
             <AvatarFallback>CN</AvatarFallback>
@@ -559,7 +559,11 @@ export function AvatarDropdown() {
           { asChild: true },
           React.createElement(
             Button,
-            { variant: "ghost", size: "icon", className: "rounded-full" },
+            {
+              variant: "ghost",
+              size: "icon",
+              className: "rounded-full shadow-sm",
+            },
             React.createElement(
               Avatar,
               {},

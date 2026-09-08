@@ -629,7 +629,7 @@ function FilterOperatorDropdown<T = unknown>({
       aria-label={`${context.i18n.changeOperator}${
         field.label ? ` (${field.label})` : ""
       }, currently ${operatorLabel}`}
-      className="text-muted-foreground hover:text-foreground font-normal underline underline-offset-4"
+      className="text-muted-foreground hover:text-foreground font-normal underline underline-offset-4 shadow-sm"
     >
       {operatorLabel}
     </Button>
@@ -993,7 +993,7 @@ function SelectOptionsPopover<T = unknown>({
             ? selectedOptions[0].label
             : `${selectedOptions.length} ${context.i18n.selectedCount}`
       }`}
-      className={cn("font-normal", className)}
+      className={cn("font-normal shadow-sm", className)}
     >
       <div className="flex w-full items-center justify-between gap-1.5">
         <div className="flex items-center gap-1.5">
@@ -1756,6 +1756,7 @@ export function Filters<T = unknown>({
                   data-slot="filter-trigger"
                   variant="outline"
                   size={size}
+                  className="shadow-sm"
                   aria-label={mergedI18n.addFilter}
                   aria-haspopup="menu"
                   aria-expanded={addFilterOpen}

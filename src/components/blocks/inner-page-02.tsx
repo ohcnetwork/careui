@@ -113,7 +113,7 @@ function LocationSelector({ onOpenChange }: { onOpenChange?: (open: boolean) => 
       <DropdownMenu onOpenChange={onOpenChange}>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <button className="flex w-full items-center justify-between rounded-lg border bg-background px-3 py-2.5 text-left transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <button className="flex w-full items-center justify-between rounded-lg border bg-background px-3 py-2.5 text-left transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring shadow-sm">
               <div className="min-w-0 flex-1">
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Chosen Location

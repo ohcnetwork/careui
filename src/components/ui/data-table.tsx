@@ -257,7 +257,7 @@ function DataTable<TData, TValue>({
             )}
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto">
+                <Button variant="outline" className="ml-auto shadow-sm">
                   Columns <ChevronDown />
                 </Button>
               </DropdownMenuTrigger>
@@ -514,7 +514,11 @@ function DataTableColumnHeader<TValue>({
     return (
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className={cn(className)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn("shadow-sm", className)}
+          >
             {icon && (
               <span className="text-muted-foreground shrink-0 [&_svg]:size-3.5">
                 {icon}
@@ -571,7 +575,11 @@ function DataTableColumnHeader<TValue>({
     return (
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className={cn(className)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn("shadow-sm", className)}
+          >
             {icon && (
               <span className="text-muted-foreground shrink-0 [&_svg]:size-3.5">
                 {icon}
@@ -663,7 +671,7 @@ function DataTableRowActions({ children }: DataTableRowActionsProps) {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="size-10 p-0">
+        <Button variant="ghost" className="size-10 p-0 shadow-sm">
           <span className="sr-only">Open menu</span>
           <MoreHorizontal />
         </Button>

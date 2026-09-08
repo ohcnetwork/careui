@@ -238,7 +238,7 @@ export function Playground() {
         {/* Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" className="shadow-sm">
               Dropdown
               <ChevronDown className="size-4" />
             </Button>

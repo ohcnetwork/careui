@@ -218,7 +218,11 @@ export function InnerPageLayoutDemo({
                   <BreadcrumbItem className="sm:hidden">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button size="icon-sm" variant="ghost">
+                        <Button
+                          size="icon-sm"
+                          variant="ghost"
+                          className="shadow-sm"
+                        >
                           <BreadcrumbEllipsis />
                           <span className="sr-only">Toggle menu</span>
                         </Button>

@@ -18,16 +18,26 @@ type RenderProp =
 function resolveAsChild(
   asChild: boolean | undefined,
   children: React.ReactNode,
-  render: RenderProp
+  render: RenderProp,
+  className?: string
 ): { render: RenderProp; children: React.ReactNode } {
   if (asChild && React.isValidElement(children)) {
     const child = children as React.ReactElement<{
       children?: React.ReactNode;
+      className?: string;
       [key: string]: unknown;
     }>;
-    const { children: extractedChildren, ...restProps } = child.props;
+    const {
+      children: extractedChildren,
+      className: childClassName,
+      ...restProps
+    } = child.props;
     return {
-      render: React.createElement(child.type as React.ElementType, restProps),
+      render: React.createElement(child.type as React.ElementType, {
+        ...restProps,
+        // Let the trigger override child styles (e.g. tone down a Button's shadow).
+        className: cn(childClassName, className),
+      }),
       children: extractedChildren,
     };
   }
@@ -46,16 +56,19 @@ function DropdownMenuTrigger({
   asChild,
   render,
   children,
+  className,
   ...props
-}: Omit<MenuPrimitive.Trigger.Props, "render"> & {
+}: Omit<MenuPrimitive.Trigger.Props, "render" | "className"> & {
   asChild?: boolean;
   render?: RenderProp;
+  className?: string;
 }) {
-  const resolved = resolveAsChild(asChild, children, render);
+  const resolved = resolveAsChild(asChild, children, render, className);
   return (
     <MenuPrimitive.Trigger
       data-slot="dropdown-menu-trigger"
       render={resolved.render}
+      className={asChild ? undefined : className}
       {...props}
     >
       {resolved.children}

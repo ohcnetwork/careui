@@ -139,7 +139,7 @@ function TableActionsDemo() {
         { asChild: true },
         React.createElement(
           Button,
-          { variant: "ghost", size: "icon", className: "size-8" },
+          { variant: "ghost", size: "icon", className: "size-8 shadow-sm" },
           React.createElement(MoreHorizontal, {}),
           React.createElement("span", { className: "sr-only" }, "Open menu")
         )
@@ -367,7 +367,7 @@ export function TableActions() {
           <TableCell className="text-right">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="size-8">
+                <Button variant="ghost" size="icon" className="size-8 shadow-sm">
                   <MoreHorizontal />
                   <span className="sr-only">Open menu</span>
                 </Button>

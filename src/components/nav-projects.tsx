@@ -50,7 +50,7 @@ export function NavProjects({
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction
                   showOnHover
-                  className="aria-expanded:bg-muted"
+                  className="aria-expanded:bg-muted shadow-sm"
                 >
                   <MoreHorizontalIcon />
                   <span className="sr-only">More</span>

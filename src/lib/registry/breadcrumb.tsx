@@ -81,7 +81,7 @@ import {
     <BreadcrumbItem>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="icon-sm" variant="ghost">
+          <Button size="icon-sm" variant="ghost" className="shadow-sm">
             <BreadcrumbEllipsis />
             <span className="sr-only">Toggle menu</span>
           </Button>
@@ -128,7 +128,7 @@ import {
               { asChild: true },
               React.createElement(
                 Button,
-                { size: "icon-sm", variant: "ghost" },
+                { size: "icon-sm", variant: "ghost", className: "shadow-sm" },
                 React.createElement(BreadcrumbEllipsis, {}),
                 React.createElement(
                   "span",
@@ -334,7 +334,7 @@ export function BreadcrumbDropdown() {
         <BreadcrumbItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-1">
+              <button className="flex items-center gap-1 shadow-sm">
                 Components
                 <ChevronDownIcon className="size-3.5" />
               </button>
@@ -385,7 +385,7 @@ export function BreadcrumbDropdown() {
                 { asChild: true },
                 React.createElement(
                   "button",
-                  { className: "flex items-center gap-1" },
+                  { className: "flex items-center gap-1 shadow-sm" },
                   "Components",
                   React.createElement(ChevronDownIcon, {
                     className: "size-3.5",

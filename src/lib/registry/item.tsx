@@ -950,7 +950,7 @@ export function ItemDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="shadow-sm">
           Select <ChevronDownIcon />
         </Button>
       </DropdownMenuTrigger>
@@ -987,7 +987,7 @@ export function ItemDropdown() {
           { asChild: true },
           React.createElement(
             Button,
-            { variant: "outline" },
+            { variant: "outline", className: "shadow-sm" },
             "Select ",
             React.createElement(ChevronDownIcon)
           )

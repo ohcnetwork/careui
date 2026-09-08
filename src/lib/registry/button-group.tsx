@@ -148,7 +148,7 @@ export function ButtonGroupDemo() {
         <Button variant="outline">Snooze</Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" aria-label="More Options">
+            <Button variant="outline" size="icon" aria-label="More Options" className="shadow-sm">
               <MoreHorizontalIcon />
             </Button>
           </DropdownMenuTrigger>
@@ -240,6 +240,7 @@ export function ButtonGroupDemo() {
                   variant: "outline",
                   size: "icon",
                   "aria-label": "More Options",
+                  className: "shadow-sm",
                 },
                 React.createElement(MoreHorizontalIcon)
               )
@@ -809,7 +810,7 @@ export function ButtonGroupDropdown() {
       <Button variant="outline">Follow</Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="pl-2!">
+          <Button variant="outline" className="pl-2! shadow-sm">
             <ChevronDownIcon />
           </Button>
         </DropdownMenuTrigger>
@@ -864,7 +865,7 @@ export function ButtonGroupDropdown() {
             { asChild: true },
             React.createElement(
               Button,
-              { variant: "outline", className: "pl-2!" },
+              { variant: "outline", className: "pl-2! shadow-sm" },
               React.createElement(ChevronDownIcon)
             )
           ),

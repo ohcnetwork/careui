@@ -218,7 +218,7 @@ function CareNavUserCard({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent bg-strong-background/60 data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent bg-strong-background/60 data-[state=open]:text-sidebar-accent-foreground shadow-sm"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarFallback className="rounded-lg bg-green-100 text-xs font-semibold text-green-800 dark:bg-green-900 dark:text-green-200">
@@ -920,7 +920,11 @@ export function InnerPageLayoutDemo({
                   <BreadcrumbItem className="sm:hidden">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button size="icon-sm" variant="ghost">
+                        <Button
+                          size="icon-sm"
+                          variant="ghost"
+                          className="shadow-sm"
+                        >
                           <BreadcrumbEllipsis />
                           <span className="sr-only">Toggle menu</span>
                         </Button>
@@ -987,7 +991,7 @@ function InnerPage02LocationSelector({
   return (
     <DropdownMenu onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
-        <button className="bg-background hover:bg-muted focus-visible:ring-ring flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none">
+        <button className="bg-background hover:bg-muted focus-visible:ring-ring flex w-full items-center justify-between rounded-lg border px-3 py-2.5 text-left shadow-sm transition-colors focus-visible:ring-2 focus-visible:outline-none">
           <div className="min-w-0">
             <p className="text-muted-foreground text-[10px] font-semibold tracking-wider uppercase">
               Chosen Location
@@ -1537,7 +1541,7 @@ function TeamSwitcher({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground shadow-sm"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                 <activeTeam.logo className="size-4" />
@@ -1670,7 +1674,7 @@ function NavProjects({
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuAction showOnHover>
+              <SidebarMenuAction showOnHover className="shadow-sm">
                   <MoreHorizontal />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
@@ -1730,7 +1734,7 @@ function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground shadow-sm"
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />

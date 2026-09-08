@@ -583,6 +583,7 @@ export function InputGroupDropdown() {
                 variant="ghost"
                 aria-label="More"
                 size="icon-xs"
+                className="shadow-sm"
               >
                 <MoreHorizontal />
               </InputGroupButton>
@@ -602,7 +603,7 @@ export function InputGroupDropdown() {
         <InputGroupAddon align="inline-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <InputGroupButton variant="ghost" className="pr-1.5! text-xs">
+              <InputGroupButton variant="ghost" className="pr-1.5! text-xs shadow-sm">
                 Search In... <ChevronDownIcon className="size-3" />
               </InputGroupButton>
             </DropdownMenuTrigger>
@@ -639,7 +640,12 @@ export function InputGroupDropdown() {
                 { asChild: true },
                 React.createElement(
                   InputGroupButton,
-                  { variant: "ghost", "aria-label": "More", size: "icon-xs" },
+                  {
+                    variant: "ghost",
+                    "aria-label": "More",
+                    size: "icon-xs",
+                    className: "shadow-sm",
+                  },
                   React.createElement(MoreHorizontal)
                 )
               ),
@@ -677,7 +683,7 @@ export function InputGroupDropdown() {
                   {
                     variant: "tertiary",
                     size: "xs",
-                    className: "no-underline",
+                    className: "no-underline shadow-sm",
                   },
                   "Search In ",
                   React.createElement(ChevronDownIcon, {
