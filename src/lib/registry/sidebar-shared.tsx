@@ -158,13 +158,13 @@ export function SidebarToggleButton({
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) {
-  const { isMobile, setOpenMobile } = useSidebar();
+  const { isMobile, state, setOpenMobile } = useSidebar();
 
   const button = (
     <Button
       variant="ghost"
       size="icon"
-      className="relative -ml-1 h-7 w-7 after:absolute after:-inset-3 after:content-['']"
+      className="group relative -ml-1 h-7 w-7 px-0 after:absolute after:-inset-3 after:content-['']"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={() => {
@@ -175,7 +175,25 @@ export function SidebarToggleButton({
         }
       }}
     >
-      <PanelLeft className="h-4 w-4" />
+      {isMobile || state === "expanded" ? (
+        <PanelLeft className="h-4 w-4" />
+      ) : (
+        <>
+          <img
+            src="/brand-assets/uploads/Care-Logos/SVG/Care-Icon-on-light.svg"
+            alt=""
+            aria-hidden="true"
+            className="size-6 object-contain transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0 dark:hidden"
+          />
+          <img
+            src="/brand-assets/uploads/Care-Logos/SVG/Care-Icon-on-dark.svg"
+            alt=""
+            aria-hidden="true"
+            className="hidden size-6 object-contain transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0 dark:block"
+          />
+          <PanelLeft className="absolute size-4 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+        </>
+      )}
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
