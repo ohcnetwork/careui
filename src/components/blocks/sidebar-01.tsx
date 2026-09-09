@@ -95,7 +95,6 @@ function AppSidebarInner({ pinned, onMenuOpenChange }: { pinned: boolean; onMenu
   const [mobileEncounterOpen, setMobileEncounterOpen] = useState(false)
 
   const handleEncounterMenuOpenChange = (open: boolean) => {
-    if (!open) setIsSettingDefault(false)
     setEncounterMenuOpen(open)
     setMobileEncounterOpen(open)
   }
@@ -128,7 +127,6 @@ function AppSidebarInner({ pinned, onMenuOpenChange }: { pinned: boolean; onMenu
     setActiveEncounter(encounterType)
     setActiveSection("encounters")
     window.localStorage.setItem(encounterStorageKey, encounterType)
-    setIsSettingDefault(false)
     setEncounterMenuOpen(false)
     setMobileEncounterOpen(false)
     closeMobileSidebar()
@@ -244,6 +242,8 @@ function AppSidebarInner({ pinned, onMenuOpenChange }: { pinned: boolean; onMenu
                             size="icon"
                             className="text-muted-foreground hover:text-foreground size-8 shrink-0"
                             aria-label="Choose default encounter type"
+                            onPointerDown={() => setIsSettingDefault(false)}
+                            onClick={() => setIsSettingDefault(false)}
                           >
                             <MoreHorizontal />
                           </Button>
@@ -265,6 +265,8 @@ function AppSidebarInner({ pinned, onMenuOpenChange }: { pinned: boolean; onMenu
                             size="icon"
                             className="text-muted-foreground hover:text-foreground size-8 shrink-0"
                             aria-label="Choose default encounter type"
+                            onPointerDown={() => setIsSettingDefault(false)}
+                            onClick={() => setIsSettingDefault(false)}
                           >
                             <MoreHorizontal />
                           </Button>
