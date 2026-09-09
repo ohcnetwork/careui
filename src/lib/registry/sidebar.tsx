@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { type ComponentDoc } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -20,6 +21,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Command,
   CommandDialog,
@@ -73,6 +85,7 @@ import {
   House,
   LogOut,
   MapPin,
+  MoreHorizontal,
   Package,
   PanelLeft,
   Search,
@@ -131,6 +144,28 @@ const careNavGroups: CareNavGroup[] = [
 
 const careFacilities = ["Care Facility", "City Hospital", "Rural Clinic"];
 
+const encounterTypes = [
+  "All Encounters",
+  "Inpatient",
+  "Ambulatory",
+  "Emergency",
+  "Observation",
+  "Virtual",
+  "Outpatient",
+  "Home Health",
+] as const;
+
+type EncounterType = (typeof encounterTypes)[number];
+const encounterStorageKey = "careui-main-dashboard-default-encounter";
+
+function readDefaultEncounter(): EncounterType {
+  if (typeof window === "undefined") return encounterTypes[0];
+  const stored = window.localStorage.getItem(encounterStorageKey);
+  return encounterTypes.includes(stored as EncounterType)
+    ? (stored as EncounterType)
+    : encounterTypes[0];
+}
+
 const careUser = { name: "Prabha Narendran", role: "Nurse", initials: "PN" };
 
 // ─── CareFacilitySelector ─────────────────────────────────────────────────────
@@ -172,6 +207,138 @@ function CareFacilitySelector() {
 // ─── CareNavGroups ────────────────────────────────────────────────────────────
 
 function CareNavGroups() {
+  const { isMobile, setOpenMobile } = useSidebar();
+  const [activeSection, setActiveSection] = React.useState<
+    "home" | "encounters"
+  >("home");
+  const [defaultEncounter, setDefaultEncounter] =
+    React.useState(readDefaultEncounter);
+  const [activeEncounter, setActiveEncounter] =
+    React.useState<EncounterType>(defaultEncounter);
+  const [draftDefaultEncounter, setDraftDefaultEncounter] =
+    React.useState<EncounterType>(defaultEncounter);
+  const [isSettingDefault, setIsSettingDefault] = React.useState(false);
+  const [encounterMenuOpen, setEncounterMenuOpen] = React.useState(false);
+  const [mobileEncounterOpen, setMobileEncounterOpen] = React.useState(false);
+
+  const handleEncounterMenuOpenChange = (open: boolean) => {
+    setEncounterMenuOpen(open);
+    setMobileEncounterOpen(open);
+  };
+
+  const closeMobileSidebar = () => {
+    if (!isMobile) return;
+    window.setTimeout(() => {
+      if (document.activeElement instanceof HTMLElement)
+        document.activeElement.blur();
+      setOpenMobile(false);
+      document
+        .querySelector<HTMLButtonElement>('[aria-label="Close sidebar"]')
+        ?.click();
+    }, 300);
+  };
+
+  const navigateToEncounter = (encounterType: EncounterType) => {
+    setActiveEncounter(encounterType);
+    setActiveSection("encounters");
+    setEncounterMenuOpen(false);
+    setMobileEncounterOpen(false);
+    closeMobileSidebar();
+  };
+
+  const openDefaultSettings = () => {
+    setDraftDefaultEncounter(defaultEncounter);
+    setIsSettingDefault(true);
+  };
+
+  const selectEncounterDefault = (encounterType: EncounterType) => {
+    setDraftDefaultEncounter(encounterType);
+    setDefaultEncounter(encounterType);
+    setActiveEncounter(encounterType);
+    setActiveSection("encounters");
+    window.localStorage.setItem(encounterStorageKey, encounterType);
+    setEncounterMenuOpen(false);
+    setMobileEncounterOpen(false);
+    closeMobileSidebar();
+  };
+
+  const encounterMenuContent = (mobile: boolean) => (
+    <>
+      {isSettingDefault ? (
+        <RadioGroup
+          value={draftDefaultEncounter}
+          className="gap-0"
+          onValueChange={(value) =>
+            selectEncounterDefault(value as EncounterType)
+          }
+        >
+          {encounterTypes.map((encounterType) => {
+            const radioId = `organism-default-${encounterType.toLowerCase().replaceAll(" ", "-")}`;
+            return (
+              <label
+                key={encounterType}
+                htmlFor={radioId}
+                className="hover:bg-accent flex min-h-10 cursor-pointer items-center gap-2 rounded-sm px-2 text-sm"
+              >
+                <RadioGroupItem id={radioId} value={encounterType} />
+                {encounterType}
+              </label>
+            );
+          })}
+        </RadioGroup>
+      ) : (
+        <>
+          {mobile ? (
+            <div>
+              {encounterTypes.map((encounterType) => (
+                <Button
+                  key={encounterType}
+                  variant="ghost"
+                  className="focus:bg-accent focus:text-accent-foreground flex min-h-11 w-full justify-start rounded-sm px-2.5 py-1.5 text-sm font-normal no-underline"
+                  onClick={() => navigateToEncounter(encounterType)}
+                >
+                  {encounterType}
+                </Button>
+              ))}
+            </div>
+          ) : (
+            encounterTypes.map((encounterType) => (
+              <DropdownMenuItem
+                key={encounterType}
+                onClick={() => navigateToEncounter(encounterType)}
+              >
+                {encounterType}
+              </DropdownMenuItem>
+            ))
+          )}
+          {mobile ? (
+            <Button
+              variant="ghost"
+              className="focus:bg-accent focus:text-accent-foreground border-border mt-2 flex min-h-11 w-full justify-between rounded-sm border-t px-2.5 py-1.5 text-sm font-normal no-underline"
+              onClick={openDefaultSettings}
+            >
+              Set Default
+              <span aria-hidden="true">→</span>
+            </Button>
+          ) : (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                closeOnClick={false}
+                onClick={openDefaultSettings}
+              >
+                Set Default
+                <span className="ml-auto" aria-hidden="true">
+                  →
+                </span>
+              </DropdownMenuItem>
+            </>
+          )}
+        </>
+      )}
+    </>
+  );
+
   return (
     <>
       {careNavGroups.map((group, i) => (
@@ -184,17 +351,110 @@ function CareNavGroups() {
               </SidebarGroupLabel>
             )}
             <SidebarMenu>
-              {group.items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton
-                    isActive={!!item.isActive}
-                    tooltip={item.title}
+              {group.items.map((item) => {
+                const isEncounterItem =
+                  group.label === "Encounters & Locations" &&
+                  item.title === "All Encounters";
+                if (!isEncounterItem) {
+                  return (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton
+                        isActive={!!item.isActive && activeSection === "home"}
+                        tooltip={item.title}
+                      >
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                }
+                return (
+                  <SidebarMenuItem
+                    key={item.title}
+                    className="group/encounter flex items-center gap-1"
                   >
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                    <SidebarMenuButton
+                      isActive={activeSection === "encounters"}
+                      tooltip={activeEncounter}
+                      className="min-w-0 flex-1"
+                    >
+                      <item.icon />
+                      <span className="truncate">{activeEncounter}</span>
+                    </SidebarMenuButton>
+                    {isMobile ? (
+                      <Drawer
+                        showSwipeHandle
+                        open={mobileEncounterOpen}
+                        onOpenChange={handleEncounterMenuOpenChange}
+                      >
+                        {mobileEncounterOpen &&
+                          createPortal(
+                            <div
+                              aria-hidden="true"
+                              className="pointer-events-none fixed inset-0 z-60 h-dvh w-dvw bg-black/25 backdrop-blur-sm"
+                            />,
+                            document.body
+                          )}
+                        <DrawerTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-muted-foreground hover:text-foreground size-8 shrink-0"
+                            aria-label="Choose default encounter type"
+                            onPointerDown={() => setIsSettingDefault(false)}
+                            onClick={() => setIsSettingDefault(false)}
+                          >
+                            <MoreHorizontal />
+                          </Button>
+                        </DrawerTrigger>
+                        <DrawerOverlay />
+                        <DrawerContent className="h-auto w-dvw max-w-none">
+                          <DrawerHeader>
+                            <DrawerTitle>
+                              {isSettingDefault
+                                ? "Set default encounter"
+                                : "Encounter Types"}
+                            </DrawerTitle>
+                            <DrawerDescription>
+                              {isSettingDefault
+                                ? "Choose the encounter type to show as your default."
+                                : "Choose an encounter type to view."}
+                            </DrawerDescription>
+                          </DrawerHeader>
+                          <DrawerBody className="px-2">
+                            {encounterMenuContent(true)}
+                          </DrawerBody>
+                        </DrawerContent>
+                      </Drawer>
+                    ) : (
+                      <DropdownMenu
+                        open={encounterMenuOpen}
+                        onOpenChange={handleEncounterMenuOpenChange}
+                      >
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-muted-foreground hover:text-foreground size-8 shrink-0"
+                            aria-label="Choose default encounter type"
+                            onPointerDown={() => setIsSettingDefault(false)}
+                            onClick={() => setIsSettingDefault(false)}
+                          >
+                            <MoreHorizontal />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                          side="right"
+                          align="start"
+                          className="min-w-56"
+                        >
+                          {encounterMenuContent(false)}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroup>
         </React.Fragment>
@@ -422,13 +682,13 @@ function SidebarToggleButton({
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) {
-  const { isMobile, setOpenMobile } = useSidebar();
+  const { isMobile, state, setOpenMobile } = useSidebar();
 
   const button = (
     <Button
       variant="ghost"
       size="icon"
-      className="relative -ml-1 h-7 w-7 after:absolute after:-inset-3 after:content-['']"
+      className="group relative -ml-1 h-7 w-7 px-0 after:absolute after:-inset-3 after:content-['']"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={() => {
@@ -439,7 +699,25 @@ function SidebarToggleButton({
         }
       }}
     >
-      <PanelLeft className="h-4 w-4" />
+      {!isMobile && state === "expanded" ? (
+        <PanelLeft className="h-4 w-4" />
+      ) : (
+        <>
+          <img
+            src="/brand-assets/uploads/Care-Logos/SVG/Care-Icon-on-light.svg"
+            alt=""
+            aria-hidden="true"
+            className="size-6 object-contain transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0 dark:hidden"
+          />
+          <img
+            src="/brand-assets/uploads/Care-Logos/SVG/Care-Icon-on-dark.svg"
+            alt=""
+            aria-hidden="true"
+            className="hidden size-6 object-contain transition-opacity group-hover:opacity-0 group-focus-visible:opacity-0 dark:block"
+          />
+          <PanelLeft className="absolute size-4 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+        </>
+      )}
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

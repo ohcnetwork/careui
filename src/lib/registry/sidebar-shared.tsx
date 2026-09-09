@@ -175,7 +175,7 @@ export function SidebarToggleButton({
         }
       }}
     >
-      {isMobile || state === "expanded" ? (
+      {!isMobile && state === "expanded" ? (
         <PanelLeft className="h-4 w-4" />
       ) : (
         <>
