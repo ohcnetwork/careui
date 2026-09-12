@@ -307,7 +307,7 @@ function MotionPreviewSection({ reducedMotion }: { reducedMotion: boolean }) {
                 : "Full motion active — natural scale and transform enabled."}
             </div>
             <DialogFooter>
-              <DialogClose render={<Button variant="primary">Got it</Button>} />
+              <DialogClose render={<Button>Got it</Button>} />
             </DialogFooter>
           </DialogContent>
         </Dialog>
