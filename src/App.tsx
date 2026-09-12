@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { FontSizeProvider } from "@/components/font-size-provider";
 import { ContrastProvider } from "@/components/contrast-provider";
+import { MotionProvider } from "@/components/motion-provider";
 import {
   NavigationProvider,
   useNavigation,
@@ -75,12 +76,14 @@ export default function Page() {
   return (
     <FontSizeProvider>
       <ContrastProvider>
-        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-          <NavigationProvider>
-            <AppShell />
-          </NavigationProvider>
-          <Toaster />
-        </ThemeProvider>
+        <MotionProvider>
+          <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+            <NavigationProvider>
+              <AppShell />
+            </NavigationProvider>
+            <Toaster />
+          </ThemeProvider>
+        </MotionProvider>
       </ContrastProvider>
     </FontSizeProvider>
   );

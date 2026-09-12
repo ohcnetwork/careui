@@ -29,6 +29,7 @@ export default defineConfig([
       'src/components/theme-provider.tsx',
       'src/components/font-size-provider.tsx',
       'src/components/contrast-provider.tsx',
+      'src/components/motion-provider.tsx',
       'src/components/error-pages/**/*.{ts,tsx}',
       'src/lib/registry/**/*.{ts,tsx}',
       'src/contexts/**/*.{ts,tsx}',

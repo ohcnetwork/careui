@@ -13,6 +13,11 @@
     --font-geist-mono: 'Geist Mono Variable', monospace;
     --font-size-scale: 1;
 
+    /* Emil's custom easing curves for punchy & natural UI */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
     /* Primary palette */
     --primary-50:  var(--color-emerald-50);
     --primary-100: var(--color-emerald-100);
@@ -504,8 +509,170 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  [data-slot="spinner-track"] { animation: none !important; }
+/* ── Reduced Motion System ──────────────────────────────────────────────────
+   Comprehensive reduced-motion rules across the component library.
+   Replaces high-displacement motion, bouncy springs, transforms, parallax,
+   and smooth scrolling with subtle in-place opacity crossfades.
+   Active when:
+   1. The user explicitly sets Reduce Motion in Settings ([data-reduced-motion="true"]), OR
+   2. The OS prefers reduced motion and user has not explicitly forced Allow Motion.
+*/
+@layer base {
+  :root[data-reduced-motion="true"],
+  :root:not([data-motion="allow"]) {
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto !important;
+      }
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+      }
+
+      /* Base UI Sheet: remove positional slide; keep subtle opacity fade */
+      [data-slot="sheet-content"] {
+        --tw-enter-translate-x: 0px !important;
+        --tw-enter-translate-y: 0px !important;
+        --tw-exit-translate-x: 0px !important;
+        --tw-exit-translate-y: 0px !important;
+        transition-duration: 150ms !important;
+      }
+
+      /* Base UI Drawer: remove viewport sweep & stack scale; use clean 150ms fade */
+      [data-slot="drawer-popup"] {
+        --closed-transform: none !important;
+        --translate-x: 0px !important;
+        --translate-y: 0px !important;
+        --stack-scale: 1 !important;
+        transition-property: opacity !important;
+        transition-duration: 150ms !important;
+      }
+      [data-slot="drawer-overlay"] {
+        transition-duration: 150ms !important;
+      }
+
+      /* Dialogs, Alert Dialogs, Popovers, Menus & Tooltips: remove scale & translation */
+      [data-slot="dialog-content"],
+      [data-slot="alert-dialog-content"],
+      [data-slot="popover-content"],
+      [data-slot="dropdown-menu-content"],
+      [data-slot="context-menu-content"],
+      [data-slot="menubar-content"],
+      [data-slot="tooltip-content"],
+      [data-slot="hover-card-content"],
+      [data-slot="combobox-content"] {
+        --tw-enter-scale: 1 !important;
+        --tw-exit-scale: 1 !important;
+        --tw-enter-translate-x: 0px !important;
+        --tw-enter-translate-y: 0px !important;
+        --tw-exit-translate-x: 0px !important;
+        --tw-exit-translate-y: 0px !important;
+        transition-duration: 150ms !important;
+      }
+
+      /* Accordion & Collapsible content */
+      [data-slot="accordion-content"],
+      [data-slot="collapsible-content"] {
+        animation-duration: 150ms !important;
+      }
+
+      /* Decorative keyframe animations & Shimmer */
+      [data-slot="spinner-track"] {
+        animation: none !important;
+      }
+      .animate-sheet-shake,
+      .animate-blossom,
+      .animate-ripple-slow,
+      .animate-ripple-medium,
+      .animate-ripple-fast,
+      .animate-breath {
+        animation: none !important;
+      }
+      .shimmer {
+        animation: none !important;
+        background-image: none !important;
+        -webkit-text-fill-color: currentColor !important;
+      }
+    }
+  }
+
+  /* User manual override (data-reduced-motion="true") */
+  :root[data-reduced-motion="true"] {
+    html {
+      scroll-behavior: auto !important;
+    }
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+    }
+
+    /* Base UI Sheet: remove positional slide; keep subtle opacity fade */
+    [data-slot="sheet-content"] {
+      --tw-enter-translate-x: 0px !important;
+      --tw-enter-translate-y: 0px !important;
+      --tw-exit-translate-x: 0px !important;
+      --tw-exit-translate-y: 0px !important;
+      transition-duration: 150ms !important;
+    }
+
+    /* Base UI Drawer: remove viewport sweep & stack scale; use clean 150ms fade */
+    [data-slot="drawer-popup"] {
+      --closed-transform: none !important;
+      --translate-x: 0px !important;
+      --translate-y: 0px !important;
+      --stack-scale: 1 !important;
+      transition-property: opacity !important;
+      transition-duration: 150ms !important;
+    }
+    [data-slot="drawer-overlay"] {
+      transition-duration: 150ms !important;
+    }
+
+    /* Dialogs, Alert Dialogs, Popovers, Menus & Tooltips: remove scale & translation */
+    [data-slot="dialog-content"],
+    [data-slot="alert-dialog-content"],
+    [data-slot="popover-content"],
+    [data-slot="dropdown-menu-content"],
+    [data-slot="context-menu-content"],
+    [data-slot="menubar-content"],
+    [data-slot="tooltip-content"],
+    [data-slot="hover-card-content"],
+    [data-slot="combobox-content"] {
+      --tw-enter-scale: 1 !important;
+      --tw-exit-scale: 1 !important;
+      --tw-enter-translate-x: 0px !important;
+      --tw-enter-translate-y: 0px !important;
+      --tw-exit-translate-x: 0px !important;
+      --tw-exit-translate-y: 0px !important;
+      transition-duration: 150ms !important;
+    }
+
+    /* Accordion & Collapsible content */
+    [data-slot="accordion-content"],
+    [data-slot="collapsible-content"] {
+      animation-duration: 150ms !important;
+    }
+
+    /* Decorative keyframe animations & Shimmer */
+    [data-slot="spinner-track"] {
+      animation: none !important;
+    }
+    .animate-sheet-shake,
+    .animate-blossom,
+    .animate-ripple-slow,
+    .animate-ripple-medium,
+    .animate-ripple-fast,
+    .animate-breath {
+      animation: none !important;
+    }
+    .shimmer {
+      animation: none !important;
+      background-image: none !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+  }
 }
 
 @utility hit-area-debug {
