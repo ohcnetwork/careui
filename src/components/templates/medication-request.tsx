@@ -2084,7 +2084,7 @@ const columns: ColumnDef<MedicationRequest>[] = [
     header: "Sl.",
     cell: ({ row }) => `${row.index + 1}.`,
     meta: {
-      className: "w-12 text-center cursor-pointer",
+      className: "w-10 text-center cursor-pointer",
       spanExpandedRow: true,
     },
   },
@@ -2109,7 +2109,7 @@ const columns: ColumnDef<MedicationRequest>[] = [
     header: "Schedule",
     cell: ({ row }) => <ScheduleCell row={row} />,
     meta: {
-      className: "w-[14%] whitespace-nowrap @max-2xl:w-fit @max-2xl:basis-auto",
+      className: "w-fit max-w-[10%] whitespace-nowrap @max-2xl:w-fit @max-2xl:basis-auto",
     },
   },
   {
@@ -2117,7 +2117,7 @@ const columns: ColumnDef<MedicationRequest>[] = [
     header: "Duration",
     cell: ({ row }) => <DurationCell row={row} />,
     meta: {
-      className: "w-[14%] whitespace-nowrap @max-2xl:w-48 @max-2xl:basis-auto",
+      className: "w-fit max-w-[10%] whitespace-nowrap @max-2xl:w-48 @max-2xl:basis-auto",
     },
   },
   {
@@ -2165,9 +2165,11 @@ const SOURCE_BADGE_VARIANTS: Record<
 function MedicationPicker({
   onSelect,
   defaultOpen = false,
+  hasMedications = false,
 }: {
   onSelect: (medicine: string) => void;
   defaultOpen?: boolean;
+  hasMedications?: boolean;
 }) {
   const fieldRef = React.useRef<HTMLDivElement>(null);
   const sourceFiltersRef = React.useRef<HTMLDivElement>(null);
@@ -2231,6 +2233,7 @@ function MedicationPicker({
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
+        !window.matchMedia("(min-width: 64rem)").matches ||
         !(primaryModifier === "Meta" ? event.metaKey : event.ctrlKey) ||
         !event.shiftKey ||
         event.altKey ||
@@ -2747,8 +2750,10 @@ function MedicationPicker({
           aria-label="Search medications to add"
           aria-keyshortcuts={`${primaryModifier}+Shift+M Shift+Enter`}
           placeholder={
-            !open
+            !hasMedications
               ? "Add Medication"
+              : !open
+                ? "Add another medication"
               : selectedProductTypes.size
                 ? "Type product name"
                 : "Search medication or type / to filter by product type"
@@ -2905,7 +2910,10 @@ function MedicationPicker({
           >
             <KbdGroup
               aria-hidden="true"
-              className={cn((open || inputFocused) && "invisible")}
+              className={cn(
+                "hidden lg:inline-flex",
+                (open || inputFocused) && "invisible"
+              )}
             >
               <Kbd>{primaryModifier === "Meta" ? "⌘" : "Ctrl"}</Kbd>
               <Kbd>Shift</Kbd>
@@ -2971,7 +2979,7 @@ function MedicationPicker({
         collisionBoundary={
           typeof document === "undefined" ? undefined : document.documentElement
         }
-        className="max-h-[min(34rem,calc(100dvh-5rem))] w-(--anchor-width) max-w-3xl min-w-0 overflow-y-auto shadow-lg data-closed:animate-none data-closed:duration-0 data-open:animate-none data-open:duration-0"
+        className="max-h-[min(34rem,calc(100dvh-5rem))] w-(--anchor-width) max-w-xl min-w-0 overflow-y-auto shadow-lg data-closed:animate-none data-closed:duration-0 data-open:animate-none data-open:duration-0"
       >
         {!typeFiltersOpen && (
           <div
@@ -3759,6 +3767,7 @@ export function MedicationRequestTemplate() {
               <MedicationPicker
                 key={medications.length === 0 ? "empty" : "filled"}
                 defaultOpen={medications.length === 0}
+                hasMedications={medications.length > 0}
                 onSelect={(medicine) => addMedicines([{ medicine }])}
               />
             </div>
