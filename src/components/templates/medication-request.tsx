@@ -1354,18 +1354,20 @@ function FavoritesMultiCombobox({
             !value.length && "text-placeholder-foreground"
           )}
         >
-          {value.length === 0
-            ? <span className="min-w-0 truncate">{placeholder}</span>
-            : (expanded ? value : value.slice(0, 1)).map((item) => (
-                <Badge
-                  key={item}
-                  variant="pink"
-                  size="sm"
-                  className="max-w-full min-w-0 shrink"
-                >
-                  <span className="truncate">{item}</span>
-                </Badge>
-              ))}
+          {value.length === 0 ? (
+            <span className="min-w-0 truncate">{placeholder}</span>
+          ) : (
+            (expanded ? value : value.slice(0, 1)).map((item) => (
+              <Badge
+                key={item}
+                variant="pink"
+                size="sm"
+                className="max-w-full min-w-0 shrink"
+              >
+                <span className="truncate">{item}</span>
+              </Badge>
+            ))
+          )}
           {!expanded && value.length > 1 && (
             <Badge variant="neutral" size="sm" className="shrink-0">
               +{value.length - 1}
