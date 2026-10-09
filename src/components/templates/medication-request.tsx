@@ -24,10 +24,8 @@ import {
   Search,
   Salad,
   ShieldPlus,
-  Settings2,
   Star,
   Syringe,
-  SquarePen,
   Trash2,
   X,
 } from "lucide-react";
@@ -66,14 +64,8 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -97,7 +89,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Toggle } from "@/components/ui/toggle";
 import {
@@ -136,6 +127,12 @@ interface MedicationRequest {
 interface MedicationOptionsTarget {
   medicationId: string;
   doseId: string;
+}
+
+interface DuplicateMedicationNotice {
+  medicationId: string;
+  token: string;
+  visible: boolean;
 }
 
 interface VaccinationRequest {
@@ -241,6 +238,7 @@ const INSTRUCTIONS = [
   "Until gone",
   "To be spread thinly",
   "Avoid alcohol",
+  "Only if the tablet is suitable for splitting",
 ];
 
 const DEFAULT_FAVORITE_INSTRUCTIONS = [
@@ -274,17 +272,29 @@ const ADMINISTRATION_METHODS = [
   "Injection",
 ];
 
-const MEDICATION_INTENTS = ["Order", "Plan", "Proposal", "Original order"];
+const MEDICATION_INTENTS = [
+  "Proposal",
+  "Plan",
+  "Order",
+  "Original Order",
+  "Reflex Order",
+  "Filler Order",
+  "Instance Order",
+];
 
 const MEDICINE_CATALOG = [
-  "Morphine sulfate 15 mg oral tablet",
-  "Paracetamol 500 mg oral tablet",
-  "Amoxicillin 500 mg oral capsule",
+  "Amlodipine 5 mg oral tablet",
+  "Paracetamol 650 mg oral tablet",
+  "Amoxicillin 500 mg + clavulanic acid 125 mg oral tablet",
   "Pantoprazole 40 mg oral tablet",
   "Ondansetron 4 mg oral tablet",
   "Metformin 500 mg oral tablet",
   "Atorvastatin 10 mg oral tablet",
   "Cetirizine 10 mg oral tablet",
+  "Prednisolone 10 mg oral tablet",
+  "Telmisartan 40 mg oral tablet",
+  "Cefixime 200 mg oral tablet",
+  "Levothyroxine sodium 50 microgram oral tablet",
 ];
 
 type MedicationSource = "Personal" | "Formulary" | "Org" | "Catalog";
@@ -336,18 +346,18 @@ interface MedicationCatalogItem {
 const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
   {
     medicine: MEDICINE_CATALOG[0],
-    title: "Morphine sulfate 15 mg tablet",
-    detail: "Morphine sulfate 15 mg tablet",
+    title: MEDICINE_CATALOG[0],
+    detail: "Amlodipine 5 mg",
     source: "Personal",
     productType: "Medication",
     form: "tablet",
-    category: "Analgesics",
+    category: "Cardiovascular",
     starred: true,
   },
   {
     medicine: MEDICINE_CATALOG[1],
-    title: "Dolo 500",
-    detail: "Paracetamol 500 mg",
+    title: MEDICINE_CATALOG[1],
+    detail: "Paracetamol 650 mg",
     source: "Formulary",
     productType: "Medication",
     form: "tablet",
@@ -355,8 +365,8 @@ const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
     starred: true,
   },
   {
-    medicine: "ORS sachet",
-    title: "ORS sachet",
+    medicine: "Oral rehydration salts sachet",
+    title: "Oral rehydration salts sachet",
     source: "Catalog",
     productType: "Nutritional Product",
     form: "sachet",
@@ -383,17 +393,17 @@ const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
   },
   {
     medicine: MEDICINE_CATALOG[2],
-    title: "Mox 500",
-    detail: "Amoxicillin 500 mg",
+    title: MEDICINE_CATALOG[2],
+    detail: "Amoxicillin 500 mg + clavulanic acid 125 mg",
     source: "Formulary",
     productType: "Medication",
-    form: "capsule",
+    form: "tablet",
     category: "Antibiotics",
     frequent: true,
   },
   {
-    medicine: "Ensure powder",
-    title: "Ensure powder",
+    medicine: "Oral nutritional supplement powder",
+    title: "Oral nutritional supplement powder",
     source: "Personal",
     productType: "Nutritional Product",
     form: "powder",
@@ -410,9 +420,9 @@ const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
     frequent: true,
   },
   {
-    medicine: "Calpol 500 mg tablet",
-    title: "Calpol 500",
-    detail: "Paracetamol 500 mg",
+    medicine: "Paracetamol 500 mg oral tablet",
+    title: "Dolo 500",
+    detail: "Paracetamol 500 mg tablets",
     source: "Formulary",
     productType: "Medication",
     form: "tablet",
@@ -420,8 +430,17 @@ const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
     frequent: true,
   },
   {
+    medicine: "Gabapentin + nortriptyline oral tablet",
+    title: "Gabanyl NT 100",
+    detail: "Gabapentin + Nortriptyline tablets",
+    source: "Formulary",
+    productType: "Medication",
+    form: "tablet",
+    category: "Neuropathic pain",
+  },
+  {
     medicine: MEDICINE_CATALOG[3],
-    title: "Pantoprazole 40 mg tablet",
+    title: MEDICINE_CATALOG[3],
     detail: "Pantoprazole 40 mg",
     source: "Personal",
     productType: "Medication",
@@ -430,7 +449,7 @@ const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
   },
   {
     medicine: MEDICINE_CATALOG[4],
-    title: "Ondansetron 4 mg tablet",
+    title: MEDICINE_CATALOG[4],
     detail: "Ondansetron 4 mg",
     source: "Formulary",
     productType: "Medication",
@@ -439,7 +458,7 @@ const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
   },
   {
     medicine: MEDICINE_CATALOG[5],
-    title: "Metformin 500 mg tablet",
+    title: MEDICINE_CATALOG[5],
     detail: "Metformin 500 mg",
     source: "Formulary",
     productType: "Medication",
@@ -448,7 +467,7 @@ const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
   },
   {
     medicine: MEDICINE_CATALOG[6],
-    title: "Atorvastatin 10 mg tablet",
+    title: MEDICINE_CATALOG[6],
     detail: "Atorvastatin 10 mg",
     source: "Personal",
     productType: "Medication",
@@ -457,12 +476,49 @@ const MEDICATION_PICKER_ITEMS: MedicationCatalogItem[] = [
   },
   {
     medicine: MEDICINE_CATALOG[7],
-    title: "Cetirizine 10 mg tablet",
+    title: MEDICINE_CATALOG[7],
     detail: "Cetirizine 10 mg",
     source: "Catalog",
     productType: "Medication",
     form: "tablet",
     category: "Allergy",
+  },
+  {
+    medicine: MEDICINE_CATALOG[8],
+    title: MEDICINE_CATALOG[8],
+    detail: "Prednisolone 10 mg",
+    source: "Formulary",
+    productType: "Medication",
+    form: "tablet",
+    category: "Corticosteroids",
+    frequent: true,
+  },
+  {
+    medicine: MEDICINE_CATALOG[9],
+    title: MEDICINE_CATALOG[9],
+    detail: "Telmisartan 40 mg",
+    source: "Formulary",
+    productType: "Medication",
+    form: "tablet",
+    category: "Cardiovascular",
+  },
+  {
+    medicine: MEDICINE_CATALOG[10],
+    title: MEDICINE_CATALOG[10],
+    detail: "Cefixime 200 mg",
+    source: "Formulary",
+    productType: "Medication",
+    form: "tablet",
+    category: "Antibiotics",
+  },
+  {
+    medicine: MEDICINE_CATALOG[11],
+    title: MEDICINE_CATALOG[11],
+    detail: "Levothyroxine sodium 50 microgram",
+    source: "Formulary",
+    productType: "Medication",
+    form: "tablet",
+    category: "Thyroid",
   },
 ];
 
@@ -507,21 +563,6 @@ const MEDICATION_SOURCES = [
   "Catalog",
 ] as const;
 
-const MEDICATION_TEMPLATES = [
-  {
-    name: "Post-operative pain",
-    medicines: [MEDICINE_CATALOG[0], MEDICINE_CATALOG[4], MEDICINE_CATALOG[3]],
-  },
-  {
-    name: "Fever and cold",
-    medicines: [MEDICINE_CATALOG[1], MEDICINE_CATALOG[7]],
-  },
-  {
-    name: "Type 2 diabetes follow-up",
-    medicines: [MEDICINE_CATALOG[5], MEDICINE_CATALOG[6]],
-  },
-];
-
 const VACCINES = [
   "Influenza vaccine (inactivated)",
   "COVID-19 vaccine",
@@ -552,38 +593,16 @@ const VACCINE_SITES = [
   "Intranasal",
 ];
 
-const MEDICATION_HISTORY = [
-  {
-    medicine: "Paracetamol 500 mg oral tablet",
-    schedule: "1-1-1",
-    duration: "5 days",
-    date: "12 Aug 2026",
-  },
-  {
-    medicine: "Amoxicillin 500 mg oral capsule",
-    schedule: "1-0-1",
-    duration: "7 days",
-    date: "03 Jun 2026",
-  },
-  {
-    medicine: "Pantoprazole 40 mg oral tablet",
-    schedule: "1-0-0",
-    duration: "14 days",
-    date: "21 Mar 2026",
-  },
-];
-
 const REQUESTERS = [
   { value: "lakshmi-mohan", name: "Dr. Lakshmi Mohan", initials: "LM" },
   { value: "arjun-nair", name: "Dr. Arjun Nair", initials: "AN" },
   { value: "fatima-begum", name: "Dr. Fatima Begum", initials: "FB" },
 ];
 
-let nextId = 0;
-const uid = () => `med-${++nextId}`;
+const uid = () => `med-${crypto.randomUUID()}`;
 
 function parseDosage(dosage: string) {
-  const match = dosage.trim().match(/^(\d+(?:\.\d+)?|\.\d+)?\s*(.*)$/);
+  const match = dosage.trim().match(/^(\d+\/\d*|\d+(?:\.\d*)?|\.\d*)?\s*(.*)$/);
   const amount = match?.[1] ?? "";
   const rawUnit = match?.[2]?.toLowerCase() ?? "";
   const unit =
@@ -633,20 +652,38 @@ const INITIAL_NOTE =
   "Medication initiated after discussing benefits and risks with the patient.";
 
 function createInitialData(): MedicationRequest[] {
-  const morphine = MEDICINE_CATALOG[0];
   return [
-    createMedication(morphine, { note: INITIAL_NOTE }),
-    createMedication(morphine, {
+    createMedication(MEDICINE_CATALOG[1], { note: INITIAL_NOTE }),
+    createMedication(MEDICINE_CATALOG[2], {
       doses: [
-        createDose({ instructions: ["Until symptoms improve", "Then stop"] }),
+        createDose({ instructions: ["After food", "Follow directions"] }),
       ],
     }),
-    createMedication(morphine, { note: INITIAL_NOTE }),
-    createMedication(morphine, {
+    createMedication(MEDICINE_CATALOG[3], { note: INITIAL_NOTE }),
+    createMedication(MEDICINE_CATALOG[8], {
+      note: "Take in the morning with food as directed. Follow the tapering schedule, reducing the dose on the specified dates. Do not change or stop the medication.",
       doses: [
-        createDose({ schedule: "1-0-1", duration: "3 days" }),
-        createDose({ schedule: "0-0-1" }),
-        createDose({ dosage: "" }),
+        createDose({
+          dosage: "3 tablets",
+          schedule: "1-0-0",
+          duration: "Day 1–3",
+        }),
+        createDose({
+          dosage: "2 tablets",
+          schedule: "1-0-0",
+          duration: "Day 4–6",
+        }),
+        createDose({
+          dosage: "1 tablet",
+          schedule: "1-0-0",
+          duration: "Day 7–9",
+        }),
+        createDose({
+          dosage: "1/2 tablet",
+          schedule: "1-0-0",
+          duration: "Day 10–12",
+          instructions: ["Only if the tablet is suitable for splitting"],
+        }),
       ],
     }),
   ];
@@ -704,6 +741,7 @@ interface MedicationGridActions {
   removeMedication: (medId: string) => void;
   updateNote: (medId: string, note: string) => void;
   activeId: string | null;
+  duplicateNotice: DuplicateMedicationNotice | null;
   setActiveId: (medId: string | null) => void;
   instructionPicks: FavoritePicks;
   prnReasonPicks: FavoritePicks;
@@ -725,6 +763,45 @@ function useMedicationGrid() {
 
 interface DoseCellProps {
   row: Row<MedicationRequest>;
+}
+
+function MedicineCell({ row }: DoseCellProps) {
+  const { duplicateNotice } = useMedicationGrid();
+  const catalogItem = PICKER_ITEM_BY_MEDICINE.get(row.original.medicine);
+  const notice =
+    duplicateNotice?.medicationId === row.original.id ? duplicateNotice : null;
+
+  return (
+    <div className="flex min-w-0 flex-col">
+      <p className="font-semibold">
+        {catalogItem?.title ?? row.original.medicine}
+      </p>
+      {catalogItem?.detail && (
+        <span className="text-muted-foreground text-sm font-normal">
+          {catalogItem.detail}
+        </span>
+      )}
+      <span
+        role="status"
+        aria-live="polite"
+        className="pointer-events-none absolute top-1.5 left-1.5 z-10 flex justify-center empty:hidden"
+      >
+        {notice && (
+          <Badge
+            variant="amber"
+            solid
+            size="lg"
+            className={cn(
+              "transition-opacity duration-150 ease-out motion-reduce:transition-none",
+              !notice.visible && "opacity-0"
+            )}
+          >
+            Product already exists
+          </Badge>
+        )}
+      </span>
+    </div>
+  );
 }
 
 function DoseStack({
@@ -767,6 +844,9 @@ function doseLabel(row: Row<MedicationRequest>, index: number) {
   return `${row.original.medicine}${suffix}`;
 }
 
+const medicationDropdownListClassName =
+  "max-h-(--available-height) [scrollbar-gutter:stable] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-muted-foreground/40 [&::-webkit-scrollbar-track]:bg-transparent";
+
 function DosageInput({
   dose,
   label,
@@ -778,6 +858,7 @@ function DosageInput({
 }) {
   const fieldRef = React.useRef<HTMLDivElement>(null);
   const { amount, unit } = parseDosage(dose.dosage);
+  const isFraction = /^\d+\/[1-9]\d*$/.test(amount);
   const hasAmount = amount.length > 0;
   const options = hasAmount
     ? DOSE_UNITS.map((option) => `${amount} ${option}`)
@@ -810,15 +891,15 @@ function DosageInput({
       <div ref={fieldRef} className="relative w-full min-w-0">
         <ComboboxInput
           id={`${dose.id}-dosage`}
-          type="number"
-          min="0"
-          step="any"
-          inputMode="decimal"
+          type="text"
+          inputMode="text"
+          pattern="(?:\d+(?:\.\d+)?|\.\d+)(?:/[1-9]\d*)?"
           aria-label={label}
           placeholder={unit ? undefined : "Enter a number..."}
           className="bg-background w-full min-w-0"
           inputClassName={cn(
-            "tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+            "tabular-nums",
+            isFraction && "diagonal-fractions",
             unit && "pr-36"
           )}
           showTrigger={false}
@@ -837,15 +918,18 @@ function DosageInput({
       <ComboboxContent
         side="bottom"
         anchor={fieldRef}
-        className="w-max min-w-0"
+        className="w-max min-w-0 tabular-nums"
       >
         <ComboboxEmpty>No dose units found.</ComboboxEmpty>
-        <ComboboxList className="max-h-none">
+        <ComboboxList showScrollbar className={medicationDropdownListClassName}>
           {(option: string) => (
             <ComboboxItem
               key={option}
               value={option}
-              className="min-h-10 whitespace-nowrap"
+              className={cn(
+                "min-h-10 whitespace-nowrap",
+                isFraction && "diagonal-fractions"
+              )}
             >
               {option}
             </ComboboxItem>
@@ -907,6 +991,11 @@ function durationOptions(input: string) {
 }
 
 type DurationPanel = "list" | "range" | "dates";
+
+const DURATION_PANEL_OPTIONS = [
+  { panel: "range", label: "Set a range of days", icon: ArrowLeftRight },
+  { panel: "dates", label: "Set fixed start & end dates", icon: CalendarDays },
+] as const;
 
 function DurationInput({
   value,
@@ -976,6 +1065,12 @@ function DurationInput({
     return () => clearTimeout(timer);
   }, [autoOpen]);
 
+  React.useLayoutEffect(() => {
+    if (open && panel === "list") {
+      fieldRef.current?.querySelector("input")?.focus({ preventScroll: true });
+    }
+  }, [open, panel]);
+
   const start = Number(rangeStart);
   const end = Number(rangeEnd);
   const rangeValid =
@@ -986,7 +1081,10 @@ function DurationInput({
 
   return (
     <Combobox
-      items={options}
+      items={[
+        ...options,
+        ...DURATION_PANEL_OPTIONS.map((option) => option.label),
+      ]}
       filter={null}
       autoHighlight={typed}
       openOnInputClick
@@ -1009,7 +1107,15 @@ function DurationInput({
         setPanel("list");
         onChange(next || null);
       }}
-      onValueChange={(next) => {
+      onValueChange={(next, details) => {
+        const action = DURATION_PANEL_OPTIONS.find(
+          (option) => option.label === next
+        );
+        if (action) {
+          details.cancel();
+          openPanel(action.panel);
+          return;
+        }
         if (next) commit(next);
       }}
     >
@@ -1031,47 +1137,52 @@ function DurationInput({
           }}
         />
       </div>
-      <ComboboxContent anchor={fieldRef} className="w-auto min-w-64">
+      <ComboboxContent
+        anchor={fieldRef}
+        className="max-h-none w-auto min-w-64 tabular-nums"
+      >
         {panel === "list" && (
           <>
             <ComboboxEmpty>Type a number, e.g. 5</ComboboxEmpty>
-            <ComboboxList>
-              {(option: string) => (
-                <ComboboxItem key={option} value={option} className="min-h-10">
-                  {option}
-                </ComboboxItem>
-              )}
+            <ComboboxList
+              showScrollbar
+              className={medicationDropdownListClassName}
+            >
+              {(option: string) => {
+                const action = DURATION_PANEL_OPTIONS.find(
+                  (entry) => entry.label === option
+                );
+                if (!action) {
+                  return (
+                    <ComboboxItem
+                      key={option}
+                      value={option}
+                      className="min-h-10"
+                    >
+                      {option}
+                    </ComboboxItem>
+                  );
+                }
+                const Icon = action.icon;
+                return (
+                  <ComboboxItem
+                    key={option}
+                    value={option}
+                    className={cn(
+                      "min-h-10 gap-2 pr-2 [&>span:last-child]:hidden",
+                      action.panel === "range" && "mt-1 border-t"
+                    )}
+                  >
+                    <Icon aria-hidden="true" />
+                    <span className="flex-1">{option}</span>
+                    <ChevronRight
+                      aria-hidden="true"
+                      className="text-muted-foreground"
+                    />
+                  </ComboboxItem>
+                );
+              }}
             </ComboboxList>
-            <div className="border-t p-1">
-              {(
-                [
-                  {
-                    panel: "range",
-                    label: "Set a range of days",
-                    icon: ArrowLeftRight,
-                  },
-                  {
-                    panel: "dates",
-                    label: "Set fixed start & end dates",
-                    icon: CalendarDays,
-                  },
-                ] as const
-              ).map(({ panel: target, label: text, icon: Icon }) => (
-                <button
-                  key={target}
-                  type="button"
-                  className="hover:bg-accent focus-visible:bg-accent flex min-h-10 w-full items-center gap-2 rounded-sm px-2 text-left text-sm outline-none"
-                  onClick={() => openPanel(target)}
-                >
-                  <Icon aria-hidden="true" className="size-4 shrink-0" />
-                  <span className="flex-1">{text}</span>
-                  <ChevronRight
-                    aria-hidden="true"
-                    className="text-muted-foreground size-4 shrink-0"
-                  />
-                </button>
-              ))}
-            </div>
           </>
         )}
         {panel !== "list" && (
@@ -1129,6 +1240,7 @@ function DurationInput({
               </div>
             ) : (
               <Calendar
+                autoFocus
                 mode="range"
                 selected={dates}
                 onSelect={setDates}
@@ -1235,7 +1347,8 @@ function ScheduleCombobox({
         </span>
       </ComboboxTrigger>
       <ComboboxContent
-        className="w-72 data-closed:animate-none data-closed:duration-0"
+        sideOffset={2}
+        className="w-72 tabular-nums data-closed:animate-none data-closed:duration-0"
         finalFocus={() => !pickedRef.current}
       >
         <ComboboxInput
@@ -1375,12 +1488,36 @@ function FavoritesMultiCombobox({
           )}
         </span>
       </ComboboxTrigger>
-      <ComboboxContent className="w-(--anchor-width) min-w-80">
+      <ComboboxContent
+        sideOffset={2}
+        className="w-(--anchor-width) min-w-80 tabular-nums"
+      >
         <ComboboxInput
           showTrigger={false}
           className="h-12! rounded-sm bg-transparent! md:h-10!"
           aria-label={searchLabel}
+          aria-keyshortcuts="Shift+Enter"
           placeholder={searchPlaceholder}
+          onKeyDown={(event) => {
+            if (
+              event.key !== "Enter" ||
+              !event.shiftKey ||
+              event.altKey ||
+              event.ctrlKey ||
+              event.metaKey
+            ) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            const activeOptionId = event.currentTarget.getAttribute(
+              "aria-activedescendant"
+            );
+            const item = activeOptionId
+              ? document.getElementById(activeOptionId)?.dataset.favoriteOption
+              : undefined;
+            if (item && options.includes(item)) toggleFavorite(item);
+          }}
         />
         {value.length > 0 && (
           <div className="flex items-center justify-between gap-2 border-b px-3 py-1">
@@ -1417,6 +1554,7 @@ function FavoritesMultiCombobox({
                       {/* Move the selected check to the start; the star owns the end. */}
                       <ComboboxItem
                         value={item}
+                        data-favorite-option={item}
                         className="min-h-10 flex-1 pr-12 pl-8 [&>span:last-child]:right-auto [&>span:last-child]:left-2"
                       >
                         {item}
@@ -1522,7 +1660,7 @@ function InstructionsCell({ row }: DoseCellProps) {
 
 function scrollMedicationDoseIntoView(doseId: string) {
   const input = document.getElementById(`${doseId}-dosage`);
-  const row = input?.closest("tr");
+  const row = input?.closest("tbody");
   if (!row) return;
 
   const pickerFooter = document.querySelector<HTMLElement>(
@@ -1764,7 +1902,7 @@ function MedicationOptionsSheet({
                     <Select
                       items={medication.doses.map((entry, doseIndex) => ({
                         value: entry.id,
-                        label: `Dose ${doseIndex + 1}${entry.dosage ? ` - ${entry.dosage}` : ""}`,
+                        label: `Dose ${doseIndex + 1}${entry.dosage ? ` - ${entry.dosage}` : ""}${entry.duration ? ` - ${entry.duration}` : ""}`,
                       }))}
                       value={dose.id}
                       onValueChange={(doseId) => {
@@ -1775,8 +1913,21 @@ function MedicationOptionsSheet({
                           });
                       }}
                     >
-                      <SelectTrigger id={`${idPrefix}-dose`} className="w-full">
-                        <SelectValue />
+                      <SelectTrigger
+                        id={`${idPrefix}-dose`}
+                        className="w-full min-w-0 gap-0 py-0 pl-0 tabular-nums md:pl-0"
+                      >
+                        <span className="bg-muted/50 flex shrink-0 items-center self-stretch rounded-s-md border-e px-3">
+                          Dose{" "}
+                          {medication.doses.findIndex(
+                            (entry) => entry.id === dose.id
+                          ) + 1}
+                        </span>
+                        <SelectValue className="min-w-0 flex-1 px-3 text-left">
+                          <span className="truncate">
+                            {dose.duration || dose.dosage || "No duration set"}
+                          </span>
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent alignItemWithTrigger={false}>
                         <SelectGroup>
@@ -1784,6 +1935,7 @@ function MedicationOptionsSheet({
                             <SelectItem key={entry.id} value={entry.id}>
                               Dose {doseIndex + 1}
                               {entry.dosage ? ` - ${entry.dosage}` : ""}
+                              {entry.duration ? ` - ${entry.duration}` : ""}
                             </SelectItem>
                           ))}
                         </SelectGroup>
@@ -1929,19 +2081,6 @@ function MedicationOptionsSheet({
                     }
                   />
                 </Field>
-                <Field orientation="horizontal">
-                  <FieldLabel htmlFor={`${idPrefix}-prn`}>
-                    As needed (PRN)
-                  </FieldLabel>
-                  <Switch
-                    id={`${idPrefix}-prn`}
-                    className="me-3"
-                    checked={dose.asNeeded}
-                    onCheckedChange={(asNeeded) =>
-                      updateDose(medication.id, dose.id, { asNeeded })
-                    }
-                  />
-                </Field>
               </FieldGroup>
             </SheetBody>
             <SheetFooter>
@@ -2048,10 +2187,6 @@ function NoteRow({ medication }: { medication: MedicationRequest }) {
               <span className="font-medium">Note:</span> {medication.note}
             </span>
             <span className="sr-only">(edit note)</span>
-            <SquarePen
-              aria-hidden="true"
-              className="text-muted-foreground size-4 shrink-0"
-            />
           </button>
         </div>
       </>
@@ -2084,7 +2219,7 @@ const columns: ColumnDef<MedicationRequest>[] = [
     header: "Sl.",
     cell: ({ row }) => `${row.index + 1}.`,
     meta: {
-      className: "w-10 text-center cursor-pointer",
+      className: "w-10 text-center",
       spanExpandedRow: true,
     },
   },
@@ -2092,9 +2227,10 @@ const columns: ColumnDef<MedicationRequest>[] = [
     id: "medicine",
     accessorKey: "medicine",
     header: "Medicine",
+    cell: ({ row }) => <MedicineCell row={row} />,
     meta: {
       className:
-        "w-[20%] cursor-pointer whitespace-normal font-medium @max-2xl:flex-1",
+        "relative w-[20%] whitespace-normal font-medium @max-2xl:flex-1",
       spanExpandedRow: true,
     },
   },
@@ -2109,7 +2245,8 @@ const columns: ColumnDef<MedicationRequest>[] = [
     header: "Schedule",
     cell: ({ row }) => <ScheduleCell row={row} />,
     meta: {
-      className: "w-fit max-w-[10%] whitespace-nowrap @max-2xl:w-fit @max-2xl:basis-auto",
+      className:
+        "w-fit max-w-[10%] whitespace-nowrap @max-2xl:w-fit @max-2xl:basis-auto",
     },
   },
   {
@@ -2117,7 +2254,8 @@ const columns: ColumnDef<MedicationRequest>[] = [
     header: "Duration",
     cell: ({ row }) => <DurationCell row={row} />,
     meta: {
-      className: "w-fit max-w-[10%] whitespace-nowrap @max-2xl:w-48 @max-2xl:basis-auto",
+      className:
+        "w-fit max-w-[10%] whitespace-nowrap @max-2xl:w-48 @max-2xl:basis-auto",
     },
   },
   {
@@ -2141,7 +2279,8 @@ const columns: ColumnDef<MedicationRequest>[] = [
 ];
 
 const gridClassName = cn(
-  "@container [&_table]:table-fixed",
+  "@container tabular-nums [&_table]:table-fixed",
+  "[&_tbody_td[rowspan]]:cursor-pointer",
   // Active record: tint and outline the row together with its note.
   "[&_tbody:has([data-row-active])]:bg-primary-50 dark:[&_tbody:has([data-row-active])]:bg-primary-950/40",
   "[&_tbody:has([data-row-active])]:outline-primary [&_tbody:has([data-row-active])]:outline-2 [&_tbody:has([data-row-active])]:-outline-offset-3",
@@ -2245,7 +2384,9 @@ function MedicationPicker({
       const target = event.target;
       if (
         target instanceof HTMLElement &&
-        (target.isContentEditable || target.closest("input, textarea, select"))
+        (target.isContentEditable ||
+          target.closest("input, textarea, select")) &&
+        !target.closest("[data-medication-row-id]")
       ) {
         return;
       }
@@ -2646,9 +2787,9 @@ function MedicationPicker({
             <span className="w-full truncate text-sm font-medium">
               {item.title}
             </span>
-            {item.detail && (
+            {(item.detail ?? item.medicine) && (
               <span className="text-muted-foreground w-full truncate text-xs">
-                {item.detail}
+                {item.detail ?? item.medicine}
               </span>
             )}
           </span>
@@ -2754,9 +2895,9 @@ function MedicationPicker({
               ? "Add Medication"
               : !open
                 ? "Add another medication"
-              : selectedProductTypes.size
-                ? "Type product name"
-                : "Search medication or type / to filter by product type"
+                : selectedProductTypes.size
+                  ? "Type product name"
+                  : "Search medication or type / to filter by product type"
           }
           className={cn(
             "bg-muted-background/20 border-primary has-[[data-slot=input-group-control]:focus-visible]:border-primary has-[[data-slot=input-group-control]:focus-visible]:ring-primary/30 w-full shadow-sm",
@@ -3346,13 +3487,14 @@ export function MedicationRequestTemplate() {
   const [medications, setMedications] = React.useState(createInitialData);
   const [requester, setRequester] = React.useState(REQUESTERS[0].value);
   const [requestNote, setRequestNote] = React.useState("");
-  const [dense, setDense] = React.useState(false);
-  const [cellBorder, setCellBorder] = React.useState(true);
   const [activeId, setActiveId] = React.useState<string | null>(null);
+  const [duplicateNotice, setDuplicateNotice] =
+    React.useState<DuplicateMedicationNotice | null>(null);
+  const duplicateNoticeToken = duplicateNotice?.token;
   const [doseRowHeights, setDoseRowHeights] = React.useState<
     Record<string, number>
   >({});
-  const [focusDoseId, setFocusDoseId] = React.useState<string | null>(null);
+  const [focusDose, setFocusDose] = React.useState<{ id: string } | null>(null);
   const [durationFocusDoseId, focusDuration] = React.useState<string | null>(
     null
   );
@@ -3406,7 +3548,7 @@ export function MedicationRequestTemplate() {
         })),
       addDose: (medId) => {
         const dose = createDose({ dosage: "" });
-        setFocusDoseId(dose.id);
+        setFocusDose({ id: dose.id });
         updateMedication(medId, (m) => ({
           ...m,
           doses: [
@@ -3428,6 +3570,7 @@ export function MedicationRequestTemplate() {
       updateNote: (medId, note) =>
         updateMedication(medId, (m) => ({ ...m, note })),
       activeId,
+      duplicateNotice,
       setActiveId,
       instructionPicks,
       prnReasonPicks,
@@ -3437,6 +3580,7 @@ export function MedicationRequestTemplate() {
     [
       updateMedication,
       activeId,
+      duplicateNotice,
       doseRowHeights,
       setDoseRowHeight,
       instructionPicks,
@@ -3477,31 +3621,64 @@ export function MedicationRequestTemplate() {
   const addMedicines = (
     entries: { medicine: string; dose?: Partial<DoseLine> }[]
   ) => {
+    const existing = medications.find(
+      (medication) => medication.medicine === entries[0]?.medicine
+    );
+    if (existing) {
+      setActiveId(existing.id);
+      setFocusDose({ id: existing.doses[0].id });
+      setDuplicateNotice({
+        medicationId: existing.id,
+        token: uid(),
+        visible: true,
+      });
+      return;
+    }
     const created = entries.map(({ medicine, dose }) =>
       createMedication(medicine, { doses: [createDose(dose)] })
     );
     setMedications((prev) => [...prev, ...created]);
     setActiveId(created[0].id);
-    setFocusDoseId(created[0].doses[0].id);
+    setFocusDose({ id: created[0].doses[0].id });
   };
+
+  React.useEffect(() => {
+    if (!duplicateNoticeToken) return;
+    const fadeTimer = setTimeout(() => {
+      setDuplicateNotice((notice) =>
+        notice?.token === duplicateNoticeToken
+          ? { ...notice, visible: false }
+          : notice
+      );
+    }, 3500);
+    const removeTimer = setTimeout(() => {
+      setDuplicateNotice((notice) =>
+        notice?.token === duplicateNoticeToken ? null : notice
+      );
+    }, 3650);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(removeTimer);
+    };
+  }, [duplicateNoticeToken]);
 
   // Wait a frame so closing menus/comboboxes don't steal focus back.
   React.useEffect(() => {
-    if (!focusDoseId) return;
+    if (!focusDose) return;
     let settleFrame = 0;
     const frame = requestAnimationFrame(() => {
       settleFrame = requestAnimationFrame(() => {
-        const input = document.getElementById(`${focusDoseId}-dosage`);
+        const input = document.getElementById(`${focusDose.id}-dosage`);
         if (!input) return;
         input.focus();
-        scrollMedicationDoseIntoView(focusDoseId);
+        scrollMedicationDoseIntoView(focusDose.id);
       });
     });
     return () => {
       cancelAnimationFrame(frame);
       cancelAnimationFrame(settleFrame);
     };
-  }, [focusDoseId]);
+  }, [focusDose]);
 
   const activeRequester = REQUESTERS.find((r) => r.value === requester);
 
@@ -3522,107 +3699,24 @@ export function MedicationRequestTemplate() {
               request
             </CardDescription>
             <CardAction className="flex flex-wrap justify-end gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    aria-label="Medication history"
-                  >
-                    <History />
-                    <span className="hidden sm:inline">Medication history</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-72">
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel>Previously prescribed</DropdownMenuLabel>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  {MEDICATION_HISTORY.map((entry) => (
-                    <DropdownMenuItem
-                      key={entry.medicine}
-                      className="flex-col items-start gap-0.5"
-                      onClick={() =>
-                        addMedicines([
-                          {
-                            medicine: entry.medicine,
-                            dose: {
-                              schedule: entry.schedule,
-                              duration: entry.duration,
-                            },
-                          },
-                        ])
-                      }
-                    >
-                      <span>{entry.medicine}</span>
-                      <span className="text-muted-foreground text-xs">
-                        {entry.schedule} · {entry.duration} · {entry.date}
-                      </span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" aria-label="Template">
-                    <ClipboardList />
-                    <span className="hidden sm:inline">Template</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64">
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel>Apply a template</DropdownMenuLabel>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  {MEDICATION_TEMPLATES.map((template) => (
-                    <DropdownMenuItem
-                      key={template.name}
-                      className="flex-col items-start gap-0.5"
-                      onClick={() =>
-                        addMedicines(
-                          template.medicines.map((medicine) => ({ medicine }))
-                        )
-                      }
-                    >
-                      <span>{template.name}</span>
-                      <span className="text-muted-foreground text-xs">
-                        {template.medicines.length} medicines
-                      </span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon-sm"
-                    aria-label="Table settings"
-                  >
-                    <Settings2 />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel>Table settings</DropdownMenuLabel>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuCheckboxItem
-                    checked={dense}
-                    onCheckedChange={(value) => setDense(!!value)}
-                  >
-                    Compact rows
-                  </DropdownMenuCheckboxItem>
-                  <DropdownMenuCheckboxItem
-                    checked={cellBorder}
-                    onCheckedChange={(value) => setCellBorder(!!value)}
-                  >
-                    Cell borders
-                  </DropdownMenuCheckboxItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                aria-label="Medication history"
+              >
+                <History />
+                <span className="hidden sm:inline">Medication history</span>
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                aria-label="Template"
+              >
+                <ClipboardList />
+                <span className="hidden sm:inline">Template</span>
+              </Button>
             </CardAction>
           </CardHeader>
 
@@ -3642,7 +3736,6 @@ export function MedicationRequestTemplate() {
               </Empty>
             ) : (
               <>
-                {/* Clicks on the spanned Sl./Medicine cells focus that row's first dosage input. */}
                 <div
                   ref={gridRef}
                   onFocusCapture={(event) => {
@@ -3680,20 +3773,44 @@ export function MedicationRequestTemplate() {
                     const domOrder = focusableIn(gridRef.current);
                     domOrder[event.shiftKey ? 0 : domOrder.length - 1]?.focus();
                   }}
-                  onClick={(event) =>
-                    (event.target as Element)
-                      .closest("td[rowspan]")
-                      ?.closest("tbody")
-                      ?.querySelector<HTMLInputElement>("input")
-                      ?.focus()
-                  }
+                  onClick={(event) => {
+                    const target = event.target as Element;
+                    const cell = target.closest("td");
+                    if (!cell || !event.currentTarget.contains(cell)) return;
+                    const medicationRow = cell?.closest("tbody");
+                    const medicationId =
+                      medicationRow?.querySelector<HTMLElement>(
+                        "[data-medication-row-id]"
+                      )?.dataset.medicationRowId;
+                    if (medicationId) setActiveId(medicationId);
+                    if (cell?.hasAttribute("rowspan")) {
+                      medicationRow
+                        ?.querySelector<HTMLInputElement>("input")
+                        ?.focus();
+                      return;
+                    }
+                    if (
+                      target.closest(
+                        'input, button, textarea, select, a, [role="combobox"], [contenteditable="true"]'
+                      )
+                    ) {
+                      return;
+                    }
+                    const doseCell =
+                      target.closest("[data-dose-row-id]") ?? cell;
+                    const control = doseCell.querySelector<HTMLElement>(
+                      'input:not([type="hidden"]), button, textarea, select'
+                    );
+                    control?.focus();
+                    control?.click();
+                  }}
                 >
                   <DataTable
                     columns={columns}
                     data={medications}
                     hideToolbar
-                    cellBorder={cellBorder}
-                    dense={dense}
+                    cellBorder
+                    dense={false}
                     defaultExpanded={true}
                     className={gridClassName}
                     renderExpandedRow={(row) => (
