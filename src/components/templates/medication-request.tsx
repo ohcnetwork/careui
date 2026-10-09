@@ -871,14 +871,8 @@ function DosageInput({
       value={selectedDosage}
       inputValue={amount}
       onInputValueChange={(nextAmount) => {
-        const selectedUnit = DOSE_UNITS.find(
-          (option) => nextAmount === option || nextAmount.endsWith(` ${option}`)
-        );
-        onChange(
-          selectedUnit
-            ? formatDosage(parseDosage(nextAmount).amount, selectedUnit)
-            : formatDosage(nextAmount, unit)
-        );
+        const numericAmount = nextAmount.replace(/[^0-9./]/g, "");
+        onChange(formatDosage(numericAmount, unit));
       }}
       onValueChange={(value) => {
         if (value === null) return;
@@ -1321,6 +1315,7 @@ function ScheduleCombobox({
       items={items}
       filter={null}
       autoHighlight
+      loopFocus={false}
       value={value}
       onValueChange={(next) => {
         pickedRef.current = next !== null;
@@ -1442,6 +1437,7 @@ function FavoritesMultiCombobox({
       items={groups}
       filter={null}
       autoHighlight={!!search}
+      loopFocus={false}
       value={value}
       onValueChange={(next: string[]) => {
         recordRecents(next.filter((item) => !value.includes(item)));
@@ -2366,7 +2362,10 @@ function MedicationPicker({
           ) ?? null);
     setCategoryProductType(activeProductType);
     setTypeFiltersOpen(true);
-    focusFirstTypeFilterOption();
+    setSearch("/");
+    requestAnimationFrame(() =>
+      fieldRef.current?.querySelector<HTMLInputElement>("input")?.focus()
+    );
   };
 
   React.useEffect(() => {
@@ -2403,7 +2402,7 @@ function MedicationPicker({
   }, [primaryModifier]);
 
   const matching = React.useMemo(() => {
-    const query = search.trim().toLowerCase();
+    const query = typeFiltersOpen ? "" : search.trim().toLowerCase();
     return MEDICATION_PICKER_ITEMS.filter(
       (item) =>
         (selectedSources.has("All") || selectedSources.has(item.source)) &&
@@ -2423,14 +2422,17 @@ function MedicationPicker({
     selectedProductCategories,
     selectedProductTypes,
     selectedSources,
+    typeFiltersOpen,
   ]);
 
   const openProductCategories = (productType: MedicationProductType) => {
-    setSelectedProductTypes((current) => {
-      const next = new Set(current);
-      next.add(productType);
-      return next;
-    });
+    setSelectedProductTypes(new Set([productType]));
+    setSelectedProductCategories(
+      (current) =>
+        new Set(
+          [...current].filter((key) => key.startsWith(`${productType}::`))
+        )
+    );
     setCategoryProductType(productType);
   };
 
@@ -2477,6 +2479,9 @@ function MedicationPicker({
     setCategoryProductType((current) =>
       current === productType ? null : current
     );
+    if (typeFiltersOpen && search.startsWith("/")) {
+      setSearch("/");
+    }
   };
 
   const removeProductCategoryFilter = (
@@ -2491,6 +2496,7 @@ function MedicationPicker({
     setOpen(true);
     setCategoryProductType(productType);
     setTypeFiltersOpen(true);
+    setSearch("/");
   };
 
   const handleBadgeDeleteKeyDown = (
@@ -2517,6 +2523,20 @@ function MedicationPicker({
       removeLatestProductCategory(categoryProductType);
     }
     setCategoryProductType(null);
+    setTypeFiltersOpen(true);
+    setSearch("/");
+  };
+
+  const backToCategories = () => {
+    if (
+      !categoryProductType ||
+      !selectedProductTypes.has(categoryProductType)
+    ) {
+      return;
+    }
+    preservePopupForFilterActionRef.current = true;
+    setOpen(true);
+    setSearch("/");
     setTypeFiltersOpen(true);
   };
 
@@ -2576,13 +2596,15 @@ function MedicationPicker({
   ]);
 
   const groups = React.useMemo(() => {
+    const typeFilterSearch = search.trim().replace(/^\/+/, "").toLowerCase();
+
     if (typeFiltersOpen && !categoryProductType) {
       return [
         {
           value: PRODUCT_TYPE_FILTER_GROUP,
-          items: MEDICATION_PRODUCT_TYPES.map(
-            (productType) => `${FILTER_TYPE_PREFIX}${productType}`
-          ),
+          items: MEDICATION_PRODUCT_TYPES.filter((productType) =>
+            productType.toLowerCase().includes(typeFilterSearch)
+          ).map((productType) => `${FILTER_TYPE_PREFIX}${productType}`),
         },
       ];
     }
@@ -2593,7 +2615,9 @@ function MedicationPicker({
         value: PRODUCT_CATEGORY_FILTER_GROUP,
         items: [
           ...MEDICATION_PRODUCT_CATEGORIES.filter(
-            (entry) => entry.productType === categoryProductType
+            (entry) =>
+              entry.productType === categoryProductType &&
+              entry.category.toLowerCase().includes(typeFilterSearch)
           ).map(
             ({ productType, category }) =>
               `${FILTER_CATEGORY_PREFIX}${productCategoryKey(productType, category)}`
@@ -2602,7 +2626,14 @@ function MedicationPicker({
       });
     }
     return [...filterGroups, ...productGroups];
-  }, [categoryProductType, productGroups, typeFiltersOpen]);
+  }, [categoryProductType, productGroups, search, typeFiltersOpen]);
+
+  const activeFilterGroup = categoryProductType
+    ? PRODUCT_CATEGORY_FILTER_GROUP
+    : PRODUCT_TYPE_FILTER_GROUP;
+  const hasMatchingFilterOptions = groups.some(
+    (group) => group.value === activeFilterGroup && group.items.length > 0
+  );
 
   const toggleSource = (source: (typeof MEDICATION_SOURCES)[number]) => {
     setSelectedSources((current) => {
@@ -2655,13 +2686,6 @@ function MedicationPicker({
   const handlePickerSelection = (value: string | null) => {
     if (!value) return;
 
-    if (
-      value.startsWith(FILTER_TYPE_PREFIX) ||
-      value.startsWith(FILTER_CATEGORY_PREFIX)
-    ) {
-      setSearch("");
-    }
-
     const productType = MEDICATION_PRODUCT_TYPES.find(
       (option) => value === `${FILTER_TYPE_PREFIX}${option}`
     );
@@ -2669,6 +2693,7 @@ function MedicationPicker({
       preservePopupForFilterActionRef.current = true;
       setOpen(true);
       setTypeFiltersOpen(true);
+      setSearch("/");
       openProductCategories(productType);
       return;
     }
@@ -2681,6 +2706,7 @@ function MedicationPicker({
       if (category) {
         preservePopupForFilterActionRef.current = true;
         setOpen(true);
+        setSearch("");
         toggleProductCategory(category.productType, category.category);
       }
       return;
@@ -2958,6 +2984,42 @@ function MedicationPicker({
             }
             if (
               (event.key === "Backspace" || event.key === "Delete") &&
+              typeFiltersOpen &&
+              event.currentTarget.value === "/"
+            ) {
+              event.preventDefault();
+              event.stopPropagation();
+
+              const lastCategory = MEDICATION_PRODUCT_CATEGORIES.filter(
+                ({ productType, category }) =>
+                  selectedProductCategories.has(
+                    productCategoryKey(productType, category)
+                  )
+              ).at(-1);
+              if (lastCategory) {
+                removeProductCategoryFilter(
+                  lastCategory.productType,
+                  lastCategory.category
+                );
+                return;
+              }
+
+              const selectedProductType = MEDICATION_PRODUCT_TYPES.find(
+                (productType) => selectedProductTypes.has(productType)
+              );
+              if (selectedProductType) {
+                removeProductTypeFilter(selectedProductType);
+                return;
+              }
+
+              setSearch("");
+              setCategoryProductType(null);
+              setTypeFiltersOpen(false);
+              setOpen(true);
+              return;
+            }
+            if (
+              (event.key === "Backspace" || event.key === "Delete") &&
               event.currentTarget.value === ""
             ) {
               const lastCategory = MEDICATION_PRODUCT_CATEGORIES.filter(
@@ -2990,10 +3052,10 @@ function MedicationPicker({
               event.key === "/" &&
               !event.metaKey &&
               !event.ctrlKey &&
-              !event.altKey
+              !event.altKey &&
+              !typeFiltersOpen
             ) {
               event.preventDefault();
-              setSearch("");
               showTypeFilters();
             }
           }}
@@ -3122,50 +3184,72 @@ function MedicationPicker({
         }
         className="max-h-[min(34rem,calc(100dvh-5rem))] w-(--anchor-width) max-w-xl min-w-0 overflow-y-auto shadow-lg data-closed:animate-none data-closed:duration-0 data-open:animate-none data-open:duration-0"
       >
-        {!typeFiltersOpen && (
-          <div
-            ref={sourceFiltersRef}
-            role="group"
-            aria-label="Filter medicines by source"
-            className="flex flex-wrap gap-2 border-b p-2"
-          >
-            {MEDICATION_SOURCES.map((source) => {
-              const selected = selectedSources.has(source);
-              return (
-                <Toggle
-                  key={source}
-                  type="button"
-                  variant="outline"
-                  pressed={selected}
-                  aria-label={source}
-                  onPressedChange={() => toggleSource(source)}
-                  onKeyDown={(event) => {
-                    if (
-                      event.key === "Tab" &&
-                      event.shiftKey &&
-                      source === MEDICATION_SOURCES[0]
-                    ) {
+        {!typeFiltersOpen &&
+          categoryProductType &&
+          selectedProductTypes.has(categoryProductType) && (
+            <div className="bg-popover sticky top-0 z-10 flex items-center gap-1.5 border-b px-2 py-2 text-xs font-medium">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-xs"
+                aria-label="Back to categories"
+                onPointerDown={(event) => event.preventDefault()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  backToCategories();
+                }}
+              >
+                <ChevronLeft aria-hidden="true" />
+              </Button>
+              <span>Filter {categoryProductType} by category</span>
+            </div>
+          )}
+        {!typeFiltersOpen &&
+          selectedProductTypes.size === 0 &&
+          selectedProductCategories.size === 0 && (
+            <div
+              ref={sourceFiltersRef}
+              role="group"
+              aria-label="Filter medicines by source"
+              className="flex flex-wrap gap-2 border-b p-2"
+            >
+              {MEDICATION_SOURCES.map((source) => {
+                const selected = selectedSources.has(source);
+                return (
+                  <Toggle
+                    key={source}
+                    type="button"
+                    variant="outline"
+                    pressed={selected}
+                    aria-label={source}
+                    onPressedChange={() => toggleSource(source)}
+                    onKeyDown={(event) => {
+                      if (
+                        event.key === "Tab" &&
+                        event.shiftKey &&
+                        source === MEDICATION_SOURCES[0]
+                      ) {
+                        event.preventDefault();
+                        fieldRef.current
+                          ?.querySelector<HTMLButtonElement>(
+                            'button[aria-label="Filter by type"]'
+                          )
+                          ?.focus();
+                        return;
+                      }
+                      if (event.key !== "ArrowDown") return;
                       event.preventDefault();
-                      fieldRef.current
-                        ?.querySelector<HTMLButtonElement>(
-                          'button[aria-label="Filter by type"]'
-                        )
-                        ?.focus();
-                      return;
-                    }
-                    if (event.key !== "ArrowDown") return;
-                    event.preventDefault();
-                    focusFirstProductOption();
-                  }}
-                  className="gap-2 px-4"
-                >
-                  {selected && <Check aria-hidden="true" />}
-                  {source}
-                </Toggle>
-              );
-            })}
-          </div>
-        )}
+                      focusFirstProductOption();
+                    }}
+                    className="gap-2 px-4"
+                  >
+                    {selected && <Check aria-hidden="true" />}
+                    {source}
+                  </Toggle>
+                );
+              })}
+            </div>
+          )}
         {typeFiltersOpen && categoryProductType && (
           <div className="bg-popover sticky top-0 z-10 flex items-center gap-1.5 border-b px-2 py-2 text-xs font-medium">
             <Button
@@ -3213,7 +3297,17 @@ function MedicationPicker({
             </ComboboxGroup>
           )}
         </ComboboxList>
-        {matching.length === 0 && (
+        {typeFiltersOpen && !hasMatchingFilterOptions && (
+          <div
+            className="text-muted-foreground border-t px-3 py-3 text-sm"
+            role="status"
+          >
+            {categoryProductType
+              ? "No categories match your search."
+              : "No product types match your search."}
+          </div>
+        )}
+        {!typeFiltersOpen && matching.length === 0 && (
           <div
             className="text-muted-foreground border-t px-3 py-3 text-sm"
             role="status"
