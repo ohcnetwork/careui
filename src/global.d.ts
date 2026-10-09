@@ -1,3 +1,3 @@
 interface Window {
-  __removeLoadingScreen?: () => void;
+  __removeLoadingScreen?: (options?: { immediate?: boolean }) => void;
 }

@@ -3,10 +3,12 @@ import { AppSidebarDemo } from "@/lib/registry/sidebar-01-demo";
 import { InnerPageLayoutDemo } from "@/lib/registry/sidebar-inner-page-01-demo";
 import { InnerPageLayout02Demo } from "@/lib/registry/sidebar-inner-page-02-demo";
 import { TVDisplay01Demo } from "@/lib/registry/tv-display-01-demo";
+import { StaffSignInDemo } from "@/lib/registry/sign-in-01-demo";
 import { SIDEBAR_01_CODE } from "./sidebar-01";
 import { INNER_PAGE_01_CODE } from "./inner-page-01";
 import { INNER_PAGE_02_CODE } from "./inner-page-02";
 import { TV_DISPLAY_01_CODE } from "./tv-display-01";
+import { STAFF_SIGN_IN_01_CODE } from "./sign-in-01";
 
 export type BlockCategory =
   | "All"
@@ -26,6 +28,16 @@ export interface BlockDef {
 }
 
 export const BLOCKS: BlockDef[] = [
+  {
+    id: "staff-sign-in-01",
+    name: "Staff sign-in",
+    description:
+      "A compact sign-in page for doctors, nurses and hospital staff.",
+    category: "Authentication",
+    preview: (fullPage) => <StaffSignInDemo fullPage={fullPage} />,
+    scale: 1,
+    code: STAFF_SIGN_IN_01_CODE,
+  },
   {
     id: "sidebar-01",
     name: "Main Dashboard",

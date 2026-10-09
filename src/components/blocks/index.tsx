@@ -130,7 +130,7 @@ export function BlockPreviewPage({ id }: { id: string }) {
   const { setActiveComponent } = useNavigation();
 
   if (typeof window.__removeLoadingScreen === "function") {
-    window.__removeLoadingScreen();
+    window.__removeLoadingScreen({ immediate: true });
   }
 
   if (!block) {

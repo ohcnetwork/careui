@@ -259,6 +259,7 @@
     timers.forEach(clearTimeout);
     timers.clear();
     if (container && container.parentNode) {
+      container.style.pointerEvents = "none";
       container.style.transition = "opacity 150ms ease";
       container.style.opacity = "0";
       setTimeout(function() {
@@ -291,7 +292,8 @@
   // Sets a flag; the loading screen fades out at the next natural shape
   // boundary so the current animation is never cut off mid-transition.
   // Safety timeout ensures removal even if the cycle loop stalls (3s cap).
-  window.__removeLoadingScreen = function() {
+  window.__removeLoadingScreen = function(options) {
+    if (options && options.immediate) { doRemove(); return; }
     pendingRemove = true;
     setTimeout(function() { if (mounted) doRemove(); }, 3000);
   };
