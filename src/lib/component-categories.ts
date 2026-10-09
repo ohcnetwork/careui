@@ -145,3 +145,18 @@ export function groupComponentIdsByLevel(
   }
   return groups;
 }
+
+/**
+ * Scribe section: voice / AI-scribe components. Listed separately from the
+ * atomic levels because they are a themed family rather than a level; they
+ * get their own "Components / Scribe" sidebar group.
+ */
+export const SCRIBE_COMPONENT_IDS: string[] = [
+  "scribe-button",
+  "scribe-intro",
+  "scribe-status-badge",
+  "shiny-button",
+  "stacked-grid",
+  "keyboard-shortcut",
+  "voice-waveform",
+];

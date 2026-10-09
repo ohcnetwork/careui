@@ -1,5 +1,12 @@
 [
   {
+    "name": "voice-waveform",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/voice-waveform/voice-waveform.tsx"
+    ]
+  },
+  {
     "name": "unicode-spinner",
     "type": "registry:ui",
     "dependencies": [
@@ -121,6 +128,13 @@
     ]
   },
   {
+    "name": "stacked-grid",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/stacked-grid/stacked-grid.tsx"
+    ]
+  },
+  {
     "name": "spinner",
     "type": "registry:ui",
     "dependencies": [
@@ -175,6 +189,13 @@
     ]
   },
   {
+    "name": "shiny-button",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/shiny-button/shiny-button.tsx"
+    ]
+  },
+  {
     "name": "sheet",
     "type": "registry:ui",
     "dependencies": [
@@ -216,6 +237,37 @@
     ],
     "files": [
       "registry/care-ui/scroll-area/scroll-area.tsx"
+    ]
+  },
+  {
+    "name": "scribe-status-badge",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/scribe-status-badge/scribe-status-badge.tsx"
+    ]
+  },
+  {
+    "name": "scribe-intro",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/scribe-intro/scribe-intro.tsx"
+    ]
+  },
+  {
+    "name": "scribe-button",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react",
+      "class-variance-authority"
+    ],
+    "files": [
+      "registry/care-ui/scribe-button/scribe-button.tsx"
     ]
   },
   {
@@ -373,6 +425,13 @@
     ],
     "files": [
       "registry/care-ui/label/label.tsx"
+    ]
+  },
+  {
+    "name": "keyboard-shortcut",
+    "type": "registry:ui",
+    "files": [
+      "registry/care-ui/keyboard-shortcut/keyboard-shortcut.tsx"
     ]
   },
   {

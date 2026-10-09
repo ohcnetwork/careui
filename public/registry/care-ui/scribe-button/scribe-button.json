@@ -1,0 +1,17 @@
+{
+  "name": "scribe-button",
+  "type": "registry:ui",
+  "dependencies": [
+    "lucide-react",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/care-ui/scribe-button/scribe-button.tsx",
+      "content": "/**\n * @name scribe-button\n * @description A floating voice-capture action button that reflects the recording flow: idle, recording, attaching and review. The icon sits in a chip beside a label.\n * @dependencies lucide-react class-variance-authority\n * @type registry:ui\n */\nimport * as React from \"react\";\nimport { cva } from \"class-variance-authority\";\nimport { ImageIcon, MicIcon, MicOffIcon, RotateCcwIcon } from \"lucide-react\";\n\nimport { cn } from \"@/lib/utils\";\n\ntype ScribeButtonState = \"idle\" | \"recording\" | \"attaching\" | \"review\";\n\nconst scribeButtonVariants = cva(\n  \"group inline-flex cursor-pointer items-center rounded-full text-sm font-semibold transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-60\",\n  {\n    variants: {\n      state: {\n        idle: \"bg-primary text-primary-foreground hover:bg-primary/90\",\n        recording:\n          \"border border-destructive/40 bg-destructive/10 text-foreground hover:bg-destructive/20\",\n        attaching: \"border bg-muted text-foreground hover:bg-muted/70\",\n        review: \"border bg-muted text-foreground hover:bg-muted/70\",\n      },\n    },\n    defaultVariants: { state: \"idle\" },\n  }\n);\n\nconst STATE_ICONS: Record<ScribeButtonState, React.ElementType> = {\n  idle: MicIcon,\n  recording: MicOffIcon,\n  attaching: ImageIcon,\n  review: RotateCcwIcon,\n};\n\ninterface ScribeButtonProps extends Omit<\n  React.ComponentProps<\"button\">,\n  \"children\"\n> {\n  state?: ScribeButtonState;\n  /** Text shown beside the icon. */\n  label: string;\n}\n\nfunction ScribeButton({\n  state = \"idle\",\n  label,\n  className,\n  type = \"button\",\n  ...props\n}: ScribeButtonProps) {\n  const Icon = STATE_ICONS[state];\n  return (\n    <button\n      data-slot=\"scribe-button\"\n      data-state={state}\n      type={type}\n      title={label}\n      className={cn(scribeButtonVariants({ state }), className)}\n      {...props}\n    >\n      <span\n        aria-hidden=\"true\"\n        className={cn(\n          \"flex aspect-square items-center justify-center rounded-full p-3.5\",\n          state === \"idle\" ? \"bg-black/15\" : \"bg-foreground/10\"\n        )}\n      >\n        <Icon className=\"size-4\" />\n      </span>\n      <span className=\"pr-5 pl-2\">{label}</span>\n    </button>\n  );\n}\n\nexport { ScribeButton, type ScribeButtonState };\n",
+      "type": "registry:component",
+      "target": "components/careui/scribe-button.tsx"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "scribe-status-badge",
+  "type": "registry:ui",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/badge/badge.json"
+  ],
+  "files": [
+    {
+      "path": "registry/care-ui/scribe-status-badge/scribe-status-badge.tsx",
+      "content": "/**\n * @name scribe-status-badge\n * @description A badge for the lifecycle of an AI scribe job (created, transcribing, generating, completed, refused, failed) with a matching icon and a pulse while work is in progress.\n * @dependencies lucide-react\n * @registryDependencies badge\n * @type registry:ui\n */\nimport * as React from \"react\";\nimport {\n  BanIcon,\n  CheckIcon,\n  ClockIcon,\n  MicIcon,\n  XIcon,\n  ZapIcon,\n} from \"lucide-react\";\n\nimport { cn } from \"@/lib/utils\";\nimport { Badge, type BadgeVariant } from \"@/components/ui/badge\";\n\ntype ScribeStatus =\n  | \"CREATED\"\n  | \"READY\"\n  | \"GENERATING_TRANSCRIPT\"\n  | \"GENERATING_AI_RESPONSE\"\n  | \"COMPLETED\"\n  | \"REFUSED\"\n  | \"FAILED\";\n\nconst STATUS_CONFIG: Record<\n  ScribeStatus,\n  {\n    variant: BadgeVariant;\n    icon: React.ElementType;\n    label: string;\n    busy?: boolean;\n  }\n> = {\n  CREATED: { variant: \"neutral\", icon: ClockIcon, label: \"Created\" },\n  READY: { variant: \"info\", icon: CheckIcon, label: \"Ready\" },\n  GENERATING_TRANSCRIPT: {\n    variant: \"primary\",\n    icon: MicIcon,\n    label: \"Transcribing\",\n    busy: true,\n  },\n  GENERATING_AI_RESPONSE: {\n    variant: \"primary\",\n    icon: ZapIcon,\n    label: \"Generating\",\n    busy: true,\n  },\n  COMPLETED: { variant: \"success\", icon: CheckIcon, label: \"Completed\" },\n  REFUSED: { variant: \"warning\", icon: BanIcon, label: \"Refused\" },\n  FAILED: { variant: \"destructive\", icon: XIcon, label: \"Failed\" },\n};\n\ninterface ScribeStatusBadgeProps extends Omit<\n  React.ComponentProps<typeof Badge>,\n  \"variant\" | \"children\"\n> {\n  status: ScribeStatus;\n  /** Override the default label. */\n  label?: string;\n}\n\nfunction ScribeStatusBadge({\n  status,\n  label,\n  className,\n  ...props\n}: ScribeStatusBadgeProps) {\n  const config = STATUS_CONFIG[status];\n  const Icon = config.icon;\n  return (\n    <Badge\n      data-status={status}\n      variant={config.variant}\n      className={cn(className)}\n      {...props}\n    >\n      <Icon\n        aria-hidden=\"true\"\n        className={cn(config.busy && \"motion-safe:animate-pulse\")}\n      />\n      {label ?? config.label}\n    </Badge>\n  );\n}\n\nexport { ScribeStatusBadge, type ScribeStatus };\n",
+      "type": "registry:component",
+      "target": "components/careui/scribe-status-badge.tsx"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "keyboard-shortcut",
+  "type": "registry:ui",
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/kbd/kbd.json"
+  ],
+  "files": [
+    {
+      "path": "registry/care-ui/keyboard-shortcut/keyboard-shortcut.tsx",
+      "content": "/**\n * @name keyboard-shortcut\n * @description Renders a key combination (for example Meta + K) as a row of keycaps joined by plus signs, with platform symbols for modifier and arrow keys.\n * @dependencies\n * @registryDependencies kbd\n * @type registry:ui\n */\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\nimport { Kbd } from \"@/components/ui/kbd\";\n\nconst KEY_LABELS: Record<string, { long: string; short: string }> = {\n  Meta: { long: \"⌘\", short: \"⌘\" },\n  Shift: { long: \"⇧ Shift\", short: \"⇧\" },\n  Alt: { long: \"⌥ Alt\", short: \"⌥\" },\n  Control: { long: \"Ctrl\", short: \"⌃\" },\n  ArrowUp: { long: \"↑\", short: \"↑\" },\n  ArrowDown: { long: \"↓\", short: \"↓\" },\n  ArrowLeft: { long: \"←\", short: \"←\" },\n  ArrowRight: { long: \"→\", short: \"→\" },\n  Escape: { long: \"Esc\", short: \"Esc\" },\n  \" \": { long: \"Space\", short: \"Space\" },\n};\n\ninterface KeyboardShortcutProps extends React.ComponentProps<\"span\"> {\n  /** Keys in order, using `KeyboardEvent.key` names, e.g. [\"Meta\", \"K\"]. */\n  shortcut: string[];\n  /** Use compact symbols for modifiers (⇧ instead of ⇧ Shift). */\n  short?: boolean;\n}\n\nfunction KeyboardShortcut({\n  shortcut,\n  short = false,\n  className,\n  ...props\n}: KeyboardShortcutProps) {\n  return (\n    <span\n      data-slot=\"keyboard-shortcut\"\n      aria-label={shortcut.join(\" + \")}\n      className={cn(\"inline-flex shrink-0 items-center\", className)}\n      {...props}\n    >\n      {shortcut.map((key, index) => (\n        <React.Fragment key={`${key}-${index}`}>\n          <Kbd aria-hidden=\"true\">\n            {KEY_LABELS[key]?.[short ? \"short\" : \"long\"] ?? key}\n          </Kbd>\n          {index < shortcut.length - 1 && (\n            <span aria-hidden=\"true\" className=\"text-muted-foreground px-1\">\n              +\n            </span>\n          )}\n        </React.Fragment>\n      ))}\n    </span>\n  );\n}\n\nexport { KeyboardShortcut };\n",
+      "type": "registry:component",
+      "target": "components/careui/keyboard-shortcut.tsx"
+    }
+  ]
+}

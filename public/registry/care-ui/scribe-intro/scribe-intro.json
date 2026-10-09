@@ -1,0 +1,18 @@
+{
+  "name": "scribe-intro",
+  "type": "registry:ui",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "https://careui.ohc.network/registry/care-ui/button/button.json"
+  ],
+  "files": [
+    {
+      "path": "registry/care-ui/scribe-intro/scribe-intro.tsx",
+      "content": "/**\n * @name scribe-intro\n * @description A compact first-run nudge card that introduces the scribe with a short message, a primary \"try it\" action and a dismiss control.\n * @dependencies lucide-react\n * @registryDependencies button\n * @type registry:ui\n */\nimport * as React from \"react\";\nimport { MicIcon, XIcon } from \"lucide-react\";\n\nimport { cn } from \"@/lib/utils\";\nimport { Button } from \"@/components/ui/button\";\n\ninterface ScribeIntroProps extends Omit<React.ComponentProps<\"div\">, \"title\"> {\n  title?: React.ReactNode;\n  description?: React.ReactNode;\n  tryLabel?: string;\n  laterLabel?: string;\n  dismissLabel?: string;\n  onTry?: () => void;\n  onDismiss?: () => void;\n}\n\nfunction ScribeIntro({\n  title = \"Meet Scribe\",\n  description = \"Just talk — I'll fill symptoms, diagnosis, meds & orders for you.\",\n  tryLabel = \"Try it\",\n  laterLabel = \"Later\",\n  dismissLabel = \"Dismiss\",\n  onTry,\n  onDismiss,\n  className,\n  ...props\n}: ScribeIntroProps) {\n  return (\n    <div\n      data-slot=\"scribe-intro\"\n      role=\"group\"\n      aria-label={typeof title === \"string\" ? title : undefined}\n      className={cn(\n        \"bg-card text-card-foreground relative w-70 max-w-[calc(100vw-2.5rem)] rounded-2xl border p-4 shadow-xl\",\n        className\n      )}\n      {...props}\n    >\n      <button\n        type=\"button\"\n        onClick={onDismiss}\n        aria-label={dismissLabel}\n        className=\"text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:ring-ring/50 absolute top-2.5 right-2.5 flex size-5 cursor-pointer items-center justify-center rounded-full transition-colors focus-visible:ring-[3px] focus-visible:outline-none\"\n      >\n        <XIcon className=\"size-3\" />\n      </button>\n      <h3 className=\"pr-4 text-sm font-semibold\">{title}</h3>\n      <p className=\"text-muted-foreground mt-1.5 text-sm leading-relaxed\">\n        {description}\n      </p>\n      <div className=\"mt-3.5 flex items-center gap-2\">\n        <Button className=\"flex-1 rounded-full\" size=\"sm\" onClick={onTry}>\n          <MicIcon />\n          {tryLabel}\n        </Button>\n        <Button\n          variant=\"ghost\"\n          size=\"sm\"\n          className=\"rounded-full\"\n          onClick={onDismiss}\n        >\n          {laterLabel}\n        </Button>\n      </div>\n    </div>\n  );\n}\n\nexport { ScribeIntro };\n",
+      "type": "registry:component",
+      "target": "components/careui/scribe-intro.tsx"
+    }
+  ]
+}
