@@ -14,7 +14,7 @@ export function StaffSignInPage() {
     <div className="flex min-h-screen flex-col bg-primary px-0.5 pt-0.5 pb-2">
       <main className="relative isolate flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-2xl border-2 border-primary bg-background p-4">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-10 [background-image:radial-gradient(circle,var(--color-primary)_1px,transparent_1px)] [background-size:16px_16px]" />
-      <PixelCanvas className="absolute inset-0 z-0 opacity-35" />
+      <PixelCanvas variant="care" className="absolute inset-0 z-0" />
       <section aria-labelledby="staff-sign-in-title" className="relative z-10 w-full max-w-xs rounded-2xl border border-border bg-card p-4 shadow-lg ring-1 ring-foreground/5">
         <header className="space-y-1.5">
           <h1 id="staff-sign-in-title" className="text-base font-semibold">Staff sign-in</h1>

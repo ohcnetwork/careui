@@ -21,7 +21,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 [background-image:radial-gradient(circle,var(--color-primary)_1px,transparent_1px)] [background-size:16px_16px] opacity-10"
         />
-        <PixelCanvas className="absolute inset-0 z-0 opacity-35" />
+        <PixelCanvas variant="care" className="absolute inset-0 z-0" />
         <section
           aria-labelledby="staff-sign-in-title"
           className="border-border bg-card ring-foreground/5 relative z-10 w-full max-w-xs rounded-2xl border p-4 shadow-lg ring-1"

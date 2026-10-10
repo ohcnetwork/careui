@@ -7,7 +7,7 @@ interface PixelCanvasProps extends React.HTMLAttributes<HTMLDivElement> {
   speed?: number;
   colors?: string[];
   noFocus?: boolean;
-  variant?: "default" | "trail" | "glow";
+  variant?: "default" | "trail" | "glow" | "care";
 }
 
 interface Pixel {
@@ -20,6 +20,12 @@ interface Pixel {
 }
 
 const EMERALD_COLORS = ["#065f46", "#10b981", "#a7f3d0"];
+const CARE_PATTERN = [
+  [0, 0.4, 0, 0.4, 0],
+  [0.4, 0, 0.8, 0, 0.4],
+  [0, 0.8, 0.8, 0.8, 0],
+  [0, 0, 0.8, 0, 0],
+] as const;
 
 function hexToRgb(hex: string) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -29,15 +35,6 @@ function hexToRgb(hex: string) {
     g: parseInt(result[2]!, 16),
     b: parseInt(result[3]!, 16),
   };
-}
-
-function lerpColor(color1: string, color2: string, amount: number) {
-  const from = hexToRgb(color1);
-  const to = hexToRgb(color2);
-  if (!from || !to) return color1;
-  const channel = (start: number, end: number) =>
-    Math.round(start + (end - start) * amount);
-  return `rgb(${channel(from.r, to.r)}, ${channel(from.g, to.g)}, ${channel(from.b, to.b)})`;
 }
 
 function supportsPixelCanvas() {
@@ -92,22 +89,6 @@ export function PixelCanvas({
   const pixelsRef = React.useRef<Pixel[][]>([]);
   const pointerRef = React.useRef({ x: -1000, y: -1000 });
   const animationRef = React.useRef(0);
-  const scheduleDrawRef = React.useRef<() => void>(() => {});
-  const colorForPixel = React.useCallback(
-    (intensity: number, phase: number) => {
-      if (colors.length === 0) return "#ffffff";
-      if (colors.length === 1) return colors[0]!;
-
-      const position = ((phase + intensity) % 1) * (colors.length - 1);
-      const index = Math.floor(position);
-      const first = colors[index];
-      const second = colors[Math.min(index + 1, colors.length - 1)];
-      if (!first) return "#ffffff";
-      if (!second) return first;
-      return lerpColor(first, second, position - index);
-    },
-    [colors]
-  );
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -117,11 +98,44 @@ export function PixelCanvas({
     const context = canvas.getContext("2d", { alpha: true });
     if (!context) return;
 
+    const palette = colors.map(hexToRgb);
+    const colorForPixel = (
+      intensity: number,
+      phase: number,
+      shapeProgress = 0
+    ) => {
+      if (colors.length === 0) return "#ffffff";
+      if (colors.length === 1) return colors[0]!;
+
+      const randomPosition = ((phase + intensity) % 1) * (colors.length - 1);
+      const position = randomPosition + (1 - randomPosition) * shapeProgress;
+      const index = Math.floor(position);
+      const first = colors[index];
+      const second = colors[Math.min(index + 1, colors.length - 1)];
+      if (!first) return "#ffffff";
+      if (!second) return first;
+      const from = palette[index];
+      const to = palette[Math.min(index + 1, palette.length - 1)];
+      if (!from || !to) return first;
+      const amount = position - index;
+      const channel = (start: number, end: number) =>
+        Math.round(start + (end - start) * amount);
+      return `rgb(${channel(from.r, to.r)}, ${channel(from.g, to.g)}, ${channel(from.b, to.b)})`;
+    };
+
     const pixelSize = Math.max(gap, 4);
     let columns = 0;
     let rows = 0;
     let width = 0;
     let height = 0;
+    let shapeStartedAt: number | null = null;
+    let holdTimer: ReturnType<typeof window.setTimeout> | undefined;
+
+    const resetHold = () => {
+      window.clearTimeout(holdTimer);
+      holdTimer = undefined;
+      shapeStartedAt = null;
+    };
 
     const resize = () => {
       const rect = container.getBoundingClientRect();
@@ -155,10 +169,18 @@ export function PixelCanvas({
       animationRef.current = 0;
       context.clearRect(0, 0, width, height);
       const { x: pointerX, y: pointerY } = pointerRef.current;
-      const radius = variant === "glow" ? 120 : 80;
+      const pointerColumn = Math.floor(pointerX / pixelSize);
+      const pointerRow = Math.floor(pointerY / pixelSize);
+      const radius = variant === "glow" || variant === "care" ? 120 : 80;
       const radiusSquared = radius * radius;
       const glowPasses = variant === "glow" ? 2 : 1;
-      let needsAnotherFrame = false;
+      const revealProgress =
+        shapeStartedAt === null
+          ? 0
+          : Math.min((performance.now() - shapeStartedAt) / 700, 1);
+      const shapeProgress =
+        revealProgress * revealProgress * (3 - 2 * revealProgress);
+      let needsAnotherFrame = revealProgress > 0 && revealProgress < 1;
 
       for (let columnIndex = 0; columnIndex < columns; columnIndex += 1) {
         const column = pixelsRef.current[columnIndex];
@@ -182,6 +204,20 @@ export function PixelCanvas({
             pixel.targetIntensity = 0;
           }
 
+          const blockOpacity =
+            variant === "care" && shapeStartedAt !== null
+              ? (CARE_PATTERN[rowIndex - pointerRow + 2]?.[
+                  columnIndex - pointerColumn + 2
+                ] ?? 0)
+              : 0;
+          if (variant === "care") {
+            const randomIntensity = pixel.targetIntensity * 0.25;
+            const heldIntensity = blockOpacity || pixel.targetIntensity * 0.12;
+            pixel.targetIntensity =
+              randomIntensity +
+              (heldIntensity - randomIntensity) * shapeProgress;
+          }
+
           const fadeSpeed =
             pixel.targetIntensity > pixel.intensity ? 0.3 : speed;
           pixel.intensity +=
@@ -191,7 +227,11 @@ export function PixelCanvas({
           }
           if (pixel.intensity <= 0.01) continue;
 
-          const color = colorForPixel(pixel.intensity, pixel.colorPhase);
+          const color = colorForPixel(
+            pixel.intensity,
+            pixel.colorPhase,
+            blockOpacity ? shapeProgress : 0
+          );
           if (variant === "glow" && pixel.intensity > 0.2) {
             for (let pass = glowPasses; pass > 0; pass -= 1) {
               const glowSize = pixel.size + pass * 4;
@@ -207,16 +247,20 @@ export function PixelCanvas({
             }
           }
 
-          context.globalAlpha = pixel.intensity * 0.75;
+          context.globalAlpha =
+            pixel.intensity * (variant === "care" ? 1 : 0.75);
           context.fillStyle = color;
-          if (variant === "trail" && typeof context.roundRect === "function") {
+          if (
+            (variant === "trail" || variant === "care") &&
+            typeof context.roundRect === "function"
+          ) {
             context.beginPath();
             context.roundRect(
               pixel.x,
               pixel.y,
               pixel.size,
               pixel.size,
-              pixel.size * 0.3
+              pixel.size * (variant === "care" ? 0.12 : 0.3)
             );
             context.fill();
           } else {
@@ -235,14 +279,25 @@ export function PixelCanvas({
       if (document.visibilityState === "hidden" || animationRef.current) return;
       animationRef.current = window.requestAnimationFrame(draw);
     };
-    scheduleDrawRef.current = scheduleDraw;
-
     const updatePointer = (clientX: number, clientY: number) => {
       const rect = container.getBoundingClientRect();
-      pointerRef.current = {
+      const pointer = {
         x: clientX - rect.left,
         y: clientY - rect.top,
       };
+      if (
+        variant === "care" &&
+        (pointer.x !== pointerRef.current.x ||
+          pointer.y !== pointerRef.current.y)
+      ) {
+        resetHold();
+        holdTimer = window.setTimeout(() => {
+          holdTimer = undefined;
+          shapeStartedAt = performance.now();
+          scheduleDraw();
+        }, 300);
+      }
+      pointerRef.current = pointer;
       scheduleDraw();
     };
     const onMouseMove = (event: MouseEvent) =>
@@ -252,11 +307,13 @@ export function PixelCanvas({
       if (touch) updatePointer(touch.clientX, touch.clientY);
     };
     const onPointerLeave = () => {
+      resetHold();
       pointerRef.current = { x: -1000, y: -1000 };
       scheduleDraw();
     };
 
     const pauseDraw = () => {
+      resetHold();
       pointerRef.current = { x: -1000, y: -1000 };
       if (animationRef.current) {
         window.cancelAnimationFrame(animationRef.current);
@@ -291,6 +348,7 @@ export function PixelCanvas({
     }
 
     return () => {
+      resetHold();
       if (animationRef.current) {
         window.cancelAnimationFrame(animationRef.current);
         animationRef.current = 0;
@@ -305,9 +363,8 @@ export function PixelCanvas({
       container.removeEventListener("mouseleave", onPointerLeave);
       container.removeEventListener("touchmove", onTouchMove);
       container.removeEventListener("touchend", onPointerLeave);
-      scheduleDrawRef.current = () => {};
     };
-  }, [colorForPixel, gap, noFocus, speed, variant]);
+  }, [colors, gap, noFocus, speed, variant]);
 
   return (
     <div
