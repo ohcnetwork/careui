@@ -30,11 +30,11 @@ import { Kbd } from "@/components/ui/kbd";
 import { Spinner } from "@/components/ui/spinner";
 import {
   CheckIcon,
+  CalendarDaysIcon,
   ChevronDownIcon,
   CopyIcon,
   CreditCardIcon,
   CornerDownLeftIcon,
-  EyeOffIcon,
   FileCode2Icon,
   InfoIcon,
   LoaderIcon,
@@ -971,20 +971,16 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group"
-import { EyeOffIcon } from "lucide-react"
+import { CalendarDaysIcon } from "lucide-react"
 
 export function InputGroupInlineEnd() {
   return (
     <Field className="max-w-sm">
-      <FieldLabel htmlFor="inline-end-input">Input</FieldLabel>
+      <FieldLabel htmlFor="inline-end-input">Date</FieldLabel>
       <InputGroup>
-        <InputGroupInput
-          id="inline-end-input"
-          type="password"
-          placeholder="Enter password"
-        />
+        <InputGroupInput id="inline-end-input" placeholder="Select a date" />
         <InputGroupAddon align="inline-end">
-          <EyeOffIcon />
+          <CalendarDaysIcon />
         </InputGroupAddon>
       </InputGroup>
       <FieldDescription>Icon positioned at the end.</FieldDescription>
@@ -997,20 +993,19 @@ export function InputGroupInlineEnd() {
         React.createElement(
           FieldLabel,
           { htmlFor: "inline-end-input" },
-          "Input"
+          "Date"
         ),
         React.createElement(
           InputGroup,
           {},
           React.createElement(InputGroupInput, {
             id: "inline-end-input",
-            type: "password",
-            placeholder: "Enter password",
+            placeholder: "Select a date",
           }),
           React.createElement(
             InputGroupAddon,
             { align: "inline-end" },
-            React.createElement(EyeOffIcon)
+            React.createElement(CalendarDaysIcon)
           )
         ),
         React.createElement(FieldDescription, {}, "Icon positioned at the end.")
