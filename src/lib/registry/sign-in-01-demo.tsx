@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ArrowRight, Check, Eye, EyeOff, Globe } from "lucide-react";
+import { ArrowRight, Check, Edit, Eye, EyeOff, Globe } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,7 +21,15 @@ import {
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { PixelCanvas } from "@/components/blocks/pixel-canvas";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { cn } from "@/lib/utils";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { formatPhoneNumberIntl } from "react-phone-number-input";
 
 const LANGUAGES = [
   { value: "en", label: "English", languageLabel: "Language" },
@@ -33,13 +41,19 @@ const LANGUAGES = [
 ] as const;
 
 export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
+  const [formMode, setFormMode] = React.useState<"staff" | "patient">("staff");
+  const [patientStep, setPatientStep] = React.useState<"phone" | "otp">(
+    "phone"
+  );
   const [showPassword, setShowPassword] = React.useState(false);
   const [password, setPassword] = React.useState("password");
+  const [phoneNumber, setPhoneNumber] = React.useState<string>();
+  const [otp, setOtp] = React.useState("");
+  const [otpError, setOtpError] = React.useState("");
   const [status, setStatus] = React.useState("");
   const [language, setLanguage] = React.useState("en");
   const selectedLanguage =
     LANGUAGES.find((option) => option.value === language) ?? LANGUAGES[0];
-
   return (
     <div
       className={cn(
@@ -47,16 +61,16 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
         fullPage ? "h-dvh" : "min-h-180"
       )}
     >
-      <main className="border-primary bg-background relative isolate flex min-h-0 flex-1 flex-col items-center gap-4 overflow-x-hidden overflow-y-auto rounded-2xl border-2 px-4 pt-8 pb-6">
+      <main className="border-primary bg-background relative isolate flex min-h-0 flex-1 flex-col items-center gap-4 overflow-x-hidden overflow-y-auto rounded-t-md rounded-b-2xl border-2 p-2 md:px-4 md:pt-8 md:pb-6">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-primary)_1px,transparent_1px)] bg-size-[16px_16px] opacity-10"
         />
         <PixelCanvas variant="care" className="absolute inset-0 z-0" />
-        <div className="relative z-10 flex w-auto max-w-xl flex-1 flex-col items-center justify-center gap-2">
-          <div className="bg-soft-background rounded-4xl border p-2">
+        <div className="relative z-10 flex w-auto max-w-xl flex-1 flex-col items-center justify-center gap-2 md:w-full">
+          <div className="md:bg-soft-background w-full max-w-sm md:box-content md:rounded-4xl md:border md:p-2">
             <section
-              aria-labelledby="staff-sign-in-title"
+              aria-labelledby={`${formMode}-sign-in-title`}
               className="border-border bg-card ring-foreground/5 relative isolate w-full max-w-sm overflow-hidden rounded-2xl border shadow-lg ring-1"
             >
               <svg
@@ -93,7 +107,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                   <rect x="108" y="72" width="11" height="11" rx="1.25" />
                 </g>
               </svg>
-              <div className="relative z-10 p-6 pb-4">
+              <div className="relative z-10 p-4 pt-6 md:p-6 md:pb-4">
                 <img
                   src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light.svg"
                   alt="Care"
@@ -111,13 +125,21 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                 />
                 <header className="space-y-0.5 pt-6">
                   <h1
-                    id="staff-sign-in-title"
+                    id={`${formMode}-sign-in-title`}
                     className="text-xl font-semibold"
                   >
-                    Staff sign-in
+                    {formMode === "staff"
+                      ? "Staff sign-in"
+                      : patientStep === "phone"
+                        ? "Patient sign-in"
+                        : "Enter the code"}
                   </h1>
                   <p className="text-muted-foreground text-sm leading-4">
-                    Use the username and password from your facility.
+                    {formMode === "staff"
+                      ? "Use the username and password from your facility."
+                      : patientStep === "phone"
+                        ? "Sign in with your mobile number."
+                        : "We sent a 6-digit code by SMS."}
                   </p>
                 </header>
 
@@ -125,66 +147,197 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                   className="mt-4 grid gap-6"
                   onSubmit={(event) => {
                     event.preventDefault();
-                    setStatus("Sign-in preview only.");
+                    if (formMode === "staff") {
+                      return;
+                    }
+
+                    if (patientStep === "phone") {
+                      setOtp("");
+                      setOtpError("");
+                      setPatientStep("otp");
+                      return;
+                    }
+
+                    if (otp.length !== 6) {
+                      setOtpError("Enter all 6 digits.");
+                      return;
+                    }
+
+                    setOtpError("");
                   }}
                 >
-                  <Field>
-                    <FieldLabel htmlFor="staff-username">Username</FieldLabel>
-                    <Input
-                      id="staff-username"
-                      name="username"
-                      type="text"
-                      autoComplete="username"
-                      autoFocus={fullPage}
-                      placeholder="Enter username"
-                      required
-                    />
-                  </Field>
+                  {formMode === "staff" ? (
+                    <>
+                      <Field>
+                        <FieldLabel htmlFor="staff-username">
+                          Username
+                        </FieldLabel>
+                        <Input
+                          id="staff-username"
+                          name="username"
+                          type="text"
+                          autoComplete="username"
+                          autoFocus={fullPage}
+                          placeholder="Enter username"
+                          required
+                        />
+                      </Field>
 
-                  <Field>
-                    <FieldLabel htmlFor="staff-password">Password</FieldLabel>
-                    <InputGroup>
-                      <InputGroupInput
-                        id="staff-password"
-                        name="password"
-                        type={showPassword ? "text" : "password"}
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        required
-                      />
-                      <InputGroupAddon align="inline-end">
-                        <InputGroupButton
-                          size="icon-xs"
-                          aria-label={
-                            showPassword ? "Hide password" : "Show password"
+                      <Field>
+                        <FieldLabel htmlFor="staff-password">
+                          Password
+                        </FieldLabel>
+                        <InputGroup>
+                          <InputGroupInput
+                            id="staff-password"
+                            name="password"
+                            type={showPassword ? "text" : "password"}
+                            autoComplete="current-password"
+                            value={password}
+                            onChange={(event) =>
+                              setPassword(event.target.value)
+                            }
+                            required
+                          />
+                          <InputGroupAddon align="inline-end">
+                            <InputGroupButton
+                              size="icon-xs"
+                              aria-label={
+                                showPassword ? "Hide password" : "Show password"
+                              }
+                              aria-pressed={showPassword}
+                              onClick={() =>
+                                setShowPassword((visible) => !visible)
+                              }
+                            >
+                              {showPassword ? (
+                                <EyeOff aria-hidden="true" />
+                              ) : (
+                                <Eye aria-hidden="true" />
+                              )}
+                            </InputGroupButton>
+                          </InputGroupAddon>
+                        </InputGroup>
+                      </Field>
+                      <div className="flex flex-col gap-4">
+                        <Button type="submit">Sign In</Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          onClick={() =>
+                            setStatus(
+                              "Contact your facility administrator to reset your password."
+                            )
                           }
-                          aria-pressed={showPassword}
-                          onClick={() => setShowPassword((visible) => !visible)}
                         >
-                          {showPassword ? (
-                            <EyeOff aria-hidden="true" />
-                          ) : (
-                            <Eye aria-hidden="true" />
-                          )}
-                        </InputGroupButton>
-                      </InputGroupAddon>
-                    </InputGroup>
-                  </Field>
-                  <div className="flex flex-col gap-4">
-                    <Button type="submit">Sign In</Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() =>
-                        setStatus(
-                          "Contact your facility administrator to reset your password."
-                        )
-                      }
-                    >
-                      Forgot password?
-                    </Button>
-                  </div>
+                          Forgot password?
+                        </Button>
+                      </div>
+                    </>
+                  ) : patientStep === "phone" ? (
+                    <>
+                      <Field>
+                        <FieldLabel htmlFor="patient-phone">
+                          Phone number
+                        </FieldLabel>
+                        <PhoneInput
+                          id="patient-phone"
+                          name="phone"
+                          value={phoneNumber}
+                          onChange={setPhoneNumber}
+                          defaultCountry="IN"
+                          autoFocus={fullPage}
+                          placeholder="Phone number"
+                          required
+                        />
+                      </Field>
+                      <Button type="submit">Send code</Button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p
+                          className="text-soft-foreground text-xl font-semibold"
+                          dir="ltr"
+                        >
+                          {phoneNumber
+                            ? formatPhoneNumberIntl(phoneNumber)
+                            : ""}
+                        </p>
+                        <Button
+                          type="button"
+                          variant="tertiary"
+                          size="default"
+                          aria-label="Edit mobile number"
+                          onClick={() => {
+                            setPatientStep("phone");
+                            setOtp("");
+                            setOtpError("");
+                            setStatus("");
+                          }}
+                        >
+                          <Edit data-icon="inline-start" aria-hidden="true" />
+                          Edit
+                        </Button>
+                      </div>
+                      <Field data-invalid={!!otpError}>
+                        <FieldLabel htmlFor="patient-otp">
+                          6-digit code
+                        </FieldLabel>
+                        <InputOTP
+                          id="patient-otp"
+                          name="otp"
+                          maxLength={6}
+                          pattern={REGEXP_ONLY_DIGITS}
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          autoFocus
+                          value={otp}
+                          onChange={(value) => {
+                            setOtp(value.replace(/\D/g, "").slice(0, 6));
+                            setOtpError("");
+                          }}
+                          onComplete={() => {
+                            setOtpError("");
+                          }}
+                          aria-label="6-digit code"
+                          aria-invalid={!!otpError}
+                          aria-describedby={
+                            otpError ? "patient-otp-error" : undefined
+                          }
+                          containerClassName="w-full"
+                          className="w-full"
+                        >
+                          <InputOTPGroup className="w-full justify-between">
+                            {Array.from({ length: 6 }, (_, index) => (
+                              <InputOTPSlot
+                                key={index}
+                                index={index}
+                                className="h-12 min-w-0 flex-1 font-mono text-lg"
+                              />
+                            ))}
+                          </InputOTPGroup>
+                        </InputOTP>
+                        {otpError && (
+                          <p
+                            id="patient-otp-error"
+                            role="alert"
+                            className="text-destructive text-sm"
+                          >
+                            {otpError}
+                          </p>
+                        )}
+                      </Field>
+                      <Button type="submit">Verify &amp; sign in</Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setStatus("OTP resend is preview only.")}
+                      >
+                        Resend OTP
+                      </Button>
+                    </>
+                  )}
                 </form>
 
                 <p
@@ -201,23 +354,37 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                 type="button"
                 variant="ghost"
                 className="border-border bg-muted text-foreground hover:bg-strong-background hover:text-foreground dark:hover:bg-strong-background relative z-10 flex h-auto w-full justify-between gap-4 rounded-none rounded-t-none! border-0 border-t px-4 py-3 text-start whitespace-normal no-underline shadow-none inset-shadow-none not-in-data-[slot=button-group]:rounded-t-none! md:h-auto"
-                onClick={() => setStatus("Patient sign-in preview only.")}
+                onClick={() => {
+                  setFormMode((mode) =>
+                    mode === "staff" ? "patient" : "staff"
+                  );
+                  setPatientStep("phone");
+                  setOtp("");
+                  setOtpError("");
+                  setStatus("");
+                }}
               >
                 <span className="flex min-w-0 flex-col">
                   <span className="text-base font-semibold">
-                    Patient sign in
+                    {formMode === "staff" ? "Patient sign in" : "Staff sign-in"}
                   </span>
                   <span className="text-sm font-normal">
-                    Sign in with your mobile number
+                    {formMode === "staff"
+                      ? "Sign in with your mobile number"
+                      : "Use your username and password"}
                   </span>
                 </span>
-                <ArrowRight data-icon="inline-end" aria-hidden="true" />
+                {formMode === "staff" ? (
+                  <ArrowRight data-icon="inline-end" aria-hidden="true" />
+                ) : (
+                  <ArrowRight data-icon="inline-start" aria-hidden="true" />
+                )}
               </Button>
             </section>
           </div>
           <section
             aria-labelledby="sign-in-language-label"
-            className="bg-muted/40 border-border/50 relative z-10 flex w-full max-w-sm flex-col flex-wrap items-center justify-center gap-2 rounded-sm border p-2"
+            className="bg-muted/40 border-border/50 relative z-10 flex w-full max-w-sm flex-wrap items-center justify-center gap-2 rounded-xl border p-2 md:flex-col md:rounded-t-4xl md:rounded-b-xl"
           >
             <div className="flex shrink-0 items-center gap-3">
               <h2
@@ -233,7 +400,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                 {selectedLanguage.languageLabel}
               </h2>
             </div>
-            <div className="min-w-36 md:hidden">
+            <div className="min-w-36 flex-1 md:hidden">
               <Select
                 value={language}
                 onValueChange={(value) => {

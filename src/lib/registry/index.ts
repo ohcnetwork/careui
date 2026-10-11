@@ -94,6 +94,8 @@ const componentLoaders: Record<
     import("./input-group").then((m) => ({ default: m.inputGroupDoc })),
   "input-otp": () =>
     import("./input-otp").then((m) => ({ default: m.inputOtpDoc })),
+  "phone-input": () =>
+    import("./phone-input").then((m) => ({ default: m.phoneInputDoc })),
   item: () => import("./item").then((m) => ({ default: m.itemDoc })),
   kbd: () => import("./kbd").then((m) => ({ default: m.kbdDoc })),
   label: () => import("./label").then((m) => ({ default: m.labelDoc })),

@@ -39,6 +39,7 @@ export const componentNames: Record<string, string> = {
   indicator: "Indicator",
   "input-group": "Input Group",
   "input-otp": "Input OTP",
+  "phone-input": "Phone Input",
   item: "Item",
   kbd: "Kbd",
   label: "Label",

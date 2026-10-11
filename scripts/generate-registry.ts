@@ -58,7 +58,9 @@ const CONFIG: RegistryConfig = {
     'lucide-react': ['lucide-react'],
     '@base-ui/react': ['@base-ui/react'],
     'date-fns': ['date-fns'],
-    'react-day-picker': ['react-day-picker']
+    'react-day-picker': ['react-day-picker'],
+    'react-phone-number-input': ['react-phone-number-input'],
+    'cmdk': ['cmdk']
   }
 }
 

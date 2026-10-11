@@ -13,8 +13,10 @@ npx shadcn@latest add button --registry https://careui.ohc.network
 ## Available Components
 
 ### Form Components
+
 - **Button** - Displays a button or a component that looks like a button
 - **Input** - Form input field component
+- **Phone Input** - International phone number input with country search and calling codes
 - **Label** - Accessible label for form controls
 - **Checkbox** - Toggle between checked and unchecked states
 - **Switch** - Two-state toggle control
@@ -26,6 +28,7 @@ npx shadcn@latest add button --registry https://careui.ohc.network
 - **Form** - Form validation with react-hook-form
 
 ### Layout Components
+
 - **Card** - Card with header, content, and footer
 - **Separator** - Visual content separator
 - **Tabs** - Tabbed content sections
@@ -35,6 +38,7 @@ npx shadcn@latest add button --registry https://careui.ohc.network
 - **Sidebar** - Composable sidebar component
 
 ### Overlay Components
+
 - **Dialog** - Modal dialog window
 - **Drawer** - Slide-out drawer panel
 - **Sheet** - Side panel overlay
@@ -49,6 +53,7 @@ npx shadcn@latest add button --registry https://careui.ohc.network
 - **Menubar** - Application menu bar
 
 ### Feedback Components
+
 - **Alert** - Attention callouts
 - **Toast** - Temporary notifications
 - **Progress** - Progress indicator
@@ -58,6 +63,7 @@ npx shadcn@latest add button --registry https://careui.ohc.network
 - **Avatar** - User avatar with fallback
 
 ### Utility Components
+
 - **Scroll Area** - Custom scrollable area
 - **Resizable** - Resizable panels
 - **Toggle** - Two-state button

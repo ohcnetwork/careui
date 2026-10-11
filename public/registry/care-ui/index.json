@@ -281,6 +281,17 @@
     ]
   },
   {
+    "name": "phone-input",
+    "type": "registry:ui",
+    "dependencies": [
+      "react-phone-number-input",
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/phone-input/phone-input.tsx"
+    ]
+  },
+  {
     "name": "pagination",
     "type": "registry:ui",
     "dependencies": [

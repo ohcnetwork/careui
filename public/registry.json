@@ -40,6 +40,30 @@
       ]
     },
     {
+      "name": "phone-input",
+      "type": "registry:ui",
+      "description": "An international phone input with country flags, calling codes, and E.164 formatting.",
+      "dependencies": [
+        "react-phone-number-input",
+        "lucide-react"
+      ],
+      "files": [
+        {
+          "name": "phone-input.tsx",
+          "type": "registry:ui",
+          "target": "components/careui/phone-input.tsx",
+          "path": "registry/care-ui/phone-input/phone-input.json"
+        }
+      ],
+      "registryDependencies": [
+        "https://careui.ohc.network/registry/care-ui/button/button.json",
+        "https://careui.ohc.network/registry/care-ui/command/command.json",
+        "https://careui.ohc.network/registry/care-ui/input/input.json",
+        "https://careui.ohc.network/registry/care-ui/input-group/input-group.json",
+        "https://careui.ohc.network/registry/care-ui/popover/popover.json"
+      ]
+    },
+    {
       "name": "field",
       "type": "registry:ui",
       "description": "A form field component with label, description, and error message support.",
