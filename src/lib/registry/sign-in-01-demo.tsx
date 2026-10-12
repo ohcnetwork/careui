@@ -1,7 +1,18 @@
 import * as React from "react";
-import { ArrowRight, Check, Edit, Eye, EyeOff, Globe } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Edit,
+  Eye,
+  EyeOff,
+  Globe,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import type { ZxcvbnFactory } from "@zxcvbn-ts/core";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import {
   InputGroup,
@@ -9,7 +20,13 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { Field, FieldLabel } from "@/components/ui/field";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Separator } from "@/components/ui/separator";
 import {
   Select,
@@ -29,7 +46,10 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { formatPhoneNumberIntl } from "react-phone-number-input";
+import {
+  formatPhoneNumberIntl,
+  isValidPhoneNumber,
+} from "react-phone-number-input";
 
 const LANGUAGES = [
   { value: "en", label: "English", languageLabel: "Language" },
@@ -40,8 +60,541 @@ const LANGUAGES = [
   { value: "hi", label: "हिन्दी", languageLabel: "भाषा" },
 ] as const;
 
+const PREVIEW_RESET_OTP = "123456";
+
+function PhonePasswordResetForm({
+  phoneNumber,
+  onChangePhone,
+}: {
+  phoneNumber: string;
+  onChangePhone: () => void;
+}) {
+  const [step, setStep] = React.useState<"otp" | "password">("otp");
+  const [otp, setOtp] = React.useState("");
+  const [passwords, setPasswords] = React.useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [visible, setVisible] = React.useState({
+    newPassword: false,
+    confirmPassword: false,
+  });
+  const [errors, setErrors] = React.useState({
+    otp: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [status, setStatus] = React.useState("");
+  const [resendAt, setResendAt] = React.useState(() => Date.now() + 15000);
+  const [remaining, setRemaining] = React.useState(15);
+  const otpRef = React.useRef<HTMLInputElement>(null);
+  const [strengthEstimator, setStrengthEstimator] =
+    React.useState<ZxcvbnFactory | null>(null);
+  const [strengthUnavailable, setStrengthUnavailable] = React.useState(false);
+  const passwordMeetsRequirements = passwords.newPassword.length >= 8;
+  const passwordsMatch =
+    passwords.confirmPassword.length > 0 &&
+    passwords.confirmPassword === passwords.newPassword;
+  const canSetPassword = passwordMeetsRequirements && passwordsMatch;
+  const strength =
+    strengthEstimator && passwords.newPassword
+      ? strengthEstimator.check(passwords.newPassword)
+      : null;
+  const strengthLabel = !passwords.newPassword
+    ? "Not entered"
+    : strengthUnavailable
+      ? "Unavailable"
+      : strength
+        ? ["Very weak", "Weak", "Fair", "Strong", "Very strong"][strength.score]
+        : "Checking";
+
+  React.useEffect(() => {
+    if (step !== "password") return;
+    let cancelled = false;
+    Promise.all([
+      import("@zxcvbn-ts/core"),
+      import("@zxcvbn-ts/language-common"),
+      import("@zxcvbn-ts/language-en"),
+    ])
+      .then(([core, common, english]) => {
+        if (cancelled) return;
+        setStrengthEstimator(
+          new core.ZxcvbnFactory({
+            dictionary: { ...common.dictionary, ...english.dictionary },
+            graphs: common.adjacencyGraphs,
+            translations: english.translations,
+          })
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setStrengthUnavailable(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [step]);
+
+  React.useEffect(() => {
+    if (step !== "otp") return;
+    const timer = window.setInterval(() => {
+      const seconds = Math.max(0, Math.ceil((resendAt - Date.now()) / 1000));
+      setRemaining(seconds);
+      if (seconds === 0) window.clearInterval(timer);
+    }, 250);
+    return () => window.clearInterval(timer);
+  }, [resendAt, step]);
+
+  return (
+    <FieldGroup>
+      <Field orientation="horizontal">
+        <Button type="button" variant="tertiary" onClick={onChangePhone}>
+          <ArrowLeft data-icon="inline-start" aria-hidden="true" />
+          Change phone number
+        </Button>
+      </Field>
+      <Field>
+        <h1 id="password-reset-title" className="text-xl font-semibold">
+          {step === "otp" ? "Verify your phone number" : "Reset password"}
+        </h1>
+        <FieldDescription id="password-reset-description">
+          {step === "otp"
+            ? `Enter the 6-digit OTP for ${formatPhoneNumberIntl(phoneNumber)} to continue.`
+            : "Create and confirm your new password."}
+        </FieldDescription>
+        <FieldDescription id="reset-password-requirements">
+          {step === "otp"
+            ? `Preview verification code: ${PREVIEW_RESET_OTP}.`
+            : "Use at least 8 characters."}
+        </FieldDescription>
+      </Field>
+      <form
+        noValidate
+        aria-labelledby="password-reset-title"
+        aria-describedby="password-reset-description"
+        onSubmit={(event) => {
+          event.preventDefault();
+          setStatus("");
+          if (step === "otp") {
+            const otpError =
+              otp.length !== 6
+                ? "Enter all 6 digits."
+                : otp !== PREVIEW_RESET_OTP
+                  ? "Incorrect code. Check the code and try again."
+                  : "";
+            setErrors((current) => ({ ...current, otp: otpError }));
+            if (otpError) {
+              otpRef.current?.focus();
+              return;
+            }
+            setOtp("");
+            setStep("password");
+            return;
+          }
+          const nextErrors = {
+            otp: "",
+            newPassword: passwordMeetsRequirements
+              ? ""
+              : "Use at least 8 characters.",
+            confirmPassword: !passwords.confirmPassword
+              ? "Confirm your new password."
+              : !passwordsMatch
+                ? "Passwords must match."
+                : "",
+          };
+          setErrors(nextErrors);
+          if (nextErrors.newPassword || nextErrors.confirmPassword) {
+            event.currentTarget
+              .querySelector<HTMLInputElement>(
+                nextErrors.newPassword
+                  ? "#reset-newPassword"
+                  : "#reset-confirmPassword"
+              )
+              ?.focus();
+          } else {
+            setStatus(
+              "Password updates are unavailable in this preview. Your password was not changed."
+            );
+            setPasswords({ newPassword: "", confirmPassword: "" });
+            setVisible({ newPassword: false, confirmPassword: false });
+          }
+        }}
+      >
+        <FieldGroup>
+          {step === "otp" ? (
+            <Field data-invalid={!!errors.otp}>
+              <FieldLabel htmlFor="reset-otp">6-digit OTP</FieldLabel>
+              <InputOTP
+                ref={otpRef}
+                id="reset-otp"
+                name="otp"
+                maxLength={6}
+                pushPasswordManagerStrategy="none"
+                pattern={REGEXP_ONLY_DIGITS}
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                autoFocus
+                value={otp}
+                onChange={(value) => {
+                  setOtp(value);
+                  setErrors((current) => ({ ...current, otp: "" }));
+                  setStatus("");
+                }}
+                aria-invalid={!!errors.otp}
+                aria-describedby={errors.otp ? "reset-otp-error" : undefined}
+                containerClassName="w-full"
+                className="w-full"
+                required
+              >
+                <InputOTPGroup className="w-full justify-between">
+                  {Array.from({ length: 6 }, (_, index) => (
+                    <InputOTPSlot
+                      key={index}
+                      index={index}
+                      className="h-12 min-w-0 flex-1 font-mono text-lg"
+                    />
+                  ))}
+                </InputOTPGroup>
+              </InputOTP>
+              {errors.otp && (
+                <FieldError id="reset-otp-error">{errors.otp}</FieldError>
+              )}
+            </Field>
+          ) : (
+            <>
+              {(["newPassword", "confirmPassword"] as const).map((name) => {
+                const label =
+                  name === "newPassword"
+                    ? "New password"
+                    : "Confirm new password";
+                return (
+                  <Field key={name} data-invalid={!!errors[name]}>
+                    <FieldLabel htmlFor={`reset-${name}`}>{label}</FieldLabel>
+                    <InputGroup>
+                      <InputGroupInput
+                        id={`reset-${name}`}
+                        name={name}
+                        type={visible[name] ? "text" : "password"}
+                        autoComplete="new-password"
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        spellCheck={false}
+                        autoFocus={name === "newPassword"}
+                        placeholder={label}
+                        value={passwords[name]}
+                        onChange={(event) => {
+                          setPasswords((current) => ({
+                            ...current,
+                            [name]: event.target.value,
+                          }));
+                          setErrors((current) => ({
+                            ...current,
+                            [name]: "",
+                            confirmPassword: "",
+                          }));
+                          setStatus("");
+                        }}
+                        aria-invalid={!!errors[name]}
+                        aria-describedby={[
+                          name === "newPassword"
+                            ? "reset-password-requirements reset-password-strength"
+                            : "reset-password-match",
+                          errors[name] ? `reset-${name}-error` : undefined,
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                        required
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <InputGroupButton
+                          type="button"
+                          size="icon-xs"
+                          aria-label={`${visible[name] ? "Hide" : "Show"} ${label.toLowerCase()}`}
+                          aria-pressed={visible[name]}
+                          onClick={() =>
+                            setVisible((current) => ({
+                              ...current,
+                              [name]: !current[name],
+                            }))
+                          }
+                        >
+                          {visible[name] ? (
+                            <EyeOff aria-hidden="true" />
+                          ) : (
+                            <Eye aria-hidden="true" />
+                          )}
+                        </InputGroupButton>
+                      </InputGroupAddon>
+                    </InputGroup>
+                    {name === "newPassword" && (
+                      <>
+                        <Progress
+                          role="meter"
+                          value={strength?.score ?? 0}
+                          max={4}
+                          aria-label="Password strength"
+                          aria-valuetext={strengthLabel}
+                          aria-busy={
+                            !!passwords.newPassword &&
+                            !strengthEstimator &&
+                            !strengthUnavailable
+                          }
+                        />
+                        <FieldDescription
+                          id="reset-password-strength"
+                          role="status"
+                          aria-live="polite"
+                          aria-atomic="true"
+                        >
+                          Password strength: {strengthLabel}
+                        </FieldDescription>
+                      </>
+                    )}
+                    {name === "confirmPassword" && (
+                      <FieldDescription
+                        id="reset-password-match"
+                        role="status"
+                        aria-live="polite"
+                        aria-atomic="true"
+                        className="flex items-center gap-1.5"
+                      >
+                        {passwordsMatch && (
+                          <Check
+                            aria-hidden="true"
+                            className="size-4 shrink-0"
+                          />
+                        )}
+                        {passwordsMatch
+                          ? "Passwords match."
+                          : passwords.confirmPassword
+                            ? "Passwords do not match yet."
+                            : "Re-enter your new password."}
+                      </FieldDescription>
+                    )}
+                    {errors[name] && (
+                      <FieldError id={`reset-${name}-error`}>
+                        {errors[name]}
+                      </FieldError>
+                    )}
+                  </Field>
+                );
+              })}
+            </>
+          )}
+          <Field>
+            <Button
+              type="submit"
+              disabled={step === "otp" ? otp.length !== 6 : !canSetPassword}
+            >
+              {step === "otp" ? "Verify OTP" : "Set password"}
+            </Button>
+          </Field>
+        </FieldGroup>
+      </form>
+      {step === "otp" && (
+        <Alert variant="warning" role="note">
+          <AlertDescription>
+            Don't share this verification code with anyone.
+          </AlertDescription>
+        </Alert>
+      )}
+      <Field>
+        {step === "otp" && (
+          <Button
+            type="button"
+            variant="ghost"
+            disabled={remaining > 0}
+            onClick={() => {
+              setResendAt(Date.now() + 15000);
+              setRemaining(15);
+              setOtp("");
+              setErrors((current) => ({ ...current, otp: "" }));
+              setStatus(
+                "SMS delivery is unavailable in this preview. No OTP was sent."
+              );
+            }}
+          >
+            {remaining > 0
+              ? `Resend OTP in ${remaining} seconds`
+              : "Resend OTP"}
+          </Button>
+        )}
+      </Field>
+      <FieldDescription role="status" aria-live="polite">
+        {status}
+      </FieldDescription>
+    </FieldGroup>
+  );
+}
+
+function PasswordResetForm({
+  username,
+  onUsernameChange,
+  onBack,
+}: {
+  username: string;
+  onUsernameChange: (value: string) => void;
+  onBack: () => void;
+}) {
+  const [method, setMethod] = React.useState<"email" | "phone">("email");
+  const [enterOtp, setEnterOtp] = React.useState(false);
+  const [phoneNumber, setPhoneNumber] = React.useState<string>();
+  const [error, setError] = React.useState("");
+  const [status, setStatus] = React.useState("");
+
+  function changeMethod(nextMethod: "email" | "phone") {
+    setMethod(nextMethod);
+    setError("");
+    setStatus("");
+  }
+
+  if (enterOtp && phoneNumber) {
+    return (
+      <PhonePasswordResetForm
+        phoneNumber={phoneNumber}
+        onChangePhone={() => {
+          setEnterOtp(false);
+          setError("");
+          setStatus("");
+        }}
+      />
+    );
+  }
+
+  return (
+    <FieldGroup>
+      <Field orientation="horizontal">
+        <Button
+          type="button"
+          variant="tertiary"
+          onClick={() =>
+            method === "phone" ? changeMethod("email") : onBack()
+          }
+        >
+          <ArrowLeft data-icon="inline-start" aria-hidden="true" />
+          {method === "phone" ? "Back to email reset" : "Back to login"}
+        </Button>
+      </Field>
+      <Field>
+        <h1 id="password-reset-title" className="text-xl font-semibold">
+          {method === "email" ? "Forgot password?" : "Reset using phone number"}
+        </h1>
+        <FieldDescription id="password-reset-description">
+          {method === "email"
+            ? "Enter your username, and if it exists, we will send you a link to reset your password."
+            : "Enter your registered phone number, and if it exists, we will send you an OTP to reset your password."}
+        </FieldDescription>
+      </Field>
+      <form
+        aria-labelledby="password-reset-title"
+        aria-describedby="password-reset-description"
+        onSubmit={(event) => {
+          event.preventDefault();
+          setStatus("");
+          if (
+            method === "email"
+              ? !username.trim()
+              : !phoneNumber || !isValidPhoneNumber(phoneNumber)
+          ) {
+            setError(
+              method === "email"
+                ? "Enter your username."
+                : "Enter a valid phone number."
+            );
+            event.currentTarget
+              .querySelector<HTMLInputElement>("input")
+              ?.focus();
+            return;
+          }
+          setError("");
+          if (method === "phone") {
+            setEnterOtp(true);
+          } else {
+            setStatus(
+              "Email delivery is unavailable in this preview. No reset link was sent."
+            );
+          }
+        }}
+      >
+        <FieldGroup>
+          <Field data-invalid={!!error}>
+            <FieldLabel
+              htmlFor={method === "email" ? "reset-username" : "reset-phone"}
+            >
+              {method === "email" ? "Username" : "Phone number"}
+            </FieldLabel>
+            {method === "email" ? (
+              <Input
+                key="email"
+                id="reset-username"
+                name="username"
+                autoComplete="username"
+                autoFocus
+                value={username}
+                onChange={(event) => {
+                  onUsernameChange(event.target.value);
+                  setError("");
+                  setStatus("");
+                }}
+                placeholder="Enter username"
+                aria-invalid={!!error}
+                aria-describedby={error ? "password-reset-error" : undefined}
+                required
+              />
+            ) : (
+              <PhoneInput
+                key="phone"
+                id="reset-phone"
+                name="phone"
+                defaultCountry="IN"
+                autoFocus
+                value={phoneNumber}
+                onChange={(value) => {
+                  setPhoneNumber(value);
+                  setError("");
+                  setStatus("");
+                }}
+                placeholder="Phone number"
+                aria-invalid={!!error}
+                aria-describedby={error ? "password-reset-error" : undefined}
+                required
+              />
+            )}
+            {error && (
+              <FieldError id="password-reset-error">{error}</FieldError>
+            )}
+          </Field>
+          <Field>
+            <Button type="submit" disabled={method === "phone" && !phoneNumber}>
+              {method === "email" ? "Send reset link" : "Send OTP"}
+            </Button>
+          </Field>
+        </FieldGroup>
+      </form>
+      {method === "email" && (
+        <Field>
+          <FieldDescription className="text-center">
+            Can't access your email?
+          </FieldDescription>
+          <Button
+            type="button"
+            variant="link"
+            onClick={() => changeMethod("phone")}
+          >
+            Reset using phone number
+          </Button>
+        </Field>
+      )}
+      <FieldDescription role="status" aria-live="polite">
+        {status}
+      </FieldDescription>
+    </FieldGroup>
+  );
+}
+
 export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
   const [formMode, setFormMode] = React.useState<"staff" | "patient">("staff");
+  const [resetPassword, setResetPassword] = React.useState(false);
+  const [username, setUsername] = React.useState("");
   const [patientStep, setPatientStep] = React.useState<"phone" | "otp">(
     "phone"
   );
@@ -70,8 +623,12 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
         <div className="relative z-10 flex w-auto max-w-xl flex-1 flex-col items-center justify-center gap-2 md:w-full">
           <div className="md:bg-soft-background w-full max-w-sm md:box-content md:rounded-4xl md:border md:p-2">
             <section
-              aria-labelledby={`${formMode}-sign-in-title`}
-              className="border-border bg-card ring-foreground/5 relative isolate w-full max-w-sm overflow-hidden rounded-2xl border shadow-lg ring-1"
+              aria-labelledby={
+                resetPassword
+                  ? "password-reset-title"
+                  : `${formMode}-sign-in-title`
+              }
+              className="border-border bg-card ring-foreground/5 relative isolate w-full max-w-sm overflow-clip rounded-2xl border shadow-lg ring-1"
             >
               <svg
                 aria-hidden="true"
@@ -108,278 +665,310 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                 </g>
               </svg>
               <div className="relative z-10 p-4 pt-6 md:p-6 md:pb-4">
-                <img
-                  src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light.svg"
-                  alt="Care"
-                  width={2000}
-                  height={520}
-                  className="h-auto w-28 dark:hidden"
-                />
-                <img
-                  src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-color-icon-on-dark.svg"
-                  alt=""
-                  aria-hidden="true"
-                  width={2000}
-                  height={520}
-                  className="hidden h-auto w-28 dark:block"
-                />
-                <header className="space-y-0.5 pt-6">
-                  <h1
-                    id={`${formMode}-sign-in-title`}
-                    className="text-xl font-semibold"
-                  >
-                    {formMode === "staff"
-                      ? "Staff sign-in"
-                      : patientStep === "phone"
-                        ? "Patient sign-in"
-                        : "Enter the code"}
-                  </h1>
-                  <p className="text-muted-foreground text-sm leading-4">
-                    {formMode === "staff"
-                      ? "Use the username and password from your facility."
-                      : patientStep === "phone"
-                        ? "Sign in with your mobile number."
-                        : "We sent a 6-digit code by SMS."}
-                  </p>
-                </header>
+                {resetPassword ? (
+                  <PasswordResetForm
+                    username={username}
+                    onUsernameChange={setUsername}
+                    onBack={() => setResetPassword(false)}
+                  />
+                ) : (
+                  <>
+                    <img
+                      src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light.svg"
+                      alt="Care"
+                      width={2000}
+                      height={520}
+                      className="h-auto w-28 dark:hidden"
+                    />
+                    <img
+                      src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-color-icon-on-dark.svg"
+                      alt=""
+                      aria-hidden="true"
+                      width={2000}
+                      height={520}
+                      className="hidden h-auto w-28 dark:block"
+                    />
+                    <header className="space-y-0.5 pt-6">
+                      <h1
+                        id={`${formMode}-sign-in-title`}
+                        className="text-xl font-semibold"
+                      >
+                        {formMode === "staff"
+                          ? "Staff sign-in"
+                          : patientStep === "phone"
+                            ? "Patient sign-in"
+                            : "Enter the code"}
+                      </h1>
+                      <p className="text-muted-foreground text-sm leading-4">
+                        {formMode === "staff"
+                          ? "Use the username and password from your facility."
+                          : patientStep === "phone"
+                            ? "Sign in with your mobile number."
+                            : "We sent a 6-digit code by SMS."}
+                      </p>
+                    </header>
 
-                <form
-                  className="mt-4 grid gap-6"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    if (formMode === "staff") {
-                      return;
-                    }
+                    <form
+                      className="mt-4 grid gap-6"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        if (formMode === "staff") {
+                          return;
+                        }
 
-                    if (patientStep === "phone") {
-                      setOtp("");
-                      setOtpError("");
-                      setPatientStep("otp");
-                      return;
-                    }
+                        if (patientStep === "phone") {
+                          setOtp("");
+                          setOtpError("");
+                          setPatientStep("otp");
+                          return;
+                        }
 
-                    if (otp.length !== 6) {
-                      setOtpError("Enter all 6 digits.");
-                      return;
-                    }
+                        if (otp.length !== 6) {
+                          setOtpError("Enter all 6 digits.");
+                          return;
+                        }
 
+                        setOtpError("");
+                      }}
+                    >
+                      {formMode === "staff" ? (
+                        <>
+                          <Field>
+                            <FieldLabel htmlFor="staff-username">
+                              Username
+                            </FieldLabel>
+                            <Input
+                              id="staff-username"
+                              name="username"
+                              type="text"
+                              autoComplete="username"
+                              value={username}
+                              onChange={(event) =>
+                                setUsername(event.target.value)
+                              }
+                              autoFocus={fullPage}
+                              placeholder="Enter username"
+                              required
+                            />
+                          </Field>
+
+                          <Field>
+                            <FieldLabel htmlFor="staff-password">
+                              Password
+                            </FieldLabel>
+                            <InputGroup>
+                              <InputGroupInput
+                                id="staff-password"
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                autoComplete="current-password"
+                                value={password}
+                                onChange={(event) =>
+                                  setPassword(event.target.value)
+                                }
+                                required
+                              />
+                              <InputGroupAddon align="inline-end">
+                                <InputGroupButton
+                                  size="icon-xs"
+                                  aria-label={
+                                    showPassword
+                                      ? "Hide password"
+                                      : "Show password"
+                                  }
+                                  aria-pressed={showPassword}
+                                  onClick={() =>
+                                    setShowPassword((visible) => !visible)
+                                  }
+                                >
+                                  {showPassword ? (
+                                    <EyeOff aria-hidden="true" />
+                                  ) : (
+                                    <Eye aria-hidden="true" />
+                                  )}
+                                </InputGroupButton>
+                              </InputGroupAddon>
+                            </InputGroup>
+                          </Field>
+                          <div className="flex flex-col gap-4">
+                            <Button type="submit">Sign In</Button>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              onClick={() => {
+                                setStatus("");
+                                setResetPassword(true);
+                              }}
+                            >
+                              Forgot password?
+                            </Button>
+                          </div>
+                        </>
+                      ) : patientStep === "phone" ? (
+                        <>
+                          <Field>
+                            <FieldLabel htmlFor="patient-phone">
+                              Phone number
+                            </FieldLabel>
+                            <PhoneInput
+                              id="patient-phone"
+                              name="phone"
+                              value={phoneNumber}
+                              onChange={setPhoneNumber}
+                              defaultCountry="IN"
+                              autoFocus={fullPage}
+                              placeholder="Phone number"
+                              required
+                            />
+                          </Field>
+                          <Button type="submit">Send code</Button>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex flex-wrap items-center justify-between gap-2">
+                            <p
+                              className="text-soft-foreground text-xl font-semibold"
+                              dir="ltr"
+                            >
+                              {phoneNumber
+                                ? formatPhoneNumberIntl(phoneNumber)
+                                : ""}
+                            </p>
+                            <Button
+                              type="button"
+                              variant="tertiary"
+                              size="default"
+                              aria-label="Edit mobile number"
+                              onClick={() => {
+                                setPatientStep("phone");
+                                setOtp("");
+                                setOtpError("");
+                                setStatus("");
+                              }}
+                            >
+                              <Edit
+                                data-icon="inline-start"
+                                aria-hidden="true"
+                              />
+                              Edit
+                            </Button>
+                          </div>
+                          <Field data-invalid={!!otpError}>
+                            <FieldLabel htmlFor="patient-otp">
+                              6-digit code
+                            </FieldLabel>
+                            <InputOTP
+                              id="patient-otp"
+                              name="otp"
+                              maxLength={6}
+                              pushPasswordManagerStrategy="none"
+                              pattern={REGEXP_ONLY_DIGITS}
+                              inputMode="numeric"
+                              autoComplete="one-time-code"
+                              autoFocus
+                              value={otp}
+                              onChange={(value) => {
+                                setOtp(value.replace(/\D/g, "").slice(0, 6));
+                                setOtpError("");
+                              }}
+                              onComplete={() => {
+                                setOtpError("");
+                              }}
+                              aria-label="6-digit code"
+                              aria-invalid={!!otpError}
+                              aria-describedby={
+                                otpError ? "patient-otp-error" : undefined
+                              }
+                              containerClassName="w-full"
+                              className="w-full"
+                            >
+                              <InputOTPGroup className="w-full justify-between">
+                                {Array.from({ length: 6 }, (_, index) => (
+                                  <InputOTPSlot
+                                    key={index}
+                                    index={index}
+                                    className="h-12 min-w-0 flex-1 font-mono text-lg"
+                                  />
+                                ))}
+                              </InputOTPGroup>
+                            </InputOTP>
+                            {otpError && (
+                              <p
+                                id="patient-otp-error"
+                                role="alert"
+                                className="text-destructive text-sm"
+                              >
+                                {otpError}
+                              </p>
+                            )}
+                          </Field>
+                          <Button type="submit">Verify &amp; sign in</Button>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={() =>
+                              setStatus("OTP resend is preview only.")
+                            }
+                          >
+                            Resend OTP
+                          </Button>
+                        </>
+                      )}
+                    </form>
+
+                    <p
+                      className={
+                        status
+                          ? "text-muted-foreground mt-3 text-xs"
+                          : "sr-only"
+                      }
+                      role="status"
+                      aria-live="polite"
+                    >
+                      {status}
+                    </p>
+                  </>
+                )}
+              </div>
+              {!resetPassword && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className={cn(
+                    "border-border relative z-10 flex h-auto w-full justify-between gap-4 rounded-none rounded-t-none! border-0 border-t px-4 py-3 text-start whitespace-normal no-underline shadow-none inset-shadow-none not-in-data-[slot=button-group]:rounded-t-none! md:h-auto",
+                    formMode === "staff"
+                      ? "bg-indigo-50 text-indigo-900 hover:bg-indigo-100 hover:text-indigo-900 dark:bg-indigo-950 dark:text-indigo-100 dark:hover:bg-indigo-900 dark:hover:text-indigo-100 [:active,[data-pressed]]:bg-indigo-200 dark:[:active,[data-pressed]]:bg-indigo-800"
+                      : "bg-primary-50 text-primary-900 hover:bg-primary-100 hover:text-primary-900 [:active,[data-pressed]]:bg-primary-200 dark:bg-primary-950 dark:text-primary-100 dark:hover:bg-primary-900 dark:hover:text-primary-100 dark:[:active,[data-pressed]]:bg-primary-800"
+                  )}
+                  onClick={() => {
+                    setFormMode((mode) =>
+                      mode === "staff" ? "patient" : "staff"
+                    );
+                    setPatientStep("phone");
+                    setOtp("");
                     setOtpError("");
+                    setStatus("");
                   }}
                 >
+                  <span className="flex min-w-0 flex-col">
+                    <span className="text-base font-semibold">
+                      {formMode === "staff"
+                        ? "Patient sign in"
+                        : "Staff sign-in"}
+                    </span>
+                    <span className="text-sm font-normal">
+                      {formMode === "staff"
+                        ? "Sign in with your phone number"
+                        : "Use your username and password"}
+                    </span>
+                  </span>
                   {formMode === "staff" ? (
-                    <>
-                      <Field>
-                        <FieldLabel htmlFor="staff-username">
-                          Username
-                        </FieldLabel>
-                        <Input
-                          id="staff-username"
-                          name="username"
-                          type="text"
-                          autoComplete="username"
-                          autoFocus={fullPage}
-                          placeholder="Enter username"
-                          required
-                        />
-                      </Field>
-
-                      <Field>
-                        <FieldLabel htmlFor="staff-password">
-                          Password
-                        </FieldLabel>
-                        <InputGroup>
-                          <InputGroupInput
-                            id="staff-password"
-                            name="password"
-                            type={showPassword ? "text" : "password"}
-                            autoComplete="current-password"
-                            value={password}
-                            onChange={(event) =>
-                              setPassword(event.target.value)
-                            }
-                            required
-                          />
-                          <InputGroupAddon align="inline-end">
-                            <InputGroupButton
-                              size="icon-xs"
-                              aria-label={
-                                showPassword ? "Hide password" : "Show password"
-                              }
-                              aria-pressed={showPassword}
-                              onClick={() =>
-                                setShowPassword((visible) => !visible)
-                              }
-                            >
-                              {showPassword ? (
-                                <EyeOff aria-hidden="true" />
-                              ) : (
-                                <Eye aria-hidden="true" />
-                              )}
-                            </InputGroupButton>
-                          </InputGroupAddon>
-                        </InputGroup>
-                      </Field>
-                      <div className="flex flex-col gap-4">
-                        <Button type="submit">Sign In</Button>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          onClick={() =>
-                            setStatus(
-                              "Contact your facility administrator to reset your password."
-                            )
-                          }
-                        >
-                          Forgot password?
-                        </Button>
-                      </div>
-                    </>
-                  ) : patientStep === "phone" ? (
-                    <>
-                      <Field>
-                        <FieldLabel htmlFor="patient-phone">
-                          Phone number
-                        </FieldLabel>
-                        <PhoneInput
-                          id="patient-phone"
-                          name="phone"
-                          value={phoneNumber}
-                          onChange={setPhoneNumber}
-                          defaultCountry="IN"
-                          autoFocus={fullPage}
-                          placeholder="Phone number"
-                          required
-                        />
-                      </Field>
-                      <Button type="submit">Send code</Button>
-                    </>
+                    <ArrowRight data-icon="inline-end" aria-hidden="true" />
                   ) : (
-                    <>
-                      <div className="flex flex-wrap items-center justify-between gap-2">
-                        <p
-                          className="text-soft-foreground text-xl font-semibold"
-                          dir="ltr"
-                        >
-                          {phoneNumber
-                            ? formatPhoneNumberIntl(phoneNumber)
-                            : ""}
-                        </p>
-                        <Button
-                          type="button"
-                          variant="tertiary"
-                          size="default"
-                          aria-label="Edit mobile number"
-                          onClick={() => {
-                            setPatientStep("phone");
-                            setOtp("");
-                            setOtpError("");
-                            setStatus("");
-                          }}
-                        >
-                          <Edit data-icon="inline-start" aria-hidden="true" />
-                          Edit
-                        </Button>
-                      </div>
-                      <Field data-invalid={!!otpError}>
-                        <FieldLabel htmlFor="patient-otp">
-                          6-digit code
-                        </FieldLabel>
-                        <InputOTP
-                          id="patient-otp"
-                          name="otp"
-                          maxLength={6}
-                          pattern={REGEXP_ONLY_DIGITS}
-                          inputMode="numeric"
-                          autoComplete="one-time-code"
-                          autoFocus
-                          value={otp}
-                          onChange={(value) => {
-                            setOtp(value.replace(/\D/g, "").slice(0, 6));
-                            setOtpError("");
-                          }}
-                          onComplete={() => {
-                            setOtpError("");
-                          }}
-                          aria-label="6-digit code"
-                          aria-invalid={!!otpError}
-                          aria-describedby={
-                            otpError ? "patient-otp-error" : undefined
-                          }
-                          containerClassName="w-full"
-                          className="w-full"
-                        >
-                          <InputOTPGroup className="w-full justify-between">
-                            {Array.from({ length: 6 }, (_, index) => (
-                              <InputOTPSlot
-                                key={index}
-                                index={index}
-                                className="h-12 min-w-0 flex-1 font-mono text-lg"
-                              />
-                            ))}
-                          </InputOTPGroup>
-                        </InputOTP>
-                        {otpError && (
-                          <p
-                            id="patient-otp-error"
-                            role="alert"
-                            className="text-destructive text-sm"
-                          >
-                            {otpError}
-                          </p>
-                        )}
-                      </Field>
-                      <Button type="submit">Verify &amp; sign in</Button>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        onClick={() => setStatus("OTP resend is preview only.")}
-                      >
-                        Resend OTP
-                      </Button>
-                    </>
+                    <ArrowRight data-icon="inline-start" aria-hidden="true" />
                   )}
-                </form>
-
-                <p
-                  className={
-                    status ? "text-muted-foreground mt-3 text-xs" : "sr-only"
-                  }
-                  role="status"
-                  aria-live="polite"
-                >
-                  {status}
-                </p>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                className="border-border bg-muted text-foreground hover:bg-strong-background hover:text-foreground dark:hover:bg-strong-background relative z-10 flex h-auto w-full justify-between gap-4 rounded-none rounded-t-none! border-0 border-t px-4 py-3 text-start whitespace-normal no-underline shadow-none inset-shadow-none not-in-data-[slot=button-group]:rounded-t-none! md:h-auto"
-                onClick={() => {
-                  setFormMode((mode) =>
-                    mode === "staff" ? "patient" : "staff"
-                  );
-                  setPatientStep("phone");
-                  setOtp("");
-                  setOtpError("");
-                  setStatus("");
-                }}
-              >
-                <span className="flex min-w-0 flex-col">
-                  <span className="text-base font-semibold">
-                    {formMode === "staff" ? "Patient sign in" : "Staff sign-in"}
-                  </span>
-                  <span className="text-sm font-normal">
-                    {formMode === "staff"
-                      ? "Sign in with your mobile number"
-                      : "Use your username and password"}
-                  </span>
-                </span>
-                {formMode === "staff" ? (
-                  <ArrowRight data-icon="inline-end" aria-hidden="true" />
-                ) : (
-                  <ArrowRight data-icon="inline-start" aria-hidden="true" />
-                )}
-              </Button>
+                </Button>
+              )}
             </section>
           </div>
           <section
