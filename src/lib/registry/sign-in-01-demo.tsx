@@ -1,18 +1,22 @@
 import * as React from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  Edit,
-  Eye,
-  EyeOff,
-  Globe,
-} from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import type { ZxcvbnFactory } from "@zxcvbn-ts/core";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { ArrowLeft, Check, Edit, Eye, EyeOff, Globe } from "lucide-react";
+import {
+  formatPhoneNumberIntl,
+  isValidPhoneNumber,
+} from "react-phone-number-input";
+
+import { PixelCanvas } from "@/components/blocks/pixel-canvas";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   InputGroup,
@@ -21,12 +25,12 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { PhoneInput } from "@/components/ui/phone-input";
+import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import {
   Select,
@@ -36,20 +40,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { PixelCanvas } from "@/components/blocks/pixel-canvas";
-import { PhoneInput } from "@/components/ui/phone-input";
 import { cn } from "@/lib/utils";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
-import {
-  formatPhoneNumberIntl,
-  isValidPhoneNumber,
-} from "react-phone-number-input";
 
 const LANGUAGES = [
   { value: "en", label: "English", languageLabel: "Language" },
@@ -607,6 +600,16 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
   const [language, setLanguage] = React.useState("en");
   const selectedLanguage =
     LANGUAGES.find((option) => option.value === language) ?? LANGUAGES[0];
+
+  function changeFormMode(mode: "staff" | "patient") {
+    setFormMode(mode);
+    setResetPassword(false);
+    setPatientStep("phone");
+    setOtp("");
+    setOtpError("");
+    setStatus("");
+  }
+
   return (
     <div
       className={cn(
@@ -620,366 +623,365 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-primary)_1px,transparent_1px)] bg-size-[16px_16px] opacity-10"
         />
         <PixelCanvas variant="care" className="absolute inset-0 z-0" />
-        <div className="relative z-10 flex w-auto max-w-xl flex-1 flex-col items-center justify-center gap-2 md:w-full">
-          <div className="md:bg-soft-background w-full max-w-sm md:box-content md:rounded-4xl md:border md:p-2">
-            <section
-              aria-labelledby={
-                resetPassword
-                  ? "password-reset-title"
-                  : `${formMode}-sign-in-title`
+        <div className="relative z-10 flex w-full max-w-xl flex-1 flex-col items-center justify-start gap-2">
+          <Tabs
+            value={formMode}
+            onValueChange={(value) => {
+              if (value === "staff" || value === "patient") {
+                changeFormMode(value);
               }
-              className="border-border bg-card ring-foreground/5 relative isolate w-full max-w-sm overflow-clip rounded-2xl border shadow-lg ring-1"
+            }}
+            className="w-full max-w-sm gap-4"
+          >
+            <img
+              src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light.svg"
+              alt="Care"
+              width={2000}
+              height={520}
+              className="h-auto w-28 self-center dark:hidden"
+            />
+            <img
+              src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-color-icon-on-dark.svg"
+              alt=""
+              aria-hidden="true"
+              width={2000}
+              height={520}
+              className="hidden h-auto w-28 self-center dark:block"
+            />
+            <TabsList
+              aria-label="Sign-in method"
+              className="w-full group-data-horizontal/tabs:h-12 md:mt-4 md:group-data-horizontal/tabs:h-12"
             >
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 144 96"
-                preserveAspectRatio="none"
-                className="pointer-events-none absolute top-0 right-0 z-0 h-24 w-36 mask-[radial-gradient(ellipse_at_top_right,black_15%,transparent_85%)]"
+              <TabsTrigger value="staff" className="min-h-11 text-base">
+                Staff sign-in
+              </TabsTrigger>
+              <TabsTrigger value="patient" className="min-h-11 text-base">
+                Patient sign-in
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent
+              value={formMode}
+              className="md:bg-soft-background w-full flex-none md:rounded-4xl md:border md:p-2"
+            >
+              <section
+                aria-labelledby={
+                  resetPassword
+                    ? "password-reset-title"
+                    : `${formMode}-sign-in-title`
+                }
+                className="border-border bg-card ring-foreground/5 relative isolate w-full max-w-sm overflow-clip rounded-2xl border shadow-lg ring-1"
               >
-                <g fill="#a7f3d0" opacity="0.2">
-                  <rect x="12" y="0" width="11" height="11" rx="1.25" />
-                  <rect x="72" y="0" width="11" height="11" rx="1.25" />
-                  <rect x="120" y="12" width="11" height="11" rx="1.25" />
-                  <rect x="36" y="24" width="11" height="11" rx="1.25" />
-                  <rect x="84" y="24" width="11" height="11" rx="1.25" />
-                  <rect x="0" y="36" width="11" height="11" rx="1.25" />
-                  <rect x="60" y="36" width="11" height="11" rx="1.25" />
-                  <rect x="108" y="48" width="11" height="11" rx="1.25" />
-                  <rect x="24" y="60" width="11" height="11" rx="1.25" />
-                  <rect x="84" y="60" width="11" height="11" rx="1.25" />
-                  <rect x="132" y="72" width="11" height="11" rx="1.25" />
-                  <rect x="48" y="84" width="11" height="11" rx="1.25" />
-                </g>
-                <g fill="#10b981" opacity="0.1">
-                  <rect x="108" y="0" width="11" height="11" rx="1.25" />
-                  <rect x="24" y="12" width="11" height="11" rx="1.25" />
-                  <rect x="132" y="24" width="11" height="11" rx="1.25" />
-                  <rect x="96" y="36" width="11" height="11" rx="1.25" />
-                  <rect x="48" y="48" width="11" height="11" rx="1.25" />
-                  <rect x="120" y="60" width="11" height="11" rx="1.25" />
-                </g>
-                <g fill="#065f46" opacity="0.15">
-                  <rect x="132" y="0" width="11" height="11" rx="1.25" />
-                  <rect x="72" y="24" width="11" height="11" rx="1.25" />
-                  <rect x="108" y="72" width="11" height="11" rx="1.25" />
-                </g>
-              </svg>
-              <div className="relative z-10 p-4 pt-6 md:p-6 md:pb-4">
-                {resetPassword ? (
-                  <PasswordResetForm
-                    username={username}
-                    onUsernameChange={setUsername}
-                    onBack={() => setResetPassword(false)}
-                  />
-                ) : (
-                  <>
-                    <img
-                      src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light.svg"
-                      alt="Care"
-                      width={2000}
-                      height={520}
-                      className="h-auto w-28 dark:hidden"
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 144 96"
+                  preserveAspectRatio="none"
+                  className="pointer-events-none absolute top-0 right-0 z-0 h-24 w-36 mask-[radial-gradient(ellipse_at_top_right,black_15%,transparent_45%)] opacity-50"
+                >
+                  <g fill="#a7f3d0" opacity="0.2">
+                    <rect x="12" y="0" width="11" height="11" rx="1.25" />
+                    <rect x="72" y="0" width="11" height="11" rx="1.25" />
+                    <rect x="120" y="12" width="11" height="11" rx="1.25" />
+                    <rect x="36" y="24" width="11" height="11" rx="1.25" />
+                    <rect x="84" y="24" width="11" height="11" rx="1.25" />
+                    <rect x="0" y="36" width="11" height="11" rx="1.25" />
+                    <rect x="60" y="36" width="11" height="11" rx="1.25" />
+                    <rect x="108" y="48" width="11" height="11" rx="1.25" />
+                    <rect x="24" y="60" width="11" height="11" rx="1.25" />
+                    <rect x="84" y="60" width="11" height="11" rx="1.25" />
+                    <rect x="132" y="72" width="11" height="11" rx="1.25" />
+                    <rect x="48" y="84" width="11" height="11" rx="1.25" />
+                  </g>
+                  <g fill="#10b981" opacity="0.1">
+                    <rect x="108" y="0" width="11" height="11" rx="1.25" />
+                    <rect x="24" y="12" width="11" height="11" rx="1.25" />
+                    <rect x="132" y="24" width="11" height="11" rx="1.25" />
+                    <rect x="96" y="36" width="11" height="11" rx="1.25" />
+                    <rect x="48" y="48" width="11" height="11" rx="1.25" />
+                    <rect x="120" y="60" width="11" height="11" rx="1.25" />
+                  </g>
+                  <g fill="#065f46" opacity="0.15">
+                    <rect x="132" y="0" width="11" height="11" rx="1.25" />
+                    <rect x="72" y="24" width="11" height="11" rx="1.25" />
+                    <rect x="108" y="72" width="11" height="11" rx="1.25" />
+                  </g>
+                </svg>
+                <div className="relative z-10 p-4 pt-6 md:p-6 md:pb-4">
+                  {resetPassword ? (
+                    <PasswordResetForm
+                      username={username}
+                      onUsernameChange={setUsername}
+                      onBack={() => setResetPassword(false)}
                     />
-                    <img
-                      src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-color-icon-on-dark.svg"
-                      alt=""
-                      aria-hidden="true"
-                      width={2000}
-                      height={520}
-                      className="hidden h-auto w-28 dark:block"
-                    />
-                    <header className="space-y-0.5 pt-6">
-                      <h1
-                        id={`${formMode}-sign-in-title`}
-                        className="text-xl font-semibold"
-                      >
-                        {formMode === "staff"
-                          ? "Staff sign-in"
-                          : patientStep === "phone"
-                            ? "Patient sign-in"
-                            : "Enter the code"}
-                      </h1>
-                      <p className="text-muted-foreground text-sm leading-4">
-                        {formMode === "staff"
-                          ? "Use the username and password from your facility."
-                          : patientStep === "phone"
-                            ? "Sign in with your mobile number."
-                            : "We sent a 6-digit code by SMS."}
-                      </p>
-                    </header>
+                  ) : (
+                    <>
+                      <header className="flex items-start justify-between gap-4">
+                        <div className="min-w-0 flex-1 space-y-0.5">
+                          <h1
+                            id={`${formMode}-sign-in-title`}
+                            className="text-xl font-semibold"
+                          >
+                            {formMode === "staff"
+                              ? "Staff sign-in"
+                              : patientStep === "phone"
+                                ? "Patient sign-in"
+                                : "Enter the code"}
+                          </h1>
+                          <p className="text-muted-foreground text-sm leading-4">
+                            {formMode === "staff"
+                              ? "Use the username and password from your facility."
+                              : patientStep === "phone"
+                                ? "Sign in with your mobile number."
+                                : "We sent a 6-digit code by SMS."}
+                          </p>
+                        </div>
+                        <img
+                          src={
+                            formMode === "staff"
+                              ? "/stethescope-icon-glass.svg"
+                              : "/patient-icon-glass.svg"
+                          }
+                          alt=""
+                          aria-hidden="true"
+                          width={40}
+                          height={40}
+                          className="mt-1 size-10 shrink-0"
+                        />
+                      </header>
 
-                    <form
-                      className="mt-4 grid gap-6"
-                      onSubmit={(event) => {
-                        event.preventDefault();
-                        if (formMode === "staff") {
-                          return;
-                        }
+                      <form
+                        className="mt-4 grid gap-6"
+                        onSubmit={(event) => {
+                          event.preventDefault();
+                          if (formMode === "staff") {
+                            return;
+                          }
 
-                        if (patientStep === "phone") {
-                          setOtp("");
+                          if (patientStep === "phone") {
+                            setOtp("");
+                            setOtpError("");
+                            setPatientStep("otp");
+                            return;
+                          }
+
+                          if (otp.length !== 6) {
+                            setOtpError("Enter all 6 digits.");
+                            return;
+                          }
+
                           setOtpError("");
-                          setPatientStep("otp");
-                          return;
-                        }
-
-                        if (otp.length !== 6) {
-                          setOtpError("Enter all 6 digits.");
-                          return;
-                        }
-
-                        setOtpError("");
-                      }}
-                    >
-                      {formMode === "staff" ? (
-                        <>
-                          <Field>
-                            <FieldLabel htmlFor="staff-username">
-                              Username
-                            </FieldLabel>
-                            <Input
-                              id="staff-username"
-                              name="username"
-                              type="text"
-                              autoComplete="username"
-                              value={username}
-                              onChange={(event) =>
-                                setUsername(event.target.value)
-                              }
-                              autoFocus={fullPage}
-                              placeholder="Enter username"
-                              required
-                            />
-                          </Field>
-
-                          <Field>
-                            <FieldLabel htmlFor="staff-password">
-                              Password
-                            </FieldLabel>
-                            <InputGroup>
-                              <InputGroupInput
-                                id="staff-password"
-                                name="password"
-                                type={showPassword ? "text" : "password"}
-                                autoComplete="current-password"
-                                value={password}
+                        }}
+                      >
+                        {formMode === "staff" ? (
+                          <>
+                            <Field>
+                              <FieldLabel htmlFor="staff-username">
+                                Username
+                              </FieldLabel>
+                              <Input
+                                id="staff-username"
+                                name="username"
+                                type="text"
+                                autoComplete="username"
+                                value={username}
                                 onChange={(event) =>
-                                  setPassword(event.target.value)
+                                  setUsername(event.target.value)
                                 }
+                                autoFocus={fullPage}
+                                placeholder="Enter username"
                                 required
                               />
-                              <InputGroupAddon align="inline-end">
-                                <InputGroupButton
-                                  size="icon-xs"
-                                  aria-label={
-                                    showPassword
-                                      ? "Hide password"
-                                      : "Show password"
+                            </Field>
+
+                            <Field>
+                              <FieldLabel htmlFor="staff-password">
+                                Password
+                              </FieldLabel>
+                              <InputGroup>
+                                <InputGroupInput
+                                  id="staff-password"
+                                  name="password"
+                                  type={showPassword ? "text" : "password"}
+                                  autoComplete="current-password"
+                                  value={password}
+                                  onChange={(event) =>
+                                    setPassword(event.target.value)
                                   }
-                                  aria-pressed={showPassword}
-                                  onClick={() =>
-                                    setShowPassword((visible) => !visible)
-                                  }
+                                  required
+                                />
+                                <InputGroupAddon align="inline-end">
+                                  <InputGroupButton
+                                    size="icon-xs"
+                                    aria-label={
+                                      showPassword
+                                        ? "Hide password"
+                                        : "Show password"
+                                    }
+                                    aria-pressed={showPassword}
+                                    onClick={() =>
+                                      setShowPassword((visible) => !visible)
+                                    }
+                                  >
+                                    {showPassword ? (
+                                      <EyeOff aria-hidden="true" />
+                                    ) : (
+                                      <Eye aria-hidden="true" />
+                                    )}
+                                  </InputGroupButton>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </Field>
+                            <div className="flex flex-col gap-4">
+                              <Button type="submit">Sign In</Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                onClick={() => {
+                                  setStatus("");
+                                  setResetPassword(true);
+                                }}
+                              >
+                                Forgot password?
+                              </Button>
+                            </div>
+                          </>
+                        ) : patientStep === "phone" ? (
+                          <>
+                            <Field>
+                              <FieldLabel htmlFor="patient-phone">
+                                Phone number
+                              </FieldLabel>
+                              <PhoneInput
+                                id="patient-phone"
+                                name="phone"
+                                value={phoneNumber}
+                                onChange={setPhoneNumber}
+                                defaultCountry="IN"
+                                autoFocus={fullPage}
+                                placeholder="Phone number"
+                                required
+                              />
+                            </Field>
+                            <Button type="submit">Send code</Button>
+                          </>
+                        ) : (
+                          <>
+                            <div className="flex flex-wrap items-center justify-between gap-2">
+                              <p
+                                className="text-soft-foreground text-xl font-semibold"
+                                dir="ltr"
+                              >
+                                {phoneNumber
+                                  ? formatPhoneNumberIntl(phoneNumber)
+                                  : ""}
+                              </p>
+                              <Button
+                                type="button"
+                                variant="tertiary"
+                                size="default"
+                                aria-label="Edit mobile number"
+                                onClick={() => {
+                                  setPatientStep("phone");
+                                  setOtp("");
+                                  setOtpError("");
+                                  setStatus("");
+                                }}
+                              >
+                                <Edit
+                                  data-icon="inline-start"
+                                  aria-hidden="true"
+                                />
+                                Edit
+                              </Button>
+                            </div>
+                            <Field data-invalid={!!otpError}>
+                              <FieldLabel htmlFor="patient-otp">
+                                6-digit code
+                              </FieldLabel>
+                              <InputOTP
+                                id="patient-otp"
+                                name="otp"
+                                maxLength={6}
+                                pushPasswordManagerStrategy="none"
+                                pattern={REGEXP_ONLY_DIGITS}
+                                inputMode="numeric"
+                                autoComplete="one-time-code"
+                                autoFocus
+                                value={otp}
+                                onChange={(value) => {
+                                  setOtp(value.replace(/\D/g, "").slice(0, 6));
+                                  setOtpError("");
+                                }}
+                                onComplete={() => {
+                                  setOtpError("");
+                                }}
+                                aria-label="6-digit code"
+                                aria-invalid={!!otpError}
+                                aria-describedby={
+                                  otpError ? "patient-otp-error" : undefined
+                                }
+                                containerClassName="w-full"
+                                className="w-full"
+                              >
+                                <InputOTPGroup className="w-full justify-between">
+                                  {Array.from({ length: 6 }, (_, index) => (
+                                    <InputOTPSlot
+                                      key={index}
+                                      index={index}
+                                      className="h-12 min-w-0 flex-1 font-mono text-lg"
+                                    />
+                                  ))}
+                                </InputOTPGroup>
+                              </InputOTP>
+                              {otpError && (
+                                <p
+                                  id="patient-otp-error"
+                                  role="alert"
+                                  className="text-destructive text-sm"
                                 >
-                                  {showPassword ? (
-                                    <EyeOff aria-hidden="true" />
-                                  ) : (
-                                    <Eye aria-hidden="true" />
-                                  )}
-                                </InputGroupButton>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </Field>
-                          <div className="flex flex-col gap-4">
-                            <Button type="submit">Sign In</Button>
+                                  {otpError}
+                                </p>
+                              )}
+                            </Field>
+                            <Button type="submit">Verify &amp; sign in</Button>
                             <Button
                               type="button"
                               variant="ghost"
-                              onClick={() => {
-                                setStatus("");
-                                setResetPassword(true);
-                              }}
-                            >
-                              Forgot password?
-                            </Button>
-                          </div>
-                        </>
-                      ) : patientStep === "phone" ? (
-                        <>
-                          <Field>
-                            <FieldLabel htmlFor="patient-phone">
-                              Phone number
-                            </FieldLabel>
-                            <PhoneInput
-                              id="patient-phone"
-                              name="phone"
-                              value={phoneNumber}
-                              onChange={setPhoneNumber}
-                              defaultCountry="IN"
-                              autoFocus={fullPage}
-                              placeholder="Phone number"
-                              required
-                            />
-                          </Field>
-                          <Button type="submit">Send code</Button>
-                        </>
-                      ) : (
-                        <>
-                          <div className="flex flex-wrap items-center justify-between gap-2">
-                            <p
-                              className="text-soft-foreground text-xl font-semibold"
-                              dir="ltr"
-                            >
-                              {phoneNumber
-                                ? formatPhoneNumberIntl(phoneNumber)
-                                : ""}
-                            </p>
-                            <Button
-                              type="button"
-                              variant="tertiary"
-                              size="default"
-                              aria-label="Edit mobile number"
-                              onClick={() => {
-                                setPatientStep("phone");
-                                setOtp("");
-                                setOtpError("");
-                                setStatus("");
-                              }}
-                            >
-                              <Edit
-                                data-icon="inline-start"
-                                aria-hidden="true"
-                              />
-                              Edit
-                            </Button>
-                          </div>
-                          <Field data-invalid={!!otpError}>
-                            <FieldLabel htmlFor="patient-otp">
-                              6-digit code
-                            </FieldLabel>
-                            <InputOTP
-                              id="patient-otp"
-                              name="otp"
-                              maxLength={6}
-                              pushPasswordManagerStrategy="none"
-                              pattern={REGEXP_ONLY_DIGITS}
-                              inputMode="numeric"
-                              autoComplete="one-time-code"
-                              autoFocus
-                              value={otp}
-                              onChange={(value) => {
-                                setOtp(value.replace(/\D/g, "").slice(0, 6));
-                                setOtpError("");
-                              }}
-                              onComplete={() => {
-                                setOtpError("");
-                              }}
-                              aria-label="6-digit code"
-                              aria-invalid={!!otpError}
-                              aria-describedby={
-                                otpError ? "patient-otp-error" : undefined
+                              onClick={() =>
+                                setStatus("OTP resend is preview only.")
                               }
-                              containerClassName="w-full"
-                              className="w-full"
                             >
-                              <InputOTPGroup className="w-full justify-between">
-                                {Array.from({ length: 6 }, (_, index) => (
-                                  <InputOTPSlot
-                                    key={index}
-                                    index={index}
-                                    className="h-12 min-w-0 flex-1 font-mono text-lg"
-                                  />
-                                ))}
-                              </InputOTPGroup>
-                            </InputOTP>
-                            {otpError && (
-                              <p
-                                id="patient-otp-error"
-                                role="alert"
-                                className="text-destructive text-sm"
-                              >
-                                {otpError}
-                              </p>
-                            )}
-                          </Field>
-                          <Button type="submit">Verify &amp; sign in</Button>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            onClick={() =>
-                              setStatus("OTP resend is preview only.")
-                            }
-                          >
-                            Resend OTP
-                          </Button>
-                        </>
-                      )}
-                    </form>
+                              Resend OTP
+                            </Button>
+                          </>
+                        )}
+                      </form>
 
-                    <p
-                      className={
-                        status
-                          ? "text-muted-foreground mt-3 text-xs"
-                          : "sr-only"
-                      }
-                      role="status"
-                      aria-live="polite"
-                    >
-                      {status}
-                    </p>
-                  </>
-                )}
-              </div>
-              {!resetPassword && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className={cn(
-                    "border-border relative z-10 flex h-auto w-full justify-between gap-4 rounded-none rounded-t-none! border-0 border-t px-4 py-3 text-start whitespace-normal no-underline shadow-none inset-shadow-none not-in-data-[slot=button-group]:rounded-t-none! md:h-auto",
-                    formMode === "staff"
-                      ? "bg-indigo-50 text-indigo-900 hover:bg-indigo-100 hover:text-indigo-900 dark:bg-indigo-950 dark:text-indigo-100 dark:hover:bg-indigo-900 dark:hover:text-indigo-100 [:active,[data-pressed]]:bg-indigo-200 dark:[:active,[data-pressed]]:bg-indigo-800"
-                      : "bg-primary-50 text-primary-900 hover:bg-primary-100 hover:text-primary-900 [:active,[data-pressed]]:bg-primary-200 dark:bg-primary-950 dark:text-primary-100 dark:hover:bg-primary-900 dark:hover:text-primary-100 dark:[:active,[data-pressed]]:bg-primary-800"
+                      <p
+                        className={
+                          status
+                            ? "text-muted-foreground mt-3 text-xs"
+                            : "sr-only"
+                        }
+                        role="status"
+                        aria-live="polite"
+                      >
+                        {status}
+                      </p>
+                    </>
                   )}
-                  onClick={() => {
-                    setFormMode((mode) =>
-                      mode === "staff" ? "patient" : "staff"
-                    );
-                    setPatientStep("phone");
-                    setOtp("");
-                    setOtpError("");
-                    setStatus("");
-                  }}
-                >
-                  <span className="flex min-w-0 flex-col">
-                    <span className="text-base font-semibold">
-                      {formMode === "staff"
-                        ? "Patient sign in"
-                        : "Staff sign-in"}
-                    </span>
-                    <span className="text-sm font-normal">
-                      {formMode === "staff"
-                        ? "Sign in with your phone number"
-                        : "Use your username and password"}
-                    </span>
-                  </span>
-                  {formMode === "staff" ? (
-                    <ArrowRight data-icon="inline-end" aria-hidden="true" />
-                  ) : (
-                    <ArrowRight data-icon="inline-start" aria-hidden="true" />
-                  )}
-                </Button>
-              )}
-            </section>
-          </div>
+                </div>
+              </section>
+            </TabsContent>
+          </Tabs>
           <section
             aria-labelledby="sign-in-language-label"
-            className="bg-muted/40 border-border/50 relative z-10 flex w-full max-w-sm flex-wrap items-center justify-center gap-2 rounded-xl border p-2 md:flex-col md:rounded-t-4xl md:rounded-b-xl"
+            className="relative z-10 flex w-full flex-wrap items-center justify-center gap-3 rounded-xl p-2 md:rounded-t-4xl md:rounded-b-xl"
           >
             <div className="flex shrink-0 items-center gap-3">
               <h2
                 id="sign-in-language-label"
                 lang={selectedLanguage.value}
-                className="flex items-center gap-1.5 text-sm font-normal"
+                className="text-muted-foreground flex items-center gap-1.5 text-sm font-normal"
               >
                 <Globe
                   aria-hidden="true"
@@ -989,7 +991,12 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                 {selectedLanguage.languageLabel}
               </h2>
             </div>
-            <div className="min-w-36 flex-1 md:hidden">
+            <Separator
+              orientation="vertical"
+              aria-hidden="true"
+              className="h-6 shrink-0 data-vertical:self-center"
+            />
+            <div className="flex-1 md:hidden">
               <Select
                 value={language}
                 onValueChange={(value) => {
