@@ -111,6 +111,7 @@ export const componentCategories: Record<string, AtomicLevel> = {
   "context-menu": "organism",
   "data-table": "organism",
   "date-picker": "organism",
+  "dental-chart": "organism",
   dialog: "organism",
   drawer: "organism",
   "dropdown-menu": "organism",

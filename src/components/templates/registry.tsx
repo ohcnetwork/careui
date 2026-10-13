@@ -1,5 +1,6 @@
 import React from "react";
 
+import { DentalChartTemplate } from "./dental-chart";
 import { MedicationRequestTemplate } from "./medication-request";
 
 export interface TemplateDef {
@@ -13,6 +14,14 @@ export interface TemplateDef {
 }
 
 export const TEMPLATES: TemplateDef[] = [
+  {
+    id: "template-dental-chart",
+    title: "Dental Chart",
+    description:
+      "An interactive odontogram for recording tooth and surface findings across visits, dentitions, and treatment statuses.",
+    source: "src/components/templates/dental-chart.tsx",
+    component: DentalChartTemplate,
+  },
   {
     id: "template-medication-request",
     title: "Medication Request",

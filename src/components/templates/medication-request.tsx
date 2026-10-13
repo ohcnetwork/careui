@@ -2436,17 +2436,12 @@ function MedicationPicker({
     setCategoryProductType(productType);
   };
 
-  const toggleProductCategory = (
+  const selectProductCategory = (
     productType: MedicationProductType,
     category: string
   ) => {
     const key = productCategoryKey(productType, category);
-    setSelectedProductCategories((current) => {
-      const next = new Set(current);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
+    setSelectedProductCategories(new Set([key]));
     setTypeFiltersOpen(false);
   };
 
@@ -2536,6 +2531,7 @@ function MedicationPicker({
     }
     preservePopupForFilterActionRef.current = true;
     setOpen(true);
+    setSelectedProductCategories(new Set());
     setSearch("/");
     setTypeFiltersOpen(true);
   };
@@ -2707,7 +2703,7 @@ function MedicationPicker({
         preservePopupForFilterActionRef.current = true;
         setOpen(true);
         setSearch("");
-        toggleProductCategory(category.productType, category.category);
+        selectProductCategory(category.productType, category.category);
       }
       return;
     }
@@ -2720,8 +2716,7 @@ function MedicationPicker({
   const hasActiveFilters =
     search.length > 0 ||
     selectedProductTypes.size > 0 ||
-    selectedProductCategories.size > 0 ||
-    !selectedSources.has("All");
+    selectedProductCategories.size > 0;
 
   const clearAllFilters = () => {
     setSearch("");

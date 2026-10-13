@@ -70,6 +70,8 @@ const componentLoaders: Record<
     import("./data-table").then((m) => ({ default: m.dataTableDoc })),
   "date-picker": () =>
     import("./date-picker").then((m) => ({ default: m.datePickerDoc })),
+  "dental-chart": () =>
+    import("./dental-chart").then((m) => ({ default: m.dentalChartDoc })),
   combobox: () =>
     import("./combobox").then((m) => ({ default: m.comboboxDoc })),
   command: () => import("./command").then((m) => ({ default: m.commandDoc })),
