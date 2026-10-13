@@ -164,7 +164,6 @@ function Segmented<T extends string>({
           key={option.value}
           value={option.value}
           title={option.title}
-          className="data-pressed:bg-foreground data-pressed:text-background px-3"
         >
           {option.label}
         </ToggleGroupItem>
@@ -189,7 +188,11 @@ function SideDrawing({
       focusable="false"
     >
       <g transform={side.transform}>
-        <path className="dc-outline" d={side.outline} />
+        <path
+          className="dc-outline"
+          d={side.outline}
+          strokeDasharray={model.missing ? "2 1.4" : undefined}
+        />
         {side.pulp && <path className="dc-pulp" d={side.pulp} />}
         {side.detail && <path className="dc-detail" d={side.detail} />}
         {side.fills.existing && (
@@ -248,7 +251,11 @@ function OcclusalDrawing({
       focusable="false"
     >
       <g transform={occlusal.transform}>
-        <path className="dc-outline" d={occlusal.outline} />
+        <path
+          className="dc-outline"
+          d={occlusal.outline}
+          strokeDasharray={model.missing ? "2 1.4" : undefined}
+        />
         {occlusal.detail && <path className="dc-detail" d={occlusal.detail} />}
         {occlusal.surfaces.map(({ surface, path, status }) => {
           if (!path) return null;
@@ -257,6 +264,7 @@ function OcclusalDrawing({
             <path
               key={surface}
               d={path}
+              strokeDasharray={model.missing ? "2 1.4" : undefined}
               role={interactive ? "checkbox" : undefined}
               aria-checked={interactive ? active : undefined}
               aria-label={`${surfaceName(surface, model.info)} surface${status ? `, ${STATUS_LABEL[status]}` : ""}`}
@@ -360,11 +368,12 @@ function ToothTile({
           className={`dc-tooth-tile ${sizeClass} ${selected ? "dc-tooth-selected" : ""} ${model?.missing ? "dc-tooth-missing" : ""}`}
           data-tooth={id}
         >
-          <button
+          <Button
             type="button"
+            variant="ghost"
             aria-pressed={selected}
             aria-label={`Tooth ${label}, ${info.name}${slot.tooth ? `, ${summary}` : ", not erupted"}${changed ? ", changed since last visit" : ""}`}
-            className="dc-tooth-select"
+            className="dc-tooth-select h-auto rounded-none p-0 no-underline shadow-none hover:bg-transparent md:h-auto md:p-0"
             onClick={onSelect}
           >
             <span className="dc-tooth-number">
@@ -385,11 +394,14 @@ function ToothTile({
               ))}
             </span>
             {model ? (
-              <SideDrawing model={model} className="dc-side-drawing" />
+              <SideDrawing
+                model={model}
+                className="dc-side-drawing size-auto"
+              />
             ) : (
               <span className="dc-empty-tooth" aria-hidden="true" />
             )}
-          </button>
+          </Button>
           {model ? (
             <OcclusalDrawing
               model={model}
@@ -439,6 +451,8 @@ export function DentalChartTemplate() {
     surfaces: {},
     anchor: null,
   });
+  const [lastInspectorSelection, setLastInspectorSelection] =
+    React.useState<DentalSelection>(selection);
   const [draft, setDraft] = React.useState<PickerDraft>({
     key: "caries",
     status: "condition",
@@ -485,7 +499,17 @@ export function DentalChartTemplate() {
       : diffVisits([], []);
   const activeCatalogueItem = draft.key ? CATALOGUE_BY_KEY[draft.key] : null;
   const searchResults = searchCatalogue(draft.query);
-  const singleTooth = selection.teeth.length === 1 ? selection.teeth[0] : null;
+  if (selection.teeth.length && selection !== lastInspectorSelection) {
+    setLastInspectorSelection(selection);
+  }
+  const inspectorSelection = selection.teeth.length
+    ? selection
+    : lastInspectorSelection;
+  const inspectorSingleTooth =
+    inspectorSelection.teeth.length === 1 ? inspectorSelection.teeth[0] : null;
+  const inspectorTooth = inspectorSingleTooth ?? inspectorSelection.anchor;
+  const inspectorSide =
+    inspectorTooth && toothInfo(inspectorTooth).viewerLeft ? "right" : "left";
   const warnings = surgeryWarnings(shown, patient.alerts, "the planned teeth");
 
   function commit(
@@ -795,7 +819,9 @@ export function DentalChartTemplate() {
     );
   }
 
-  function renderFindingPicker() {
+  function renderFindingPicker(selection: DentalSelection) {
+    const singleTooth =
+      selection.teeth.length === 1 ? selection.teeth[0] : null;
     const item = activeCatalogueItem;
     if (readOnly) return null;
     const needsSurfaces = Boolean(item?.needsSurfaces);
@@ -868,16 +894,18 @@ export function DentalChartTemplate() {
             >
               {searchResults.length ? (
                 searchResults.map((result, index) => (
-                  <button
+                  <Button
                     key={result.key}
                     type="button"
+                    variant="tertiary"
+                    size="sm"
                     role="option"
                     aria-selected={index === 0}
-                    className="hover:bg-muted block w-full rounded-sm px-2.5 py-2 text-left text-sm"
+                    className="w-full justify-start"
                     onClick={() => chooseFinding(result.key)}
                   >
                     {result.label}
-                  </button>
+                  </Button>
                 ))
               ) : (
                 <p className="text-muted-foreground px-2.5 py-2 text-sm">
@@ -1160,94 +1188,99 @@ export function DentalChartTemplate() {
     );
   }
 
-  function renderInspector() {
-    if (!selection.teeth.length) {
-      return (
-        <div className="flex flex-col gap-5">
-          <div>
-            <h2 className="text-base font-semibold">Chart summary</h2>
-            <p className="text-muted-foreground text-sm">
-              {shown.length} findings · {patient.name}
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            {STATUS_ORDER.map((status) => (
-              <button
-                key={status}
-                type="button"
-                onClick={() => setFilter(status)}
-                className="hover:bg-muted/60 flex flex-col items-start gap-1 rounded-md border p-3 text-left"
-              >
-                <span className="text-2xl font-semibold tabular-nums">
-                  {statusCounts[status]}
-                </span>
-                <StatusBadge status={status} />
-              </button>
-            ))}
-          </div>
-          {warnings.map((warning) => (
-            <Alert key={warning} variant="warning">
-              <TriangleAlert aria-hidden="true" />
-              <AlertDescription>{warning}</AlertDescription>
-            </Alert>
-          ))}
-          <section aria-label="Chart legend" className="flex flex-col gap-2">
-            <h3 className="text-muted-foreground text-xs font-semibold uppercase">
-              Legend
-            </h3>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
-              {STATUS_ORDER.map((status) => (
-                <span key={status} className="flex items-center gap-2">
-                  <StatusSwatch status={status} />
-                  {status === "completed"
-                    ? "Completed today"
-                    : STATUS_LABEL[status]}
-                </span>
-              ))}
-              <span className="flex items-center gap-2">
-                <span className="dc-status-swatch dc-cross-swatch" /> Missing
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="dc-mini-badge">M2</span> Mobility grade
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="dc-change-dot" /> Changed since last visit
-              </span>
-            </div>
-          </section>
-          <section
-            aria-label="Keyboard shortcuts"
-            className="flex flex-col gap-2"
-          >
-            <h3 className="text-muted-foreground text-xs font-semibold uppercase">
-              Keyboard
-            </h3>
-            <dl className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1.5 text-sm">
-              <dt>
-                <Kbd>←</Kbd> <Kbd>→</Kbd>
-              </dt>
-              <dd>Move between teeth</dd>
-              <dt>
-                <Kbd>↑</Kbd> <Kbd>↓</Kbd>
-              </dt>
-              <dd>Switch arch</dd>
-              <dt>
-                <Kbd>/</Kbd>
-              </dt>
-              <dd>Search findings</dd>
-              <dt>
-                <Kbd>P</Kbd>
-              </dt>
-              <dd>Keep applying</dd>
-              <dt>
-                <Kbd>Esc</Kbd>
-              </dt>
-              <dd>Stop or clear selection</dd>
-            </dl>
-          </section>
+  function renderChartSummary() {
+    return (
+      <div className="flex flex-col gap-5">
+        <div>
+          <h2 className="text-base font-semibold">Chart summary</h2>
+          <p className="text-muted-foreground text-sm">
+            {shown.length} findings · {patient.name}
+          </p>
         </div>
-      );
-    }
+        <div className="grid grid-cols-2 gap-2">
+          {STATUS_ORDER.map((status) => (
+            <Button
+              key={status}
+              type="button"
+              variant="outline"
+              onClick={() => setFilter(status)}
+              className="h-auto flex-col items-start gap-1 p-3 text-left md:h-auto"
+            >
+              <span className="text-2xl font-semibold tabular-nums">
+                {statusCounts[status]}
+              </span>
+              <StatusBadge status={status} />
+            </Button>
+          ))}
+        </div>
+        {warnings.map((warning) => (
+          <Alert key={warning} variant="warning">
+            <TriangleAlert aria-hidden="true" />
+            <AlertDescription>{warning}</AlertDescription>
+          </Alert>
+        ))}
+        <section aria-label="Chart legend" className="flex flex-col gap-2">
+          <h3 className="text-muted-foreground text-xs font-semibold uppercase">
+            Legend
+          </h3>
+          <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
+            {STATUS_ORDER.map((status) => (
+              <span key={status} className="flex items-center gap-2">
+                <StatusSwatch status={status} />
+                {status === "completed"
+                  ? "Completed today"
+                  : STATUS_LABEL[status]}
+              </span>
+            ))}
+            <span className="flex items-center gap-2">
+              <span className="dc-status-swatch dc-cross-swatch" /> Missing
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="dc-mini-badge">M2</span> Mobility grade
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="dc-change-dot" /> Changed since last visit
+            </span>
+          </div>
+        </section>
+        <section
+          aria-label="Keyboard shortcuts"
+          className="flex flex-col gap-2"
+        >
+          <h3 className="text-muted-foreground text-xs font-semibold uppercase">
+            Keyboard
+          </h3>
+          <dl className="grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-1.5 text-sm">
+            <dt>
+              <Kbd>←</Kbd> <Kbd>→</Kbd>
+            </dt>
+            <dd>Move between teeth</dd>
+            <dt>
+              <Kbd>↑</Kbd> <Kbd>↓</Kbd>
+            </dt>
+            <dd>Switch arch</dd>
+            <dt>
+              <Kbd>/</Kbd>
+            </dt>
+            <dd>Search findings</dd>
+            <dt>
+              <Kbd>P</Kbd>
+            </dt>
+            <dd>Keep applying</dd>
+            <dt>
+              <Kbd>Esc</Kbd>
+            </dt>
+            <dd>Stop or clear selection</dd>
+          </dl>
+        </section>
+      </div>
+    );
+  }
+
+  function renderInspector(selection: DentalSelection) {
+    if (!selection.teeth.length) return null;
+    const singleTooth =
+      selection.teeth.length === 1 ? selection.teeth[0] : null;
 
     if (singleTooth) {
       const info = toothInfo(singleTooth);
@@ -1410,7 +1443,7 @@ export function DentalChartTemplate() {
               <AlertDescription>{warning}</AlertDescription>
             </Alert>
           ))}
-          {present && renderFindingPicker()}
+          {present && renderFindingPicker(selection)}
           <section
             aria-label="Findings on this tooth"
             className="flex flex-col gap-2"
@@ -1473,10 +1506,12 @@ export function DentalChartTemplate() {
         </div>
         <div className="flex flex-wrap gap-1.5">
           {selected.map((tooth) => (
-            <button
+            <Button
               key={tooth}
               type="button"
-              className="bg-muted/50 hover:bg-muted rounded-sm border px-2 py-1 font-mono text-xs"
+              variant="outline"
+              size="xs"
+              className="font-mono"
               aria-label={`Open tooth ${toothLabel(tooth, numbering)}`}
               onClick={() =>
                 setSelection(
@@ -1489,10 +1524,10 @@ export function DentalChartTemplate() {
               }
             >
               {toothLabel(tooth, numbering)}
-            </button>
+            </Button>
           ))}
         </div>
-        {renderFindingPicker()}
+        {renderFindingPicker(selection)}
         <section
           aria-label="Findings on selected teeth"
           className="flex flex-col gap-2"
@@ -1533,8 +1568,8 @@ export function DentalChartTemplate() {
   const rowOrder = new Map(
     sortByChart(
       [...new Set(rows.map(({ finding }) => finding.tooth))],
-      config,
-    ).map((tooth, index) => [tooth, index]),
+      config
+    ).map((tooth, index) => [tooth, index])
   );
   rows.sort(
     (left, right) =>
@@ -1632,53 +1667,28 @@ export function DentalChartTemplate() {
         </defs>
       </svg>
       <header className="bg-card flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-b px-4 py-3 sm:px-6">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <div>
-            <h2 className="text-lg leading-tight font-semibold">
-              {patient.name}
-            </h2>
-            <p className="text-muted-foreground text-sm">{patient.meta}</p>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {patient.alerts.map((alert) => (
-              <Badge
-                key={alert.label}
-                variant={
-                  alert.kind === "anticoagulant"
-                    ? "destructive"
-                    : alert.kind === "allergy"
-                      ? "warning"
-                      : "neutral"
-                }
-                size="md"
-              >
-                <TriangleAlert aria-hidden="true" /> {alert.label}
-              </Badge>
-            ))}
-          </div>
-        </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
             <span className="text-muted-foreground text-xs font-semibold uppercase">
               Visit
             </span>
-            <Segmented
-              label="Visit"
+            <Tabs
               value={visitView}
-              onChange={(value) => {
+              onValueChange={(value) => {
+                if (value !== "today" && value !== "previous") return;
                 setVisitView(value);
                 setSelection({ teeth: [], surfaces: {}, anchor: null });
                 setPaintMode(false);
                 if (value === "previous") setCompare(false);
               }}
-              options={[
-                { value: "today" as VisitView, label: "Today · 12 Oct 2026" },
-                {
-                  value: "previous" as VisitView,
-                  label: patient.previousVisit,
-                },
-              ]}
-            />
+            >
+              <TabsList aria-label="Visit">
+                <TabsTrigger value="today">Today · 12 Oct 2026</TabsTrigger>
+                <TabsTrigger value="previous">
+                  {patient.previousVisit}
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
           <label className="flex items-center gap-2 text-sm font-medium">
             <Switch
@@ -1750,20 +1760,31 @@ export function DentalChartTemplate() {
                 <span className="text-muted-foreground text-xs font-semibold uppercase">
                   Dentition
                 </span>
-                <Segmented
-                  label="Dentition"
-                  disabled={readOnly}
+                <Tabs
                   value={dentition}
-                  onChange={(value) => {
+                  onValueChange={(value) => {
+                    if (
+                      value !== "permanent" &&
+                      value !== "mixed" &&
+                      value !== "primary"
+                    )
+                      return;
                     setDentition(value);
                     setSelection({ teeth: [], surfaces: {}, anchor: null });
                   }}
-                  options={[
-                    { value: "permanent" as Dentition, label: "Permanent" },
-                    { value: "mixed" as Dentition, label: "Mixed" },
-                    { value: "primary" as Dentition, label: "Primary" },
-                  ]}
-                />
+                >
+                  <TabsList aria-label="Dentition">
+                    <TabsTrigger value="permanent" disabled={readOnly}>
+                      Permanent
+                    </TabsTrigger>
+                    <TabsTrigger value="mixed" disabled={readOnly}>
+                      Mixed
+                    </TabsTrigger>
+                    <TabsTrigger value="primary" disabled={readOnly}>
+                      Primary
+                    </TabsTrigger>
+                  </TabsList>
+                </Tabs>
               </div>
               <div
                 className="flex flex-wrap items-center gap-1"
@@ -1899,6 +1920,10 @@ export function DentalChartTemplate() {
               </div>
             </div>
           </Card>
+
+          <section aria-label="Chart summary" className="px-4 py-4">
+            {renderChartSummary()}
+          </section>
 
           <Card className="gap-0 py-0">
             <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-3">
@@ -2038,12 +2063,6 @@ export function DentalChartTemplate() {
           </Card>
         </div>
 
-        <aside
-          className="sticky top-4 hidden max-h-[calc(100vh-6rem)] flex-[1_1_380px] overflow-y-auto xl:block"
-          aria-label="Tooth details"
-        >
-          <Card className="px-4 py-4">{renderInspector()}</Card>
-        </aside>
         <Sheet
           modal={false}
           open={selection.teeth.length > 0}
@@ -2052,22 +2071,22 @@ export function DentalChartTemplate() {
           }}
         >
           <SheetContent
-            side="bottom"
+            side={inspectorSide}
             overlay={false}
-            className="max-h-[88vh] xl:hidden"
+            className="dental-chart max-w-3/4 sm:max-w-sm"
           >
             <SheetHeader>
               <SheetTitle>
-                {singleTooth
-                  ? `Tooth ${toothLabel(singleTooth, numbering)}`
-                  : `${selection.teeth.length} teeth`}
+                {inspectorSingleTooth
+                  ? `Tooth ${toothLabel(inspectorSingleTooth, numbering)}`
+                  : `${inspectorSelection.teeth.length} teeth`}
               </SheetTitle>
               <SheetDescription className="sr-only">
                 Tooth details and findings
               </SheetDescription>
             </SheetHeader>
             <SheetBody className="overflow-y-auto">
-              {renderInspector()}
+              {renderInspector(inspectorSelection)}
             </SheetBody>
           </SheetContent>
         </Sheet>
