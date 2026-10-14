@@ -464,7 +464,7 @@ function PasswordResetForm({
           }
         >
           <ArrowLeft data-icon="inline-start" aria-hidden="true" />
-          {method === "phone" ? "Back to email reset" : "Back to login"}
+          {method === "phone" ? "Back to email reset" : "Back to sign-in"}
         </Button>
       </Field>
       <Field>
@@ -617,7 +617,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
         fullPage ? "h-dvh" : "min-h-180"
       )}
     >
-      <main className="border-primary bg-background relative isolate flex min-h-0 flex-1 flex-col items-center gap-4 overflow-x-hidden overflow-y-auto rounded-t-md rounded-b-2xl border-2 p-2 md:px-4 md:pt-8 md:pb-6">
+      <main className="border-primary bg-background relative isolate flex min-h-0 flex-1 flex-col items-center gap-4 overflow-x-hidden overflow-y-auto rounded-t-md rounded-b-2xl border-2 p-2 md:px-4 md:pt-12 md:pb-6">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-primary)_1px,transparent_1px)] bg-size-[16px_16px] opacity-10"

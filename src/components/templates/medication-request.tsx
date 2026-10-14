@@ -33,6 +33,16 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Card,
@@ -594,9 +604,24 @@ const VACCINE_SITES = [
 ];
 
 const REQUESTERS = [
-  { value: "lakshmi-mohan", name: "Dr. Lakshmi Mohan", initials: "LM" },
-  { value: "arjun-nair", name: "Dr. Arjun Nair", initials: "AN" },
-  { value: "fatima-begum", name: "Dr. Fatima Begum", initials: "FB" },
+  {
+    value: "lakshmi-mohan",
+    name: "Dr. Lakshmi Mohan",
+    initials: "LM",
+    avatarColor: "blue" as const,
+  },
+  {
+    value: "arjun-nair",
+    name: "Dr. Arjun Nair",
+    initials: "AN",
+    avatarColor: "teal" as const,
+  },
+  {
+    value: "fatima-begum",
+    name: "Dr. Fatima Begum",
+    initials: "FB",
+    avatarColor: "rose" as const,
+  },
 ];
 
 const uid = () => `med-${crypto.randomUUID()}`;
@@ -2092,34 +2117,65 @@ function MedicationOptionsSheet({
 function RowActionsCell({ row }: DoseCellProps) {
   const { addDose, removeDose, removeMedication } = useMedicationGrid();
   const medication = row.original;
+  const [removeConfirmationOpen, setRemoveConfirmationOpen] =
+    React.useState(false);
+
   return (
-    <DoseStack row={row}>
-      {(dose) => (
-        <DataTableRowActions triggerClassName="shadow-none">
-          <DropdownMenuItem onClick={() => addDose(medication.id)}>
-            <Plus aria-hidden="true" />
-            Add tapering dose
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          {medication.doses.length > 1 && (
+    <>
+      <DoseStack row={row}>
+        {(dose) => (
+          <DataTableRowActions triggerClassName="shadow-none">
+            <DropdownMenuItem onClick={() => addDose(medication.id)}>
+              <Plus aria-hidden="true" />
+              Add another dose
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            {medication.doses.length > 1 && (
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={() => removeDose(medication.id, dose.id)}
+              >
+                <CircleMinus aria-hidden="true" />
+                Remove this dose
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem
               variant="destructive"
-              onClick={() => removeDose(medication.id, dose.id)}
+              onClick={() => setRemoveConfirmationOpen(true)}
             >
-              <CircleMinus aria-hidden="true" />
-              Remove this dose
+              <Trash2 aria-hidden="true" />
+              Remove medicine
             </DropdownMenuItem>
-          )}
-          <DropdownMenuItem
-            variant="destructive"
-            onClick={() => removeMedication(medication.id)}
-          >
-            <Trash2 aria-hidden="true" />
-            Remove medicine
-          </DropdownMenuItem>
-        </DataTableRowActions>
-      )}
-    </DoseStack>
+          </DataTableRowActions>
+        )}
+      </DoseStack>
+      <AlertDialog
+        open={removeConfirmationOpen}
+        onOpenChange={setRemoveConfirmationOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove this medicine?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {medication.medicine} and all of its doses will be removed from
+              this request. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              variant="destructive"
+              onClick={() => {
+                removeMedication(medication.id);
+                setRemoveConfirmationOpen(false);
+              }}
+            >
+              Remove medicine
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
 
@@ -3930,7 +3986,7 @@ export function MedicationRequestTemplate() {
                           {activeRequester && (
                             <>
                               <Avatar size="sm">
-                                <AvatarFallback>
+                                <AvatarFallback color={activeRequester.avatarColor}>
                                   {activeRequester.initials}
                                 </AvatarFallback>
                               </Avatar>
@@ -3943,7 +3999,9 @@ export function MedicationRequestTemplate() {
                         {REQUESTERS.map((person) => (
                           <SelectItem key={person.value} value={person.value}>
                             <Avatar size="sm">
-                              <AvatarFallback>{person.initials}</AvatarFallback>
+                              <AvatarFallback color={person.avatarColor}>
+                                {person.initials}
+                              </AvatarFallback>
                             </Avatar>
                             {person.name}
                           </SelectItem>
