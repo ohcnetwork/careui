@@ -38,6 +38,24 @@ const componentLoaders: Record<
   marker: () => import("./marker").then((m) => ({ default: m.markerDoc })),
   shimmer: () => import("./shimmer").then((m) => ({ default: m.shimmerDoc })),
   message: () => import("./message").then((m) => ({ default: m.messageDoc })),
+  "shiny-button": () =>
+    import("./shiny-button").then((m) => ({ default: m.shinyButtonDoc })),
+  "voice-waveform": () =>
+    import("./voice-waveform").then((m) => ({ default: m.voiceWaveformDoc })),
+  "keyboard-shortcut": () =>
+    import("./keyboard-shortcut").then((m) => ({
+      default: m.keyboardShortcutDoc,
+    })),
+  "stacked-grid": () =>
+    import("./stacked-grid").then((m) => ({ default: m.stackedGridDoc })),
+  "scribe-status-badge": () =>
+    import("./scribe-status-badge").then((m) => ({
+      default: m.scribeStatusBadgeDoc,
+    })),
+  "scribe-button": () =>
+    import("./scribe-button").then((m) => ({ default: m.scribeButtonDoc })),
+  "scribe-intro": () =>
+    import("./scribe-intro").then((m) => ({ default: m.scribeIntroDoc })),
   accordion: () =>
     import("./accordion").then((m) => ({ default: m.accordionDoc })),
   alert: () => import("./alert").then((m) => ({ default: m.alertDoc })),
