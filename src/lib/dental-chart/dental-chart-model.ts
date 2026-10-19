@@ -100,7 +100,12 @@ export interface ToothInfo {
 /* Status and catalogue                                                */
 /* ------------------------------------------------------------------ */
 
-export const STATUS_ORDER: FindingStatus[] = ["condition", "existing", "planned", "completed"];
+export const STATUS_ORDER: FindingStatus[] = [
+  "condition",
+  "existing",
+  "planned",
+  "completed",
+];
 
 export const STATUS_LABEL: Record<FindingStatus, string> = {
   condition: "Condition",
@@ -120,52 +125,215 @@ const RESTORATIVE: FindingStatus[] = ["existing", "planned", "completed"];
 
 /** Starter catalogue. Replace keys with SNOMED-bound codes when wiring to CARE. */
 export const FINDING_CATALOGUE: CatalogueItem[] = [
-  { key: "caries", label: "Caries", synonyms: "decay cavity carious", statuses: ["condition"], needsSurfaces: true },
-  { key: "filling", label: "Filling", synonyms: "restoration composite gic amalgam", statuses: RESTORATIVE, needsSurfaces: true, materials: ["Composite", "GIC", "Amalgam", "Temporary"] },
-  { key: "crown", label: "Crown", synonyms: "cap pfm zirconia", statuses: RESTORATIVE, materials: ["PFM", "Zirconia", "Metal", "E-max"] },
-  { key: "rct", label: "Root canal treatment", short: "RCT", synonyms: "rct endo root canal", statuses: RESTORATIVE },
-  { key: "missing", label: "Missing", synonyms: "absent edentulous", statuses: ["condition"] },
-  { key: "extraction", label: "Extraction", synonyms: "extract exo removal", statuses: ["planned", "completed"] },
-  { key: "mobility", label: "Mobility", synonyms: "mobile loose", statuses: ["condition"], grades: ["I", "II", "III"] },
-  { key: "fracture", label: "Fracture", synonyms: "broken crack", statuses: ["condition"] },
-  { key: "periapical", label: "Periapical lesion", synonyms: "abscess granuloma cyst pa", statuses: ["condition"] },
-  { key: "implant", label: "Implant", synonyms: "fixture", statuses: RESTORATIVE },
-  { key: "post", label: "Post and core", synonyms: "post core pin", statuses: RESTORATIVE },
-  { key: "veneer", label: "Veneer", synonyms: "laminate", statuses: RESTORATIVE },
-  { key: "impacted", label: "Impacted", synonyms: "unerupted embedded", statuses: ["condition"] },
+  {
+    key: "caries",
+    label: "Caries",
+    synonyms: "decay cavity carious",
+    statuses: ["condition"],
+    needsSurfaces: true,
+  },
+  {
+    key: "filling",
+    label: "Filling",
+    synonyms: "restoration composite gic amalgam",
+    statuses: RESTORATIVE,
+    needsSurfaces: true,
+    materials: ["Composite", "GIC", "Amalgam", "Temporary"],
+  },
+  {
+    key: "crown",
+    label: "Crown",
+    synonyms: "cap pfm zirconia",
+    statuses: RESTORATIVE,
+    materials: ["PFM", "Zirconia", "Metal", "E-max"],
+  },
+  {
+    key: "rct",
+    label: "Root canal treatment",
+    short: "RCT",
+    synonyms: "rct endo root canal",
+    statuses: RESTORATIVE,
+  },
+  {
+    key: "missing",
+    label: "Missing",
+    synonyms: "absent edentulous",
+    statuses: ["condition"],
+  },
+  {
+    key: "extraction",
+    label: "Extraction",
+    synonyms: "extract exo removal",
+    statuses: ["planned", "completed"],
+  },
+  {
+    key: "mobility",
+    label: "Mobility",
+    synonyms: "mobile loose",
+    statuses: ["condition"],
+    grades: ["I", "II", "III"],
+  },
+  {
+    key: "fracture",
+    label: "Fracture",
+    synonyms: "broken crack",
+    statuses: ["condition"],
+  },
+  {
+    key: "periapical",
+    label: "Periapical lesion",
+    synonyms: "abscess granuloma cyst pa",
+    statuses: ["condition"],
+  },
+  {
+    key: "implant",
+    label: "Implant",
+    synonyms: "fixture",
+    statuses: RESTORATIVE,
+  },
+  {
+    key: "post",
+    label: "Post and core",
+    synonyms: "post core pin",
+    statuses: RESTORATIVE,
+  },
+  {
+    key: "veneer",
+    label: "Veneer",
+    synonyms: "laminate",
+    statuses: RESTORATIVE,
+  },
+  {
+    key: "impacted",
+    label: "Impacted",
+    synonyms: "unerupted embedded",
+    statuses: ["condition"],
+  },
 ];
 
-export const CATALOGUE_BY_KEY: Record<string, CatalogueItem> = Object.fromEntries(
-  FINDING_CATALOGUE.map((c) => [c.key, c]),
-);
+export const CATALOGUE_BY_KEY: Record<string, CatalogueItem> =
+  Object.fromEntries(FINDING_CATALOGUE.map((c) => [c.key, c]));
 
 /** Shown as one-tap chips in the finding picker. */
-export const FREQUENT_FINDINGS = ["caries", "filling", "crown", "rct", "missing", "extraction", "mobility", "fracture"];
+export const FREQUENT_FINDINGS = [
+  "caries",
+  "filling",
+  "crown",
+  "rct",
+  "missing",
+  "extraction",
+  "mobility",
+  "fracture",
+];
 
 export function defaultStatusFor(item: CatalogueItem): FindingStatus {
   return item.statuses.includes("existing") ? "existing" : item.statuses[0];
 }
 
-export function searchCatalogue(query: string, catalogue = FINDING_CATALOGUE): CatalogueItem[] {
+export function searchCatalogue(
+  query: string,
+  catalogue = FINDING_CATALOGUE
+): CatalogueItem[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  return catalogue.filter((c) => `${c.label} ${c.short ?? ""} ${c.synonyms}`.toLowerCase().includes(q));
+  return catalogue.filter((c) =>
+    `${c.label} ${c.short ?? ""} ${c.synonyms}`.toLowerCase().includes(q)
+  );
 }
 
 /* ------------------------------------------------------------------ */
 /* Teeth, numbering and names                                          */
 /* ------------------------------------------------------------------ */
 
-export const UPPER_PERMANENT: ToothId[] = ["18", "17", "16", "15", "14", "13", "12", "11", "21", "22", "23", "24", "25", "26", "27", "28"];
-export const LOWER_PERMANENT: ToothId[] = ["48", "47", "46", "45", "44", "43", "42", "41", "31", "32", "33", "34", "35", "36", "37", "38"];
-export const UPPER_PRIMARY: ToothId[] = ["55", "54", "53", "52", "51", "61", "62", "63", "64", "65"];
-export const LOWER_PRIMARY: ToothId[] = ["85", "84", "83", "82", "81", "71", "72", "73", "74", "75"];
+export const UPPER_PERMANENT: ToothId[] = [
+  "18",
+  "17",
+  "16",
+  "15",
+  "14",
+  "13",
+  "12",
+  "11",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+];
+export const LOWER_PERMANENT: ToothId[] = [
+  "48",
+  "47",
+  "46",
+  "45",
+  "44",
+  "43",
+  "42",
+  "41",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+];
+export const UPPER_PRIMARY: ToothId[] = [
+  "55",
+  "54",
+  "53",
+  "52",
+  "51",
+  "61",
+  "62",
+  "63",
+  "64",
+  "65",
+];
+export const LOWER_PRIMARY: ToothId[] = [
+  "85",
+  "84",
+  "83",
+  "82",
+  "81",
+  "71",
+  "72",
+  "73",
+  "74",
+  "75",
+];
 
-const PERMANENT_NAMES = ["", "central incisor", "lateral incisor", "canine", "first premolar", "second premolar", "first molar", "second molar", "third molar"];
-const PRIMARY_NAMES = ["", "central incisor", "lateral incisor", "canine", "first molar", "second molar"];
+const PERMANENT_NAMES = [
+  "",
+  "central incisor",
+  "lateral incisor",
+  "canine",
+  "first premolar",
+  "second premolar",
+  "first molar",
+  "second molar",
+  "third molar",
+];
+const PRIMARY_NAMES = [
+  "",
+  "central incisor",
+  "lateral incisor",
+  "canine",
+  "first molar",
+  "second molar",
+];
 const QUADRANT_NAMES: Record<number, string> = {
-  1: "Upper right", 2: "Upper left", 3: "Lower left", 4: "Lower right",
-  5: "Upper right", 6: "Upper left", 7: "Lower left", 8: "Lower right",
+  1: "Upper right",
+  2: "Upper left",
+  3: "Lower left",
+  4: "Lower right",
+  5: "Upper right",
+  6: "Upper left",
+  7: "Lower left",
+  8: "Lower right",
 };
 
 export function isValidToothId(id: string): boolean {
@@ -182,10 +350,20 @@ export function toothInfo(id: ToothId): ToothInfo {
   const upper = q === 1 || q === 2 || q === 5 || q === 6;
   const viewerLeft = q === 1 || q === 4 || q === 5 || q === 8;
   const template = (primary ? (upper ? "5" : "7") : upper ? "1" : "3") + p;
-  const shortName = (primary ? "primary " : "") + (primary ? PRIMARY_NAMES[p] : PERMANENT_NAMES[p]);
+  const shortName =
+    (primary ? "primary " : "") +
+    (primary ? PRIMARY_NAMES[p] : PERMANENT_NAMES[p]);
   return {
-    id, quadrant: q, position: p, primary, upper, viewerLeft, anterior: p <= 3, template,
-    name: `${QUADRANT_NAMES[q]} ${shortName}`, shortName,
+    id,
+    quadrant: q,
+    position: p,
+    primary,
+    upper,
+    viewerLeft,
+    anterior: p <= 3,
+    template,
+    name: `${QUADRANT_NAMES[q]} ${shortName}`,
+    shortName,
     quad: (((q - 1) % 4) + 1) as 1 | 2 | 3 | 4,
   };
 }
@@ -212,12 +390,18 @@ export function toothLabel(id: ToothId, numbering: Numbering): string {
 /** "Buccal" for posterior, "Labial" for anterior; "Palatal" upper, "Lingual" lower. */
 export function surfaceName(s: Surface, t: ToothInfo): string {
   switch (s) {
-    case "M": return "Mesial";
-    case "D": return "Distal";
-    case "O": return "Occlusal";
-    case "I": return "Incisal";
-    case "B": return t.anterior ? "Labial" : "Buccal";
-    case "L": return t.upper ? "Palatal" : "Lingual";
+    case "M":
+      return "Mesial";
+    case "D":
+      return "Distal";
+    case "O":
+      return "Occlusal";
+    case "I":
+      return "Incisal";
+    case "B":
+      return t.anterior ? "Labial" : "Buccal";
+    case "L":
+      return t.upper ? "Palatal" : "Lingual";
   }
 }
 
@@ -229,7 +413,10 @@ export function surfacesFor(t: ToothInfo): Surface[] {
 const SURFACE_ORDER: Surface[] = ["M", "O", "I", "D", "B", "L"];
 
 /** Dedupe, map O<->I for the tooth type, and sort M O/I D B L. */
-export function normaliseSurfaces(list: readonly string[], anterior: boolean): Surface[] {
+export function normaliseSurfaces(
+  list: readonly string[],
+  anterior: boolean
+): Surface[] {
   const out: Surface[] = [];
   for (const raw of list) {
     let s = raw as Surface;
@@ -237,7 +424,9 @@ export function normaliseSurfaces(list: readonly string[], anterior: boolean): S
     if (!anterior && s === "I") s = "O";
     if (!out.includes(s)) out.push(s);
   }
-  return out.sort((a, b) => SURFACE_ORDER.indexOf(a) - SURFACE_ORDER.indexOf(b));
+  return out.sort(
+    (a, b) => SURFACE_ORDER.indexOf(a) - SURFACE_ORDER.indexOf(b)
+  );
 }
 
 /** Permanent position -> primary predecessor ("15" -> "55"); null for molars 6–8. */
@@ -265,7 +454,10 @@ export function dentitionForAge(ageYears: number): Dentition {
 
 export function slotsFor(arch: Arch, cfg: DentitionConfig): Slot[] {
   if (cfg.dentition === "primary") {
-    return (arch === "upper" ? UPPER_PRIMARY : LOWER_PRIMARY).map((t) => ({ pos: t, tooth: t }));
+    return (arch === "upper" ? UPPER_PRIMARY : LOWER_PRIMARY).map((t) => ({
+      pos: t,
+      tooth: t,
+    }));
   }
   let list = arch === "upper" ? UPPER_PERMANENT : LOWER_PERMANENT;
   if (cfg.hideThirdMolars) list = list.filter((t) => t[1] !== "8");
@@ -288,7 +480,9 @@ export function displayOrder(cfg: DentitionConfig): ToothId[] {
 }
 
 export function isPresent(key: ToothId, cfg: DentitionConfig): boolean {
-  const hit = [...slotsFor("upper", cfg), ...slotsFor("lower", cfg)].find((s) => slotKey(s) === key);
+  const hit = [...slotsFor("upper", cfg), ...slotsFor("lower", cfg)].find(
+    (s) => slotKey(s) === key
+  );
   return hit ? hit.tooth !== null : true;
 }
 
@@ -316,42 +510,76 @@ export interface DentalSelection {
   anchor: ToothId | null;
 }
 
-export const EMPTY_SELECTION: DentalSelection = { teeth: [], surfaces: {}, anchor: null };
+export const EMPTY_SELECTION: DentalSelection = {
+  teeth: [],
+  surfaces: {},
+  anchor: null,
+};
 
 export interface ClickModifiers {
   shift?: boolean;
   toggle?: boolean; // Cmd/Ctrl
 }
 
-export function selectTooth(sel: DentalSelection, key: ToothId, order: ToothId[], mod: ClickModifiers = {}): DentalSelection {
+export function selectTooth(
+  sel: DentalSelection,
+  key: ToothId,
+  order: ToothId[],
+  mod: ClickModifiers = {}
+): DentalSelection {
   if (mod.shift && sel.anchor && order.includes(sel.anchor)) {
     const a = order.indexOf(sel.anchor);
     const b = order.indexOf(key);
-    return { teeth: order.slice(Math.min(a, b), Math.max(a, b) + 1), surfaces: {}, anchor: sel.anchor };
+    return {
+      teeth: order.slice(Math.min(a, b), Math.max(a, b) + 1),
+      surfaces: {},
+      anchor: sel.anchor,
+    };
   }
   if (mod.toggle) {
     const surfaces = { ...sel.surfaces };
     delete surfaces[key];
-    const teeth = sel.teeth.includes(key) ? sel.teeth.filter((k) => k !== key) : [...sel.teeth, key];
+    const teeth = sel.teeth.includes(key)
+      ? sel.teeth.filter((k) => k !== key)
+      : [...sel.teeth, key];
     return { teeth, surfaces, anchor: key };
   }
-  return { teeth: [key], surfaces: sel.teeth[0] === key && sel.teeth.length === 1 ? sel.surfaces : {}, anchor: key };
+  return {
+    teeth: [key],
+    surfaces:
+      sel.teeth[0] === key && sel.teeth.length === 1 ? sel.surfaces : {},
+    anchor: key,
+  };
 }
 
-export function toggleSurface(sel: DentalSelection, key: ToothId, surface: Surface, mod: ClickModifiers = {}): DentalSelection {
+export function toggleSurface(
+  sel: DentalSelection,
+  key: ToothId,
+  surface: Surface,
+  mod: ClickModifiers = {}
+): DentalSelection {
   const t = toothInfo(key);
   const s = normaliseSurfaces([surface], t.anterior)[0];
-  const current = sel.teeth.includes(key) ? sel.surfaces[key] ?? [] : [];
-  const next = current.includes(s) ? current.filter((x) => x !== s) : normaliseSurfaces([...current, s], t.anterior);
+  const current = sel.teeth.includes(key) ? (sel.surfaces[key] ?? []) : [];
+  const next = current.includes(s)
+    ? current.filter((x) => x !== s)
+    : normaliseSurfaces([...current, s], t.anterior);
   const keep = mod.shift || mod.toggle;
   const surfaces = keep ? { ...sel.surfaces } : {};
   if (next.length) surfaces[key] = next;
   else delete surfaces[key];
-  const teeth = keep ? (sel.teeth.includes(key) ? sel.teeth : [...sel.teeth, key]) : [key];
+  const teeth = keep
+    ? sel.teeth.includes(key)
+      ? sel.teeth
+      : [...sel.teeth, key]
+    : [key];
   return { teeth, surfaces, anchor: key };
 }
 
-export function quickSelect(kind: "upper" | "lower" | 1 | 2 | 3 | 4 | "all", cfg: DentitionConfig): ToothId[] {
+export function quickSelect(
+  kind: "upper" | "lower" | 1 | 2 | 3 | 4 | "all",
+  cfg: DentitionConfig
+): ToothId[] {
   return displayOrder(cfg).filter((k) => {
     if (!isPresent(k, cfg)) return false;
     const t = toothInfo(k);
@@ -363,7 +591,11 @@ export function quickSelect(kind: "upper" | "lower" | 1 | 2 | 3 | 4 | "all", cfg
 }
 
 /** Keyboard navigation inside the chart grid. */
-export function neighbour(key: ToothId, dir: "left" | "right" | "up" | "down", cfg: DentitionConfig): ToothId {
+export function neighbour(
+  key: ToothId,
+  dir: "left" | "right" | "up" | "down",
+  cfg: DentitionConfig
+): ToothId {
   const up = slotsFor("upper", cfg).map(slotKey);
   const lo = slotsFor("lower", cfg).map(slotKey);
   const row = up.includes(key) ? up : lo;
@@ -371,7 +603,9 @@ export function neighbour(key: ToothId, dir: "left" | "right" | "up" | "down", c
   if (dir === "left") return row[Math.max(0, i - 1)];
   if (dir === "right") return row[Math.min(row.length - 1, i + 1)];
   const other = row === up ? lo : up;
-  return other[Math.round((i / Math.max(1, row.length - 1)) * (other.length - 1))];
+  return other[
+    Math.round((i / Math.max(1, row.length - 1)) * (other.length - 1))
+  ];
 }
 
 /* ------------------------------------------------------------------ */
@@ -410,7 +644,7 @@ export function applyFinding(
   teeth: ToothId[],
   perToothSurfaces: Record<ToothId, Surface[]>,
   draft: FindingDraft,
-  ctx: ApplyContext,
+  ctx: ApplyContext
 ): ApplyResult {
   const item = CATALOGUE_BY_KEY[draft.key];
   if (!item) throw new Error(`Unknown finding key: ${draft.key}`);
@@ -418,12 +652,22 @@ export function applyFinding(
   const applied: ToothId[] = [];
   const skipped: ToothId[] = [];
   for (const k of teeth) {
-    if (!isPresent(k, ctx.cfg)) { skipped.push(k); continue; }
+    if (!isPresent(k, ctx.cfg)) {
+      skipped.push(k);
+      continue;
+    }
     const t = toothInfo(k);
     const own = perToothSurfaces[k];
-    const surfaces = item.needsSurfaces ? normaliseSurfaces(own?.length ? own : draft.surfaces, t.anterior) : [];
-    if (item.needsSurfaces && !surfaces.length) { skipped.push(k); continue; }
-    const i = out.findIndex((f) => f.tooth === k && f.key === draft.key && f.status === draft.status);
+    const surfaces = item.needsSurfaces
+      ? normaliseSurfaces(own?.length ? own : draft.surfaces, t.anterior)
+      : [];
+    if (item.needsSurfaces && !surfaces.length) {
+      skipped.push(k);
+      continue;
+    }
+    const i = out.findIndex(
+      (f) => f.tooth === k && f.key === draft.key && f.status === draft.status
+    );
     if (i >= 0) {
       const f = out[i];
       out[i] = {
@@ -436,8 +680,16 @@ export function applyFinding(
       };
     } else {
       out.push({
-        id: ctx.newId(), tooth: k, key: draft.key, status: draft.status, surfaces,
-        material: draft.material, grade: draft.grade, note: "", visit: ctx.visit, by: ctx.by,
+        id: ctx.newId(),
+        tooth: k,
+        key: draft.key,
+        status: draft.status,
+        surfaces,
+        material: draft.material,
+        grade: draft.grade,
+        note: "",
+        visit: ctx.visit,
+        by: ctx.by,
       });
     }
     applied.push(k);
@@ -445,22 +697,41 @@ export function applyFinding(
   return { findings: out, applied, skipped };
 }
 
-export function updateFinding(findings: DentalFinding[], id: string, patch: Partial<DentalFinding>, stamp?: { visit: string; by: string }): DentalFinding[] {
-  return findings.map((f) => (f.id === id ? { ...f, ...patch, ...(stamp ?? {}) } : f));
+export function updateFinding(
+  findings: DentalFinding[],
+  id: string,
+  patch: Partial<DentalFinding>,
+  stamp?: { visit: string; by: string }
+): DentalFinding[] {
+  return findings.map((f) =>
+    f.id === id ? { ...f, ...patch, ...(stamp ?? {}) } : f
+  );
 }
 
-export function removeFinding(findings: DentalFinding[], id: string): DentalFinding[] {
+export function removeFinding(
+  findings: DentalFinding[],
+  id: string
+): DentalFinding[] {
   return findings.filter((f) => f.id !== id);
 }
 
-export function groupByTooth(findings: DentalFinding[]): Record<ToothId, DentalFinding[]> {
+export function groupByTooth(
+  findings: DentalFinding[]
+): Record<ToothId, DentalFinding[]> {
   const out: Record<ToothId, DentalFinding[]> = {};
   for (const f of findings) (out[f.tooth] ??= []).push(f);
   return out;
 }
 
-export function countByStatus(findings: DentalFinding[]): Record<FindingStatus, number> {
-  const c: Record<FindingStatus, number> = { condition: 0, existing: 0, planned: 0, completed: 0 };
+export function countByStatus(
+  findings: DentalFinding[]
+): Record<FindingStatus, number> {
+  const c: Record<FindingStatus, number> = {
+    condition: 0,
+    existing: 0,
+    planned: 0,
+    completed: 0,
+  };
   for (const f of findings) c[f.status]++;
   return c;
 }
@@ -474,7 +745,8 @@ export function findingTitle(f: DentalFinding): string {
   return t;
 }
 
-export const findingLine = (f: DentalFinding) => findingTitle(f) + (f.surfaces.length ? ` ${surfaceText(f)}` : "");
+export const findingLine = (f: DentalFinding) =>
+  findingTitle(f) + (f.surfaces.length ? ` ${surfaceText(f)}` : "");
 
 /* ------------------------------------------------------------------ */
 /* Visits: diff and unsaved changes                                    */
@@ -488,30 +760,52 @@ export interface VisitDiff {
 }
 
 /** Compare the current chart with the previous visit. Findings are matched by id. */
-export function diffVisits(previous: DentalFinding[], current: DentalFinding[]): VisitDiff {
+export function diffVisits(
+  previous: DentalFinding[],
+  current: DentalFinding[]
+): VisitDiff {
   const res: VisitDiff = { byId: {}, teeth: {}, removed: [] };
   const prev = new Map(previous.map((f) => [f.id, f]));
   const cur = new Set(current.map((f) => f.id));
   for (const f of current) {
     const p = prev.get(f.id);
-    if (!p) { res.byId[f.id] = "new"; res.teeth[f.tooth] = true; continue; }
-    if (p.status !== f.status || surfaceText(p) !== surfaceText(f) || p.material !== f.material || p.grade !== f.grade || p.tooth !== f.tooth) {
+    if (!p) {
+      res.byId[f.id] = "new";
+      res.teeth[f.tooth] = true;
+      continue;
+    }
+    if (
+      p.status !== f.status ||
+      surfaceText(p) !== surfaceText(f) ||
+      p.material !== f.material ||
+      p.grade !== f.grade ||
+      p.tooth !== f.tooth
+    ) {
       res.byId[f.id] = "changed";
       res.teeth[f.tooth] = true;
     }
   }
-  for (const f of previous) if (!cur.has(f.id)) { res.removed.push(f); res.teeth[f.tooth] = true; }
+  for (const f of previous)
+    if (!cur.has(f.id)) {
+      res.removed.push(f);
+      res.teeth[f.tooth] = true;
+    }
   return res;
 }
 
 export function countUnsaved(
-  baseline: DentalFinding[], current: DentalFinding[],
-  baseSlots: Record<ToothId, SlotState> = {}, slots: Record<ToothId, SlotState> = {},
+  baseline: DentalFinding[],
+  current: DentalFinding[],
+  baseSlots: Record<ToothId, SlotState> = {},
+  slots: Record<ToothId, SlotState> = {}
 ): number {
   const base = new Map(baseline.map((f) => [f.id, JSON.stringify(f)]));
   const ids = new Set<string>();
   let n = 0;
-  for (const f of current) { ids.add(f.id); if (base.get(f.id) !== JSON.stringify(f)) n++; }
+  for (const f of current) {
+    ids.add(f.id);
+    if (base.get(f.id) !== JSON.stringify(f)) n++;
+  }
   for (const f of baseline) if (!ids.has(f.id)) n++;
   for (const k of new Set([...Object.keys(slots), ...Object.keys(baseSlots)])) {
     if ((slots[k] ?? "perm") !== (baseSlots[k] ?? "perm")) n++;
@@ -523,17 +817,35 @@ export function countUnsaved(
 /* Clinical warnings                                                   */
 /* ------------------------------------------------------------------ */
 
-export type PatientAlertKind = "anticoagulant" | "diabetes" | "allergy" | "other";
-export interface PatientAlert { label: string; kind: PatientAlertKind }
+export type PatientAlertKind =
+  | "anticoagulant"
+  | "diabetes"
+  | "allergy"
+  | "other";
+export interface PatientAlert {
+  label: string;
+  kind: PatientAlertKind;
+}
 
 /** Soft warnings shown before planned surgery (extraction, implant). */
-export function surgeryWarnings(findings: DentalFinding[], alerts: PatientAlert[], where: string): string[] {
-  const surgery = findings.some((f) => (f.key === "extraction" || f.key === "implant") && f.status === "planned");
+export function surgeryWarnings(
+  findings: DentalFinding[],
+  alerts: PatientAlert[],
+  where: string
+): string[] {
+  const surgery = findings.some(
+    (f) =>
+      (f.key === "extraction" || f.key === "implant") && f.status === "planned"
+  );
   if (!surgery) return [];
   const out: string[] = [];
   const anticoag = alerts.find((a) => a.kind === "anticoagulant");
-  if (anticoag) out.push(`${anticoag.label} on record. Check INR and plan haemostasis before surgery on ${where}.`);
-  if (alerts.some((a) => a.kind === "diabetes")) out.push("Diabetes on record. Check blood glucose before surgery.");
+  if (anticoag)
+    out.push(
+      `${anticoag.label} on record. Check INR and plan haemostasis before surgery on ${where}.`
+    );
+  if (alerts.some((a) => a.kind === "diabetes"))
+    out.push("Diabetes on record. Check blood glucose before surgery.");
   return out;
 }
 
@@ -576,7 +888,11 @@ export interface ToothRenderModel {
     crownRing: string;
     crownStatus: FindingStatus | null;
     /** Five clickable surface regions. `status` is the fill to show, if any. */
-    surfaces: { surface: Surface; path: string; status: FindingStatus | null }[];
+    surfaces: {
+      surface: Surface;
+      path: string;
+      status: FindingStatus | null;
+    }[];
     /** Label anchor per surface, already transformed into viewBox space. */
     labels: Record<Surface, [number, number] | undefined>;
     /** Suggested label font size in viewBox units. */
@@ -584,46 +900,75 @@ export interface ToothRenderModel {
   };
 }
 
-function mirrorFlip(vb: [number, number, number, number], t: ToothInfo): string {
+function mirrorFlip(
+  vb: [number, number, number, number],
+  t: ToothInfo
+): string {
   const parts: string[] = [];
-  if (!t.viewerLeft) parts.push(`translate(${2 * vb[0] + vb[2]} 0) scale(-1 1)`);
+  if (!t.viewerLeft)
+    parts.push(`translate(${2 * vb[0] + vb[2]} 0) scale(-1 1)`);
   if (!t.upper) parts.push(`translate(0 ${2 * vb[1] + vb[3]}) scale(1 -1)`);
   return parts.join(" ");
 }
 
-function mapPoint(x: number, y: number, vb: [number, number, number, number], t: ToothInfo): [number, number] {
-  return [t.viewerLeft ? x : 2 * vb[0] + vb[2] - x, t.upper ? y : 2 * vb[1] + vb[3] - y];
+function mapPoint(
+  x: number,
+  y: number,
+  vb: [number, number, number, number],
+  t: ToothInfo
+): [number, number] {
+  return [
+    t.viewerLeft ? x : 2 * vb[0] + vb[2] - x,
+    t.upper ? y : 2 * vb[1] + vb[3] - y,
+  ];
 }
 
-const toVB = (v: readonly (string | number)[]) => v.map(Number) as [number, number, number, number];
+const toVB = (v: readonly (string | number)[]) =>
+  v.map(Number) as [number, number, number, number];
 
 /**
  * Turn a tooth's findings into SVG path data. The geometry templates are drawn for the
  * patient's-right side with mesial facing +x and buccal facing -y; this function applies
  * the mirror/flip so every tooth reads correctly in its quadrant.
  */
-export function buildToothModel(id: ToothId, findings: DentalFinding[], geometry: ToothGeometryMap): ToothRenderModel {
+export function buildToothModel(
+  id: ToothId,
+  findings: DentalFinding[],
+  geometry: ToothGeometryMap
+): ToothRenderModel {
   const t = toothInfo(id);
   const g: ToothGeometry | undefined = geometry[t.template];
   if (!g) throw new Error(`No geometry for template ${t.template}`);
   const sv = g.side;
   const ov = g.occlusal;
-  const has = (k: string, st?: FindingStatus) => findings.some((f) => f.key === k && (!st || f.status === st));
+  const has = (k: string, st?: FindingStatus) =>
+    findings.some((f) => f.key === k && (!st || f.status === st));
   const missing = has("missing") || has("extraction", "completed");
   const implant = has("implant");
   const rct = has("rct");
 
-  const fills: Record<FindingStatus, string[]> = { condition: [], existing: [], planned: [], completed: [] };
+  const fills: Record<FindingStatus, string[]> = {
+    condition: [],
+    existing: [],
+    planned: [],
+    completed: [],
+  };
   const threads: string[] = [];
   const fracture: string[] = [];
   let cross = "";
   let crossStatus: ToothRenderModel["side"]["crossStatus"] = null;
   let crownRing = "";
   let crownStatus: FindingStatus | null = null;
-  const surfaceFill: Partial<Record<"M" | "D" | "B" | "L" | "C", FindingStatus>> = {};
+  const surfaceFill: Partial<
+    Record<"M" | "D" | "B" | "L" | "C", FindingStatus>
+  > = {};
 
   // Draw lower-priority statuses first so a condition always ends on top.
-  const ordered = findings.slice().sort((a, b) => STATUS_ORDER.indexOf(b.status) - STATUS_ORDER.indexOf(a.status));
+  const ordered = findings
+    .slice()
+    .sort(
+      (a, b) => STATUS_ORDER.indexOf(b.status) - STATUS_ORDER.indexOf(a.status)
+    );
   for (const f of ordered) {
     const bucket = fills[f.status];
     switch (f.key) {
@@ -634,8 +979,10 @@ export function buildToothModel(id: ToothId, findings: DentalFinding[], geometry
           const sideKey = s === "I" ? "O" : s;
           const d = src[sideKey as keyof typeof src];
           if (d) bucket.push(d);
-          const occKey = s === "O" || s === "I" ? "C" : (s as "M" | "D" | "B" | "L");
-          if (!surfaceFill[occKey] || f.key === "caries") surfaceFill[occKey] = f.status;
+          const occKey =
+            s === "O" || s === "I" ? "C" : (s as "M" | "D" | "B" | "L");
+          if (!surfaceFill[occKey] || f.key === "caries")
+            surfaceFill[occKey] = f.status;
         }
         break;
       }
@@ -644,14 +991,33 @@ export function buildToothModel(id: ToothId, findings: DentalFinding[], geometry
         crownRing = ov.outline.join(" ");
         crownStatus = f.status;
         break;
-      case "rct": if (sv.rootCanal) bucket.push(sv.rootCanal); break;
-      case "post": if (sv.post) bucket.push(sv.post); break;
-      case "veneer": if (sv.veneer) bucket.push(sv.veneer); break;
-      case "implant": bucket.push(sv.implant); threads.push(sv.implantThreads); break;
-      case "periapical": if (sv.periapical) bucket.push(sv.periapical); break;
-      case "fracture": fracture.push(sv.fracture.join(" ")); break;
-      case "missing": cross = sv.cross; crossStatus = "missing"; break;
-      case "extraction": cross = sv.cross; crossStatus = f.status; break;
+      case "rct":
+        if (sv.rootCanal) bucket.push(sv.rootCanal);
+        break;
+      case "post":
+        if (sv.post) bucket.push(sv.post);
+        break;
+      case "veneer":
+        if (sv.veneer) bucket.push(sv.veneer);
+        break;
+      case "implant":
+        bucket.push(sv.implant);
+        threads.push(sv.implantThreads);
+        break;
+      case "periapical":
+        if (sv.periapical) bucket.push(sv.periapical);
+        break;
+      case "fracture":
+        fracture.push(sv.fracture.join(" "));
+        break;
+      case "missing":
+        cross = sv.cross;
+        crossStatus = "missing";
+        break;
+      case "extraction":
+        cross = sv.cross;
+        crossStatus = f.status;
+        break;
     }
   }
 
@@ -670,12 +1036,18 @@ export function buildToothModel(id: ToothId, findings: DentalFinding[], geometry
   const order: Surface[] = ["B", "L", "M", "D", centre];
   const badges: string[] = [];
   for (const f of findings) {
-    if (f.key === "mobility") badges.push(`M${({ I: "1", II: "2", III: "3" } as Record<string, string>)[f.grade ?? "I"] ?? ""}`);
+    if (f.key === "mobility")
+      badges.push(
+        `M${({ I: "1", II: "2", III: "3" } as Record<string, string>)[f.grade ?? "I"] ?? ""}`
+      );
     if (f.key === "impacted") badges.push("IMP");
   }
 
   return {
-    id, info: t, missing, badges,
+    id,
+    info: t,
+    missing,
+    badges,
     completedToday: findings.some((f) => f.status === "completed"),
     side: {
       viewBox: svb,
@@ -691,19 +1063,26 @@ export function buildToothModel(id: ToothId, findings: DentalFinding[], geometry
       },
       implantThreads: threads.join(" "),
       fracture: fracture.join(" "),
-      cross, crossStatus, implant: implant && !missing,
+      cross,
+      crossStatus,
+      implant: implant && !missing,
     },
     occlusal: {
       viewBox: ovb,
       transform: mirrorFlip(ovb, t),
       outline: ov.outline.join(" "),
       detail: missing ? "" : ov.detail.join(" "),
-      crownRing, crownStatus,
-      surfaces: missing ? [] : order.map((s) => ({
-        surface: s,
-        path: ov.surfaces[s] ?? "",
-        status: surfaceFill[s === centre ? "C" : (s as "M" | "D" | "B" | "L")] ?? null,
-      })),
+      crownRing,
+      crownStatus,
+      surfaces: missing
+        ? []
+        : order.map((s) => ({
+            surface: s,
+            path: ov.surfaces[s] ?? "",
+            status:
+              surfaceFill[s === centre ? "C" : (s as "M" | "D" | "B" | "L")] ??
+              null,
+          })),
       labels,
       labelSize: Math.max(2.2, Math.min(Rx, Ry) * 0.3),
     },
