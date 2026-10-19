@@ -613,17 +613,17 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
   return (
     <div
       className={cn(
-        "bg-primary flex flex-col overflow-hidden px-0.5 pt-0.5",
+        "bg-primary flex flex-col overflow-hidden bg-linear-to-b from-primary via-primary-700 via-90% to-primary to-98% px-0.5 pt-0.5",
         fullPage ? "h-dvh" : "min-h-180"
       )}
     >
-      <main className="border-primary bg-background relative isolate flex min-h-0 flex-1 flex-col items-center gap-4 overflow-x-hidden overflow-y-auto rounded-t-md rounded-b-2xl border-2 p-2 md:px-4 md:pt-12 md:pb-6">
+      <main className="border-primary border-b-primary-900 bg-background relative isolate flex min-h-0 flex-1 flex-col items-center gap-4 overflow-x-hidden overflow-y-auto rounded-t-md rounded-b-2xl border-2 p-2 md:px-4 md:pt-12 md:pb-6">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-primary)_1px,transparent_1px)] bg-size-[16px_16px] opacity-10"
         />
         <PixelCanvas variant="care" className="absolute inset-0 z-0" />
-        <div className="relative z-10 flex w-full max-w-xl flex-1 flex-col items-center justify-start gap-2">
+        <div className="relative z-10 flex w-full max-w-xl flex-col items-center justify-start gap-2">
           <Tabs
             value={formMode}
             onValueChange={(value) => {
@@ -744,7 +744,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                           aria-hidden="true"
                           width={40}
                           height={40}
-                          className="mt-1 size-10 shrink-0"
+                            className="mt-1 size-10 shrink-0"
                         />
                       </header>
 
@@ -1071,15 +1071,23 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
           <div className="flex items-center justify-center gap-6">
             <a
               href="https://ohc.network"
-              className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4"
+              className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4 hover:contrast-125"
             >
               <img
-                src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-light-dualtone-gray.svg"
+                src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-light-gradient-color.svg"
                 alt="Open Healthcare Network"
                 width={2000}
-                height={620}
+                height={520}
                 loading="lazy"
-                className="h-auto w-32 grayscale dark:invert"
+                className="h-auto w-24 dark:hidden"
+              />
+              <img
+                src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-color-icon-on-dark.svg"
+                alt="Open Healthcare Network"
+                width={2000}
+                height={520}
+                loading="lazy"
+                className="hidden h-auto w-24 dark:block"
               />
             </a>
             <Separator
@@ -1088,16 +1096,22 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
               className="h-10 data-vertical:self-center"
             />
             <a
-              href="https://www.digitalpublicgoods.net"
-              className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4"
+              href="https://ohc.network/product/care-core"
+              className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4 hover:contrast-125"
             >
               <img
-                src="/DPG_logo.svg"
-                alt="Digital Public Goods"
-                width={90.9}
-                height={69.1}
-                loading="lazy"
-                className="h-12 w-auto grayscale dark:invert"
+                src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light.svg"
+                alt="Care"
+                width={2000}
+                height={520}
+                className="h-auto w-20 dark:hidden"
+              />
+              <img
+                src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-color-icon-on-dark.svg"
+                alt="Care"
+                width={2000}
+                height={520}
+                className="hidden h-auto w-20 dark:block"
               />
             </a>
           </div>
