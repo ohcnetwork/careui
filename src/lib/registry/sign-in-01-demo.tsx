@@ -613,7 +613,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
   return (
     <div
       className={cn(
-        "bg-primary flex flex-col overflow-hidden bg-linear-to-b from-primary via-primary-700 via-90% to-primary to-98% px-0.5 pt-0.5",
+        "bg-primary from-primary via-primary-700 to-primary flex flex-col overflow-hidden bg-linear-to-b via-90% to-98% px-0.5 pt-0.5",
         fullPage ? "h-dvh" : "min-h-180"
       )}
     >
@@ -744,7 +744,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                           aria-hidden="true"
                           width={40}
                           height={40}
-                            className="mt-1 size-10 shrink-0"
+                          className="mt-1 size-10 shrink-0"
                         />
                       </header>
 
@@ -1071,7 +1071,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
           <div className="flex items-center justify-center gap-6">
             <a
               href="https://ohc.network"
-              className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4 hover:contrast-125"
+              className="focus-visible:outline-ring hover:contrast-125 focus-visible:outline-2 focus-visible:outline-offset-4"
             >
               <img
                 src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-light-gradient-color.svg"
@@ -1097,7 +1097,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
             />
             <a
               href="https://ohc.network/product/care-core"
-              className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4 hover:contrast-125"
+              className="focus-visible:outline-ring hover:contrast-125 focus-visible:outline-2 focus-visible:outline-offset-4"
             >
               <img
                 src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light.svg"

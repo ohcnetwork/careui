@@ -3986,7 +3986,9 @@ export function MedicationRequestTemplate() {
                           {activeRequester && (
                             <>
                               <Avatar size="sm">
-                                <AvatarFallback color={activeRequester.avatarColor}>
+                                <AvatarFallback
+                                  color={activeRequester.avatarColor}
+                                >
                                   {activeRequester.initials}
                                 </AvatarFallback>
                               </Avatar>
