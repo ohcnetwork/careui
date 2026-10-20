@@ -1,0 +1,13 @@
+{
+  "name": "voice-waveform",
+  "type": "registry:ui",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/care-ui/voice-waveform/voice-waveform.tsx",
+      "content": "/**\n * @name voice-waveform\n * @description An animated equalizer that signals active listening or recording. Runs as a CSS-only loop, or follows live audio when you pass `levels`.\n * @dependencies\n * @type registry:ui\n */\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\nconst VOICE_WAVEFORM_CSS = `\n@keyframes voice-waveform-bar {\n  0%, 100% { transform: scaleY(0.35); }\n  50% { transform: scaleY(1); }\n}\n[data-slot=\"voice-waveform-bar\"] {\n  transform-origin: bottom;\n  animation: voice-waveform-bar 0.9s ease-in-out infinite;\n}\n@media (prefers-reduced-motion: reduce) {\n  [data-slot=\"voice-waveform-bar\"] { animation: none; transform: scaleY(0.7); }\n}\n:root[data-reduced-motion=\"true\"] [data-slot=\"voice-waveform-bar\"] { animation: none; transform: scaleY(0.7); }\n`;\n\nconst BAR_HEIGHTS = [10, 16, 22, 14, 24, 12, 20, 16, 10];\n\ninterface VoiceWaveformProps extends React.ComponentProps<\"div\"> {\n  /** Number of bars to render. */\n  bars?: number;\n  /** Optional live levels (0–1), one per bar. When set, bars follow them instead of looping. */\n  levels?: number[];\n}\n\nfunction VoiceWaveform({\n  bars = 9,\n  levels,\n  className,\n  ...props\n}: VoiceWaveformProps) {\n  return (\n    <div\n      data-slot=\"voice-waveform\"\n      aria-hidden=\"true\"\n      className={cn(\"text-destructive flex h-6 items-end gap-[3px]\", className)}\n      {...props}\n    >\n      <style href=\"care-ui-voice-waveform\" precedence=\"default\">\n        {VOICE_WAVEFORM_CSS}\n      </style>\n      {Array.from({ length: bars }).map((_, i) => {\n        const base = BAR_HEIGHTS[i % BAR_HEIGHTS.length];\n        const level = levels?.[i];\n        return (\n          <span\n            key={i}\n            data-slot=\"voice-waveform-bar\"\n            className=\"w-[3px] rounded-full bg-current\"\n            style={\n              level === undefined\n                ? {\n                    height: `${base}px`,\n                    animationDelay: `${(i % BAR_HEIGHTS.length) * 0.09}s`,\n                  }\n                : {\n                    height: `${Math.max(3, Math.min(1, level) * 24)}px`,\n                    animation: \"none\",\n                    transform: \"none\",\n                    transition: \"height 80ms linear\",\n                  }\n            }\n          />\n        );\n      })}\n    </div>\n  );\n}\n\nexport { VoiceWaveform };\n",
+      "type": "registry:component",
+      "target": "components/careui/voice-waveform.tsx"
+    }
+  ]
+}

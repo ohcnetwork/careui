@@ -4,6 +4,7 @@ import {
   ATOMIC_LEVEL_DESCRIPTIONS,
   ATOMIC_LEVEL_LABELS,
   ATOMIC_LEVEL_ORDER,
+  SCRIBE_COMPONENT_IDS,
   groupComponentIdsByLevel,
 } from "@/lib/component-categories";
 import {
@@ -342,6 +343,41 @@ const componentMetadata: Record<
       "Composable digital signage layout for TVs (queue boards, room rosters).",
     examples: 1,
   },
+  "shiny-button": {
+    name: "Shiny Button",
+    description: "Animated call-to-action with a rotating gradient border.",
+    examples: 3,
+  },
+  "voice-waveform": {
+    name: "Voice Waveform",
+    description: "Animated equalizer for listening and recording states.",
+    examples: 3,
+  },
+  "keyboard-shortcut": {
+    name: "Keyboard Shortcut",
+    description: "Key combinations rendered as joined keycaps.",
+    examples: 2,
+  },
+  "stacked-grid": {
+    name: "Stacked Grid",
+    description: "Masonry-style layout with container-driven columns.",
+    examples: 1,
+  },
+  "scribe-status-badge": {
+    name: "Scribe Status Badge",
+    description: "Badge for the lifecycle of an AI scribe job.",
+    examples: 2,
+  },
+  "scribe-button": {
+    name: "Scribe Button",
+    description: "Voice-capture action button across the recording flow.",
+    examples: 2,
+  },
+  "scribe-intro": {
+    name: "Scribe Intro",
+    description: "First-run card introducing the scribe.",
+    examples: 1,
+  },
   typography: {
     name: "Typography",
     description:
@@ -351,6 +387,22 @@ const componentMetadata: Record<
 };
 
 const componentsByLevel = groupComponentIdsByLevel(getComponentIds());
+
+const overviewSections = [
+  ...ATOMIC_LEVEL_ORDER.map((level) => ({
+    key: level,
+    label: ATOMIC_LEVEL_LABELS[level],
+    description: ATOMIC_LEVEL_DESCRIPTIONS[level],
+    componentIds: componentsByLevel[level],
+  })),
+  {
+    key: "scribe",
+    label: "Scribe",
+    description:
+      "Voice and AI-scribe components: capture buttons, status badges, waveforms and the supporting layout pieces.",
+    componentIds: SCRIBE_COMPONENT_IDS,
+  },
+];
 
 export function ComponentsOverview() {
   const { setActiveComponent } = useNavigation();
@@ -382,15 +434,14 @@ export function ComponentsOverview() {
         </div>
 
         {/* Components grid, grouped by Atomic Design level */}
-        {ATOMIC_LEVEL_ORDER.map((level) => {
-          const componentIds = componentsByLevel[level];
+        {overviewSections.map(({ key, label, description, componentIds }) => {
           if (componentIds.length === 0) return null;
 
           return (
-            <section key={level} className="space-y-4">
+            <section key={key} className="space-y-4">
               <div className="space-y-1">
-                <SectionTitle>{ATOMIC_LEVEL_LABELS[level]}</SectionTitle>
-                <Muted>{ATOMIC_LEVEL_DESCRIPTIONS[level]}</Muted>
+                <SectionTitle>{label}</SectionTitle>
+                <Muted>{description}</Muted>
               </div>
               <div className="bg-soft-background grid grid-cols-1 gap-6 rounded-xl p-4 md:grid-cols-2 lg:grid-cols-3">
                 {componentIds.map((id) => {

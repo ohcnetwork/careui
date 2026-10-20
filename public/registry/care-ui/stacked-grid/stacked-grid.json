@@ -1,0 +1,13 @@
+{
+  "name": "stacked-grid",
+  "type": "registry:ui",
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/care-ui/stacked-grid/stacked-grid.tsx",
+      "content": "/**\n * @name stacked-grid\n * @description A masonry-style layout that deals items round-robin into balanced columns. The column count follows the container width.\n * @dependencies\n * @type registry:ui\n */\nimport * as React from \"react\";\n\nimport { cn } from \"@/lib/utils\";\n\ninterface StackedGridProps extends React.ComponentProps<\"div\"> {\n  items: React.ReactNode[];\n  /** Target width of one column, in px. */\n  columnWidth?: number;\n  /** Below this container width the grid collapses to a single column. */\n  singleColumnBelow?: number;\n}\n\nfunction StackedGrid({\n  items,\n  columnWidth = 300,\n  singleColumnBelow = 700,\n  className,\n  ...props\n}: StackedGridProps) {\n  const containerRef = React.useRef<HTMLDivElement>(null);\n  const [columnCount, setColumnCount] = React.useState(1);\n\n  React.useEffect(() => {\n    const container = containerRef.current;\n    if (!container) return;\n    const observer = new ResizeObserver(([entry]) => {\n      const width = entry.contentRect.width;\n      setColumnCount(\n        width > singleColumnBelow\n          ? Math.max(1, Math.floor(width / columnWidth))\n          : 1\n      );\n    });\n    observer.observe(container);\n    return () => observer.disconnect();\n  }, [columnWidth, singleColumnBelow]);\n\n  const columns = React.useMemo(() => {\n    const result: React.ReactNode[][] = Array.from(\n      { length: columnCount },\n      () => []\n    );\n    items.forEach((item, index) => result[index % columnCount].push(item));\n    return result.filter((column) => column.length > 0);\n  }, [items, columnCount]);\n\n  return (\n    <div\n      ref={containerRef}\n      data-slot=\"stacked-grid\"\n      className={cn(\"flex w-full justify-center gap-2\", className)}\n      {...props}\n    >\n      {columns.map((column, columnIndex) => (\n        <div\n          key={columnIndex}\n          data-slot=\"stacked-grid-column\"\n          className={cn(\n            \"flex flex-col gap-2\",\n            items.length > columns.length && \"flex-1\"\n          )}\n        >\n          {column.map((item, itemIndex) => (\n            <div key={itemIndex}>{item}</div>\n          ))}\n        </div>\n      ))}\n    </div>\n  );\n}\n\nexport { StackedGrid };\n",
+      "type": "registry:component",
+      "target": "components/careui/stacked-grid.tsx"
+    }
+  ]
+}

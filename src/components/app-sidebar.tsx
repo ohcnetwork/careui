@@ -9,6 +9,7 @@ import {
   ATOMIC_LEVEL_LABELS,
   ATOMIC_LEVEL_ORDER,
   groupComponentIdsByLevel,
+  SCRIBE_COMPONENT_IDS,
 } from "@/lib/component-categories";
 import { documentationPages } from "@/lib/documentation";
 import { TEMPLATES } from "@/components/templates/registry";
@@ -62,6 +63,13 @@ const data = {
           title: componentNames[id] || id,
         })),
     })),
+    {
+      title: "Components / Scribe",
+      items: SCRIBE_COMPONENT_IDS.map((id) => ({
+        id,
+        title: componentNames[id] || id,
+      })),
+    },
     {
       title: "Components / Templates",
       items: TEMPLATES.map(({ id, title }) => ({ id, title })),
