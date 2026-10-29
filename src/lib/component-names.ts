@@ -68,6 +68,7 @@ export const componentNames: Record<string, string> = {
   "matrix-spinner": "Matrix Spinner",
   switch: "Switch",
   table: "Table",
+  "tag-selector": "Tag Selector",
   tabs: "Tabs",
   textarea: "Textarea",
   toast: "Toast",

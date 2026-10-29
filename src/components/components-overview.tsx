@@ -164,6 +164,12 @@ const componentMetadata: Record<
     description: "Groups input fields with prefix and suffix elements.",
     examples: 3,
   },
+  "tag-selector": {
+    name: "Tag Selector",
+    description:
+      "Select multiple tags from a searchable dropdown and show them as badges.",
+    examples: 0,
+  },
   "input-otp": {
     name: "Input OTP",
     description:

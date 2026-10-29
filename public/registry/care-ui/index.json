@@ -77,6 +77,16 @@
     ]
   },
   {
+    "name": "tag-selector",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/tag-selector/tag-selector.tsx"
+    ]
+  },
+  {
     "name": "tabs",
     "type": "registry:ui",
     "dependencies": [

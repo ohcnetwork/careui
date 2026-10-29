@@ -41,7 +41,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
 
 const LANGUAGES = [
@@ -617,7 +616,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
         fullPage ? "h-dvh" : "min-h-180"
       )}
     >
-      <main className="border-primary border-b-primary-900 bg-background relative isolate flex min-h-0 flex-1 flex-col items-center gap-4 overflow-x-hidden overflow-y-auto rounded-t-md rounded-b-2xl border-2 p-2 md:px-4 md:pt-12 md:pb-6">
+      <main className="border-primary-900 dark:border-primary-600 bg-background relative isolate flex min-h-0 flex-1 flex-col items-center gap-4 overflow-x-hidden overflow-y-auto rounded-t-md rounded-b-2xl border-2 p-2 md:px-4 md:pt-12 md:pb-6">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-primary)_1px,transparent_1px)] bg-size-[16px_16px] opacity-10"
@@ -735,16 +734,20 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                           </p>
                         </div>
                         <img
-                          src={
-                            formMode === "staff"
-                              ? "/stethescope-icon-glass.svg"
-                              : "/patient-icon-glass.svg"
-                          }
+                          src="/brand-assets/uploads/Care-Logos/SVG/Care-Icon-on-light.svg"
                           alt=""
                           aria-hidden="true"
                           width={40}
                           height={40}
-                          className="mt-1 size-10 shrink-0"
+                          className="mt-1 size-8 shrink-0 dark:hidden"
+                        />
+                        <img
+                          src="/brand-assets/uploads/Care-Logos/SVG/Care-Icon-on-dark.svg"
+                          alt=""
+                          aria-hidden="true"
+                          width={40}
+                          height={40}
+                          className="mt-1 hidden size-8 shrink-0 dark:block"
                         />
                       </header>
 
@@ -996,7 +999,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
               aria-hidden="true"
               className="h-6 shrink-0 data-vertical:self-center"
             />
-            <div className="flex-1 md:hidden">
+            <div className="w-full md:w-48">
               <Select
                 value={language}
                 onValueChange={(value) => {
@@ -1026,33 +1029,10 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
                 </SelectContent>
               </Select>
             </div>
-            <ToggleGroup
-              aria-labelledby="sign-in-language-label"
-              value={[language]}
-              onValueChange={(values) => {
-                const selected = values[0];
-                if (typeof selected === "string") setLanguage(selected);
-              }}
-              spacing={1}
-              size="default"
-              className="hidden max-w-full flex-wrap justify-center md:flex"
-            >
-              {LANGUAGES.map((option) => (
-                <ToggleGroupItem
-                  key={option.value}
-                  value={option.value}
-                  lang={option.value}
-                  className="aria-pressed:border-input border border-transparent underline underline-offset-4 aria-pressed:no-underline"
-                >
-                  {language === option.value && <Check aria-hidden="true" />}
-                  {option.label}
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
           </section>
         </div>
         <footer className="text-muted-foreground relative z-10 mt-auto flex w-full max-w-2xl flex-col items-center gap-5 pt-2 text-center text-sm leading-6">
-          <p>
+          {/* <p>
             <a
               href="https://ohc.network"
               className="focus-visible:outline-ring font-semibold underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -1067,77 +1047,57 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
             >
               United Nations-recognised Digital Public Good.
             </a>
-          </p>
-          <div className="flex items-center justify-center gap-6">
-            <a
-              href="https://ohc.network"
-              className="focus-visible:outline-ring hover:contrast-125 focus-visible:outline-2 focus-visible:outline-offset-4"
-            >
-              <img
-                src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-light-gradient-color.svg"
-                alt="Open Healthcare Network"
-                width={2000}
-                height={520}
-                loading="lazy"
-                className="h-auto w-24 dark:hidden"
-              />
-              <img
-                src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-color-icon-on-dark.svg"
-                alt="Open Healthcare Network"
-                width={2000}
-                height={520}
-                loading="lazy"
-                className="hidden h-auto w-24 dark:block"
-              />
-            </a>
-            <Separator
-              orientation="vertical"
-              aria-hidden="true"
-              className="h-10 data-vertical:self-center"
-            />
-            <a
-              href="https://ohc.network/product/care-core"
-              className="focus-visible:outline-ring hover:contrast-125 focus-visible:outline-2 focus-visible:outline-offset-4"
-            >
-              <img
-                src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light.svg"
-                alt="Care"
-                width={2000}
-                height={520}
-                className="h-auto w-20 dark:hidden"
-              />
-              <img
-                src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-color-icon-on-dark.svg"
-                alt="Care"
-                width={2000}
-                height={520}
-                className="hidden h-auto w-20 dark:block"
-              />
-            </a>
-          </div>
+          </p> */}
+
         </footer>
       </main>
-      <nav
-        aria-label="Additional links"
-        className="text-primary-foreground flex items-center justify-center gap-8 py-1 text-sm"
-      >
-        <a
-          href="https://github.com/ohcnetwork"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="focus-visible:outline-ring p-2.5 underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4"
-        >
-          Contribute on GitHub
-        </a>
-        <a
-          href="https://care.ohc.network/licenses"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="focus-visible:outline-ring p-2.5 underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4"
-        >
-          Third-party licenses
-        </a>
-      </nav>
+       <div className="flex items-center justify-center gap-6 py-2">
+          <a
+            href="https://ohc.network"
+            className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4"
+          >
+            <img
+              src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-dark.svg"
+              alt="Open Healthcare Network"
+              width={2000}
+              height={520}
+              loading="lazy"
+              className="h-auto w-24 mix-blend-overlay dark:hidden"
+            />
+            <img
+              src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-light-mono.svg"
+              alt="Open Healthcare Network"
+              width={2000}
+              height={520}
+              loading="lazy"
+              className="hidden h-auto w-24 mix-blend-luminosity opacity-70 dark:block"
+            />
+          </a>
+          <Separator
+            orientation="vertical"
+            aria-hidden="true"
+            className="h-8 bg-primary-500 dark:bg-primary-700 data-vertical:self-center"
+          />
+          <a
+            href="https://ohc.network/product/care-core"
+            className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4"
+          >
+            <img
+              src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-dark.svg"
+              alt="Care"
+              width={2000}
+              height={520}
+              className="h-auto w-20 mix-blend-overlay dark:hidden"
+            />
+            <img
+              src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light-mono.svg"
+              alt="Care"
+              width={2000}
+              height={520}
+              className="hidden h-auto w-20 mix-blend-luminosity opacity-70 dark:block"
+            />
+          </a>
+        </div>
     </div>
   );
 }

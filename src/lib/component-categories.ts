@@ -90,6 +90,7 @@ export const componentCategories: Record<string, AtomicLevel> = {
   "hover-card": "molecule",
   "input-group": "molecule",
   "input-otp": "molecule",
+  "tag-selector": "molecule",
   "phone-input": "molecule",
   item: "molecule",
   pagination: "molecule",

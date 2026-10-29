@@ -142,6 +142,8 @@ const componentLoaders: Record<
     import("./matrix-spinner").then((m) => ({ default: m.matrixSpinnerDoc })),
   switch: () => import("./switch").then((m) => ({ default: m.switchDoc })),
   table: () => import("./table").then((m) => ({ default: m.tableDoc })),
+  "tag-selector": () =>
+    import("./tag-selector").then((m) => ({ default: m.tagSelectorDoc })),
   tabs: () => import("./tabs").then((m) => ({ default: m.tabsDoc })),
   textarea: () =>
     import("./textarea").then((m) => ({ default: m.textareaDoc })),

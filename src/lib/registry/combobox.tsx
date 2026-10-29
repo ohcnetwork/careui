@@ -293,6 +293,13 @@ export function ComboboxDemo() {
       default: '{ side: "flip", align: "flip", fallbackAxisSide: "none" }',
     },
     {
+      name: "ComboboxItem.showIndicator",
+      type: "boolean",
+      description:
+        "Shows the default checkmark for selected options. Disable it when the item already contains a selection indicator such as a Checkbox.",
+      default: "true",
+    },
+    {
       name: "ComboboxList.showScrollbar",
       type: "boolean",
       description:
