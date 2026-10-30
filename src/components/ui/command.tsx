@@ -128,7 +128,7 @@ function CommandInput({
 
   return (
     <div data-slot="command-input-wrapper" className="px-1 pt-2 pb-2 md:pt-1">
-      <InputGroup className="border-input/30 bg-input/30 h-12 rounded-sm shadow-none! has-[[data-slot=command-input]:focus-visible]:border-ring has-[[data-slot=command-input]:focus-visible]:ring-3 has-[[data-slot=command-input]:focus-visible]:ring-ring/50 md:h-10">
+      <InputGroup className="border-input/30 bg-input/30 has-[[data-slot=command-input]:focus-visible]:border-ring has-[[data-slot=command-input]:focus-visible]:ring-ring/50 h-12 rounded-sm shadow-none! has-[[data-slot=command-input]:focus-visible]:ring-3 md:h-10">
         <CommandPrimitive.Input
           ref={innerRef}
           data-slot="command-input"
