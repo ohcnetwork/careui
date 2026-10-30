@@ -1048,56 +1048,55 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
               United Nations-recognised Digital Public Good.
             </a>
           </p> */}
-
         </footer>
       </main>
-       <div className="flex items-center justify-center gap-6 py-2">
-          <a
-            href="https://ohc.network"
-            className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4"
-          >
-            <img
-              src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-dark.svg"
-              alt="Open Healthcare Network"
-              width={2000}
-              height={520}
-              loading="lazy"
-              className="h-auto w-24 mix-blend-overlay dark:hidden"
-            />
-            <img
-              src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-light-mono.svg"
-              alt="Open Healthcare Network"
-              width={2000}
-              height={520}
-              loading="lazy"
-              className="hidden h-auto w-24 mix-blend-luminosity opacity-70 dark:block"
-            />
-          </a>
-          <Separator
-            orientation="vertical"
-            aria-hidden="true"
-            className="h-8 bg-primary-500 dark:bg-primary-700 data-vertical:self-center"
+      <div className="flex items-center justify-center gap-6 py-2">
+        <a
+          href="https://ohc.network"
+          className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4"
+        >
+          <img
+            src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-dark.svg"
+            alt="Open Healthcare Network"
+            width={2000}
+            height={520}
+            loading="lazy"
+            className="h-auto w-24 mix-blend-overlay dark:hidden"
           />
-          <a
-            href="https://ohc.network/product/care-core"
-            className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4"
-          >
-            <img
-              src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-dark.svg"
-              alt="Care"
-              width={2000}
-              height={520}
-              className="h-auto w-20 mix-blend-overlay dark:hidden"
-            />
-            <img
-              src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light-mono.svg"
-              alt="Care"
-              width={2000}
-              height={520}
-              className="hidden h-auto w-20 mix-blend-luminosity opacity-70 dark:block"
-            />
-          </a>
-        </div>
+          <img
+            src="/brand-assets/uploads/OHC-Logo/SVG/OHC-logotype-on-light-mono.svg"
+            alt="Open Healthcare Network"
+            width={2000}
+            height={520}
+            loading="lazy"
+            className="hidden h-auto w-24 opacity-70 mix-blend-luminosity dark:block"
+          />
+        </a>
+        <Separator
+          orientation="vertical"
+          aria-hidden="true"
+          className="bg-primary-500 dark:bg-primary-700 h-8 data-vertical:self-center"
+        />
+        <a
+          href="https://ohc.network/product/care-core"
+          className="focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-4"
+        >
+          <img
+            src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-dark.svg"
+            alt="Care"
+            width={2000}
+            height={520}
+            className="h-auto w-20 mix-blend-overlay dark:hidden"
+          />
+          <img
+            src="/brand-assets/uploads/Care-Logos/SVG/Care-logotype-on-light-mono.svg"
+            alt="Care"
+            width={2000}
+            height={520}
+            className="hidden h-auto w-20 opacity-70 mix-blend-luminosity dark:block"
+          />
+        </a>
+      </div>
     </div>
   );
 }
