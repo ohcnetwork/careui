@@ -622,7 +622,8 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,var(--color-primary)_1px,transparent_1px)] bg-size-[16px_16px] opacity-10"
         />
         <PixelCanvas variant="care" className="absolute inset-0 z-0" />
-        <div className="relative z-10 flex w-full max-w-xl flex-col items-center justify-start gap-2">
+        {/* min-h reserves the staff-form height so shorter tabs keep the same top edge */}
+        <div className="relative z-10 flex w-full max-w-xl flex-col items-center justify-start gap-2 md:my-auto md:min-h-150">
           <Tabs
             value={formMode}
             onValueChange={(value) => {
@@ -1031,7 +1032,7 @@ export function StaffSignInDemo({ fullPage = false }: { fullPage?: boolean }) {
             </div>
           </section>
         </div>
-        <footer className="text-muted-foreground relative z-10 mt-auto flex w-full max-w-2xl flex-col items-center gap-5 pt-2 text-center text-sm leading-6">
+        <footer className="text-muted-foreground relative z-10 mt-auto flex w-full max-w-2xl flex-col items-center gap-5 pt-2 text-center text-sm leading-6 md:mt-0">
           {/* <p>
             <a
               href="https://ohc.network"
