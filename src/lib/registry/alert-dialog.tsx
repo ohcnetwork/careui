@@ -19,7 +19,7 @@ export const alertDialogDoc: ComponentDoc = {
   id: "alert-dialog",
   name: "Alert Dialog",
   description:
-    "A modal dialog that interrupts the user with important content and expects a response.",
+    "A modal dialog that interrupts the user with important content and expects a response. The header has responsive padding, and the action footer has a muted background and top border without changing button variants.",
   installation: {
     cli: "npx shadcn@latest add alert-dialog",
     manual: `Install the following dependencies:

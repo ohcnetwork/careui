@@ -64,6 +64,20 @@ export const kbdDoc: ComponentDoc = {
   },
   examples: [
     {
+      name: "Destructive",
+      description:
+        "Use the destructive variant for keyboard hints on destructive actions in light and dark themes. The badge displays the shortcut; register the keyboard action separately.",
+      code: `<Button variant="destructive">
+  Remove <Kbd variant="destructive">Shift + Enter</Kbd>
+</Button>`,
+      preview: React.createElement(
+        Button,
+        { variant: "destructive" },
+        "Remove ",
+        React.createElement(Kbd, { variant: "destructive" }, "Shift + Enter")
+      ),
+    },
+    {
       name: "Primary",
       description: "Use the primary variant for high-emphasis keyboard hints.",
       code: `<Kbd variant="primary">⌘</Kbd>`,
