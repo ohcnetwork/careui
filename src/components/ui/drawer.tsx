@@ -256,9 +256,11 @@ function DrawerContent({
   className,
   children,
   size = "full",
+  overlayClassName,
   ...props
 }: DrawerPrimitive.Popup.Props & {
   size?: DrawerSize;
+  overlayClassName?: string;
 }) {
   const { hasSnapPoints, modal, showSwipeHandle, swipeDirection } = useDrawer();
   const swipeAxis =
@@ -267,7 +269,10 @@ function DrawerContent({
   return (
     <DrawerPortal>
       {modal === true && (
-        <DrawerOverlay data-snap-points={hasSnapPoints ? "" : undefined} />
+        <DrawerOverlay
+          className={overlayClassName}
+          data-snap-points={hasSnapPoints ? "" : undefined}
+        />
       )}
       <DrawerPrimitive.Viewport
         data-slot="drawer-viewport"

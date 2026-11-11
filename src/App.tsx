@@ -21,6 +21,12 @@ import {
 import { BlockPreviewPage, BlockCodePage } from "@/components/blocks";
 import { ErrorPagePreview } from "@/components/error-pages";
 
+const DepartmentPlayground = React.lazy(() =>
+  import("@/lib/registry/department-selector").then((module) => ({
+    default: module.DepartmentSelectorPlayground,
+  }))
+);
+
 function AppShell() {
   const { activeComponent } = useNavigation();
 
@@ -73,6 +79,23 @@ function AppShell() {
 }
 
 export default function Page() {
+  if (
+    new URLSearchParams(window.location.search).has("department-playground")
+  ) {
+    return (
+      <ThemeProvider
+        defaultTheme="light"
+        storageKey="careui-department-playground-theme"
+      >
+        <React.Suspense
+          fallback={<p className="p-4 text-sm">Loading departments...</p>}
+        >
+          <DepartmentPlayground />
+        </React.Suspense>
+      </ThemeProvider>
+    );
+  }
+
   return (
     <FontSizeProvider>
       <ContrastProvider>

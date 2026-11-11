@@ -18,6 +18,12 @@ export * from "./components/ui/command";
 export * from "./components/ui/context-menu";
 export * from "./components/ui/data-table";
 export * from "./components/ui/date-picker";
+export { DepartmentSelector } from "./components/ui/department-selector";
+export type {
+  DepartmentNode,
+  DepartmentOption,
+  DepartmentSelectorProps,
+} from "./components/ui/department-selector";
 export * from "./components/ui/dialog";
 export * from "./components/ui/dotted-divider";
 export * from "./components/ui/drawer";

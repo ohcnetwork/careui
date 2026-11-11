@@ -27,6 +27,7 @@ export const componentNames: Record<string, string> = {
   "data-table": "Data Table",
   "date-picker": "Date Picker",
   "dental-chart": "Dental Chart",
+  "department-selector": "Department Selector",
   dialog: "Dialog",
   drawer: "Drawer",
   "dotted-divider": "Dotted Divider",

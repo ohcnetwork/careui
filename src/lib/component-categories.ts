@@ -84,6 +84,7 @@ export const componentCategories: Record<string, AtomicLevel> = {
   "button-group": "molecule",
   card: "molecule",
   collapsible: "molecule",
+  "department-selector": "molecule",
   empty: "molecule",
   field: "molecule",
   frame: "molecule",

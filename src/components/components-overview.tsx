@@ -84,6 +84,11 @@ const componentMetadata: Record<
     description: "A date picker with single, range, and input variants.",
     examples: 3,
   },
+  "department-selector": {
+    name: "Department Selector",
+    description: "Search and select one or several departments.",
+    examples: 3,
+  },
   card: {
     name: "Card",
     description: "Displays a card with header, content, and footer.",

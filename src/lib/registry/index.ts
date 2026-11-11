@@ -72,6 +72,10 @@ const componentLoaders: Record<
     import("./date-picker").then((m) => ({ default: m.datePickerDoc })),
   "dental-chart": () =>
     import("./dental-chart").then((m) => ({ default: m.dentalChartDoc })),
+  "department-selector": () =>
+    import("./department-selector").then((m) => ({
+      default: m.departmentSelectorDoc,
+    })),
   combobox: () =>
     import("./combobox").then((m) => ({ default: m.comboboxDoc })),
   command: () => import("./command").then((m) => ({ default: m.commandDoc })),

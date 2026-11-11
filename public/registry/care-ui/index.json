@@ -554,6 +554,16 @@
     ]
   },
   {
+    "name": "department-selector",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/department-selector/department-selector.tsx"
+    ]
+  },
+  {
     "name": "date-picker",
     "type": "registry:ui",
     "dependencies": [
