@@ -936,7 +936,7 @@ function TreeSelect(props: TreeSelectProps) {
                       <label
                         htmlFor={switchId}
                         className={cn(
-                          "flex py-2.5 flex-1 items-center text-sm",
+                          "flex flex-1 items-center py-2.5 text-sm",
                           disabled ? "cursor-not-allowed" : "cursor-pointer"
                         )}
                       >
