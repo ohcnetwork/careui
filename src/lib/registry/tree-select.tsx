@@ -93,55 +93,59 @@ function TreeSelectPreview() {
     "div",
     {
       "data-slot": "tree-select-preview",
-      className: "grid w-full min-w-0 items-start gap-8 sm:grid-cols-2",
+      className: "@container w-full min-w-0",
     },
     React.createElement(
-      "section",
-      {
-        className: "flex min-w-0 flex-col gap-4",
-        "aria-label": "Single selection",
-      },
+      "div",
+      { className: "grid items-start gap-8 @xl:grid-cols-2" },
       React.createElement(
-        "h2",
-        { className: "text-base font-semibold" },
-        "Single selection"
+        "section",
+        {
+          className: "flex min-w-0 flex-col gap-4",
+          "aria-label": "Single selection",
+        },
+        React.createElement(
+          "h2",
+          { className: "text-base font-semibold" },
+          "Single selection"
+        ),
+        React.createElement(TreeSelect, {
+          mode: "single",
+          tree: departmentTree,
+          itemLabel: departmentLabel,
+          assignedIds: assignedDepartmentIds,
+          linkedIds,
+          value: single,
+          onChange: setSingle,
+          preferredIds: singlePreferred,
+          onPreferredIdsChange: setSinglePreferred,
+          name: "single-department",
+        })
       ),
-      React.createElement(TreeSelect, {
-        mode: "single",
-        tree: departmentTree,
-        itemLabel: departmentLabel,
-        assignedIds: assignedDepartmentIds,
-        linkedIds,
-        value: single,
-        onChange: setSingle,
-        preferredIds: singlePreferred,
-        onPreferredIdsChange: setSinglePreferred,
-        name: "single-department",
-      })
-    ),
-    React.createElement(
-      "section",
-      {
-        className: "flex min-w-0 flex-col gap-4",
-        "aria-label": "Multiple selection",
-      },
       React.createElement(
-        "h2",
-        { className: "text-base font-semibold" },
-        "Multiple selection"
-      ),
-      React.createElement(TreeSelect, {
-        mode: "multi",
-        tree: departmentTree,
-        itemLabel: departmentLabel,
-        assignedIds: assignedDepartmentIds,
-        linkedIds,
-        value: multi,
-        onChange: setMulti,
-        preferredIds: multiPreferred,
-        onPreferredIdsChange: setMultiPreferred,
-        name: "departments",
-      })
+        "section",
+        {
+          className: "flex min-w-0 flex-col gap-4",
+          "aria-label": "Multiple selection",
+        },
+        React.createElement(
+          "h2",
+          { className: "text-base font-semibold" },
+          "Multiple selection"
+        ),
+        React.createElement(TreeSelect, {
+          mode: "multi",
+          tree: departmentTree,
+          itemLabel: departmentLabel,
+          assignedIds: assignedDepartmentIds,
+          linkedIds,
+          value: multi,
+          onChange: setMulti,
+          preferredIds: multiPreferred,
+          onPreferredIdsChange: setMultiPreferred,
+          name: "departments",
+        })
+      )
     )
   );
 }
@@ -497,7 +501,7 @@ ${multiCode}`,
       name: "mode",
       type: '"single" | "multi"',
       description:
-        "Single commits immediately and closes. Multi applies each change live and stays open until Done, Escape, an outside click, or a downward swipe on the drawer. Both modes show the selection as cards above the field that refresh after the selector closes, so the trigger never moves while picking. Single adds Clear selection to the panel footer.",
+        "Single commits immediately and closes. Multi applies each change live and stays open until closed; Done and Clear all appear once something is selected. Both modes show the selection as cards above the field that refresh after the selector closes, so the trigger never moves while picking. Single adds Clear selection to the panel footer.",
     },
     {
       name: "tree",

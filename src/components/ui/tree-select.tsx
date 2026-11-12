@@ -590,7 +590,7 @@ function TreeSelect(props: TreeSelectProps) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="h-10 min-w-13 shrink-0 gap-1 px-2 font-normal shadow-none"
+                  className="h-10 min-w-13 shrink-0 gap-1 px-2 font-normal shadow-none md:h-10"
                   aria-expanded={expandedRow}
                   aria-controls={`${panelId}-${row.key}-children`}
                   aria-label={
@@ -733,13 +733,6 @@ function TreeSelect(props: TreeSelectProps) {
             </InputGroupAddon>
           )}
         </InputGroup>
-        {!searching && (
-          <p className="text-soft-foreground px-1 pt-2 pb-1 text-xs leading-5">
-            {props.mode === "multi"
-              ? `Select ${plural}.`
-              : `Select one ${singular}.`}
-          </p>
-        )}
       </div>
       <div
         data-slot="tree-select-list"
@@ -764,7 +757,10 @@ function TreeSelect(props: TreeSelectProps) {
   );
 
   const clearAll = () => {
-    if (props.mode === "multi" && !required) props.onChange([]);
+    if (props.mode !== "multi" || required) return;
+    props.onChange([]);
+    // The footer actions unmount once nothing is selected; keep focus in the panel.
+    (inPopover ? searchRef : closeRef).current?.focus();
   };
   const clearSelection = () => {
     if (props.mode !== "single" || required) return;
@@ -791,19 +787,29 @@ function TreeSelect(props: TreeSelectProps) {
               ? `${selectedIds.length} selected`
               : "None selected"}
           </span>
-          {selectedIds.length > 0 && (
+          {selectedIds.length > 0 ? (
+            <>
+              <Button
+                type="button"
+                variant="ghost"
+                disabled={required}
+                onClick={clearAll}
+              >
+                Clear all
+              </Button>
+              <Button type="button" onClick={() => setOpen(false)}>
+                Done
+              </Button>
+            </>
+          ) : (
             <Button
               type="button"
               variant="ghost"
-              disabled={required}
-              onClick={clearAll}
+              onClick={() => setOpen(false)}
             >
-              Clear all
+              Close
             </Button>
           )}
-          <Button type="button" onClick={() => setOpen(false)}>
-            Done
-          </Button>
         </>
       ) : (
         <>
@@ -820,8 +826,8 @@ function TreeSelect(props: TreeSelectProps) {
       )}
     </div>
   ) : props.mode === "multi" ? (
-    <DrawerFooter className="flex-row justify-between gap-2 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-      {selectedIds.length > 0 && (
+    selectedIds.length > 0 ? (
+      <DrawerFooter className="flex-row justify-between gap-2 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
         <Button
           type="button"
           variant="ghost"
@@ -830,11 +836,15 @@ function TreeSelect(props: TreeSelectProps) {
         >
           Clear all
         </Button>
-      )}
-      <Button type="button" className="min-w-0" onClick={() => setOpen(false)}>
-        Done ({selectedIds.length})
-      </Button>
-    </DrawerFooter>
+        <Button
+          type="button"
+          className="min-w-0"
+          onClick={() => setOpen(false)}
+        >
+          Done ({selectedIds.length})
+        </Button>
+      </DrawerFooter>
+    ) : null
   ) : clearSelectionButton ? (
     <DrawerFooter className="flex-row gap-2 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
       {clearSelectionButton}
@@ -852,7 +862,7 @@ function TreeSelect(props: TreeSelectProps) {
       aria-invalid={!!validationError || undefined}
       className="border-input h-auto min-h-11 w-full min-w-0 justify-between gap-2 py-2 text-start font-normal shadow-none aria-expanded:border-blue-500 aria-expanded:ring-1 aria-expanded:ring-blue-500 md:h-auto md:min-h-10"
     >
-      <span className="text-placeholder-foreground min-w-0 flex-1">
+      <span className="text-placeholder-foreground min-w-0 flex-1 truncate">
         {triggerText}
       </span>
       <ChevronDown aria-hidden="true" data-icon="inline-end" />
@@ -965,7 +975,8 @@ function TreeSelect(props: TreeSelectProps) {
               initialFocus={searchRef}
               align="start"
               sideOffset={4}
-              className="flex max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-0 flex-col gap-0 overflow-hidden rounded-[10px] p-0 text-sm motion-reduce:animate-none"
+              collisionAvoidance={{ fallbackAxisSide: "none" }}
+              className="flex max-h-(--available-height) w-[max(var(--anchor-width),20rem)] max-w-(--available-width) min-w-0 flex-col gap-0 overflow-hidden rounded-[10px] p-0 text-sm motion-reduce:animate-none"
             >
               <PopoverTitle className="sr-only">{panelTitle}</PopoverTitle>
               {panelBody}
