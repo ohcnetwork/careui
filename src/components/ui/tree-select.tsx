@@ -655,7 +655,7 @@ function TreeSelect(props: TreeSelectProps) {
         </>
       )}
       <div role="group" aria-labelledby={`${panelId}-all`}>
-        <div className="flex min-h-9 items-center justify-between gap-2 px-2">
+        <div className="flex min-h-9 items-center px-2">
           <h3
             id={`${panelId}-all`}
             className="text-soft-foreground text-xs font-medium"
@@ -664,19 +664,6 @@ function TreeSelect(props: TreeSelectProps) {
               ? `${matches.length} ${matches.length === 1 ? "match" : "matches"}`
               : `All ${plural}`}
           </h3>
-          {!searching && (
-            <Button
-              type="button"
-              variant="ghost"
-              className="font-normal max-md:h-9 max-md:px-3"
-              onClick={() => {
-                setExpanded(new Set());
-                setActiveKey(null);
-              }}
-            >
-              Collapse all
-            </Button>
-          )}
         </div>
         {allRows.length > 0 ? (
           renderRows(allRows)
@@ -749,9 +736,8 @@ function TreeSelect(props: TreeSelectProps) {
         {!searching && (
           <p className="text-soft-foreground px-1 pt-2 pb-1 text-xs leading-5">
             {props.mode === "multi"
-              ? `Tick each ${singular} you want.`
-              : `Choose one ${singular}.`}{" "}
-            The number on the right shows the {plural} nested under it.
+              ? `Select ${plural}.`
+              : `Select one ${singular}.`}
           </p>
         )}
       </div>
