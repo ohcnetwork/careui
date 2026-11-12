@@ -27,6 +27,16 @@
     ]
   },
   {
+    "name": "tree-select",
+    "type": "registry:ui",
+    "dependencies": [
+      "lucide-react"
+    ],
+    "files": [
+      "registry/care-ui/tree-select/tree-select.tsx"
+    ]
+  },
+  {
     "name": "tooltip",
     "type": "registry:ui",
     "dependencies": [
@@ -551,16 +561,6 @@
     ],
     "files": [
       "registry/care-ui/dialog/dialog.tsx"
-    ]
-  },
-  {
-    "name": "department-selector",
-    "type": "registry:ui",
-    "dependencies": [
-      "lucide-react"
-    ],
-    "files": [
-      "registry/care-ui/department-selector/department-selector.tsx"
     ]
   },
   {

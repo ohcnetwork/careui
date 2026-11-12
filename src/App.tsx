@@ -21,9 +21,9 @@ import {
 import { BlockPreviewPage, BlockCodePage } from "@/components/blocks";
 import { ErrorPagePreview } from "@/components/error-pages";
 
-const DepartmentPlayground = React.lazy(() =>
-  import("@/lib/registry/department-selector").then((module) => ({
-    default: module.DepartmentSelectorPlayground,
+const TreeSelectPlayground = React.lazy(() =>
+  import("@/lib/registry/tree-select").then((module) => ({
+    default: module.TreeSelectPlayground,
   }))
 );
 
@@ -80,17 +80,17 @@ function AppShell() {
 
 export default function Page() {
   if (
-    new URLSearchParams(window.location.search).has("department-playground")
+    new URLSearchParams(window.location.search).has("tree-select-playground")
   ) {
     return (
       <ThemeProvider
         defaultTheme="light"
-        storageKey="careui-department-playground-theme"
+        storageKey="careui-tree-select-playground-theme"
       >
         <React.Suspense
-          fallback={<p className="p-4 text-sm">Loading departments...</p>}
+          fallback={<p className="p-4 text-sm">Loading tree select...</p>}
         >
-          <DepartmentPlayground />
+          <TreeSelectPlayground />
         </React.Suspense>
       </ThemeProvider>
     );

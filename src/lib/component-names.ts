@@ -27,7 +27,6 @@ export const componentNames: Record<string, string> = {
   "data-table": "Data Table",
   "date-picker": "Date Picker",
   "dental-chart": "Dental Chart",
-  "department-selector": "Department Selector",
   dialog: "Dialog",
   drawer: "Drawer",
   "dotted-divider": "Dotted Divider",
@@ -76,6 +75,7 @@ export const componentNames: Record<string, string> = {
   toggle: "Toggle",
   "toggle-group": "Toggle Group",
   tooltip: "Tooltip",
+  "tree-select": "Tree Select",
   "tv-display": "TV Display",
   typography: "Typography",
 };

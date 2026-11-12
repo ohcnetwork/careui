@@ -18,12 +18,6 @@ export * from "./components/ui/command";
 export * from "./components/ui/context-menu";
 export * from "./components/ui/data-table";
 export * from "./components/ui/date-picker";
-export { DepartmentSelector } from "./components/ui/department-selector";
-export type {
-  DepartmentNode,
-  DepartmentOption,
-  DepartmentSelectorProps,
-} from "./components/ui/department-selector";
 export * from "./components/ui/dialog";
 export * from "./components/ui/dotted-divider";
 export * from "./components/ui/drawer";
@@ -85,5 +79,13 @@ export {
 export * from "./components/ui/toggle";
 export * from "./components/ui/toggle-group";
 export * from "./components/ui/tooltip";
+export { TreeSelect } from "./components/ui/tree-select";
+export type {
+  TreeSelectItemLabel,
+  TreeSelectNode,
+  TreeSelectOption,
+  TreeSelectPresentation,
+  TreeSelectProps,
+} from "./components/ui/tree-select";
 export * from "./components/ui/tv-display";
 export * from "./components/ui/typography";

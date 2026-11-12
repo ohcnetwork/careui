@@ -84,7 +84,6 @@ export const componentCategories: Record<string, AtomicLevel> = {
   "button-group": "molecule",
   card: "molecule",
   collapsible: "molecule",
-  "department-selector": "molecule",
   empty: "molecule",
   field: "molecule",
   frame: "molecule",
@@ -101,6 +100,7 @@ export const componentCategories: Record<string, AtomicLevel> = {
   tabs: "molecule",
   "toggle-group": "molecule",
   tooltip: "molecule",
+  "tree-select": "molecule",
 
   // Organisms
   accordion: "organism",

@@ -1,8 +1,8 @@
 /**
- * @name department-selector
- * @description Responsive department tree with independent live selection, personal departments, and accessible inline expansion.
+ * @name tree-select
+ * @description Responsive single or multi select for hierarchical options with search, assigned shortcuts, default selections, and accessible inline expansion. Opens a Popover on wide screens and a keyboard-aware bottom Drawer on phones.
  * @dependencies lucide-react
- * @registryDependencies badge button checkbox drawer field input-group popover radio-group separator use-media-query
+ * @registryDependencies badge button checkbox drawer field input-group popover radio-group separator switch use-media-query
  * @type registry:ui
  */
 "use client";
@@ -41,21 +41,42 @@ import {
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
-export interface DepartmentNode {
+export interface TreeSelectNode {
   id: string;
   name: string;
-  children?: readonly DepartmentNode[];
+  children?: readonly TreeSelectNode[];
 }
 
-export type DepartmentOption = DepartmentNode;
+export type TreeSelectOption = TreeSelectNode;
 
-interface DepartmentSelectorBaseProps {
-  tree: readonly DepartmentNode[];
-  myDepartmentIds?: readonly string[];
+export type TreeSelectPresentation = "auto" | "popover" | "drawer";
+
+export interface TreeSelectItemLabel {
+  /** Lowercase noun for one option, e.g. "department". */
+  singular: string;
+  /** Lowercase noun for several options, e.g. "departments". */
+  plural: string;
+}
+
+interface TreeSelectBaseProps {
+  tree: readonly TreeSelectNode[];
+  /** Nouns used to build the field, panel, and status copy. */
+  itemLabel?: TreeSelectItemLabel;
+  /** Trigger text. Defaults to "Select {Item}". */
+  placeholder?: string;
+  /** Shortcuts listed in a "My {items}" group. The group is hidden when omitted. */
+  assignedIds?: readonly string[];
   linkedIds?: readonly string[];
+  /** Options to preselect next time. Single mode keeps at most one. */
+  preferredIds?: readonly string[];
+  /** Shows a "Select by default" switch on each selected card. */
+  onPreferredIdsChange?: (ids: string[]) => void;
+  /** Where the options open. "auto" uses a Popover from 640px and a Drawer below. */
+  presentation?: TreeSelectPresentation;
   id?: string;
   name?: string;
   disabled?: boolean;
@@ -65,7 +86,7 @@ interface DepartmentSelectorBaseProps {
   className?: string;
 }
 
-export type DepartmentSelectorProps = DepartmentSelectorBaseProps &
+export type TreeSelectProps = TreeSelectBaseProps &
   (
     | {
         mode: "single";
@@ -75,33 +96,33 @@ export type DepartmentSelectorProps = DepartmentSelectorBaseProps &
     | { mode: "multi"; value: string[]; onChange: (value: string[]) => void }
   );
 
-interface DepartmentEntry {
-  node: DepartmentNode;
-  ancestors: DepartmentNode[];
+interface TreeEntry {
+  node: TreeSelectNode;
+  ancestors: TreeSelectNode[];
 }
 
-interface DepartmentRow {
-  entry: DepartmentEntry;
+interface TreeRow {
+  entry: TreeEntry;
   key: string;
   parentKey: string | null;
-  children: DepartmentRow[];
+  children: TreeRow[];
 }
 
-function indexDepartments(
-  tree: readonly DepartmentNode[],
-  ancestors: DepartmentNode[] = []
-): DepartmentEntry[] {
+function indexNodes(
+  tree: readonly TreeSelectNode[],
+  ancestors: TreeSelectNode[] = []
+): TreeEntry[] {
   return tree.flatMap((node) => [
     { node, ancestors },
-    ...indexDepartments(node.children ?? [], [...ancestors, node]),
+    ...indexNodes(node.children ?? [], [...ancestors, node]),
   ]);
 }
 
-function pathText(entry: DepartmentEntry) {
+function pathText(entry: TreeEntry) {
   return [...entry.ancestors, entry.node].map((node) => node.name).join(" / ");
 }
 
-function DepartmentPath({ entry }: { entry: DepartmentEntry }) {
+function NodePath({ entry }: { entry: TreeEntry }) {
   return (
     <span className="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-0.5 text-start wrap-anywhere">
       {entry.ancestors.map((node) => (
@@ -129,11 +150,37 @@ function MatchedName({ name, query }: { name: string; query: string }) {
   );
 }
 
-function DepartmentSelector(props: DepartmentSelectorProps) {
+const defaultItemLabel: TreeSelectItemLabel = {
+  singular: "item",
+  plural: "items",
+};
+
+function capitalize(text: string) {
+  return text.charAt(0).toLocaleUpperCase() + text.slice(1);
+}
+
+// The drawer is sized to the visual viewport so its footer stays above the
+// on-screen keyboard, which shrinks the visual but not the layout viewport.
+const drawerGap = () => Math.max(16, window.innerHeight * 0.06);
+const readDrawerTop = () =>
+  (window.visualViewport?.offsetTop ?? 0) + drawerGap();
+const readDrawerHeight = () =>
+  Math.max(
+    0,
+    (window.visualViewport?.height ?? window.innerHeight) - drawerGap()
+  );
+const readNothing = () => null;
+
+function TreeSelect(props: TreeSelectProps) {
   const {
     tree,
-    myDepartmentIds = [],
+    itemLabel = defaultItemLabel,
+    placeholder,
+    assignedIds,
     linkedIds = [],
+    preferredIds = [],
+    onPreferredIdsChange,
+    presentation = "auto",
     id,
     name,
     disabled = false,
@@ -145,7 +192,12 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
   const generatedId = React.useId();
   const fieldId = id ?? generatedId;
   const panelId = `${fieldId}-panel`;
-  const desktop = useMediaQuery("(min-width: 640px)");
+  const { singular, plural } = itemLabel;
+  const triggerText =
+    placeholder ?? `Select ${singular.split(" ").map(capitalize).join(" ")}`;
+  const wide = useMediaQuery("(min-width: 640px)");
+  const inPopover =
+    presentation === "popover" || (presentation === "auto" && wide);
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const [expanded, setExpanded] = React.useState<Set<string>>(new Set());
@@ -154,12 +206,14 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
   );
   const [activeKey, setActiveKey] = React.useState<string | null>(null);
   const [invalid, setInvalid] = React.useState(false);
+  // Freezes the selected cards while the panel is open so the trigger above
+  // which they render doesn't shift; cleared once the close animation ends.
+  const [cardSnapshot, setCardSnapshot] = React.useState<string[] | null>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const searchRef = React.useRef<HTMLInputElement>(null);
   const closeRef = React.useRef<HTMLButtonElement>(null);
-  const drawerRef = React.useRef<HTMLDivElement>(null);
   const rowRefs = React.useRef(new Map<string, HTMLDivElement>());
-  const entries = indexDepartments(tree);
+  const entries = indexNodes(tree);
   const byId = new Map(entries.map((entry) => [entry.node.id, entry]));
   const selectedIds =
     props.mode === "multi"
@@ -169,13 +223,14 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
         : [props.value];
   const selectedSet = new Set(selectedIds);
   const linkedSet = new Set(linkedIds);
-  const selectedEntries = selectedIds.map(
-    (selectedId) =>
-      byId.get(selectedId) ?? {
-        node: { id: selectedId, name: selectedId },
-        ancestors: [],
-      }
-  );
+  const preferredSet = new Set(preferredIds);
+  const toEntry = (selectedId: string): TreeEntry =>
+    byId.get(selectedId) ?? {
+      node: { id: selectedId, name: selectedId },
+      ancestors: [],
+    };
+  const selectedEntries = selectedIds.map(toEntry);
+  const cardEntries = (cardSnapshot ?? selectedIds).map(toEntry);
   const term = query.trim().toLocaleLowerCase();
   const searching = term.length > 0;
   const matches = entries.filter((entry) =>
@@ -189,7 +244,11 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
   );
   const validationError =
     error ||
-    (invalid && selectedIds.length === 0 ? "Select a department." : undefined);
+    (invalid && selectedIds.length === 0
+      ? props.mode === "multi"
+        ? `Select at least one ${singular}.`
+        : `Select one ${singular}.`
+      : undefined);
   const describedBy =
     [
       description ? `${fieldId}-description` : null,
@@ -199,10 +258,10 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
       .join(" ") || undefined;
 
   const buildRows = (
-    nodes: readonly DepartmentNode[],
+    nodes: readonly TreeSelectNode[],
     prefix: string,
     parentKey: string | null = null
-  ): DepartmentRow[] =>
+  ): TreeRow[] =>
     nodes.flatMap((node) => {
       if (searching && !included.has(node.id)) return [];
       const key = `${prefix}:${node.id}`;
@@ -217,21 +276,22 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
         },
       ];
     });
-  const personalRows = searching
-    ? []
-    : Array.from(new Set(myDepartmentIds)).flatMap((departmentId) => {
-        const entry = byId.get(departmentId);
-        return entry ? buildRows([entry.node], `mine:${departmentId}`) : [];
-      });
+  const assignedRows =
+    searching || !assignedIds
+      ? []
+      : Array.from(new Set(assignedIds)).flatMap((nodeId) => {
+          const entry = byId.get(nodeId);
+          return entry ? buildRows([entry.node], `assigned:${nodeId}`) : [];
+        });
   const allRows = buildRows(tree, "all");
-  const isExpanded = (row: DepartmentRow) =>
+  const isExpanded = (row: TreeRow) =>
     searching ? !searchCollapsed.has(row.key) : expanded.has(row.key);
-  const flattenRows = (rows: DepartmentRow[]): DepartmentRow[] =>
+  const flattenRows = (rows: TreeRow[]): TreeRow[] =>
     rows.flatMap((row) => [
       row,
       ...(isExpanded(row) ? flattenRows(row.children) : []),
     ]);
-  const visibleRows = [...flattenRows(personalRows), ...flattenRows(allRows)];
+  const visibleRows = [...flattenRows(assignedRows), ...flattenRows(allRows)];
   const activeRow = visibleRows.find((row) => row.key === activeKey);
 
   React.useEffect(() => {
@@ -239,36 +299,32 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
       rowRefs.current.get(activeKey)?.scrollIntoView({ block: "nearest" });
   }, [activeKey]);
 
-  React.useEffect(() => {
-    if (!open || desktop) return;
-    const viewport = window.visualViewport;
-    const top = Math.max(16, window.innerHeight * 0.06);
-    const resize = () => {
-      const height = Math.max(
-        0,
-        (viewport?.height ?? window.innerHeight) +
-          (viewport?.offsetTop ?? 0) -
-          top
-      );
-      drawerRef.current?.style.setProperty(
-        "--department-drawer-top",
-        `${top}px`
-      );
-      drawerRef.current?.style.setProperty(
-        "--department-drawer-height",
-        `${height}px`
-      );
-    };
-    resize();
-    viewport?.addEventListener("resize", resize);
-    viewport?.addEventListener("scroll", resize);
-    window.addEventListener("resize", resize);
-    return () => {
-      viewport?.removeEventListener("resize", resize);
-      viewport?.removeEventListener("scroll", resize);
-      window.removeEventListener("resize", resize);
-    };
-  }, [open, desktop]);
+  const fitDrawer = open && !inPopover;
+  const subscribeViewport = React.useCallback(
+    (onChange: () => void) => {
+      if (!fitDrawer) return () => {};
+      const viewport = window.visualViewport;
+      viewport?.addEventListener("resize", onChange);
+      viewport?.addEventListener("scroll", onChange);
+      window.addEventListener("resize", onChange);
+      return () => {
+        viewport?.removeEventListener("resize", onChange);
+        viewport?.removeEventListener("scroll", onChange);
+        window.removeEventListener("resize", onChange);
+      };
+    },
+    [fitDrawer]
+  );
+  const drawerTop = React.useSyncExternalStore<number | null>(
+    subscribeViewport,
+    readDrawerTop,
+    readNothing
+  );
+  const drawerHeight = React.useSyncExternalStore<number | null>(
+    subscribeViewport,
+    readDrawerHeight,
+    readNothing
+  );
 
   const changeOpen = (nextOpen: boolean) => {
     if (nextOpen) {
@@ -282,8 +338,13 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
           )
         )
       );
+      setCardSnapshot(selectedIds);
     }
     setOpen(nextOpen);
+  };
+
+  const completeOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen) setCardSnapshot(null);
   };
 
   const changeQuery = (nextQuery: string) => {
@@ -292,24 +353,42 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
     setSearchCollapsed(new Set());
   };
 
-  const selectDepartment = (departmentId: string) => {
-    if (disabled || linkedSet.has(departmentId)) return;
+  const selectNode = (nodeId: string) => {
+    if (disabled || linkedSet.has(nodeId)) return;
     if (props.mode === "single") {
-      props.onChange(departmentId);
+      props.onChange(nodeId);
       setOpen(false);
     } else {
-      if (required && selectedSet.has(departmentId) && selectedIds.length === 1)
+      if (required && selectedSet.has(nodeId) && selectedIds.length === 1)
         return;
       props.onChange(
-        selectedSet.has(departmentId)
-          ? props.value.filter((selectedId) => selectedId !== departmentId)
-          : [...props.value, departmentId]
+        selectedSet.has(nodeId)
+          ? props.value.filter((selectedId) => selectedId !== nodeId)
+          : [...props.value, nodeId]
       );
     }
     setInvalid(false);
   };
 
-  const toggleExpansion = (row: DepartmentRow) => {
+  const removeNode = (nodeId: string) => {
+    if (props.mode === "single") props.onChange(null);
+    else
+      props.onChange(props.value.filter((selectedId) => selectedId !== nodeId));
+    triggerRef.current?.focus();
+  };
+
+  const setPreferred = (nodeId: string, preferred: boolean) => {
+    if (!onPreferredIdsChange) return;
+    if (!preferred)
+      onPreferredIdsChange(
+        preferredIds.filter((preferredId) => preferredId !== nodeId)
+      );
+    else if (props.mode === "single") onPreferredIdsChange([nodeId]);
+    else if (!preferredSet.has(nodeId))
+      onPreferredIdsChange([...preferredIds, nodeId]);
+  };
+
+  const toggleExpansion = (row: TreeRow) => {
     const update = (current: Set<string>) => {
       const next = new Set(current);
       if (next.has(row.key)) next.delete(row.key);
@@ -357,7 +436,7 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
       else if (activeRow.parentKey) setActiveKey(activeRow.parentKey);
     } else if (event.key === "Enter") {
       event.preventDefault();
-      if (activeRow) selectDepartment(activeRow.entry.node.id);
+      if (activeRow) selectNode(activeRow.entry.node.id);
     } else if (event.key === "Escape") {
       event.preventDefault();
       setOpen(false);
@@ -368,7 +447,7 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
     if (document.activeElement === searchRef.current) event.preventDefault();
   };
 
-  const renderRows = (rows: DepartmentRow[], depth = 1): React.ReactNode => (
+  const renderRows = (rows: TreeRow[], depth = 1): React.ReactNode => (
     <ul role="group" className="min-w-0">
       {rows.map((row) => {
         const { node, ancestors } = row.entry;
@@ -398,8 +477,8 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
                 if (element) rowRefs.current.set(row.key, element);
                 else rowRefs.current.delete(row.key);
               }}
-              data-slot="department-row"
-              data-department-id={node.id}
+              data-slot="tree-select-row"
+              data-node-id={node.id}
               data-active={activeKey === row.key || undefined}
               className={cn(
                 "hover:bg-muted flex min-h-12 min-w-0 items-center gap-2 rounded-md px-2 text-sm sm:min-h-11",
@@ -427,7 +506,7 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
                     )
                   ) {
                     event.preventDefault();
-                    selectDepartment(node.id);
+                    selectNode(node.id);
                   }
                 }}
               >
@@ -438,7 +517,7 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
                     disabled={linked || disabled}
                     aria-label={node.name}
                     onPointerDown={preserveSearchFocus}
-                    onCheckedChange={() => selectDepartment(node.id)}
+                    onCheckedChange={() => selectNode(node.id)}
                     onFocus={() => setActiveKey(row.key)}
                   />
                 ) : (
@@ -456,19 +535,27 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5 wrap-anywhere">
                   <span
                     className={cn(
-                      selected && "font-semibold",
                       (contextOnly || linked) && "text-soft-foreground"
                     )}
                   >
                     <MatchedName name={node.name} query={term} />
                   </span>
-                  {row.key.startsWith("mine:") && ancestors.length > 0 && (
+                  {row.key.startsWith("assigned:") && ancestors.length > 0 && (
                     <span className="text-soft-foreground text-xs">
                       {ancestors.map((ancestor) => ancestor.name).join(" / ")}
                     </span>
                   )}
                 </span>
               </label>
+              {preferredSet.has(node.id) && (
+                <Badge
+                  variant="primary"
+                  size="sm"
+                  className="h-auto max-w-22 shrink-0 py-0.5 whitespace-normal"
+                >
+                  Default
+                </Badge>
+              )}
               {linked && (
                 <Badge
                   variant="amber"
@@ -497,8 +584,8 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
                   aria-controls={`${panelId}-${row.key}-children`}
                   aria-label={
                     expandedRow
-                      ? `Hide sub-departments of ${node.name}`
-                      : `Show ${node.children.length} sub-departments of ${node.name}`
+                      ? `Hide ${plural} under ${node.name}`
+                      : `Show ${node.children.length} ${node.children.length === 1 ? singular : plural} under ${node.name}`
                   }
                   onPointerDown={preserveSearchFocus}
                   onClick={() => toggleExpansion(row)}
@@ -533,23 +620,23 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
     <div
       role="tree"
       id={`${panelId}-tree`}
-      aria-label="Departments"
+      aria-label={capitalize(plural)}
       aria-multiselectable={props.mode === "multi" || undefined}
     >
-      {!searching && (
+      {!searching && assignedIds && (
         <>
-          <div role="group" aria-labelledby={`${panelId}-mine`}>
+          <div role="group" aria-labelledby={`${panelId}-assigned`}>
             <h3
-              id={`${panelId}-mine`}
+              id={`${panelId}-assigned`}
               className="text-soft-foreground px-2 py-2 text-xs font-medium"
             >
-              My departments
+              My {plural}
             </h3>
-            {personalRows.length > 0 ? (
-              renderRows(personalRows)
+            {assignedRows.length > 0 ? (
+              renderRows(assignedRows)
             ) : (
               <p className="text-soft-foreground px-2 py-3 text-sm">
-                No departments assigned.
+                No {plural} assigned.
               </p>
             )}
           </div>
@@ -564,14 +651,13 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
           >
             {searching
               ? `${matches.length} ${matches.length === 1 ? "match" : "matches"}`
-              : "All departments"}
+              : `All ${plural}`}
           </h3>
           {!searching && (
             <Button
               type="button"
               variant="ghost"
-              size="sm"
-              className="font-normal"
+              className="font-normal max-md:h-9 max-md:px-3"
               onClick={() => {
                 setExpanded(new Set());
                 setActiveKey(null);
@@ -587,8 +673,8 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
           <div className="flex flex-col items-center gap-3 px-2 py-8 text-center">
             <p className="text-soft-foreground text-sm">
               {searching
-                ? `No departments match "${query.trim()}".`
-                : "No departments available."}
+                ? `No ${plural} match "${query.trim()}".`
+                : `No ${plural} available.`}
             </p>
             {searching && (
               <Button
@@ -620,8 +706,8 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
             value={query}
             onChange={(event) => changeQuery(event.target.value)}
             onKeyDown={navigate}
-            placeholder="Search departments"
-            aria-label="Search departments"
+            placeholder={`Search ${plural}`}
+            aria-label={`Search ${plural}`}
             role="combobox"
             aria-expanded={open}
             aria-haspopup="tree"
@@ -652,20 +738,23 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
         {!searching && (
           <p className="text-soft-foreground px-1 pt-2 pb-1 text-xs leading-5">
             {props.mode === "multi"
-              ? "Tick a department to select it."
-              : "Choose a department."}{" "}
-            The number on the right opens its sub-departments.
+              ? `Tick each ${singular} you want.`
+              : `Choose one ${singular}.`}{" "}
+            The number on the right shows the {plural} nested under it.
           </p>
         )}
       </div>
       <div
-        data-slot="department-list"
-        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pb-2 sm:max-h-92.5"
+        data-slot="tree-select-list"
+        className={cn(
+          "min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pb-2",
+          inPopover && "max-h-92.5"
+        )}
       >
         {props.mode === "single" ? (
           <RadioGroup
             value={props.value ?? ""}
-            onValueChange={selectDepartment}
+            onValueChange={selectNode}
             className="gap-0"
           >
             {groups}
@@ -680,8 +769,24 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
   const clearAll = () => {
     if (props.mode === "multi" && !required) props.onChange([]);
   };
-  const footer = desktop ? (
-    <div className="border-border flex min-h-14 shrink-0 flex-wrap items-center gap-2 border-t p-2">
+  const clearSelection = () => {
+    if (props.mode !== "single" || required) return;
+    props.onChange(null);
+    setOpen(false);
+  };
+  const clearSelectionButton =
+    props.mode === "single" && props.value !== null ? (
+      <Button
+        type="button"
+        variant="ghost"
+        disabled={required}
+        onClick={clearSelection}
+      >
+        Clear selection
+      </Button>
+    ) : null;
+  const footer = inPopover ? (
+    <div className="border-border flex min-h-14 shrink-0 flex-wrap items-center gap-3 border-t p-2 ps-3">
       {props.mode === "multi" ? (
         <>
           <span className="text-soft-foreground me-auto text-xs" role="status">
@@ -693,31 +798,32 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
             <Button
               type="button"
               variant="ghost"
-              size="sm"
               disabled={required}
               onClick={clearAll}
             >
               Clear all
             </Button>
           )}
-          <Button type="button" size="sm" onClick={() => setOpen(false)}>
+          <Button type="button" onClick={() => setOpen(false)}>
             Done
           </Button>
         </>
       ) : (
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          className="ms-auto"
-          onClick={() => setOpen(false)}
-        >
-          Close
-        </Button>
+        <>
+          {clearSelectionButton}
+          <Button
+            type="button"
+            variant="ghost"
+            className="ms-auto"
+            onClick={() => setOpen(false)}
+          >
+            Close
+          </Button>
+        </>
       )}
     </div>
   ) : props.mode === "multi" ? (
-    <DrawerFooter className="flex-row gap-2 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+    <DrawerFooter className="flex-row justify-between gap-2 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
       {selectedIds.length > 0 && (
         <Button
           type="button"
@@ -728,13 +834,13 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
           Clear all
         </Button>
       )}
-      <Button
-        type="button"
-        className="min-w-0 flex-1"
-        onClick={() => setOpen(false)}
-      >
+      <Button type="button" className="min-w-0" onClick={() => setOpen(false)}>
         Done ({selectedIds.length})
       </Button>
+    </DrawerFooter>
+  ) : clearSelectionButton ? (
+    <DrawerFooter className="flex-row gap-2 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      {clearSelectionButton}
     </DrawerFooter>
   ) : null;
 
@@ -747,74 +853,116 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
       disabled={disabled}
       aria-describedby={describedBy}
       aria-invalid={!!validationError || undefined}
-      className="border-input h-auto min-h-11 w-full min-w-0 justify-between gap-2 py-2 text-start font-normal shadow-none aria-expanded:border-blue-500 aria-expanded:ring-1 aria-expanded:ring-blue-500"
+      className="border-input h-auto min-h-11 w-full min-w-0 justify-between gap-2 py-2 text-start font-normal shadow-none aria-expanded:border-blue-500 aria-expanded:ring-1 aria-expanded:ring-blue-500 md:h-auto md:min-h-10"
     >
-      <span className="min-w-0 flex-1">
-        {props.mode === "single" && selectedEntries[0] ? (
-          <DepartmentPath entry={selectedEntries[0]} />
-        ) : (
-          <span className="text-placeholder-foreground">Select Department</span>
-        )}
+      <span className="text-placeholder-foreground min-w-0 flex-1">
+        {triggerText}
       </span>
       <ChevronDown aria-hidden="true" data-icon="inline-end" />
     </Button>
   );
+  const defaultHintId = `${fieldId}-default-hint`;
+  const selectedHeading = `Selected ${props.mode === "multi" ? plural : singular}`;
+  const panelTitle = `Select ${props.mode === "multi" ? plural : singular}`;
 
   return (
     <Field
-      data-slot="department-selector"
+      data-slot="tree-select"
       data-mode={props.mode}
+      data-presentation={inPopover ? "popover" : "drawer"}
       data-invalid={!!validationError || undefined}
       className={cn("min-w-0 font-sans text-sm", className)}
     >
-      {props.mode === "multi" && selectedEntries.length > 0 && (
+      {cardEntries.length > 0 && (
         <div className="mb-3 flex flex-col gap-2">
-          <span className="text-sm font-bold">Selected department</span>
-          <ul aria-label="Selected departments" className="flex flex-col gap-2">
-            {selectedEntries.map((entry) => (
-              <li
-                key={entry.node.id}
-                className="flex min-h-11.5 items-center gap-2 rounded-md border border-blue-300 bg-blue-50 ps-3 pe-1 text-base text-blue-950"
-              >
-                <span className="min-w-0 flex-1">
-                  <DepartmentPath entry={entry} />
-                </span>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="size-11 shrink-0"
-                  aria-label={`Remove ${pathText(entry)}`}
-                  disabled={disabled || (required && selectedIds.length === 1)}
-                  onClick={() => {
-                    props.onChange(
-                      props.value.filter(
-                        (selectedId) => selectedId !== entry.node.id
-                      )
-                    );
-                    triggerRef.current?.focus();
-                  }}
+          <span className="text-sm font-bold">{selectedHeading}</span>
+          <ul aria-label={selectedHeading} className="flex flex-col gap-2">
+            {cardEntries.map((entry) => {
+              const nodeId = entry.node.id;
+              const preferred = preferredSet.has(nodeId);
+              const switchId = `${fieldId}-default-${nodeId}`;
+              return (
+                <li
+                  key={nodeId}
+                  data-slot="tree-select-card"
+                  className="flex flex-col rounded-md border border-blue-300 bg-blue-50 text-blue-950"
                 >
-                  <X aria-hidden="true" />
-                </Button>
-              </li>
-            ))}
+                  <div className="flex min-h-11.5 items-center gap-2 py-1 ps-3 pe-1">
+                    <span className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1">
+                      <NodePath entry={entry} />
+                      {preferred && (
+                        <Badge variant="primary" size="sm">
+                          Default
+                        </Badge>
+                      )}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="size-11 shrink-0"
+                      aria-label={`${props.mode === "single" ? "Clear" : "Remove"} ${pathText(entry)}`}
+                      disabled={
+                        disabled || (required && selectedIds.length <= 1)
+                      }
+                      onClick={() => removeNode(nodeId)}
+                    >
+                      <X aria-hidden="true" />
+                    </Button>
+                  </div>
+                  {onPreferredIdsChange && (
+                    <div className="flex items-center gap-2 border-t border-blue-200 ps-3 pe-3">
+                      <Switch
+                        id={switchId}
+                        size="sm"
+                        checked={preferred}
+                        disabled={disabled}
+                        aria-describedby={defaultHintId}
+                        onCheckedChange={(checked) =>
+                          setPreferred(nodeId, checked)
+                        }
+                      />
+                      <label
+                        htmlFor={switchId}
+                        className={cn(
+                          "flex min-h-11 flex-1 items-center text-sm",
+                          disabled ? "cursor-not-allowed" : "cursor-pointer"
+                        )}
+                      >
+                        Select by default
+                      </label>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
+          {onPreferredIdsChange && (
+            <p id={defaultHintId} className="text-soft-foreground text-xs">
+              {props.mode === "multi"
+                ? `Default ${plural} are automatically selected next time.`
+                : `The default ${singular} is automatically selected next time.`}
+            </p>
+          )}
         </div>
       )}
       <FieldLabel
         htmlFor={fieldId}
         className="text-soft-foreground font-normal"
       >
-        {props.mode === "single"
-          ? "Department"
-          : selectedIds.length > 0
-            ? "Select another department"
-            : "Select department"}
+        {cardEntries.length === 0
+          ? `Select ${singular}`
+          : props.mode === "single"
+            ? `Change ${singular}`
+            : `Select another ${singular}`}
       </FieldLabel>
       <div className="flex min-w-0 items-center gap-1">
-        {desktop ? (
-          <Popover open={open} onOpenChange={changeOpen}>
+        {inPopover ? (
+          <Popover
+            open={open}
+            onOpenChange={changeOpen}
+            onOpenChangeComplete={completeOpenChange}
+          >
             <PopoverTrigger asChild>{trigger}</PopoverTrigger>
             <PopoverContent
               initialFocus={searchRef}
@@ -822,30 +970,36 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
               sideOffset={4}
               className="flex max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-0 flex-col gap-0 overflow-hidden rounded-[10px] p-0 text-sm motion-reduce:animate-none"
             >
-              <PopoverTitle className="sr-only">
-                {props.mode === "multi"
-                  ? "Select departments"
-                  : "Select department"}
-              </PopoverTitle>
+              <PopoverTitle className="sr-only">{panelTitle}</PopoverTitle>
               {panelBody}
               {footer}
             </PopoverContent>
           </Popover>
         ) : (
-          <Drawer open={open} onOpenChange={changeOpen} showSwipeHandle>
+          <Drawer
+            open={open}
+            onOpenChange={changeOpen}
+            onOpenChangeComplete={completeOpenChange}
+            showSwipeHandle
+          >
             <DrawerTrigger asChild>{trigger}</DrawerTrigger>
             <DrawerContent
-              ref={drawerRef}
               initialFocus={closeRef}
               overlayClassName="bg-black/50 supports-backdrop-filter:backdrop-blur-none"
-              className="top-(--department-drawer-top,6dvh) h-(--department-drawer-height,94dvh) w-full max-w-none data-[swipe-axis=y]:[--drawer-content-max-height:100dvh] data-[swipe-direction=down]:bottom-auto data-[swipe-direction=down]:rounded-t-[14px]"
+              style={
+                {
+                  "--tree-select-drawer-top":
+                    drawerTop === null ? undefined : `${drawerTop}px`,
+                  "--tree-select-drawer-height":
+                    drawerHeight === null ? undefined : `${drawerHeight}px`,
+                } as React.CSSProperties
+              }
+              className="top-(--tree-select-drawer-top,6dvh) h-(--tree-select-drawer-height,94dvh) w-full max-w-none transition-[transform,opacity,filter] data-[swipe-axis=y]:[--drawer-content-max-height:100dvh] data-[swipe-direction=down]:bottom-auto data-[swipe-direction=down]:rounded-t-[14px] sm:mx-auto sm:max-w-lg"
             >
               <DrawerHeader showCloseButton={false} className="p-2 pb-0">
                 <div className="flex min-h-11 items-center gap-2 ps-2">
                   <DrawerTitle className="min-w-0 flex-1 text-lg font-semibold">
-                    {props.mode === "multi"
-                      ? "Select departments"
-                      : "Select department"}
+                    {panelTitle}
                   </DrawerTitle>
                   <Button
                     ref={closeRef}
@@ -853,7 +1007,7 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
                     variant="ghost"
                     size="icon"
                     className="size-11"
-                    aria-label="Close department selector"
+                    aria-label={`Close ${singular} selector`}
                     onClick={() => setOpen(false)}
                   >
                     <X aria-hidden="true" />
@@ -865,27 +1019,11 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
             </DrawerContent>
           </Drawer>
         )}
-        {props.mode === "single" && props.value !== null && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="size-11 shrink-0"
-            aria-label="Clear department"
-            disabled={disabled || required}
-            onClick={() => {
-              props.onChange(null);
-              triggerRef.current?.focus();
-            }}
-          >
-            <X aria-hidden="true" />
-          </Button>
-        )}
       </div>
       <select
         aria-hidden="true"
         tabIndex={-1}
-        className="sr-only"
+        className="sr-only max-w-px"
         name={name}
         multiple={props.mode === "multi"}
         value={props.mode === "multi" ? props.value : (props.value ?? "")}
@@ -904,7 +1042,7 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
           triggerRef.current?.focus();
         }}
       >
-        {props.mode === "single" && <option value="">Select Department</option>}
+        {props.mode === "single" && <option value="">{triggerText}</option>}
         {entries.map((entry) => (
           <option
             key={entry.node.id}
@@ -922,10 +1060,10 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
             </option>
           ))}
       </select>
-      <span className="sr-only" role="status" aria-atomic="true">
+      <span className="sr-only max-w-px" role="status" aria-atomic="true">
         {selectedIds.length
-          ? `Selected departments: ${selectedEntries.map(pathText).join(", ")}`
-          : "No departments selected"}
+          ? `Selected ${plural}: ${selectedEntries.map(pathText).join(", ")}`
+          : `No ${plural} selected`}
       </span>
       {description && (
         <FieldDescription id={`${fieldId}-description`}>
@@ -939,4 +1077,4 @@ function DepartmentSelector(props: DepartmentSelectorProps) {
   );
 }
 
-export { DepartmentSelector };
+export { TreeSelect };
