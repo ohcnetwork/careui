@@ -281,7 +281,16 @@ function TreeSelect(props: TreeSelectProps) {
       ? []
       : Array.from(new Set(assignedIds)).flatMap((nodeId) => {
           const entry = byId.get(nodeId);
-          return entry ? buildRows([entry.node], `assigned:${nodeId}`) : [];
+          return entry
+            ? [
+                {
+                  entry,
+                  key: `assigned:${nodeId}`,
+                  parentKey: null,
+                  children: [],
+                },
+              ]
+            : [];
         });
   const allRows = buildRows(tree, "all");
   const isExpanded = (row: TreeRow) =>
@@ -565,16 +574,18 @@ function TreeSelect(props: TreeSelectProps) {
                   Linked
                 </Badge>
               )}
-              {!expandedRow && descendantSelections > 0 && (
-                <Badge
-                  variant="blue"
-                  size="sm"
-                  className="h-auto max-w-22 shrink-0 py-0.5 whitespace-normal"
-                >
-                  {descendantSelections} selected
-                </Badge>
-              )}
-              {!!node.children?.length && (
+              {row.children.length > 0 &&
+                !expandedRow &&
+                descendantSelections > 0 && (
+                  <Badge
+                    variant="blue"
+                    size="sm"
+                    className="h-auto max-w-22 shrink-0 py-0.5 whitespace-normal"
+                  >
+                    {descendantSelections} selected
+                  </Badge>
+                )}
+              {row.children.length > 0 && (
                 <Button
                   type="button"
                   variant="outline"
@@ -585,12 +596,12 @@ function TreeSelect(props: TreeSelectProps) {
                   aria-label={
                     expandedRow
                       ? `Hide ${plural} under ${node.name}`
-                      : `Show ${node.children.length} ${node.children.length === 1 ? singular : plural} under ${node.name}`
+                      : `Show ${row.children.length} ${row.children.length === 1 ? singular : plural} under ${node.name}`
                   }
                   onPointerDown={preserveSearchFocus}
                   onClick={() => toggleExpansion(row)}
                 >
-                  {node.children.length}
+                  {row.children.length}
                   <ChevronDown
                     aria-hidden="true"
                     data-icon="inline-end"
@@ -925,7 +936,7 @@ function TreeSelect(props: TreeSelectProps) {
                       <label
                         htmlFor={switchId}
                         className={cn(
-                          "flex min-h-11 flex-1 items-center text-sm",
+                          "flex py-2.5 flex-1 items-center text-sm",
                           disabled ? "cursor-not-allowed" : "cursor-pointer"
                         )}
                       >
