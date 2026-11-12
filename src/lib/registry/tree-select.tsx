@@ -83,18 +83,12 @@ export const assignedDepartmentIds = [
 ];
 export const linkedIds = ["sleep-lab"];
 const departmentLabel = { singular: "department", plural: "departments" };
-// Saved defaults preselect the field, so users don't pick them every time.
-const singleDefaults = ["emergency"];
-const multiDefaults = ["general-medicine"];
-const initialMulti = ["invasive-cardiology", ...multiDefaults];
 
 function TreeSelectPreview() {
-  const [singlePreferred, setSinglePreferred] = React.useState(singleDefaults);
-  const [single, setSingle] = React.useState<string | null>(
-    singleDefaults[0] ?? null
-  );
-  const [multiPreferred, setMultiPreferred] = React.useState(multiDefaults);
-  const [multi, setMulti] = React.useState<string[]>(initialMulti);
+  const [singlePreferred, setSinglePreferred] = React.useState<string[]>([]);
+  const [single, setSingle] = React.useState<string | null>(null);
+  const [multiPreferred, setMultiPreferred] = React.useState<string[]>([]);
+  const [multi, setMulti] = React.useState<string[]>([]);
   return React.createElement(
     "div",
     {
@@ -235,12 +229,10 @@ function TreeSelectModePlayground({
   const [presentation, setPresentation] = React.useState(
     initialPresentation ?? "auto"
   );
-  const [singlePreferred, setSinglePreferred] = React.useState(singleDefaults);
-  const [single, setSingle] = React.useState<string | null>(
-    singleDefaults[0] ?? null
-  );
-  const [multiPreferred, setMultiPreferred] = React.useState(multiDefaults);
-  const [multi, setMulti] = React.useState<string[]>(initialMulti);
+  const [singlePreferred, setSinglePreferred] = React.useState<string[]>([]);
+  const [single, setSingle] = React.useState<string | null>(null);
+  const [multiPreferred, setMultiPreferred] = React.useState<string[]>([]);
+  const [multi, setMulti] = React.useState<string[]>([]);
   const shared = {
     tree: departmentTree,
     itemLabel: departmentLabel,
@@ -334,7 +326,7 @@ const locationTree: TreeSelectNode[] = [
 ];
 
 function LocationExample() {
-  const [location, setLocation] = React.useState<string | null>("ward-a");
+  const [location, setLocation] = React.useState<string | null>(null);
   return React.createElement(
     "div",
     { className: "w-full max-w-xl min-w-0" },
