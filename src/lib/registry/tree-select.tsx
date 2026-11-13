@@ -436,7 +436,7 @@ ${multiCode}`,
     {
       name: "Interactive mode",
       description:
-        "Switch between single and multiple selection. Selecting a parent never selects its children. The sample hospital tree is illustrative; supply your facility's actual departments through tree.",
+        "Switch between single and multiple selection. Arrow buttons expand or collapse branches without selecting them. Selecting a parent never selects its children. The sample hospital tree is illustrative; supply your facility's actual departments through tree.",
       code: `<TreeSelect
   mode="single"
   tree={tree}

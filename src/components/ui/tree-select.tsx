@@ -406,7 +406,6 @@ function TreeSelect(props: TreeSelectProps) {
     };
     if (searching) setSearchCollapsed(update);
     else setExpanded(update);
-    setActiveKey(row.key);
   };
 
   const navigate = (event: React.KeyboardEvent) => {
@@ -490,7 +489,7 @@ function TreeSelect(props: TreeSelectProps) {
               data-node-id={node.id}
               data-active={activeKey === row.key || undefined}
               className={cn(
-                "hover:bg-muted flex min-h-12 min-w-0 items-center gap-2 rounded-md px-2 text-sm sm:min-h-11",
+                "hover:bg-muted has-focus-visible:bg-muted flex min-h-12 min-w-0 items-center gap-2 rounded-md px-2 text-sm sm:min-h-11",
                 props.mode === "single" && selected && "bg-blue-50",
                 activeKey === row.key && "bg-muted"
               )}
@@ -527,7 +526,6 @@ function TreeSelect(props: TreeSelectProps) {
                     aria-label={node.name}
                     onPointerDown={preserveSearchFocus}
                     onCheckedChange={() => selectNode(node.id)}
-                    onFocus={() => setActiveKey(row.key)}
                   />
                 ) : (
                   <RadioGroupItem
@@ -538,7 +536,6 @@ function TreeSelect(props: TreeSelectProps) {
                     onClick={() => {
                       if (selected) setOpen(false);
                     }}
-                    onFocus={() => setActiveKey(row.key)}
                   />
                 )}
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5 wrap-anywhere">
@@ -588,9 +585,9 @@ function TreeSelect(props: TreeSelectProps) {
               {row.children.length > 0 && (
                 <Button
                   type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-10 min-w-13 shrink-0 gap-1 px-2 font-normal shadow-none md:h-10"
+                  variant="tertiary"
+                  size="icon"
+                  className="my-0.5 shadow-none"
                   aria-expanded={expandedRow}
                   aria-controls={`${panelId}-${row.key}-children`}
                   aria-label={
@@ -601,7 +598,6 @@ function TreeSelect(props: TreeSelectProps) {
                   onPointerDown={preserveSearchFocus}
                   onClick={() => toggleExpansion(row)}
                 >
-                  {row.children.length}
                   <ChevronDown
                     aria-hidden="true"
                     data-icon="inline-end"
@@ -704,6 +700,7 @@ function TreeSelect(props: TreeSelectProps) {
             value={query}
             onChange={(event) => changeQuery(event.target.value)}
             onKeyDown={navigate}
+            onBlur={() => setActiveKey(null)}
             placeholder={`Search ${plural}`}
             aria-label={`Search ${plural}`}
             role="combobox"
@@ -736,6 +733,7 @@ function TreeSelect(props: TreeSelectProps) {
       </div>
       <div
         data-slot="tree-select-list"
+        onPointerDownCapture={() => setActiveKey(null)}
         className={cn(
           "min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pb-2",
           inPopover && "max-h-92.5"
