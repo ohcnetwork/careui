@@ -278,7 +278,8 @@ export function ButtonDemo() {
   examples: [
     {
       name: "Sizes",
-      description: "Different button sizes.",
+      description:
+        "Icons use 16px for default and sm, 14px for xs, and 20px for lg and xl. Default buttons retain 48px mobile and 40px desktop touch targets.",
       code: `<div className="flex gap-2 items-center flex-wrap">
   <Button size="xs">Extra Small</Button>
   <Button size="sm">Small</Button>
@@ -298,7 +299,8 @@ export function ButtonDemo() {
     },
     {
       name: "With Icons",
-      description: "Buttons with icons on the left or right side.",
+      description:
+        "Buttons with icons on the left or right side. Default buttons preserve the icon's own stroke width. Explicit size-* classes on an icon override its default size.",
       code: `import { Mail, Plus } from "lucide-react"
 
 <div className="flex gap-2 flex-wrap">
@@ -941,7 +943,7 @@ export function ButtonSpinner() {
     {
       name: "Icon Only",
       description:
-        "Icon-only buttons in different sizes and variants. Always include aria-label for accessibility.",
+        "Icons use 16px for icon and icon-sm, 14px for icon-xs, 20px for icon-lg, and 24px for icon-xl. Standard icon buttons retain 48px mobile and 40px desktop touch targets. Always include aria-label for accessibility.",
       code: `import { Trash2 } from "lucide-react"
 
 <div className="flex gap-4 items-center flex-wrap">
