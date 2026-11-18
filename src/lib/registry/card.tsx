@@ -18,7 +18,7 @@ export const cardDoc: ComponentDoc = {
   id: "card",
   name: "Card",
   description:
-    "Displays a card with header, content, footer, and action components.",
+    "Displays a card with header, content, footer, and action components. Token-based rounded-lg corners are shared by the card, header, footer, and edge images.",
   installation: {
     cli: "npx shadcn@latest add card",
     manual: "Copy and paste the card component source code into your project.",

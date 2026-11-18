@@ -11,7 +11,7 @@ import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 px-3 whitespace-nowrap rounded-md not-in-data-[slot=button-group]:rounded-squircle-lg border border-transparent bg-clip-padding text-sm font-semibold tracking-wide outline-0 select-none shrink-0 transition touch-action-manipulation [-webkit-tap-highlight-color:transparent] group/button [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-5 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 aria-invalid:outline-2 aria-invalid:outline-offset-2 aria-invalid:outline-destructive ",
+  "inline-flex items-center justify-center gap-1.5 px-3 whitespace-nowrap rounded-md not-in-data-[slot=button-group]:rounded-squircle-lg border border-transparent bg-clip-padding text-sm font-semibold tracking-wide outline-0 select-none shrink-0 transition touch-action-manipulation [-webkit-tap-highlight-color:transparent] group/button [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 aria-invalid:outline-2 aria-invalid:outline-offset-2 aria-invalid:outline-destructive ",
   {
     variants: {
       variant: {
@@ -33,12 +33,12 @@ const buttonVariants = cva(
       },
       size: {
         default:
-          "h-12 md:h-10 px-4.5 md:px-3.5 [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75] has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3 in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
+          "h-12 md:h-10 px-4.5 md:px-3.5 [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3 in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
         xs: "h-8 md:h-8 gap-1 px-2.5 rounded-[min(var(--radius-md),8px)] text-xs [&_svg:not([class*='size-'])]:size-3.5 has-data-[icon=inline-start]:pl-2 has-data-[icon=inline-end]:pr-2 in-data-[slot=button-group]:rounded-md",
         sm: "h-9 md:h-9 gap-1.5 px-3 rounded-[min(var(--radius-md),10px)] [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-start]:pl-2.5 has-data-[icon=inline-end]:pr-2.5 in-data-[slot=button-group]:rounded-md",
         lg: "h-11 md:h-11 gap-1.5 px-4 text-base [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75] has-data-[icon=inline-start]:pl-3 has-data-[icon=inline-end]:pr-3 in-data-[slot=button-group]:rounded-[min(var(--radius-md),10px)]",
         xl: "h-12 md:h-12 gap-2 px-4.5 text-base [&_svg:not([class*='size-'])]:size-5 has-data-[icon=inline-start]:pl-4 has-data-[icon=inline-end]:pr-4 in-data-[slot=button-group]:rounded-[min(var(--radius-md),12px)]",
-        icon: "size-12 md:size-10 [&_svg:not([class*='size-'])]:size-5 [&_svg]:stroke-[1.75]",
+        icon: "size-12 md:size-10 [&_svg:not([class*='size-'])]:size-4",
         "icon-xs":
           "size-8 md:size-8 rounded-[min(var(--radius-md),8px)] [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:stroke-2 in-data-[slot=button-group]:rounded-md",
         "icon-sm":

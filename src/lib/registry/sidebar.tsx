@@ -2139,8 +2139,9 @@ export function AppSidebar({
     {
       name: "variant",
       type: '"sidebar" | "floating" | "inset"',
-      description: "The visual variant of the sidebar.",
-      default: '"sidebar"',
+      description:
+        "The visual variant of the sidebar. On desktop, sidebar uses p-1 outer padding, while floating and inset use p-1 pt-2. Mobile sheets have no outer padding.",
+      default: '"inset"',
     },
     {
       name: "collapsible",
