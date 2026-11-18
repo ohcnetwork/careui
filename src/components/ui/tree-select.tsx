@@ -890,7 +890,7 @@ function TreeSelect(props: TreeSelectProps) {
                 <li
                   key={nodeId}
                   data-slot="tree-select-card"
-                  className="flex flex-col rounded-md border border-blue-300 bg-blue-50 text-blue-950"
+                  className="bg-muted-background flex flex-col rounded-md border border-blue-300 text-blue-950"
                 >
                   <div className="flex min-h-11.5 items-center gap-2 py-1 ps-3 pe-1">
                     <span className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-1">
