@@ -233,6 +233,15 @@ function AsyncButtonDemo() {
   );
 }
 
+// Stands in for a router link (e.g. TanStack Router's <Link>) that takes `to`
+// and builds the href itself.
+function RouterLinkDemo({
+  to,
+  ...props
+}: { to: string } & React.ComponentProps<"a">) {
+  return React.createElement("a", { ...props, href: to });
+}
+
 export const buttonDoc: ComponentDoc = {
   id: "button",
   name: "Button",
@@ -360,6 +369,26 @@ export function ButtonAsChild() {
         Button,
         { asChild: true },
         React.createElement("a", { href: "#" }, "Login")
+      ),
+    },
+    {
+      name: "As Router Link",
+      description:
+        'A child with an href or a to prop renders with role="link". Router links such as TanStack Router\'s <Link to> build the href themselves, so the to prop is enough.',
+      code: `import { Link } from "@tanstack/react-router"
+import { Button } from "@/components/ui/button"
+
+export function ButtonAsRouterLink() {
+  return (
+    <Button asChild>
+      <Link to="/login">Login</Link>
+    </Button>
+  )
+}`,
+      preview: React.createElement(
+        Button,
+        { asChild: true },
+        React.createElement(RouterLinkDemo, { to: "#" }, "Login")
       ),
     },
     {
