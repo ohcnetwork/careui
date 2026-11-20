@@ -68,8 +68,9 @@ function resolveAsChild(
 ): {
   render: RenderProp;
   children: React.ReactNode;
-  /** True when the resolved child is a plain non-button DOM tag (e.g. `<a>`). */
+  /** Whether the render target needs non-native button handling. */
   isNonButtonTag: boolean;
+  isLink: boolean;
 } {
   if (asChild && React.isValidElement(children)) {
     const child = children as React.ReactElement<{
@@ -80,10 +81,32 @@ function resolveAsChild(
     return {
       render: React.createElement(child.type as React.ElementType, restProps),
       children: extractedChildren,
-      isNonButtonTag: typeof child.type === "string" && child.type !== "button",
+      isNonButtonTag: child.type !== "button",
+      isLink:
+        child.type !== "button" &&
+        (child.props.href != null || child.props.to != null),
     };
   }
-  return { render, children, isNonButtonTag: false };
+
+  const renderElement = React.isValidElement<{ href?: unknown; to?: unknown }>(
+    render
+  )
+    ? render
+    : undefined;
+  const isLink =
+    renderElement?.type !== "button" &&
+    (renderElement?.props.href != null || renderElement?.props.to != null);
+
+  return {
+    render,
+    children,
+    isNonButtonTag:
+      !!renderElement &&
+      (typeof renderElement.type === "string"
+        ? renderElement.type !== "button"
+        : isLink),
+    isLink,
+  };
 }
 
 function Button({
@@ -110,6 +133,7 @@ function Button({
       className={cn(buttonVariants({ variant, size, className }))}
       render={resolved.render}
       nativeButton={nativeButton ?? !resolved.isNonButtonTag}
+      {...(resolved.isLink ? { role: "link" } : {})}
       {...props}
     >
       {resolved.children}
