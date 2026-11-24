@@ -450,6 +450,66 @@ function FiltersLargeDemo() {
   });
 }
 
+// ─── Compact toolbar ─────────────────────────────────────────────────────────
+
+const compactFields: FilterFieldConfig[] = [
+  {
+    key: "status",
+    label: "Status",
+    type: "multiselect",
+    icon: React.createElement(CircleDashedIcon, { className: "size-4" }),
+    defaultOperator: "is_any_of",
+    options: statusOptions,
+  },
+  {
+    key: "priority",
+    label: "Priority",
+    type: "select",
+    icon: React.createElement(AlertCircleIcon, { className: "size-4" }),
+    defaultOperator: "is",
+    options: [
+      { value: "low", label: "Low" },
+      { value: "medium", label: "Medium" },
+      { value: "high", label: "High" },
+      { value: "urgent", label: "Urgent" },
+    ],
+  },
+  {
+    key: "tags",
+    label: "Tags",
+    type: "multiselect",
+    icon: React.createElement(TagIcon, { className: "size-4" }),
+    defaultOperator: "includes_any_of",
+    options: tagOptions,
+  },
+];
+
+function summarizeValues(filter: Filter, field: FilterFieldConfig) {
+  return filter.values
+    .map(
+      (value) =>
+        field.options?.find((option) => option.value === value)?.label ??
+        String(value)
+    )
+    .join(", ");
+}
+
+function FiltersCompactDemo() {
+  const [filters, setFilters] = React.useState<Filter[]>([
+    createFilter("status", "is_any_of", ["in_progress"]),
+  ]);
+  return React.createElement(
+    "div",
+    { className: "flex grow items-start gap-2.5" },
+    React.createElement(Filters, {
+      filters,
+      fields: compactFields,
+      onChange: setFilters,
+      toolbarSummary: summarizeValues,
+    })
+  );
+}
+
 // ─── Custom Controls (matches c-filters-6) ───────────────────────────────────
 
 function CustomSliderRangeInput({
@@ -912,6 +972,23 @@ export const filtersDoc: ComponentDoc = {
       description: "Larger size variant for prominent filter bars.",
       code: `<Filters filters={filters} fields={fields} onChange={setFilters} size="lg" />`,
       preview: React.createElement(FiltersLargeDemo),
+    },
+    {
+      name: "Compact Toolbar",
+      description:
+        "Pass `toolbarSummary` to replace the per-filter chips with one `Filters (n)` summary beside `Add filter`, so the toolbar never grows. Each button opens a single popover whose content swaps between the list and the picker; below `md` they share one bottom drawer. Pickers get a header with Back and Close, a footer with Clear and Done, and checkbox or radio rows.",
+      code: `const summarize = (filter: Filter, field: FilterFieldConfig) =>
+  filter.values
+    .map((value) => field.options?.find((o) => o.value === value)?.label ?? String(value))
+    .join(", ")
+
+<Filters
+  filters={filters}
+  fields={fields}
+  onChange={setFilters}
+  toolbarSummary={summarize}
+/>`,
+      preview: React.createElement(FiltersCompactDemo),
     },
     {
       name: "Custom Controls",
